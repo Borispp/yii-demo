@@ -37,10 +37,16 @@ return array(
 		// uncomment the following to enable URLs in path-format
 		'urlManager'=>array(
 			'urlFormat'=>'path',
+                        'showScriptName'=>false,
+//                        'urlSuffix'=>'.html',
+                        'useStrictParsing'=> true,
 			'rules'=>array(
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+//                                // a standard rule mapping '/login' to 'site/login', and so on
+//                                '<action:(login|logout|about)>' => 'site/<action>',
+                            
 			),
 		),
 //		'db'=>array(
