@@ -1,10 +1,10 @@
 <?php
-class YsaAdminController extends YsaController
+class YsaMemberController extends YsaController
 {
     public function accessRules()
     {
         return array(
-            array('allow', 'roles' => array('admin')),
+            array('allow', 'roles' => array('member')),
             array('deny',  'users' => array('*')),
         );
     }
@@ -17,15 +17,5 @@ class YsaAdminController extends YsaController
         return array(
             'accessControl', // perform access control for CRUD operations
         );
-    }
-
-    public function setNotice($message)
-    {
-        return Yii::app()->user->setFlash('notice', $message);
-    }
-
-    public function setError($message)
-    {
-        return Yii::app()->user->setFlash('error', $message);
     }
 }
