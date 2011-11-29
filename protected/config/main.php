@@ -16,6 +16,7 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+                'application.helpers.*',
 	),
 
 	'modules'=>array(
@@ -34,19 +35,14 @@ return array(
 	// application components
 	'components'=>array(
 		'user'=>array(
-			// enable cookie-based authentication
-			'allowAutoLogin'=>true,
-                        'loginUrl' => array('/user/login'),
-                    
-                        'class' => 'YsaWebUser',
-
+                    'allowAutoLogin'=>true,
+                    'loginUrl' => array('/auth/login'),
+                    'class' => 'YsaWebUser',
 		),
-            
                 'authManager' => array(
                     'class' => 'YsaPhpAuthManager',
                     'defaultRoles' => array('guest'),
                 ),
-            
 		// uncomment the following to enable URLs in path-format
 		'urlManager'=>array(
 			'urlFormat'=>'path',
@@ -57,8 +53,13 @@ return array(
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
-//                                // a standard rule mapping '/login' to 'site/login', and so on
-//                                '<action:(login|logout|about)>' => 'site/<action>',
+                                // auth rotes
+                                '<action:(login|logout)>' => 'auth/<action>',
+                                // recovery url route
+                                '/recovery/k/<k>' => 'recovery',
+                                // activate url route
+                                '/activate/k/<k>' => 'auth/activate',
+                            
 				'gii'=>'gii',
 				'gii/<controller:\w+>'=>'gii/<controller>',
 				'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>', 
@@ -100,7 +101,8 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'=>'webmaster@yourstudioapp.com',
-                'salt'      => 'wel0veyourstud1oapp',
+		'adminEmail'    =>'webmaster@yourstudioapp.com',
+                'salt'          => 'wel0veyourstud1oapp',
+                'date_format'   => 'Y-m-d H:i:s',
 	),
 );

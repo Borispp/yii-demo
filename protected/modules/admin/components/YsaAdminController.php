@@ -1,6 +1,15 @@
 <?php
 class YsaAdminController extends YsaController
 {
+    public $layout='column2';
+    
+    public function init()
+    {
+        parent::init();
+        
+//        $this->setLayout('//admin/main');
+    }
+    
     public function accessRules()
     {
         return array(

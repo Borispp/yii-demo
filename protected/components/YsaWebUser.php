@@ -3,16 +3,26 @@ class YsaWebUser extends CWebUser
 {
     private $_model;
     
-    function isAdmin() 
+    public function login($identity, $duration = 0) {
+        parent::login($identity, $duration);
+    }
+
+
+    public function isAdmin() 
     {
         $user = $this->loadUser(Yii::app()->user->id);
         return 'admin' == $user->role;
     }
     
-    function isMember() 
+    public function isMember() 
     {
         $user = $this->loadUser(Yii::app()->user->id);
         return 'member' == $user->role;
+    }
+    
+    public function isLoggedIn()
+    {
+        return Yii::app()->user->id ? true : false;
     }
 
     // Load user model.
