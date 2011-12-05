@@ -3,13 +3,26 @@ $this->breadcrumbs=array(
 	$this->module->id,
 );
 ?>
-<h1><?php echo $this->uniqueId . '/' . $this->action->id; ?></h1>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<h1>Default contoller for testing</h1>
+<input type="text" name="url" id="url" style="width: 500px;" value="http://<?php echo $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]?>" /><br/>
+<textarea name="request" id="request" cols="30" rows="10"></textarea>
+<input type="button" id="send" value="Send"/>
+<div class="response">
 
-<p>
-This is the view content for action "<?php echo $this->action->id; ?>".
-The action belongs to the controller "<?php echo get_class($this); ?>"
-in the "<?php echo $this->module->id; ?>" module.
-</p>
-<p>
-You may customize this page by editing <tt><?php echo __FILE__; ?></tt>
-</p>
+</div>
+<script type="text/javascript">
+	$(window).load(function(){
+		$('#send').click(function(){
+			$.ajax({
+				type: 'POST',
+				url: $('#url').val(),
+				data: $('#request').val(),
+				success: function(data){
+					$('.response').html(data);
+				},
+				dataType:'html'
+			});
+		});
+	});
+</script>
