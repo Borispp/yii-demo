@@ -22,8 +22,6 @@ class User extends YsaActiveRecord
     const ROLE_ADMIN = 'admin';
     const ROLE_MEMBER = 'member';
     
-    const STATE_ACTIVE = 1;
-    const STATE_INACTIVE = 0;
     const STATE_BANNED = -1;
     
     /**
@@ -40,7 +38,7 @@ class User extends YsaActiveRecord
      */
     public function tableName()
     {
-            return 'user';
+        return 'user';
     }
 
     /**
@@ -53,9 +51,11 @@ class User extends YsaActiveRecord
             return array(
                     array('state', 'numerical', 'integerOnly'=>true),
                     array('email, password', 'length', 'max'=>100),
+                    array('email', 'unique'),
                     array('role', 'length', 'max'=>6),
                     array('last_login_ip', 'length', 'max'=>20),
                     array('created, updated, last_login', 'safe'),
+                    array('email, state, role, first_name, last_name, password', 'required'),
                     // The following rule is used by search().
                     // Please remove those attributes that should not be searched.
                     array('id, email, role, state', 'safe', 'on'=>'search'),
@@ -78,29 +78,24 @@ class User extends YsaActiveRecord
     public function attributeLabels()
     {
             return array(
-                    'id' => 'ID',
-                    'email' => 'Email',
-                    'role' => 'Role',
-                    'password' => 'Password',
-                    'state' => 'State',
-                    'created' => 'Created',
-                    'updated' => 'Updated',
-                    'last_login' => 'Last Login',
-                    'last_login_ip' => 'Last Login Ip',
+                'id' => 'ID',
+                'email' => 'Email',
+                'role' => 'Role',
+                'password' => 'Password',
+                'state' => 'State',
+                'created' => 'Created',
+                'updated' => 'Updated',
+                'last_login' => 'Last Login',
+                'last_login_ip' => 'Last Login Ip',
             );
     }
 
-    /**
-     * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-     */
     public function search()
     {
             // Warning: Please modify the following code to remove attributes that
             // should not be searched.
 
             $criteria=new CDbCriteria;
-
             $criteria->compare('id',$this->id,true);
             $criteria->compare('email',$this->email,true);
             $criteria->compare('role',$this->role,true);
@@ -109,11 +104,6 @@ class User extends YsaActiveRecord
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
             ));
-    }
-
-    public function encrypt($string)
-    {
-        return md5($string . Yii::app()->params['salt']);
     }
 
     public function beforeSave() {
@@ -127,6 +117,11 @@ class User extends YsaActiveRecord
         $this->activation_key = YsaHelpers::encrypt(microtime() . YsaHelpers::genRandomString(20));
     }
     
+    public function encryptPassword()
+    {
+        $this->password = YsaHelpers::encrypt($this->password);
+    }
+    
     public function activate()
     {
         $this->state = self::STATE_ACTIVE;
@@ -137,5 +132,38 @@ class User extends YsaActiveRecord
     {
         $this->state = self::STATE_BANNED;
         $this->save();
+    }
+    
+    public function name()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+    
+    public function getStates()
+    {
+        return array(
+            self::STATE_ACTIVE      => 'Active',
+            self::STATE_INACTIVE    => 'Inactive',
+            self::STATE_BANNED      => 'Banned',
+        );
+    }
+    
+    protected function beforeValidate()
+    {
+	if($this->isNewRecord) {
+	    $this->created = $this->updated = new CDbExpression('NOW()');
+	} else {
+	    $this->updated = new CDbExpression('NOW()');
+	}
+	return parent::beforeValidate();
+    }
+    
+    public function state() 
+    {
+        if ($this->state == self::STATE_BANNED) {
+            return 'Banned';
+        } else {
+            return parent::state();
+        }
     }
 }

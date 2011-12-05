@@ -16,7 +16,7 @@ class RegistrationForm extends User
                 array('password','length','max'=>64, 'min'=>6),
                 array('verifyPassword','length','max'=>64, 'min'=>6),
                 // compare password to repeated password
-                array('password', 'compare', 'compareAttribute'=>'verifyPassword'), 
+                array('password', 'compare', 'compareAttribute'=>'verifyPassword'),
                 // make sure username and email are unique
                 array('email', 'unique'),
                 array('email, password, first_name, last_name, verifyPassword, verifyCode', 'required'),

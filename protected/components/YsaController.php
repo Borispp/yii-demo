@@ -16,4 +16,20 @@ class YsaController extends CController
     {
         return Yii::app()->user->setFlash('error', $message);
     }
+    
+    public function sendJson($data)
+    {
+        echo CJSON::encode($data);
+        Yii::app()->end();
+    }
+    
+    public function sendJsonSuccess($data = array())
+    {
+        $this->sendJson(array_merge(array('success' => 1), $data));
+    }
+    
+    public function sendJsonError($data = array())
+    {
+        $this->sendJson(array_merge(array('error' => 1), $data));
+    }
 }

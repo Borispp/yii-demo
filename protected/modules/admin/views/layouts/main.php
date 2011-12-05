@@ -1,46 +1,219 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!doctype html>
+<html lang="en-us">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="language" content="en" />
+    <meta charset="utf-8">
 
-	<!-- blueprint CSS framework -->
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
+    <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
+    <meta name="description" content="" />
 
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+    <!-- Google Font and style definitions -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:regular,bold">
+    <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/style.css">
+
+    <!-- include the skins (change to dark if you like) -->
+        <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/light/theme.css" id="themestyle" />
+    <!-- <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/dark/theme.css" id="themestyle"> -->
+        
+        <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/advanced.css" />
+
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/ie.css" />
+    <![endif]-->
+
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,maximum-scale=1" />
+
+    <!-- Use Google CDN for jQuery and jQuery UI -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js"></script>
+
+    <!-- Loading JS Files this way is not recommended! Merge them but keep their order -->
+
+    <!-- some basic functions -->
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/functions.js"></script>
+
+    <!-- all Third Party Plugins and Whitelabel Plugins -->
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/plugins.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/editor.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/calendar.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/flot.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/elfinder.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/datatables.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Alert.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Autocomplete.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Breadcrumb.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Calendar.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Chart.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Color.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Date.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Editor.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_File.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Dialog.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Fileexplorer.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Form.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Gallery.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Multiselect.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Number.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Password.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Slider.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Store.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Time.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Valid.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Widget.js"></script>
+
+    <!-- configuration to overwrite settings -->
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/config.js"></script>
+
+    <!-- the script which handles all the access to plugins etc... -->
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/script.js"></script>
+    
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/advanced.js"></script>
 </head>
-
 <body>
+    <div id="pageoptions">
+        <ul>
+            <li><?php echo CHtml::link('Logout', array('/logout'))?></li>
+            <li><?php echo CHtml::link('Configuration', '#', array('id' => 'wl_config'))?></li>
+        </ul>
+        <div>
+            <h3>Place for some configs</h3>
+            <p>Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in li grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite de un nov lingua franca: On refusa continuar payar custosi traductores.</p>
+        </div>
+    </div>
+    
+    <header>
+        <div id="logo">
+            <?php echo CHtml::link('YourStudioApp', array('/admin')); ?>    
+        </div>
+        <div id="header">
+            <?/*
+                <ul id="headernav">
+                        <li><ul>
+                                <li><a href="icons.html">Icons</a><span>300+</span></li>
+                                <li><a href="#">Submenu</a><span>4</span>
+                                        <ul>
+                                                <li><a href="#">Just</a></li>
+                                                <li><a href="#">another</a></li>
+                                                <li><a href="#">Dropdown</a></li>
+                                                <li><a href="#">Menu</a></li>
+                                        </ul>
+                                </li>
+                                <li><a href="login.html">Login</a></li>
+                                <li><a href="wizard.html">Wizard</a><span>Bonus</span></li>
+                                <li><a href="#">Errorpage</a><span>new</span>
+                                        <ul>
+                                                <li><a href="error-403.html">403</a></li>
+                                                <li><a href="error-404.html">404</a></li>
+                                                <li><a href="error-405.html">405</a></li>
+                                                <li><a href="error-500.html">500</a></li>
+                                                <li><a href="error-503.html">503</a></li>
+                                        </ul>
+                                </li>
+                        </ul></li>
+                </ul>
+             
+                <div id="searchbox">
+                        <form id="searchform">
+                                <input type="search" name="query" id="search" placeholder="Search">
+                        </form>
+                </div>
+                */?>
+        </div>
+    </header>
+    
+<!--    'active'=>Yii::app()->controller->id=='news'-->
+    <nav>
+        <?php 
+            $settingsItems = OptionGroup::model()->getNavigationList();
+            $settingsItems[] = array(
+                'label' => 'Option Groups', 
+                'url' => array('/admin/optionGroup/'),
+                'linkOptions' => array('class' => $this->getNavigationClass('optionGroup')), 
+            );
+            
+            $this->widget('YsaAdminMenu',array(
+                'id'    => 'nav',
+                'items'=>array(
+                        array(
+                            'label'=>'Dashboard', 
+                            'url'=>array('/admin'),
+                            'itemOptions' => array('class' => 'i_house'), 
+                            'linkOptions' => array('class' => $this->getNavigationClass('default')), 
+                        ),
+                        array(
+                            'label' =>'Settings', 
+                            'url'   => '',
+                            'active' => $this->getNavigationClass('settings'),
+                            'linkOptions' => array('class' => $this->getNavigationClass('settings')), 
+                            'items' => $settingsItems,
+                        ),
+                        array(
+                            'label'=>'Administrators', 
+                            'url'=>array('/admin/administrator')
+                        ),
+                        array(
+                            'label' =>'Members', 
+                            'url'   => '',
+                            'linkOptions' => array('class' => $this->getNavigationClass('member')), 
+                            'active' => $this->getNavigationClass('member'),
+                            'items' => array(
+                                array(
+                                    'label' => 'List Members', 
+                                    'url' => array('/admin/member/'),
+                                    'linkOptions' => array('class' => $this->getNavigationClass('member', 'index')), 
+                                ),
+                                array(
+                                    'label' => 'Add new', 
+                                    'url' => array('/admin/member/add/'),
+                                    'linkOptions' => array('class' => $this->getNavigationClass('member', 'add')), 
+                                ),
+                                array('label' => 'Payments', 'url' => array('/admin/payments/')),
+                            ),
+                        ),
+                        array(
+                            'label'=>'Applications', 
+                            'url'=>array('/admin/application'),
+                            'linkOptions' => array('class' => $this->getNavigationClass('application')), 
+                        ),
+                        array(
+                            'label'=>'Pages', 
+                            'url'=>array('/admin/page'),
+                            'linkOptions' => array('class' => $this->getNavigationClass('page')), 
+                        ),
+                        array(
+                            'label'=>'Newsletters', 
+                            'url'=>array('/admin/newsletter'),
+                            'linkOptions' => array('class' => $this->getNavigationClass('newsletter')), 
+                        ),
+                ),
+        )); ?>
+    </nav>
 
+    <section id="content">
+        <div class="g12">
+            <?php if ($this->hasContentTitle()) : ?>
+                <h1 class="content-title"><?php echo $this->getContentTitle(); ?></h1>
+            <?php endif; ?>
+            <?php if ($this->hasContentDescription()) : ?>
+                <p class="content-description"><?php echo $this->getContentDescription(); ?></p>
+            <?php endif; ?>
+        </div>
+        
+        
+        
+        <?php echo $content; ?>
+    </section>
+    <footer>&copy; yourstudioapp.com <?php echo date('Y'); ?></footer>
+    
+<?/*
 <div class="container" id="page">
 
 	<div id="header">
 		<div id="logo">Admin Area | <?php echo CHtml::encode(Yii::app()->name); ?></div>
 	</div><!-- header -->
 
-	<div id="mainmenu">
-		<?php $this->widget('zii.widgets.CMenu',array(
-			'items'=>array(
-				array('label'=>'Home', 'url'=>array('/site/index')),
-				array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
-				array('label'=>'Contact', 'url'=>array('/site/contact')),
-				array('label'=>'Login', 'url'=>array('/login'), 'visible'=>Yii::app()->user->isGuest),
-				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/logout'), 'visible'=>!Yii::app()->user->isGuest)
-			),
-		)); ?>
-	</div><!-- mainmenu -->
-	<?php if(isset($this->breadcrumbs)):?>
-		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
-			'links'=>$this->breadcrumbs,
-		)); ?><!-- breadcrumbs -->
-	<?php endif?>
-
-	<?php echo $content; ?>
-
 </div><!-- page -->
-
+*/?>
 </body>
 </html>
