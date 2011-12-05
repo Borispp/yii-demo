@@ -114,11 +114,22 @@ if($.alert) $.alert.defaults = {
 	}
 };
 
-if($.fn.wl_Editor) $.fn.wl_Editor.defaults = {
-	css: 'css/light/editor.css',
-	buttons: 'bold|italic|underline|strikeThrough|justifyLeft|justifyCenter|justifyRight|justifyFull|highlight|colorpicker|indent|outdent|subscript|superscript|undo|redo|insertOrderedList|insertUnorderedList|insertHorizontalRule|createLink|insertImage|h1|h2|h3|h4|h5|h6|paragraph|rtl|ltr|cut|copy|paste|increaseFontSize|decreaseFontSize|html|code|removeFormat|insertTable',
-	initialContent: ''
-};
+//if($.fn.wl_Editor) $.fn.wl_Editor.defaults = {
+//	css: 'css/light/editor.css',
+//	buttons: 'bold|italic|strikeThrough|justifyLeft|justifyCenter|justifyRight|justifyFull|highlight|colorpicker|indent|outdent|subscript|superscript|undo|redo|insertOrderedList|insertUnorderedList|insertHorizontalRule|createLink|insertImage|h1|h2|h3|h4|h5|h6|paragraph|cut|copy|paste|increaseFontSize|decreaseFontSize|html|removeFormat',
+//	initialContent: ''
+//};
+
+    if (elRTE) {
+         elRTE.prototype.options.panels.ysa_toolbar = [
+              'bold', 'italic', 'forecolor', 'justifyleft', 'justifyright',
+              'justifycenter', 'justifyfull', 'formatblock', 'insertorderedlist', 'insertunorderedlist',
+              'link', 'unlink', 'image', 'removeformat', 'nbsp'
+         ];
+        elRTE.prototype.options.toolbars.ysa_toolbar = ['ysa_toolbar'];
+    }
+
+
 
 if($.fn.wl_File) $.fn.wl_File.defaults = {
 	url: 'upload.php',
@@ -210,13 +221,6 @@ if($.fn.wl_Form) $.fn.wl_Form.defaults = {
 	onComplete: function (textStatus, jqXHR) {},
 	onError: function (textStatus, error, jqXHR) {},
 	onSuccess: function (data, textStatus, jqXHR) {}
-};
-
-if($.fn.wl_Gallery) $.fn.wl_Gallery.defaults = {
-	group: 'wl_gallery',
-	fancybox: {},
-	onEdit: function (element, href, title) {},
-	onDelete: function (element, href, title) {}
 };
 
 if($.fn.wl_Multiselect) $.fn.wl_Multiselect.defaults = {

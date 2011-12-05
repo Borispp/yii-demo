@@ -36,17 +36,16 @@ p.content-description {
 
 
 form table.data label{
-	position:relative;
-	width:auto;
-	margin:0;
-	padding:0;
-	display:inline-block;
-	float:none;
-	top:-5px;
-	font-size:11px;
-	line-height:1.5;
-        background: none;
-	-webkit-border-radius:0; -moz-border-radius:0; border-radius:0;
+    position:relative;
+    width:auto;
+    margin:0;
+    padding:0;
+    display:inline-block;
+    float:none;
+    font-size:11px;
+    line-height:1.5;
+    background: none;
+    -webkit-border-radius:0; -moz-border-radius:0; border-radius:0;
 }
 form table.data label span{
 	font-size:10px;
