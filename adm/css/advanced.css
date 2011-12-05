@@ -1,0 +1,63 @@
+/*** custom css ***/
+form div.errorMessage {
+    padding-top: 5px;
+    color: #c00;
+}
+
+.state1,
+.bg_green {
+    background-color: #A2E8A2;
+}
+.state-1,
+.bg_red {
+    background-color: #F0A8A8;
+}
+.state0,
+.bg_gray {
+    background-color: #ddd;
+}
+
+button.ysa, 
+a.btn.ysa {
+    background-color: #77D5EF;
+}
+button.ysa:hover, 
+a.btn.ysa:hover {
+    background-color: #B3E2EF;
+}
+
+
+h1.content-title {
+    margin-top: 0;
+}
+p.content-description {
+    margin-bottom: 0;
+}
+
+
+form table.data label{
+	position:relative;
+	width:auto;
+	margin:0;
+	padding:0;
+	display:inline-block;
+	float:none;
+	top:-5px;
+	font-size:11px;
+	line-height:1.5;
+        background: none;
+	-webkit-border-radius:0; -moz-border-radius:0; border-radius:0;
+}
+form table.data label span{
+	font-size:10px;
+}
+
+h4.empty-list {
+    text-align: center;
+    padding-bottom: 1em;
+}
+
+
+nav ul li.activated ul {
+    display: block;
+}
