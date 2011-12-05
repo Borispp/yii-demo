@@ -2,35 +2,60 @@
     <?php echo $this->renderPartial('/_messages/save');?>
     <div class="form">
         <?php $form=$this->beginWidget('YsaAdminForm', array(
-                'id'=>'option-group-form',
+                'id'=>'email-form',
                 'enableAjaxValidation'=>false,
         )); ?>
         <fieldset>
             <label>General Information</label>
-            
             <section>
-                <?php echo $form->labelEx($entry,'slug'); ?>
+                <?php echo $form->labelEx($entry,'name'); ?>
                 <div>
-                    <?php echo $form->textField($entry,'slug', array('size'=>60,'maxlength'=>100, 'class' => 'w_50')); ?>
-                    <?php echo $form->error($entry,'slug'); ?>
+                    <?php echo $form->textField($entry,'name', array('size'=>60,'maxlength'=>50, 'class' => 'w_50')); ?>
+                    <?php echo $form->error($entry,'name'); ?>
                 </div>
             </section>
             
             <section>
-                <?php echo $form->labelEx($entry,'title'); ?>
+                <?php echo $form->labelEx($entry,'subject'); ?>
                 <div>
-                    <?php echo $form->textField($entry,'title',array('size'=>50,'maxlength'=>50, 'class' => 'w_50')); ?>
-                    <?php echo $form->error($entry,'title'); ?>
+                    <?php echo $form->textField($entry,'subject',array('size'=>50,'maxlength'=>255, 'class' => 'w_50')); ?>
+                    <?php echo $form->error($entry,'subject'); ?>
                 </div>
             </section>
             
+            
             <section>
-                <?php echo $form->labelEx($entry,'hidden'); ?>
+                <?php echo $form->labelEx($entry,'body'); ?>
                 <div>
-                    <?php echo $form->checkBox($entry,'hidden', array(
-                        'checked' => $entry->hidden,
+                    <?php echo $form->textArea($entry,'body', array(
+                        'data-autogrow' => 'true',
+                        'rows'  => 12,
                     )); ?>
-                    <?php echo $form->error($entry,'hidden'); ?>
+                    <span>HTML is enabled.</span>
+                    <?php echo $form->error($entry,'body'); ?>
+                </div>
+            </section>
+            
+            <section>
+                <?php echo $form->labelEx($entry,'alt_body'); ?>
+                <div>
+                    <?php echo $form->textArea($entry,'alt_body', array(
+                        'data-autogrow' => 'true',
+                        'rows'          => 5,
+                    )); ?>
+                    <span>No HTML</span>
+                    <?php echo $form->error($entry,'alt_body'); ?>
+                </div>
+            </section>
+            
+            <section>
+                <?php echo $form->labelEx($entry,'help'); ?>
+                <div>
+                    <?php echo $form->textArea($entry,'help', array(
+                        'data-autogrow' => 'true',
+                        'rows'          => 3,
+                    )); ?>
+                    <?php echo $form->error($entry,'help'); ?>
                 </div>
             </section>
             

@@ -1,9 +1,9 @@
 <?php
 class Admin extends User
 {
-    public function beforeSave() {
-        parent::beforeSave();
-        $this->role = 'admin';
-        return true;
-    }
+//    public function beforeSave() {
+//        parent::beforeSave();
+//        $this->role = 'admin';
+//        return true;
+//    }
 }

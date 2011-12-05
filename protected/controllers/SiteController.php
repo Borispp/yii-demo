@@ -23,6 +23,8 @@ class SiteController extends YsaController
 	{
             $page = Page::model()->findBySlug('homepage');
             
+            VarDumper::dump(Yii::app()->settings->getGroup('general'));
+            
             $this->render('index', array(
                 'page' => $page,
             ));

@@ -18,6 +18,8 @@ return array(
         'application.components.*',
         'application.helpers.*',
         'application.widgets.*',
+        'application.extensions.*',
+        'application.extensions.yii-mail.*',
     ),
 
     'modules'=>array(
@@ -106,6 +108,21 @@ return array(
                 ),
             ),
         ),
+        
+        
+        
+        'mail' => array(
+            'class' => 'application.extensions.yii-mail.YiiMail',
+            'transportType' => 'php',
+            'transportOptions' => array(),
+            'viewPath' => 'application.views.mail',
+            'logging' => true,
+            'dryRun' => false
+        ),
+        
+        'settings'  => array(
+            'class' => 'application.components.YsaSettings'
+        )
     ),
 
     // application-level parameters that can be accessed

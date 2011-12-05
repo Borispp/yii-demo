@@ -71,4 +71,7 @@ class YsaHelpers
         return preg_replace('~' . $replacement . '{2,}~', $replacement, preg_replace('~[^a-zA-Z0-9]~si', $replacement, $value));
     }
     
+    public static function isSerialized($string) {
+        return (@unserialize($string) !== false);
+    }
 }

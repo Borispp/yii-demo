@@ -20,4 +20,4 @@ class ChangePasswordForm extends CFormModel
                 'verifyPassword' => 'Retype Password',
             );
 	}
-} 
+}

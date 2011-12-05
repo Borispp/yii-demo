@@ -41,7 +41,7 @@ class Page extends YsaActiveRecord
      */
     public function tableName()
     {
-            return 'page';
+        return 'page';
     }
 
     /**

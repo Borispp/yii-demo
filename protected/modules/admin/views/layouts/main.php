@@ -6,17 +6,21 @@
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
     <meta name="description" content="" />
+    
+    <script type="text/javascript">
+        var _admin_url = '<?php echo CController::createUrl('/admin')?>';
+    </script>
 
     <!-- Google Font and style definitions -->
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:regular,bold">
     <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/style.css">
-
-    <!-- include the skins (change to dark if you like) -->
-        <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/light/theme.css" id="themestyle" />
-    <!-- <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/dark/theme.css" id="themestyle"> -->
-        
-        <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/advanced.css" />
-
+    <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/light/theme.css" id="themestyle" />    
+    <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/advanced.css">
+    
+    <!-- editor -->
+    <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/elrte/css/smoothness/jquery-ui-1.8.13.custom.css">
+    <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/elrte/css/elrte.min.css">
+    
     <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/ie.css" />
@@ -36,13 +40,19 @@
     <!-- all Third Party Plugins and Whitelabel Plugins -->
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/plugins.js"></script>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/editor.js"></script>
+    
+    
+    
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/calendar.js"></script>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/flot.js"></script>
+    
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/elrte/elrte.min.js"></script>
+    
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/elfinder.js"></script>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/datatables.js"></script>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Alert.js"></script>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Autocomplete.js"></script>
-    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Breadcrumb.js"></script>
+    
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Calendar.js"></script>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Chart.js"></script>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Color.js"></script>
@@ -52,7 +62,6 @@
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Dialog.js"></script>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Fileexplorer.js"></script>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Form.js"></script>
-    <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Gallery.js"></script>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Multiselect.js"></script>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Number.js"></script>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Password.js"></script>
@@ -62,6 +71,10 @@
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Valid.js"></script>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Widget.js"></script>
 
+    
+    
+    
+    
     <!-- configuration to overwrite settings -->
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/config.js"></script>
 
@@ -78,7 +91,7 @@
         </ul>
         <div>
             <h3>Place for some configs</h3>
-            <p>Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in li grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite de un nov lingua franca: On refusa continuar payar custosi traductores.</p>
+            <p>&nbsp;</p>
         </div>
     </div>
     
@@ -150,31 +163,24 @@
                         ),
                         array(
                             'label'=>'Administrators', 
-                            'url'=>array('/admin/administrator')
+                            'url'=>array('/admin/administrator'),
+                            'linkOptions' => array('class' => $this->getNavigationClass('administrator')), 
                         ),
                         array(
                             'label' =>'Members', 
-                            'url'   => '',
+                            'url' => array('/admin/member/'),
                             'linkOptions' => array('class' => $this->getNavigationClass('member')), 
                             'active' => $this->getNavigationClass('member'),
-                            'items' => array(
-                                array(
-                                    'label' => 'List Members', 
-                                    'url' => array('/admin/member/'),
-                                    'linkOptions' => array('class' => $this->getNavigationClass('member', 'index')), 
-                                ),
-                                array(
-                                    'label' => 'Add new', 
-                                    'url' => array('/admin/member/add/'),
-                                    'linkOptions' => array('class' => $this->getNavigationClass('member', 'add')), 
-                                ),
-                                array('label' => 'Payments', 'url' => array('/admin/payments/')),
-                            ),
                         ),
                         array(
                             'label'=>'Applications', 
                             'url'=>array('/admin/application'),
                             'linkOptions' => array('class' => $this->getNavigationClass('application')), 
+                        ),
+                        array(
+                            'label'=>'Payments', 
+                            'url'=>array('/admin/payment'),
+                            'linkOptions' => array('class' => $this->getNavigationClass('payment')), 
                         ),
                         array(
                             'label'=>'Pages', 
@@ -183,8 +189,8 @@
                         ),
                         array(
                             'label'=>'Newsletters', 
-                            'url'=>array('/admin/newsletter'),
-                            'linkOptions' => array('class' => $this->getNavigationClass('newsletter')), 
+                            'url'=>array('/admin/email'),
+                            'linkOptions' => array('class' => $this->getNavigationClass('email')), 
                         ),
                 ),
         )); ?>

@@ -39,7 +39,7 @@ class RegisterController extends YsaController
 
         if(isset($_POST['RegistrationForm'])) {
             $model->attributes=$_POST['RegistrationForm'];
-            
+
             if($model->validate()) {
                 $model->state = User::STATE_INACTIVE;
                 $model->role = User::ROLE_MEMBER;
@@ -47,6 +47,17 @@ class RegisterController extends YsaController
                 $model->generateActivationKey();
                
                 if ($model->save(false)) {
+                    
+                    // send confirmation email
+                    Email::model()->send(
+                        array($model->email => $model->name()), 
+                        'confirmation', 
+                        array(
+                            'name'  => $model->name(),
+                            'link'  => $model->getActivationLink(),
+                        )
+                    );
+                    
                     Yii::app()->user->setFlash('registration', "Thank you for your registration. Please check your email.");
                     $this->refresh();
                 }

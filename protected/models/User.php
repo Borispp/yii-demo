@@ -166,4 +166,9 @@ class User extends YsaActiveRecord
             return parent::state();
         }
     }
+    
+    public function getActivationLink()
+    {
+        return Yii::app()->createAbsoluteUrl('/activate/k/' . $this->activation_key);
+    }
 }

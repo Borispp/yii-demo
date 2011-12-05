@@ -64,6 +64,5 @@ class AuthController extends YsaController
         } else {
             $this->render('activate', array('title' => "User activation", 'content' => "Incorrect activation URL."));
         }
-        
     }
 }

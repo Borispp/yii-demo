@@ -1,16 +1,12 @@
 <?php
-class OptionGroupController extends YsaAdminController
+class EmailController extends YsaAdminController
 {
     public function actionAdd()
     {
-        $entry = new OptionGroup();
+        $entry = new Email();
         
-        if(isset($_POST['OptionGroup'])) {
-            $entry->attributes=$_POST['OptionGroup'];
-
-            if (!$entry->slug) {
-                $entry->generateSlugFromTitle();
-            }
+        if(isset($_POST['Email'])) {
+            $entry->attributes=$_POST['Email'];
             
             if ($entry->validate()) {
                 $entry->save();
@@ -19,7 +15,7 @@ class OptionGroupController extends YsaAdminController
             }
         }
         
-        $this->setContentTitle('Add Option Group');
+        $this->setContentTitle('Add Email');
         
         $this->render('add', array(
             'entry' => $entry,
@@ -30,21 +26,21 @@ class OptionGroupController extends YsaAdminController
     {
         $id = (int) $id;
         
-        $entry = OptionGroup::model()->findByPk($id);
+        $entry = Email::model()->findByPk($id);
         
         if (!$entry) {
             $this->redirect('/admin/' . $this->getId());
         }
         
-        if(Yii::app()->request->isPostRequest && isset($_POST['OptionGroup'])) {
-            $entry->attributes=$_POST['OptionGroup'];
+        if(Yii::app()->request->isPostRequest && isset($_POST['Email'])) {
+            $entry->attributes=$_POST['Email'];
             if($entry->save()) {
                 $this->setSuccessFlash("Entry successfully updated. " . CHtml::link('Back to listing.', array('index')));
                 $this->refresh();
             }
         }
         
-        $this->setContentTitle('Edit Option Group');
+        $this->setContentTitle('Edit Email');
         
         $this->render('edit',array(
             'entry'     => $entry,
@@ -53,10 +49,10 @@ class OptionGroupController extends YsaAdminController
 
     public function actionIndex()
     {
-        $entries = OptionGroup::model()->findAll();
+        $entries = Email::model()->findAll();
      
-        $this->setContentTitle('Option Groups');
-        $this->setContentDescription('manage option groups.');
+        $this->setContentTitle('Newsletter Emails');
+        $this->setContentDescription('manage emails.');
         
         $this->render('index', array(
             'entries' => $entries,
@@ -73,7 +69,7 @@ class OptionGroupController extends YsaAdminController
         }
         
         foreach ($ids as $id) {
-            OptionGroup::model()->findByPk($id)->delete();
+            Email::model()->findByPk($id)->delete();
         }
         
         if (Yii::app()->getRequest()->isAjaxRequest) {
