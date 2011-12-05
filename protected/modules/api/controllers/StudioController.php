@@ -18,20 +18,40 @@ class StudioController extends YsaApiController
 
 	public function actionInfo()
 	{
-//		{id, action, device-id} info
-//
-//		  1. [array] links
-//			1. [string] name
-//			2. [string] link
-//		  2. [array] info
-//			1. [text] article
-//			2. [link] portrait
-//		  3. [string] video embed code
-//		  4. [array] rss
-//			1. [string] type (blog, twitter, Facebook)
-//			2. [string] rss-link
-//			3. [string] profile-link
-
+		$this->_commonValidate();
+		$this->_render(array(
+				'links'	=> array(
+					array(
+						'name'	=> 'Portfolio Site',
+						'link'	=> 'http://photographer.com/',
+					),
+					array(
+						'name'	=> 'Blog',
+						'link'	=> 'http://photographer.com/blog',
+					),
+					array(
+						'name'	=> 'Workshops',
+						'link'	=> 'http://photographer.com/workshops',
+					),
+				),
+				'info'	=> array(
+					'article'	=> 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.',
+					'portrait'	=> 'http://www.dukemagazine.duke.edu/dukemag/issues/010203/images/tw_JAFE_3.jpg',
+				),
+				'video'	=> '<iframe src="http://player.vimeo.com/video/19705053?byline=0&amp;portrait=0&amp;color=ffffff" width="400" height="180" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>',
+				'rss'	=> array(
+					array(
+						'type'		=> 'twitter',
+						'rss-link'	=> 'http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=flosites',
+						'link'		=> 'https://twitter.com/#!/flosites'
+					),
+					array(
+						'type'		=> 'facebook',
+						'rss-link'	=> 'http://www.facebook.com/feeds/page.php?format=atom10&id=40796308305',
+						'link'		=> 'http://www.facebook.com/flosites'
+					),
+				),
+			));
 	}
 
 	public function actionGalleriesList()
