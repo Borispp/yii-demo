@@ -27,7 +27,8 @@ class YsaHelpers
      * </ul>
      * @return string The generated random string
      */
-    public static function genRandomString($length=10, $chars='', $type=array()) {
+    public static function genRandomString($length=10, $chars='', $type=array()) 
+    {
         //initialize the characters
         $alphaSmall = 'abcdefghijklmnopqrstuvwxyz';
         $alphaBig = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -42,7 +43,6 @@ class YsaHelpers
         isset($type['num'])         ? $type['num']: $type['num'] = true;                //num - default true
         isset($type['othr'])        ? $type['othr']: $type['othr'] = false;             //othr - default false 
         isset($type['duplicate'])   ? $type['duplicate']: $type['duplicate'] = true;    //duplicate - default true 
-
 
         if (strlen(trim($chars)) == 0) { 
             $type['alphaSmall'] ? $characters .= $alphaSmall : $characters = $characters;
@@ -63,4 +63,12 @@ class YsaHelpers
 
         return $string;
     }
+    
+    
+    public static function filterSystemName($value, $replacement = '-')
+    {
+        $value = strtolower($value);
+        return preg_replace('~' . $replacement . '{2,}~', $replacement, preg_replace('~[^a-zA-Z0-9]~si', $replacement, $value));
+    }
+    
 }

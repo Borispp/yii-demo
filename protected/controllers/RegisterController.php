@@ -41,10 +41,9 @@ class RegisterController extends YsaController
             $model->attributes=$_POST['RegistrationForm'];
             
             if($model->validate()) {
-                $model->created = YsaHelpers::date();
                 $model->state = User::STATE_INACTIVE;
                 $model->role = User::ROLE_MEMBER;
-                $model->password = YsaHelpers::encrypt($model->password);
+                $model->encryptPassword();
                 $model->generateActivationKey();
                
                 if ($model->save(false)) {

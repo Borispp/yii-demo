@@ -24,10 +24,10 @@ class AuthController extends YsaController
             // validate user input and redirect to the previous page if valid
             if($model->validate() && $model->login()) {
                 if (Yii::app()->user->isAdmin()) {
-                    $this->redirect(CController::createUrl('//admin', array()));
+                    $this->redirect($this->createUrl('//admin', array()));
                 } else {
 //                        $this->redirect(Yii::app()->user->returnUrl);
-                    $this->redirect(CController::createUrl('//member', array()));
+                    $this->redirect($this->createUrl('//member', array()));
                 }
             }
         }
