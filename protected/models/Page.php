@@ -26,6 +26,8 @@ class Page extends YsaActiveRecord
     public $items = array();
     
     public $level = 0;
+    
+    protected $_meta;
 
     /**
      * Returns the static model of the specified AR class.
@@ -228,5 +230,25 @@ class Page extends YsaActiveRecord
     public function findBySlug($slug)
     {
         return $this->model()->findByAttributes(array('slug' => $slug));
+    }
+    
+    public function meta()
+    {
+        if (!$this->_meta) {
+            $this->_meta = Meta::model()->findByElement($this->id, 'page');
+            if (null === $this->_meta) {
+                $this->_meta = new Meta();
+                $this->_meta->elm = 'page';
+                $this->_meta->elm_id = $this->id;
+            }
+        }
+        
+        return $this->_meta;
+    }
+    
+    // delete page meta with page
+    public function delete() {
+        $this->meta()->delete();
+        parent::delete();
     }
 }

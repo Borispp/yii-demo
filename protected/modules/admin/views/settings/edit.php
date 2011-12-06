@@ -37,12 +37,8 @@
                     <br/><span>Format: value:title,value:title</span>
                 </div>
             </section>
-            <section>
-                <div>
-                    <button class="submit">Save</button>
-                </div>
-            </section>
         </fieldset>
+        <?php echo YsaHtml::adminSaveSection();?>
         <?php $this->endWidget(); ?>
     </div>
 </div>

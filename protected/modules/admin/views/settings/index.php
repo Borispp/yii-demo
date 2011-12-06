@@ -34,16 +34,16 @@
                             <?php echo $entry->renderField(); ?>
                         </td>
                         <td>
-                            <?php echo CHtml::link('Edit', array('edit', 'group' => $group->slug, 'id' => $entry->id), array('class' => 'btn small green')); ?>
+                            <?php echo CHtml::link('Edit', array('edit', 'group' => $group->slug, 'id' => $entry->id), array('class' => 'btn small blue')); ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <p>
-            <button class="submit small red icon i_recycle delete-entries">Delete Selected</button>
+        <p class="c">
+            <button class="submit small red icon i_recycle delete-entries fl">Delete Selected</button>
 
-            <button class="submit big ysa save-entries fr" id="ysa-options-save">Save</button>
+            <button class="submit big ysa save-entries" id="ysa-options-save">Save</button>
             <span class="clearfix"></span>
         </p>
 

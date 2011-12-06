@@ -1,5 +1,5 @@
 <?php
-class RecoveryController extends YsaController
+class RecoveryController extends YsaFrontController
 {
     public $defaultAction = 'recover';
     

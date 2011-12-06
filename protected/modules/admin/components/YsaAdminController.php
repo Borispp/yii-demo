@@ -7,11 +7,6 @@ class YsaAdminController extends YsaController
     
     protected $_contentDescription;
     
-    public function init()
-    {
-        parent::init();
-    }
-    
     public function accessRules()
     {
         return array(

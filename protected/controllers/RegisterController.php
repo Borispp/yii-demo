@@ -1,5 +1,5 @@
 <?php
-class RegisterController extends YsaController
+class RegisterController extends YsaFrontController
 {
     public $defaultAction = 'registration';
     

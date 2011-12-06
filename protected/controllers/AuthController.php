@@ -1,5 +1,5 @@
 <?php
-class AuthController extends YsaController
+class AuthController extends YsaFrontController
 {
     /**
      * Displays the login page

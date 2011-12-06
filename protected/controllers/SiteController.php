@@ -1,5 +1,5 @@
 <?php
-class SiteController extends YsaController
+class SiteController extends YsaFrontController
 {
 	/**
 	 * Declares class-based actions.
@@ -22,8 +22,7 @@ class SiteController extends YsaController
 	public function actionIndex()
 	{
             $page = Page::model()->findBySlug('homepage');
-            
-            VarDumper::dump(Yii::app()->settings->getGroup('general'));
+            $this->setMeta($page->meta());
             
             $this->render('index', array(
                 'page' => $page,

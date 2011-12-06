@@ -166,8 +166,8 @@ $(document).ready(function() {
 		/*----------------------------------------------------------------------*/
 		
 		$content.find('div.accordion').accordion({
-				collapsible:true,
-				autoHeight:false
+                    collapsible:true,
+                    autoHeight:false
 		});
 		
 		/*----------------------------------------------------------------------*/
@@ -175,10 +175,10 @@ $(document).ready(function() {
 		/*----------------------------------------------------------------------*/
 		
 		$content.find('div.tab').tabs({
-				fx: {
-					opacity: 'toggle',
-					duration: 'fast'
-				}  
+                    fx: {
+                            opacity: 'toggle',
+                            duration: 'fast'
+                    }
 		});
 		
 		/*----------------------------------------------------------------------*/

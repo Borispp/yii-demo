@@ -15,6 +15,13 @@ class PageController extends YsaAdminController
 
             if ($entry->validate()) {
                 $entry->save();
+                // create new meta for page
+                if (isset($_POST['Meta'])) {
+                    $entry->meta()->attributes = $_POST['Meta'];
+                    $entry->meta()->elm = 'page';
+                    $entry->meta()->elm_id = $entry->id;
+                    $entry->meta()->save();
+                }
                 $this->setSuccessFlash("New entry successfully added. " . CHtml::link('Back to listing.', array('index')));
                 $this->redirect(array('edit', 'id'=>$entry->id));
             }
@@ -55,7 +62,7 @@ class PageController extends YsaAdminController
         if (!$entry) {
             $this->redirect('/admin/' . $this->getId());
         }
-
+        
         if(isset($_POST['Page'])) {
             $entry->attributes=$_POST['Page'];
 
@@ -65,6 +72,11 @@ class PageController extends YsaAdminController
 
             if ($entry->validate()) {
                 $entry->save();
+                // update meta
+                if (isset($_POST['Meta'])) {
+                    $entry->meta()->attributes = $_POST['Meta'];
+                    $entry->meta()->save();
+                }
                 $this->setSuccessFlash("Entry successfully updated. " . CHtml::link('Back to listing.', array('index')));
                 $this->refresh();
             }

@@ -31,8 +31,8 @@
                     </td>
                     <td><?php echo $entry->state(); ?></td>
                     <td>
-                        <?php echo CHtml::link('View', array('view', 'id' => $entry->id), array('class' => 'btn small green')); ?>
-                        <?php echo CHtml::link('Edit', array('edit', 'id' => $entry->id), array('class' => 'btn small green')); ?>
+                        <?php echo CHtml::link('View', array('view', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
+                        <?php echo CHtml::link('Edit', array('edit', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

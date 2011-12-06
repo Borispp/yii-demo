@@ -70,10 +70,6 @@
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Time.js"></script>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Valid.js"></script>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/wl_Widget.js"></script>
-
-    
-    
-    
     
     <!-- configuration to overwrite settings -->
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/config.js"></script>
@@ -88,6 +84,7 @@
         <ul>
             <li><?php echo CHtml::link('Logout', array('/logout'))?></li>
             <li><?php echo CHtml::link('Configuration', '#', array('id' => 'wl_config'))?></li>
+            <li><?php echo CHtml::link('Website', Yii::app()->homeUrl)?></li>
         </ul>
         <div>
             <h3>Place for some configs</h3>

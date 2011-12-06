@@ -28,7 +28,7 @@
                     <td class="l"><?php echo CHtml::link($entry->subject, array('edit', 'id' => $entry->id)); ?></td>
                     <td class="l"><?php echo $entry->help(); ?></td>
                     <td>
-                        <?php echo CHtml::link('Edit', array('edit', 'id' => $entry->id), array('class' => 'btn small green')); ?>
+                        <?php echo CHtml::link('Edit', array('edit', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

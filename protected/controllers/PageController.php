@@ -1,6 +1,5 @@
 <?php
-
-class PageController extends YsaController
+class PageController extends YsaFrontController
 {
 	public function actionView($slug)
 	{
@@ -9,6 +8,8 @@ class PageController extends YsaController
             if (!$page) {
                 throw new CHttpException(404, 'Page not found.');
             }
+            
+            $this->setMeta($page->meta());
             
             $this->render('view', array(
                 'page' => $page,

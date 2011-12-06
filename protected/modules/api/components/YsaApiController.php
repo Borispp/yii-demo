@@ -1,6 +1,8 @@
 <?php
 class YsaApiController extends YsaController
 {
+        public $layout = '/layouts/main';
+    
 	/**
 	 * Common validation same for all actions.
 	 * IS_POST validation
