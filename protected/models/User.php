@@ -108,7 +108,7 @@ class User extends YsaActiveRecord
 
     public function beforeSave() {
         parent::beforeSave();
-        $this->updated = YsaHelpers::date();
+        $this->updated = new CDbExpression('NOW()');
         return true;
     }
 
@@ -152,9 +152,8 @@ class User extends YsaActiveRecord
     {
 	if($this->isNewRecord) {
 	    $this->created = $this->updated = new CDbExpression('NOW()');
-	} else {
-	    $this->updated = new CDbExpression('NOW()');
 	}
+        
 	return parent::beforeValidate();
     }
     

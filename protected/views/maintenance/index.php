@@ -1,0 +1,1 @@
+<h2><?php echo Yii::app()->maintenance->getMessage(); ?></h2>

@@ -18,7 +18,7 @@ class RegisterController extends YsaFrontController
     
     public function init() {
         parent::init();
-        YsaHelpers::date();
+        
         if (Yii::app()->user->isLoggedIn()) {
             $this->redirect(Yii::app()->user->returnUrl);
         }

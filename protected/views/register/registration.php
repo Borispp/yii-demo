@@ -1,6 +1,6 @@
 <?php if(Yii::app()->user->hasFlash('registration')): ?>
 <div class="success">
-<?php echo Yii::app()->user->getFlash('registration'); ?>
+    <?php echo Yii::app()->user->getFlash('registration'); ?>
 </div>
 <?php else: ?>
 

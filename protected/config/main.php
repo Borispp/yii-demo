@@ -10,7 +10,7 @@ return array(
     'name'=>'YourStudioApp',
 
     // preloading 'log' component
-    'preload'=>array('log'),
+    'preload'=>array('log', 'maintenance'),
 
     // autoloading model and component classes
     'import'=>array(
@@ -122,6 +122,10 @@ return array(
         
         'settings'  => array(
             'class' => 'application.components.YsaSettings'
+        ),
+        
+        'maintenance' => array(
+            'class' => 'application.components.YsaMaintenance',
         )
     ),
 

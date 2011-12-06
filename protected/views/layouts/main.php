@@ -1,24 +1,23 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="language" content="en" />
-
-	<!-- blueprint CSS framework -->
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
-
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
-	<title><?php echo CHtml::encode($this->getMetaTitle()); ?></title>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8" />
+<meta http-equiv="Page-Enter" content="blendTrans(Duration=0.1)" />
+<meta http-equiv="Page-Exit" content="blendTrans(Duration=0.1)" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<title><?php echo CHtml::encode($this->getMetaTitle()); ?></title>
+<!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
 </head>
-
 <body>
 
-<div class="container" id="page">
-    <div id="header">
-        <div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
-    </div><!-- header -->
-
+    
+    
+    
+    
     <div id="mainmenu">
             <?php $this->widget('zii.widgets.CMenu',array(
                     'items'=>array(
@@ -30,14 +29,7 @@
                     ),
             )); ?>
     </div><!-- mainmenu -->
-    <?php if(isset($this->breadcrumbs)):?>
-            <?php $this->widget('zii.widgets.CBreadcrumbs', array(
-                    'links'=>$this->breadcrumbs,
-            )); ?><!-- breadcrumbs -->
-    <?php endif?>
-
+    
     <?php echo $content; ?>
-</div><!-- page -->
-
 </body>
 </html>
