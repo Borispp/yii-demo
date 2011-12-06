@@ -20,6 +20,7 @@ return array(
         'application.widgets.*',
         'application.extensions.*',
         'application.extensions.yii-mail.*',
+        'application.extensions.image.*',
     ),
 
     'modules'=>array(

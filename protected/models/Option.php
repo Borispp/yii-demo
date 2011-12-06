@@ -10,6 +10,7 @@
  * @property integer $rank
  * @property integer $type_id
  * @property integer $group_id
+ * @property string $options
  */
 class Option extends YsaActiveRecord
 {
@@ -19,6 +20,8 @@ class Option extends YsaActiveRecord
     const TYPE_CHECKBOX = 4;
     const TYPE_RADIO    = 5;
     const TYPE_IMAGE    = 6; // TODO
+    
+    protected $_image;
 
     /**
      * Returns the static model of the specified AR class.
@@ -110,6 +113,9 @@ class Option extends YsaActiveRecord
             case self::TYPE_RADIO:
                 $field = CHtml::radioButtonList($fieldName, $this->value, $this->getOptionOptionsList(), array('separator' => ' '));
                 break;
+            case self::TYPE_IMAGE:
+                $field = YsaHtml::optionImage('image' . $this->id, $this->value, array(), array('id' => $this->id));
+                break;
         }
         
         return $field;
@@ -142,5 +148,19 @@ class Option extends YsaActiveRecord
             $options[trim($val)] = trim($name);
         }
         return $options;
+    }
+    
+    public function image()
+    {
+        if (!$this->_image) {
+            $this->_image = OptionImage::model()->findByElement($this->id, $this->tableName());
+            if (null === $this->_image) {
+                $this->_image = new OptionImage();
+                $this->_image->elm = $this->tableName();
+                $this->_image->elm_id = $this->id;
+            }
+        }
+        
+        return $this->_image;
     }
 }

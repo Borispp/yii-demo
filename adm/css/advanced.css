@@ -56,7 +56,16 @@ h4.empty-list {
     padding-bottom: 1em;
 }
 
-
 nav ul li.activated ul {
     display: block;
+}
+
+
+
+#settings-form .option-image {
+    padding:10px;
+}
+#settings-form .option-image span {
+    display: block;
+    margin-bottom: 1em;
 }

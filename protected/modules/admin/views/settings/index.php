@@ -3,6 +3,7 @@
     
     <?php $this->beginWidget('YsaAdminForm', array(
         'id'=>'settings-form',
+        'htmlOptions'=>array('enctype' => 'multipart/form-data'),
         'action'=>Yii::app()->createUrl('/admin/settings/delete'),
         'method'=>'post',
     )); ?>
@@ -12,8 +13,6 @@
         <span class="clearfix"></span>
     </p>
 <?php if (count($group->options())) : ?>
-
-
         <table class="data">
             <thead>
                 <tr>
@@ -30,7 +29,7 @@
                         <td class="l">
                             <h5><?php echo $entry->title; ?></h5>
                         </td>
-                        <td class="l">
+                        <td class="l option">
                             <?php echo $entry->renderField(); ?>
                         </td>
                         <td>
@@ -57,6 +56,32 @@
                    .attr('action', '<?php echo Yii::app()->createUrl('/admin/settings/group/' . $group->slug)?>')
                    .submit();
         });
+        
+        $('#settings-form .option-image a.remove').live('click', function(e){
+            e.preventDefault();
+            
+            var fn = $(this);
+            
+            $.confirm('Are you sure you want to delete this image?', function(){
+                $.post('<?php echo Yii::app()->createUrl('/admin/settings/removeImage')?>', {
+                    'id':fn.attr('rel')
+                }, function(data){
+                    if (data.error) {
+                        $.alert('Image was not deleted. Please refresh page and try again.')
+                        return;
+                    }
+                    var option = fn.parents('.option');
+
+                    option.html(data.html);
+                    option.find('input[type=file]').uniform();
+                    
+                }, 'json');                
+                
+            });
+            
+
+        });
+        
     });
     </script>
     

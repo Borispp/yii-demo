@@ -79,8 +79,18 @@ class SettingsController extends YsaAdminController
 
             foreach ($options as $option) {
                 $option->value = $_POST['id'][$option->id];
+                
+                // save checkbox
                 if ($option->type_id == Option::TYPE_CHECKBOX) {
                     $option->value = (int) $option->value;
+                }
+                
+                // upload image
+                if ($option->type_id == Option::TYPE_IMAGE) {
+                    $option->image()
+                           ->upload('image' . $option->id, $option->getOptionOptionsList())
+                           ->save();
+                    $option->value = $option->image()->id;
                 }
                 $option->save();
             }
@@ -113,6 +123,27 @@ class SettingsController extends YsaAdminController
             $this->sendJsonSuccess();
         } else {
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+        }
+    }
+    
+    public function actionRemoveImage()
+    {
+        if (isset($_POST['id']) && Yii::app()->getRequest()->isAjaxRequest) {
+            
+            $option = Option::model()->findByPk($_POST['id']);
+            
+            if (!$option) {
+                $this->sendJsonError();
+            }
+            
+            $option->image()->delete();
+            $option->value = '';
+            $option->save();
+            
+            $this->sendJsonSuccess(array(
+                'html' => $option->renderField(),
+            ));
+            
         }
     }
 
