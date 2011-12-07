@@ -86,7 +86,7 @@ class LoginForm extends CFormModel
                     Yii::app()->user->login($this->_identity,$duration);
 
                     User::model()->updateByPk(
-                        $identity->id, 
+                        $this->_identity->id, 
                         array(
                             'last_login'    => new CDbExpression('NOW()'),
                             'last_login_ip' => $_SERVER['REMOTE_ADDR'],
