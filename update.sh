@@ -1,2 +1,2 @@
-cd /home/yourstudioapp/
+cd /home/yourstudioapp/public_html/
 git pull origin master
