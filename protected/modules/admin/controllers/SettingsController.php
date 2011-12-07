@@ -88,10 +88,12 @@ class SettingsController extends YsaAdminController
                         break;
                         
                     case Option::TYPE_IMAGE:
-                        $option->image()
-                               ->upload('image' . $option->id, $option->getOptionOptionsList())
-                               ->save();
-                        $option->value = $option->image()->id;
+                        if (isset($_POST['id'][$option->id])) {
+                            $option->image()
+                                   ->upload('image' . $option->id, $option->getOptionOptionsList())
+                                   ->save();
+                            $option->value = $option->image()->id;
+                        }
                         break;
                     
                     default:

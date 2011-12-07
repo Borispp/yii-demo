@@ -86,7 +86,6 @@ class Email extends YsaActiveRecord
     public function send($to, $name, $aliases = array())
     {
         $mail = $this->model()->findByName($name);
-
         $mail->setTo($to);
         
         if (!$mail) {
@@ -118,16 +117,16 @@ class Email extends YsaActiveRecord
             $toName = null;
         }
         
-        $message = new YiiMailMessage();
+        Yii::app()->mailer->From = Yii::app()->settings->get('send_mail_from_email');
+        Yii::app()->mailer->FromName = Yii::app()->settings->get('send_mail_from_name');
+        Yii::app()->mailer->AddAddress($toEmail, $toName);
+        Yii::app()->mailer->Subject = $this->subject;
+        Yii::app()->mailer->AltBody = $this->alt_body;
+        Yii::app()->mailer->getView('standart', array(
+            'body'  => $this->body,
+        ));
         
-        $message->setSubject($this->subject);
-        $message->setBody($this->body);
-        $message->setTo($this->_to);
-//        $message->setFrom();  ### TODO ###
-        
-        $numsent = Yii::app()->mail->send($message);
-        
-        return $numsent;
+        return Yii::app()->mailer->Send();
     }
     
     

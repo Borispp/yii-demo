@@ -19,7 +19,7 @@ return array(
         'application.helpers.*',
         'application.widgets.*',
         'application.extensions.*',
-        'application.extensions.yii-mail.*',
+        'application.extensions.mailer.*',
         'application.extensions.image.*',
     ),
 
@@ -110,16 +110,11 @@ return array(
             ),
         ),
         
-        
-        
-        'mail' => array(
-            'class' => 'application.extensions.yii-mail.YiiMail',
-            'transportType' => 'php',
-            'transportOptions' => array(),
-            'viewPath' => 'application.views.mail',
-            'logging' => true,
-            'dryRun' => false
-        ),
+       'mailer' => array(
+          'class'       => 'application.extensions.mailer.EMailer',
+          'pathViews'   => 'application.views.email',
+          'pathLayouts' => 'application.views.email.layouts'
+       ),
         
         'settings'  => array(
             'class' => 'application.components.YsaSettings'

@@ -45,12 +45,12 @@ class RegisterController extends YsaFrontController
                 $model->role = User::ROLE_MEMBER;
                 $model->encryptPassword();
                 $model->generateActivationKey();
-               
+
                 if ($model->save(false)) {
                     
                     // send confirmation email
                     Email::model()->send(
-                        array($model->email => $model->name()), 
+                        array($model->email, $model->name()), 
                         'confirmation', 
                         array(
                             'name'  => $model->name(),
