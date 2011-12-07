@@ -60,7 +60,9 @@ class YsaAdminController extends YsaController
     
     public function getNavigationClass($controller, $action = false)
     {
-        if ($controller == $this->getId()) {
+        $controllers = explode(',', $controller);
+        
+        if (in_array($this->getId(), $controllers)) {
             if ($action) {
                 return $action == $this->getAction()->getId() ? 'active' : '';
             } else {

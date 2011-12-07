@@ -34,14 +34,14 @@ class OptionGroup extends YsaActiveRecord
      */
     public function rules()
     {
-            // NOTE: you should only define rules for those attributes that
-            // will receive user inputs.
-            return array(
-                    array('rank, hidden', 'numerical', 'integerOnly'=>true),
-                    array('title, slug', 'length', 'max'=>100),
-                    array('slug', 'unique'),
-                    array('slug, title', 'required'),
-            );
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('rank, hidden', 'numerical', 'integerOnly'=>true),
+            array('title, slug', 'length', 'max'=>100),
+            array('slug', 'unique'),
+            array('slug, title', 'required'),
+        );
     }
 
     /**
@@ -70,7 +70,7 @@ class OptionGroup extends YsaActiveRecord
     public function getNavigationList()
     {
         $groups = $this->model()->findAll(array(
-            'order' => 'rank ASC',
+            'order' => 'id ASC',
         ));
 
         $list = array();

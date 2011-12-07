@@ -78,19 +78,27 @@ class SettingsController extends YsaAdminController
             $options = $group->options();
 
             foreach ($options as $option) {
-                $option->value = $_POST['id'][$option->id];
-                
-                // save checkbox
-                if ($option->type_id == Option::TYPE_CHECKBOX) {
-                    $option->value = (int) $option->value;
-                }
-                
-                // upload image
-                if ($option->type_id == Option::TYPE_IMAGE) {
-                    $option->image()
-                           ->upload('image' . $option->id, $option->getOptionOptionsList())
-                           ->save();
-                    $option->value = $option->image()->id;
+                switch ($option->type_id) {
+                    case Option::TYPE_CHECKBOX:
+                        if (isset($_POST['id'][$option->id])) {
+                            $option->value = (int) $_POST['id'][$option->id];
+                        } else {
+                            $option->value = 0;
+                        }
+                        break;
+                        
+                    case Option::TYPE_IMAGE:
+                        $option->image()
+                               ->upload('image' . $option->id, $option->getOptionOptionsList())
+                               ->save();
+                        $option->value = $option->image()->id;
+                        break;
+                    
+                    default:
+                        if (isset($_POST['id'][$option->id])) {
+                            $option->value = $_POST['id'][$option->id];
+                        }
+                        break;
                 }
                 $option->save();
             }

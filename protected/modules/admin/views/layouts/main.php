@@ -155,7 +155,7 @@
                             'label' =>'Settings', 
                             'url'   => '',
                             'active' => $this->getNavigationClass('settings'),
-                            'linkOptions' => array('class' => $this->getNavigationClass('settings')), 
+                            'linkOptions' => array('class' => $this->getNavigationClass('settings,optionGroup')), 
                             'items' => $settingsItems,
                         ),
                         array(
