@@ -13,7 +13,7 @@
     <table class="data">
         <thead>
             <tr>
-                <th class="w_1"><input type="checkbox" value="<?php echo $entry->id; ?>" class="ids-toggle" /></th>
+                <th class="w_1"><input type="checkbox" value="" class="ids-toggle" /></th>
                 <th class="l">Title</th>
                 <th class="w_5">Status</th>
                 <th class="w_10">&nbsp;</th>
@@ -42,6 +42,4 @@
         <button class="submit small red icon i_recycle delete-entries">Delete Selected</button>
     </p>
     <?php $this->endWidget(); ?>
-    
-    <? $this->widget('YsaAdminPager',array('pages'=>$pagination)) ?>
 </div>

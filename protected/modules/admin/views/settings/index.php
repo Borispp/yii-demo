@@ -16,7 +16,7 @@
         <table class="data">
             <thead>
                 <tr>
-                    <th class="w_1"><input type="checkbox" value="<?php echo $entry->id; ?>" class="ids-toggle" /></th>
+                    <th class="w_1"><input type="checkbox" value="1" class="ids-toggle" /></th>
                     <th class="l w_20">Title</th>
                     <th class="l">Value</th>
                     <th class="w_10">&nbsp;</th>
@@ -86,12 +86,8 @@
     </script>
     
 <?php else:?>
-    
-    <h4 class="empty-list">Empty list.</h4>
-    
+    <h4 class="empty-list">Empty list.</h4>    
 <?php endif; ?>
 
-    <?php $this->endWidget(); ?>
-
-    <?php $this->widget('YsaAdminPager',array('pages'=>$pagination)) ?>
+<?php $this->endWidget(); ?>
 </div>

@@ -13,7 +13,7 @@
     <table class="data">
         <thead>
             <tr>
-                <th class="w_1"><input type="checkbox" value="<?php echo $entry->id; ?>" class="ids-toggle" /></th>
+                <th class="w_1"><input type="checkbox" value="" class="ids-toggle" /></th>
                 <th class="l">Name</th>
                 <th class="w_10">&nbsp;</th>
             </tr>
