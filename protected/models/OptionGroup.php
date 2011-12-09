@@ -66,19 +66,19 @@ class OptionGroup extends YsaActiveRecord
                     'hidden' => 'Hidden',
             );
     }
-        
+    
     public function getNavigationList()
     {
         $groups = $this->model()->findAll(array(
             'order' => 'id ASC',
         ));
-
+        
         $list = array();
         foreach ($groups as $group) {
             $list[] = array(
                 'label' => $group->title,
                 'url'   => array('/admin/settings/group/' . $group->slug),
-                'linkOptions' => array('class' => ''), 
+                'linkOptions' => array('class' => Yii::app()->request->getParam('group') == $group->slug ? 'active' : ''), 
             );
         }
 

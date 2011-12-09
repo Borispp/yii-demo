@@ -1,6 +1,8 @@
 <?php
 class YsaMemberController extends YsaController
 {
+    protected $_member;
+    
     public function accessRules()
     {
         return array(
@@ -17,5 +19,43 @@ class YsaMemberController extends YsaController
         return array(
             'accessControl', // perform access control for CRUD operations
         );
+    }
+    
+    public $layout='/layouts/general';
+    
+    public function init()
+    {
+        parent::init();
+        
+        /**
+         * Load member
+         */
+        $this->_member = Member::model()->findByPk(Yii::app()->user->getId());
+    }
+    
+    /**
+     * Register web application's resources and meta.
+     * @param object $view
+     * @return bool
+     */
+    public function beforeRender($view) 
+    {
+        parent::beforeRender($view);
+        
+        $this->setMetaTitle(Yii::app()->settings->get('site_title'));
+        
+        Yii::app()->getClientScript()
+            ->registerMetaTag($this->getMetaDescription(), 'description')
+            ->registerMetaTag($this->getMetaKeywords(), 'keywords')
+            ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins.js', CClientScript::POS_HEAD)
+            ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD)
+            ->registerCssFile(Yii::app()->baseUrl . '/resources/css/style.css');
+        
+        return true;
+    }
+    
+    public function member()
+    {
+        return $this->_member;
     }
 }

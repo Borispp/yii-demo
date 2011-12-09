@@ -54,6 +54,7 @@ class RegisterController extends YsaFrontController
                         'confirmation', 
                         array(
                             'name'  => $model->name(),
+                            'email' => $model->email,
                             'link'  => $model->getActivationLink(),
                         )
                     );

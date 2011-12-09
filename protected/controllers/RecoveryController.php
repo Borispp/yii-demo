@@ -34,7 +34,7 @@ class RecoveryController extends YsaFrontController
                         }
                         // save new password and regenerated activation key
                         $user->save();
-
+                        
                         Yii::app()->user->setFlash('recoveryMessage', "New password is saved. Now you can log in with your credentials.");
                         $this->redirect($this->createUrl('/recovery'));
                     }
@@ -59,10 +59,15 @@ class RecoveryController extends YsaFrontController
                     
                     $activation_url = 'http://' . $_SERVER['HTTP_HOST'] . $this->createUrl('/recovery', array("k" => $user->activation_key));
                     
-                    /**
-                     * TODO
-                     * send mail
-                     */
+                    Email::model()->send(
+                        array($model->email, $model->name()), 
+                        'recovery', 
+                        array(
+                            'name'  => $model->name(),
+                            'email' => $model->email,
+                            'link'  => $model->getActivationLink(),
+                        )
+                    );
                     
                     Yii::app()->user->setFlash('recoveryMessage', "Please check your email. An instructions was sent to your email address.");
                     $this->refresh();

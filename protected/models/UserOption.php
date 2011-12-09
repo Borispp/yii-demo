@@ -55,7 +55,7 @@ class UserOption extends YsaActiveRecord
 	public function relations()
 	{
             return array(
-                'user'=>array(self::HAS_ONE, 'User', 'user_id'),
+                'user'=>array(self::BELONGS_TO, 'User', 'user_id'),
             );
 	}
 

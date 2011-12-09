@@ -139,7 +139,12 @@
             $settingsItems[] = array(
                 'label' => 'Option Groups', 
                 'url' => array('/admin/optionGroup/'),
-                'linkOptions' => array('class' => $this->getNavigationClass('optionGroup')), 
+                'linkOptions' => array('class' => $this->getNavigationClass('optionGroup')),
+            );
+            $settingsItems[] = array(
+                'label' => 'Memberships', 
+                'url' => array('/admin/membership/'),
+                'linkOptions' => array('class' => $this->getNavigationClass('membership')),
             );
             
             $this->widget('YsaAdminMenu',array(
@@ -154,9 +159,9 @@
                         array(
                             'label' =>'Settings', 
                             'url'   => '',
-                            'active' => $this->getNavigationClass('settings'),
+                            'active' => $this->getNavigationClass('settings,optionGroup,membership'),
                             'itemOptions' => array('class' => 'i_cog_4'),
-                            'linkOptions' => array('class' => $this->getNavigationClass('settings,optionGroup')), 
+                            'linkOptions' => array('class' => $this->getNavigationClass('settings,optionGroup,membership')), 
                             'items' => $settingsItems,
                         ),
                         array(
@@ -209,9 +214,6 @@
                 <p class="content-description"><?php echo $this->getContentDescription(); ?></p>
             <?php endif; ?>
         </div>
-        
-        
-        
         <?php echo $content; ?>
     </section>
     <footer>&copy; yourstudioapp.com <?php echo date('Y'); ?></footer>

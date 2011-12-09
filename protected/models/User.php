@@ -68,7 +68,8 @@ class User extends YsaActiveRecord
     public function relations()
     {
         return array(
-            'option' => array(self::HAS_MANY, 'UserOption', 'user_id'),
+            'option'        => array(self::HAS_MANY, 'UserOption', 'user_id'),
+            'application'   => array(self::HAS_ONE, 'Application', 'user_id'),
         );
     }
 
@@ -170,4 +171,5 @@ class User extends YsaActiveRecord
     {
         return Yii::app()->createAbsoluteUrl('/activate/k/' . $this->activation_key);
     }
+    
 }

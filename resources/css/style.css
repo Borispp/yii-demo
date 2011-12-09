@@ -60,7 +60,7 @@ body {
     min-width:980px;
     font-family: "HelveticaLTStdRoman", Arial, Helvetica, sans-serif;
     text-align:left;
-    background: url(images/bg.png) 0 0 repeat-x;
+    background: #fff;
     color: #525252;
 }
 
@@ -132,13 +132,11 @@ h5 {
 h6 {
 }
 
-
 /* Text elements
 *******************************/
 p               {margin: 0 0 1em 0; text-align: left; line-height:1.5;}
 strong      	{font-weight: bold;}
 em          	{font-style: italic;}
-
 
 /* Content
 *******************************/

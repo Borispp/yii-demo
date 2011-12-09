@@ -31,8 +31,8 @@
 .el-dialogform .tab{padding:5px 0 12px 0;border:0}
 .el-dialogform .separator{border-top:1px solid #ccc;margin:5px 2px}
 .el-dialogform table{width:100%;border:0}
-.el-dialogform table td{padding:2px}
-.el-dialogform input,.el-dialogform textarea{border:1px solid #ccc}
+.el-dialogform table td{padding:2px; text-align: left}
+.el-dialogform input,.el-dialogform textarea{border:1px solid #ccc; width:auto;}
 .el-dialogform select{padding:0}
 .el-dialogform .spinner{background:url(../images/loading.gif) 50% 50% no-repeat;text-align:center;width:150px;height:50px;margin:10px auto;padding-top:33px;font-weight:bold}
 .el-dialogform-error{background:#fee;color:#f00;border:2px #844 solid;padding:10px;margin-bottom:1em 0}
@@ -44,7 +44,7 @@
 .el-paddinginput select{padding:0}
 .el-select{height:17px;width:110px;border:1px solid #ccc;cursor:default;position:relative}
 .el-select.hover{background-color:#eee}
-.el-select label{height:17px;line-height:17px;padding:0 5px;margin:0 12px 0 0;display:block;white-space:nowrap;overflow:hidden;background:#fff;border-right:1px solid #ccc}
+.el-select label{height:17px;line-height:17px;padding:0 5px;margin:0 12px 0 0;display:block;white-space:nowrap;overflow:hidden;background:#fff;border-right:1px solid #ccc;font-size: 12px;font-weight: normal;}
 .el-select .list{border:1px solid #ccc;display:block;position:absolute;overflow:auto;background:#fff;z-index:1000}
 .el-select .list div{position:relative;padding:3px 25px 3px 7px;border-bottom:1px solid #eee}
 .el-select .list .hover{background:#efefef}
@@ -142,8 +142,8 @@
 .el-rte-rtl .toolbar ul li div.color-indicator{margin:16px 2px 2px 0}
 .el-rte .toolbar .panel-format{z-index:10}
 .el-palette{top:20px}
-.el-dialogform,.el-dialogform td{font-size:.9em}
-.el-dialogform select{font-size:.9em}
+/*.el-dialogform,.el-dialogform td{font-size:.9em}*/
+/*.el-dialogform select{font-size:.9em}*/
 .ui-dialog .ui-dialog-buttonpane{padding:.4em,1em}
 .ui-dialog .ui-dialog-buttonpane button{margin:.3em .4em .1em 0;font-size:.9em}
 .ui-dialog .ui-dialog-titlebar{padding:.3em 1em .3em}
@@ -169,4 +169,4 @@ table.elrte-authors td{border-bottom:1px solid #eee}
 .el-rte-smiley{margin:5px}
 .elrte-image-src-fm .ui-state-default{float:right}
 .el-dialogform-rtl .elrte-image-src-fm .ui-state-default{float:left}
-.elrte-image-preview{font-size:.7em;overflow:auto;height:240px;width:480px}
+.elrte-image-preview{overflow:auto;height:240px;width:480px}

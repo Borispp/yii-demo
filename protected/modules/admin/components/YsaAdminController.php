@@ -1,7 +1,7 @@
 <?php
 class YsaAdminController extends YsaController
 {
-    public $layout='column1';
+    public $layout='main';
     
     protected $_contentTitle;
     

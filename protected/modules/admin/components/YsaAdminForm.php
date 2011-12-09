@@ -1,5 +1,5 @@
 <?php
-class YsaAdminForm extends CActiveForm
+class YsaAdminForm extends YsaForm
 {
     
 }
