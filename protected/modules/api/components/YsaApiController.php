@@ -1,8 +1,13 @@
 <?php
 class YsaApiController extends YsaController
 {
-        public $layout = '/layouts/main';
-    
+	/**
+	 * Salt for password-protection
+	 * @var string
+	 */
+	protected $_salt = 'ec0364491856833fcc82f2ec034516bd';
+	public $layout = '/layouts/main';
+
 	/**
 	 * Common validation same for all actions.
 	 * IS_POST validation
@@ -18,7 +23,7 @@ class YsaApiController extends YsaController
 		if (empty($_POST['app_id']))
 			$this->_renderError(002,'No app_id received');
 		if (empty($_POST['device_id']))
-			$this->_renderError(002,'No device_id received');
+			$this->_renderError(003,'No device_id received');
 		if (!$this->_validateApp())
 			$this->_renderError(100,'No app with received app_id');
 	}
@@ -40,7 +45,7 @@ class YsaApiController extends YsaController
 		foreach($rules as $var => $params)
 		{
 			if (!array_key_exists($var, $_POST))
-				if ($rules['required'])
+				if (!empty($params['required']))
 					$this->_renderError($params['code'], $params['message']);
 				else
 					continue;
@@ -79,6 +84,57 @@ class YsaApiController extends YsaController
 		if ($_POST['app_id'] == 1)
 			return TRUE;
 		return FALSE;
+	}
+
+	protected function _generateToken($password, $deviceId, $appId)
+	{
+		return md5(md5($password.$deviceId.$appId).$this->_salt);
+	}
+
+	protected function _checkAuth($token, $deviceId, $appId)
+	{
+		if ($appId == 1)
+			true; //@todo Add real application validation
+		$result = ApplicationAuth::model()->findAllByAttributes(array(
+				'app_id'	=> $appId,
+				'device_id'	=> $deviceId,
+				'token'		=> $token,
+			));
+		var_dump($result);
+	}
+
+	protected function _checkAuthByPassword($password, $deviceId, $appId)
+	{
+		return ApplicationAuth::model()->findAllByAttributes(array(
+				'app_id'	=> $_POST['app_id'],
+				'device_id'	=> $_POST['device_id'],
+				'token'		=> $this->_generateToken($password, $deviceId, $appId)
+			));
+	}
+
+	protected function _registerAuth($password, $deviceId, $appId)
+	{
+		if (!($model = $this->_checkAuthByPassword($password, $deviceId, $appId)))
+		{
+			$model = new ApplicationAuth();
+			$model->token = $this->_generateToken($password, $deviceId, $appId);
+			$model->app_id = $appId;
+			$model->device_id = $deviceId;
+			$model->state = 1;
+			$model->type = $this->_type;
+			$model->save();
+		}
+		return $model;
+	}
+
+	protected function _checkAppPassword($password, $appId)
+	{
+		if ($appId != 1) //@todo Add real application validation
+			return $this->_render(array(
+				'state'		=> 0,
+				'message'	=> 'Wrong App ID',
+				'token'		=> ''
+			));
 	}
 
 	/**
