@@ -1,11 +1,12 @@
 <?php
+/**
+ * API controller.
+ * Error codes:
+ * 0** — post params errors
+ * 1** — app errors
+ */
 class YsaApiController extends YsaController
 {
-	/**
-	 * Salt for password-protection
-	 * @var string
-	 */
-	protected $_salt = 'ec0364491856833fcc82f2ec034516bd';
 	public $layout = '/layouts/main';
 
 	/**
@@ -20,8 +21,8 @@ class YsaApiController extends YsaController
 	{
 		if ($_SERVER['REQUEST_METHOD'] != 'POST')
 			$this->_renderError(001,'No post data received');
-		if (empty($_POST['app_id']))
-			$this->_renderError(002,'No app_id received');
+		if (empty($_POST['app_key']))
+			$this->_renderError(002,'No app_key received');
 		if (empty($_POST['device_id']))
 			$this->_renderError(003,'No device_id received');
 		if (!$this->_validateApp())
@@ -76,65 +77,11 @@ class YsaApiController extends YsaController
 
 	/**
 	 * Validate application by calling validate model method
-	 * @todo use model for validation
 	 * @return bool
 	 */
 	protected function _validateApp()
 	{
-		if ($_POST['app_id'] == 1)
-			return TRUE;
-		return FALSE;
-	}
-
-	protected function _generateToken($password, $deviceId, $appId)
-	{
-		return md5(md5($password.$deviceId.$appId).$this->_salt);
-	}
-
-	protected function _checkAuth($token, $deviceId, $appId)
-	{
-		if ($appId == 1)
-			true; //@todo Add real application validation
-		$result = ApplicationAuth::model()->findAllByAttributes(array(
-				'app_id'	=> $appId,
-				'device_id'	=> $deviceId,
-				'token'		=> $token,
-			));
-		var_dump($result);
-	}
-
-	protected function _checkAuthByPassword($password, $deviceId, $appId)
-	{
-		return ApplicationAuth::model()->findAllByAttributes(array(
-				'app_id'	=> $_POST['app_id'],
-				'device_id'	=> $_POST['device_id'],
-				'token'		=> $this->_generateToken($password, $deviceId, $appId)
-			));
-	}
-
-	protected function _registerAuth($password, $deviceId, $appId)
-	{
-		if (!($model = $this->_checkAuthByPassword($password, $deviceId, $appId)))
-		{
-			$model = new ApplicationAuth();
-			$model->token = $this->_generateToken($password, $deviceId, $appId);
-			$model->app_id = $appId;
-			$model->device_id = $deviceId;
-			$model->state = 1;
-			$model->type = $this->_type;
-			$model->save();
-		}
-		return $model;
-	}
-
-	protected function _checkAppPassword($password, $appId)
-	{
-		if ($appId != 1) //@todo Add real application validation
-			return $this->_render(array(
-				'state'		=> 0,
-				'message'	=> 'Wrong App ID',
-				'token'		=> ''
-			));
+		return Application::model()->findByKey($_POST['app_key']);
 	}
 
 	/**
@@ -177,5 +124,26 @@ class YsaApiController extends YsaController
 				'response'	=> $response,
 			));
 		exit;
+	}
+
+	/**
+	 * Method called from child classes ClientController and ProofingController.
+	 * Use protected var _type to identify type of authorization.
+	 * @return void
+	 */
+	protected function _checkAuth()
+	{
+		if (ApplicationAuth::model()->authByToken($_POST['token'], $_POST['app_key'], $_POST['device_id'], $this->_type))
+			return TRUE;
+		$this->_renderError(101, 'Authorization by token failed');
+	}
+
+	/**
+	 * Rejects requests to child controller index action
+	 * @return void
+	 */
+	public function actionIndex()
+	{
+		$this->_renderError(000, 'Action parameter is required');
 	}
 }

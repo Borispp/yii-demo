@@ -7,32 +7,43 @@ class ClientController extends YsaApiController
 	 */
 	protected $_type = 'client';
 
-	public function actionIndex()
+	protected function _validateAuth()
 	{
 		$this->_commonValidate();
 		$this->_validateVars(array(
-				'token'	=> array(
-					'code'		=> '006',
-					'message'	=> 'No token received',
-					'required'	=> TRUE,
-				)));
-		$this->_checkAuth($_POST['token'], $_POST['device_id'], $_POST['app_id']);
+			'token'	=> array(
+				'code'		=> '006',
+				'message'	=> 'No token received',
+				'required'	=> TRUE,
+		)));
+		$this->_checkAuth();
 	}
 
+	/**
+	 * Action client authorization.
+	 * Inquiry params: [app_key, device_id, password]
+	 * Response params: [token, state, message]
+	 * @return void
+	 */
 	public function actionAuth()
 	{
 		$this->_commonValidate();
 		$this->_validateVars(array(
-				'password'	=> array(
-					'code'		=> '005',
-					'message'	=> 'No password received',
-					'required'	=> TRUE,
-				)));
-		$model = $this->_registerAuth($_POST['password'], $_POST['device_id'], $_POST['app_id']);
-		$this->_render(array(
-				'state'		=> 1,
-				'message'	=> '',
-				'token'		=> $model->token
+			'password'	=> array(
+				'code'		=> '005',
+				'message'	=> 'No password received',
+				'required'	=> TRUE,
+		)));
+		if (!$token = ApplicationAuth::model()->authByPassword($_POST['password'], $_POST['app_key'], $_POST['device_id'], $this->_type))
+			$this->_render(array(
+				'state'		=> 0,
+				'message'	=> 'Authorization by password failed',
+				'token'		=> NULL,
 			));
+		$this->_render(array(
+			'state'		=> 1,
+			'message'	=> '',
+			'token'		=> $token
+		));
 	}
 }

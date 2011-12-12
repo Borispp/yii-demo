@@ -1,6 +1,12 @@
 <?php
 class StudioController extends YsaApiController
 {
+	/**
+	 * Basic action — returns all information about app — color, font-family, background image, logo etc.
+	 * Inquiry params: [app_key, device_id]
+	 * Response params: [logo, name, font_id, bg_color, use_bg_image, bg_image, headers_color, text_color]
+	 * @return void
+	 */
 	public function actionStyle()
 	{
 		$this->_commonValidate();
@@ -16,6 +22,12 @@ class StudioController extends YsaApiController
 			));
 	}
 
+	/**
+	 * Returns studio information — photographer rss feeds, description, video etc.
+	 * Inquiry params: [app_key, device_id]
+	 * Response params: [links -> [name, link], info -> [article, portrait], video, rss -> [type, rss-link, link]]
+	 * @return void
+	 */
 	public function actionInfo()
 	{
 		$this->_commonValidate();
@@ -54,47 +66,65 @@ class StudioController extends YsaApiController
 			));
 	}
 
+	/**
+	 * Returns galleries list
+	 * Inquiry params: [app_key, device_id]
+	 * Response params: [portfolio -> [id, name, preview, number, checksum]]
+	 * @return void
+	 */
 	public function actionGalleriesList()
 	{
-//		[array] portfolio
-//
-//		  1. [string] name
-//		  2. [integer] gallery-id
-//		  3. [link] preview
-//		  4. [integer] number of photos
-//		  5. [string] checksum
-
 	}
 
+	/**
+	 * Returns images of selected gallery
+	 * Inquiry params: [app_key, device_id, gallery_id]
+	 * Response params: [images -> [photo_id, thumbnail, fullsize, title, meta, share-link]]
+	 * @return void
+	 */
 	public function actionGalleryImages()
 	{
-//		{id, action, gallery_id, device-id}  galleryimages
-//
-//		  1. [array] images
-//			1. [integer] photo id
-//			2. [link] thumbnail
-//			3. [link] fullsize
-//			4. [string] title
-//			5. [string] meta
-//
-//			6. [string] share-link
-
 	}
 
+	/**
+	 * Checks if gallery'd been up since last fetch.
+	 * Inquiry params: [app_key, device_id, gallery_id, checksum]
+	 * Response params: [state, checksum]
+	 * @return void
+	 */
 	public function actionIsGalleryUpdated()
 	{
-//		{id, action, hash, gallery_id, device-id}  isgalleryupdated
-//
-//		  1. [integer] state
-//		  2. [string] checksum
-
 	}
 
+	/**
+	 * Send contact message from application user to photographer
+	 * Inquiry params: [app_key, device_id, fields -> [name -> value]]
+	 * Response params: [state]
+	 * @return void
+	 */
 	public function actionSendMessage()
 	{
-//
-//		1. {id, action, fields:name:value, device-id} sendmessage
-//		  1. [integer] state
-//
+		$this->_commonValidate();
+		$this->_validateVars(array('fields' => array(
+			'code'		=> 010,
+			'message'	=> 'Fields must be not empty',
+			'required'	=> TRUE,
+		)));
+		$obPhotographer = Application::model()->findByKey($_POST['app_key'])->user;
+		$body = '';
+		foreach($_POST['fields'] as $name => $value)
+			$body .= $name.': '.($value ? $value : '')."\n\r";
+
+		Yii::app()->mailer->From = Yii::app()->settings->get('send_mail_from_email');
+		Yii::app()->mailer->FromName = Yii::app()->settings->get('send_mail_from_name');
+		Yii::app()->mailer->AddAddress($obPhotographer->email, $obPhotographer->first_name.' '.$obPhotographer->last_name);
+		Yii::app()->mailer->Subject = 'Mail from iOS application contact form';
+		Yii::app()->mailer->AltBody = $body;
+		Yii::app()->mailer->getView('standart', array(
+				'body'  => $body,
+			));
+		$this->_render(array(
+			'state' => Yii::app()->mailer->Send()
+		));
 	}
 }
