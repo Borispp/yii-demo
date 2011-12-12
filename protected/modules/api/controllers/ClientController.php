@@ -19,11 +19,6 @@ class ClientController extends YsaApiController
 		$this->_checkAuth();
 	}
 
-	public function actionIndex()
-	{
-		$this->_renderError(000, 'Action parameter is required');
-	}
-
 	/**
 	 * Action client authorization.
 	 * Inquiry params: [app_key, device_id, password]
