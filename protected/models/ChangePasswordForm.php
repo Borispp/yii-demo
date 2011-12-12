@@ -1,5 +1,5 @@
 <?php
-class ChangePasswordForm extends CFormModel 
+class ChangePasswordForm extends YsaFormModel 
 {
 	public $password;
 	public $verifyPassword;
@@ -8,7 +8,7 @@ class ChangePasswordForm extends CFormModel
         {
             return array(
                 array('password, verifyPassword', 'required'),
-                array('password', 'length', 'max'=>128, 'min' => 4,'message' => "Incorrect password (minimal length 4 symbols)."),
+                array('password', 'length', 'max'=>50, 'min' => 4,'message' => "Incorrect password (minimal length 4 symbols)."),
                 array('password', 'compare', 'compareAttribute'=>'verifyPassword', 'message' => "Retype Password is incorrect."),
             );
 	}

@@ -21,6 +21,7 @@ class User extends YsaActiveRecord
 {
     const ROLE_ADMIN = 'admin';
     const ROLE_MEMBER = 'member';
+    const ROLE_CLIENT = 'client';
     
     const STATE_BANNED = -1;
     
@@ -52,6 +53,7 @@ class User extends YsaActiveRecord
                     array('state', 'numerical', 'integerOnly'=>true),
                     array('email, password', 'length', 'max'=>100),
                     array('email', 'unique'),
+                    array('email', 'email'),
                     array('role', 'length', 'max'=>6),
                     array('last_login_ip', 'length', 'max'=>20),
                     array('created, updated, last_login', 'safe'),
@@ -69,6 +71,7 @@ class User extends YsaActiveRecord
     {
         return array(
             'option'        => array(self::HAS_MANY, 'UserOption', 'user_id'),
+            'client'        => array(self::HAS_MANY, 'Client', 'owner_id'),
             'application'   => array(self::HAS_ONE, 'Application', 'user_id'),
         );
     }
@@ -109,6 +112,9 @@ class User extends YsaActiveRecord
 
     public function beforeSave() {
         parent::beforeSave();
+        if($this->isNewRecord) {
+	    $this->created = new CDbExpression('NOW()');
+	}
         $this->updated = new CDbExpression('NOW()');
         return true;
     }
@@ -172,4 +178,18 @@ class User extends YsaActiveRecord
         return Yii::app()->createAbsoluteUrl('/activate/k/' . $this->activation_key);
     }
     
+    public function addOption()
+    {
+        
+    }
+    
+    public function editOption()
+    {
+        
+    }
+    
+    public function deleteOption()
+    {
+        
+    }
 }

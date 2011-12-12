@@ -129,7 +129,6 @@ class Email extends YsaActiveRecord
         return Yii::app()->mailer->Send();
     }
     
-    
     protected function _replaceAlias($key, $value, $string)
     {
         return str_replace($this->_aliasPre . $key . $this->_aliasPost, $value, $string);

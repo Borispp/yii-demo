@@ -59,8 +59,8 @@ class MemberController extends YsaAdminController
             $this->redirect('/admin/' . $this->getId());
         }
         
-        if(Yii::app()->request->isPostRequest && isset($_POST['User'])) {
-            $entry->attributes=$_POST['User'];
+        if(Yii::app()->request->isPostRequest && isset($_POST['Member'])) {
+            $entry->attributes=$_POST['Member'];
             if($entry->save()) {
                 $this->setSuccessFlash("Entry successfully updated. " . CHtml::link('Back to listing.', array('index')));
                 $this->refresh();

@@ -131,8 +131,6 @@
                 */?>
         </div>
     </header>
-    
-<!--    'active'=>Yii::app()->controller->id=='news'-->
     <nav>
         <?php 
             $settingsItems = OptionGroup::model()->getNavigationList();
@@ -204,7 +202,6 @@
                 ),
         )); ?>
     </nav>
-
     <section id="content">
         <div class="g12">
             <?php if ($this->hasContentTitle()) : ?>
@@ -217,15 +214,5 @@
         <?php echo $content; ?>
     </section>
     <footer>&copy; yourstudioapp.com <?php echo date('Y'); ?></footer>
-    
-<?/*
-<div class="container" id="page">
-
-	<div id="header">
-		<div id="logo">Admin Area | <?php echo CHtml::encode(Yii::app()->name); ?></div>
-	</div><!-- header -->
-
-</div><!-- page -->
-*/?>
 </body>
 </html>

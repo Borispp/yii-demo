@@ -21,4 +21,9 @@ class Member extends User
     {
         
     }
+    
+    public function hasSubscription()
+    {
+        return true;
+    }
 }
