@@ -81,7 +81,7 @@ class YsaApiController extends YsaController
 	 */
 	protected function _validateApp()
 	{
-		return !empty($_POST['app_key']) && Application::model()->findByKey($_POST['app_key']);
+		return Application::model()->findByKey($_POST['app_key']);
 	}
 
 	/**
@@ -136,5 +136,14 @@ class YsaApiController extends YsaController
 		if (ApplicationAuth::model()->authByToken($_POST['token'], $_POST['app_key'], $_POST['device_id'], $this->_type))
 			return TRUE;
 		$this->_renderError(101, 'Authorization by token failed');
+	}
+
+	/**
+	 * Rejects requests to child controller index action
+	 * @return void
+	 */
+	public function actionIndex()
+	{
+		$this->_renderError(000, 'Action parameter is required');
 	}
 }
