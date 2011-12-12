@@ -130,6 +130,13 @@ class Application extends YsaActiveRecord
     {
         $this->appkey = YsaHelpers::encrypt(microtime() . YsaHelpers::genRandomString(20) . Yii::app()->params['salt']);
     }
+
+	public function findByKey($key)
+	{
+		return $this->findByAttributes(array(
+			'appkey'	=> $key
+		));
+	}
     
     protected function beforeValidate()
     {
