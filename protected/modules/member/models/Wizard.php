@@ -5,13 +5,12 @@ abstract class Wizard extends YsaFormModel
     
     const BG_COLOR = 'color';
 
-    protected $_saveFields = array();
-    
     protected $_class;
     
     protected $_application;
     
-    public function init() {
+    public function init() 
+    {
         parent::init();
         
         $this->_class = get_class($this);
@@ -42,6 +41,8 @@ abstract class Wizard extends YsaFormModel
     public function prepare()
     {
         $this->attributes = $_POST[$this->_class];
+        
+        return $this;
     }
     
     /**

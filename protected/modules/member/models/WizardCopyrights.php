@@ -26,6 +26,4 @@ class WizardCopyrights extends Wizard
         
         return $this;
     }
-    
-
 }

@@ -73,9 +73,6 @@ class WizardController extends YsaMemberController
         $model->setApplication($app)
               ->loadDefaultValues();
         
-        
-        
-        
         if (isset($_POST['step'])) {
             $model->prepare()->save();
             

@@ -154,7 +154,17 @@ class Application extends YsaActiveRecord
      */
     public function filled()
     {
-        return false;
+        $filled = false;
+        switch ($this->state) {
+            case self::STATE_CREATED:
+                $filled = false;
+                break;
+            default:
+                $filled = true;
+                break;
+        }
+        
+        return $filled;
     }
     
     public function getUploadDir()
