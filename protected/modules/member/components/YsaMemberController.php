@@ -3,6 +3,10 @@ class YsaMemberController extends YsaController
 {
     protected $_member;
     
+    protected $_uploadImagePath;
+    
+    protected $_uploadImageUrl;
+    
     public function accessRules()
     {
         return array(

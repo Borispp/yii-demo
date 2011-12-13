@@ -1,0 +1,1 @@
+<?php echo CHtml::link('Create New Event', array('create')); ?>

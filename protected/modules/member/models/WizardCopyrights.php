@@ -1,19 +1,31 @@
 <?php
-class WizardCopyrights extends YsaFormModel 
+class WizardCopyrights extends Wizard 
 {
-    public $copyright;
+    public $photographer_info;
     
+    public $blog_rss;
+    
+    public $facebook;
+    
+    public $twitter;
+    
+    public $copyright;
+
     public function rules() 
     {
         return array(
-            array('copyright', 'safe'),
+            array('copyright, photographer_info, blog_rss, facebook, twitter', 'safe'),
         );
     }
 
-    public function attributeLabels()
+    public function prepare()
     {
-        return array(
-            'copyright'         => 'Copyright',
-        );
+        parent::prepare();
+        
+        $this->prepareImage('photographer_info');
+        
+        return $this;
     }
+    
+
 }

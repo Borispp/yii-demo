@@ -18,7 +18,7 @@
             'items'=>array(
                 array('label'=>'Home', 'url'=>array('/')),
                 array('label'=>'My Application', 'url'=>array('application/')),
-                array('label'=>'Clients', 'url'=>array('clients/')),
+                array('label'=>'Events', 'url'=>array('events/')),
                 array('label'=>'Login', 'url'=>array('/login'), 'visible'=>Yii::app()->user->isGuest),
                 array('label'=>'Settings', 'url'=>array('settings/'), 'visible'=>!Yii::app()->user->isGuest),
                 array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/logout'), 'visible'=>!Yii::app()->user->isGuest)

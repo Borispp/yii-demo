@@ -69,10 +69,15 @@ class WizardController extends YsaMemberController
         $model = new $modelName();
         
         $app = $this->member()->application();
+
+        $model->setApplication($app)
+              ->loadDefaultValues();
         
-        if (isset($_POST['step']) && $model->validate()) {
-            
-            $model->attributes = $_POST[$modelName];
+        
+        
+        
+        if (isset($_POST['step'])) {
+            $model->prepare()->save();
             
             $event->sender->save($model->attributes);
             $event->handled = true;

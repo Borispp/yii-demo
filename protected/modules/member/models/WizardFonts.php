@@ -1,22 +1,29 @@
 <?php
-class WizardFonts extends YsaFormModel 
+class WizardFonts extends Wizard 
 {
-    public $mainFont;
+    public $main_font;
 
-    public $secondFont;
+    public $second_font;
     
+    public $main_font_color;
+    
+    public $second_font_color;
+
     public function rules() 
     {
         return array(
-            array('mainFont, secondFont', 'safe'),
+            array('main_font, second_font', 'required'),
+            array('main_font_color, second_font_color', 'safe'),
         );
     }
 
-    public function attributeLabels()
+    public function prepare()
     {
-        return array(
-            'mainFont'         => 'Main Font',
-            'secondFont'       => 'Second Font',
-        );
+        parent::prepare();
+        
+        $this->prepareFont('main_font')
+             ->prepareFont('second_font');
+        
+        return $this;
     }
 }

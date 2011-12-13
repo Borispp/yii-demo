@@ -1,5 +1,5 @@
 <?php
-class WizardSubmit extends YsaFormModel 
+class WizardSubmit extends Wizard 
 {
     public $finish;
     
@@ -8,10 +8,5 @@ class WizardSubmit extends YsaFormModel
         return array(
             array('finish', 'safe'),
         );
-    }
-
-    public function attributeLabels()
-    {
-        return array();
     }
 }
