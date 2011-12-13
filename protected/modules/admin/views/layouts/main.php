@@ -144,6 +144,11 @@
                 'url' => array('/admin/membership/'),
                 'linkOptions' => array('class' => $this->getNavigationClass('membership')),
             );
+			$settingsItems[] = array(
+                'label' => 'Discount',
+                'url' => array('/admin/discount/'),
+                'linkOptions' => array('class' => $this->getNavigationClass('discount')),
+            );
             
             $this->widget('YsaAdminMenu',array(
                 'id'    => 'nav',
@@ -157,9 +162,9 @@
                         array(
                             'label' =>'Settings', 
                             'url'   => '',
-                            'active' => $this->getNavigationClass('settings,optionGroup,membership'),
+                            'active' => $this->getNavigationClass('settings,optionGroup,membership,discount'),
                             'itemOptions' => array('class' => 'i_cog_4'),
-                            'linkOptions' => array('class' => $this->getNavigationClass('settings,optionGroup,membership')), 
+                            'linkOptions' => array('class' => $this->getNavigationClass('settings,optionGroup,membership,discount')),
                             'items' => $settingsItems,
                         ),
                         array(
