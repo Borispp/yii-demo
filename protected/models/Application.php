@@ -118,7 +118,7 @@ class Application extends YsaActiveRecord
     
     public function settings()
     {
-        VarDumper::dump('app settings');
+        
     }
     
     public function generatePasswd()
@@ -145,5 +145,15 @@ class Application extends YsaActiveRecord
 	}
         
 	return parent::beforeValidate();
+    }
+    
+    /**
+     * TODO
+     * 
+     * Check if application needs an application wizard
+     */
+    public function filled()
+    {
+        return false;
     }
 }

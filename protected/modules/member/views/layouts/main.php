@@ -17,13 +17,29 @@
         <?php $this->widget('zii.widgets.CMenu',array(
             'items'=>array(
                 array('label'=>'Home', 'url'=>array('/')),
-                array('label'=>'My Application', 'url'=>'application'),
-                array('label'=>'Clients', 'url'=>'clients'),
+                array('label'=>'My Application', 'url'=>array('application/')),
+                array('label'=>'Clients', 'url'=>array('clients/')),
                 array('label'=>'Login', 'url'=>array('/login'), 'visible'=>Yii::app()->user->isGuest),
+                array('label'=>'Settings', 'url'=>array('settings/'), 'visible'=>!Yii::app()->user->isGuest),
                 array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/logout'), 'visible'=>!Yii::app()->user->isGuest)
             ),
         )); ?>
     </div><!-- mainmenu -->
+    
+    <?php if(Yii::app()->user->hasFlash('success')): ?>
+        <div class="flash success">
+            <?php echo Yii::app()->user->getFlash('success'); ?>
+        </div>
+    <?php elseif (Yii::app()->user->hasFlash('notice')): ?>
+        <div class="flash notice">
+            <?php echo Yii::app()->user->getFlash('success'); ?>
+        </div>
+    <?php elseif (Yii::app()->user->hasFlash('error')): ?>
+        <div class="flash error">
+            <?php echo Yii::app()->user->getFlash('success'); ?>
+        </div>
+    <?php endif;?>
+    
     <?php echo $content; ?>
 </body>
 </html>

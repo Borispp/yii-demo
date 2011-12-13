@@ -9,6 +9,11 @@ class YsaController extends CController
     
     protected $_metaKeywords;
     
+    public function setSuccess($message)
+    {
+        return Yii::app()->user->setFlash('success', $message);
+    }
+    
     public function setNotice($message)
     {
         return Yii::app()->user->setFlash('notice', $message);

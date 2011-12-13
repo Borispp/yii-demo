@@ -1,12 +1,10 @@
 <?php
-
 class ApplicationController extends YsaMemberController
 {
     public $defaultAction = 'view';
     
     public function actionView()
-    {        
-        
+    {
         $app = $this->member()->application();
         
         // new member -> redirect to application creation
@@ -14,9 +12,18 @@ class ApplicationController extends YsaMemberController
             $this->redirect(array('application/create'));
         }
         
-        VarDumper::dump($app);
+        if (!$app->filled()) {
+            $this->redirect(array('wizard/'));
+        }
         
-        $this->render('view');
+        $this->render('view', array(
+            'app' => $app,
+        ));
+    }
+    
+    public function actionSettings()
+    {
+        VarDumper::dump('settings');
     }
     
     public function actionCreate()
@@ -39,10 +46,8 @@ class ApplicationController extends YsaMemberController
             $app->generatePasswd();
             
             if ($app->validate()) {
-                
                 $app->save();
-                
-                $this->redirect(array('application/wizard'));
+                $this->redirect('wizard');
             }
         }
         
@@ -50,53 +55,17 @@ class ApplicationController extends YsaMemberController
             'app'   => $app,
         ));
     }
-
-
-    public function actionWizard()
+    
+    public function actionEdit()
     {
         $app = $this->member()->application();
-        
         
         if (!$app) {
             $this->redirect(array('application/create'));
         }
         
-        $this->render('wizard', array(
+        $this->render('edit', array(
             'app' => $app,
         ));
-        
     }
-    
-
-    public function actionEdit()
-    {
-            $this->render('edit');
-    }
-
-    // Uncomment the following methods and override them if needed
-    /*
-    public function filters()
-    {
-            // return the filter configuration for this controller, e.g.:
-            return array(
-                    'inlineFilterName',
-                    array(
-                            'class'=>'path.to.FilterClass',
-                            'propertyName'=>'propertyValue',
-                    ),
-            );
-    }
-
-    public function actions()
-    {
-            // return external action classes, e.g.:
-            return array(
-                    'action1'=>'path.to.ActionClass',
-                    'action2'=>array(
-                            'class'=>'path.to.AnotherActionClass',
-                            'propertyName'=>'propertyValue',
-                    ),
-            );
-    }
-    */
 }
