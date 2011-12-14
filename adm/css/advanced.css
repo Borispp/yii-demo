@@ -69,3 +69,22 @@ nav ul li.activated ul {
     display: block;
     margin-bottom: 1em;
 }
+
+/*** discount css ***/
+#membership-section .item
+{
+	margin: 5px 0;
+}
+#membership-section .item .selector,
+#membership-section .item .w-20
+{
+	vertical-align: middle;
+	margin: 0 10px;
+}
+#membership-section .item .item-name
+{
+	min-width: 100px;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 10px;
+}

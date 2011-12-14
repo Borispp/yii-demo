@@ -53,6 +53,7 @@ class Membership extends YsaActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'DiscountMembership'	=> array(self::HAS_MANY, 'DiscountMembership', 'membership_id'),
 		);
 	}
 
