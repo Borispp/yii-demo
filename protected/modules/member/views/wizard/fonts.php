@@ -4,21 +4,38 @@
 <?php $form = $this->beginWidget('YsaMemberForm', array(
         'id'=>'fonts-step-form',
         'enableAjaxValidation'=>false,
+        'htmlOptions'=>array('enctype' => 'multipart/form-data'),
 )); ?>
 
     <section>
-        <?php echo $form->labelEx($model, 'mainFont'); ?>
+        <?php echo $form->labelEx($model, 'main_font'); ?>
         <div>
-            <?php echo $form->textField($model, 'mainFont', array()); ?>
-            <?php echo $form->error($model,'mainFont'); ?>
+            <?php echo $form->dropDownList($model, 'main_font', $model->getFontList()); ?>
+            <?php echo $form->error($model,'main_font'); ?>
         </div>
     </section>
 
     <section>
-        <?php echo $form->labelEx($model, 'secondFont'); ?>
+        <?php echo $form->labelEx($model, 'main_font_color'); ?>
         <div>
-            <?php echo $form->textField($model, 'secondFont', array()); ?>
-            <?php echo $form->error($model,'secondFont'); ?>
+            <?php echo $form->textField($model, 'main_font_color', array()); ?>
+            <?php echo $form->error($model,'main_font_color'); ?>
+        </div>
+    </section>
+
+    <section>
+        <?php echo $form->labelEx($model, 'second_font'); ?>
+        <div>
+            <?php echo $form->dropDownList($model, 'second_font', $model->getFontList()); ?>
+            <?php echo $form->error($model,'second_font'); ?>
+        </div>
+    </section>
+
+    <section>
+        <?php echo $form->labelEx($model, 'second_font_color'); ?>
+        <div>
+            <?php echo $form->textField($model, 'second_font_color', array()); ?>
+            <?php echo $form->error($model,'second_font_color'); ?>
         </div>
     </section>
 

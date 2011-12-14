@@ -21,7 +21,6 @@ class User extends YsaActiveRecord
 {
     const ROLE_ADMIN = 'admin';
     const ROLE_MEMBER = 'member';
-    const ROLE_CLIENT = 'client';
     
     const STATE_BANNED = -1;
     
@@ -71,8 +70,8 @@ class User extends YsaActiveRecord
     {
         return array(
             'option'        => array(self::HAS_MANY, 'UserOption', 'user_id'),
-            'client'        => array(self::HAS_MANY, 'Client', 'owner_id'),
             'application'   => array(self::HAS_ONE, 'Application', 'user_id'),
+            'event'         => array(self::HAS_MANY, 'Event', 'user_id'),
         );
     }
 
@@ -81,17 +80,17 @@ class User extends YsaActiveRecord
      */
     public function attributeLabels()
     {
-            return array(
-                'id' => 'ID',
-                'email' => 'Email',
-                'role' => 'Role',
-                'password' => 'Password',
-                'state' => 'State',
-                'created' => 'Created',
-                'updated' => 'Updated',
-                'last_login' => 'Last Login',
-                'last_login_ip' => 'Last Login Ip',
-            );
+        return array(
+            'id' => 'ID',
+            'email' => 'Email',
+            'role' => 'Role',
+            'password' => 'Password',
+            'state' => 'State',
+            'created' => 'Created',
+            'updated' => 'Updated',
+            'last_login' => 'Last Login',
+            'last_login_ip' => 'Last Login Ip',
+        );
     }
 
     public function search()
@@ -108,15 +107,6 @@ class User extends YsaActiveRecord
             return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
             ));
-    }
-
-    public function beforeSave() {
-        parent::beforeSave();
-        if($this->isNewRecord) {
-	    $this->created = new CDbExpression('NOW()');
-	}
-        $this->updated = new CDbExpression('NOW()');
-        return true;
     }
 
     public function generateActivationKey()
@@ -153,15 +143,6 @@ class User extends YsaActiveRecord
             self::STATE_INACTIVE    => 'Inactive',
             self::STATE_BANNED      => 'Banned',
         );
-    }
-    
-    protected function beforeValidate()
-    {
-	if($this->isNewRecord) {
-	    $this->created = $this->updated = new CDbExpression('NOW()');
-	}
-        
-	return parent::beforeValidate();
     }
     
     public function state() 

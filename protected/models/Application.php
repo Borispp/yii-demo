@@ -131,20 +131,11 @@ class Application extends YsaActiveRecord
         $this->appkey = YsaHelpers::encrypt(microtime() . YsaHelpers::genRandomString(20) . Yii::app()->params['salt']);
     }
 
-	public function findByKey($key)
-	{
-		return $this->findByAttributes(array(
-			'appkey'	=> $key
-		));
-	}
-    
-    protected function beforeValidate()
+    public function findByKey($key)
     {
-	if($this->isNewRecord) {
-	    $this->created = $this->updated = new CDbExpression('NOW()');
-	}
-        
-	return parent::beforeValidate();
+            return $this->findByAttributes(array(
+                    'appkey'	=> $key
+            ));
     }
     
     /**
@@ -154,6 +145,117 @@ class Application extends YsaActiveRecord
      */
     public function filled()
     {
-        return false;
+        $filled = false;
+        switch ($this->state) {
+            case self::STATE_CREATED:
+                $filled = false;
+                break;
+            default:
+                $filled = true;
+                break;
+        }
+        
+        return $filled;
+    }
+    
+    public function getUploadDir()
+    {
+        $dir = rtrim(Yii::getPathOfAlias('webroot.images.apps'), '/');
+        
+        $dir .= DIRECTORY_SEPARATOR . $this->id;
+        
+        if (!is_dir($dir)) {
+            mkdir($dir);
+            chmod($dir, 0777);
+        }
+        
+        return $dir;
+    }
+    
+    public function getUploadUrl()
+    {
+        $url = Yii::app()->getBaseUrl(true) . '/images/apps/' . $this->id;
+        
+        return $url;
+    }
+    
+    
+    
+    public function editOption($name, $value, $type = null)
+    {
+        $option = ApplicationOption::model()->findByAttributes(array(
+            'name'   => $name,
+            'app_id' => $this->id,
+        ));
+        
+        if (null === $type) {
+            $type = Option::TYPE_TEXT;
+        }
+        
+        if (null === $option) {
+            $option = new ApplicationOption();
+            $option->name = $name;
+            $option->app_id = $this->id;
+        }
+        
+        if ($value instanceof CUploadedFile) {
+            
+            $ext = Yii::app()->params['application'][$name]['ext'];
+            if (!$ext) {
+                $ext = 'png';
+            }
+            
+            $width = Yii::app()->params['application'][$name]['width'];
+            $height = Yii::app()->params['application'][$name]['height'];
+            
+            $imageName = YsaHelpers::encrypt(microtime() . $value->tempName) . '.' . $ext;
+            
+            $imageSaveDir = $this->getUploadDir() . DIRECTORY_SEPARATOR . $imageName;
+            $imageSaveUrl = $this->getUploadUrl() . '/' . $imageName;
+            
+            $image = new Image($value->tempName);
+            
+            if ($width && $height) {
+                $image->resize($width, $height);
+//                $image->crop($width, $height);
+            }
+            
+            $image->save($imageSaveDir);
+            
+            $value = array(
+                'width'     => $width,
+                'height'    => $height,
+                'type'      => $image->__get('type'),
+                'ext'       => $ext,
+                'mime'      => $image->__get('mime'),
+                'path'      => $imageSaveDir,
+                'url'       => $imageSaveUrl,
+            );
+        }
+        
+        if (is_array($value)) {
+            $value = serialize($value);
+        }
+        
+        $option->value = $value;
+        
+        $option->save();
+        
+        return true;
+    }
+    
+    /**
+     * Find specific option value for application
+     * @param string $name
+     * @return object 
+     */
+    public function option($name)
+    {
+        $option = ApplicationOption::model()->findByAttributes(array(
+            'name'   => $name,
+            'app_id' => $this->id,
+        ));
+        
+        return $option ? $option->value() : null;
     }
 }

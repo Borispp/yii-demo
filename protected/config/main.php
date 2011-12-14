@@ -64,6 +64,10 @@ return array(
                     '/recovery/k/<k>' => 'recovery',
                     '/activate/k/<k>' => 'auth/activate',
 
+                    // member routes
+                    '/member/event/view/<eventId>' => 'member/event/view',
+                    '/member/album/view/<albumId>' => 'member/album/view',
+                    
                     // page routes
                     array(
                         'class' => 'application.components.YsaPageUrlRule',
@@ -134,5 +138,35 @@ return array(
         'salt'          => 'wel0veyourstud1oapp',
         'date_format'   => 'Y-m-d H:i:s',
         'currency'      => 'USD',
+        
+        'max_image_size' => 1024 * 1024 * 5,
+        
+        'application'   => array(
+            'logo'  => array(
+                'width'  => 400,
+                'height' => 300,
+                'ext'    => 'png',
+            ),
+            'splash_bg_image' => array(
+                'width'  => 1024,
+                'height' => 768,
+                'ext'    => 'png',
+            ),
+            'studio_bg_image' => array(
+                'width'  => 1024,
+                'height' => 768,
+                'ext'    => 'png',
+            ),
+            'photographer_info' => array(
+                'width'  => 1024,
+                'height' => 768,
+                'ext'    => 'png',
+            ),
+            'generic_bg_image' => array(
+//                'width'  => 1024,
+//                'height' => 768,
+                'ext'    => 'png',
+            ),
+        )
     ),
 );

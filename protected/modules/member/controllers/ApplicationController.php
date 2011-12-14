@@ -29,7 +29,7 @@ class ApplicationController extends YsaMemberController
     public function actionCreate()
     {
         if ($this->member()->application()) {
-            $this->redirect(array('application'));
+            $this->redirect(array('application/'));
         }
         
         $app = new Application();
@@ -38,7 +38,7 @@ class ApplicationController extends YsaMemberController
             $app->attributes = $_POST['Application'];
             
             $app->setAttributes(array(
-                'user_id'    => $this->_member->id,
+                'user_id'    => $this->member()->id,
                 'state'      => Application::STATE_CREATED,
             ));
             
@@ -47,7 +47,7 @@ class ApplicationController extends YsaMemberController
             
             if ($app->validate()) {
                 $app->save();
-                $this->redirect('wizard');
+                $this->redirect(array('wizard/'));
             }
         }
         

@@ -20,7 +20,7 @@ class SettingsController extends YsaAdminController
 
             $entry->name = YsaHelpers::filterSystemName($entry->name, '_');
             $entry->group_id = $group->id;
-
+            
             if ($entry->validate()) {
                 $entry->save();
                 $this->redirect(array('settings/group/' . $group->slug));

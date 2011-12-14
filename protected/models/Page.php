@@ -147,16 +147,6 @@ class Page extends YsaActiveRecord
         $this->slug = YsaHelpers::filterSystemName($this->title);
     }
     
-    protected function beforeValidate()
-    {
-	if($this->isNewRecord) {
-	    $this->created = $this->updated = new CDbExpression('NOW()');
-	} else {
-	    $this->updated = new CDbExpression('NOW()');
-	}
-	return parent::beforeValidate();
-    }
-    
     public function getTree($parent = 0)
     {
         $entries = $this->findAll('parent_id=:id', array(
