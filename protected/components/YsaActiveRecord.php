@@ -25,4 +25,21 @@ class YsaActiveRecord extends CActiveRecord
                 break;
         }
     }
+    
+    /**
+     * Set created | updated values for AR
+     * 
+     * @return bool
+     */
+    public function beforeValidate() {
+        
+        if($this->isNewRecord && $this->hasAttribute('created')) {
+	    $this->created = new CDbExpression('NOW()');
+	}
+        if($this->hasAttribute('updated')) {
+            $this->updated = new CDbExpression('NOW()');
+        }
+        
+        return parent::beforeValidate();
+    }
 }

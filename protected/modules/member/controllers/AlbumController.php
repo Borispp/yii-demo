@@ -10,16 +10,36 @@ class AlbumController extends YsaMemberController
             $this->redirect(array('event/'));
         }
         
-        $album = new EventAlbum();
-        $album->event_id = $event->id;
+        $entry = new EventAlbum();
+        $entry->event_id = $event->id;
         
-        if ($_POST['EventAlbum']) {
-            VarDumper::dump($_POST);
+        if (isset($_POST['EventAlbum'])) {
+            $entry->attributes = $_POST['EventAlbum'];
+            
+            if ($entry->validate()) {
+                
+                $entry->save();
+                
+                $this->redirect(array('album/view/' . $entry->id));
+            }
         }
         
         $this->render('create', array(
             'event' => $event,
+            'entry' => $entry,
         ));
+    }
+    
+    public function actionView($albumId)
+    {
+        $entry = EventAlbum::model()->findByPk($albumId);
         
+        if (!$entry || !$entry->event()) {
+            $this->redirect(array('event/'));
+        }
+        
+        $this->render('view', array(
+            'entry' => $entry,
+        ));
     }
 }

@@ -131,20 +131,11 @@ class Application extends YsaActiveRecord
         $this->appkey = YsaHelpers::encrypt(microtime() . YsaHelpers::genRandomString(20) . Yii::app()->params['salt']);
     }
 
-	public function findByKey($key)
-	{
-		return $this->findByAttributes(array(
-			'appkey'	=> $key
-		));
-	}
-    
-    protected function beforeValidate()
+    public function findByKey($key)
     {
-	if($this->isNewRecord) {
-	    $this->created = $this->updated = new CDbExpression('NOW()');
-	}
-        
-	return parent::beforeValidate();
+            return $this->findByAttributes(array(
+                    'appkey'	=> $key
+            ));
     }
     
     /**

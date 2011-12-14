@@ -3,6 +3,8 @@
 <p><?php echo $entry->description; ?></p>
 
 <p>
+    Credentials : ID - <?php echo $entry->id; ?>, Password: <?php echo $entry->passwd; ?>
+    <br/>
     <?php echo $entry->state(); ?>
     <br/>
     <?php echo $entry->type(); ?>

@@ -13,6 +13,7 @@
  * @property integer $state
  * @property string $created
  * @property string $updated
+ * @property string $passwd
  */
 class Event extends YsaActiveRecord
 {
@@ -25,7 +26,7 @@ class Event extends YsaActiveRecord
      */
     public static function model($className=__CLASS__)
     {
-            return parent::model($className);
+        return parent::model($className);
     }
 
     /**
@@ -44,10 +45,11 @@ class Event extends YsaActiveRecord
             // NOTE: you should only define rules for those attributes that
             // will receive user inputs.
             return array(
-                    array('user_id', 'required'),
+                    array('user_id, state, type', 'required'),
                     array('user_id, state', 'numerical', 'integerOnly'=>true),
                     array('type', 'length', 'max'=>6),
                     array('name', 'length', 'max'=>255),
+                    array('passwd', 'length', 'max'=>20),
                     array('description, date, created, updated', 'safe'),
                     // The following rule is used by search().
                     // Please remove those attributes that should not be searched.
@@ -63,6 +65,8 @@ class Event extends YsaActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
+            'album' => array(self::HAS_MANY, 'EventAlbum', 'event_id'),
+            'user'  => array(self::BELONGS_TO, 'User', 'user_id'),
         );
     }
 
@@ -81,6 +85,7 @@ class Event extends YsaActiveRecord
             'state' => 'State',
             'created' => 'Created',
             'updated' => 'Updated',
+            'passwd'    => 'Password',
         );
     }
 
@@ -116,15 +121,6 @@ class Event extends YsaActiveRecord
             self::TYPE_PROOF  => 'Proof',
         );
     }
-        
-    protected function beforeValidate()
-    {
-	if($this->isNewRecord) {
-	    $this->created = $this->updated = new CDbExpression('NOW()');
-	}
-        
-	return parent::beforeValidate();
-    }
     
     public function albums()
     {
@@ -141,5 +137,10 @@ class Event extends YsaActiveRecord
                 return 'Proofing';
                 break;
         }
+    }
+    
+    public function generatePassword()
+    {
+        $this->passwd = YsaHelpers::genRandomString(6);
     }
 }

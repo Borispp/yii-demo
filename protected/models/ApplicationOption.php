@@ -68,19 +68,4 @@ class ApplicationOption extends YsaActiveRecord
     {
         return YsaHelpers::isSerialized($this->value) ? unserialize($this->value) : $this->value;
     }
-    
-    protected function beforeValidate()
-    {
-	if($this->isNewRecord) {
-	    $this->created = $this->updated = new CDbExpression('NOW()');
-	}
-        
-	return parent::beforeValidate();
-    }
-    
-    protected function beforeSave() {
-        $this->updated = new CDbExpression('NOW()');
-        
-        return parent::beforeSave();
-    }
 }

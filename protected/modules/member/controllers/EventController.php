@@ -3,8 +3,18 @@ class EventController extends YsaMemberController
 {
     public function actionIndex()
     {
-        $this->render('index', array(
-            
+        $criteria = new CDbCriteria;
+//        $criteria->condition = 'role="member"';
+        
+        $pagination = new CPagination(Event::model()->count($criteria));
+        $pagination->pageSize = Yii::app()->params['admin_per_page'];        
+        $pagination->applyLimit($criteria);
+        
+        $entries = Event::model()->findAll($criteria);
+        
+        $this->render('index',array(
+            'entries'   => $entries,
+            'pagination'=> $pagination,
         ));
     }
     
@@ -30,6 +40,11 @@ class EventController extends YsaMemberController
             $entry->attributes = $_POST['Event'];
             
             $entry->user_id = $this->member()->id;
+            
+            // generate password if not set
+            if (!$entry->passwd) {
+                $entry->generatePassword();
+            }
             
             if ($entry->validate()) {
                 $entry->save();

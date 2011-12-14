@@ -66,6 +66,7 @@ return array(
 
                     // member routes
                     '/member/event/view/<eventId>' => 'member/event/view',
+                    '/member/album/view/<albumId>' => 'member/album/view',
                     
                     // page routes
                     array(

@@ -45,6 +45,15 @@
             </div>
         </section>
         
+        <section>
+            <?php echo $form->labelEx($entry,'passwd'); ?>
+            <div>
+                <?php echo $form->textField($entry,'passwd', array('maxlength' => 20)); ?>
+                <?php echo $form->error($entry,'passwd'); ?>
+            </div>
+        </section>
+        
+        
         <section class="button">
             <?php echo YsaHtml::submitButton('Create'); ?>
         </section>
