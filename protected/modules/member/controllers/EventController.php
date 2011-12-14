@@ -12,9 +12,13 @@ class EventController extends YsaMemberController
         
         $entries = Event::model()->findAll($criteria);
         
+//        $events=new CActiveDataProvider('Event');
+        
+        
         $this->render('index',array(
             'entries'   => $entries,
             'pagination'=> $pagination,
+            'events'    => $events,
         ));
     }
     
@@ -38,7 +42,6 @@ class EventController extends YsaMemberController
         if (isset($_POST['Event'])) {
             
             $entry->attributes = $_POST['Event'];
-            
             $entry->user_id = $this->member()->id;
             
             // generate password if not set
@@ -55,6 +58,7 @@ class EventController extends YsaMemberController
                     $album->setAttributes(array(
                         'event_id'  => $entry->id,
                         'name'      => EventAlbum::PROOFING_NAME,
+                        'state'     => EventAlbum::STATE_ACTIVE,
                     ));
                     $album->save();
                 }

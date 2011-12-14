@@ -25,7 +25,7 @@ class YsaMemberController extends YsaController
         );
     }
     
-    public $layout='/layouts/general';
+    public $layout='//layouts/member';
     
     public function init()
     {

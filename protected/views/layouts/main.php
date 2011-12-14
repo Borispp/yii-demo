@@ -13,23 +13,41 @@
 <![endif]-->
 </head>
 <body>
-
-    
-    
-    
-    
-    <div id="mainmenu">
-            <?php $this->widget('zii.widgets.CMenu',array(
-                    'items'=>array(
-                            array('label'=>'Home', 'url'=>array('/')),
-                            array('label'=>'About', 'url'=>array('/about')),
-                            array('label'=>'Contact', 'url'=>array('/contact')),
-                            array('label'=>'Login', 'url'=>array('/login'), 'visible'=>Yii::app()->user->isGuest),
-                            array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/logout'), 'visible'=>!Yii::app()->user->isGuest)
+    <div id="header-wrapper">
+        <header class="w cf">
+            <h1><a href="<?php echo Yii::app()->homeUrl; ?>">YourStudioApp</a></h1>
+            <section class="login">
+                <?php if (Yii::app()->user->isGuest) : ?>
+                    <?php echo YsaHtml::link('Login', array('/login')); ?>
+                <?php else:?>
+                    <?php echo YsaHtml::link('Logout', array('/logout')); ?>
+                <?php endif; ?>
+            </section>
+            <?php if ($this->isWebsite()) : ?>
+                <section class="social">
+                    <a href="" class="fb">Facebook</a>
+                    <span></span>
+                    <a href="" class="twi">Twitter</a>
+                </section>
+            <?php endif; ?>
+            <nav>
+                <?php $this->widget('zii.widgets.CMenu',array(
+                    'htmlOptions' => array(
+                        'class' => 'cf'
                     ),
-            )); ?>
-    </div><!-- mainmenu -->
+                    'items'=> $this->getWebsiteNavigationMenu()
+                )); ?>
+            </nav>
+        </header>
+    </div>
+    <section id="content">
+        <?php echo $content; ?>
+    </section>
     
-    <?php echo $content; ?>
+    <div class="lighter-w footer-w">
+        <footer class="w">
+            <p><?php echo Yii::app()->settings->get('copyright'); ?>&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;site by <a href="http://flosites.com" rel="external">Flosites</a></p>
+        </footer>
+    </div>
 </body>
 </html>

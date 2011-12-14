@@ -1,3 +1,8 @@
-<h1><?php echo $page->title; ?></h1>
+<?php echo YsaHtml::pageHeaderTitle($page->title); ?>
 
-<?php echo $page->content; ?>
+<div class="wrapper">
+    <h1><?php echo $page->title; ?></h1>
+
+    <?php echo $page->content; ?>
+
+</div>

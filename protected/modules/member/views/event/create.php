@@ -1,4 +1,6 @@
-<h2>create event</h2>
+<?php echo YsaHtml::pageHeaderTitle('Create Event'); ?>
+
+
     <div class="form">
         <?php $form=$this->beginWidget('YsaMemberForm', array(
                 'id'=>'create-event-form',

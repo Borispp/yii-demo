@@ -1,3 +1,5 @@
+<?php echo YsaHtml::pageHeaderTitle('Registration'); ?>
+
 <?php if(Yii::app()->user->hasFlash('registration')): ?>
 <div class="success">
     <?php echo Yii::app()->user->getFlash('registration'); ?>

@@ -46,7 +46,9 @@ class ApplicationOption extends YsaActiveRecord
      */
     public function relations()
     {
-        return array();
+        return array(
+            'application' => array(self::BELONGS_TO, 'Application', 'app_id')
+        );
     }
 
     /**

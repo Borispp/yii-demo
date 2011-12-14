@@ -1,5 +1,5 @@
 <?php $this->pageTitle=Yii::app()->name . ' - Login' ?>
 
-<h1><?php echo $title; ?></h1>
+<?php echo YsaHtml::pageHeaderTitle($title); ?>
 
 <div class="form"><?php echo $content; ?></div>

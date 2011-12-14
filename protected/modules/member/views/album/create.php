@@ -1,4 +1,4 @@
-<h2>Create new album</h2>
+<?php echo YsaHtml::pageHeaderTitle('Create Album'); ?>
 
 <h3><?php echo $event->name; ?></h3>
 

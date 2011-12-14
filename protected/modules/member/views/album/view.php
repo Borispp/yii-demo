@@ -1,4 +1,4 @@
-<h2><?php echo $entry->name; ?></h2>
+<?php echo YsaHtml::pageHeaderTitle($entry->name); ?>
 
 
 

@@ -1,39 +1,47 @@
-<h2>Settings</h2>
+<?php echo YsaHtml::pageHeaderTitle('Settings'); ?>
 
-<?php $form=$this->beginWidget('YsaForm', array(
-    'id'=>'settings-form',
-    'enableAjaxValidation'=>false,
-)); ?>
 
-    <section>
-        <?php echo $form->labelEx($entry,'email'); ?>
-        <div>
-            <?php echo $form->textField($entry,'email', array('size'=>60,'maxlength'=>100)); ?>
-            <?php echo $form->error($entry,'email'); ?>
-        </div>
-    </section>
+<section class="body w">
+    
+    <h3><?php echo $entry->name(); ?></h3>
+    <p class="descr">Lorem ipsum dccolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
 
-    <section>
-        <?php echo $form->labelEx($entry,'first_name'); ?>
-        <div>
-            <?php echo $form->textField($entry,'first_name',array('size'=>50,'maxlength'=>50)); ?>
-            <?php echo $form->error($entry,'first_name'); ?>
-        </div>
-    </section>
+    <div class="form">
+        <?php $form=$this->beginWidget('YsaForm', array(
+            'id'=>'settings-form',
+            'enableAjaxValidation'=>false,
+        )); ?>
 
-    <section>
-        <?php echo $form->labelEx($entry,'last_name'); ?>
-        <div>
-            <?php echo $form->textField($entry,'last_name',array('size'=>50,'maxlength'=>50)); ?>
-            <?php echo $form->error($entry,'last_name'); ?>
-        </div>
-    </section>
+            <section>
+                <?php echo $form->labelEx($entry,'email'); ?>
+                <div>
+                    <?php echo $form->textField($entry,'email', array('size'=>60,'maxlength'=>100)); ?>
+                    <?php echo $form->error($entry,'email'); ?>
+                </div>
+            </section>
 
-    <div class="row buttons">
-        <?php echo CHtml::submitButton('Submit'); ?>
+            <section>
+                <?php echo $form->labelEx($entry,'first_name'); ?>
+                <div>
+                    <?php echo $form->textField($entry,'first_name',array('size'=>50,'maxlength'=>50)); ?>
+                    <?php echo $form->error($entry,'first_name'); ?>
+                </div>
+            </section>
+
+            <section>
+                <?php echo $form->labelEx($entry,'last_name'); ?>
+                <div>
+                    <?php echo $form->textField($entry,'last_name',array('size'=>50,'maxlength'=>50)); ?>
+                    <?php echo $form->error($entry,'last_name'); ?>
+                </div>
+            </section>
+
+            <div class="row buttons">
+                <?php echo CHtml::submitButton('Submit'); ?>
+            </div>
+
+        <?php $this->endWidget();?>
     </div>
-
-<?php $this->endWidget();?>
 
 
 <?php $form = $this->beginWidget('YsaForm', array(
@@ -70,3 +78,11 @@
     </div>
 
 <?php $this->endWidget();?>
+    
+    
+    
+    
+    
+</section>
+
+

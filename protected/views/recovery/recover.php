@@ -1,6 +1,7 @@
 <?php $this->pageTitle=Yii::app()->name . ' - Recover Password'; ?>
 
-<h1>Restore</h1>
+
+<?php echo YsaHtml::pageHeaderTitle('Restore'); ?>
 
 <?php if(Yii::app()->user->hasFlash('recoveryMessage')): ?>
     <div class="success">

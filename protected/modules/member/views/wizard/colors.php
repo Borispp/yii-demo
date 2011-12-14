@@ -1,6 +1,5 @@
 <?php echo $event->sender->menu->run(); ?>
 
-
 <?php $form = $this->beginWidget('YsaMemberForm', array(
     'id'=>'colors-step-form',
     'enableAjaxValidation'=>false,

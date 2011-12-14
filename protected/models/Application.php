@@ -79,7 +79,8 @@ class Application extends YsaActiveRecord
     public function relations()
     {
         return array(
-            'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+            'user'        => array(self::BELONGS_TO, 'User', 'user_id'),
+            'application' => array(self::HAS_MANY, 'ApplicationOption', 'app_id'),
         );
     }
 

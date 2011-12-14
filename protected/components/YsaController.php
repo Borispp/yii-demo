@@ -105,4 +105,46 @@ class YsaController extends CController
     {
         return $this->_metaTitleDelim;
     }
+    
+    public function isMemberPanel()
+    {
+        if (null === $this->module) {
+            return false;
+        } elseif ('member' === $this->module->getName()) {
+            return true;
+        }
+        return false;
+    }
+    
+    public function isWebsite()
+    {
+        if (null === $this->module) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function getWebsiteNavigationMenu()
+    {
+        if ($this->isWebsite()) {
+            $nav = array(
+                array('label'=>'Home', 'url'=>array('/')),
+                array('label'=>'About', 'url'=>array('/about')),
+                array('label'=>'Contact', 'url'=>array('/contact')),
+                array('label'=>'Blog', 'url'=>array('/blog')),
+                array('label'=>'Tour', 'url'=>array('/tour')),
+                array('label'=>'Panel', 'url'=>array('/member'), 'visible' => !Yii::app()->user->isGuest),                
+            );
+        } else {
+            $nav = array(
+                array('label'=>'Home', 'url'=> '/'),
+                array('label'=>'My Application', 'url'=>array('application/')),
+                array('label'=>'Events', 'url'=>array('event/')),
+                array('label'=>'Settings', 'url'=>array('settings/')),
+            );
+        }
+        
+        return $nav;
+    }
 }

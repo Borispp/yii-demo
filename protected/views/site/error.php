@@ -1,6 +1,6 @@
 <?php $this->pageTitle=Yii::app()->name . ' - Error'; ?>
 
-<h2>Error <?php echo $code; ?></h2>
+<?php echo YsaHtml::pageHeaderTitle('Error ' . $code); ?>
 
 <div class="error">
 <?php echo CHtml::encode($message); ?>
