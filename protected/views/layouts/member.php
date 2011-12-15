@@ -6,7 +6,7 @@
     </div>
 <?php elseif (Yii::app()->user->hasFlash('notice')): ?>
     <div class="flash notice">
-        <?php echo Yii::app()->user->getFlash('success'); ?>
+        <?php echo Yii::app()->user->getFlash('notice'); ?>
     </div>
 <?php elseif (Yii::app()->user->hasFlash('error')): ?>
     <div class="flash error">
