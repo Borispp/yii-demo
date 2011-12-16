@@ -15,6 +15,7 @@
             <tr>
                 <th class="w_1"><input type="checkbox" value="" class="ids-toggle" /></th>
                 <th class="l">Name</th>
+                <th class="w_20">Duration</th>
                 <th class="w_20">Price</th>
                 <th class="w_10">&nbsp;</th>
             </tr>
@@ -26,6 +27,7 @@
                     <td class="l">
                         <?php echo CHtml::link($entry->name, array('edit', 'id' => $entry->id)); ?>
                     </td>
+                    <td><?php echo $entry->duration; ?> <?php echo 'month'.($entry->duration > 1 ? 's' : '')?></td>
                     <td><?php echo $entry->price(); ?></td>
                     <td>
                         <?php echo CHtml::link('Edit', array('edit', 'id' => $entry->id), array('class' => 'btn small blue')); ?>

@@ -123,4 +123,29 @@ class Discount extends CActiveRecord
 				'criteria'=>$criteria,
 			));
 	}
+
+	public function findByCode($code)
+	{
+		return $this->model()->findByAttributes(array(
+			'code'	=> $code
+			));
+	}
+
+	public function isActive()
+	{
+		return (bool)$this->state;
+	}
+
+	/**
+	 * Checks if discount can be used with given membership
+	 * @param Membership $obMembership
+	 * @return bool
+	 */
+	public function canBeUsed(Membership $obMembership)
+	{
+		$obDiscountMembership = DiscountMembership::model()->findByDiscountAndMembership($obMembership, $this);
+		if (!$obDiscountMembership || !$obDiscountMembership->canBeUsed())
+			return FALSE;
+		return TRUE;
+	}
 }

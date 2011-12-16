@@ -95,4 +95,36 @@ class DiscountMembership extends CActiveRecord
 	{
 		return Membership::model()->findByPk($this->membership_id);
 	}
+
+	public function findByDiscountAndMembership(Membership $obMembership, Discount $obDiscount)
+	{
+		return $this->findByAttributes(array(
+			'membership_id'	=> $obMembership->id,
+			'discount_id'	=> $obDiscount->id
+		));
+	}
+
+	/**
+	 * Checks if this discount is in stock
+	 * @return bool
+	 */
+	public function canBeUsed()
+	{
+		return ($this->amount > 0 || $this->amount == -1);
+	}
+
+	/**
+	 * Called to reduce limit number after paying for subscription.
+	 * @throws Exception
+	 * @return void
+	 */
+	public function used()
+	{
+		if (!$this->canBeUsed())
+			throw Exception('Can\'t use out of limit discount');
+		if ($this->amount == -1)
+			return;
+		$this->amount--;
+		$this->save();
+	}
 }

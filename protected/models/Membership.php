@@ -8,6 +8,7 @@
  * @property string $name
  * @property string $description
  * @property string $price
+ * @property integer $duration
  * @property integer $active
  */
 class Membership extends YsaActiveRecord
@@ -37,7 +38,7 @@ class Membership extends YsaActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, price', 'required'),
+			array('name, price, duration', 'required'),
 			array('active', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>50),
 			array('price', 'length', 'max'=>10),
@@ -57,6 +58,14 @@ class Membership extends YsaActiveRecord
 		);
 	}
 
+	public function canUseDiscount(Discount $obDiscount)
+	{
+		return DiscountMembership::model()->findByAttributes(array(
+				'discount_id'	=> $obDiscount->id,
+				'membership_id'	=> $this->id
+			));
+	}
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -68,11 +77,12 @@ class Membership extends YsaActiveRecord
 			'description' => 'Description',
 			'price' => 'Price',
 			'active' => 'Active',
+			'duration' => 'Duration (in months)'
 		);
 	}
-        
-        public function price()
-        {
-            return Yii::app()->numberFormatter->formatCurrency($this->price, Yii::app()->params['currency']);
-        }
+
+	public function price()
+	{
+		return Yii::app()->numberFormatter->formatCurrency($this->price, Yii::app()->params['currency']);
+	}
 }

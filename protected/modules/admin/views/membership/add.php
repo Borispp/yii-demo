@@ -27,13 +27,20 @@
             </section>
             
             <section>
+                <?php echo $form->labelEx($entry,'duration'); ?>
+                <div>
+                    <?php echo $form->textField($entry,'duration', array('size'=>12,'maxlength'=>12, 'class' => 'w_20')); ?> months
+                    <?php echo $form->error($entry,'duration'); ?>
+                </div>
+            </section>
+            <section>
                 <?php echo $form->labelEx($entry,'price'); ?>
                 <div>
                     <?php echo $form->textField($entry,'price', array('size'=>12,'maxlength'=>12, 'class' => 'w_20')); ?> USD
                     <?php echo $form->error($entry,'price'); ?>
                 </div>
             </section>
-            
+
             <section>
                 <?php echo $form->labelEx($entry,'active'); ?>
                 <div>

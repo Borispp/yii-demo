@@ -19,158 +19,158 @@
  */
 class User extends YsaActiveRecord
 {
-    const ROLE_ADMIN = 'admin';
-    const ROLE_MEMBER = 'member';
-    
-    const STATE_BANNED = -1;
-    
-    /**
-     * Returns the static model of the specified AR class.
-     * @return User the static model class
-     */
-    public static function model($className=__CLASS__)
-    {
-            return parent::model($className);
-    }
+	const ROLE_ADMIN = 'admin';
+	const ROLE_MEMBER = 'member';
 
-    /**
-     * @return string the associated database table name
-     */
-    public function tableName()
-    {
-        return 'user';
-    }
+	const STATE_BANNED = -1;
 
-    /**
-     * @return array validation rules for model attributes.
-     */
-    public function rules()
-    {
-            // NOTE: you should only define rules for those attributes that
-            // will receive user inputs.
-            return array(
-                    array('state', 'numerical', 'integerOnly'=>true),
-                    array('email, password', 'length', 'max'=>100),
-                    array('email', 'unique'),
-                    array('email', 'email'),
-                    array('role', 'length', 'max'=>6),
-                    array('last_login_ip', 'length', 'max'=>20),
-                    array('created, updated, last_login', 'safe'),
-                    array('email, state, role, first_name, last_name, password', 'required'),
-                    // The following rule is used by search().
-                    // Please remove those attributes that should not be searched.
-                    array('id, email, role, state', 'safe', 'on'=>'search'),
-            );
-    }
+	/**
+	 * Returns the static model of the specified AR class.
+	 * @return User the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
 
-    /**
-     * @return array relational rules.
-     */
-    public function relations()
-    {
-        return array(
-            'option'        => array(self::HAS_MANY, 'UserOption', 'user_id'),
-            'application'   => array(self::HAS_ONE, 'Application', 'user_id'),
-            'event'         => array(self::HAS_MANY, 'Event', 'user_id'),
-        );
-    }
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
+	{
+		return 'user';
+	}
 
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'email' => 'Email',
-            'role' => 'Role',
-            'password' => 'Password',
-            'state' => 'State',
-            'created' => 'Created',
-            'updated' => 'Updated',
-            'last_login' => 'Last Login',
-            'last_login_ip' => 'Last Login Ip',
-        );
-    }
+	/**
+	 * @return array validation rules for model attributes.
+	 */
+	public function rules()
+	{
+		// NOTE: you should only define rules for those attributes that
+		// will receive user inputs.
+		return array(
+			array('state', 'numerical', 'integerOnly'=>true),
+			array('email, password', 'length', 'max'=>100),
+			array('email', 'unique'),
+			array('email', 'email'),
+			array('role', 'length', 'max'=>6),
+			array('last_login_ip', 'length', 'max'=>20),
+			array('created, updated, last_login', 'safe'),
+			array('email, state, role, first_name, last_name, password', 'required'),
+			// The following rule is used by search().
+			// Please remove those attributes that should not be searched.
+			array('id, email, role, state', 'safe', 'on'=>'search'),
+		);
+	}
 
-    public function search()
-    {
-            // Warning: Please modify the following code to remove attributes that
-            // should not be searched.
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		return array(
+			'option'        => array(self::HAS_MANY, 'UserOption', 'user_id'),
+			'application'   => array(self::HAS_ONE, 'Application', 'user_id'),
+			'event'         => array(self::HAS_MANY, 'Event', 'user_id'),
+		);
+	}
 
-            $criteria=new CDbCriteria;
-            $criteria->compare('id',$this->id,true);
-            $criteria->compare('email',$this->email,true);
-            $criteria->compare('role',$this->role,true);
-            $criteria->compare('state',$this->state);
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'id' => 'ID',
+			'email' => 'Email',
+			'role' => 'Role',
+			'password' => 'Password',
+			'state' => 'State',
+			'created' => 'Created',
+			'updated' => 'Updated',
+			'last_login' => 'Last Login',
+			'last_login_ip' => 'Last Login Ip',
+		);
+	}
 
-            return new CActiveDataProvider($this, array(
-                    'criteria'=>$criteria,
-            ));
-    }
+	public function search()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
 
-    public function generateActivationKey()
-    {
-        $this->activation_key = YsaHelpers::encrypt(microtime() . YsaHelpers::genRandomString(20));
-    }
-    
-    public function encryptPassword()
-    {
-        $this->password = YsaHelpers::encrypt($this->password);
-    }
-    
-    public function activate()
-    {
-        $this->state = self::STATE_ACTIVE;
-        $this->save();
-    }
-    
-    public function ban()
-    {
-        $this->state = self::STATE_BANNED;
-        $this->save();
-    }
-    
-    public function name()
-    {
-        return $this->first_name . ' ' . $this->last_name;
-    }
-    
-    public function getStates()
-    {
-        return array(
-            self::STATE_ACTIVE      => 'Active',
-            self::STATE_INACTIVE    => 'Inactive',
-            self::STATE_BANNED      => 'Banned',
-        );
-    }
-    
-    public function state() 
-    {
-        if ($this->state == self::STATE_BANNED) {
-            return 'Banned';
-        } else {
-            return parent::state();
-        }
-    }
-    
-    public function getActivationLink()
-    {
-        return Yii::app()->createAbsoluteUrl('/activate/k/' . $this->activation_key);
-    }
-    
-    public function addOption()
-    {
-        
-    }
-    
-    public function editOption()
-    {
-        
-    }
-    
-    public function deleteOption()
-    {
-        
-    }
+		$criteria=new CDbCriteria;
+		$criteria->compare('id',$this->id,true);
+		$criteria->compare('email',$this->email,true);
+		$criteria->compare('role',$this->role,true);
+		$criteria->compare('state',$this->state);
+
+		return new CActiveDataProvider($this, array(
+				'criteria'=>$criteria,
+			));
+	}
+
+	public function generateActivationKey()
+	{
+		$this->activation_key = YsaHelpers::encrypt(microtime() . YsaHelpers::genRandomString(20));
+	}
+
+	public function encryptPassword()
+	{
+		$this->password = YsaHelpers::encrypt($this->password);
+	}
+
+	public function activate()
+	{
+		$this->state = self::STATE_ACTIVE;
+		$this->save();
+	}
+
+	public function ban()
+	{
+		$this->state = self::STATE_BANNED;
+		$this->save();
+	}
+
+	public function name()
+	{
+		return $this->first_name . ' ' . $this->last_name;
+	}
+
+	public function getStates()
+	{
+		return array(
+			self::STATE_ACTIVE      => 'Active',
+			self::STATE_INACTIVE    => 'Inactive',
+			self::STATE_BANNED      => 'Banned',
+		);
+	}
+
+	public function state()
+	{
+		if ($this->state == self::STATE_BANNED) {
+			return 'Banned';
+		} else {
+			return parent::state();
+		}
+	}
+
+	public function getActivationLink()
+	{
+		return Yii::app()->createAbsoluteUrl('/activate/k/' . $this->activation_key);
+	}
+
+	public function addOption()
+	{
+
+	}
+
+	public function editOption()
+	{
+
+	}
+
+	public function deleteOption()
+	{
+
+	}
 }
