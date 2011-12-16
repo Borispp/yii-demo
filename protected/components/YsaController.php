@@ -1,6 +1,8 @@
 <?php
 class YsaController extends CController
 {
+	protected $_renderVars = array();
+
     protected $_metaTitle = array();
     
     protected $_metaTitleDelim = ' | ';
@@ -147,4 +149,26 @@ class YsaController extends CController
         
         return $nav;
     }
+
+	/**
+	 * Render extension with ability to add template vars before render
+	 * @param $view
+	 * @param array|null $params
+	 * @return void
+	 */
+	public function render($view, array $params = NULL)
+	{
+		parent::render($view, $this->_renderVars+$params);
+	}
+
+	/**
+	 * Add var to all templates
+	 * @param $name
+	 * @param $value
+	 * @return void
+	 */
+	public function renderVar($name, $value)
+	{
+		$this->_renderVars[$name] = $value;
+	}
 }
