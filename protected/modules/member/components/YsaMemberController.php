@@ -47,14 +47,14 @@ class YsaMemberController extends YsaController
         parent::beforeRender($view);
         
         $this->setMetaTitle(Yii::app()->settings->get('site_title'));
-        
+
         Yii::app()->getClientScript()
             ->registerMetaTag($this->getMetaDescription(), 'description')
             ->registerMetaTag($this->getMetaKeywords(), 'keywords')
             ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins.js', CClientScript::POS_HEAD)
             ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD)
             ->registerCssFile(Yii::app()->baseUrl . '/resources/css/style.css');
-        
+
         return true;
     }
     

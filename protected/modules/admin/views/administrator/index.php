@@ -43,5 +43,5 @@
     </p>
     <?php $this->endWidget(); ?>
     
-    <? $this->widget('YsaAdminPager',array('pages'=>$pagination)) ?>
+    <?php $this->widget('YsaAdminPager',array('pages'=>$pagination)) ?>
 </div>

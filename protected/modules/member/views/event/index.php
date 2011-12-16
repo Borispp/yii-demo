@@ -1,17 +1,10 @@
 <?php echo YsaHtml::pageHeaderTitle('My Events'); ?>
 
+<?php $this->widget('YsaSearchBar', array(
+    'searchOptions' => $searchOptions,
+));?>
+
 <?php echo CHtml::link('Create New Event', array('create')); ?>
-
-
-<?php 
-//$this->widget('zii.widgets.grid.CGridView', array(
-//    'dataProvider'=> $events,
-//    'cssFile'     => false,
-//));;
-//
-//$a = new CGridView();
-?>
-
 
 <table class="data">
     <thead>
@@ -49,3 +42,5 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+
+<? $this->widget('YsaAdminPager',array('pages'=>$pagination)) ?>
