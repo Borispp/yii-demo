@@ -124,7 +124,9 @@ class Event extends YsaActiveRecord
     
     public function albums()
     {
-        
+        return EventAlbum::model()->findAllByAttributes(array(
+			'event_id' => $this->id,
+		));
     }
     
     public function type()
@@ -143,4 +145,54 @@ class Event extends YsaActiveRecord
     {
         $this->passwd = YsaHelpers::genRandomString(6);
     }
+	
+	public function searchCriteria()
+	{
+		$criteria = new CDbCriteria();
+		
+		$fields = Yii::app()->session[self::SEARCH_SESSION_NAME];
+		
+		if (null === $fields) {
+			return $criteria;
+		}
+		
+		extract($fields);
+		
+		// search by keyword
+		if (isset($keyword) && $keyword) {
+			$criteria->compare('name', $keyword, true);
+		}
+		
+		// search by state
+		if (isset($state) && $state != '') {
+			$criteria->compare('state', $state);
+		}
+		
+		// sort entries
+		if (isset($order_by) && isset($order_sort)) {
+			if (!in_array($fields['order_by'], array_keys($this->attributes))) {
+				$order_by = 'id';
+			}
+			
+			if (!in_array($order_sort, array('ASC', 'DESC'))) {
+				$order_sort = 'DESC';
+			}
+			
+			$criteria->order = $order_by . ' ' . $order_sort;
+			
+		}
+		
+		return $criteria;
+	}
+	
+	public function beforeDelete() {
+		parent::beforeDelete();
+		
+		// remove all albums on delete
+		EventAlbum::model()->deleteAllByAttributes(array(
+			'event_id' => $this->id,
+		));
+		
+		return true;
+	}
 }

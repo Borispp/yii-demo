@@ -65,9 +65,10 @@ return array(
                     '/activate/k/<k>' => 'auth/activate',
 
                     // member routes
-                    '/member/event/view/<eventId>' => 'member/event/view',
-                    '/member/album/view/<albumId>' => 'member/album/view',
-                    
+					'/member/event/<action:\w+>/<eventId>' => 'member/event/<action>',
+					'/member/album/<action:\w+>/<albumId>' => 'member/album/<action>',
+					'/member/photo/<action:\w+>/<photoId>' => 'member/photo/<action>',
+					
                     // page routes
                     array(
                         'class' => 'application.components.YsaPageUrlRule',
@@ -126,7 +127,7 @@ return array(
         
         'maintenance' => array(
             'class' => 'application.components.YsaMaintenance',
-        )
+        ),
     ),
 
     // application-level parameters that can be accessed

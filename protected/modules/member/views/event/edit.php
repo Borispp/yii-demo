@@ -1,4 +1,4 @@
-<?php echo YsaHtml::pageHeaderTitle('Create Event'); ?>
+<?php echo YsaHtml::pageHeaderTitle('Edit Event'); ?>
 
 
 <?php $this->renderPartial('_form', array(

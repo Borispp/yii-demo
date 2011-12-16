@@ -121,4 +121,18 @@ class EventAlbum extends YsaActiveRecord
 
         return $this->_event;
     }
+	
+	public function preview()
+	{
+		return 'preview';
+	}
+	
+	public function beforeDelete() {
+		parent::beforeDelete();
+		
+		// delete all pictures
+		
+		
+		return true;
+	}
 }

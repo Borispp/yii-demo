@@ -3,22 +3,27 @@ class EventController extends YsaMemberController
 {
     public function actionIndex()
     {
-        $criteria = new CDbCriteria;
-//        $criteria->condition = 'role="member"';
+		if (isset($_POST['Fields'])) {
+			if (isset ($_POST['SearchBarReset']) && $_POST['SearchBarReset']) {
+				Event::model()->resetSearchFields();
+			} else {
+				Event::model()->setSearchFields($_POST['Fields']);
+			}
+			$this->redirect(array('event/'));
+		}
+		
+		$criteria = Event::model()->searchCriteria();
         
         $pagination = new CPagination(Event::model()->count($criteria));
         $pagination->pageSize = Yii::app()->params['admin_per_page'];        
         $pagination->applyLimit($criteria);
-        
+		
         $entries = Event::model()->findAll($criteria);
         
-//        $events=new CActiveDataProvider('Event');
-        
-        
         $this->render('index',array(
-            'entries'   => $entries,
-            'pagination'=> $pagination,
-            'events'    => $events,
+            'entries'       => $entries,
+            'pagination'    => $pagination,
+            'searchOptions' => Event::model()->searchOptions(),
         ));
     }
     
@@ -72,11 +77,51 @@ class EventController extends YsaMemberController
             'entry' => $entry,
         ));
     }
-    
-    public function actionEdit()
+	
+    public function actionEdit($eventId)
     {
+		$entry = Event::model()->findByPk($eventId);
+		
+		if (!$entry) {
+			$this->redirect(array('event/'));
+		}
+		
+		if (isset($_POST['Event'])) {
+			$entry->attributes = $_POST['Event'];
+			
+			if (!$entry->passwd) {
+				$entry->generatePassword();
+			}
+			
+			if ($entry->validate()) {
+                $entry->save();
+				
+				$this->redirect(array('event/view/' . $entry->id));
+			}
+		}
+		
         $this->render('edit', array(
-            
+			'entry' => $entry,
         ));
     }
+	
+	public function actionDelete($eventId = 0)
+	{
+        $ids = array();
+        if (isset($_POST['ids']) && count($_POST['ids'])) {
+            $ids = $_POST['ids'];
+        } elseif ($eventId) {
+            $ids = array(intval($eventId));
+        }
+		
+        foreach ($ids as $id) {
+			Event::model()->deleteByPk($id);
+        }
+        
+        if (Yii::app()->getRequest()->isAjaxRequest) {
+            $this->sendJsonSuccess();
+        } else {
+			$this->redirect(array('event/'));
+        }
+	}
 }
