@@ -12,14 +12,12 @@ class AlbumController extends YsaMemberController
         
         $entry = new EventAlbum();
         $entry->event_id = $event->id;
-        
+		
         if (isset($_POST['EventAlbum'])) {
             $entry->attributes = $_POST['EventAlbum'];
             
             if ($entry->validate()) {
-                
                 $entry->save();
-                
                 $this->redirect(array('album/view/' . $entry->id));
             }
         }
@@ -42,9 +40,7 @@ class AlbumController extends YsaMemberController
             $entry->attributes = $_POST['EventAlbum'];
             
             if ($entry->validate()) {
-                
                 $entry->save();
-                
                 $this->redirect(array('album/view/' . $entry->id));
             }
 		}
@@ -61,9 +57,26 @@ class AlbumController extends YsaMemberController
         if (!$entry || !$entry->event()) {
             $this->redirect(array('event/'));
         }
+		
+		
+		$upload = new PhotoUploadForm();
+		
+		if (Yii::app()->getRequest()->isPostRequest) {
+			$upload->photo = CUploadedFile::getInstance($upload, 'photo');
+			if ($upload->validate()) {
+				
+				$photo = new EventPhoto();
+				$photo->album_id = $entry->id;
+				
+				$photo->upload($upload->photo);
+				
+				$this->refresh();
+			}
+		}
         
         $this->render('view', array(
-            'entry' => $entry,
+            'entry'   => $entry,
+			'upload'  => $upload, 
         ));
     }
 	
@@ -77,11 +90,10 @@ class AlbumController extends YsaMemberController
         }
 		
         foreach ($ids as $id) {
-			
 			$album = EventAlbum::model()->findByPk($id);
 			if ($album) {
 				$event = $album->event();
-				$album->delete();				
+				$album->delete();	
 			}
         }
         
@@ -96,8 +108,21 @@ class AlbumController extends YsaMemberController
         }
 	}
 	
-	public function actionSortPhotos()
+	public function actionSort($albumId = 0)
 	{
-		VarDumper::dump('sorting photos');
+		if (Yii::app()->getRequest()->isAjaxRequest) {
+			if (isset($_POST['event-album'])) {
+				foreach ($_POST['event-album'] as $k => $id) {
+					$entry = EventAlbum::model()->findByPk($id);
+					if ($entry) {
+						$entry->rank = $k + 1;
+						$entry->save();
+					}
+				}
+			}
+			$this->sendJsonSuccess();
+		} else {
+			$this->redirect(Yii::app()->homeUrl);
+		}
 	}
 }

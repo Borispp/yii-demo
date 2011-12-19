@@ -17,7 +17,6 @@ class OptionImage extends YsaActiveRecord
     
     protected $_uploadUrl;
 
-
     public function init() {
         parent::init();
         

@@ -4,7 +4,7 @@ class EventController extends YsaMemberController
     public function actionIndex()
     {
 		if (isset($_POST['Fields'])) {
-			if (isset ($_POST['SearchBarReset']) && $_POST['SearchBarReset']) {
+			if (isset($_POST['SearchBarReset']) && $_POST['SearchBarReset']) {
 				Event::model()->resetSearchFields();
 			} else {
 				Event::model()->setSearchFields($_POST['Fields']);

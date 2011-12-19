@@ -156,7 +156,7 @@ class YsaController extends CController
 	 * @param array|null $params
 	 * @return void
 	 */
-	public function render($view, array $params = NULL)
+	public function render($view, array $params = array())
 	{
 		parent::render($view, $this->_renderVars+$params);
 	}
