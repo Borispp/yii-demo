@@ -14,6 +14,14 @@
     </div>
 <?php endif;?>
 
+<?php $this->widget('YsaMemberBreadcrumbs', array(
+	'links' => $this->breadcrumbs,
+)); ?>
+
+<?php if ($this->memberPageTitle) : ?>
+	<?php echo YsaHtml::pageHeaderTitle($this->memberPageTitle); ?>
+<?php endif; ?>
+
 <?php echo $content; ?>
 
 <?php $this->endContent(); ?>

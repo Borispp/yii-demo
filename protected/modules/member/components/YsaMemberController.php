@@ -6,6 +6,10 @@ class YsaMemberController extends YsaController
 	protected $_uploadImagePath;
 
 	protected $_uploadImageUrl;
+	
+	public $breadcrumbs;
+	
+	public $memberPageTitle;
 
 	public function accessRules()
 	{
@@ -50,12 +54,19 @@ class YsaMemberController extends YsaController
 
 		$this->setMetaTitle(Yii::app()->settings->get('site_title'));
 
-		Yii::app()->getClientScript()
-				->registerMetaTag($this->getMetaDescription(), 'description')
-				->registerMetaTag($this->getMetaKeywords(), 'keywords')
-				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins.js', CClientScript::POS_HEAD)
-				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD)
-				->registerCssFile(Yii::app()->baseUrl . '/resources/css/style.css');
+        Yii::app()->getClientScript()
+			->registerCoreScript('jquery')
+            ->registerMetaTag($this->getMetaDescription(), 'description')
+            ->registerMetaTag($this->getMetaKeywords(), 'keywords')
+				
+			->registerScriptFile(Yii::app()->baseUrl . '/resources/js/jquery-ui.min.js', CClientScript::POS_HEAD)
+            ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins.js', CClientScript::POS_HEAD)
+            ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD)
+			->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member.js', CClientScript::POS_HEAD)
+			
+			->registerCssFile(Yii::app()->baseUrl . '/resources/css/style.css')
+			->registerCssFile(Yii::app()->baseUrl . '/resources/css/ui/jquery-ui.css')
+			->registerCssFile(Yii::app()->baseUrl . '/resources/css/member.css');
 
 		return true;
 	}
@@ -64,4 +75,23 @@ class YsaMemberController extends YsaController
 	{
 		return $this->_member;
 	}
+	
+	public function setMemberPageTitle($title)
+	{
+		$this->memberPageTitle = $title;
+	}
+	
+	public function crumb($name, $url = false)
+	{
+		if ($url) {
+			$this->breadcrumbs[$name] = $url;
+		} else {
+			$this->breadcrumbs[] = $name;
+		}
+		
+		return $this;
+	}
 }
+
+
+

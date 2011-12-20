@@ -1,7 +1,14 @@
 <?php
 class AlbumController extends YsaMemberController
 {
-    public function actionCreate($event)
+	public function init() {
+		parent::init();
+		
+		$this->crumb('Events', array('event/'));
+	}
+
+
+	public function actionCreate($event)
     {
         $event = Event::model()->findByPk($event);
         
@@ -21,6 +28,9 @@ class AlbumController extends YsaMemberController
                 $this->redirect(array('album/view/' . $entry->id));
             }
         }
+		
+		$this->crumb($event->name, array('event/view/' . $event->id))
+			 ->crumb('Create Album');
         
         $this->render('create', array(
             'event' => $event,
@@ -44,6 +54,11 @@ class AlbumController extends YsaMemberController
                 $this->redirect(array('album/view/' . $entry->id));
             }
 		}
+		
+		$this->crumb($entry->event()->name, array('event/view/' . $entry->event()->id))
+			 ->crumb('Edit Album');
+		
+		
 		
         $this->render('edit', array(
             'entry' => $entry,
@@ -73,6 +88,9 @@ class AlbumController extends YsaMemberController
 		}
         
 		$this->loadSwfUploader();
+		
+		$this->crumb($entry->event()->name, array('event/view/' . $entry->event()->id))
+			 ->crumb($entry->name);
 		
         $this->render('view', array(
             'entry'   => $entry,

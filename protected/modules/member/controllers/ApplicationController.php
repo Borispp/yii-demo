@@ -6,6 +6,8 @@ class ApplicationController extends YsaMemberController
     public function actionView()
     {
         $app = $this->member()->application();
+		
+		
         
         // new member -> redirect to application creation
         if (null === $app) {
@@ -15,15 +17,12 @@ class ApplicationController extends YsaMemberController
         if (!$app->filled()) {
             $this->redirect(array('wizard/'));
         }
+		
+		$this->breadcrumbs[] = 'Application';
         
         $this->render('view', array(
             'app' => $app,
         ));
-    }
-    
-    public function actionSettings()
-    {
-        VarDumper::dump('settings');
     }
     
     public function actionCreate()
