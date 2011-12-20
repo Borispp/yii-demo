@@ -128,6 +128,15 @@ return array(
         'maintenance' => array(
             'class' => 'application.components.YsaMaintenance',
         ),
+		
+		'clientScript'=>array(
+			'packages'=>array(
+				'jquery'=>array(
+					'baseUrl'=>'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/',
+					'js'=>array('jquery.min.js'),
+				),
+			),
+		),
     ),
 
     // application-level parameters that can be accessed
@@ -168,6 +177,24 @@ return array(
 //                'height' => 768,
                 'ext'    => 'png',
             ),
-        )
+        ),
+		'member_area' => array(
+			'album' => array(
+				'preview' => array(
+					'width'  => 300,
+					'height' => 200,
+				),
+			),
+			'photo' => array(
+				'preview' => array(
+					'width'  => 300,
+					'height' => 200,
+				),
+				'full' => array(
+					'width'  => 1024,
+					'height' => 768,
+				),
+			),
+		),
     ),
 );

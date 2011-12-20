@@ -124,8 +124,12 @@ class Event extends YsaActiveRecord
     
     public function albums()
     {
-        return EventAlbum::model()->findAllByAttributes(array(
-			'event_id' => $this->id,
+        return EventAlbum::model()->findAll(array(
+			'condition' => 'event_id=:event_id',
+			'params'    => array(
+				':event_id' => $this->id,
+			),
+			'order' => 'rank ASC',
 		));
     }
     
@@ -185,13 +189,16 @@ class Event extends YsaActiveRecord
 		return $criteria;
 	}
 	
+	/**
+	 * remove all albums on delete
+	 * @return bool
+	 */
 	public function beforeDelete() {
 		parent::beforeDelete();
 		
-		// remove all albums on delete
-		EventAlbum::model()->deleteAllByAttributes(array(
-			'event_id' => $this->id,
-		));
+		foreach ($this->albums() as $album) {
+			$album->delete();
+		}
 		
 		return true;
 	}

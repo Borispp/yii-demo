@@ -18,7 +18,24 @@
 class EventAlbum extends YsaActiveRecord
 {
     const PROOFING_NAME = 'Proofing Album';
+
+	protected $_photos;
+	
+    protected $_uploadPath;
     
+    protected $_uploadUrl;
+	
+	protected $_preview;
+	
+	protected $_previewUrl;
+	
+    public function init() {
+        parent::init();
+        
+        $this->_uploadPath = rtrim(Yii::getPathOfAlias('webroot.images.albums'), '/');
+        $this->_uploadUrl = Yii::app()->getBaseUrl(true) . '/images/albums';
+    }
+	
     protected $_event;
     
     /**
@@ -122,17 +139,119 @@ class EventAlbum extends YsaActiveRecord
         return $this->_event;
     }
 	
-	public function preview()
+	public function preview($htmlOptions = array())
 	{
-		return 'preview';
+		if (null === $this->_preview) {
+			$this->_preview = YsaHtml::image($this->previewUrl(), 'Album Preview', $htmlOptions);
+		}
+		return $this->_preview;
 	}
 	
+	public function previewUrl()
+	{
+		if (null === $this->_previewUrl) {
+			$photo = EventPhoto::model()->find(array(
+				'condition' => 'album_id=:album_id',
+				'params' => array(
+					'album_id' => $this->id,
+				),
+				'order' => 'rank ASC',
+				'limit' => 1,
+			));
+			
+			if ($photo) {
+				$this->_previewUrl = $photo->previewUrl(
+					Yii::app()->params['member_area']['album']['preview']['width'],
+					Yii::app()->params['member_area']['album']['preview']['height']
+				);
+			} else {
+				$this->_previewUrl = '';
+			}
+		}
+		
+		return $this->_previewUrl;
+		
+	}
+
+	/**
+	 * Delete all photos with album
+	 * @return bool
+	 */
 	public function beforeDelete() {
 		parent::beforeDelete();
 		
-		// delete all pictures
+		$photos = EventPhoto::model()->findAll(array(
+			'condition' => 'album_id=:album_id',
+			'params' => array(
+				'album_id' => $this->id,
+			),
+		));
 		
+		foreach ($photos as $p) {
+			$p->delete();
+		}
 		
 		return true;
 	}
+	
+	/**
+	 * Set next rank for event album
+	 * @return bool
+	 */
+    public function beforeSave() 
+	{
+        if($this->isNewRecord) {
+            $this->setNextRank();
+        }
+        return parent::beforeValidate();
+    }
+	
+	public function encryptedId()
+	{
+		return YsaHelpers::encrypt($this->id);
+	}
+	
+	public function albumPath()
+	{
+		$folder = $this->_uploadPath . DIRECTORY_SEPARATOR . $this->encryptedId();
+		
+		if (!is_dir($folder)) {
+			mkdir($folder, 0777);
+		}
+		
+		return $folder;
+	}
+	
+	public function albumUrl()
+	{
+		return $this->_uploadUrl . '/' . $this->encryptedId();
+	}
+	
+	public function photos()
+	{
+		if (null === $this->_photos) {
+			$this->_photos = EventPhoto::model()->findAll(array(
+				'condition' => 'album_id=:album_id',
+				'params' => array(
+					'album_id' => $this->id,
+				),
+				'order' => 'rank ASC',
+			));
+		}
+		
+		return $this->_photos;
+	}
+	
+	public function setNextRank()
+	{	
+		$maxRank = (int) Yii::app()->db->createCommand()
+							->select('max(rank) as max')
+							->from($this->tableName())
+							->where('event_id=:event_id', array(':event_id' => $this->event_id))
+							->queryScalar();
+		
+		$this->rank = $maxRank + 1;
+	}
+	
+
 }
