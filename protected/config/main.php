@@ -38,6 +38,13 @@ return array(
 
     // application components
     'components'=>array(
+        'request'=>array(
+//            'enableCsrfValidation'=>true,
+			'class' => 'application.components.YsaHttpRequest',
+        ),
+		'session' => array(
+			'timeout' => 86400,
+		),
         'user'=>array(
             'allowAutoLogin'=>true,
             'loginUrl' => array('/auth/login'),
@@ -193,6 +200,14 @@ return array(
 				'full' => array(
 					'width'  => 1024,
 					'height' => 768,
+				),
+			),
+		),
+		'studio' => array(
+			'person' => array(
+				'photo' => array(
+					'width'  => 100,
+					'height' => 100,
 				),
 			),
 		),

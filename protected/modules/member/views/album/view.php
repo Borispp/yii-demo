@@ -14,7 +14,12 @@
 	<?php echo YsaHtml::submitButton('Upload'); ?>
 
 	<?php $this->endWidget();?>
-
+	
+	
+	<span id="spanButtonPlaceholder"></span>
+	
+	<div id="upload-file-progress-container"></div>
+	
 	<h3>Album Photos</h3>
 	<ul id="album-photos">
 		<?php if (count($entry->photos())) : ?>

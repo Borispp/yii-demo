@@ -23,6 +23,10 @@ class User extends YsaActiveRecord
 	const ROLE_MEMBER = 'member';
 
 	const STATE_BANNED = -1;
+	
+	protected $_studio;
+	
+	protected $_options;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -72,6 +76,7 @@ class User extends YsaActiveRecord
 			'option'        => array(self::HAS_MANY, 'UserOption', 'user_id'),
 			'application'   => array(self::HAS_ONE, 'Application', 'user_id'),
 			'event'         => array(self::HAS_MANY, 'Event', 'user_id'),
+			'application'   => array(self::HAS_ONE, 'Studio', 'user_id'),
 		);
 	}
 
@@ -159,18 +164,41 @@ class User extends YsaActiveRecord
 		return Yii::app()->createAbsoluteUrl('/activate/k/' . $this->activation_key);
 	}
 
-	public function addOption()
-	{
-
-	}
-
 	public function editOption()
 	{
-
+		
 	}
 
 	public function deleteOption()
 	{
-
+		
 	}
+	
+	public function getOption($name)
+	{
+		if (!isset($this->_options[$name])) {
+			
+		}
+		
+		return $this->_options[$name];
+	}
+	
+	public function studio()
+	{
+		if (null === $this->_studio) {
+			
+			$this->_studio = Studio::model()->find('user_id=:user_id', array('user_id' => $this->id));
+			
+			if (!$this->_studio) {
+				$this->_studio = new Studio();
+				$this->_studio->user_id = $this->id;
+				$this->_studio->save();
+			}
+			
+		}
+		
+		return $this->_studio;
+	}
+	
+
 }

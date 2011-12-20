@@ -171,4 +171,11 @@ class YsaController extends CController
 	{
 		$this->_renderVars[$name] = $value;
 	}
+	
+	public function loadSwfUploader()
+	{
+		Yii::app()->getClientScript()
+				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/swfupload.js', CClientScript::POS_HEAD)
+				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/swfobject.js', CClientScript::POS_HEAD);
+	}
 }

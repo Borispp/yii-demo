@@ -12,15 +12,21 @@
  * @property string $created
  * @property string $updated
  */
-class UserOption extends YsaActiveRecord
+class UserOption extends YsaOptionActiveRecord
 {
+	const OPT_ABOUT_IMAGE = 'about_image';
+	
+	const OPT_ABOUT_TEXT = 'about_text';
+	
+	
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return UserOption the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
-                return parent::model($className);
+		return parent::model($className);
 	}
 
 	/**
@@ -54,9 +60,10 @@ class UserOption extends YsaActiveRecord
 	 */
 	public function relations()
 	{
-            return array(
-                'user'=>array(self::BELONGS_TO, 'User', 'user_id'),
-            );
+		return array(
+			'user'=>array(self::BELONGS_TO, 'User', 'user_id'),
+			'type'  => array(self::HAS_ONE, 'OptionGroup', 'type_id'),
+		);
 	}
 
 	/**
@@ -64,15 +71,15 @@ class UserOption extends YsaActiveRecord
 	 */
 	public function attributeLabels()
 	{
-            return array(
-                'id' => 'ID',
-                'user_id' => 'User',
-                'name' => 'Name',
-                'value' => 'Value',
-                'type_id' => 'Type',
-                'created' => 'Created',
-                'updated' => 'Updated',
-            );
+		return array(
+			'id' => 'ID',
+			'user_id' => 'User',
+			'name' => 'Name',
+			'value' => 'Value',
+			'type_id' => 'Type',
+			'created' => 'Created',
+			'updated' => 'Updated',
+		);
 	}
         
 }

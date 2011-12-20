@@ -9,8 +9,23 @@ class PhotoController extends YsaMemberController
 			$this->redirect(array('event/'));
 		}
 		
+		$entryComment = new EventPhotoComment();
+		
+		if (isset($_POST['EventPhotoComment'])) {
+			$entryComment->attributes = $_POST['EventPhotoComment'];
+			
+			$entryComment->user_id = $this->member()->id;
+			$entryComment->photo_id = $entry->id;
+			
+			if ($entryComment->validate()) {
+				$entryComment->save();
+				$this->refresh();
+			}
+		}
+		
 		$this->render('view', array(
-			'entry' => $entry,
+			'entry'			=> $entry,
+			'entryComment'	=> $entryComment
 		));
 	}
     
@@ -59,5 +74,43 @@ class PhotoController extends YsaMemberController
 		} else {
 			$this->redirect(Yii::app()->homeUrl);
 		}
+	}
+	
+	public function actionUpload($album = 0)
+	{
+		$album = EventAlbum::model()->findByPk($album);
+		
+		if (Yii::app()->getRequest()->isPostRequest && isset($_FILES['Filedata']) && $album) {
+			
+			$uploaded = CUploadedFile::getInstanceByName('Filedata');
+			
+			$photo = new EventPhoto();
+			$photo->album_id = $album->id;
+			
+			if ($photo->upload($uploaded)) {
+				$this->sendJsonSuccess(array(
+					'html' => $this->renderPartial('_listphoto', array(
+						'entry' => $photo,
+					), true)
+				));
+				
+			} else {
+				$this->sendJsonError(array(
+					'msg' => 'Upload could not be completed. Please try again.',
+				));
+			}
+			
+		} else {
+			$this->sendJsonError(array(
+				'msg' => 'Something went wrong. Please try to reload the page and try again',
+			));
+		}
+	}
+	
+	public function filters()
+	{
+		return array(
+			'accessControl -upload', // perform access control but for uploadAction
+		);
 	}
 }

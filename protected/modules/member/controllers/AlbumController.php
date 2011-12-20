@@ -57,8 +57,6 @@ class AlbumController extends YsaMemberController
         if (!$entry || !$entry->event()) {
             $this->redirect(array('event/'));
         }
-		
-		
 		$upload = new PhotoUploadForm();
 		
 		if (Yii::app()->getRequest()->isPostRequest) {
@@ -74,6 +72,8 @@ class AlbumController extends YsaMemberController
 			}
 		}
         
+		$this->loadSwfUploader();
+		
         $this->render('view', array(
             'entry'   => $entry,
 			'upload'  => $upload, 

@@ -5,22 +5,23 @@
  *
  * The followings are the available columns in table 'user_option':
  * @property string $id
- * @property integer $user_id
+ * @property integer $studio_id
  * @property string $name
- * @property string $value
- * @property integer $type_id
+ * @property string $url
+ * @property integer $rank
  * @property string $created
  * @property string $updated
+ * @property string $friendly_url
  */
-class UserOption extends YsaActiveRecord
+class StudioLink extends YsaActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return UserOption the static model class
+	 * @return StudioLink the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
-                return parent::model($className);
+		return parent::model($className);
 	}
 
 	/**
@@ -28,7 +29,7 @@ class UserOption extends YsaActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'user_option';
+		return 'studio_link';
 	}
 
 	/**
@@ -39,13 +40,10 @@ class UserOption extends YsaActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id', 'required'),
-			array('user_id, type_id', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>100),
-			array('value, created, updated', 'safe'),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, user_id, name, value, type_id, created, updated', 'safe', 'on'=>'search'),
+			array('studio_id', 'required'),
+			array('studio_id, rank', 'numerical', 'integerOnly'=>true),
+			array('name, url', 'length', 'max'=>100),
+			array('created, updated', 'safe'),
 		);
 	}
 
@@ -54,9 +52,9 @@ class UserOption extends YsaActiveRecord
 	 */
 	public function relations()
 	{
-            return array(
-                'user'=>array(self::BELONGS_TO, 'User', 'user_id'),
-            );
+		return array(
+			'user' => array(self::BELONGS_TO, 'User', 'studio_id'),
+		);
 	}
 
 	/**
@@ -64,15 +62,31 @@ class UserOption extends YsaActiveRecord
 	 */
 	public function attributeLabels()
 	{
-            return array(
-                'id' => 'ID',
-                'user_id' => 'User',
-                'name' => 'Name',
-                'value' => 'Value',
-                'type_id' => 'Type',
-                'created' => 'Created',
-                'updated' => 'Updated',
-            );
+		return array(
+			'id' => 'ID',
+			'studio_id' => 'User',
+			'name' => 'Name',
+			'url' => 'URL',
+			'rank' => 'Rank',
+			'created' => 'Created',
+			'updated' => 'Updated',
+		);
 	}
-        
+	
+	public function setNextRank()
+	{	
+		$maxRank = (int) Yii::app()->db->createCommand()
+							->select('max(rank) as max')
+							->from($this->tableName())
+							->where('studio_id=:studio_id', array(':studio_id' => $this->studio_id))
+							->queryScalar();
+		$this->rank = $maxRank + 1;
+	}
+	
+	public function beforeValidate() 
+	{
+		$this->friendly_url = $this->url;
+		
+		return parent::beforeValidate();
+	}
 }
