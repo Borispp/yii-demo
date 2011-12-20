@@ -149,7 +149,18 @@
                 'url' => array('/admin/discount/'),
                 'linkOptions' => array('class' => $this->getNavigationClass('discount')),
             );
-            
+			$membersItems = array();
+            $membersItems[] = array(
+                'label' => 'Member',
+                'url' => array('/admin/member/'),
+                'linkOptions' => array('class' => $this->getNavigationClass('member')),
+            );
+            $membersItems[] = array(
+                'label' => 'Subscription',
+                'url' => array('/admin/subscription/'),
+                'linkOptions' => array('class' => $this->getNavigationClass('subscription')),
+            );
+
             $this->widget('YsaAdminMenu',array(
                 'id'    => 'nav',
                 'items'=>array(
@@ -175,10 +186,11 @@
                         ),
                         array(
                             'label' =>'Members', 
-                            'url' => array('/admin/member/'),
+                            'url' => '',
                             'itemOptions' => array('class' => 'i_camera'),
-                            'linkOptions' => array('class' => $this->getNavigationClass('member')), 
-                            'active' => $this->getNavigationClass('member'),
+                            'linkOptions' => array('class' => $this->getNavigationClass('member,subscription')),
+                            'active' => $this->getNavigationClass('member,subscription'),
+							'items'	=> $membersItems,
                         ),
                         array(
                             'label'=>'Applications', 

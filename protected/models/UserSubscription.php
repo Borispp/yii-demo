@@ -13,7 +13,7 @@
  * @property integer $discount_id
  * @property integer $state
  */
-class UserSubscription extends CActiveRecord
+class UserSubscription extends YsaActiveRecord
 {
 	public $discount;
 
@@ -136,6 +136,7 @@ class UserSubscription extends CActiveRecord
 		return array(
 			'Discount'		=> array(self::BELONGS_TO, 'Discount', 'discount_id'),
 			'Membership'	=> array(self::BELONGS_TO, 'Membership', 'membership_id'),
+			'Member'		=> array(self::BELONGS_TO, 'Member', 'user_id'),
 			'Transaction'	=> array(self::HAS_ONE, 'UserTransaction', 'user_subscription_id'),
 
 		);
