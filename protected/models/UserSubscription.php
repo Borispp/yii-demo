@@ -136,6 +136,8 @@ class UserSubscription extends CActiveRecord
 		return array(
 			'Discount'		=> array(self::BELONGS_TO, 'Discount', 'discount_id'),
 			'Membership'	=> array(self::BELONGS_TO, 'Membership', 'membership_id'),
+			'Transaction'	=> array(self::HAS_ONE, 'UserTransaction', 'user_subscription_id'),
+
 		);
 	}
 
@@ -179,5 +181,16 @@ class UserSubscription extends CActiveRecord
 		if (is_object($this->Discount))
 			return floatval($this->Membership->price - $this->Membership->price/100*$this->Discount->summ);
 		return floatval($this->Membership->price);
+	}
+
+	public function labelState()
+	{
+		$labels = array(
+			self::STATE_ACTIVE		=> 'Active',
+			self::STATE_ENABLED		=> 'Payed',
+			self::STATE_INACTIVE	=> 'Inactive',
+
+		);
+		return $labels[$this->state];
 	}
 }

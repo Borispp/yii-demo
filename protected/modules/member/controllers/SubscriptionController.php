@@ -26,11 +26,8 @@ class SubscriptionController extends YsaMemberController
 
 	public function actionList()
 	{
-
-//		$this->render('list', array(
-//				'event' => $event,
-//				'entry' => $entry,
-//			));
+		$this->renderVar('subscriptions', $this->member()->UserSubscription);
+		$this->render('list');
 	}
 
 	public function actionNew()
@@ -88,18 +85,19 @@ class SubscriptionController extends YsaMemberController
 			$obUserTransaction->save();
 			$obUserSubscription = $obUserTransaction->getUserSubscription();
 			$obUserSubscription->activate();
-
 		}
+		$this->render('ok', array(
+			'obUserSubscription' => $obUserSubscription
+		));
 	}
 
 	public function actionCancel()
 	{
-		if ($_SERVER['REQUEST_METHOD'] == 'POST' && $this->_getPayment()->verify())
-		{
-			$obUserTransaction = UserTransaction::model()->findByPk($_POST['item_number']);
-			$obUserTransaction->data = serialize($_POST);
-			$obUserTransaction->state = UserTransaction::STATE_PAID;
-		}
+
+		$this->render('error', array(
+			'message'	=> 'You canceled your subscription payment. If you have any questions — contact us.',
+			'title'		=> 'Subscription payment canceled'
+		));
 	}
 
 	public function actionIndex()

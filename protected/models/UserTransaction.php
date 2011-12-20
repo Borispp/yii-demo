@@ -116,7 +116,7 @@ class UserTransaction extends CActiveRecord
 		$criteria->compare('payed',$this->payed,true);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria'	=>	$criteria,
 		));
 	}
 
