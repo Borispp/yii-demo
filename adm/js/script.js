@@ -24,7 +24,7 @@ $(document).ready(function() {
 		$content.find('input[type=number].decimal').wl_Number({decimals:2,step:0.5});
 		
 		//Date and Time fields
-		$content.find('input.date, div.date').wl_Date();
+		$content.find('input.date, div.date').wl_Date({dateFormat: 'yy-mm-dd'});
 		$content.find('input.time').wl_Time();
 		
 		//Autocompletes (source is required)
