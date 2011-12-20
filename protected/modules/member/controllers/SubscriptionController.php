@@ -56,12 +56,11 @@ class SubscriptionController extends YsaMemberController
 
 	public function actionPaypal()
 	{
-		if (empty($_GET['id']))
+		if (empty($_GET['id']) || !($obUserTransaction = UserTransaction::model()->findByPk($_GET['id'])))
 		{
 			$this->setError('No Transaction ID found');
-			$this->render('error');
+			return $this->render('error');
 		}
-		$obUserTransaction = UserTransaction::model()->findByPk($_GET['id']);
 		$obUserTransaction->state = UserTransaction::STATE_SENT;
 		$this->renderVar('currency', $this->_getPayment()->getCurrency());
 		$this->renderVar('email', $this->_getPayment()->getEmail());

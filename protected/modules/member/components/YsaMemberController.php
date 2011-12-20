@@ -39,7 +39,7 @@ class YsaMemberController extends YsaController
 		 * Load member
 		 */
 		$this->_member = Member::model()->findByPk(Yii::app()->user->getId());
-		if (!$this->_member->hasSubscription())
+		if (!$this->_member || !$this->_member->hasSubscription())
 			$this->setNotice('<div class="need-to-subscribe">You have no subscription. <a href="'.Yii::app()->createUrl('/member/subscription/').'">Subscribe now</a></div>');
 	}
 
