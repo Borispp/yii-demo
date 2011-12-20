@@ -441,7 +441,7 @@
 
 /*----------------------------------------------------------------------*/
 /* jQuery Uniform v1.7.5
-/* Copyright © 2009 Josh Pyles / Pixelmatrix Design LLC
+/* Copyright ï¿½ 2009 Josh Pyles / Pixelmatrix Design LLC
 /* http://pixelmatrixdesign.com
 /* License: MIT License - http://www.opensource.org/licenses/mit-license.php
 /*----------------------------------------------------------------------*/
