@@ -11,6 +11,7 @@
  * @property integer $state
  * @property string $created
  * @property string $payed
+ * @property float $summ
  */
 class UserTransaction extends CActiveRecord
 {
@@ -75,8 +76,7 @@ class UserTransaction extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-		);
+		return array();
 	}
 
 	/**
@@ -85,13 +85,14 @@ class UserTransaction extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'user_subscription_id' => 'User Subscription',
-			'data' => 'Data',
-			'notes' => 'Notes',
-			'state' => 'State',
-			'created' => 'Created',
-			'payed' => 'Payed',
+			'id'					=> 'ID',
+			'user_subscription_id'	=> 'User Subscription',
+			'data'					=> 'Data',
+			'notes'					=> 'Notes',
+			'summ'					=> 'Summ',
+			'state'					=> 'State',
+			'created'				=> 'Created',
+			'payed'					=> 'Payed',
 		);
 	}
 
@@ -117,5 +118,10 @@ class UserTransaction extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+
+	public function getUserSubscription()
+	{
+		return UserSubscription::model()->findByPk($this->user_subscription_id);
 	}
 }

@@ -16,15 +16,21 @@
 class UserSubscription extends CActiveRecord
 {
 	public $discount;
-	/**
-	 * Created by member
-	 */
-	const STATE_ENABLED = 0;
 
 	/**
-	 * Sent to paypal
+	 * Active
 	 */
-	const STATE_DISABLED = 1;
+	const STATE_ACTIVE = 2;
+
+	/**
+	 * Enabled after finishing transaction
+	 */
+	const STATE_ENABLED = 1;
+
+	/**
+	 * First Status. Set when created.
+	 */
+	const STATE_INACTIVE = 0;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -133,5 +139,45 @@ class UserSubscription extends CActiveRecord
 		);
 	}
 
+	public function isActive()
+	{
+		if ($this->state == self::STATE_ACTIVE)
+			return TRUE;
+		if ($this->state != self::STATE_ENABLED)
+			return FALSE;
+		if (strtotime($this->start_date) <= time() && strtotime($this->expiry_date) < time())
+		{
+			$this->state = self::STATE_ACTIVE;
+			$this->save();
+			return TRUE;
+		}
+		return FALSE;
+	}
 
+	public function activate()
+	{
+		$this->state = self::STATE_ENABLED;
+		$this->start_date = date('Y-m-d');
+		$this->expiry_date = date('Y-m-d', $this->_getDate());
+		$this->update_date = date('Y-m-d', $this->_getDate()-24*3600);
+		$this->save();
+	}
+
+	protected function _getDate()
+	{
+		$months = date('m')+$this->Membership->duration;
+		$years = date('Y')+(int)$months/12;
+		$months = date('m')+$months%12;
+		return mktime(0, 0, 0, $months, date('d'), $years);
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getSumm()
+	{
+		if (is_object($this->Discount))
+			return floatval($this->Membership->price - $this->Membership->price/100*$this->Discount->summ);
+		return floatval($this->Membership->price);
+	}
 }

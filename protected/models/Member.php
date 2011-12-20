@@ -1,4 +1,7 @@
 <?php
+/**
+ * @property UserSubscription $UserSubscription
+ */
 class Member extends User
 {
 	protected $_application = null;
@@ -31,8 +34,9 @@ class Member extends User
 
 	public function hasSubscription()
 	{
-		if (!$this->UserSubscription)
-			return false;
-		return true;
+		foreach($this->UserSubscription as $obUserSubscription)
+			if ($obUserSubscription->isActive())
+				return TRUE;
+		return FALSE;
 	}
 }
