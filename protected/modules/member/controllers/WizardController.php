@@ -56,9 +56,12 @@ class WizardController extends YsaMemberController
     
     public function wizardFinished($event)
     {
-        $this->render('finished', compact('event'));
+//        $this->render('finished', compact('event'));
 
         $event->sender->reset();
+		
+		$this->redirect(array('application/'));
+		
         Yii::app()->end();
     }
     

@@ -7,34 +7,24 @@
  * @property string $id
  * @property integer $user_id
  * @property string $name
- * @property string $value
- * @property integer $type_id
+ * @property string $blog_feed
+ * @property string $twitter_feed
+ * @property string $facebook_feed
  * @property string $created
  * @property string $updated
  */
-class UserOption extends YsaOptionActiveRecord
+class Studio extends YsaActiveRecord
 {
-	const OPT_ABOUT_IMAGE = 'about_image';
-	
-	const OPT_ABOUT_TEXT = 'about_text';
-	
-	
-	
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @return UserOption the static model class
-	 */
+	protected $_links;
+
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 
-	/**
-	 * @return string the associated database table name
-	 */
 	public function tableName()
 	{
-		return 'user_option';
+		return 'studio';
 	}
 
 	/**
@@ -46,12 +36,10 @@ class UserOption extends YsaOptionActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id', 'required'),
-			array('user_id, type_id', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>100),
-			array('value, created, updated', 'safe'),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, user_id, name, value, type_id, created, updated', 'safe', 'on'=>'search'),
+			array('user_id', 'numerical', 'integerOnly'=>true),
+			array('name, facebook_feed, twitter_feed, blog_feed', 'length', 'max'=>100),
+			array('facebook_feed, twitter_feed, blog_feed', 'url'),
+			array('name, facebook_feed, twitter_feed, blog_feed, created, updated', 'safe'),
 		);
 	}
 
@@ -61,8 +49,7 @@ class UserOption extends YsaOptionActiveRecord
 	public function relations()
 	{
 		return array(
-			'user'=>array(self::BELONGS_TO, 'User', 'user_id'),
-			'type'  => array(self::HAS_ONE, 'OptionGroup', 'type_id'),
+			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
 		);
 	}
 
@@ -75,11 +62,22 @@ class UserOption extends YsaOptionActiveRecord
 			'id' => 'ID',
 			'user_id' => 'User',
 			'name' => 'Name',
-			'value' => 'Value',
-			'type_id' => 'Type',
 			'created' => 'Created',
 			'updated' => 'Updated',
 		);
 	}
-        
+	
+	public function links()
+	{
+		if (null === $this->_links) {
+			$this->_links = StudioLink::model()->findAll(array(
+				'condition' => 'studio_id=:studio_id',
+				'params'	=> array(
+					'studio_id' => $this->id,
+				),
+				'order' => 'rank ASC',
+			));
+		}
+		return $this->_links;
+	}
 }

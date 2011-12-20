@@ -22,6 +22,8 @@ class EventPhoto extends YsaActiveRecord
     protected $_album;
 	
 	protected $_exif;
+	
+	protected $_comments;
     
     /**
      * Returns the static model of the specified AR class.
@@ -156,6 +158,8 @@ class EventPhoto extends YsaActiveRecord
 		if ($save) {
 			$this->save();
 		}
+		
+		return true;
 	}
 	
 	public function generateBaseName()
@@ -224,5 +228,20 @@ class EventPhoto extends YsaActiveRecord
 		}
 		
 		return $this->_exif;
+	}
+	
+	public function comments()
+	{
+		if (null === $this->_comments) {
+			$this->_comments = EventPhotoComment::model()->findAll(array(
+				'condition' => 'photo_id=:photo_id',
+				'params'	=> array(
+					'photo_id' => $this->id,
+				),
+				'order' => 'created DESC',
+			));	
+		}
+		
+		return $this->_comments;
 	}
 }

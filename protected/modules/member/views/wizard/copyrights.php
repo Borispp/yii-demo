@@ -6,6 +6,7 @@
         'htmlOptions'=>array('enctype' => 'multipart/form-data'),
 )); ?>
 
+<?/*
     <section>
         <?php echo $form->labelEx($model, 'photographer_info'); ?>
         <div>
@@ -40,7 +41,7 @@
             <?php echo $form->error($model,'twitter'); ?>
         </div>
     </section>
-
+*/?>
     <section>
         <?php echo $form->labelEx($model, 'copyright'); ?>
         <div>

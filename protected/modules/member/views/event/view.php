@@ -20,7 +20,11 @@
 		<p><?php echo CHtml::link('Create New Event Album', array('album/create/event/' . $entry->id)); ?></p>
 	<?php endif; ?>
 
-	<h2>Albums</h2>
+	<?php if (Event::TYPE_PROOF == $entry->type) : ?>
+		<h2>Proofing Album</h2>
+	<?php else:?>
+		<h2>Albums</h2>
+	<?php endif; ?>
 	<?php if (count($entry->albums())) : ?>
 		<ul id="event-albums">
 			<?php foreach ($entry->albums() as $album) : ?>
