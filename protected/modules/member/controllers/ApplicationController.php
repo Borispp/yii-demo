@@ -7,8 +7,6 @@ class ApplicationController extends YsaMemberController
     {
         $app = $this->member()->application();
 		
-		
-        
         // new member -> redirect to application creation
         if (null === $app) {
             $this->redirect(array('application/create'));

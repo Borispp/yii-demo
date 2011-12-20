@@ -324,8 +324,6 @@ $(function(){
 					try {
 						data = $.parseJSON(data);
 						if (data.success) {
-							console.log(album_photos_container);
-							console.log(data.html);
 							album_photos_container.append(data.html);
 						} else {
 							alert(data.msg);
@@ -341,7 +339,6 @@ $(function(){
 				//			alert(serverData);
 				//		}
 					} catch (ex) {
-						console.log(ex);
 						this.debug(ex);
 					}
 				},
