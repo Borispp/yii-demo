@@ -118,6 +118,16 @@ class YsaController extends CController
 		return false;
 	}
 
+	public function isAdminPanel()
+	{
+		if (null === $this->module) {
+			return false;
+		} elseif ('admin' === $this->module->getName()) {
+			return true;
+		}
+		return false;
+	}
+	
 	public function isWebsite()
 	{
 		if (null === $this->module) {
@@ -195,17 +205,20 @@ class YsaController extends CController
     {
         parent::beforeRender($view);
         
-        $this->setMetaTitle(Yii::app()->settings->get('site_title'));
-		
-		$clientScript = Yii::app()->getClientScript();
+		if (!$this->isAdminPanel()) {
+			$this->setMetaTitle(Yii::app()->settings->get('site_title'));
 
-        $clientScript->registerCoreScript('jquery')
-					->registerMetaTag($this->getMetaDescription(), 'description')
-					->registerMetaTag($this->getMetaKeywords(), 'keywords')
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/modernizr-2.0.6.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD)
-					->registerCssFile(Yii::app()->baseUrl . '/resources/css/style.css');
+			$clientScript = Yii::app()->getClientScript();
+
+			$clientScript->registerCoreScript('jquery')
+						->registerMetaTag($this->getMetaDescription(), 'description')
+						->registerMetaTag($this->getMetaKeywords(), 'keywords')
+						->registerScriptFile(Yii::app()->baseUrl . '/resources/js/modernizr-2.0.6.js', CClientScript::POS_HEAD)
+						->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins.js', CClientScript::POS_HEAD)
+						->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD)
+						->registerCssFile(Yii::app()->baseUrl . '/resources/css/style.css');
+
+		}
 		
 		if ($this->isWebsite()) {
 			$clientScript->registerScriptFile(Yii::app()->baseUrl . '/resources/js/front.js', CClientScript::POS_HEAD)
