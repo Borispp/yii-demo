@@ -253,5 +253,8 @@ class EventAlbum extends YsaActiveRecord
 		$this->rank = $maxRank + 1;
 	}
 	
-
+	public function isOwner()
+	{
+		return $this->event()->isOwner();
+	}
 }

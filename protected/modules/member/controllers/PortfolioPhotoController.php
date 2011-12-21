@@ -5,7 +5,7 @@ class PortfolioPhotoController extends YsaMemberController
 	{
 		$entry = PortfolioPhoto::model()->findByPk($photoId);
 		
-		if (!$entry) {
+		if (!$entry || !$entry->isOwner()) {
 			$this->redirect(array('portfolio/'));
 		}
 		
@@ -25,7 +25,7 @@ class PortfolioPhotoController extends YsaMemberController
 		
         foreach ($ids as $id) {
 			$photo = PortfolioPhoto::model()->findByPk($id);
-			if ($photo) {
+			if ($photo && $photo->isOwner()) {
 				$album = $photo->album();
 				$photo->delete();
 			}

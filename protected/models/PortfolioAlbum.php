@@ -23,6 +23,8 @@ class PortfolioAlbum extends YsaActiveRecord
 	
 	protected $_previewUrl;
 	
+	protected $_portfolio;
+	
     public function init() {
         parent::init();
         
@@ -222,5 +224,10 @@ class PortfolioAlbum extends YsaActiveRecord
 							->queryScalar();
 		
 		$this->rank = $maxRank + 1;
+	}
+	
+	public function isOwner()
+	{
+		return $this->portfolio->isOwner();
 	}
 }

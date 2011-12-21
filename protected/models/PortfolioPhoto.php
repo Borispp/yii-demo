@@ -58,4 +58,9 @@ class PortfolioPhoto extends YsaPhotoActiveRecord
 
         return $this->_album;
     }
+	
+	public function isOwner()
+	{
+		return $this->album()->isOwner();
+	}
 }

@@ -5,7 +5,7 @@ class PhotoController extends YsaMemberController
 	{
 		$entry = EventPhoto::model()->findByPk($photoId);
 		
-		if (!$entry) {
+		if (!$entry || !$entry->album()->event()->isOwner()) {
 			$this->redirect(array('event/'));
 		}
 		
@@ -42,7 +42,9 @@ class PhotoController extends YsaMemberController
 			$photo = EventPhoto::model()->findByPk($id);
 			if ($photo) {
 				$album = $photo->album();
-				$photo->delete();
+				if ($photo->isOwner()) {
+					$photo->delete();
+				}
 			}
         }
 		
@@ -63,7 +65,7 @@ class PhotoController extends YsaMemberController
 			if (isset($_POST['album-photo'])) {
 				foreach ($_POST['album-photo'] as $k => $id) {
 					$entry = EventPhoto::model()->findByPk($id);
-					if ($entry) {
+					if ($entry && $entry->isOwner()) {
 						$entry->rank = $k + 1;
 						$entry->save();
 					}
@@ -80,7 +82,7 @@ class PhotoController extends YsaMemberController
 	{
 		$album = EventAlbum::model()->findByPk($album);
 		
-		if (Yii::app()->getRequest()->isPostRequest && isset($_FILES['file']) && $album) {
+		if (Yii::app()->getRequest()->isPostRequest && isset($_FILES['file']) && $album && $album->isOwner()) {
 			
 			$uploaded = CUploadedFile::getInstanceByName('file');
 			
@@ -106,11 +108,4 @@ class PhotoController extends YsaMemberController
 			));
 		}
 	}
-	
-//	public function filters()
-//	{
-//		return array(
-//			'accessControl -upload', // perform access control but for uploadAction
-//		);
-//	}
 }

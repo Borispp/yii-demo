@@ -1,6 +1,4 @@
-<section id="album" albumid="<?php echo $entry->id; ?>">
-	<?php echo YsaHtml::pageHeaderTitle($entry->name); ?>
-
+<section id="album" albumid="<?php echo $entry->id; ?>" class="w">
 	<?php echo YsaHtml::link('Edit Album Info', array('album/edit/' . $entry->id))?>
 
 	<?php $form = $this->beginWidget('YsaMemberForm', array(

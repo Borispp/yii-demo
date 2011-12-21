@@ -99,4 +99,9 @@ class Studio extends YsaActiveRecord
 		
 		return $this->_portfolio;
 	}
+	
+	public function isOwner()
+	{
+		return $this->user_id == Yii::app()->user->id;
+	}
 }

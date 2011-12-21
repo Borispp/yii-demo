@@ -207,4 +207,9 @@ class Event extends YsaActiveRecord
 		
 		return true;
 	}
+	
+	public function isOwner()
+	{
+		return $this->user->id == Yii::app()->user->id;
+	}
 }

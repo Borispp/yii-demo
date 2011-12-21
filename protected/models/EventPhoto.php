@@ -79,4 +79,9 @@ class EventPhoto extends YsaPhotoActiveRecord
 		
 		return $this->_comments;
 	}
+	
+	public function isOwner()
+	{
+		return $this->album()->event()->isOwner();
+	}
 }

@@ -1,11 +1,6 @@
 <?php
 class PortfolioAlbumController extends YsaMemberController
 {
-	public function actionIndex()
-	{
-		
-	}
-	
 	public function actionCreate()
 	{
         $entry = new PortfolioAlbum();
@@ -36,7 +31,7 @@ class PortfolioAlbumController extends YsaMemberController
 	{
 		$entry = PortfolioAlbum::model()->findByPk($albumId);
 		
-		if (!$entry) {
+		if (!$entry || !$entry->isOwner()) {
             $this->redirect(array('portfolio/'));
         }
 		
@@ -64,9 +59,10 @@ class PortfolioAlbumController extends YsaMemberController
     {
         $entry = PortfolioAlbum::model()->findByPk($albumId);
         
-        if (!$entry) {
+        if (!$entry || !$entry->isOwner()) {
             $this->redirect(array('portfolio/'));
         }
+		
 		$upload = new PhotoUploadForm();
 		
 		if (Yii::app()->getRequest()->isPostRequest) {
@@ -105,9 +101,9 @@ class PortfolioAlbumController extends YsaMemberController
         }
 		
         foreach ($ids as $id) {
-			$album = PortfolioAlbum::model()->findByPk($id);
-			if ($album) {
-				$album->delete();	
+			$entry = PortfolioAlbum::model()->findByPk($id);
+			if ($entry && $entry->isOwner()) {
+				$entry->delete();	
 			}
         }
         
@@ -124,7 +120,7 @@ class PortfolioAlbumController extends YsaMemberController
 			if (isset($_POST['event-album'])) {
 				foreach ($_POST['event-album'] as $k => $id) {
 					$entry = PortfolioAlbum::model()->findByPk($id);
-					if ($entry) {
+					if ($entry && $entry->isOwner()) {
 						$entry->rank = $k + 1;
 						$entry->save();
 					}

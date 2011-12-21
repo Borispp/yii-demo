@@ -22,10 +22,6 @@
     </div>
 <?php endif;?>
 
-
-
-
-
 <?php echo $content; ?>
 
 <?php $this->endContent(); ?>

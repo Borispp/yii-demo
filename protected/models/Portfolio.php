@@ -100,4 +100,8 @@ class Portfolio extends YsaActiveRecord
 		return $this->_albums;
     }
     
+	public function isOwner()
+	{
+		return $this->studio()->isOwner();
+	}
 }
