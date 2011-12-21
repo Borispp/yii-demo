@@ -65,9 +65,9 @@ class PortfolioPhotoController extends YsaMemberController
 	{
 		$album = PortfolioAlbum::model()->findByPk($album);
 		
-		if (Yii::app()->getRequest()->isPostRequest && isset($_FILES['Filedata']) && $album) {
+		if (Yii::app()->getRequest()->isPostRequest && isset($_FILES['file']) && $album) {
 			
-			$uploaded = CUploadedFile::getInstanceByName('Filedata');
+			$uploaded = CUploadedFile::getInstanceByName('file');
 			
 			$photo = new PortfolioPhoto();
 			$photo->album_id = $album->id;

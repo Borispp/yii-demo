@@ -175,10 +175,15 @@ class YsaController extends CController
 	
 	public function loadSwfUploader()
 	{
+//		Yii::app()->getClientScript()
+//				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/swfupload.js', CClientScript::POS_HEAD)
+//				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/swfobject.js', CClientScript::POS_HEAD)
+//				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/settings.js', CClientScript::POS_HEAD);
+		
 		Yii::app()->getClientScript()
-				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/swfupload.js', CClientScript::POS_HEAD)
-				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/swfobject.js', CClientScript::POS_HEAD)
-				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/settings.js', CClientScript::POS_HEAD);
+				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plupload/plupload.full.js', CClientScript::POS_HEAD);
+//				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/swfobject.js', CClientScript::POS_HEAD)
+//				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/settings.js', CClientScript::POS_HEAD);
 	}
 	
     /**

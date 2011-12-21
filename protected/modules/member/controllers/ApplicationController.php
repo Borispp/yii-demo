@@ -17,6 +17,8 @@ class ApplicationController extends YsaMemberController
         }
 		
 		$this->breadcrumbs[] = 'Application';
+		
+		$this->setMemberPageTitle('Application');
         
         $this->render('view', array(
             'app' => $app,

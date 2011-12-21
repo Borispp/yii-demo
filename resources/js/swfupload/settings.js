@@ -1,3 +1,22 @@
+//			var swfu = new SWFUpload(
+//				$.extend(swfupload_options, {
+//					upload_url: _member_url + '/photo/upload/album/' + album_id,
+//					upload_success_handler : function(file, data) {
+//						console.log(data);
+//						try {
+//							data = $.parseJSON(data);
+//							if (data.success) {
+//								album_photos_container.append(data.html);
+//							} else {
+//								alert(data.msg);
+//							}
+//						} catch (ex) {
+//							this.debug(ex);
+//						}
+//					}
+//				})
+//			);
+
 function fileQueueError(file, errorCode, message) {
 	try {
 		var imageName = "error.gif";

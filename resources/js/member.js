@@ -1,13 +1,40 @@
-$(function(){
-	
+var _plupload_settings = {
+	runtimes : 'gears,html5,html4,browserplus',
+	browse_button : 'photo-upload-browse',
+	container : 'photo-upload-container',
+	max_file_size : '10mb',
+	filters : [
+		{title : "Image files", extensions : "jpg,gif,png"},
+	]
+}
+function _plupload_error_handler(up, err) {
+	$('#filelist').append("<div>Error: " + err.code +
+		", Message: " + err.message +
+		(err.file ? ", File: " + err.file.name : "") +
+		"</div>"
+	);
+	up.refresh();
+}
+function _plupload_upload_progress(up, file) {
+	$('#' + file.id + " b").html(file.percent + "%");
+}
+function _plupload_init(up, params) {
+	$('#filelist').html("<div>Current runtime: " + params.runtime + "</div>");
+}
+function _plupload_files_added(up, files) {
+	$.each(files, function(i, file) {
+		$('#filelist').append(
+			'<div id="' + file.id + '">' +
+			file.name + ' (' + plupload.formatSize(file.size) + ') <b></b>' +
+		'</div>');
+	});
 
-	
-	
-	
-	
-	
-	
-	
+	up.refresh();
+}
+
+
+$(function(){
+
 	$.fn.initAlbumPage = function()
 	{
 		$(this).each(function(){
@@ -41,23 +68,28 @@ $(function(){
 				});
 			});
 			
-			var swfu = new SWFUpload(
-				$.extend(swfupload_options, {
-					upload_url: _member_url + '/photo/upload/album/' + album_id,
-					upload_success_handler : function(file, data) {
-						try {
-							data = $.parseJSON(data);
-							if (data.success) {
-								album_photos_container.append(data.html);
-							} else {
-								alert(data.msg);
-							}
-						} catch (ex) {
-							this.debug(ex);
-						}
-					}
-				})
-			);
+			// init uploader
+			var uploader = new plupload.Uploader($.extend(_plupload_settings, {url:_member_url + '/photo/upload/album/' + album_id}));
+			
+			uploader.bind('Init', _plupload_init);
+			uploader.init();
+			uploader.bind('FilesAdded', _plupload_files_added);
+			uploader.bind('UploadProgress', _plupload_upload_progress);
+			uploader.bind('Error', _plupload_error_handler);
+			uploader.bind('FileUploaded', function(up, file, response) {
+				$('#' + file.id + " b").html("100%");
+				var data = $.parseJSON(response.response);
+				if (data.success) {
+					album_photos_container.append(data.html);
+				} else {
+					alert(data.msg);
+				}
+			});
+			
+			$('#photo-upload-submit').click(function(e) {
+				e.preventDefault();
+				uploader.start();
+			});
 		});
 	}
 	
@@ -155,23 +187,29 @@ $(function(){
 					});
 				});
 			});
-			var swfu = new SWFUpload(
-				$.extend(swfupload_options, {
-					upload_url: _member_url + '/portfolioPhoto/upload/album/' + album_id,
-					upload_success_handler : function(file, data) {
-						try {
-							data = $.parseJSON(data);
-							if (data.success) {
-								album_photos_container.append(data.html);
-							} else {
-								alert(data.msg);
-							}
-						} catch (ex) {
-							this.debug(ex);
-						}
-					}
-				})
-			);
+			
+			// init uploader
+			var uploader = new plupload.Uploader($.extend(_plupload_settings, {url:_member_url + '/portfolioPhoto/upload/album/' + album_id}));
+			
+			uploader.bind('Init', _plupload_init);
+			uploader.init();
+			uploader.bind('FilesAdded', _plupload_files_added);
+			uploader.bind('UploadProgress', _plupload_upload_progress);
+			uploader.bind('Error', _plupload_error_handler);
+			uploader.bind('FileUploaded', function(up, file, response) {
+				$('#' + file.id + " b").html("100%");
+				var data = $.parseJSON(response.response);
+				if (data.success) {
+					album_photos_container.append(data.html);
+				} else {
+					alert(data.msg);
+				}
+			});
+			
+			$('#photo-upload-submit').click(function(e) {
+				e.preventDefault();
+				uploader.start();
+			});
 		});
 	}
 	

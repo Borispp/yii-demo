@@ -80,9 +80,9 @@ class PhotoController extends YsaMemberController
 	{
 		$album = EventAlbum::model()->findByPk($album);
 		
-		if (Yii::app()->getRequest()->isPostRequest && isset($_FILES['Filedata']) && $album) {
+		if (Yii::app()->getRequest()->isPostRequest && isset($_FILES['file']) && $album) {
 			
-			$uploaded = CUploadedFile::getInstanceByName('Filedata');
+			$uploaded = CUploadedFile::getInstanceByName('file');
 			
 			$photo = new EventPhoto();
 			$photo->album_id = $album->id;
@@ -107,10 +107,10 @@ class PhotoController extends YsaMemberController
 		}
 	}
 	
-	public function filters()
-	{
-		return array(
-			'accessControl -upload', // perform access control but for uploadAction
-		);
-	}
+//	public function filters()
+//	{
+//		return array(
+//			'accessControl -upload', // perform access control but for uploadAction
+//		);
+//	}
 }
