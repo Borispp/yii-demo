@@ -45,7 +45,7 @@
 					—
 				<?php endif?>
 			</td>
-			<td><?php echo $entry->summ?></td>
+			<td><?php echo $entry->summ?> <?php echo Yii::app()->settings->get('paypal_currency')?></td>
 			<td><?php echo $entry->start_date?></td>
 			<td><?php echo $entry->expiry_date?></td>
 			<td><?php echo $entry->labelState()?></td>

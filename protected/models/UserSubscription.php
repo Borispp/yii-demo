@@ -63,14 +63,12 @@ class UserSubscription extends YsaActiveRecord
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, user_id, membership_id, start_date, update_date, expiry_date, discount_id', 'safe', 'on'=>'search'),
-			array('discount', 'validateDiscount')
+			array('discount', 'validateDiscount'),
+			array('start_date,update_date_expiry_date', 'validateDates'),
+			array('state', 'validateState')
 		);
 	}
 
-	/**
-	 * Authenticates the password.
-	 * This is the 'authenticate' validator as declared in rules().
-	 */
 	public function validateDiscount()
 	{
 		if (!$this->hasErrors()) {
@@ -84,6 +82,34 @@ class UserSubscription extends YsaActiveRecord
 				$this->discount_id = $obDiscount->id;
 			}
 		}
+	}
+
+	public function validateDates()
+	{
+		if ($this->hasErrors())
+			return FALSE;
+		if (empty($this->start_date) && empty($this->update_date) && empty($this->expiry_date))
+			return TRUE;
+		if ($this->start_date == '0000-00-00' && $this->expiry_date == '0000-00-00')
+			return $this->update_date = '0000-00-00';
+		if (!empty($this->start_date) && empty($this->expiry_date))
+			return $this->addError("expiry_date", "Expiry Date must be filled when Start Date is");
+		if (!empty($this->expiry_date) && empty($this->start_date))
+			return $this->addError("start_date", "Start Date must be filled when Start Date is");
+		if (strtotime($this->expiry_date) <= strtotime($this->start_date))
+			return $this->addError("start_date", "Start Date can't be bigger or equal then Expiry Date");
+		if (empty($this->update_date))
+			$this->update_date = date('Y-m-d', strtotime($this->expiry_date)-24*3600);
+	}
+
+	public  function validateState()
+	{
+		if (strtotime($this->start_date) <= time() && strtotime($this->expiry_date) > time() && $this->state != self::STATE_INACTIVE)
+			$this->state = self::STATE_ACTIVE;
+		if (strtotime($this->expiry_date) <= time())
+			$this->state = self::STATE_INACTIVE;
+		if (strtotime($this->start_date) > time() && strtotime($this->expiry_date) > time())
+			$this->state = self::STATE_ENABLED;
 	}
 
 	/**
@@ -183,6 +209,17 @@ class UserSubscription extends YsaActiveRecord
 		if (is_object($this->Discount))
 			return floatval($this->Membership->price - $this->Membership->price/100*$this->Discount->summ);
 		return floatval($this->Membership->price);
+	}
+
+	/**
+	 * Deletes related transaction
+	 * @return bool
+	 */
+	public function beforeDelete()
+	{
+		if ($this->Transaction)
+			$this->Transaction->delete();
+		return parent::beforeDelete();
 	}
 
 	public function labelState()
