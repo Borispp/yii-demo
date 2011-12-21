@@ -165,7 +165,7 @@ class EventAlbum extends YsaActiveRecord
 					Yii::app()->params['member_area']['album']['preview']['height']
 				);
 			} else {
-				$this->_previewUrl = '';
+				$this->_previewUrl = EventPhoto::model()->defaultPicUrl($w, $h);
 			}
 		}
 		

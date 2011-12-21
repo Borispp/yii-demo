@@ -76,6 +76,9 @@ return array(
 					'/member/album/<action:\w+>/<albumId>' => 'member/album/<action>',
 					'/member/photo/<action:\w+>/<photoId>' => 'member/photo/<action>',
 					
+					'/member/portfolioAlbum/<action:\w+>/<albumId>' => 'member/portfolioAlbum/<action>',
+					'/member/portfolioPhoto/<action:\w+>/<photoId>' => 'member/portfolioPhoto/<action>',
+					
                     // page routes
                     array(
                         'class' => 'application.components.YsaPageUrlRule',

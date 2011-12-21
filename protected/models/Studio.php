@@ -16,6 +16,8 @@
 class Studio extends YsaActiveRecord
 {
 	protected $_links;
+	
+	protected $_portfolio;
 
 	public static function model($className=__CLASS__)
 	{
@@ -79,5 +81,22 @@ class Studio extends YsaActiveRecord
 			));
 		}
 		return $this->_links;
+	}
+	
+	public function portfolio()
+	{
+		if (null === $this->_portfolio) {
+			
+			$this->_portfolio = Portfolio::model()->find('studio_id=:studio_id', array('studio_id' => $this->id));
+			
+			if (!$this->_portfolio) {
+				$this->_portfolio = new Portfolio();
+				$this->_portfolio->studio_id = $this->id;
+				$this->_portfolio->name = 'Portfolio';
+				$this->_portfolio->save();
+			}
+		}
+		
+		return $this->_portfolio;
 	}
 }

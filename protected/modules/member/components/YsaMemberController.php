@@ -43,34 +43,6 @@ class YsaMemberController extends YsaController
 			$this->setNotice('<div class="need-to-subscribe">You have no subscription. <a href="'.Yii::app()->createUrl('/member/subscription/').'">Subscribe now</a></div>');
 	}
 
-	/**
-	 * Register web application's resources and meta.
-	 * @param object $view
-	 * @return bool
-	 */
-	public function beforeRender($view)
-	{
-		parent::beforeRender($view);
-
-		$this->setMetaTitle(Yii::app()->settings->get('site_title'));
-
-        Yii::app()->getClientScript()
-			->registerCoreScript('jquery')
-            ->registerMetaTag($this->getMetaDescription(), 'description')
-            ->registerMetaTag($this->getMetaKeywords(), 'keywords')
-				
-			->registerScriptFile(Yii::app()->baseUrl . '/resources/js/jquery-ui.min.js', CClientScript::POS_HEAD)
-            ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins.js', CClientScript::POS_HEAD)
-            ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD)
-			->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member.js', CClientScript::POS_HEAD)
-			
-			->registerCssFile(Yii::app()->baseUrl . '/resources/css/style.css')
-			->registerCssFile(Yii::app()->baseUrl . '/resources/css/ui/jquery-ui.css')
-			->registerCssFile(Yii::app()->baseUrl . '/resources/css/member.css');
-
-		return true;
-	}
-
 	public function member()
 	{
 		return $this->_member;

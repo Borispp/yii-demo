@@ -1,11 +1,9 @@
-<section id="album" albumid="<?php echo $entry->id; ?>">
-	<?php echo YsaHtml::pageHeaderTitle($entry->name); ?>
+<section id="portfolio-album" albumid="<?php echo $entry->id; ?>">
 
-	<?php echo YsaHtml::link('Edit Album Info', array('album/edit/' . $entry->id))?>
-
+	<?php echo YsaHtml::link('Edit Album Info', array('portfolioAlbum/edit/' . $entry->id))?>
 
 	<?php $form = $this->beginWidget('YsaMemberForm', array(
-			'id'=>'copyrights-step-form',
+			'id'=>'portfolio-photo-form',
 			'enableAjaxValidation'=>false,
 			'htmlOptions'=>array('enctype' => 'multipart/form-data'),
 	)); ?>
@@ -15,16 +13,15 @@
 
 	<?php $this->endWidget();?>
 	
-	
 	<span id="spanButtonPlaceholder"></span>
 	
 	<div id="upload-file-progress-container"></div>
 	
 	<h3>Album Photos</h3>
-	<ul id="album-photos" class="album-photos">
+	<ul id="portfolio-album-photos" class="album-photos">
 		<?php if (count($entry->photos())) : ?>
 				<?php foreach ($entry->photos() as $photo) : ?>
-				<?php echo $this->renderPartial('/photo/_listphoto', array(
+				<?php echo $this->renderPartial('/portfolioPhoto/_listphoto', array(
 					'entry' => $photo
 				)); ?>
 				<?php endforeach; ?>
