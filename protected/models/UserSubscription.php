@@ -59,10 +59,11 @@ class UserSubscription extends YsaActiveRecord
 		return array(
 			array('user_id, membership_id', 'required'),
 			array('user_id, membership_id, discount_id', 'numerical', 'integerOnly'=>true),
+			array('start_date, update_date, expiry_date, discount_id state', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, user_id, membership_id, start_date, update_date, expiry_date, discount_id', 'safe', 'on'=>'search'),
-			array('discount', 'validateDiscount',)
+			array('discount', 'validateDiscount')
 		);
 	}
 
