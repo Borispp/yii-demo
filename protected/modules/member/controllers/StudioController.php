@@ -7,6 +7,8 @@ class StudioController extends YsaMemberController
 		
 		$entryLink = new StudioLink();
 		
+		$specials = new SpecialsUploadForm();
+		
 		if (isset($_POST['Studio'])) {
 			$entry->attributes = $_POST['Studio'];
 			
@@ -31,6 +33,7 @@ class StudioController extends YsaMemberController
 		$this->render('index', array(
 			'entry'		=> $entry,
 			'entryLink' => $entryLink,
+			'specials'  => $specials,
 		));
     }
 }

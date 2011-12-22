@@ -14,7 +14,7 @@
 	<?php $this->endWidget();?>
 	
 	<div id="photo-upload-container">
-		<div id="filelist" style="min-height: 100px;border: 1px solid red;">
+		<div id="photo-filelist" style="min-height: 100px;border: 1px solid red;">
 			
 		</div>
 		<a href="#" id="photo-upload-browse">select files</a>

@@ -12,6 +12,7 @@
  * @property string $facebook_feed
  * @property string $created
  * @property string $updated
+ * @property string $specials
  */
 class Studio extends YsaActiveRecord
 {
@@ -43,7 +44,7 @@ class Studio extends YsaActiveRecord
 			array('user_id', 'numerical', 'integerOnly'=>true),
 			array('name, facebook_feed, twitter_feed, blog_feed', 'length', 'max'=>100),
 			array('facebook_feed, twitter_feed, blog_feed', 'url'),
-			array('name, facebook_feed, twitter_feed, blog_feed, created, updated', 'safe'),
+			array('name, facebook_feed, twitter_feed, blog_feed, created, updated, specials', 'safe'),
 		);
 	}
 
@@ -70,6 +71,11 @@ class Studio extends YsaActiveRecord
 			'name' => 'Name',
 			'created' => 'Created',
 			'updated' => 'Updated',
+			'specials' => 'Specials',
+			'facebook_feed' => 'Facebook',
+			'twitter_feed' => 'Twitter',
+			'blog_feed' => 'Blog RSS',
+			
 		);
 	}
 	
