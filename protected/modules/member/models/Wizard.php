@@ -98,10 +98,16 @@ abstract class Wizard extends YsaFormModel
     
     public function getFontList()
     {
-        return array(
-            'arial'     => 'Arial',
-            'helvetica' => 'Helvetica',
-            'georgia'   => 'Georgia',
-        );
+		return Yii::app()->params['studio_options']['fonts']['main_font']['values']+
+				Yii::app()->params['studio_options']['fonts']['second_font']['values'];
     }
+
+	public function attributeLabels()
+	{
+		$result = array();
+		$section = str_replace('wizard','', strtolower($this->_class));
+		foreach(Yii::app()->params['studio_options'][$section] as $property => $params)
+			$result[$property] = $params['label'];
+		return $result;
+	}
 }
