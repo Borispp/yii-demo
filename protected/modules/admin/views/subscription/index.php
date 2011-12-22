@@ -36,7 +36,7 @@
 				<?php echo CHtml::link($entry->Membership->name, array('edit', 'id' => $entry->id)); ?>
 			</td>
 			<td class="l">
-				<?php echo $entry->Member->first_name.' '.$entry->Member->last_name?>
+				<?php echo $entry->Member->name()?>
 			</td>
 			<td>
 				<?php if ($entry->Discount):?>
