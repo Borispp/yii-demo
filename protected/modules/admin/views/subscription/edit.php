@@ -28,7 +28,9 @@
 				<?php echo $form->labelEx($entry, 'discount_id'); ?>
 				<div>
 					<?php if ($entry->Discount):?>
-					<?php echo '<strong>'.$entry->Discount->code.'</strong> ('.$entry->Discount->summ?>%)
+					<a href="<?php echo Yii::app()->createUrl('/admin/discount/edit/', array(
+						'id'	=> $entry->Discount->id
+				)) ?>"><?php echo $entry->Discount->code?></a> (<?php echo $entry->Discount->summ?>%)
 					<?php else:?>
 																									   —
 					<?php endif?>

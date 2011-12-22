@@ -190,6 +190,11 @@ class UserSubscription extends YsaActiveRecord
 		$this->start_date = date('Y-m-d');
 		$this->expiry_date = date('Y-m-d', $this->_getDate());
 		$this->update_date = date('Y-m-d', $this->_getDate()-24*3600);
+		if ($this->Discount && $this->Discount->amount != -1)
+		{
+			$this->Discount->amount--;
+			$this->Discount->save();
+		}
 		$this->save();
 	}
 

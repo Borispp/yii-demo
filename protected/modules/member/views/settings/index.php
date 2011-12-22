@@ -2,6 +2,7 @@
 <section class="body w">
 	<h3><?php echo $entry->name(); ?></h3>
 	<div><a href="<?php echo Yii::app()->createUrl('/member/subscription/list/')?>">My subscriptions</a></div>
+	<div><a href="<?php echo Yii::app()->createUrl('/member/inbox')?>">Inbox</a></div>
 	<p class="descr">Lorem ipsum dccolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
 
 	<div class="form">
