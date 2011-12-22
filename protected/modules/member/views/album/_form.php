@@ -43,6 +43,22 @@
 		<?php echo $form->error($entry,'state'); ?>
 	</div>
 </section>
+	
+<section>
+	<?php echo $form->labelEx($entry,'can_share'); ?>
+	<?php echo $form->checkBox($entry, 'can_share', array('checked' => $entry->can_share)); ?>
+	<div>
+		<?php echo $form->error($entry,'can_share'); ?>
+	</div>
+</section>
+	
+<section>
+	<?php echo $form->labelEx($entry,'can_order'); ?>
+	<?php echo $form->checkBox($entry, 'can_order', array('checked' => $entry->can_share)); ?>
+	<div>
+		<?php echo $form->error($entry,'can_order'); ?>
+	</div>
+</section>
 
 <section class="button">
 	<?php echo YsaHtml::submitButton($entry->isNewRecord ? 'Create' : 'Save'); ?>

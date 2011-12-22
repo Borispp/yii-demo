@@ -14,6 +14,8 @@
  * @property integer $state
  * @property string $created
  * @property string $updated
+ * @property integer $can_order
+ * @property integer $can_share
  */
 class EventAlbum extends YsaActiveRecord
 {
@@ -28,6 +30,8 @@ class EventAlbum extends YsaActiveRecord
 	protected $_preview;
 	
 	protected $_previewUrl;
+	
+	protected $_sizes;
 	
     public function init() {
         parent::init();
@@ -63,9 +67,9 @@ class EventAlbum extends YsaActiveRecord
             // NOTE: you should only define rules for those attributes that
             // will receive user inputs.
             return array(
-                    array('event_id, rank, state', 'numerical', 'integerOnly'=>true),
+                    array('event_id, rank, state, can_share, can_order', 'numerical', 'integerOnly'=>true),
                     array('name, place', 'length', 'max'=>255),
-                    array('description, shooting_date, created, updated', 'safe'),
+                    array('description, shooting_date, created, updated, can_share, can_order', 'safe'),
                     // The following rule is used by search().
                     // Please remove those attributes that should not be searched.
                     array('id, event_id, name, description, state, created', 'safe', 'on'=>'search'),
@@ -82,6 +86,7 @@ class EventAlbum extends YsaActiveRecord
         return array(
             'event'  => array(self::BELONGS_TO, 'Event', 'event_id'),
             'photo'  => array(self::HAS_MANY, 'EventPhoto', 'album_id'),
+			'sizes'	 => array(self::MANY_MANY, 'PhotoSize', 'event_album_size(album_id, size_id)'),
         );
     }
 
@@ -101,6 +106,8 @@ class EventAlbum extends YsaActiveRecord
                 'state' => 'State',
                 'created' => 'Created',
                 'updated' => 'Updated',
+				'can_order' => 'Available for order',
+				'can_share'	=> 'Available for share',
             );
     }
 
@@ -256,5 +263,42 @@ class EventAlbum extends YsaActiveRecord
 	public function isOwner()
 	{
 		return $this->event()->isOwner();
+	}
+	
+	public function setSizes($sizes)
+	{
+		EventAlbumSize::model()->deleteAll('album_id=:album_id', array(
+			':album_id' => $this->id,
+		));
+		
+		foreach ($sizes as $size) {
+			$sizeEntry = PhotoSize::model()->findByAttributes(array(
+				'id'	=> (int) $size,
+				'state' => PhotoSize::STATE_ACTIVE,
+			));
+			
+			if ($sizeEntry) {
+				
+				$s = new EventAlbumSize();
+				$s->setAttributes(array(
+					'size_id'  => $sizeEntry->id,
+					'album_id' => $this->id,					
+				));
+				$s->save();
+				unset($s);
+			}
+		}
+		
+		return $this;
+	}
+	
+	public function canShare()
+	{
+		return $this->can_share;
+	}
+	
+	public function canOrder()
+	{
+		return $this->can_order;
 	}
 }

@@ -212,4 +212,9 @@ class Event extends YsaActiveRecord
 	{
 		return $this->user->id == Yii::app()->user->id;
 	}
+	
+	public function isProofing()
+	{
+		return self::TYPE_PROOF == $this->type;
+	}
 }

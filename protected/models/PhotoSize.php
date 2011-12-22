@@ -70,4 +70,12 @@ class PhotoSize extends YsaActiveRecord
 			'state' => 'State',
 		);
 	}
+	
+	public function findActive()
+	{
+		return PhotoSize::model()->findAll(array(
+			'condition' => 'state=' . PhotoSize::STATE_ACTIVE,
+			'order' => 'title ASC',
+		));
+	}
 }

@@ -47,7 +47,7 @@ class AlbumController extends YsaMemberController
 		
 		if (isset($_POST['EventAlbum'])) {
             $entry->attributes = $_POST['EventAlbum'];
-            
+			
             if ($entry->validate()) {
                 $entry->save();
                 $this->redirect(array('album/view/' . $entry->id));
@@ -55,6 +55,7 @@ class AlbumController extends YsaMemberController
 		}
 		
 		$this->crumb($entry->event()->name, array('event/view/' . $entry->event()->id))
+			 ->crumb($entry->name, array('album/view/' . $entry->id))
 			 ->crumb('Edit Album');
 		
 		
@@ -73,17 +74,34 @@ class AlbumController extends YsaMemberController
         }
 		$upload = new PhotoUploadForm();
 		
-		if (Yii::app()->getRequest()->isPostRequest) {
+		$photoSizes = PhotoSize::model()->findActive();
+		
+		$availability = new AlbumPhotoAvailability();
+		
+		if (isset($_POST['PhotoUploadForm'])) {
 			$upload->photo = CUploadedFile::getInstance($upload, 'photo');
 			if ($upload->validate()) {
-				
 				$photo = new EventPhoto();
 				$photo->album_id = $entry->id;
-				
 				$photo->upload($upload->photo);
 				
 				$this->refresh();
 			}
+		}
+		
+		if (isset($_POST['AlbumSizes']) && count($_POST['AlbumSizes']) && is_array($_POST['AlbumSizes'])) {
+			$entry->setSizes($_POST['AlbumSizes']);
+			$this->refresh();
+		}
+		
+		if (isset($_POST['AlbumPhotoAvailability']) && !$entry->event()->isProofing()) {
+			$availability->attributes = $_POST['AlbumPhotoAvailability'];
+			if ($availability->validate()) {
+				$entry->can_order = $availability->can_order;
+				$entry->can_share = $availability->can_share;
+				$entry->save();
+			}
+			$this->refresh();
 		}
         
 		$this->loadSwfUploader();
@@ -94,8 +112,10 @@ class AlbumController extends YsaMemberController
 		$this->setMemberPageTitle($entry->name);
 		
         $this->render('view', array(
-            'entry'   => $entry,
-			'upload'  => $upload, 
+            'entry'			=> $entry,
+			'upload'		=> $upload, 
+			'photoSizes'	=> $photoSizes,
+			'availability'	=> $availability,
         ));
     }
 	
@@ -129,7 +149,7 @@ class AlbumController extends YsaMemberController
         }
 	}
 	
-	public function actionSort($albumId = 0)
+	public function actionSort()
 	{
 		if (Yii::app()->getRequest()->isAjaxRequest) {
 			if (isset($_POST['event-album'])) {
@@ -139,6 +159,22 @@ class AlbumController extends YsaMemberController
 						$entry->rank = $k + 1;
 						$entry->save();
 					}
+				}
+			}
+			$this->sendJsonSuccess();
+		} else {
+			$this->redirect(Yii::app()->homeUrl);
+		}
+	}
+	
+	public function actionToggle($albumId = 0)
+	{
+		if (Yii::app()->getRequest()->isAjaxRequest) {
+			$entry = EventAlbum::model()->findByPk($id);
+			if ($entry && $entry->event()->isOwner()) {
+				if (isset($_POST['state'])) {
+					$entry->state = intval($_POST['state']);
+					$entry->save();
 				}
 			}
 			$this->sendJsonSuccess();

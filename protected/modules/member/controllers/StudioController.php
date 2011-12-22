@@ -9,6 +9,9 @@ class StudioController extends YsaMemberController
 		
 		$specials = new SpecialsUploadForm();
 		
+		$splash = new StudioSplashForm();
+		$splash->text = $entry->splash;
+		
 		if (isset($_POST['Studio'])) {
 			$entry->attributes = $_POST['Studio'];
 			
@@ -25,7 +28,6 @@ class StudioController extends YsaMemberController
 			
 			if ($entryLink->validate()) {
 				$entryLink->save();
-				
 				$this->refresh();
 			}
 		}
@@ -34,18 +36,30 @@ class StudioController extends YsaMemberController
 			$specials->specials = CUploadedFile::getInstance($specials, 'specials');
 			
 			if ($specials->validate()) {
-				
 				$entry->saveSpecials($specials->specials);
+				$this->refresh();
+			}	
+		}
+		
+		if (isset($_POST['StudioSplashForm'])) {
+//			$specials->specials = CUploadedFile::getInstance($specials, 'specials');
+			
+			$splash->attributes = $_POST['StudioSplashForm'];
+			
+			if ($splash->validate()) {
+				
+				$entry->splash = $splash->text;
+				$entry->save();
 				
 				$this->refresh();
-			}
-			
+			}	
 		}
 		
 		$this->render('index', array(
 			'entry'		=> $entry,
 			'entryLink' => $entryLink,
 			'specials'  => $specials,
+			'splash'	=> $splash,
 		));
     }
 	

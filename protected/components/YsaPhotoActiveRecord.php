@@ -41,6 +41,8 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 			'rank' => 'Rank',
 			'created' => 'Created',
 			'updated' => 'Updated',
+			'can_share' => 'Can be shared',
+			'can_order' => 'Can be ordered',
 		);
 	}
 	
