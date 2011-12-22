@@ -21,7 +21,7 @@
 				<div>
 					<a href="<?php echo Yii::app()->createUrl('/admin/member/view/', array(
 						'id'	=> $entry->Member->id
-				))?>"><?php echo $entry->Member->first_name.' '.$entry->Member->last_name?></a>
+				))?>"><?php echo $entry->Member->name()?></a>
 				</div>
 			</section>
 			<section>
