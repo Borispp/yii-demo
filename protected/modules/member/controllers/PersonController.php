@@ -8,9 +8,7 @@ class PersonController extends YsaMemberController
 		if (isset($_POST['StudioPerson'])) {
 			
 			$entry->attributes = $_POST['StudioPerson'];
-			
 			$entry->photo = CUploadedFile::getInstance($entry, 'photo');
-			
 			$entry->studio_id = $this->member()->studio()->id;
 			
 			$entry->setNextRank();
@@ -19,12 +17,110 @@ class PersonController extends YsaMemberController
 				$entry->uploadPhoto();
 				$entry->save();
 				
-				$this->redirect('studio/');
+				$this->redirect(array('studio/'));
 			}
 		}
+		
+		$this->setMemberPageTitle('Add Shooter');
 		
 		$this->render('add', array(
 			'entry' => $entry,
 		));
     }
+	
+	public function actionView($personId)
+	{
+		$entry = StudioPerson::model()->findByPk($personId);
+		
+		if (!$entry || !$entry->isOwner()) {
+			$this->redirect(array('studio/'));
+		}
+		
+		$this->setMemberPageTitle('View Shooter');
+		
+		$this->render('view', array(
+			'entry' => $entry,
+		));
+	}
+	
+	public function actionEdit($personId)
+	{
+		$entry = StudioPerson::model()->findByPk($personId);
+		
+		if (!$entry || !$entry->isOwner()) {
+			$this->redirect(array('studio/'));
+		}
+		
+		if (isset($_POST['StudioPerson'])) {
+			
+			$entry->attributes = $_POST['StudioPerson'];
+			$entry->photo = CUploadedFile::getInstance($entry, 'photo');
+			
+			if ($entry->validate()) {
+				$entry->uploadPhoto();
+				$entry->save();
+				$this->redirect(array('studio/'));
+			}
+		}
+		
+		$this->setMemberPageTitle('Edit Shooter');
+		
+		$this->render('edit', array(
+			'entry' => $entry,
+		));
+	}
+	
+	public function actionDelete($personId = 0)
+	{
+        $ids = array();
+        if (isset($_POST['ids']) && count($_POST['ids'])) {
+            $ids = $_POST['ids'];
+        } elseif ($personId) {
+            $ids = array(intval($personId));
+        }
+		
+        foreach ($ids as $id) {
+			$entry = StudioPerson::model()->findByPk($id);
+			if ($entry && $entry->isOwner()) {
+				$entry->delete();	
+			}
+        }
+        
+        if (Yii::app()->getRequest()->isAjaxRequest) {
+            $this->sendJsonSuccess();
+        } else {
+			$this->redirect(array('studio/'));
+        }
+	}
+	
+	public function actionDeleteImage($personId)
+	{
+		$entry = StudioPerson::model()->findByPk($personId);
+		
+		if (!$entry || !$entry->isOwner()) {
+			$this->redirect(array('studio/'));
+		}
+		
+		$entry->removePhoto();
+		
+		$this->redirect(array('studio/person/' . $entry->id));
+	}
+	
+	public function actionSort()
+	{
+		if (Yii::app()->getRequest()->isAjaxRequest) {
+			if (isset($_POST['studio-person'])) {
+				foreach ($_POST['studio-person'] as $k => $id) {
+					$entry = StudioPerson::model()->findByPk($id);
+					if ($entry && $entry->isOwner()) {
+						$entry->rank = $k + 1;
+						$entry->save();
+					}
+				}
+			}
+			$this->sendJsonSuccess();
+		} else {
+			$this->redirect(Yii::app()->homeUrl);
+		}
+	}
 }

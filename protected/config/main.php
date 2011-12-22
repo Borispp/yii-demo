@@ -75,6 +75,8 @@ return array(
 					'/member/event/<action:\w+>/<eventId>' => 'member/event/<action>',
 					'/member/album/<action:\w+>/<albumId>' => 'member/album/<action>',
 					'/member/photo/<action:\w+>/<photoId>' => 'member/photo/<action>',
+					'/member/person/<action:\w+>/<personId>' => 'member/person/<action>',
+					'/member/link/<action:\w+>/<linkId>' => 'member/link/<action>',
 					
 					'/member/portfolioAlbum/<action:\w+>/<albumId>' => 'member/portfolioAlbum/<action>',
 					'/member/portfolioPhoto/<action:\w+>/<photoId>' => 'member/portfolioPhoto/<action>',

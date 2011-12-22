@@ -12,11 +12,29 @@
 		</div>
 	</section>
 	
+	
+	<?php if ($entry->photo) : ?>
+		<section>
+			<?php echo $entry->photo(); ?>
+				<?php echo YsaHtml::link('x', array('person/deleteImage/' . $entry->id)); ?>
+		</section>
+	<?php else: ?>
+		<section>
+			<?php echo $form->labelEx($entry,'photo'); ?>
+			<div>
+				<?php echo $form->fileField($entry,'photo', array('maxlength' => 100)); ?>
+				<?php echo $form->error($entry,'photo'); ?>
+			</div>
+		</section>
+	<?php endif; ?>
+	
+
+	
 	<section>
-		<?php echo $form->labelEx($entry,'photo'); ?>
+		<?php echo $form->labelEx($entry,'description'); ?>
 		<div>
-			<?php echo $form->fileField($entry,'photo', array('maxlength' => 100)); ?>
-			<?php echo $form->error($entry,'photo'); ?>
+			<?php echo $form->textArea($entry,'description', array('cols' => 40, 'rows' => 4)); ?>
+			<?php echo $form->error($entry,'description'); ?>
 		</div>
 	</section>
 

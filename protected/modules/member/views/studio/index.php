@@ -49,19 +49,31 @@
 		
 		<div id="studio-photographer-info">
 			<?php echo YsaHtml::link('Add Photographer', array('person/add')); ?>
+			
+			<ul>
+				<?php foreach ($this->member()->studio()->persons() as $person) : ?>
+					<?php $this->renderPartial('/person/_listperson', array(
+						'entry' => $person,
+					)); ?>
+				<?php endforeach; ?>
+			</ul>
+			
 		</div>
+		
+		
+		
 		
 		<h3>Links</h3>
 		<section id="studio-links">
 			<ul>
 				<?php foreach ($this->member()->studio()->links() as $link) : ?>
-					<?php $this->renderPartial('_listlink', array(
+					<?php $this->renderPartial('/link/_listlink', array(
 						'entry' => $link,
 					)); ?>
 				<?php endforeach; ?>
 			</ul>
 			
-			<?php $this->renderPartial('_editlinkForm', array(
+			<?php $this->renderPartial('/link/_form', array(
 				'entry' => $entryLink,
 			)); ?>
 		</section>

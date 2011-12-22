@@ -15,6 +15,8 @@
  */
 class StudioLink extends YsaActiveRecord
 {
+	protected $_studio;
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return StudioLink the static model class
@@ -74,7 +76,7 @@ class StudioLink extends YsaActiveRecord
 	}
 	
 	public function setNextRank()
-	{	
+	{
 		$maxRank = (int) Yii::app()->db->createCommand()
 							->select('max(rank) as max')
 							->from($this->tableName())
@@ -88,5 +90,19 @@ class StudioLink extends YsaActiveRecord
 		$this->friendly_url = $this->url;
 		
 		return parent::beforeValidate();
+	}
+	
+	public function isOwner()
+	{
+		return $this->studio()->isOwner();
+	}
+	
+	public function studio()
+	{
+		if (null === $this->_studio) {
+			$this->_studio = Studio::model()->find('id=:id', array('id' => $this->studio_id));
+		}
+		
+		return $this->_studio;
 	}
 }

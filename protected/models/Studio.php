@@ -18,6 +18,8 @@ class Studio extends YsaActiveRecord
 	protected $_links;
 	
 	protected $_portfolio;
+	
+	protected $_persons;
 
 	public static function model($className=__CLASS__)
 	{
@@ -51,7 +53,9 @@ class Studio extends YsaActiveRecord
 	public function relations()
 	{
 		return array(
-			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+			'user'   => array(self::BELONGS_TO, 'User', 'user_id'),
+			'link'	 => array(self::HAS_MANY, 'StudioLink', 'studio_id'),
+			'person' => array(self::HAS_MANY, 'StudioPerson', 'studio_id'),
 		);
 	}
 
@@ -81,6 +85,20 @@ class Studio extends YsaActiveRecord
 			));
 		}
 		return $this->_links;
+	}
+	
+	public function persons()
+	{
+		if (null === $this->_persons) {
+			$this->_persons = StudioPerson::model()->findAll(array(
+				'condition' => 'studio_id=:studio_id',
+				'params'	=> array(
+					'studio_id' => $this->id,
+				),
+				'order' => 'rank ASC',
+			));
+		}
+		return $this->_persons;
 	}
 	
 	public function portfolio()
