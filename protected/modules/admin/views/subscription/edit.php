@@ -11,20 +11,26 @@
 			<section>
 				<?php echo $form->labelEx($entry, 'membership_id'); ?>
 				<div>
-					<?php echo $entry->Membership->name?>
+					<a href="<?php echo Yii::app()->createUrl('/admin/membership/edit/', array(
+						'id'	=> $entry->Membership->id
+				))?>"><?php echo $entry->Membership->name?></a>
 				</div>
 			</section>
 			<section>
 				<?php echo $form->labelEx($entry, 'user_id'); ?>
 				<div>
-					<?php echo $entry->Member->first_name.' '.$entry->Member->last_name?>
+					<a href="<?php echo Yii::app()->createUrl('/admin/member/view/', array(
+						'id'	=> $entry->Member->id
+				))?>"><?php echo $entry->Member->first_name.' '.$entry->Member->last_name?></a>
 				</div>
 			</section>
 			<section>
 				<?php echo $form->labelEx($entry, 'discount_id'); ?>
 				<div>
 					<?php if ($entry->Discount):?>
-					<?php echo '<strong>'.$entry->Discount->code.'</strong> ('.$entry->Discount->summ?>%)
+					<a href="<?php echo Yii::app()->createUrl('/admin/discount/edit/', array(
+						'id'	=> $entry->Discount->id
+				)) ?>"><?php echo $entry->Discount->code?></a> (<?php echo $entry->Discount->summ?>%)
 					<?php else:?>
 																									   —
 					<?php endif?>
@@ -33,7 +39,7 @@
 			<section>
 				<?php echo $form->labelEx($entry, 'summ'); ?>
 				<div>
-					<?php echo $entry->summ?>
+					<?php echo $entry->summ?> <?php echo Yii::app()->settings->get('paypal_currency')?>
 				</div>
 			</section>
 		</fieldset>

@@ -14,10 +14,11 @@
 		<thead>
 		<tr>
 			<th class="w_1"><input type="checkbox" value="" class="ids-toggle" /></th>
+			<th>ID</th>
 			<th class="l">Subscription</th>
 			<th class="l">User</th>
-			<th class="l">Discount</th>
-			<th class="l">Summ</th>
+			<th>Discount</th>
+			<th>Summ</th>
 			<th class="w_20">Start date</th>
 			<th class="w_10">End date</th>
 			<th class="w_10">State</th>
@@ -28,6 +29,9 @@
 		<?php foreach ($entries as $entry) : ?>
 		<tr>
 			<td><input type="checkbox" class="del" value="<?php echo $entry->id; ?>" name="ids[]" /></td>
+			<td>
+				<?php echo $entry->id ?>
+			</td>
 			<td class="l">
 				<?php echo CHtml::link($entry->Membership->name, array('edit', 'id' => $entry->id)); ?>
 			</td>
@@ -41,7 +45,7 @@
 					—
 				<?php endif?>
 			</td>
-			<td><?php echo $entry->summ?></td>
+			<td><?php echo $entry->summ?> <?php echo Yii::app()->settings->get('paypal_currency')?></td>
 			<td><?php echo $entry->start_date?></td>
 			<td><?php echo $entry->expiry_date?></td>
 			<td><?php echo $entry->labelState()?></td>

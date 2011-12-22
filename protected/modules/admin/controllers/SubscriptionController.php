@@ -9,9 +9,6 @@ class SubscriptionController extends YsaAdminController
 		if(Yii::app()->request->isPostRequest && isset($_POST['UserSubscription']))
 		{
 			$entry->attributes=$_POST['UserSubscription'];
-			$entry->start_date = $_POST['UserSubscription']['start_date'];
-			$entry->expiry_date = $_POST['UserSubscription']['expiry_date'];
-			$entry->state = $_POST['UserSubscription']['state'];
 			if ($entry->validate())
 			{
 				$entry->save();
@@ -34,9 +31,7 @@ class SubscriptionController extends YsaAdminController
 			$this->redirect('/admin/' . $this->getId());
 		}
 		if(Yii::app()->request->isPostRequest && isset($_POST['UserSubscription'])) {
-			$entry->start_date = $_POST['UserSubscription']['start_date'];
-			$entry->expiry_date = $_POST['UserSubscription']['expiry_date'];
-			$entry->state = $_POST['UserSubscription']['state'];
+			$entry->attributes=$_POST['UserSubscription'];
 			if($entry->save()) {
 				$this->setSuccessFlash("Entry successfully updated. " . CHtml::link('Back to listing.', array('index')));
 				$this->refresh();
@@ -50,7 +45,7 @@ class SubscriptionController extends YsaAdminController
 
 	public function actionIndex()
 	{
-		$entries = UserSubscription::model()->findAll();
+		$entries = UserSubscription::model()->findAll(array('order' => 'id'));
 		$this->setContentTitle('Member Subscription');
 		$this->setContentDescription('manage Member Subscriptions.');
 		$this->render('index', array(
@@ -76,15 +71,5 @@ class SubscriptionController extends YsaAdminController
 		} else {
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 		}
-	}
-
-	public function actionGetMembershipList()
-	{
-		$options = array();
-		foreach(Membership::model()->findAll() as $obMembership)
-			$options[$obMembership->id] = $obMembership->name;
-		$this->sendJsonSuccess(array(
-			'mebershipList' => $options,
-		));
 	}
 }

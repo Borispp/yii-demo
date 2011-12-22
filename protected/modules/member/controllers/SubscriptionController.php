@@ -56,10 +56,27 @@ class SubscriptionController extends YsaMemberController
 
 	public function actionPaypal()
 	{
-		if (empty($_GET['id']) || !($obUserTransaction = UserTransaction::model()->findByPk($_GET['id'])))
+		if (empty($_GET['id']) || !($obUserTransaction = UserTransaction::model()->findByPk($_GET['id'])) || !$obUserTransaction->getUserSubscription())
 		{
-			$this->setError('No Transaction ID found');
-			return $this->render('error');
+			if ($obUserTransaction && !$obUserTransaction->getUserSubscription())
+				$obUserTransaction->delete();
+			return $this->render('error', array(
+				'message'	=> 'No Transaction with such ID found'
+			));
+		}
+		if ($obUserTransaction->state == UserTransaction::STATE_PAID)
+		{
+			return $this->render('error', array(
+				'title'		=> 'Already paid',
+				'message'	=> 'You\'ve already paid this transaction.',
+			));
+		}
+		if ($obUserTransaction->getUserSubscription()->user_id != $this->member()->id)
+		{
+			return $this->render('error', array(
+				'title'		=> 'Access denied',
+				'message'	=> 'You are not allowed to access this tranaction.',
+			));
 		}
 		$obUserTransaction->state = UserTransaction::STATE_SENT;
 		$this->renderVar('currency', $this->_getPayment()->getCurrency());
@@ -101,7 +118,6 @@ class SubscriptionController extends YsaMemberController
 
 	public function actionIndex()
 	{
-		//Yii::app()->controller()->member();
 		if ($this->member()->hasSubscription())
 			$this->redirect(array('subscription/list/'));
 		$this->redirect(array('subscription/new/'));

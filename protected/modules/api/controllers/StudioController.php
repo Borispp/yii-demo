@@ -111,6 +111,13 @@ class StudioController extends YsaApiController
 			'required'	=> TRUE,
 		)));
 		$obPhotographer = Application::model()->findByKey($_POST['app_key'])->user;
+		$obStudioMessage = new StudioMessage();
+		$obStudioMessage->attributes = $_POST['fields'];
+		$obStudioMessage->user_id = $obPhotographer->id;
+		$obStudioMessage->device_id = $_POST['device_id'];
+		if(!$obStudioMessage->save())
+			$this->_renderErrors(11, $obStudioMessage->getErrors());
+
 		$body = '';
 		foreach($_POST['fields'] as $name => $value)
 			$body .= $name.': '.($value ? $value : '')."\n\r";

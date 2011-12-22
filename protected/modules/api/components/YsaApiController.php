@@ -85,9 +85,23 @@ class YsaApiController extends YsaController
 	}
 
 	/**
+	 * Wrapper for _renderError to render array of errors
+	 * @param integer $code
+	 * @param array $errors
+	 * @return void
+	 */
+	protected function _renderErrors($code, array $errors)
+	{
+		$message = '';
+		foreach($errors as $key => $error)
+			$message .= ($message ? "\n\r" : '').($key ? $key.' - ': '').is_array($error) ? implode(', ', $error) : $error;
+		$this->_renderError($code, $message);
+	}
+
+	/**
 	 * Error output
 	 * @param $code
-	 * @param $message
+	 * @param string $message
 	 * @return void
 	 */
 	protected function _renderError($code, $message)
