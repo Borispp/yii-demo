@@ -186,23 +186,26 @@ class UserSubscription extends YsaActiveRecord
 
 	public function activate()
 	{
+		$startDate = $this->Member->getLastPaidSubscriptionDate();
 		$this->state = self::STATE_ENABLED;
-		$this->start_date = date('Y-m-d');
-		$this->expiry_date = date('Y-m-d', $this->_getDate());
-		$this->update_date = date('Y-m-d', $this->_getDate()-24*3600);
-		if ($this->Discount && $this->Discount->amount != -1)
+		$this->start_date = $startDate;
+		$this->expiry_date = date('Y-m-d', $this->_getDate($startDate));
+		$this->update_date = date('Y-m-d', $this->_getDate($startDate)-24*3600);
+		if ($this->Discount
+				&& $this->Discount->DiscountMembership
+				&& $this->Discount->DiscountMembership[0]
+				&& $this->Discount->DiscountMembership[0]->amount != -1)
 		{
-			$this->Discount->amount--;
-			$this->Discount->save();
+			$this->Discount->DiscountMembership[0]->used();
 		}
 		$this->save();
 	}
 
-	protected function _getDate()
+	protected function _getDate($startDate = NULL)
 	{
-		$months = date('m')+$this->Membership->duration;
-		$years = date('Y')+(int)$months/12;
-		$months = date('m')+$months%12;
+		$months = date('m', strtotime($startDate))+$this->Membership->duration;
+		$years = date('Y', strtotime($startDate))+(int)$months/12;
+		$months = date('m', strtotime($startDate))+$months%12;
 		return mktime(0, 0, 0, $months, date('d'), $years);
 	}
 

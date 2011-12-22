@@ -40,4 +40,17 @@ class Member extends User
 				return TRUE;
 		return FALSE;
 	}
+
+	public function getLastPaidSubscriptionDate()
+	{
+		$lastDate = time();
+		foreach($this->UserSubscription as $obUserSubscription)
+		{
+			if ($obUserSubscription->state == UserSubscription::STATE_INACTIVE)
+				continue;
+			if ($lastDate < strtotime($obUserSubscription->expiry_date))
+				$lastDate = strtotime($obUserSubscription->expiry_date);
+		}
+		return date('Y-m-d', $lastDate);
+	}
 }

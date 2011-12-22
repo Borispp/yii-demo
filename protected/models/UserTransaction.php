@@ -13,7 +13,7 @@
  * @property string $payed
  * @property float $summ
  */
-class UserTransaction extends CActiveRecord
+class UserTransaction extends YsaActiveRecord
 {
 	/**
 	 * Created by member
@@ -77,7 +77,7 @@ class UserTransaction extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'UserSubscription'	=> array(self::BELONGS_TO, 'UserSubscription', 'user_subscription_id')
+			'UserSubscription'	=> array(self::BELONGS_TO, 'UserSubscription', 'user_subscription_id'),
 		);
 	}
 
@@ -121,4 +121,16 @@ class UserTransaction extends CActiveRecord
 			'criteria'	=>	$criteria,
 		));
 	}
+
+	public function state()
+	{
+		$states = array(
+			self::STATE_CREATED		=> 'Created',
+			self::STATE_CANCELED	=> 'Canceled',
+			self::STATE_PAID		=> 'Paid',
+			self::STATE_SENT		=> 'Unpaid',
+		);
+		return $states[$this->state];
+	}
+
 }
