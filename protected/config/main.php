@@ -8,7 +8,7 @@
 return array(
     'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
     'name'=>'YourStudioApp',
-    
+
     // preloading 'log' component
     'preload'=>array('log', 'maintenance'),
 
@@ -76,10 +76,10 @@ return array(
 					'/member/inbox/<action:\w+>/<messageId>' => 'member/inbox/<action>',
 					'/member/album/<action:\w+>/<albumId>' => 'member/album/<action>',
 					'/member/photo/<action:\w+>/<photoId>' => 'member/photo/<action>',
-					
+
 					'/member/portfolioAlbum/<action:\w+>/<albumId>' => 'member/portfolioAlbum/<action>',
 					'/member/portfolioPhoto/<action:\w+>/<photoId>' => 'member/portfolioPhoto/<action>',
-					
+
                     // page routes
                     array(
                         'class' => 'application.components.YsaPageUrlRule',
@@ -92,7 +92,7 @@ return array(
                     // gii activation
                     'gii'=>'gii',
                     'gii/<controller:\w+>'=>'gii/<controller>',
-                    'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>', 
+                    'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
                 ),
         ),
 
@@ -125,21 +125,21 @@ return array(
                 ),
             ),
         ),
-        
+
        'mailer' => array(
           'class'       => 'application.extensions.mailer.EMailer',
           'pathViews'   => 'application.views.email',
           'pathLayouts' => 'application.views.email.layouts'
        ),
-        
+
         'settings'  => array(
             'class' => 'application.components.YsaSettings'
         ),
-        
+
         'maintenance' => array(
             'class' => 'application.components.YsaMaintenance',
         ),
-		
+
 		'clientScript'=>array(
 			'packages'=>array(
 				'jquery'=>array(
@@ -159,9 +159,9 @@ return array(
         'salt'          => 'wel0veyourstud1oapp',
         'date_format'   => 'Y-m-d H:i:s',
         'currency'      => 'USD',
-        
+
         'max_image_size' => 1024 * 1024 * 5,
-        
+
         'application'   => array(
             'logo'  => array(
                 'width'  => 400,
@@ -215,5 +215,88 @@ return array(
 				),
 			),
 		),
+
+		'studio_options'	=> array(
+			'logo'		=> array(
+				'logo'	=> array(
+					'label'	=> 'Logo',
+					'img'	=> TRUE,
+				),
+				'splash_bg_image'	=> array(
+					'label'	=> 'Splash Background Image',
+					'img'	=> TRUE,
+				),
+				'splash_bg_color'	=> array(
+					'label'	=> 'Splash Background Color'
+				),
+				'splash_bg'	=> array(
+					'values'	=> array(
+						'image'	=> 'Background Image',
+						'color'	=> 'Background Color'
+					),
+					'label'		=> 'Splash Background Type'
+				)
+			),
+			'colors'	=> array(
+				'studio_bg'	=> array(
+					'values'	=> array(
+						'image'	=> 'Background Image',
+						'color'	=> 'Background Color'
+					),
+					'label'		=> 'Studio Background Type'
+				),
+				'studio_bg_image' => array(
+					'label'		=> 'Studio Background Image',
+					'img'	=> TRUE,
+				),
+				'studio_bg_color' => array(
+					'label'		=> 'Studio Background Color'
+				),
+				'generic_bg' => array(
+					'label'		=> 'Generic Background Type'
+				),
+				'generic_bg_color' => array(
+					'label'		=> 'Generic Background Color'
+				),
+				'generic_bg_image' => array(
+					'label'		=> 'Generic Background Image',
+					'img'	=> TRUE,
+				),
+			),
+			'fonts'		=> array(
+				'main_font' => array(
+					'values'	=> array(
+						'arial'     => 'Arial',
+						'helvetica' => 'Helvetica',
+						'georgia'   => 'Georgia',
+					),
+					'label'		=> 'Main font'
+				),
+				'second_font' => array(
+					'values'	=> array(
+						'arial'     => 'Arial',
+						'helvetica' => 'Helvetica',
+						'georgia'   => 'Georgia',
+					),
+					'label'		=> 'Second font'
+				),
+				'main_font_color' => array(
+					'label'		=> 'Color of the main font'
+				),
+				'second_font_color' => array(
+					'label'		=> 'Color of the second font'
+				),
+			),
+			'copyrights'	=> array(
+				'copyright'	=> array(
+					'label'		=> 'Copyright text'
+				)
+			),
+			'copyrights'	=> array(
+				'copyright'	=> array(
+					'label'		=> 'Copyright text'
+				)
+			),
+		)
     ),
 );
