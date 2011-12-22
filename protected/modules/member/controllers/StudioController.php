@@ -30,10 +30,38 @@ class StudioController extends YsaMemberController
 			}
 		}
 		
+		if (isset($_POST['SpecialsUploadForm'])) {
+			$specials->specials = CUploadedFile::getInstance($specials, 'specials');
+			
+			if ($specials->validate()) {
+				
+				$entry->saveSpecials($specials->specials);
+				
+				$this->refresh();
+			}
+			
+		}
+		
 		$this->render('index', array(
 			'entry'		=> $entry,
 			'entryLink' => $entryLink,
 			'specials'  => $specials,
 		));
     }
+	
+	public function actionDeleteSpecials()
+	{
+		$this->member()->studio()->deleteSpecials();
+		
+		if (Yii::app()->request->isAjaxRequest) {
+			$specials = new SpecialsUploadForm();
+			$this->sendJsonSuccess(array(
+				'html' => $this->renderPartial('_specialsForm', array(
+					'entry' => $specials,
+				), true)
+			));
+		} else {
+			$this->redirect(array('studio/'));
+		}
+	}
 }

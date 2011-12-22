@@ -22,6 +22,21 @@ class Studio extends YsaActiveRecord
 	
 	protected $_persons;
 
+	protected $_uploadPath;
+	
+	protected $_uploadUrl;
+	
+    public function init() {
+        parent::init();
+        
+        $this->_uploadPath = rtrim(Yii::getPathOfAlias('webroot.images.studio'), '/');
+        $this->_uploadUrl = Yii::app()->getBaseUrl(true) . '/images/studio';
+		
+		if (!is_dir($this->_uploadPath)) {
+			mkdir($this->_uploadPath, 0777);
+		}
+    }
+	
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -127,5 +142,73 @@ class Studio extends YsaActiveRecord
 	public function isOwner()
 	{
 		return $this->user_id == Yii::app()->user->id;
+	}
+	
+	public function uploadPath()
+	{
+		return $this->_uploadPath;
+	}
+	
+	public function specials()
+	{
+		$path = $this->_uploadPath . DIRECTORY_SEPARATOR . $this->specials;
+		
+		$url = $this->specialsUrl();
+		
+		$ext = YsaHelpers::mimeToExtention(mime_content_type($path));
+		
+		switch($ext) {
+			case 'pdf':
+				return 'View PDF';
+				break;
+			default:
+				return YsaHtml::image($url);
+				break;
+		}
+	}
+	
+	public function specialsUrl()
+	{
+		return $this->_uploadUrl . '/' . $this->specials;
+	}
+	
+	public function uploadUrl()
+	{
+		return $this->_uploadUrl;
+	}
+	
+	public function saveSpecials(CUploadedFile $instance)
+	{		
+		$ext = YsaHelpers::mimeToExtention($instance->getType());
+		
+		if (!$ext) {
+			return false;
+		}
+		
+        $newName = YsaHelpers::encrypt('specials' . $this->id) . '.' . $ext;
+
+        $savePath = $this->uploadPath() . DIRECTORY_SEPARATOR . $newName;
+		
+		$this->specials = $newName;
+		
+		$instance->saveAs($savePath);
+		$this->save();
+		
+		return $this;
+	}
+	
+	public function deleteSpecials()
+	{
+		$path = $this->_uploadPath . DIRECTORY_SEPARATOR . $this->specials;
+		
+		if (is_file($path)) {
+			unlink($path);
+		}
+		
+		$this->specials = null;
+		
+		$this->save();
+		
+		return $this;
 	}
 }

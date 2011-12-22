@@ -8,11 +8,20 @@
 		)); ?>
 		
 		<h3>Specials</h3>
+		
 		<div id="studio-specials">
+		<?php if ($entry->specials) : ?>
+			
+			<?php echo YsaHtml::link($entry->specials(), $entry->specialsUrl()); ?>
+			<?php echo YsaHtml::link('delete', array('deleteSpecials')); ?>
+			
+		<?php else: ?>
 			<?php $this->renderPartial('_specialsForm', array(
 				'entry' => $specials,
 			)); ?>
+		<?php endif; ?>
 		</div>
+
 		
 		<h3>Photographer Information</h3>
 		
@@ -26,11 +35,7 @@
 					)); ?>
 				<?php endforeach; ?>
 			</ul>
-			
 		</div>
-		
-		
-		
 		
 		<h3>Links</h3>
 		<section id="studio-links">
@@ -46,7 +51,5 @@
 				'entry' => $entryLink,
 			)); ?>
 		</section>
-
-		
 	</div>
 </section>
