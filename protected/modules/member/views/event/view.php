@@ -26,7 +26,7 @@
 		<h2>Albums</h2>
 	<?php endif; ?>
 	<?php if (count($entry->albums())) : ?>
-		<ul id="event-albums">
+		<ul id="event-albums" class="albums">
 			<?php foreach ($entry->albums() as $album) : ?>
 				<li id="event-album-<?php echo $album->id?>">
 					<?php echo $album->preview(); ?>

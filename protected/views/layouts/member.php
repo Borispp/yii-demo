@@ -1,5 +1,13 @@
 <?php $this->beginContent('//layouts/main'); ?>
 
+<?php if ($this->memberPageTitle) : ?>
+	<?php echo YsaHtml::pageHeaderTitle($this->memberPageTitle); ?>
+<?php endif; ?>
+
+<?php $this->widget('YsaMemberBreadcrumbs', array(
+	'links' => $this->breadcrumbs,
+)); ?>
+
 <?php if(Yii::app()->user->hasFlash('success')): ?>
     <div class="flash success">
         <?php echo Yii::app()->user->getFlash('success'); ?>

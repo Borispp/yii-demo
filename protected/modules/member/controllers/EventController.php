@@ -13,7 +13,10 @@ class EventController extends YsaMemberController
 		}
 		
 		$criteria = Event::model()->searchCriteria();
-        
+		
+		// load only current user's events
+		$criteria->addSearchCondition('user_id', $this->member()->id);
+		
         $pagination = new CPagination(Event::model()->count($criteria));
         $pagination->pageSize = Yii::app()->params['admin_per_page'];        
         $pagination->applyLimit($criteria);
@@ -29,7 +32,7 @@ class EventController extends YsaMemberController
     
     public function actionView($eventId)
     {
-        $entry = Event::model()->findByPk($eventId);
+        $entry = Event::model()->findByIdLogged($eventId);
         
         if (!$entry) {
             $this->redirect(array('event/'));
@@ -80,7 +83,7 @@ class EventController extends YsaMemberController
 	
     public function actionEdit($eventId)
     {
-		$entry = Event::model()->findByPk($eventId);
+		$entry = Event::model()->findByIdLogged($eventId);
 		
 		if (!$entry) {
 			$this->redirect(array('event/'));
@@ -111,11 +114,14 @@ class EventController extends YsaMemberController
         if (isset($_POST['ids']) && count($_POST['ids'])) {
             $ids = $_POST['ids'];
         } elseif ($eventId) {
-            $ids = array(intval($eventId));
+            $ids = array($eventId);
         }
 		
         foreach ($ids as $id) {
-			Event::model()->deleteByPk($id);
+			$entry = Event::model()->findByIdLogged(intval($id));
+			if ($entry) {
+				$entry->delete();
+			}
         }
         
         if (Yii::app()->getRequest()->isAjaxRequest) {

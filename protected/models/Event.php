@@ -19,6 +19,8 @@ class Event extends YsaActiveRecord
 {
     const TYPE_PUBLIC = 'public';
     const TYPE_PROOF  = 'proof';
+	
+	protected $_albums;
 
     /**
      * Returns the static model of the specified AR class.
@@ -124,13 +126,16 @@ class Event extends YsaActiveRecord
     
     public function albums()
     {
-        return EventAlbum::model()->findAll(array(
-			'condition' => 'event_id=:event_id',
-			'params'    => array(
-				':event_id' => $this->id,
-			),
-			'order' => 'rank ASC',
-		));
+		if (null === $this->_albums) {
+			$this->_albums = EventAlbum::model()->findAll(array(
+				'condition' => 'event_id=:event_id',
+				'params'    => array(
+					':event_id' => $this->id,
+				),
+				'order' => 'rank ASC',
+			));
+		}
+		return $this->_albums;
     }
     
     public function type()
@@ -201,5 +206,10 @@ class Event extends YsaActiveRecord
 		}
 		
 		return true;
+	}
+	
+	public function isOwner()
+	{
+		return $this->user->id == Yii::app()->user->id;
 	}
 }

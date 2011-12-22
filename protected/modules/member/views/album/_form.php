@@ -49,3 +49,4 @@
 </section>
 
 <?php $this->endWidget(); ?>
+</div>

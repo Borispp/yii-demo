@@ -149,6 +149,14 @@
                 'url' => array('/admin/discount/'),
                 'linkOptions' => array('class' => $this->getNavigationClass('discount')),
             );
+			$settingsItems[] = array(
+                'label' => 'Photo Sizes',
+                'url' => array('/admin/photoSize/'),
+                'linkOptions' => array('class' => $this->getNavigationClass('photoSize')),
+			);
+			
+			
+			
 			$membersItems = array();
             $membersItems[] = array(
                 'label' => 'Member',
@@ -173,9 +181,9 @@
                         array(
                             'label' =>'Settings', 
                             'url'   => '',
-                            'active' => $this->getNavigationClass('settings,optionGroup,membership,discount'),
+                            'active' => $this->getNavigationClass('settings,optionGroup,membership,discount,photoSize'),
                             'itemOptions' => array('class' => 'i_cog_4'),
-                            'linkOptions' => array('class' => $this->getNavigationClass('settings,optionGroup,membership,discount')),
+                            'linkOptions' => array('class' => $this->getNavigationClass('settings,optionGroup,membership,discount,photoSize')),
                             'items' => $settingsItems,
                         ),
                         array(

@@ -1,10 +1,16 @@
 <?php
 class AlbumController extends YsaMemberController
 {
-    public function actionCreate($event)
+	public function init() {
+		parent::init();
+		
+		$this->crumb('Events', array('event/'));
+	}
+	
+	public function actionCreate($event)
     {
-        $event = Event::model()->findByPk($event);
-        
+        $event = Event::model()->findByIdLogged($event);
+		
         // no event found or it's a proofing event
         if (!$event || Event::TYPE_PROOF == $event->type) {
             $this->redirect(array('event/'));
@@ -21,6 +27,9 @@ class AlbumController extends YsaMemberController
                 $this->redirect(array('album/view/' . $entry->id));
             }
         }
+		
+		$this->crumb($event->name, array('event/view/' . $event->id))
+			 ->crumb('Create Album');
         
         $this->render('create', array(
             'event' => $event,
@@ -45,6 +54,11 @@ class AlbumController extends YsaMemberController
             }
 		}
 		
+		$this->crumb($entry->event()->name, array('event/view/' . $entry->event()->id))
+			 ->crumb('Edit Album');
+		
+		
+		
         $this->render('edit', array(
             'entry' => $entry,
         ));
@@ -54,7 +68,7 @@ class AlbumController extends YsaMemberController
     {
         $entry = EventAlbum::model()->findByPk($albumId);
         
-        if (!$entry || !$entry->event()) {
+        if (!$entry || !$entry->event() || !$entry->event()->isOwner()) {
             $this->redirect(array('event/'));
         }
 		$upload = new PhotoUploadForm();
@@ -73,6 +87,11 @@ class AlbumController extends YsaMemberController
 		}
         
 		$this->loadSwfUploader();
+		
+		$this->crumb($entry->event()->name, array('event/view/' . $entry->event()->id))
+			 ->crumb($entry->name);
+		
+		$this->setMemberPageTitle($entry->name);
 		
         $this->render('view', array(
             'entry'   => $entry,
@@ -93,7 +112,9 @@ class AlbumController extends YsaMemberController
 			$album = EventAlbum::model()->findByPk($id);
 			if ($album) {
 				$event = $album->event();
-				$album->delete();	
+				if ($event->isOwner()) {
+					$album->delete();
+				}
 			}
         }
         
@@ -114,7 +135,7 @@ class AlbumController extends YsaMemberController
 			if (isset($_POST['event-album'])) {
 				foreach ($_POST['event-album'] as $k => $id) {
 					$entry = EventAlbum::model()->findByPk($id);
-					if ($entry) {
+					if ($entry && $entry->event()->isOwner()) {
 						$entry->rank = $k + 1;
 						$entry->save();
 					}

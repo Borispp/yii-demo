@@ -106,4 +106,21 @@ class YsaActiveRecord extends CActiveRecord
 	{
 		unset (Yii::app()->session[self::SEARCH_SESSION_NAME]);
 	}
+	
+	/**
+	 *
+	 * @param integer $id
+	 * @param integer $userId
+	 * @return object 
+	 */
+	public function findByIdLogged($id, $userId = null)
+	{
+		if (null === $userId) {
+			$userId = Yii::app()->user->id;
+		}
+		return $this->findByAttributes(array(
+			'id'		=> (int) $id,
+			'user_id'   => (int) $userId,
+		));
+	}
 }

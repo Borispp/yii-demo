@@ -118,6 +118,16 @@ class YsaController extends CController
 		return false;
 	}
 
+	public function isAdminPanel()
+	{
+		if (null === $this->module) {
+			return false;
+		} elseif ('admin' === $this->module->getName()) {
+			return true;
+		}
+		return false;
+	}
+	
 	public function isWebsite()
 	{
 		if (null === $this->module) {
@@ -143,6 +153,7 @@ class YsaController extends CController
 				array('label'=>'Home', 'url'=> '/'),
 				array('label'=>'My Application', 'url'=>array('application/')),
 				array('label'=>'Events', 'url'=>array('event/')),
+				array('label'=>'Portfolio', 'url'=>array('portfolio/')),
 				array('label'=>'Settings', 'url'=>array('settings/')),
 			);
 		}
@@ -174,8 +185,53 @@ class YsaController extends CController
 	
 	public function loadSwfUploader()
 	{
+//		Yii::app()->getClientScript()
+//				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/swfupload.js', CClientScript::POS_HEAD)
+//				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/swfobject.js', CClientScript::POS_HEAD)
+//				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/settings.js', CClientScript::POS_HEAD);
+		
 		Yii::app()->getClientScript()
-				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/swfupload.js', CClientScript::POS_HEAD)
-				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/swfobject.js', CClientScript::POS_HEAD);
+				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plupload/plupload.full.js', CClientScript::POS_HEAD);
+//				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/swfobject.js', CClientScript::POS_HEAD)
+//				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/settings.js', CClientScript::POS_HEAD);
 	}
+	
+    /**
+     * Register web application's resources and meta.
+     * @param object $view
+     * @return bool
+     */
+    public function beforeRender($view) 
+    {
+        parent::beforeRender($view);
+        
+		if (!$this->isAdminPanel()) {
+			$this->setMetaTitle(Yii::app()->settings->get('site_title'));
+
+			$clientScript = Yii::app()->getClientScript();
+
+			$clientScript->registerCoreScript('jquery')
+						->registerMetaTag($this->getMetaDescription(), 'description')
+						->registerMetaTag($this->getMetaKeywords(), 'keywords')
+						->registerScriptFile(Yii::app()->baseUrl . '/resources/js/modernizr-2.0.6.js', CClientScript::POS_HEAD)
+						->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins.js', CClientScript::POS_HEAD)
+						->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD)
+						->registerCssFile(Yii::app()->baseUrl . '/resources/css/style.css');
+
+		}
+		
+		if ($this->isWebsite()) {
+			$clientScript->registerScriptFile(Yii::app()->baseUrl . '/resources/js/front.js', CClientScript::POS_HEAD)
+						->registerCssFile(Yii::app()->baseUrl . '/resources/css/front.css');
+			
+		} elseif ($this->isMemberPanel()) {
+			
+			$clientScript->registerScriptFile(Yii::app()->baseUrl . '/resources/js/jquery-ui.min.js', CClientScript::POS_HEAD)
+						->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member.js', CClientScript::POS_HEAD)
+						->registerCssFile(Yii::app()->baseUrl . '/resources/css/ui/jquery-ui.css')
+						->registerCssFile(Yii::app()->baseUrl . '/resources/css/member.css');
+		}
+        
+        return true;
+    }
 }
