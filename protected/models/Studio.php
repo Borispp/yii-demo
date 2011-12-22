@@ -12,12 +12,15 @@
  * @property string $facebook_feed
  * @property string $created
  * @property string $updated
+ * @property string $specials
  */
 class Studio extends YsaActiveRecord
 {
 	protected $_links;
 	
 	protected $_portfolio;
+	
+	protected $_persons;
 
 	public static function model($className=__CLASS__)
 	{
@@ -41,7 +44,7 @@ class Studio extends YsaActiveRecord
 			array('user_id', 'numerical', 'integerOnly'=>true),
 			array('name, facebook_feed, twitter_feed, blog_feed', 'length', 'max'=>100),
 			array('facebook_feed, twitter_feed, blog_feed', 'url'),
-			array('name, facebook_feed, twitter_feed, blog_feed, created, updated', 'safe'),
+			array('name, facebook_feed, twitter_feed, blog_feed, created, updated, specials', 'safe'),
 		);
 	}
 
@@ -51,7 +54,9 @@ class Studio extends YsaActiveRecord
 	public function relations()
 	{
 		return array(
-			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+			'user'   => array(self::BELONGS_TO, 'User', 'user_id'),
+			'link'	 => array(self::HAS_MANY, 'StudioLink', 'studio_id'),
+			'person' => array(self::HAS_MANY, 'StudioPerson', 'studio_id'),
 		);
 	}
 
@@ -66,6 +71,11 @@ class Studio extends YsaActiveRecord
 			'name' => 'Name',
 			'created' => 'Created',
 			'updated' => 'Updated',
+			'specials' => 'Specials',
+			'facebook_feed' => 'Facebook',
+			'twitter_feed' => 'Twitter',
+			'blog_feed' => 'Blog RSS',
+			
 		);
 	}
 	
@@ -81,6 +91,20 @@ class Studio extends YsaActiveRecord
 			));
 		}
 		return $this->_links;
+	}
+	
+	public function persons()
+	{
+		if (null === $this->_persons) {
+			$this->_persons = StudioPerson::model()->findAll(array(
+				'condition' => 'studio_id=:studio_id',
+				'params'	=> array(
+					'studio_id' => $this->id,
+				),
+				'order' => 'rank ASC',
+			));
+		}
+		return $this->_persons;
 	}
 	
 	public function portfolio()

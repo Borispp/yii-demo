@@ -8,6 +8,7 @@
  * @property integer $studio_id
  * @property string $name
  * @property string $photo
+ * @property string $description
  * @property integer $rank
  * @property string $created
  * @property string $updated
@@ -18,6 +19,8 @@ class StudioPerson extends YsaActiveRecord
 	protected $_uploadPath;
 	
 	protected $_uploadUrl;
+	
+	protected $_studio;
 	
     public function init() {
         parent::init();
@@ -55,7 +58,7 @@ class StudioPerson extends YsaActiveRecord
 			array('studio_id, rank', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>100),
 			array('photo', 'file', 'types'=>'jpg, gif, png', 'maxSize'=> Yii::app()->params['max_image_size'], 'tooLarge'=>'The file was larger than 5MB Please upload a smaller file.', 'allowEmpty' => true),
-			array('created, updated', 'safe'),
+			array('created, updated, description', 'safe'),
 		);
 	}
 
@@ -103,7 +106,6 @@ class StudioPerson extends YsaActiveRecord
 		
 		$image = new Image($this->photo->getTempName());
 		
-		$image->quality(100);
 		$image->resize(
 			Yii::app()->params['studio']['person']['photo']['width'], 
 			Yii::app()->params['studio']['person']['photo']['height']
@@ -121,9 +123,71 @@ class StudioPerson extends YsaActiveRecord
 		
 		$this->photo = $newName;
 		
+		$image->save($savePath);
+		
 		if ($save) {
 			$this->save();
 		}
+		
+		return true;
+	}
+	
+	public function photoUrl()
+	{
+		$imagePath = $this->_uploadPath . DIRECTORY_SEPARATOR . $this->photo;
+		
+		if (is_file($imagePath)) {
+			$imageUrl = $this->_uploadUrl . '/' . $this->photo;
+		} else {
+			$imageUrl = EventPhoto::model()->defaultPicUrl(
+				Yii::app()->params['studio']['person']['photo']['width'], 
+				Yii::app()->params['studio']['person']['photo']['height']
+			);
+		}
+		
+		return $imageUrl;
+	}
+	
+	public function photo($htmlOptions = array())
+	{
+		return YsaHtml::image($this->photoUrl(), $this->name . ' photo', $htmlOptions);
+	}
+	
+	public function isOwner()
+	{
+		return $this->studio()->isOwner();
+	}
+	
+	public function studio()
+	{
+		if (null === $this->_studio) {
+			$this->_studio = Studio::model()->find('id=:id', array('id' => $this->studio_id));
+		}
+		
+		return $this->_studio;
+	}
+	
+	public function removePhoto($save = true)
+	{
+		$imagePath = $this->_uploadPath . DIRECTORY_SEPARATOR . $this->photo;
+		
+		if (is_file($imagePath)) {
+			unlink($imagePath);
+		}
+		
+		$this->photo = 0;
+		
+		if ($save) {
+			$this->save();
+		}
+		
+		return $this;
+	}
+	
+	public function beforeDelete() {
+		parent::beforeDelete();
+		
+		$this->removePhoto();
 		
 		return true;
 	}

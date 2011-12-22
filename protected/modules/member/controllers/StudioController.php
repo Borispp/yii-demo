@@ -7,6 +7,8 @@ class StudioController extends YsaMemberController
 		
 		$entryLink = new StudioLink();
 		
+		$specials = new SpecialsUploadForm();
+		
 		if (isset($_POST['Studio'])) {
 			$entry->attributes = $_POST['Studio'];
 			
@@ -31,27 +33,7 @@ class StudioController extends YsaMemberController
 		$this->render('index', array(
 			'entry'		=> $entry,
 			'entryLink' => $entryLink,
+			'specials'  => $specials,
 		));
     }
-	
-	public function actionEditlink($id)
-	{
-		$entryLink = StudioLink::model()->findByPk($id);
-		
-		if (!$entryLink) {
-			$this->redirect(array('studio/'));
-		}
-		
-		if (isset($_POST['StudioLink'])) {
-			$entryLink->attributes = $_POST['StudioLink'];
-			if ($entryLink->validate()) {
-				$entryLink->save();
-				$this->redirect(array('studio/'));
-			}
-		}
-		
-		$this->render('editlink', array(
-			'entryLink' => $entryLink,
-		));
-	}
 }

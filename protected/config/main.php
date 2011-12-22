@@ -8,7 +8,7 @@
 return array(
     'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
     'name'=>'YourStudioApp',
-
+    
     // preloading 'log' component
     'preload'=>array('log', 'maintenance'),
 
@@ -76,7 +76,9 @@ return array(
 					'/member/inbox/<action:\w+>/<messageId>' => 'member/inbox/<action>',
 					'/member/album/<action:\w+>/<albumId>' => 'member/album/<action>',
 					'/member/photo/<action:\w+>/<photoId>' => 'member/photo/<action>',
-
+					'/member/person/<action:\w+>/<personId>' => 'member/person/<action>',
+					'/member/link/<action:\w+>/<linkId>' => 'member/link/<action>',
+					
 					'/member/portfolioAlbum/<action:\w+>/<albumId>' => 'member/portfolioAlbum/<action>',
 					'/member/portfolioPhoto/<action:\w+>/<photoId>' => 'member/portfolioPhoto/<action>',
 
@@ -105,6 +107,8 @@ return array(
                 'username' => 'root',
                 'password' => 'iloveflosites',
                 'charset' => 'utf8',
+				'enableProfiling'=>true,
+				'enableParamLogging'=>true,
         ),
         'errorHandler'=>array(
             // use 'site/error' action to display errors
@@ -114,10 +118,11 @@ return array(
             'class'=>'CLogRouter',
             'routes'=>array(
                 array(
-                        'class'=>'CFileLogRoute',
-                        'levels'=>'error, warning',
+//					'class'=>'CFileLogRoute',
+					'levels'=>'error, warning',
+					'class'=>'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
+					'ipFilters'=>array('127.0.0.1','192.168.1.215'),
                 ),
-
                 array(
                     'class' => 'CWebLogRoute',
                     'categories' => 'application',
