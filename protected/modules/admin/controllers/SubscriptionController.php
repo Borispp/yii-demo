@@ -45,11 +45,18 @@ class SubscriptionController extends YsaAdminController
 
 	public function actionIndex()
 	{
-		$entries = UserSubscription::model()->findAll(array('order' => 'id'));
+		$criteria = new CDbCriteria;
+		$criteria->order = 'id';
+		$pagination = new CPagination(UserSubscription::model()->count($criteria));
+		$pagination->pageSize = Yii::app()->params['admin_per_page'];
+		$pagination->applyLimit($criteria);
+
+		$entries = UserSubscription::model()->findAll($criteria);
 		$this->setContentTitle('Member Subscription');
 		$this->setContentDescription('manage Member Subscriptions.');
 		$this->render('index', array(
-				'entries' => $entries,
+				'entries'		=> $entries,
+				'pagination'	=> $pagination
 			));
 	}
 

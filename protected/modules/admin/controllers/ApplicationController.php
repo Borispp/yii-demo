@@ -8,7 +8,7 @@ class ApplicationController extends YsaAdminController
 	{
 		$criteria = new CDbCriteria;
 
-		$pagination = new CPagination(Member::model()->count($criteria));
+		$pagination = new CPagination(Application::model()->count($criteria));
 		$pagination->pageSize = Yii::app()->params['admin_per_page'];
 		$pagination->applyLimit($criteria);
 
