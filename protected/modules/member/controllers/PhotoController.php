@@ -9,7 +9,11 @@ class PhotoController extends YsaMemberController
 			$this->redirect(array('event/'));
 		}
 		
+		$photoSizes = PhotoSize::model()->findActive();
+		
 		$entryComment = new EventPhotoComment();
+		
+		$availability = new AlbumPhotoAvailability();
 		
 		if (isset($_POST['EventPhotoComment'])) {
 			$entryComment->attributes = $_POST['EventPhotoComment'];
@@ -23,9 +27,35 @@ class PhotoController extends YsaMemberController
 			}
 		}
 		
+		if (isset($_POST['AlbumPhotoAvailability']) && !$entry->album()->event()->isProofing()) {
+			$availability->attributes = $_POST['AlbumPhotoAvailability'];
+			if ($availability->validate()) {
+				$entry->can_order = $availability->can_order;
+				$entry->can_share = $availability->can_share;
+				
+				$entry->save();
+			}
+			$this->refresh();
+		}
+		
+		if (isset($_POST['PhotoSizes']) && count($_POST['PhotoSizes']) && is_array($_POST['PhotoSizes'])) {
+			$entry->setSizes($_POST['PhotoSizes']);
+			$this->refresh();
+		}
+		
+		
+		$this->crumb('Events', array('event/'))
+			 ->crumb($entry->album()->event()->name, array('event/view/' . $entry->album()->event()->id))
+			 ->crumb($entry->album()->name, array('album/view/' . $entry->album()->id))
+			 ->crumb('Photo #' . $entry->id);
+		
+		$this->setMemberPageTitle('Photo #' . $entry->id);
+		
 		$this->render('view', array(
 			'entry'			=> $entry,
-			'entryComment'	=> $entryComment
+			'entryComment'	=> $entryComment,
+			'photoSizes'	=> $photoSizes,
+			'availability'	=> $availability,
 		));
 	}
     

@@ -16,11 +16,11 @@
  * @property string $created
  * @property string $updated
  * @property string $exif_data
+ * @property integer $can_share
+ * @property integer $can_order
  */
 class EventPhoto extends YsaPhotoActiveRecord
 {
-    
-	
 	protected $_comments;
     
     /**
@@ -49,6 +49,7 @@ class EventPhoto extends YsaPhotoActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'album'  => array(self::BELONGS_TO, 'EventAlbum', 'album_id'),
+			'sizes'	 => array(self::MANY_MANY, 'PhotoSize', 'event_photo_size(photo_id, size_id)'),
         );
     }
 
@@ -83,5 +84,42 @@ class EventPhoto extends YsaPhotoActiveRecord
 	public function isOwner()
 	{
 		return $this->album()->event()->isOwner();
+	}
+	
+	public function setSizes($sizes)
+	{
+		EventPhotoSize::model()->deleteAll('photo_id=:photo_id', array(
+			':photo_id' => $this->id,
+		));
+		
+		foreach ($sizes as $size) {
+			$sizeEntry = PhotoSize::model()->findByAttributes(array(
+				'id'	=> (int) $size,
+				'state' => PhotoSize::STATE_ACTIVE,
+			));
+			
+			if ($sizeEntry) {
+				
+				$s = new EventPhotoSize();
+				$s->setAttributes(array(
+					'size_id'  => $sizeEntry->id,
+					'photo_id' => $this->id,					
+				));
+				$s->save();
+				unset($s);
+			}
+		}
+		
+		return $this;
+	}
+	
+	public function canShare()
+	{
+		return $this->album()->can_share ? $this->can_share : false;
+	}
+	
+	public function canOrder()
+	{
+		return $this->album()->can_order ? $this->can_order : false;
 	}
 }
