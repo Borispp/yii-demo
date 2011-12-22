@@ -1,25 +1,44 @@
 <?php
 class StudioController extends YsaApiController
 {
+	protected function _getUrlFromImage(array $image = NULL)
+	{
+		return $image['url'];
+	}
+
 	/**
 	 * Basic action — returns all information about app — color, font-family, background image, logo etc.
 	 * Inquiry params: [app_key, device_id]
-	 * Response params: [logo, name, font_id, bg_color, use_bg_image, bg_image, headers_color, text_color]
+	 * Response params: [logo, studio_bg_use_image, studio_bg, studio_bg_image,generic_bg_use_image,generic_bg,generic_bg_image, splash_bg_use_image, splash_bg,splash_bg_image,first_font,second_font,main_color,second_color,studio_name,copyright]
 	 * @return void
 	 */
 	public function actionStyle()
 	{
 		$this->_commonValidate();
 		$this->_render(array(
-				'logo'			=> 'http://www.google.com/logos/2011/Louis_Daguerre-2011-hp.jpg',
-				'name'			=> 'Cool Studio',
-				'font_id'		=> 0,
-				'bg_color'		=> '#FFF',
-				'use_bg_image'	=> 0,
-				'bg_image'		=> NULL,
-				'headers_color'	=> '#CCC',
-				'text_color'	=> '#000',
-			));
+			'logo'					=> $this->_getUrlFromImage($this->_getApplication()->option('logo')),
+
+			'studio_bg_use_image'	=> (bool)$this->_getApplication()->option('studio_bg'),
+			'studio_bg'				=> $this->_getApplication()->option('studio_bg') ? NULL : $this->_getApplication()->option('studio_bg_color'),
+			'studio_bg_image'		=> $this->_getApplication()->option('studio_bg') ? $this->_getUrlFromImage($this->_getApplication()->option('studio_bg_image')) : NULL,
+
+			'generic_bg_use_image'	=> (bool)$this->_getApplication()->option('generic_bg'),
+			'generic_bg'				=> $this->_getApplication()->option('generic_bg') ? NULL : $this->_getApplication()->option('generic_bg_color'),
+			'generic_bg_image'		=> $this->_getApplication()->option('generic_bg') ? $this->_getUrlFromImage($this->_getApplication()->option('generic_bg_image')) : NULL,
+
+			'splash_bg_use_image'	=> (bool)$this->_getApplication()->option('splash_bg'),
+			'splash_bg'				=> $this->_getApplication()->option('splash_bg') ? NULL : $this->_getApplication()->option('splash_bg_color'),
+			'splash_bg_image'		=> $this->_getApplication()->option('splash_bg') ? $this->_getUrlFromImage($this->_getApplication()->option('splash_bg_image')) : NULL,
+
+			'first_font'			=> $this->_getApplication()->option('main_font'),
+			'second_font'			=> $this->_getApplication()->option('second_font'),
+
+			'main_color'			=> $this->_getApplication()->option('main_font_color'),
+			'second_color'			=> $this->_getApplication()->option('second_font_color'),
+
+			'studio_name'			=> $this->_getApplication()->name,
+			'copyright'				=> $this->_getApplication()->option('copyright'),
+		));
 	}
 
 	/**
@@ -106,10 +125,10 @@ class StudioController extends YsaApiController
 	{
 		$this->_commonValidate();
 		$this->_validateVars(array('fields' => array(
-			'code'		=> 010,
-			'message'	=> 'Fields must be not empty',
-			'required'	=> TRUE,
-		)));
+				'code'		=> 010,
+				'message'	=> 'Fields must be not empty',
+				'required'	=> TRUE,
+			)));
 		$obPhotographer = Application::model()->findByKey($_POST['app_key'])->user;
 		$obStudioMessage = new StudioMessage();
 		$obStudioMessage->attributes = $_POST['fields'];
@@ -131,7 +150,7 @@ class StudioController extends YsaApiController
 				'body'  => $body,
 			));
 		$this->_render(array(
-			'state' => Yii::app()->mailer->Send()
-		));
+				'state' => Yii::app()->mailer->Send()
+			));
 	}
 }

@@ -76,9 +76,7 @@ return array(
 					'/member/inbox/<action:\w+>/<messageId>' => 'member/inbox/<action>',
 					'/member/album/<action:\w+>/<albumId>' => 'member/album/<action>',
 					'/member/photo/<action:\w+>/<photoId>' => 'member/photo/<action>',
-					'/member/person/<action:\w+>/<personId>' => 'member/person/<action>',
-					'/member/link/<action:\w+>/<linkId>' => 'member/link/<action>',
-					
+
 					'/member/portfolioAlbum/<action:\w+>/<albumId>' => 'member/portfolioAlbum/<action>',
 					'/member/portfolioPhoto/<action:\w+>/<photoId>' => 'member/portfolioPhoto/<action>',
 
@@ -98,6 +96,7 @@ return array(
                 ),
         ),
 
+
         // uncomment the following to use a MySQL database
         'db'=>array(
                 'connectionString' => 'mysql:host=office.flosites.com;dbname=yoursturioapp',
@@ -106,8 +105,6 @@ return array(
                 'username' => 'root',
                 'password' => 'iloveflosites',
                 'charset' => 'utf8',
-				'enableProfiling'=>true,
-				'enableParamLogging'=>true,
         ),
         'errorHandler'=>array(
             // use 'site/error' action to display errors
@@ -290,11 +287,6 @@ return array(
 				'second_font_color' => array(
 					'label'		=> 'Color of the second font'
 				),
-			),
-			'copyrights'	=> array(
-				'copyright'	=> array(
-					'label'		=> 'Copyright text'
-				)
 			),
 			'copyrights'	=> array(
 				'copyright'	=> array(

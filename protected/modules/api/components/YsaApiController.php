@@ -9,6 +9,8 @@ class YsaApiController extends YsaController
 {
 	public $layout = '/layouts/main';
 
+	protected $_obApplication;
+
 	/**
 	 * Common validation same for all actions.
 	 * IS_POST validation
@@ -81,7 +83,17 @@ class YsaApiController extends YsaController
 	 */
 	protected function _validateApp()
 	{
-		return Application::model()->findByKey($_POST['app_key']);
+		return $this->_getApplication();
+	}
+
+	/**
+	 * @return Application
+	 */
+	protected function _getApplication()
+	{
+		if (!$this->_obApplication)
+			$this->_obApplication = Application::model()->findByKey($_POST['app_key']);
+		return $this->_obApplication;
 	}
 
 	/**

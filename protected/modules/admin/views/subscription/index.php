@@ -60,4 +60,5 @@
 		<button class="submit small red icon i_recycle delete-entries">Delete Selected</button>
 	</p>
 	<?php $this->endWidget(); ?>
+	<?php $this->widget('YsaAdminPager',array('pages'=>$pagination)) ?>
 </div>
