@@ -56,9 +56,9 @@ class SubscriptionController extends YsaMemberController
 
 	public function actionPaypal()
 	{
-		if (empty($_GET['id']) || !($obUserTransaction = UserTransaction::model()->findByPk($_GET['id'])) || !$obUserTransaction->getUserSubscription())
+		if (empty($_GET['id']) || !($obUserTransaction = UserTransaction::model()->findByPk($_GET['id'])) || !$obUserTransaction->UserSubscription)
 		{
-			if ($obUserTransaction && !$obUserTransaction->getUserSubscription())
+			if ($obUserTransaction && !$obUserTransaction->UserSubscription)
 				$obUserTransaction->delete();
 			return $this->render('error', array(
 				'message'	=> 'No Transaction with such ID found'
@@ -71,7 +71,7 @@ class SubscriptionController extends YsaMemberController
 				'message'	=> 'You\'ve already paid this transaction.',
 			));
 		}
-		if ($obUserTransaction->getUserSubscription()->user_id != $this->member()->id)
+		if ($obUserTransaction->UserSubscription->user_id != $this->member()->id)
 		{
 			return $this->render('error', array(
 				'title'		=> 'Access denied',
@@ -99,7 +99,7 @@ class SubscriptionController extends YsaMemberController
 			$obUserTransaction->data = serialize($_POST);
 			$obUserTransaction->state = UserTransaction::STATE_PAID;
 			$obUserTransaction->save();
-			$obUserSubscription = $obUserTransaction->getUserSubscription();
+			$obUserSubscription = $obUserTransaction->UserSubscription;
 			$obUserSubscription->activate();
 		}
 		$this->render('ok', array(

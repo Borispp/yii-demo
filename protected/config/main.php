@@ -293,11 +293,6 @@ return array(
 					'label'		=> 'Copyright text'
 				)
 			),
-			'copyrights'	=> array(
-				'copyright'	=> array(
-					'label'		=> 'Copyright text'
-				)
-			),
 		)
     ),
 );

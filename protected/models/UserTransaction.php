@@ -76,7 +76,9 @@ class UserTransaction extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array();
+		return array(
+			'UserSubscription'	=> array(self::BELONGS_TO, 'UserSubscription', 'user_subscription_id')
+		);
 	}
 
 	/**
@@ -118,10 +120,5 @@ class UserTransaction extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'	=>	$criteria,
 		));
-	}
-
-	public function getUserSubscription()
-	{
-		return UserSubscription::model()->findByPk($this->user_subscription_id);
 	}
 }
