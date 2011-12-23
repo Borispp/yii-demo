@@ -169,9 +169,19 @@ class User extends YsaActiveRecord
 		return Yii::app()->createAbsoluteUrl('/recovery/k/' . $this->activation_key);
 	}
 
+	/**
+	 * Add/update option wrapper for UserOption
+	 * @param string $name
+	 * @param mixed $value
+	 * @return User 
+	 */
 	public function editOption($name, $value)
 	{
 		UserOption::model()->editOption($name, $value);
+		if (isset ($this->_options[$name])) {
+			unset ($this->_options[$name]);
+		}
+		return $this;
 	}
 
 	/**
@@ -185,7 +195,6 @@ class User extends YsaActiveRecord
 		if (isset($this->_options[$name])) {
 			unset ($this->_options[$name]);
 		}
-		
 		return $this;
 	}
 	
