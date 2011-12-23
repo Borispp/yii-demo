@@ -49,12 +49,31 @@ class SettingsController extends YsaMemberController
             }
 		}
 		
+		
+		$smugForm = new SmugMugApi();
+		
+		// set default ShootQ values
+		$smugForm->smug_api = $this->member()->option('smug_api');
+		$smugForm->smug_secret = $this->member()->option('smug_secret');
+		
+		if (isset($_POST['SmugMugApi'])) {
+            $smugForm->attributes = $_POST['SmugMugApi'];
+            if ($smugForm->validate()) {
+				foreach ($smugForm->attributes as $name => $value) {
+					$this->member()->editOption($name, $value);
+				}
+                $this->setSuccess('SmugMug settings successfully saved.');
+                $this->refresh();
+            }
+		}
+		
 		$this->setMemberPageTitle('Settings');
 		
         $this->render('index', array(
             'entry'     => $this->member(),
             'password'  => $changePasswordForm,
 			'shootq'	=> $shootqForm,
+			'smug'		=> $smugForm,
         ));
     }
 }

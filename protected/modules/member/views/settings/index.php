@@ -44,7 +44,7 @@
 	<h3>ShootQ Settings</h3>
 	
 	<?php $form = $this->beginWidget('YsaForm', array(
-		'id'=>'change-password-form',
+		'id'=>'shootq-form',
 		'enableAjaxValidation'=>false,
 	)); ?>
 
@@ -77,6 +77,53 @@
 	</div>
 
 	<?php $this->endWidget();?>
+	
+	
+	
+	
+	
+	<h3>SmugMug Settings</h3>
+	
+	<?php $form = $this->beginWidget('YsaForm', array(
+		'id'=>'smugmug-form',
+		'enableAjaxValidation'=>false,
+	)); ?>
+
+	<section>
+		<?php echo $form->labelEx($smug,'smug_api'); ?>
+		<div>
+			<?php echo $form->textField($smug,'smug_api', array('size'=>60,'maxlength'=>50)); ?>
+			<?php echo $form->error($smug,'smug_api'); ?>
+		</div>
+	</section>
+
+	<section>
+		<?php echo $form->labelEx($smug,'smug_secret'); ?>
+		<div>
+			<?php echo $form->textField($smug,'smug_secret',array('size'=>50,'maxlength'=>50)); ?>
+			<?php echo $form->error($smug,'smug_secret'); ?>
+		</div>
+	</section>
+
+	<div class="row buttons">
+		<?php echo CHtml::submitButton('Submit'); ?>
+	</div>
+
+	<?php $this->endWidget();?>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	<h3>Change Password</h3>
 	
