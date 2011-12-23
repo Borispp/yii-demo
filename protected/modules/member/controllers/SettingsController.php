@@ -18,17 +18,17 @@ class SettingsController extends YsaMemberController
         $changePasswordForm = new SettingsChangePassword();
 
         if (isset($_POST['SettingsChangePassword'])) {
-
             $changePasswordForm->attributes = $_POST['SettingsChangePassword'];
-
             if ($changePasswordForm->validate()) {
-
                 $this->member()->password = $changePasswordForm->newPassword;
                 $this->member()->encryptPassword();
                 $this->member()->save();
                 $this->setSuccess('Password successfully changed.');
                 $this->refresh();
-            }
+            } 
+			$changePasswordForm->currentPassword = '';
+			$changePasswordForm->newPassword = '';
+			$changePasswordForm->repeatPassword = '';
         }
 		
 		$shootqForm = new ShootqApi();
