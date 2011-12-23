@@ -240,4 +240,10 @@ class UserSubscription extends YsaActiveRecord
 		);
 		return $labels[$this->state];
 	}
+
+	public function isExpired()
+	{
+		if (strtotime($this->expiry_date) < time())
+			return TRUE;
+	}
 }
