@@ -219,4 +219,84 @@ class User extends YsaActiveRecord
 		
 		return $this->_studio;
 	}
+	
+	public function sendShootQ($data)
+	{
+		$enabled = $this->option('shootq_enabled');
+		
+		if (!$enabled) {
+			return false;
+		}
+		
+		$abbr = $this->option('shootq_abbr');
+		$key = $this->option('shootq_key');
+		
+//		$key = '21ebf7b8-cdac-11df-9acf-001b24786824';
+//		$abbr = 'eticket_photography';
+		
+		if (!$abbr || !$key) {
+			return false;
+		}
+		
+		$data['api_key'] = $key;
+		
+		$url = "https://app.shootq.com/api/{$abbr}/leads";
+		
+		$data = CJSON::encode($data);
+		
+		Yii::import('ext.httpclient.*');
+		Yii::import('ext.httpclient.adapter.*');
+		$client = new EHttpClient($url, array(
+			'maxredirects' => 0,
+			'timeout'      => 30,
+			'adapter'	   => 'EHttpClientAdapterCurl',
+		));
+		
+		$client->setRawData($data, 'application/json');
+//		$request = $client->request(EHttpClient::POST);
+		
+		// FINISH SHOOTQ INTEGRATION
+		
+		
+
+		
+	}
+	
+	
+//function flotheme_shootq_send($data)
+//{
+//    $api = flotheme_get_option('shootq_api');
+//    $abbr = flotheme_get_option('shootq_abbr');
+//    
+//    $data['api_key'] = $api;
+//    
+//    $url = "https://app.shootq.com/api/{$abbr}/leads";
+//    
+//    $json_data = json_encode($data);
+//    
+//    /* send this data to ShootQ via the API */
+//    $ch = curl_init();
+//    curl_setopt($ch, CURLOPT_URL, $url);
+//    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//    curl_setopt($ch, CURLOPT_HTTPHEADER, Array("Content-Type: application/json"));
+//    curl_setopt($ch, CURLOPT_POST, TRUE);
+//    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+//    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+//
+//    curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+//    
+//    $response_json = curl_exec($ch);
+//    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+//    $response = json_decode($response_json);
+//    
+//    if (curl_errno($ch) == 0 && $httpcode == 200) {
+//        curl_close($ch);
+//    } else {
+//        curl_close($ch);
+//        throw new Exception('Cannot send mail. Please check all fields');
+//    }
+//    
+//    return true;
+//}
+
 }

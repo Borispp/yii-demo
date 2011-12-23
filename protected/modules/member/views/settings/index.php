@@ -49,6 +49,14 @@
 	)); ?>
 
 	<section>
+		<?php echo $form->labelEx($shootq,'shootq_enabled'); ?>
+		<?php echo $form->checkBox($shootq,'shootq_enabled',array('checked' => $shootq->shootq_enabled)); ?>
+		<div>
+			<?php echo $form->error($shootq,'shootq_enabled'); ?>
+		</div>
+	</section>
+	
+	<section>
 		<?php echo $form->labelEx($shootq,'shootq_abbr'); ?>
 		<div>
 			<?php echo $form->textField($shootq,'shootq_abbr', array('size'=>60,'maxlength'=>50)); ?>

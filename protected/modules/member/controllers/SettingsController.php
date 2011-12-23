@@ -36,6 +36,7 @@ class SettingsController extends YsaMemberController
 		// set default ShootQ values
 		$shootqForm->shootq_abbr = $this->member()->option('shootq_abbr');
 		$shootqForm->shootq_key = $this->member()->option('shootq_key');
+		$shootqForm->shootq_enabled = (int) $this->member()->option('shootq_enabled', 0);
 		
 		if (isset($_POST['ShootqApi'])) {
             $shootqForm->attributes = $_POST['ShootqApi'];
@@ -49,7 +50,7 @@ class SettingsController extends YsaMemberController
 		}
 		
 		$this->setMemberPageTitle('Settings');
-
+		
         $this->render('index', array(
             'entry'     => $this->member(),
             'password'  => $changePasswordForm,

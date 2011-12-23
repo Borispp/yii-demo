@@ -43,6 +43,10 @@ class YsaMemberController extends YsaController
 			$this->setNotice('<div class="need-to-subscribe">You have no subscription. <a href="'.Yii::app()->createUrl('/member/subscription/').'">Subscribe now</a></div>');
 	}
 
+	/**
+	 *
+	 * @return Member
+	 */
 	public function member()
 	{
 		return $this->_member;
