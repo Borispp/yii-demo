@@ -202,8 +202,8 @@
 					'label' =>'Members',
 					'url' => '',
 					'itemOptions' => array('class' => 'i_camera'),
-					'linkOptions' => array('class' => $this->getNavigationClass('member,subscription')),
-					'active' => $this->getNavigationClass('member,subscription'),
+					'linkOptions' => array('class' => $this->getNavigationClass('member,subscription,studio')),
+					'active' => $this->getNavigationClass('member,subscription,studio'),
 					'items'	=> $membersItems,
 				),
 				array(
