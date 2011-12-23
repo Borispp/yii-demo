@@ -64,7 +64,7 @@ class SubscriptionController extends YsaMemberController
 				'message'	=> 'No Transaction with such ID found'
 			));
 		}
-		if ($obUserTransaction->state == UserTransaction::STATE_PAID)
+		if ($obUserTransaction->state == UserTransaction::STATE_PAID || $obUserTransaction->UserSubscription->isActive())
 		{
 			return $this->render('error', array(
 				'title'		=> 'Already paid',
