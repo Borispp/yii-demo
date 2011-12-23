@@ -122,15 +122,14 @@ class UserTransaction extends YsaActiveRecord
 		));
 	}
 
-	public function state()
+	public function getStates()
 	{
-		$states = array(
+		return array(
 			self::STATE_CREATED		=> 'Created',
 			self::STATE_CANCELED	=> 'Canceled',
 			self::STATE_PAID		=> 'Paid',
 			self::STATE_SENT		=> 'Unpaid',
 		);
-		return $states[$this->state];
 	}
 
 }
