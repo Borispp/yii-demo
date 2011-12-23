@@ -106,6 +106,8 @@ return array(
                 'username' => 'root',
                 'password' => 'iloveflosites',
                 'charset' => 'utf8',
+				'enableProfiling' => true,
+				'enableParamLogging' => true,
         ),
         'errorHandler'=>array(
             // use 'site/error' action to display errors
