@@ -88,3 +88,9 @@ nav ul li.activated ul {
 	vertical-align: middle;
 	margin: 0 10px;
 }
+
+/*** studio page ***/
+#specials-url img
+{
+	max-width: 100%;
+}
