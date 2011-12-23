@@ -17,31 +17,22 @@
  * @property integer $can_order
  * @property integer $can_share
  */
-class EventAlbum extends YsaActiveRecord
+class EventAlbum extends YsaAlbumActiveRecord
 {
     const PROOFING_NAME = 'Proofing Album';
 
-	protected $_photos;
-	
-    protected $_uploadPath;
-    
-    protected $_uploadUrl;
-	
-	protected $_preview;
-	
-	protected $_previewUrl;
-	
 	protected $_sizes;
+	
+	protected $_event;
 	
     public function init() {
         parent::init();
         
         $this->_uploadPath = rtrim(Yii::getPathOfAlias('webroot.images.albums'), '/');
         $this->_uploadUrl = Yii::app()->getBaseUrl(true) . '/images/albums';
+		$this->_createDir();
     }
 	
-    protected $_event;
-    
     /**
      * Returns the static model of the specified AR class.
      * @return EventAlbum the static model class
@@ -56,7 +47,7 @@ class EventAlbum extends YsaActiveRecord
      */
     public function tableName()
     {
-            return 'event_album';
+		return 'event_album';
     }
 
     /**
@@ -64,16 +55,15 @@ class EventAlbum extends YsaActiveRecord
      */
     public function rules()
     {
-            // NOTE: you should only define rules for those attributes that
-            // will receive user inputs.
-            return array(
-                    array('event_id, rank, state, can_share, can_order', 'numerical', 'integerOnly'=>true),
-                    array('name, place', 'length', 'max'=>255),
-                    array('description, shooting_date, created, updated, can_share, can_order', 'safe'),
-                    // The following rule is used by search().
-                    // Please remove those attributes that should not be searched.
-                    array('id, event_id, name, description, state, created', 'safe', 'on'=>'search'),
-            );
+		return array(
+			array('event_id, rank, state, can_share, can_order', 'numerical', 'integerOnly'=>true),
+			array('name, place', 'length', 'max'=>255),
+			array('event_id, state, name', 'required'),
+			array('description, shooting_date, created, updated, can_share, can_order', 'safe'),
+			// The following rule is used by search().
+			// Please remove those attributes that should not be searched.
+			array('id, event_id, name, state, created', 'safe', 'on'=>'search'),
+		);
     }
 
     /**
@@ -81,34 +71,11 @@ class EventAlbum extends YsaActiveRecord
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return array(
             'event'  => array(self::BELONGS_TO, 'Event', 'event_id'),
             'photo'  => array(self::HAS_MANY, 'EventPhoto', 'album_id'),
 			'sizes'	 => array(self::MANY_MANY, 'PhotoSize', 'event_album_size(album_id, size_id)'),
         );
-    }
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-            return array(
-                'id' => 'ID',
-                'event_id' => 'Event',
-                'name' => 'Name',
-                'description' => 'Description',
-                'shooting_date' => 'Shooting Date',
-                'place' => 'Place',
-                'rank' => 'Rank',
-                'state' => 'State',
-                'created' => 'Created',
-                'updated' => 'Updated',
-				'can_order' => 'Available for order',
-				'can_share'	=> 'Available for share',
-            );
     }
 
     /**
@@ -125,7 +92,6 @@ class EventAlbum extends YsaActiveRecord
             $criteria->compare('id',$this->id,true);
             $criteria->compare('event_id',$this->event_id);
             $criteria->compare('name',$this->name,true);
-            $criteria->compare('description',$this->description,true);
             $criteria->compare('shooting_date',$this->shooting_date,true);
             $criteria->compare('place',$this->place,true);
             $criteria->compare('rank',$this->rank);
@@ -145,14 +111,6 @@ class EventAlbum extends YsaActiveRecord
 
         return $this->_event;
     }
-	
-	public function preview($htmlOptions = array())
-	{
-		if (null === $this->_preview) {
-			$this->_preview = YsaHtml::image($this->previewUrl(), 'Album Preview', $htmlOptions);
-		}
-		return $this->_preview;
-	}
 	
 	public function previewUrl()
 	{
@@ -178,60 +136,6 @@ class EventAlbum extends YsaActiveRecord
 		
 		return $this->_previewUrl;
 		
-	}
-
-	/**
-	 * Delete all photos with album
-	 * @return bool
-	 */
-	public function beforeDelete() {
-		parent::beforeDelete();
-		
-		$photos = EventPhoto::model()->findAll(array(
-			'condition' => 'album_id=:album_id',
-			'params' => array(
-				'album_id' => $this->id,
-			),
-		));
-		
-		foreach ($photos as $p) {
-			$p->delete();
-		}
-		
-		return true;
-	}
-	
-	/**
-	 * Set next rank for event album
-	 * @return bool
-	 */
-    public function beforeSave() 
-	{
-        if($this->isNewRecord) {
-            $this->setNextRank();
-        }
-        return parent::beforeValidate();
-    }
-	
-	public function encryptedId()
-	{
-		return YsaHelpers::encrypt($this->id);
-	}
-	
-	public function albumPath()
-	{
-		$folder = $this->_uploadPath . DIRECTORY_SEPARATOR . $this->encryptedId();
-		
-		if (!is_dir($folder)) {
-			mkdir($folder, 0777);
-		}
-		
-		return $folder;
-	}
-	
-	public function albumUrl()
-	{
-		return $this->_uploadUrl . '/' . $this->encryptedId();
 	}
 	
 	public function photos()
@@ -290,15 +194,5 @@ class EventAlbum extends YsaActiveRecord
 		}
 		
 		return $this;
-	}
-	
-	public function canShare()
-	{
-		return $this->can_share;
-	}
-	
-	public function canOrder()
-	{
-		return $this->can_order;
 	}
 }

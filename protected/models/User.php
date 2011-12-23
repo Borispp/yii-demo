@@ -169,20 +169,25 @@ class User extends YsaActiveRecord
 		return Yii::app()->createAbsoluteUrl('/recovery/k/' . $this->activation_key);
 	}
 
-	public function editOption()
+	public function editOption($name, $value)
 	{
-		
+		UserOption::model()->editOption($name, $value);
 	}
 
-	public function deleteOption()
+	public function deleteOption($name)
 	{
+		UserOption::model()->deleteOption($name);
+		if (isset($this->_options[$name])) {
+			unset ($this->_options[$name]);
+		}
 		
+		return $this;
 	}
 	
-	public function getOption($name)
+	public function option($name, $default = '')
 	{
 		if (!isset($this->_options[$name])) {
-			
+			$this->_options[$name] = UserOption::model()->getOption($name, $default);
 		}
 		
 		return $this->_options[$name];
@@ -199,11 +204,8 @@ class User extends YsaActiveRecord
 				$this->_studio->user_id = $this->id;
 				$this->_studio->save();
 			}
-			
 		}
 		
 		return $this->_studio;
 	}
-	
-
 }
