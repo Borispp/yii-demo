@@ -104,6 +104,7 @@ class SubscriptionController extends YsaMemberController
 			$obUserTransaction = UserTransaction::model()->findByPk($_POST['item_number']);
 			$obUserTransaction->data = serialize($_POST);
 			$obUserTransaction->state = UserTransaction::STATE_PAID;
+			$obUserTransaction->payed = date('Y-m-d');
 			$obUserTransaction->save();
 			$obUserSubscription = $obUserTransaction->UserSubscription;
 			$obUserSubscription->activate();
