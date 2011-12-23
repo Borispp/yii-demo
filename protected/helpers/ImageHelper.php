@@ -57,8 +57,13 @@ class ImageHelper {
             $thumb->{$method}($width, $height);
             $thumb->save($thumb_path.$thumb_name);            
         }
+		
+		if (isset($relative) && $relative) {
+			$path = str_replace(YiiBase::getPathOfAlias('webroot'), '', $thumb_path.$thumb_name);
+		} else {
+			$path = Yii::app()->getBaseUrl(true) . str_replace(YiiBase::getPathOfAlias('webroot'), '', $thumb_path.$thumb_name);
+		}
         
-        $relative_path = str_replace(YiiBase::getPathOfAlias('webroot'), '', $thumb_path.$thumb_name);
-        return $relative_path;
+        return $path;
     }
 }
