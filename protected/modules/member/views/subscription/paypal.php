@@ -2,7 +2,7 @@
 <section class="body w">
 	<h3>Going to paypal...</h3>
 	<div class="form">
-		<form action="<?php echo $url?>" method="POST">
+		<form action="<?php echo $url?>" method="POST" id="paypal_form">
 			<input type="hidden" name="cmd" value="_xclick"/>
 			<input type="hidden" name="currency_code" value="<?php echo $currency?>"/>
 			<input type="hidden" name="business" value="<?php echo $email?>"/>
@@ -20,3 +20,8 @@
 		</form>
 	</div>
 </section>
+<script type="text/javascript">
+	setTimeout(function(){
+		$('#paypal_form').submit();
+	}, 1000);
+</script>

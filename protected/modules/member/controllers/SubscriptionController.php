@@ -58,17 +58,11 @@ class SubscriptionController extends YsaMemberController
 	{
 		if (empty($_GET['id']) || !($obUserTransaction = UserTransaction::model()->findByPk($_GET['id'])) || !$obUserTransaction->UserSubscription)
 		{
-			if ($obUserTransaction && !$obUserTransaction->UserSubscription)
+			if (!empty($_GET['id']) && $obUserTransaction && !$obUserTransaction->UserSubscription)
 				$obUserTransaction->delete();
 			return $this->render('error', array(
+				'title'		=> 'Not found',
 				'message'	=> 'No Transaction with such ID found'
-			));
-		}
-		if ($obUserTransaction->state == UserTransaction::STATE_PAID || $obUserTransaction->UserSubscription->isActive())
-		{
-			return $this->render('error', array(
-				'title'		=> 'Already paid',
-				'message'	=> 'You\'ve already paid this transaction.',
 			));
 		}
 		if ($obUserTransaction->UserSubscription->user_id != $this->member()->id)
@@ -76,6 +70,13 @@ class SubscriptionController extends YsaMemberController
 			return $this->render('error', array(
 				'title'		=> 'Access denied',
 				'message'	=> 'You are not allowed to access this tranaction.',
+			));
+		}
+		if ($obUserTransaction->state == UserTransaction::STATE_PAID || $obUserTransaction->UserSubscription->isActive())
+		{
+			return $this->render('error', array(
+				'title'		=> 'Already paid',
+				'message'	=> 'You\'ve already paid this transaction.',
 			));
 		}
 		$obUserTransaction->state = UserTransaction::STATE_SENT;

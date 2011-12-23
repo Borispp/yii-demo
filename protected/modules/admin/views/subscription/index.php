@@ -36,7 +36,7 @@
 				<?php echo CHtml::link($entry->Membership->name, array('edit', 'id' => $entry->id)); ?>
 			</td>
 			<td class="l">
-				<?php echo $entry->Member->name()?>
+				<?php echo $entry->Member->first_name.' '.$entry->Member->last_name?>
 			</td>
 			<td>
 				<?php if ($entry->Discount):?>
@@ -60,5 +60,4 @@
 		<button class="submit small red icon i_recycle delete-entries">Delete Selected</button>
 	</p>
 	<?php $this->endWidget(); ?>
-	<?php $this->widget('YsaAdminPager',array('pages'=>$pagination)) ?>
 </div>
