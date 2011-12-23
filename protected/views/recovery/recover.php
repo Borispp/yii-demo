@@ -1,6 +1,3 @@
-<?php $this->pageTitle=Yii::app()->name . ' - Recover Password'; ?>
-
-
 <?php echo YsaHtml::pageHeaderTitle('Restore'); ?>
 
 <?php if(Yii::app()->user->hasFlash('recoveryMessage')): ?>
@@ -8,19 +5,23 @@
         <?php echo Yii::app()->user->getFlash('recoveryMessage'); ?>
     </div>
 <?php else: ?>
-    <div class="form">
-    <?php echo CHtml::beginForm(); ?>
-        <?php echo CHtml::errorSummary($form); ?>
+	<div class="form">
+		<?php $form=$this->beginWidget('YsaForm', array(
+				'id'=>'recovery-change-password-form',
+				'enableAjaxValidation'=>false,
+		)); ?>
+		<section>
+			<?php echo $form->labelEx($entry,'email'); ?>
+			<div>
+				<?php echo $form->textField($entry,'email'); ?>
+				<?php echo $form->error($entry,'email'); ?>
+			</div>
+		</section>
 
-        <div class="row">
-            <?php echo CHtml::activeLabel($form, 'email'); ?>
-            <?php echo CHtml::activeTextField($form, 'email') ?>
-            <p class="hint">Please enter your email addres.</p>
-        </div>
+		<section class="button">
+			<?php echo CHtml::submitButton('Restore'); ?>
+		</section>
 
-        <div class="row submit">
-            <?php echo CHtml::submitButton('Restore'); ?>
-        </div>
-    <?php echo CHtml::endForm(); ?>
-    </div><!-- form -->
+		<?php $this->endWidget(); ?>
+	</div>
 <?php endif; ?>

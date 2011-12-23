@@ -163,6 +163,11 @@ class User extends YsaActiveRecord
 	{
 		return Yii::app()->createAbsoluteUrl('/activate/k/' . $this->activation_key);
 	}
+	
+	public function getRecoveryLink()
+	{
+		return Yii::app()->createAbsoluteUrl('/recovery/k/' . $this->activation_key);
+	}
 
 	public function editOption()
 	{
