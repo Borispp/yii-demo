@@ -6,10 +6,7 @@ class SiteController extends YsaFrontController
      * when an action is not explicitly requested by users.
      */
     public function actionIndex()
-    {
-		VarDumper::dump(Yii::app()->getRequest()->getBaseUrl(true));
-		
-		
+    {	
         $page = Page::model()->findBySlug('homepage');
         $this->setMeta($page->meta());
 
