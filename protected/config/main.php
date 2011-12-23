@@ -76,6 +76,7 @@ return array(
 					'/member/inbox/<action:\w+>/<messageId>' => 'member/inbox/<action>',
 					'/member/album/<action:\w+>/<albumId>' => 'member/album/<action>',
 					'/member/photo/<action:\w+>/<photoId>' => 'member/photo/<action>',
+					'/member/link/<action:\w+>/<linkId>' => 'member/link/<action>',
 
 					'/member/portfolioAlbum/<action:\w+>/<albumId>' => 'member/portfolioAlbum/<action>',
 					'/member/portfolioPhoto/<action:\w+>/<photoId>' => 'member/portfolioPhoto/<action>',

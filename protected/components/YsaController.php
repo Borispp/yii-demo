@@ -11,6 +11,18 @@ class YsaController extends CController
 
 	protected $_metaKeywords;
 
+	public function init() {
+		parent::init();
+		// disable yii debug toolbar on ajax uploads.
+		if (YII_DEBUG && isset($_FILES['file'])) {
+			foreach (Yii::app()->log->routes as $route) {
+				if ($route instanceof YiiDebugToolbarRoute) {
+					$route->enabled = false;
+				}
+			}
+		}
+	}
+	
 	public function setSuccess($message)
 	{
 		return Yii::app()->user->setFlash('success', $message);

@@ -42,7 +42,7 @@ class StudioLink extends YsaActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('studio_id', 'required'),
+			array('studio_id, name, url', 'required'),
 			array('studio_id, rank', 'numerical', 'integerOnly'=>true),
 			array('name, url', 'length', 'max'=>100),
 			array('created, updated', 'safe'),

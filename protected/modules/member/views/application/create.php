@@ -1,5 +1,3 @@
-<?php echo YsaHtml::pageHeaderTitle('Create Application'); ?>
-
 <div class="form">
     <?php $form=$this->beginWidget('YsaMemberForm', array(
             'id'=>'create-app-form',

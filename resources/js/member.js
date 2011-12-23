@@ -8,7 +8,7 @@ var _plupload_settings = {
 	]
 }
 function _plupload_error_handler(up, err) {
-	$('#filelist').append("<div>Error: " + err.code +
+	$('#photo-filelist').append("<div>Error: " + err.code +
 		", Message: " + err.message +
 		(err.file ? ", File: " + err.file.name : "") +
 		"</div>"
@@ -19,11 +19,11 @@ function _plupload_upload_progress(up, file) {
 	$('#' + file.id + " b").html(file.percent + "%");
 }
 function _plupload_init(up, params) {
-	$('#filelist').html("<div>Current runtime: " + params.runtime + "</div>");
+	$('#photo-filelist').html("<div>Current runtime: " + params.runtime + "</div>");
 }
 function _plupload_files_added(up, files) {
 	$.each(files, function(i, file) {
-		$('#filelist').append(
+		$('#photo-filelist').append(
 			'<div id="' + file.id + '">' +
 			file.name + ' (' + plupload.formatSize(file.size) + ') <b></b>' +
 		'</div>');
