@@ -7,6 +7,9 @@ class SiteController extends YsaFrontController
      */
     public function actionIndex()
     {
+		VarDumper::dump(Yii::app()->getRequest()->getBaseUrl(true));
+		
+		
         $page = Page::model()->findBySlug('homepage');
         $this->setMeta($page->meta());
 
