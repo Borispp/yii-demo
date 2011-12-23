@@ -26,7 +26,7 @@
     </div>
 
 	<div class="row">
-            <p class="hint"><?php echo CHtml::link('Register', '/register'); ?> | <?php echo CHtml::link("Lost Password?", '/recovery'); ?></p>
+            <p class="hint"><?php echo CHtml::link('Register', array('register/')); ?> | <?php echo CHtml::link("Lost Password?", array('recovery/')); ?></p>
 	</div>
     
     <div class="row rememberMe">
