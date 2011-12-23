@@ -1,8 +1,16 @@
 <div class="g12">
-	<?php foreach($options as $section => $properties):?>
-	<h3><?php echo $section?></h3>
-		<?php foreach($properties as $label => $value):?>
-			<p><strong><?php echo $label?></strong><br/><?php echo $value?></p>
+	<form>
+
+		<?php foreach($options as $section => $properties):?>
+		<fieldset>
+			<label><?php echo $section?></label>
+			<?php foreach($properties as $label => $value):?>
+			<section>
+				<label><?php echo $label?></label>
+				<div><?php echo $value?></div>
+			</section>
+			<?endforeach?>
+		</fieldset>
 		<?endforeach?>
-	<?endforeach?>
+	</form>
 </div>
