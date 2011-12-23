@@ -21,6 +21,7 @@ return array(
         'application.extensions.*',
         'application.extensions.mailer.*',
         'application.extensions.image.*',
+		'application.extensions.phpsmug.*',
     ),
 
     'modules'=>array(

@@ -14,6 +14,17 @@
  */
 class UserOption extends YsaOptionActiveRecord
 {
+	const SMUGMUG_API = 'smug_api';
+	
+	const SMUGMUG_SECRET = 'smug_secret';
+	
+	const SMUGMUG_HASH = 'smug_hash';
+	
+	const SMUGMUG_REQUEST = 'smug_request';
+	
+	const SMUGMUG_AUTHORIZED = 'smug_authorized';
+	
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return UserOption the static model class
