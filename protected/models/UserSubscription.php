@@ -41,14 +41,13 @@ class UserSubscription extends YsaActiveRecord
 		return parent::model($className);
 	}
 
-	public function state()
+	public function getStates()
 	{
-		$state = array(
+		return array(
 			self::STATE_ACTIVE		=> 'active',
 			self::STATE_ENABLED		=> 'paid',
 			self::STATE_INACTIVE	=> 'unpaid'
 		);
-		return $state[$this->state];
 	}
 
 	/**
