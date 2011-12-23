@@ -93,17 +93,26 @@ class SubscriptionController extends YsaMemberController
 
 	public function actionNotify()
 	{
-		if ($_SERVER['REQUEST_METHOD'] == 'POST' && $this->_getPayment()->verify())
+		if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		{
+			if (!$this->_getPayment()->verify())
+				return $this->render('error', array(
+				'title'		=> 'Verification failed',
+				'message'	=> 'Transaction verification failed',
+				));
 			$obUserTransaction = UserTransaction::model()->findByPk($_POST['item_number']);
 			$obUserTransaction->data = serialize($_POST);
 			$obUserTransaction->state = UserTransaction::STATE_PAID;
 			$obUserTransaction->save();
 			$obUserSubscription = $obUserTransaction->UserSubscription;
 			$obUserSubscription->activate();
+			return $this->render('ok', array(
+				'obUserSubscription' => $obUserSubscription
+			));
 		}
-		$this->render('ok', array(
-			'obUserSubscription' => $obUserSubscription
+		return $this->render('error', array(
+			'title'		=> 'Access denied ',
+			'message'	=> 'You are not allowed to access this page directly.',
 		));
 	}
 

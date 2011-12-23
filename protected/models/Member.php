@@ -28,11 +28,24 @@ class Member extends User
 		return $this->_application;
 	}
 
-	public function clients()
+	/**
+	 * @TODO instead of userSubscription foreach use sql-query
+	 * @return bool
+	 */
+	public function isExpired()
 	{
-
+		foreach($this->UserSubscription as $obUserSubscription)
+		{
+			if ($this->isExpired())
+				return TRUE;
+		}
+		return FALSE;
 	}
 
+	/**
+	 * @TODO instead of userSubscription foreach use sql-query
+	 * @return bool
+	 */
 	public function hasSubscription()
 	{
 		foreach($this->UserSubscription as $obUserSubscription)

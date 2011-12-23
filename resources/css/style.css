@@ -72,7 +72,11 @@ textarea {
     padding:5px;
     margin:0;
     border:1px solid #cacaca;
-    -webkit-appearance: none;
+}
+input[type=text],
+textarea
+{
+	-webkit-appearance: none;
 }
 textarea {
     resize:none;
