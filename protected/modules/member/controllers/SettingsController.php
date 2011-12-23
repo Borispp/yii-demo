@@ -30,10 +30,30 @@ class SettingsController extends YsaMemberController
                 $this->refresh();
             }
         }
+		
+		$shootqForm = new ShootqApi();
+		
+		// set default ShootQ values
+		$shootqForm->shootq_abbr = $this->member()->option('shootq_abbr');
+		$shootqForm->shootq_key = $this->member()->option('shootq_key');
+		
+		if (isset($_POST['ShootqApi'])) {
+            $shootqForm->attributes = $_POST['ShootqApi'];
+            if ($shootqForm->validate()) {
+				foreach ($shootqForm->attributes as $name => $value) {
+					$this->member()->editOption($name, $value);
+				}
+                $this->setSuccess('ShootQ settings successfully saved.');
+                $this->refresh();
+            }
+		}
+		
+		$this->setMemberPageTitle('Settings');
 
         $this->render('index', array(
             'entry'     => $this->member(),
             'password'  => $changePasswordForm,
+			'shootq'	=> $shootqForm,
         ));
     }
 }

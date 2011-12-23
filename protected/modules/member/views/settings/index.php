@@ -1,4 +1,3 @@
-<?php echo YsaHtml::pageHeaderTitle('Settings'); ?>
 <section class="body w">
 	<h3><?php echo $entry->name(); ?></h3>
 	<div><a href="<?php echo Yii::app()->createUrl('/member/subscription/list/')?>">My subscriptions</a></div>
@@ -42,7 +41,37 @@
 		<?php $this->endWidget();?>
 	</div>
 
+	<h3>ShootQ Settings</h3>
+	
+	<?php $form = $this->beginWidget('YsaForm', array(
+		'id'=>'change-password-form',
+		'enableAjaxValidation'=>false,
+	)); ?>
 
+	<section>
+		<?php echo $form->labelEx($shootq,'shootq_abbr'); ?>
+		<div>
+			<?php echo $form->textField($shootq,'shootq_abbr', array('size'=>60,'maxlength'=>50)); ?>
+			<?php echo $form->error($shootq,'shootq_abbr'); ?>
+		</div>
+	</section>
+
+	<section>
+		<?php echo $form->labelEx($shootq,'shootq_key'); ?>
+		<div>
+			<?php echo $form->textField($shootq,'shootq_key',array('size'=>50,'maxlength'=>50)); ?>
+			<?php echo $form->error($shootq,'shootq_key'); ?>
+		</div>
+	</section>
+
+	<div class="row buttons">
+		<?php echo CHtml::submitButton('Submit'); ?>
+	</div>
+
+	<?php $this->endWidget();?>
+	
+	<h3>Change Password</h3>
+	
 	<?php $form = $this->beginWidget('YsaForm', array(
 		'id'=>'change-password-form',
 		'enableAjaxValidation'=>false,

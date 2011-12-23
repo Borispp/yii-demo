@@ -174,6 +174,11 @@ class User extends YsaActiveRecord
 		UserOption::model()->editOption($name, $value);
 	}
 
+	/**
+	 * Delete option wrapper for UserOption
+	 * @param string $name
+	 * @return User 
+	 */
 	public function deleteOption($name)
 	{
 		UserOption::model()->deleteOption($name);
@@ -184,6 +189,12 @@ class User extends YsaActiveRecord
 		return $this;
 	}
 	
+	/**
+	 * Get option wrapper for UserOption
+	 * @param string $name
+	 * @param mixed $default
+	 * @return mixed
+	 */
 	public function option($name, $default = '')
 	{
 		if (!isset($this->_options[$name])) {
