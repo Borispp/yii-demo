@@ -14,12 +14,6 @@
  */
 class UserOption extends YsaOptionActiveRecord
 {
-	const OPT_ABOUT_IMAGE = 'about_image';
-	
-	const OPT_ABOUT_TEXT = 'about_text';
-	
-	
-	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return UserOption the static model class
@@ -80,5 +74,93 @@ class UserOption extends YsaOptionActiveRecord
 			'created' => 'Created',
 			'updated' => 'Updated',
 		);
+	}
+	
+	/**
+	 * Get option value
+	 * 
+	 * @param string $name
+	 * @param integer $userId
+	 * @return mixed
+	 */
+	public function getOption($name, $default = null, $userId = null)
+	{
+		if (null === $userId) {
+			$userId = Yii::app()->user->id;
+		}
+		
+		$option = $this->findByName($name, $userId);
+		
+		if (!$option) {
+			return $default;
+		}
+		
+		return YsaHelpers::isSerialized($option->value) ? unserialize($option->value) : $option->value;
+	}
+	
+	public function editOption($name, $value, $userId = null)
+	{
+		if (null === $userId) {
+			$userId = Yii::app()->user->id;
+		}
+		
+		if (is_array($value) || is_object($value)) {
+			$value = serialize($value);
+		}
+		
+		$entry = $this->findByName($name, $userId);
+		
+		if (!$entry) {
+			$entry = new UserOption();
+			$entry->name = $name;
+			$entry->user_id = $userId;
+		}
+		
+		$entry->value = $value;
+		
+		$entry->save();
+		
+		return $this;
+	}
+	
+	/**
+	 * Delete option
+	 * 
+	 * @param string $name
+	 * @param integer $userId
+	 * @return bool
+	 */
+	public function deleteOption($name, $userId = null)
+	{
+		if (null === $userId) {
+			$userId = Yii::app()->user->id;
+		}
+		
+		$option = $this->findByName($name, $userId);
+		
+		if ($option) {
+			$option->delete();
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Find option by name and userID
+	 * 
+	 * @param string $name
+	 * @param integer $userId
+	 * @return UserOption
+	 */
+	public function findByName($name, $userId = null)
+	{
+		if (null === $userId) {
+			$userId = Yii::app()->user->id;
+		}
+		
+		return $this->findByAttributes(array(
+			'name'		=> $name,
+			'user_id'	=> $userId,
+		));
 	}
 }

@@ -14,7 +14,7 @@ class SettingsController extends YsaMemberController
                 $this->refresh();
             }
         }
-
+		
         $changePasswordForm = new SettingsChangePassword();
 
         if (isset($_POST['SettingsChangePassword'])) {
