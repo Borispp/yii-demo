@@ -19,19 +19,19 @@ class RecoveryController extends YsaFrontController
         // user returns with key to change password
         if ($k) {
             $user = User::model()->findByAttributes(array('activation_key' => $k));
-            
+			
             if ($user) {
-                $form = new ChangePasswordForm();
-                
+                $entry = new ChangePasswordForm();
+				
                 if(isset($_POST['ChangePasswordForm'])) {
-                    $form->attributes = $_POST['ChangePasswordForm'];
-                    
-                    if($form->validate()) {
-                        $user->password = YsaHelpers::encrypt($form->password);
+                    $entry->attributes = $_POST['ChangePasswordForm'];
+                    if($entry->validate()) {
+                        $user->password = YsaHelpers::encrypt($entry->password);
                         $user->generateActivationKey();
                         if ($user->state == User::STATE_INACTIVE) {
                             $user->status = User::STATE_ACTIVE;
                         }
+						
                         // save new password and regenerated activation key
                         $user->save();
                         
@@ -40,7 +40,7 @@ class RecoveryController extends YsaFrontController
                     }
                 } 
                 
-                $this->render('changepassword', array('form' => $form));
+                $this->render('changepassword', array('entry' => $entry));
 
             } else { // invalid recovery key
                 Yii::app()->user->setFlash('recoveryMessage', "Incorrect recovery link.");
@@ -48,24 +48,24 @@ class RecoveryController extends YsaFrontController
             }
         } else { // show password recovery form with email
             
-            $form = new RecoveryForm();
+            $entry = new RecoveryForm();
             
             if(isset($_POST['RecoveryForm'])) {
                 $form->attributes = $_POST['RecoveryForm'];
                 
-                if($form->validate()) {
+                if($entry->validate()) {
                     // find user
-                    $user = User::model()->findbyPk($form->user_id);
+                    $entry = User::model()->findbyPk($entry->user_id);
                     
-                    $activation_url = 'http://' . $_SERVER['HTTP_HOST'] . $this->createUrl('/recovery', array("k" => $user->activation_key));
+                    $activation_url = 'http://' . $_SERVER['HTTP_HOST'] . $this->createUrl('/recovery', array("k" => $entry->activation_key));
                     
                     Email::model()->send(
-                        array($model->email, $model->name()), 
+                        array($entry->email, $entry->name()), 
                         'recovery', 
                         array(
-                            'name'  => $model->name(),
-                            'email' => $model->email,
-                            'link'  => $model->getActivationLink(),
+                            'name'  => $entry->name(),
+                            'email' => $entry->email,
+                            'link'  => $entry->getRecoveryLink(),
                         )
                     );
                     
@@ -74,7 +74,7 @@ class RecoveryController extends YsaFrontController
                 }
             }
             
-            $this->render('recover', array('form' => $form));
+            $this->render('recover', array('entry' => $entry));
         }
     }
 }
