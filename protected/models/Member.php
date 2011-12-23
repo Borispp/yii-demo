@@ -5,6 +5,8 @@
 class Member extends User
 {
 	protected $_application = null;
+	
+	protected $_smugmug;
 
 	public static function model($className=__CLASS__)
 	{
@@ -65,5 +67,44 @@ class Member extends User
 				$lastDate = strtotime($obUserSubscription->expiry_date);
 		}
 		return date('Y-m-d', $lastDate);
+	}
+	
+	
+	/**
+	 * Retreive SmugMug Object
+	 * @return phpSmug
+	 */
+	public function smugmug()
+	{
+		if (null === $this->_smugmug) {
+			$this->_smugmug = new phpSmug(array(
+				'APIKey' => $this->option(UserOption::SMUGMUG_API), 
+				'OAuthSecret' => $this->option(UserOption::SMUGMUG_SECRET), 
+				'AppName' => Yii::app()->settings->get('site_title'), 
+			));
+		}
+		
+		return $this->_smugmug;
+	}
+	
+	public function smugmugSetRequestToken($token = null)
+	{
+		if (null === $token) {
+			$token = $this->option(UserOption::SMUGMUG_REQUEST);
+		}
+		$this->smugmug()->setToken("id={$token['Token']['id']}", "Secret={$token['Token']['Secret']}");
+	}
+	
+	public function smugmugSetAccessToken($token = null)
+	{
+		if (null === $token) {
+			$token = $this->option(UserOption::SMUGMUG_HASH);
+			$this->smugmug()->setToken("id={$token['Token']['id']}", "Secret={$token['Token']['Secret']}");
+		}
+	}
+	
+	public function smugmugAuthorized()
+	{
+		return (int) $this->option(UserOption::SMUGMUG_AUTHORIZED);
 	}
 }

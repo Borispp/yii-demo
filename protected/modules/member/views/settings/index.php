@@ -44,7 +44,7 @@
 	<h3>ShootQ Settings</h3>
 	
 	<?php $form = $this->beginWidget('YsaForm', array(
-		'id'=>'change-password-form',
+		'id'=>'shootq-form',
 		'enableAjaxValidation'=>false,
 	)); ?>
 
@@ -77,6 +77,7 @@
 	</div>
 
 	<?php $this->endWidget();?>
+	
 	
 	<h3>Change Password</h3>
 	

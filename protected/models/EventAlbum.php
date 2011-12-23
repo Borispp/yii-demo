@@ -124,11 +124,11 @@ class EventAlbum extends YsaAlbumActiveRecord
 				'limit' => 1,
 			));
 			
+			$w = Yii::app()->params['member_area']['album']['preview']['width'];
+			$h = Yii::app()->params['member_area']['album']['preview']['height'];
+			
 			if ($photo) {
-				$this->_previewUrl = $photo->previewUrl(
-					Yii::app()->params['member_area']['album']['preview']['width'],
-					Yii::app()->params['member_area']['album']['preview']['height']
-				);
+				$this->_previewUrl = $photo->previewUrl($w, $h);
 			} else {
 				$this->_previewUrl = EventPhoto::model()->defaultPicUrl($w, $h);
 			}
