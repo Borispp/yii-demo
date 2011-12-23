@@ -144,6 +144,10 @@ return array(
             'class' => 'application.components.YsaMaintenance',
         ),
 
+		'CURL' =>array(
+			'class' => 'application.extensions.Curl',
+		),
+		
 		'clientScript'=>array(
 			'packages'=>array(
 				'jquery'=>array(
