@@ -11,18 +11,8 @@
  * @property string $created
  * @property string $updated
  */
-class PortfolioAlbum extends YsaActiveRecord
+class PortfolioAlbum extends YsaAlbumActiveRecord
 {
-	protected $_photos;
-	
-    protected $_uploadPath;
-    
-    protected $_uploadUrl;
-	
-	protected $_preview;
-	
-	protected $_previewUrl;
-	
 	protected $_portfolio;
 	
     public function init() {
@@ -30,6 +20,7 @@ class PortfolioAlbum extends YsaActiveRecord
         
         $this->_uploadPath = rtrim(Yii::getPathOfAlias('webroot.images.portfolio.albums'), '/');
         $this->_uploadUrl = Yii::app()->getBaseUrl(true) . '/images/portfolio/albums';
+		$this->_createDir();
     }
 	
 	/**
@@ -54,11 +45,10 @@ class PortfolioAlbum extends YsaActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('portfolio_id, rank, state', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>100),
+			array('portfolio_id, state, name', 'required'),
 			array('created, updated, description', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -78,21 +68,6 @@ class PortfolioAlbum extends YsaActiveRecord
 	}
 
 	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'portfolio_id' => 'Portfolio',
-			'title' => 'Title',
-			'rank' => 'Rank',
-			'created' => 'Created',
-			'updated' => 'Updated',
-		);
-	}
-
-	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
@@ -102,7 +77,7 @@ class PortfolioAlbum extends YsaActiveRecord
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('portfolio_id',$this->portfolio_id);
-		$criteria->compare('title',$this->title,true);
+		$criteria->compare('name',$this->name,true);
 		$criteria->compare('rank',$this->rank);
 		$criteria->compare('created',$this->created,true);
 		$criteria->compare('updated',$this->updated,true);
@@ -112,13 +87,7 @@ class PortfolioAlbum extends YsaActiveRecord
 		));
 	}
 	
-	public function preview($htmlOptions = array())
-	{
-		if (null === $this->_preview) {
-			$this->_preview = YsaHtml::image($this->previewUrl(), 'Album Preview', $htmlOptions);
-		}
-		return $this->_preview;
-	}
+
 	
 	public function previewUrl()
 	{
@@ -138,66 +107,11 @@ class PortfolioAlbum extends YsaActiveRecord
 			if ($photo) {
 				$this->_previewUrl = $photo->previewUrl($w, $h);
 			} else {
-				$this->_previewUrl = EventPhoto::model()->defaultPicUrl($w, $h);
+				$this->_previewUrl = PortfolioPhoto::model()->defaultPicUrl($w, $h);
 			}
 		}
 		
 		return $this->_previewUrl;
-		
-	}
-	
-	/**
-	 * Delete all photos with album
-	 * @return bool
-	 */
-	public function beforeDelete() {
-		parent::beforeDelete();
-		
-		$photos = PortfolioPhoto::model()->findAll(array(
-			'condition' => 'album_id=:album_id',
-			'params' => array(
-				'album_id' => $this->id,
-			),
-		));
-		
-		foreach ($photos as $p) {
-			$p->delete();
-		}
-		
-		return true;
-	}
-	
-	/**
-	 * Set next rank for event album
-	 * @return bool
-	 */
-    public function beforeSave() 
-	{
-        if($this->isNewRecord) {
-            $this->setNextRank();
-        }
-        return parent::beforeValidate();
-    }
-	
-	public function encryptedId()
-	{
-		return YsaHelpers::encrypt($this->id);
-	}
-	
-	public function albumPath()
-	{
-		$folder = $this->_uploadPath . DIRECTORY_SEPARATOR . $this->encryptedId();
-		
-		if (!is_dir($folder)) {
-			mkdir($folder, 0777);
-		}
-		
-		return $folder;
-	}
-	
-	public function albumUrl()
-	{
-		return $this->_uploadUrl . '/' . $this->encryptedId();
 	}
 	
 	public function photos()

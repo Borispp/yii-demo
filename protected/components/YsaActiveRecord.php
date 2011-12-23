@@ -123,4 +123,9 @@ class YsaActiveRecord extends CActiveRecord
 			'user_id'   => (int) $userId,
 		));
 	}
+	
+	public function encryptedId()
+	{
+		return YsaHelpers::encrypt($this->id);
+	}
 }
