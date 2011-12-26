@@ -18,6 +18,7 @@
  * @property string $exif_data
  * @property integer $can_share
  * @property integer $can_order
+ * @property string $size
  */
 class EventPhoto extends YsaPhotoActiveRecord
 {
