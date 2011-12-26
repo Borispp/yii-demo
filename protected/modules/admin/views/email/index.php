@@ -14,7 +14,7 @@
         <thead>
             <tr>
                 <th class="w_1"><input type="checkbox" value="" class="ids-toggle" /></th>
-                <th class="w_10">Name</th>
+                <th class="l w_20">Name</th>
                 <th class="l w_40">Subject</th>
                 <th class="l">Help</th>
                 <th class="w_10">&nbsp;</th>
@@ -24,7 +24,7 @@
             <?php foreach ($entries as $entry) : ?>
                 <tr>
                     <td><input type="checkbox" class="del" value="<?php echo $entry->id; ?>" name="ids[]" /></td>
-                    <td><?php echo $entry->name; ?></td>
+                    <td class="l"><?php echo $entry->name; ?></td>
                     <td class="l"><?php echo CHtml::link($entry->subject, array('edit', 'id' => $entry->id)); ?></td>
                     <td class="l"><?php echo $entry->help(); ?></td>
                     <td>

@@ -1,14 +1,11 @@
 <?php
-
 class PortfolioController extends YsaMemberController
 {
 	public function actionIndex()
 	{
-//		$entries = 
-		
-		$a = new PortfolioPhoto();
-		
 		$this->setMemberPageTitle('Portfolio');
+		
+		$this->crumb('Portfolio');
 		
 		$this->render('index');
 	}

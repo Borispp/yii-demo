@@ -19,7 +19,7 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 			array('extention', 'length', 'max'=>5),
 			array('meta_type', 'length', 'max'=>20),
 			array('alt', 'length', 'max'=>255),
-			array('meta_type, alt, rank, created, updated, exif_data', 'safe'),
+			array('meta_type, alt, rank, created, updated, exif_data, size', 'safe'),
 		);
     }
 	
@@ -85,6 +85,7 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 		if (is_file($file)) {
 			unlink($file);
 		}
+		
 		return true;
 	}
 	
@@ -229,7 +230,6 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 		// read exif data from jpegs
 		if ($this->extention === 'jpg') {
 			$data = @exif_read_data($instance->getTempName());
-
 			$this->exif_data = serialize($data);
 		}
 		
@@ -245,6 +245,8 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 		
 		$image->save($savePath);
 		
+		$this->size = filesize($savePath);
+		
 		if ($save) {
 			$this->save();
 		}
@@ -255,5 +257,11 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 	public function defaultPicUrl($width = 300, $height = 200)
 	{	
 		return ImageHelper::thumb($width, $height, rtrim(Yii::getPathOfAlias('webroot.resources.images'), '/') . DIRECTORY_SEPARATOR . 'no-image.png');
+	}
+
+
+	public function getChecksum()
+	{
+		return md5($this->basename);
 	}
 }

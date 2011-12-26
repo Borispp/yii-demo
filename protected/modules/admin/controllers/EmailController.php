@@ -49,7 +49,9 @@ class EmailController extends YsaAdminController
 
     public function actionIndex()
     {
-        $entries = Email::model()->findAll();
+        $entries = Email::model()->findAll(array(
+			'order' => 'name ASC',
+		));
      
         $this->setContentTitle('Newsletter Emails');
         $this->setContentDescription('manage emails.');

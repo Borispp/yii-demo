@@ -11,7 +11,7 @@
 class Portfolio extends YsaActiveRecord
 {
 	protected $_albums;
-	
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Portfolio the static model class
@@ -20,7 +20,7 @@ class Portfolio extends YsaActiveRecord
 	{
 		return parent::model($className);
 	}
-	
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -28,7 +28,7 @@ class Portfolio extends YsaActiveRecord
 	{
 		return 'portfolio';
 	}
-	
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -82,26 +82,50 @@ class Portfolio extends YsaActiveRecord
 		$criteria->compare('name',$this->name,true);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
+				'criteria'=>$criteria,
+			));
 	}
-	
-    public function albums()
-    {
+
+	/**
+	 * @param bool $showActiveOnly
+	 * @return array
+	 */
+	public function albums($showActiveOnly = FALSE)
+	{
+		
+		$params = array(
+			':portfolio_id' => $this->id,
+		);
+		
+		if ($showActiveOnly) {
+			$params[':state'] = self::STATE_ACTIVE;
+		}
+		
 		if (null === $this->_albums) {
 			$this->_albums = PortfolioAlbum::model()->findAll(array(
-				'condition' => 'portfolio_id=:portfolio_id',
-				'params'    => array(
-					':portfolio_id' => $this->id,
-				),
-				'order' => 'rank ASC',
-			));
+					'condition' => 'portfolio_id=:portfolio_id'.($showActiveOnly ? ' AND state=:state' : ''),
+					'params'    => $params,
+					'order' => 'rank ASC',
+				));
 		}
 		return $this->_albums;
-    }
-    
+	}
+
 	public function isOwner()
 	{
 		return $this->studio()->isOwner();
+	}
+
+	public function getAlbumById($albumId)
+	{
+		list($obAlbum) = PortfolioAlbum::model()->findAll(array(
+				'condition' => 'portfolio_id=:portfolio_id AND id=:album_id',
+				'params'    => array(
+					':portfolio_id'	=> $this->id,
+					':album_id'		=> $albumId,
+				),
+				'order' => 'rank ASC',
+			));
+		return $obAlbum;
 	}
 }

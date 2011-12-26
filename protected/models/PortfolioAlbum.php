@@ -14,7 +14,7 @@
 class PortfolioAlbum extends YsaAlbumActiveRecord
 {
 	protected $_portfolio;
-	
+
     public function init() {
         parent::init();
         
@@ -30,6 +30,7 @@ class PortfolioAlbum extends YsaAlbumActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+		Yii::app()->getRequest()->getBaseUrl();
 	}
 
 	/**
@@ -86,8 +87,6 @@ class PortfolioAlbum extends YsaAlbumActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-	
-
 	
 	public function previewUrl()
 	{

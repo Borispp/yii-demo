@@ -81,6 +81,7 @@ class Member extends User
 				'APIKey' => $this->option(UserOption::SMUGMUG_API), 
 				'OAuthSecret' => $this->option(UserOption::SMUGMUG_SECRET), 
 				'AppName' => Yii::app()->settings->get('site_title'), 
+				'APIVer' => '1.3.0',
 			));
 		}
 		
@@ -93,6 +94,8 @@ class Member extends User
 			$token = $this->option(UserOption::SMUGMUG_REQUEST);
 		}
 		$this->smugmug()->setToken("id={$token['Token']['id']}", "Secret={$token['Token']['Secret']}");
+		
+		return $this;
 	}
 	
 	public function smugmugSetAccessToken($token = null)
@@ -101,6 +104,8 @@ class Member extends User
 			$token = $this->option(UserOption::SMUGMUG_HASH);
 			$this->smugmug()->setToken("id={$token['Token']['id']}", "Secret={$token['Token']['Secret']}");
 		}
+		
+		return $this;
 	}
 	
 	public function smugmugAuthorized()

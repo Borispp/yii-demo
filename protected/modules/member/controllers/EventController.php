@@ -1,6 +1,12 @@
 <?php
 class EventController extends YsaMemberController
 {
+	public function init()
+	{
+		parent::init();
+		$this->crumb('Events', array('event/'));
+	}
+	
     public function actionIndex()
     {
 		if (isset($_POST['Fields'])) {
@@ -22,6 +28,8 @@ class EventController extends YsaMemberController
         $pagination->applyLimit($criteria);
 		
         $entries = Event::model()->findAll($criteria);
+		
+		$this->setMemberPageTitle('Events');
         
         $this->render('index',array(
             'entries'       => $entries,
@@ -37,6 +45,10 @@ class EventController extends YsaMemberController
         if (!$entry) {
             $this->redirect(array('event/'));
         }
+		
+		$this->crumb($entry->name);
+		
+		$this->setMemberPageTitle($entry->name);
         
         $this->render('view', array(
             'entry' => $entry,
@@ -70,11 +82,13 @@ class EventController extends YsaMemberController
                     ));
                     $album->save();
                 }
-                
-                
                 $this->redirect(array('event/view/' . $entry->id));
             }
         }
+		
+		$this->crumb('Create New Event');
+		
+		$this->setMemberPageTitle('Create New Event');
         
         $this->render('create', array(
             'entry' => $entry,
@@ -102,6 +116,10 @@ class EventController extends YsaMemberController
 				$this->redirect(array('event/view/' . $entry->id));
 			}
 		}
+		
+		$this->crumb($entry->name);
+		
+		$this->setMemberPageTitle($entry->name);
 		
         $this->render('edit', array(
 			'entry' => $entry,

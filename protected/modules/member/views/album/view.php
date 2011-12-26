@@ -13,12 +13,27 @@
 	<?php $this->endWidget();?>
 	
 	<div id="photo-upload-container">
-		<div id="photo-filelist" style="min-height: 100px;border: 1px solid red;">
-			
-		</div>
+		<div id="photo-filelist" style="min-height: 100px;border: 1px solid red;"></div>
 		<a href="#" id="photo-upload-browse">select files</a>
 		<a href="#" id="photo-upload-submit">upload</a>
 	</div>
+	
+	<?php if ($this->member()->smugmugAuthorized()) : ?>
+		<div id="photo-import-smugmug-container" class="smugmug-import">
+			<div class="data">
+				Import from SmugMug Album
+				<select name="album">
+					<option value="">&ndash;&ndash;&ndash;</option>
+					<?php foreach ($this->member()->smugmug()->albums_get() as $album) : ?>
+						<option value="<?php echo $album['id']; ?>|<?php echo $album['Key']; ?>"><?php echo $album['Title']; ?></option>
+					<?php endforeach; ?>
+				</select>
+				<input type="button" value="Show Photos" />
+			</div>
+			<div class="import"></div>
+			<div class="loading">Loading album images. Please be patient &mdash; it takes a while...</div>
+		</div>
+	<?php endif; ?>
 	
 	<h3>Album Photos</h3>
 	<ul id="album-photos" class="album-photos">

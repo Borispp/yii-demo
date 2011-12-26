@@ -16,6 +16,7 @@
  * @property integer $rank
  * @property string $created
  * @property string $updated
+ * @property string $size
  */
 class PortfolioPhoto extends YsaPhotoActiveRecord
 {

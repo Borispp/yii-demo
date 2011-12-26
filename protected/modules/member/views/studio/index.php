@@ -1,6 +1,4 @@
 <section id="studio">
-	<?php echo YsaHtml::pageHeaderTitle('Studio Information'); ?>
-
 	<div class="w">
 		<h3>General Information</h3>
 		<?php $this->renderPartial('_form', array(

@@ -2,6 +2,8 @@
 	<?php echo $entry->full(); ?>
 </figure>
 
+
+
 <?php if ($entry->album()->event()->isProofing()) : ?>
 	<h3>Comments</h3>
 	<ul>
@@ -79,4 +81,7 @@
 	
 	
 	<?php $this->endWidget();?>
+		
+	<p><?php echo $entry->shareLink(); ?></p>
+	
 <?php endif;?>

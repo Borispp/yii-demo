@@ -1,6 +1,4 @@
 <section id="event" eventid="<?php echo $entry->id; ?>">
-	<?php echo YsaHtml::pageHeaderTitle($entry->name); ?>
-
 	<p><?php echo CHtml::link('Edit Event', array('event/edit/' . $entry->id)); ?></p>
 
 	<p><?php echo $entry->description; ?></p>
@@ -31,8 +29,10 @@
 				<li id="event-album-<?php echo $album->id?>">
 					<?php echo $album->preview(); ?>
 					<?php echo YsaHtml::link('View', array('album/view/' . $album->id), array('class' => 'view')); ?>
-					<?php echo YsaHtml::link('Edit', array('album/edit/' . $album->id), array('class' => 'edit')); ?>
-					<?php echo YsaHtml::link('x', array('album/delete/' . $album->id), array('class' => 'delete', 'rel' => $album->id)); ?>
+					<?php if ($entry->isPublic()) : ?>
+						<?php echo YsaHtml::link('Edit', array('album/edit/' . $album->id), array('class' => 'edit')); ?>
+						<?php echo YsaHtml::link('x', array('album/delete/' . $album->id), array('class' => 'delete', 'rel' => $album->id)); ?>
+					<?php endif; ?>
 				</li>
 			<?php endforeach; ?>
 		</ul>
