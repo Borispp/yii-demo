@@ -16,6 +16,12 @@
  * @property string $updated
  * @property string $last_login
  * @property string $last_login_ip
+ *
+ * Relations
+ * @property UserOption $option
+ * @property Application $application
+ * @property Event $event
+ * @property Studio $studio
  */
 class User extends YsaActiveRecord
 {

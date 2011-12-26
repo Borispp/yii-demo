@@ -11,6 +11,8 @@
  * @property integer $state
  * @property string $name
  * @property string $info
+ * @property Member $user
+ * @property ApplicationOption $application
  */
 class Application extends YsaActiveRecord
 {
@@ -79,7 +81,7 @@ class Application extends YsaActiveRecord
 	public function relations()
 	{
 		return array(
-			'user'        => array(self::BELONGS_TO, 'User', 'user_id'),
+			'user'        => array(self::BELONGS_TO, 'Member', 'user_id'),
 			'application' => array(self::HAS_MANY, 'ApplicationOption', 'app_id'),
 		);
 	}
