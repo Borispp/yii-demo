@@ -24,6 +24,11 @@ class YsaActiveRecord extends CActiveRecord
 		return $states[$this->state];
 	}
 
+	public function isActive()
+	{
+		return (int)$this->state == self::STATE_ACTIVE;
+	}
+
 	/**
 	 * Set created | updated values for AR
 	 *

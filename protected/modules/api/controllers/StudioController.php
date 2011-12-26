@@ -85,11 +85,28 @@ class StudioController extends YsaApiController
 	/**
 	 * Returns galleries list
 	 * Inquiry params: [app_key, device_id]
-	 * Response params: [portfolio -> [id, name, preview, number, checksum]]
+	 * Response params: [portfolio -> [id, name, description, number, checksum]]
 	 * @return void
 	 */
 	public function actionGalleriesList()
 	{
+		$this->_commonValidate();
+		$obStudio = $this->_getApplication()->user->studio;
+		$params = array();
+		if (!count($obStudio->portfolio()->albums(TRUE)))
+			return $this->_renderError('015', 'No albums found');
+		foreach($obStudio->portfolio()->albums(TRUE) as $obPortfolioAlbum)
+		{
+			$params['portfolio'][] = array(
+				'gallery_id'		=> $obPortfolioAlbum->id,
+				'name'				=> $obPortfolioAlbum->name,
+				'description'		=> $obPortfolioAlbum->description,
+				'number_of_photos'	=> count($obPortfolioAlbum->photos()),
+				'filesize'			=> $obPortfolioAlbum->size(),
+				'checksum'			=> $obPortfolioAlbum->getChecksum()
+			);
+		}
+		$this->_render($params);
 	}
 
 	/**
@@ -100,6 +117,39 @@ class StudioController extends YsaApiController
 	 */
 	public function actionGalleryImages()
 	{
+		$this->_commonValidate();
+		$this->_validateVars(array(
+			'gallery_id' => array(
+				'code'		=> '011',
+				'message'	=> 'Gallery id must not be empty',
+				'required'	=> TRUE,
+			),
+		));
+		$obPortfolioAlbum = $this->_getApplication()->user->studio->portfolio()->getAlbumById($_POST['gallery_id']);
+		$this->_checkPhotoAlbum($obPortfolioAlbum);
+		if (!count($photos = $obPortfolioAlbum->photos()))
+			$this->_renderError('016', 'Portfolio Album is empty');
+		$params = array();
+		foreach($photos as $obPortfolioPhoto)
+		{
+			$params['images'][] = array(
+				'filesize'		=> $obPortfolioPhoto->size,
+				'name'			=> $obPortfolioPhoto->name,
+				'thumbnail'		=> $obPortfolioPhoto->previewUrl(),
+				'fullsize'		=> $obPortfolioPhoto->fullUrl(),
+				'meta'			=> $obPortfolioPhoto->exif(),
+				//'share-link'	=>,
+			);
+		}
+		$this->_render($params);
+	}
+
+	protected function _checkPhotoAlbum($obPortfolioAlbum = NULL)
+	{
+		if (!$obPortfolioAlbum)
+			return $this->_renderError('013', 'No album found');
+		if (!$obPortfolioAlbum->isActive())
+			return $this->_renderError('014', 'Album is blocked');
 	}
 
 	/**
@@ -110,6 +160,25 @@ class StudioController extends YsaApiController
 	 */
 	public function actionIsGalleryUpdated()
 	{
+		$this->_commonValidate();
+		$this->_validateVars(array(
+			'gallery_id' => array(
+				'code'		=> '011',
+				'message'	=> 'Gallery id must not be empty',
+				'required'	=> TRUE,
+			),
+			'checksum' => array(
+				'code'		=> '012',
+				'message'	=> 'Checksum id must not be empty',
+				'required'	=> TRUE,
+			),
+		));
+		$obPortfolioAlbum = $this->_getApplication()->user->studio->portfolio()->getAlbumById($_POST['gallery_id']);
+		$this->_checkPhotoAlbum($obPortfolioAlbum);
+		$this->_render(array(
+			'state'			=> $obPortfolioAlbum->checkHash($_POST['checksum']),
+			'checksumm'		=> $obPortfolioAlbum->getChecksum(),
+		));
 	}
 
 	/**
