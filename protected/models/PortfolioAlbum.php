@@ -30,6 +30,7 @@ class PortfolioAlbum extends YsaAlbumActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+		Yii::app()->getRequest()->getBaseUrl();
 	}
 
 	/**
