@@ -159,7 +159,7 @@ class YsaApiController extends YsaController
 	 */
 	protected function _checkAuth()
 	{
-		if (ApplicationAuth::model()->authByToken($_POST['token'], $_POST['app_key'], $_POST['device_id'], $this->_type))
+		if (EventAuth::model()->authByToken($_POST['token'], $_POST['app_key'], $_POST['event_id'], $_POST['device_id']))
 			return TRUE;
 		$this->_renderError(101, 'Authorization by token failed');
 	}

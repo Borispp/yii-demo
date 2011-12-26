@@ -10,6 +10,10 @@ class YsaAlbumActiveRecord extends YsaActiveRecord
 	protected $_previewUrl;
 	
 	protected $_photos;
+
+	protected $_size;
+	
+	protected $_hash;
 	
 	protected function _createDir()
 	{

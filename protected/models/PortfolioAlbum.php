@@ -14,8 +14,6 @@
 class PortfolioAlbum extends YsaAlbumActiveRecord
 {
 	protected $_portfolio;
-	protected $_size;
-	protected $_hash;
 
     public function init() {
         parent::init();
