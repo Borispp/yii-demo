@@ -55,6 +55,10 @@ class StudioController extends YsaMemberController
 			}	
 		}
 		
+		$this->crumb('Studio');
+		
+		$this->setMemberPageTitle('Studio Information');
+		
 		$this->render('index', array(
 			'entry'		=> $entry,
 			'entryLink' => $entryLink,

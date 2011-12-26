@@ -1,5 +1,3 @@
-<?php echo YsaHtml::pageHeaderTitle('My Events'); ?>
-
 <?php $this->widget('YsaSearchBar', array(
     'searchOptions' => $searchOptions,
 ));?>

@@ -92,13 +92,19 @@ class Portfolio extends YsaActiveRecord
 	 */
 	public function albums($showActiveOnly = FALSE)
 	{
+		
+		$params = array(
+			':portfolio_id' => $this->id,
+		);
+		
+		if ($showActiveOnly) {
+			$params[':state'] = self::STATE_ACTIVE;
+		}
+		
 		if (null === $this->_albums) {
 			$this->_albums = PortfolioAlbum::model()->findAll(array(
 					'condition' => 'portfolio_id=:portfolio_id'.($showActiveOnly ? ' AND state=:state' : ''),
-					'params'    => array(
-						':portfolio_id' => $this->id,
-						':state'		=> self::STATE_ACTIVE
-					),
+					'params'    => $params,
 					'order' => 'rank ASC',
 				));
 		}

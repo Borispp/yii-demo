@@ -1,10 +1,13 @@
-<section class="body w">
+<section class="w">
 	<h3><?php echo $entry->name(); ?></h3>
 	
 	<div><?php echo YsaHtml::link('My Subscriptions', array('inbox/')); ?></div>
 	<div><?php echo YsaHtml::link('Inbox', array('subscription/list/')); ?></div>
 	
 	<div><?php echo YsaHtml::link('SmugMug Settings', array('settings/smugmug/')); ?></div>
+	<div><?php echo YsaHtml::link('ShootQ Settings', array('settings/shootq/')); ?></div>
+	
+	
 	<p class="descr">Lorem ipsum dccolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
 
 	<div class="form">
@@ -44,43 +47,6 @@
 		<?php $this->endWidget();?>
 	</div>
 
-	<h3>ShootQ Settings</h3>
-	
-	<?php $form = $this->beginWidget('YsaForm', array(
-		'id'=>'shootq-form',
-		'enableAjaxValidation'=>false,
-	)); ?>
-
-	<section>
-		<?php echo $form->labelEx($shootq,'shootq_enabled'); ?>
-		<?php echo $form->checkBox($shootq,'shootq_enabled',array('checked' => $shootq->shootq_enabled)); ?>
-		<div>
-			<?php echo $form->error($shootq,'shootq_enabled'); ?>
-		</div>
-	</section>
-	
-	<section>
-		<?php echo $form->labelEx($shootq,'shootq_abbr'); ?>
-		<div>
-			<?php echo $form->textField($shootq,'shootq_abbr', array('size'=>60,'maxlength'=>50)); ?>
-			<?php echo $form->error($shootq,'shootq_abbr'); ?>
-		</div>
-	</section>
-
-	<section>
-		<?php echo $form->labelEx($shootq,'shootq_key'); ?>
-		<div>
-			<?php echo $form->textField($shootq,'shootq_key',array('size'=>50,'maxlength'=>50)); ?>
-			<?php echo $form->error($shootq,'shootq_key'); ?>
-		</div>
-	</section>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton('Submit'); ?>
-	</div>
-
-	<?php $this->endWidget();?>
-	
 	
 	<h3>Change Password</h3>
 	

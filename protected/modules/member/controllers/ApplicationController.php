@@ -16,8 +16,6 @@ class ApplicationController extends YsaMemberController
             $this->redirect(array('wizard/'));
         }
 		
-		$this->breadcrumbs[] = 'Application';
-		
 		$this->crumb('Application');
 		
 		$this->setMemberPageTitle('Application');
@@ -68,6 +66,9 @@ class ApplicationController extends YsaMemberController
         if (!$app) {
             $this->redirect(array('application/create'));
         }
+		
+		$this->crumb('Application', array('application/'))
+			 ->crumb('Edit');
         
         $this->render('edit', array(
             'app' => $app,

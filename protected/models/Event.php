@@ -177,6 +177,11 @@ class Event extends YsaActiveRecord
 			$criteria->compare('state', $state);
 		}
 		
+		// search by state
+		if (isset($type) && $type != '') {
+			$criteria->compare('type', $type);
+		}
+		
 		// sort entries
 		if (isset($order_by) && isset($order_sort)) {
 			if (!in_array($fields['order_by'], array_keys($this->attributes))) {
@@ -216,5 +221,60 @@ class Event extends YsaActiveRecord
 	public function isProofing()
 	{
 		return self::TYPE_PROOF == $this->type;
+	}
+	
+	public function isPublic()
+	{
+		return self::TYPE_PUBLIC == $this->type;
+	}
+	
+	public function searchOptions()
+	{
+		if (null !== Yii::app()->session[self::SEARCH_SESSION_NAME]) {
+			$values = Yii::app()->session[self::SEARCH_SESSION_NAME];
+		}
+		
+		$options = array(
+			'keyword' => array(
+				'label'     => 'Keyword',
+				'type'      => 'text',
+				'default'   => '',
+				'value'     => isset($values['keyword']) ? $values['keyword'] : '',
+			),
+			'order_by' => array(
+				'label' => 'Order By',
+				'type'  => 'select',
+				'options' => array(
+					'id'    => 'ID',
+					'name'  => 'Name',
+				),
+				'value'     => isset($values['order_by']) ? $values['order_by'] : '',
+			),
+			'order_sort' => array(
+				'label' => 'Order Sort',
+				'type'  => 'select',
+				'options' => array(
+					'ASC'  => 'ASC',
+					'DESC' => 'DESC',
+				),
+				'value'     => isset($values['order_sort']) ? $values['order_sort'] : '',
+			),
+			'state' => array(
+				'label'             => 'State',
+				'type'              => 'select',
+				'addEmptyOption'    => true,
+				'options'           => Event::model()->getStates(),
+				'value'     => isset($values['state']) ? $values['state'] : '',
+			),
+			'type' => array(
+				'label'             => 'Type',
+				'type'              => 'select',
+				'addEmptyOption'    => true,
+				'options'           => Event::model()->getTypes(),
+				'value'     => isset($values['type']) ? $values['type'] : '',
+			),
+		);
+
+		return $options;
 	}
 }
