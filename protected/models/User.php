@@ -23,9 +23,9 @@ class User extends YsaActiveRecord
 	const ROLE_MEMBER = 'member';
 
 	const STATE_BANNED = -1;
-	
+
 	protected $_studio;
-	
+
 	protected $_options;
 
 	/**
@@ -73,10 +73,10 @@ class User extends YsaActiveRecord
 	public function relations()
 	{
 		return array(
-			'option'        => array(self::HAS_MANY, 'UserOption', 'user_id'),
-			'application'   => array(self::HAS_ONE, 'Application', 'user_id'),
-			'event'         => array(self::HAS_MANY, 'Event', 'user_id'),
-			'application'   => array(self::HAS_ONE, 'Studio', 'user_id'),
+			'option'		=> array(self::HAS_MANY, 'UserOption', 'user_id'),
+			'application'	=> array(self::HAS_ONE, 'Application', 'user_id'),
+			'event'			=> array(self::HAS_MANY, 'Event', 'user_id'),
+			'studio'		=> array(self::HAS_ONE, 'Studio', 'user_id'),
 		);
 	}
 
@@ -163,7 +163,7 @@ class User extends YsaActiveRecord
 	{
 		return Yii::app()->createAbsoluteUrl('/activate/k/' . $this->activation_key);
 	}
-	
+
 	public function getRecoveryLink()
 	{
 		return Yii::app()->createAbsoluteUrl('/recovery/k/' . $this->activation_key);
@@ -173,7 +173,7 @@ class User extends YsaActiveRecord
 	 * Add/update option wrapper for UserOption
 	 * @param string $name
 	 * @param mixed $value
-	 * @return User 
+	 * @return User
 	 */
 	public function editOption($name, $value)
 	{
@@ -187,7 +187,7 @@ class User extends YsaActiveRecord
 	/**
 	 * Delete option wrapper for UserOption
 	 * @param string $name
-	 * @return User 
+	 * @return User
 	 */
 	public function deleteOption($name)
 	{
@@ -197,7 +197,7 @@ class User extends YsaActiveRecord
 		}
 		return $this;
 	}
-	
+
 	/**
 	 * Get option wrapper for UserOption
 	 * @param string $name
@@ -209,103 +209,103 @@ class User extends YsaActiveRecord
 		if (!isset($this->_options[$name])) {
 			$this->_options[$name] = UserOption::model()->getOption($name, $default);
 		}
-		
+
 		return $this->_options[$name];
 	}
-	
+
 	public function studio()
 	{
 		if (null === $this->_studio) {
-			
+
 			$this->_studio = Studio::model()->find('user_id=:user_id', array('user_id' => $this->id));
-			
+
 			if (!$this->_studio) {
 				$this->_studio = new Studio();
 				$this->_studio->user_id = $this->id;
 				$this->_studio->save();
 			}
 		}
-		
+
 		return $this->_studio;
 	}
-	
+
 	public function sendShootQ($data)
 	{
 		$enabled = $this->option('shootq_enabled');
-		
+
 		if (!$enabled) {
 			return false;
 		}
-		
+
 		$abbr = $this->option('shootq_abbr');
 		$key = $this->option('shootq_key');
-		
-//		$key = '21ebf7b8-cdac-11df-9acf-001b24786824';
-//		$abbr = 'eticket_photography';
-		
+
+		//		$key = '21ebf7b8-cdac-11df-9acf-001b24786824';
+		//		$abbr = 'eticket_photography';
+
 		if (!$abbr || !$key) {
 			return false;
 		}
-		
+
 		$data['api_key'] = $key;
-		
+
 		$url = "https://app.shootq.com/api/{$abbr}/leads";
-		
+
 		$data = CJSON::encode($data);
-		
+
 		Yii::import('ext.httpclient.*');
 		Yii::import('ext.httpclient.adapter.*');
 		$client = new EHttpClient($url, array(
-			'maxredirects' => 0,
-			'timeout'      => 30,
-			'adapter'	   => 'EHttpClientAdapterCurl',
-		));
-		
-		$client->setRawData($data, 'application/json');
-//		$request = $client->request(EHttpClient::POST);
-		
-		// FINISH SHOOTQ INTEGRATION
-		
-		
+				'maxredirects' => 0,
+				'timeout'      => 30,
+				'adapter'	   => 'EHttpClientAdapterCurl',
+			));
 
-		
+		$client->setRawData($data, 'application/json');
+		//		$request = $client->request(EHttpClient::POST);
+
+		// FINISH SHOOTQ INTEGRATION
+
+
+
+
 	}
-	
-	
-//function flotheme_shootq_send($data)
-//{
-//    $api = flotheme_get_option('shootq_api');
-//    $abbr = flotheme_get_option('shootq_abbr');
-//    
-//    $data['api_key'] = $api;
-//    
-//    $url = "https://app.shootq.com/api/{$abbr}/leads";
-//    
-//    $json_data = json_encode($data);
-//    
-//    /* send this data to ShootQ via the API */
-//    $ch = curl_init();
-//    curl_setopt($ch, CURLOPT_URL, $url);
-//    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//    curl_setopt($ch, CURLOPT_HTTPHEADER, Array("Content-Type: application/json"));
-//    curl_setopt($ch, CURLOPT_POST, TRUE);
-//    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-//    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-//
-//    curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
-//    
-//    $response_json = curl_exec($ch);
-//    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-//    $response = json_decode($response_json);
-//    
-//    if (curl_errno($ch) == 0 && $httpcode == 200) {
-//        curl_close($ch);
-//    } else {
-//        curl_close($ch);
-//        throw new Exception('Cannot send mail. Please check all fields');
-//    }
-//    
-//    return true;
-//}
+
+
+	//function flotheme_shootq_send($data)
+	//{
+	//    $api = flotheme_get_option('shootq_api');
+	//    $abbr = flotheme_get_option('shootq_abbr');
+	//
+	//    $data['api_key'] = $api;
+	//
+	//    $url = "https://app.shootq.com/api/{$abbr}/leads";
+	//
+	//    $json_data = json_encode($data);
+	//
+	//    /* send this data to ShootQ via the API */
+	//    $ch = curl_init();
+	//    curl_setopt($ch, CURLOPT_URL, $url);
+	//    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	//    curl_setopt($ch, CURLOPT_HTTPHEADER, Array("Content-Type: application/json"));
+	//    curl_setopt($ch, CURLOPT_POST, TRUE);
+	//    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	//    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+	//
+	//    curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+	//
+	//    $response_json = curl_exec($ch);
+	//    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	//    $response = json_decode($response_json);
+	//
+	//    if (curl_errno($ch) == 0 && $httpcode == 200) {
+	//        curl_close($ch);
+	//    } else {
+	//        curl_close($ch);
+	//        throw new Exception('Cannot send mail. Please check all fields');
+	//    }
+	//
+	//    return true;
+	//}
 
 }
