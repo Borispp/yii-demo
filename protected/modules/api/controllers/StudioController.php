@@ -85,7 +85,7 @@ class StudioController extends YsaApiController
 	/**
 	 * Returns galleries list
 	 * Inquiry params: [app_key, device_id]
-	 * Response params: [portfolio -> [id, name, description, number, checksum]]
+	 * Response params: [portfolio -> [gallery_id, name, description, number_of_photos, filesize, checksum]]
 	 * @return void
 	 */
 	public function actionGalleriesList()
@@ -112,7 +112,7 @@ class StudioController extends YsaApiController
 	/**
 	 * Returns images of selected gallery
 	 * Inquiry params: [app_key, device_id, gallery_id]
-	 * Response params: [images -> [photo_id, thumbnail, fullsize, title, meta, share-link]]
+	 * Response params: [images -> [photo_id, thumbnail, fullsize, name, meta, share-link]]
 	 * @return void
 	 */
 	public function actionGalleryImages()
@@ -133,12 +133,13 @@ class StudioController extends YsaApiController
 		foreach($photos as $obPortfolioPhoto)
 		{
 			$params['images'][] = array(
+				'photo_id'		=> $obPortfolioPhoto->id,
 				'filesize'		=> $obPortfolioPhoto->size,
 				'name'			=> $obPortfolioPhoto->name,
 				'thumbnail'		=> $obPortfolioPhoto->previewUrl(),
 				'fullsize'		=> $obPortfolioPhoto->fullUrl(),
 				'meta'			=> $obPortfolioPhoto->exif(),
-				//'share-link'	=>,
+				//'share-link'	=> ,
 			);
 		}
 		$this->_render($params);

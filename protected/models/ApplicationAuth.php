@@ -2,17 +2,14 @@
 /**
  * This is the model class for table "application_auth".
  *
- * The followings are the available columns in table 'option_group':
-`type` set('client','proofing') NOT NULL DEFAULT 'client',
-
  * @property integer $id
  * @property string $device_id
+ * @property integer $event_id
  * @property integer $app_id
  * @property string $token
  * @property integer $state
- * @property string $type
  */
-class ApplicationAuth extends YsaActiveRecord
+class EventAuth extends YsaActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -28,7 +25,7 @@ class ApplicationAuth extends YsaActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'application_auth';
+		return 'event_auth';
 	}
 
 	/**
@@ -36,15 +33,13 @@ class ApplicationAuth extends YsaActiveRecord
 	 */
 	public function rules()
 	{
-		return array();
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		//		return array(
-		//			array('rank, hidden', 'numerical', 'integerOnly'=>true),
-		//			array('title, slug', 'length', 'max'=>100),
-		//			array('slug', 'unique'),
-		//			array('slug, title', 'required'),
-		//		);
+		return array(
+			array('id','event_id, ', 'app_id', 'state', 'integerOnly'=>true),
+			array('slug', 'unique'),
+			array('event_id, device_id, app_id, token', 'required'),
+		);
 	}
 
 	/**
@@ -53,7 +48,8 @@ class ApplicationAuth extends YsaActiveRecord
 	public function relations()
 	{
 		return array(
-			'application'	=> array(self::HAS_ONE, 'Application', 'app_id')
+			'application'	=> array(self::BELONGS_TO, 'Application', 'app_id'),
+			'event'			=> array(self::BELONGS_TO, 'Event', 'event_id')
 		);
 	}
 
@@ -67,7 +63,8 @@ class ApplicationAuth extends YsaActiveRecord
 			'device_id'	=> 'Device ID',
 			'token'		=> 'Secure Token',
 			'state'		=> 'State',
-			'type'		=> 'Auth type'
+			'app_id'	=> 'Application ID',
+			'event_id'	=> 'Event ID'
 		);
 	}
 
@@ -77,9 +74,9 @@ class ApplicationAuth extends YsaActiveRecord
 	 * @param integer $appId
 	 * @return string
 	 */
-	protected function _generateToken($password, $deviceId, Application $obApplication)
+	protected function _generateToken($password, $deviceId, Application $obApplication, $eventId)
 	{
-		return md5(md5($password.$deviceId.$obApplication->id).Yii::app()->params['salt']);
+		return md5(md5($password.$deviceId.$obApplication->id.$eventId).Yii::app()->params['salt']);
 	}
 
 	/**
@@ -88,25 +85,29 @@ class ApplicationAuth extends YsaActiveRecord
 	 *
 	 * @param string $password
 	 * @param string $appKey
+	 * @param string $eventId
 	 * @param string $deviceId
 	 * @param string $type
 	 * @return mixed
 	 */
-	public function authByPassword($password, $appKey, $deviceId, $type)
+	public function authByPassword($password, $appKey, $eventId, $deviceId, $type)
 	{
 		$obApplication = Application::model()->findByKey($appKey);
+		$obEvent = Event::model()->findByPk($eventId);
+		if (!$obEvent)
+			return FALSE;
 		if (!$obApplication)
 			return FALSE;
-		if ($this->authByToken($token = $this->_generateToken($password, $deviceId, $obApplication), $appKey, $deviceId, $type))
+		if ($this->authByToken($token = $this->_generateToken($password, $deviceId, $obApplication, $eventId), $appKey, $eventId, $deviceId, $type))
 			return $token;
-		if ($obApplication->passwd != $password)
+		if ($obEvent->passwd != $password)
 			return FALSE;
 		$model = new ApplicationAuth();
 		$model->token = $token;
 		$model->app_id = $obApplication->id;
+		$model->event_id = $obEvent->id;
 		$model->device_id = $deviceId;
 		$model->state = 1;
-		$model->type = $type;
 		$model->save();
 		return $token;
 	}
@@ -118,17 +119,20 @@ class ApplicationAuth extends YsaActiveRecord
 	 * @param string $type
 	 * @return bool
 	 */
-	public function authByToken($token, $appKey, $deviceId, $type)
+	public function authByToken($token, $appKey, $eventId, $deviceId)
 	{
 		$obApplication = Application::model()->findByKey($appKey);
+		$obEvent = Event::model()->findByPk($eventId);
 		if (!$obApplication)
 			return FALSE;
+		if (!$obEvent)
+			return FALSE;
 		return $this->findByAttributes(array(
-			'app_id'	=> $obApplication->id,
-			'token'		=> $token,
-			'device_id'	=> $deviceId,
-			'type'		=> $type,
-		));
+				'app_id'	=> $obApplication->id,
+				'token'		=> $token,
+				'device_id'	=> $deviceId,
+				'event_id'	=> $eventId
+			));
 	}
 
 }
