@@ -36,8 +36,7 @@ class EventAuth extends YsaActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id','event_id, ', 'app_id', 'state', 'integerOnly'=>true),
-			array('slug', 'unique'),
+			array('id,event_id, app_id', 'state', 'integerOnly'=>true),
 			array('event_id, device_id, app_id, token', 'required'),
 		);
 	}
@@ -90,7 +89,7 @@ class EventAuth extends YsaActiveRecord
 	 * @param string $type
 	 * @return mixed
 	 */
-	public function authByPassword($password, $appKey, $eventId, $deviceId, $type)
+	public function authByPassword($password, $appKey, $eventId, $deviceId)
 	{
 		$obApplication = Application::model()->findByKey($appKey);
 		$obEvent = Event::model()->findByPk($eventId);
@@ -98,11 +97,11 @@ class EventAuth extends YsaActiveRecord
 			return FALSE;
 		if (!$obApplication)
 			return FALSE;
-		if ($this->authByToken($token = $this->_generateToken($password, $deviceId, $obApplication, $eventId), $appKey, $eventId, $deviceId, $type))
+		if ($this->authByToken($token = $this->_generateToken($password, $deviceId, $obApplication, $eventId), $appKey, $eventId, $deviceId))
 			return $token;
 		if ($obEvent->passwd != $password)
 			return FALSE;
-		$model = new ApplicationAuth();
+		$model = new EventAuth();
 		$model->token = $token;
 		$model->app_id = $obApplication->id;
 		$model->event_id = $obEvent->id;
