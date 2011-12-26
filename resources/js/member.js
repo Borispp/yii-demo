@@ -90,6 +90,89 @@ $(function(){
 				e.preventDefault();
 				uploader.start();
 			});
+			
+			
+			
+			var smugmug_container = $('#photo-import-smugmug-container');
+			
+			var smugmug_data = smugmug_container.find('.data');
+			var smugmug_loading = smugmug_container.find('.loading');
+			var smugmug_import = smugmug_container.find('.import');
+			
+			function smugmug_import_photo(checkbox)
+			{
+				$.post(_member_url + '/photo/smugmugImportPhoto', {
+					smugmug:checkbox.val(),
+					album_id:album_id
+				}, function(data){
+					checkbox.attr('checked', false);
+					if (data.success) {
+						album_photos_container.append(data.html);
+					}
+				}, 'json');
+			}
+			
+			smugmug_container.find('.smugmug-import-selected').live('click', function(e){
+				e.preventDefault();
+				var link = $(this);
+				
+				link.parents('form').find('input[type=checkbox]:checked').each(function(){
+					smugmug_import_photo($(this));
+				});
+			});
+			
+			smugmug_container.find('.smugmug-check-all, .smugmug-check-none').live('click', function(e){
+				e.preventDefault();
+				var link = $(this);
+				link.parents('form').find('input[type=checkbox]').attr('checked', link.hasClass('smugmug-check-all'))
+			});
+			
+			smugmug_container.find('input[type=button]').click(function(e){
+				e.preventDefault();
+				
+				var smugmug = smugmug_container.find('select').val();
+				
+				if (!smugmug) {
+					return;
+				}
+				
+				smugmug_data.hide();
+				smugmug_loading.show();
+				smugmug_import.html('');
+				
+				$.post(_member_url + '/smugmug/album/', {smugmug:smugmug}, function(data){
+					smugmug_loading.hide();
+					smugmug_data.show();
+					if (data.success) {
+						smugmug_import.html(data.html);
+						
+						
+						
+						
+						
+						
+					} else {
+						alert(data.msg);
+					}
+				}, 'json');
+				
+//				$.post(_member_url + '/photo/smugmugImport/album/' + album_id, {
+//					smugmug:smugmug
+//				}, function(data){
+//					
+//					console.log(data);
+//					
+//					smugmug_loading.hide();
+//					
+//					
+//					smugmug_import.html(data.html)
+//					
+//					smugmug_data.show();
+//					
+//				});
+			})
+			
+			
 		});
 	}
 	
