@@ -241,4 +241,9 @@ class EventPhoto extends YsaPhotoActiveRecord
 		
 		$this->size = filesize($savePath);
 	}
+	
+	public function shareUrl()
+	{
+		return Yii::app()->createAbsoluteUrl('photo/v/' . $this->basename);
+	}
 }

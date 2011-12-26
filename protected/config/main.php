@@ -71,6 +71,7 @@ return array(
                     '<action:(login|logout)>' => 'auth/<action>',
                     '/recovery/k/<k>' => 'recovery',
                     '/activate/k/<k>' => 'auth/activate',
+					'/photo/v/<k>' => 'photo/view',
 
                     // member routes
 					'/member/event/<action:\w+>/<eventId>' => 'member/event/<action>',
