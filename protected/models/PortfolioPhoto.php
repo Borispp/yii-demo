@@ -64,9 +64,4 @@ class PortfolioPhoto extends YsaPhotoActiveRecord
 	{
 		return $this->album()->isOwner();
 	}
-
-	public function getChecksum()
-	{
-		return md5($this->basename);
-	}
 }

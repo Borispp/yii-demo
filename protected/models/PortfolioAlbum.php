@@ -145,44 +145,4 @@ class PortfolioAlbum extends YsaAlbumActiveRecord
 	{
 		return $this->portfolio->isOwner();
 	}
-
-	/**
-	 * @param string $hash
-	 * @return bool
-	 */
-	public function checkHash($hash)
-	{
-		return $this->getChecksum() == $hash;
-	}
-
-	/**
-	 * Calculates size of all album photos
-	 * @return integer
-	 */
-	public function size()
-	{
-		if (!$this->_size)
-		{
-			foreach ($this->photos() as $obPortfolioPhoto)
-				$this->_size += $obPortfolioPhoto->size;
-		}
-		return $this->_size;
-	}
-
-	/**
-	 * Calculates hash with use of each photo hash
-	 * @return string
-	 */
-	public function getChecksum()
-	{
-		if (!$this->_hash)
-		{
-			$hash = array();
-			foreach ($this->photos() as $obPortfolioPhoto)
-				$hash[] = $obPortfolioPhoto->getChecksum();
-			sort($hash, SORT_STRING);
-			$this->_hash = md5(implode('', $hash));
-		}
-		return $this->_hash;
-	}
 }
