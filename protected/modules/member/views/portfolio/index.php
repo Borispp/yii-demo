@@ -1,7 +1,6 @@
 <div class="w" id="portfolio">
 	<h2>Albums</h2>
 	
-	
 	<p><?php echo CHtml::link('Add Portfolio Album', array('portfolioAlbum/create/')); ?></p>
 	
 	<ul>
