@@ -19,7 +19,7 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 			array('extention', 'length', 'max'=>5),
 			array('meta_type', 'length', 'max'=>20),
 			array('alt', 'length', 'max'=>255),
-			array('meta_type, alt, rank, created, updated, exif_data', 'safe'),
+			array('meta_type, alt, rank, created, updated, exif_data, size', 'safe'),
 		);
     }
 	
@@ -244,6 +244,8 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 		);
 		
 		$image->save($savePath);
+		
+		$this->size = filesize($savePath);
 		
 		if ($save) {
 			$this->save();
