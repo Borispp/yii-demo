@@ -5,6 +5,8 @@ class PortfolioController extends YsaMemberController
 	{
 		$this->setMemberPageTitle('Portfolio');
 		
+		$this->crumb('Portfolio');
+		
 		$this->render('index');
 	}
 }

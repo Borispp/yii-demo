@@ -217,4 +217,9 @@ class Event extends YsaActiveRecord
 	{
 		return self::TYPE_PROOF == $this->type;
 	}
+	
+	public function isPublic()
+	{
+		return self::TYPE_PUBLIC == $this->type;
+	}
 }

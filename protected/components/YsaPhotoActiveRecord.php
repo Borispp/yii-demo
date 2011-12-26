@@ -85,6 +85,7 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 		if (is_file($file)) {
 			unlink($file);
 		}
+		
 		return true;
 	}
 	
