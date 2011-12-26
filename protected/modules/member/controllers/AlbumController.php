@@ -111,6 +111,10 @@ class AlbumController extends YsaMemberController
 		
 		$this->setMemberPageTitle($entry->name);
 		
+		if ($this->member()->smugmugAuthorized()) {
+			$this->member()->smugmugSetAccessToken();
+		}
+		
         $this->render('view', array(
             'entry'			=> $entry,
 			'upload'		=> $upload, 

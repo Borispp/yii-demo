@@ -41,3 +41,24 @@
 	left:0;
 	bottom:0;
 }
+
+
+
+
+.smugmug-import {
+	
+}
+.smugmug-import .loading {
+	display: none;
+}
+.smugmug-import .import {
+	
+}
+.smugmug-import .import ul {
+	overflow: hidden;
+	zoom:1;
+}
+.smugmug-import .import ul li {
+	float: left;
+	margin:0 1em 1em 0;
+}

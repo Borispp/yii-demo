@@ -123,4 +123,132 @@ class EventPhoto extends YsaPhotoActiveRecord
 	{
 		return $this->album()->can_order ? $this->can_order : false;
 	}
+	
+	public function import($data, $from = 'smugmug', $save = true)
+	{
+		if (!$this->album_id) {
+			throw new CException('Please fill photo Album ID');
+		}
+		
+		
+		if ($from == 'smugmug') {
+			$this->_importSmugmug($data);
+		}
+		
+		if ($save) {
+			$this->save();
+		}
+		
+		return $this;
+	}
+	
+	
+//array
+//(
+//    'id' => 1028032342
+//    'Key' => 'A5f9T'
+//    'Album' => array
+//    (
+//        'id' => 13982702
+//        'Key' => '4VMffZ'
+//        'URL' => 'http://gallery.matthewcotter.com/Portfolio/Favorites/13982702_4VMffZ#1028032342_A5f9T'
+//    )
+//    'Caption' => ''
+//    'CustomURL' => 'http://gallery.matthewcotter.com/photos/1028032342_A5f9T-1024x768.jpg'
+//    'Date' => '2010-09-29 20:33:36'
+//    'FileName' => 'ETP-7863.jpg'
+//    'Format' => 'JPG'
+//    'Height' => 3744
+//    'Hidden' => false
+//    'Keywords' => 'Athens, Cruise, Europe, Greece, Mediterranean, Vacation, activities, activity,'
+//    'LargeURL' => 'http://gallery.matthewcotter.com/photos/1028032342_A5f9T-L.jpg'
+//    'LastUpdated' => '2010-09-29 20:34:13'
+//    'LightboxURL' => 'http://gallery.matthewcotter.com/Portfolio/Favorites/13982702_4VMffZ#1028032342_A5f9T-A-LB'
+//    'MD5Sum' => '191491b45df7a1907225cc75e6404403'
+//    'MediumURL' => 'http://gallery.matthewcotter.com/photos/1028032342_A5f9T-M.jpg'
+//    'OriginalURL' => 'http://gallery.matthewcotter.com/photos/1028032342_A5f9T-O.jpg'
+//    'Position' => 1
+//    'Serial' => 0
+//    'Size' => 6574925
+//    'SmallURL' => 'http://gallery.matthewcotter.com/photos/1028032342_A5f9T-S.jpg'
+//    'ThumbURL' => 'http://gallery.matthewcotter.com/photos/1028032342_A5f9T-Th.jpg'
+//    'TinyURL' => 'http://gallery.matthewcotter.com/photos/1028032342_A5f9T-Ti.jpg'
+//    'Type' => 'Album'
+//    'URL' => 'http://gallery.matthewcotter.com/Portfolio/Favorites/13982702_4VMffZ#1028032342_A5f9T'
+//    'Watermark' => false
+//    'Width' => 5616
+//    'X2LargeURL' => 'http://gallery.matthewcotter.com/photos/1028032342_A5f9T-X2.jpg'
+//    'X3LargeURL' => 'http://gallery.matthewcotter.com/photos/1028032342_A5f9T-X3.jpg'
+//    'XLargeURL' => 'http://gallery.matthewcotter.com/photos/1028032342_A5f9T-XL.jpg'
+//    'exif' => array
+//    (
+//        'id' => 1028032342
+//        'Key' => 'A5f9T'
+//        'Aperture' => '16/1'
+//        'DateTime' => '2010-09-29 20:27:47'
+//        'DateTimeDigitized' => '2010-08-24 11:26:26'
+//        'DateTimeOriginal' => '2010-08-24 11:26:26'
+//        'ExposureBiasValue' => '0/1'
+//        'ExposureMode' => 1
+//        'ExposureProgram' => 1
+//        'ExposureTime' => '1/125'
+//        'Flash' => 16
+//        'FocalLength' => '24/1'
+//        'ISO' => 100
+//        'Make' => 'Canon'
+//        'Model' => 'Canon EOS 5D Mark II'
+//        'Metering' => 6
+//        'SubjectDistance' => '504/100'
+//        'WhiteBalance' => 0
+//    )
+//)
+	
+	protected function _importSmugmug($data)
+	{
+		$target = tempnam(sys_get_temp_dir(), 'img');
+		
+		$fh = fopen($target,'w');
+		$check = fwrite($fh,file_get_contents($data['CustomURL']));
+		fclose($fh);
+		
+		if (!$check) {
+			throw new Exception('SmugMug image file can\'t be read. Please try again later.');
+		}
+		
+		$image = new Image($target);
+		
+		$this->name = $data['FileName'];
+		$this->meta_type = $image->mime;
+		$this->extention = YsaHelpers::mimeToExtention($this->meta_type);
+		$this->alt = $data['Caption'];
+		$this->state = self::STATE_ACTIVE;
+		
+		if (isset($data['exif'])) {
+			$this->exif_data = serialize($data['exif']);
+		}
+		
+		$this->generateBaseName();
+		
+		$savePath = $this->album()->albumPath() . DIRECTORY_SEPARATOR . $this->basename . '.' . $this->extention;
+		
+		$image->quality(100);
+		$image->resize(
+			Yii::app()->params['member_area']['photo']['full']['width'], 
+			Yii::app()->params['member_area']['photo']['full']['height']
+		);
+		
+		$image->save($savePath);
+		
+		$this->size = filesize($savePath);
+	}
+	
+	public function shareUrl()
+	{
+		return Yii::app()->createAbsoluteUrl('photo/v/' . $this->basename);
+	}
+	
+	public function shareLink($title = 'Share URL', $htmlOptions = array())
+	{
+		return YsaHtml::link($title, $this->shareUrl(), $htmlOptions);
+	}
 }

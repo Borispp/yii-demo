@@ -229,7 +229,6 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 		// read exif data from jpegs
 		if ($this->extention === 'jpg') {
 			$data = @exif_read_data($instance->getTempName());
-
 			$this->exif_data = serialize($data);
 		}
 		
