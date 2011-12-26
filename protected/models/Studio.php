@@ -107,7 +107,7 @@ class Studio extends YsaActiveRecord
 		}
 		return $this->_links;
 	}
-	
+
 	public function persons()
 	{
 		if (null === $this->_persons) {

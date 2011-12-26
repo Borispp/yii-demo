@@ -16,83 +16,97 @@ class StudioController extends YsaApiController
 	{
 		$this->_commonValidate();
 		$this->_render(array(
-			'logo'					=> $this->_getUrlFromImage($this->_getApplication()->option('logo')),
+				'logo'					=> $this->_getUrlFromImage($this->_getApplication()->option('logo')),
 
-			'studio_bg_use_image'	=> (bool)$this->_getApplication()->option('studio_bg'),
-			'studio_bg'				=> $this->_getApplication()->option('studio_bg') ? NULL : $this->_getApplication()->option('studio_bg_color'),
-			'studio_bg_image'		=> $this->_getApplication()->option('studio_bg') ? $this->_getUrlFromImage($this->_getApplication()->option('studio_bg_image')) : NULL,
+				'studio_bg_use_image'	=> (bool)$this->_getApplication()->option('studio_bg'),
+				'studio_bg'				=> $this->_getApplication()->option('studio_bg') ? NULL : $this->_getApplication()->option('studio_bg_color'),
+				'studio_bg_image'		=> $this->_getApplication()->option('studio_bg') ? $this->_getUrlFromImage($this->_getApplication()->option('studio_bg_image')) : NULL,
 
-			'generic_bg_use_image'	=> (bool)$this->_getApplication()->option('generic_bg'),
-			'generic_bg'				=> $this->_getApplication()->option('generic_bg') ? NULL : $this->_getApplication()->option('generic_bg_color'),
-			'generic_bg_image'		=> $this->_getApplication()->option('generic_bg') ? $this->_getUrlFromImage($this->_getApplication()->option('generic_bg_image')) : NULL,
+				'generic_bg_use_image'	=> (bool)$this->_getApplication()->option('generic_bg'),
+				'generic_bg'				=> $this->_getApplication()->option('generic_bg') ? NULL : $this->_getApplication()->option('generic_bg_color'),
+				'generic_bg_image'		=> $this->_getApplication()->option('generic_bg') ? $this->_getUrlFromImage($this->_getApplication()->option('generic_bg_image')) : NULL,
 
-			'splash_bg_use_image'	=> (bool)$this->_getApplication()->option('splash_bg'),
-			'splash_bg'				=> $this->_getApplication()->option('splash_bg') ? NULL : $this->_getApplication()->option('splash_bg_color'),
-			'splash_bg_image'		=> $this->_getApplication()->option('splash_bg') ? $this->_getUrlFromImage($this->_getApplication()->option('splash_bg_image')) : NULL,
+				'splash_bg_use_image'	=> (bool)$this->_getApplication()->option('splash_bg'),
+				'splash_bg'				=> $this->_getApplication()->option('splash_bg') ? NULL : $this->_getApplication()->option('splash_bg_color'),
+				'splash_bg_image'		=> $this->_getApplication()->option('splash_bg') ? $this->_getUrlFromImage($this->_getApplication()->option('splash_bg_image')) : NULL,
 
-			'first_font'			=> $this->_getApplication()->option('main_font'),
-			'second_font'			=> $this->_getApplication()->option('second_font'),
+				'first_font'			=> $this->_getApplication()->option('main_font'),
+				'second_font'			=> $this->_getApplication()->option('second_font'),
 
-			'main_color'			=> $this->_getApplication()->option('main_font_color'),
-			'second_color'			=> $this->_getApplication()->option('second_font_color'),
+				'main_color'			=> $this->_getApplication()->option('main_font_color'),
+				'second_color'			=> $this->_getApplication()->option('second_font_color'),
 
-			'studio_name'			=> $this->_getApplication()->name,
-			'copyright'				=> $this->_getApplication()->option('copyright'),
-		));
+				'studio_name'			=> $this->_getApplication()->name,
+				'copyright'				=> $this->_getApplication()->option('copyright'),
+			));
 	}
 
 	/**
 	 * Returns studio information — photographer rss feeds, description, video etc.
 	 * Inquiry params: [app_key, device_id]
-	 * Response params: [links -> [name, link], info -> [article, portrait], video, rss -> [type, rss-link, link]]
+	 * Response params: [feeds -> [type, link], links -> [name, link], persons -> [name, photo, text], specials, splash]
 	 * @return void
 	 */
 	public function actionInfo()
 	{
 		$this->_commonValidate();
-		$this->_render(array(
-				'links'	=> array(
-					array(
-						'name'	=> 'Portfolio Site',
-						'link'	=> 'http://photographer.com/',
-					),
-					array(
-						'name'	=> 'Blog',
-						'link'	=> 'http://photographer.com/blog',
-					),
-					array(
-						'name'	=> 'Workshops',
-						'link'	=> 'http://photographer.com/workshops',
-					),
+		$obStudio = $this->_getApplication()->user->studio;
+		$params = array(
+			'splash'		=> $obStudio->splash,
+			'specials'		=> $obStudio->specialsUrl(),
+			'feeds'	=> array(
+				array(
+					'type'		=> 'twitter',
+					'link'	=> $obStudio->twitter_feed,
 				),
-				'info'	=> array(
-					'article'	=> 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.',
-					'portrait'	=> 'http://www.dukemagazine.duke.edu/dukemag/issues/010203/images/tw_JAFE_3.jpg',
+				array(
+					'type'		=> 'facebook',
+					'link'	=> $obStudio->facebook_feed,
 				),
-				'video'	=> '<iframe src="http://player.vimeo.com/video/19705053?byline=0&amp;portrait=0&amp;color=ffffff" width="400" height="180" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>',
-				'rss'	=> array(
-					array(
-						'type'		=> 'twitter',
-						'rss-link'	=> 'http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=flosites',
-						'link'		=> 'https://twitter.com/#!/flosites'
-					),
-					array(
-						'type'		=> 'facebook',
-						'rss-link'	=> 'http://www.facebook.com/feeds/page.php?format=atom10&id=40796308305',
-						'link'		=> 'http://www.facebook.com/flosites'
-					),
+				array(
+					'type'		=> 'blog',
+					'link'	=> $obStudio->blog_feed
 				),
-			));
+		));
+		foreach($this->_getApplication()->user->studio->persons() as $obPerson)
+			$params['persons'][] = array(
+				'name'		=> $obPerson->name,
+				'photo'		=> $obPerson->photoUrl(),
+				'text'		=> $obPerson->description
+			);
+		foreach($this->_getApplication()->user->studio->links() as $obLink)
+			$params['links'][] = array(
+				'name'		=> $obLink->name,
+				'url'		=> $obLink->url,
+			);
+		$this->_render($params);
 	}
 
 	/**
 	 * Returns galleries list
 	 * Inquiry params: [app_key, device_id]
-	 * Response params: [portfolio -> [id, name, preview, number, checksum]]
+	 * Response params: [portfolio -> [id, name, description, number, checksum]]
 	 * @return void
 	 */
 	public function actionGalleriesList()
 	{
+		$this->_commonValidate();
+		$obStudio = $this->_getApplication()->user->studio;
+		$params = array();
+		if (!count($obStudio->portfolio()->albums(TRUE)))
+			return $this->_renderError('015', 'No albums found');
+		foreach($obStudio->portfolio()->albums(TRUE) as $obPortfolioAlbum)
+		{
+			$params['portfolio'][] = array(
+				'gallery_id'		=> $obPortfolioAlbum->id,
+				'name'				=> $obPortfolioAlbum->name,
+				'description'		=> $obPortfolioAlbum->description,
+				'number_of_photos'	=> count($obPortfolioAlbum->photos()),
+				'filesize'			=> $obPortfolioAlbum->size(),
+				'checksum'			=> $obPortfolioAlbum->getChecksum()
+			);
+		}
+		$this->_render($params);
 	}
 
 	/**
@@ -103,6 +117,39 @@ class StudioController extends YsaApiController
 	 */
 	public function actionGalleryImages()
 	{
+		$this->_commonValidate();
+		$this->_validateVars(array(
+			'gallery_id' => array(
+				'code'		=> '011',
+				'message'	=> 'Gallery id must not be empty',
+				'required'	=> TRUE,
+			),
+		));
+		$obPortfolioAlbum = $this->_getApplication()->user->studio->portfolio()->getAlbumById($_POST['gallery_id']);
+		$this->_checkPhotoAlbum($obPortfolioAlbum);
+		if (!count($photos = $obPortfolioAlbum->photos()))
+			$this->_renderError('016', 'Portfolio Album is empty');
+		$params = array();
+		foreach($photos as $obPortfolioPhoto)
+		{
+			$params['images'][] = array(
+				'filesize'		=> $obPortfolioPhoto->size,
+				'name'			=> $obPortfolioPhoto->name,
+				'thumbnail'		=> $obPortfolioPhoto->previewUrl(),
+				'fullsize'		=> $obPortfolioPhoto->fullUrl(),
+				'meta'			=> $obPortfolioPhoto->exif(),
+				//'share-link'	=>,
+			);
+		}
+		$this->_render($params);
+	}
+
+	protected function _checkPhotoAlbum($obPortfolioAlbum = NULL)
+	{
+		if (!$obPortfolioAlbum)
+			return $this->_renderError('013', 'No album found');
+		if (!$obPortfolioAlbum->isActive())
+			return $this->_renderError('014', 'Album is blocked');
 	}
 
 	/**
@@ -113,6 +160,25 @@ class StudioController extends YsaApiController
 	 */
 	public function actionIsGalleryUpdated()
 	{
+		$this->_commonValidate();
+		$this->_validateVars(array(
+			'gallery_id' => array(
+				'code'		=> '011',
+				'message'	=> 'Gallery id must not be empty',
+				'required'	=> TRUE,
+			),
+			'checksum' => array(
+				'code'		=> '012',
+				'message'	=> 'Checksum id must not be empty',
+				'required'	=> TRUE,
+			),
+		));
+		$obPortfolioAlbum = $this->_getApplication()->user->studio->portfolio()->getAlbumById($_POST['gallery_id']);
+		$this->_checkPhotoAlbum($obPortfolioAlbum);
+		$this->_render(array(
+			'state'			=> $obPortfolioAlbum->checkHash($_POST['checksum']),
+			'checksumm'		=> $obPortfolioAlbum->getChecksum(),
+		));
 	}
 
 	/**
