@@ -94,6 +94,8 @@ class Member extends User
 			$token = $this->option(UserOption::SMUGMUG_REQUEST);
 		}
 		$this->smugmug()->setToken("id={$token['Token']['id']}", "Secret={$token['Token']['Secret']}");
+		
+		return $this;
 	}
 	
 	public function smugmugSetAccessToken($token = null)
@@ -102,6 +104,8 @@ class Member extends User
 			$token = $this->option(UserOption::SMUGMUG_HASH);
 			$this->smugmug()->setToken("id={$token['Token']['id']}", "Secret={$token['Token']['Secret']}");
 		}
+		
+		return $this;
 	}
 	
 	public function smugmugAuthorized()

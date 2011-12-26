@@ -60,9 +60,14 @@ class YsaMemberController extends YsaController
 	public function crumb($name, $url = false)
 	{
 		if ($url) {
-			$this->breadcrumbs[$name] = $url;
+			$this->breadcrumbs[] = array(
+				'label' => $name,
+				'url'	=> $url,
+			);
 		} else {
-			$this->breadcrumbs[] = $name;
+			$this->breadcrumbs[] = array(
+				'label'	=> $name,
+			);
 		}
 		
 		return $this;

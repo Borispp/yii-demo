@@ -1,6 +1,4 @@
 <section id="event" eventid="<?php echo $entry->id; ?>">
-	<?php echo YsaHtml::pageHeaderTitle($entry->name); ?>
-
 	<p><?php echo CHtml::link('Edit Event', array('event/edit/' . $entry->id)); ?></p>
 
 	<p><?php echo $entry->description; ?></p>

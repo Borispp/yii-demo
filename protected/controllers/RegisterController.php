@@ -51,7 +51,7 @@ class RegisterController extends YsaFrontController
                     // send confirmation email
                     Email::model()->send(
                         array($model->email, $model->name()), 
-                        'confirmation', 
+                        'member_confirmation', 
                         array(
                             'name'  => $model->name(),
                             'email' => $model->email,

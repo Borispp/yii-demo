@@ -82,6 +82,6 @@
 	
 	<?php $this->endWidget();?>
 		
-	<p><?php echo YsaHtml::link('Share URL', $entry->shareUrl()); ?></p>
+	<p><?php echo $entry->shareLink(); ?></p>
 	
 <?php endif;?>

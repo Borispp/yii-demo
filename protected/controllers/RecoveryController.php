@@ -61,7 +61,7 @@ class RecoveryController extends YsaFrontController
                     
                     Email::model()->send(
                         array($entry->email, $entry->name()), 
-                        'recovery', 
+                        'member_recovery', 
                         array(
                             'name'  => $entry->name(),
                             'email' => $entry->email,

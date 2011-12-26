@@ -31,6 +31,18 @@ class SettingsController extends YsaMemberController
 			$changePasswordForm->repeatPassword = '';
         }
 		
+		$this->setMemberPageTitle('Settings');
+		
+		$this->crumb('Settings');
+		
+        $this->render('index', array(
+            'entry'     => $this->member(),
+            'password'  => $changePasswordForm,
+        ));
+    }
+	
+	public function actionShootq()
+	{
 		$shootqForm = new ShootqApi();
 		
 		// set default ShootQ values
@@ -49,14 +61,15 @@ class SettingsController extends YsaMemberController
             }
 		}
 		
-		$this->setMemberPageTitle('Settings');
+		$this->setMemberPageTitle('ShootQ Settings');
 		
-        $this->render('index', array(
-            'entry'     => $this->member(),
-            'password'  => $changePasswordForm,
+		$this->crumb('Settings', array('settings/'))
+			 ->crumb('ShootQ');
+		
+        $this->render('shootq', array(
 			'shootq'	=> $shootqForm,
         ));
-    }
+	}
 	
 	public function actionSmugmug($authorize = null)
 	{
@@ -106,7 +119,6 @@ class SettingsController extends YsaMemberController
 				
 			}
 		}
-		
 		if ($this->member()->smugmugAuthorized()) {
 			try {
 				$this->member()->smugmugSetAccessToken();
