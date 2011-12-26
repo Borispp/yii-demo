@@ -139,7 +139,7 @@ class StudioController extends YsaApiController
 				'thumbnail'		=> $obPortfolioPhoto->previewUrl(),
 				'fullsize'		=> $obPortfolioPhoto->fullUrl(),
 				'meta'			=> $obPortfolioPhoto->exif(),
-				//'share-link'	=>,
+				//'share-link'	=> ,
 			);
 		}
 		$this->_render($params);
