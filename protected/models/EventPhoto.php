@@ -246,4 +246,9 @@ class EventPhoto extends YsaPhotoActiveRecord
 	{
 		return Yii::app()->createAbsoluteUrl('photo/v/' . $this->basename);
 	}
+	
+	public function shareLink($title = 'Share URL', $htmlOptions = array())
+	{
+		return YsaHtml::link($title, $this->shareUrl(), $htmlOptions);
+	}
 }
