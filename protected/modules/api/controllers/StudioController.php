@@ -37,7 +37,7 @@ class StudioController extends YsaApiController
 				'second_color'			=> YsaHelpers::html2rgb($this->_getApplication()->option('second_font_color')),
 
 				'studio_name'			=> $this->_getApplication()->name,
-				'copyright'				=> html_entity_decode($this->_getApplication()->option('copyright')),
+				'copyright'				=> $this->_getApplication()->option('copyright'),
 			));
 	}
 
