@@ -110,6 +110,6 @@ class Member extends User
 	
 	public function smugmugAuthorized()
 	{
-		return (int) $this->option(UserOption::SMUGMUG_AUTHORIZED);
+		return $this->option(UserOption::SMUGMUG_HASH) ? true : false;
 	}
 }

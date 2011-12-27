@@ -7,7 +7,7 @@ class SmugmugController extends YsaMemberController
 	 */
 	public function actionAlbum()
 	{
-		if (Yii::app()->getRequest()->isAjaxRequest) {
+		if (Yii::app()->getRequest()->isAjaxRequest && $this->member()->smugmugAuthorized()) {
 			
 			try {
 				$this->member()->smugmugSetAccessToken();

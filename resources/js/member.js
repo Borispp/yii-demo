@@ -99,25 +99,26 @@ $(function(){
 			var smugmug_loading = smugmug_container.find('.loading');
 			var smugmug_import = smugmug_container.find('.import');
 			
-			function smugmug_import_photo(checkbox)
-			{
-				$.post(_member_url + '/photo/smugmugImportPhoto', {
-					smugmug:checkbox.val(),
-					album_id:album_id
-				}, function(data){
-					checkbox.attr('checked', false);
-					if (data.success) {
-						album_photos_container.append(data.html);
-					}
-				}, 'json');
-			}
-			
 			smugmug_container.find('.smugmug-import-selected').live('click', function(e){
 				e.preventDefault();
 				var link = $(this);
 				
+				var chain = new Array;
 				link.parents('form').find('input[type=checkbox]:checked').each(function(){
-					smugmug_import_photo($(this));
+					var checkbox = $(this);
+					chain.push($.post(_member_url + '/photo/smugmugImportPhoto', {
+						smugmug:checkbox.val(),
+						album_id:album_id
+					}, function(data){
+						checkbox.attr('checked', false);
+						if (data.success) {
+							album_photos_container.append(data.html);
+						}
+					}, 'json'));
+				});
+				
+				$.when.apply(this, chain).done(function(){
+					alert('all done')
 				});
 			});
 			
@@ -148,31 +149,11 @@ $(function(){
 						
 						
 						
-						
-						
-						
 					} else {
 						alert(data.msg);
 					}
 				}, 'json');
-				
-//				$.post(_member_url + '/photo/smugmugImport/album/' + album_id, {
-//					smugmug:smugmug
-//				}, function(data){
-//					
-//					console.log(data);
-//					
-//					smugmug_loading.hide();
-//					
-//					
-//					smugmug_import.html(data.html)
-//					
-//					smugmug_data.show();
-//					
-//				});
-			})
-			
-			
+			});			
 		});
 	}
 	

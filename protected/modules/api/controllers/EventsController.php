@@ -1,20 +1,31 @@
 <?php
-class ClientController extends YsaApiController
+class EventsController extends YsaApiController
 {
 	/**
-	 * Auth type
-	 * @var string
+	 * @return Event
 	 */
-	protected $_type = 'client';
+	protected function _getEvent()
+	{
+		return Event::model()->findByPk($_POST['event_id']);
+	}
 
+	/**
+	 * Validates vars and checks token match
+	 * @return void
+	 */
 	protected function _validateAuth()
 	{
 		$this->_commonValidate();
 		$this->_validateVars(array(
-			'token'	=> array(
-				'code'		=> '006',
+			'token'		=> array(
 				'message'	=> 'No token received',
+				'code'		=> '006',
 				'required'	=> TRUE,
+			'event_id'	=> array(
+				'code'		=> '111',
+				'message'	=> 'No event ID found',
+				'required'	=> TRUE
+			)
 		)));
 		$this->_checkAuth();
 	}
@@ -25,7 +36,7 @@ class ClientController extends YsaApiController
 	 * Response params: [token, state, message]
 	 * @return void
 	 */
-	public function actionAuth()
+	public function actionAddEvent()
 	{
 		$this->_commonValidate();
 		$this->_validateVars(array(
@@ -33,8 +44,13 @@ class ClientController extends YsaApiController
 				'code'		=> '005',
 				'message'	=> 'No password received',
 				'required'	=> TRUE,
+			'event_id'	=> array(
+				'code'		=> '111',
+				'message'	=> 'No event ID found',
+				'required'	=> TRUE
+			)
 		)));
-		if (!$token = ApplicationAuth::model()->authByPassword($_POST['password'], $_POST['app_key'], $_POST['device_id'], $this->_type))
+		if (!$token = EventAuth::model()->authByPassword($_POST['password'], $_POST['app_key'], $_POST['event_id'], $_POST['device_id']))
 			$this->_render(array(
 				'state'		=> 0,
 				'message'	=> 'Authorization by password failed',
@@ -48,39 +64,76 @@ class ClientController extends YsaApiController
 	}
 
 	/**
-	 * Action client authorization.
-	 * Inquiry params: [app_key, device_id, password]
-	 * Response params: [token, state, message]
+	 * Returns event info.
+	 * Inquiry params: [app_key, device_id, token, event_id]
+	 * Response params: [name,type,description,date,creation_date,filesize,checksumm]
+	 * @todo Add checksumm and filesize
 	 * @return void
 	 */
-	public function actionAddEvent()
+	public function actionGetEventInfo()
 	{
 		$this->_commonValidate();
+		$this->_validateAuth();
+		$obEvent = $this->_getEvent();
+
+		$this->_render(array(
+			'name'			=> $obEvent->name,
+			'type'			=> $obEvent->type(),
+			'description'	=> $obEvent->description,
+			'date'			=> $obEvent->date,
+			'creation_date'	=> $obEvent->created
+		));
 	}
+
+	/**
+	 * Returns event info.
+	 * Inquiry params: [device_id, event_id, token, app_key]
+	 * Response params: [name,type,description,date,creation_date,filesize,checksumm,can_order,can_share,sizes]
+	 * @return void
+	 */
+	public function actionGetEventAlbums()
+	{
+		$this->_commonValidate();
+		$this->_validateAuth();
+		$obEvent = $this->_getEvent();
+		$params = array();
+		foreach($obEvent->albums() as $obEventAlbum)
+		{
+			$sizes = array();
+			if ($obEventAlbum->canOrder() && $obEventAlbum->size())
+			{
+				foreach($obEventAlbum->sizes as $obSize)
+					$sizes[$obSize->title] = array(
+							'height'	=> $obSize->height,
+							'width'		=> $obSize->width,
+					);
+			}
+			$params['albums'][] = array(
+				'name'				=> $obEventAlbum->name,
+				'date'				=> $obEventAlbum->shooting_date,
+				'place'				=> $obEventAlbum->place,
+				'album_id'			=> $obEventAlbum->id,
+				'preview'			=> $obEventAlbum->previewUrl(),
+				'number_of_photos'	=> count($obEventAlbum->photos()),
+				'filesize'			=> $obEventAlbum->size(),
+				'checksum'			=> $obEventAlbum->getChecksum(),
+				'can_order'			=> $obEventAlbum->canOrder(),
+				'can_share'			=> $obEventAlbum->canShare(),
+				'sizes'				=> $sizes
+			);
+		}
+		$this->_render($params);
+	}
+
 /**
  *
-  1. {id, action, event_id ,password, device_id} addevent
-    1. [integer] state
-    2. [string] message
-    3. [string] token
-  2. {id, action,   geteventinfo
-    1. [string] name
-    2. [string] type
-    3. [string] description
-    4. [date] date
-    5. [date] creation_date
+  2. {id, action,
 
-  3. {id, action, device_id, event_id, token}  geteventalbums
+
+  3. {}  geteventalbums
 
     1. [array] Albums
-      1. [string] name
-      2. [date] date
-      3. [string] place
-      4. [integer] gallery_id
-      5. [link] preview
-      6. [integer] number_of_photos
-      7. [integer] filesize
-      8. [string] checksum
+      1.
   4. {id, action, device_id, event_id, gallery_id, token, checksum}  iseventalbumupdated
 
   5.

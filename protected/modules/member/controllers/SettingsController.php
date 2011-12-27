@@ -87,38 +87,26 @@ class SettingsController extends YsaMemberController
 				}
 				
 				$requestToken = $this->member()->smugmug()->auth_getRequestToken();
-				$this->member()->editOption(UserOption::SMUGMUG_REQUEST, $requestToken);
+//				$this->member()->editOption(UserOption::SMUGMUG_REQUEST, $requestToken);
+				
+				Yii::app()->session['smugmugRequestToken'] = $requestToken;
+				
                 $this->setSuccess('SmugMug settings successfully saved.');
 				$this->refresh();
             }
 		}
 		
-		$smugRequest = $this->member()->option(UserOption::SMUGMUG_REQUEST);
-		$smugHash = $this->member()->option(UserOption::SMUGMUG_HASH);
-		$smugAuthorized = $this->member()->option(UserOption::SMUGMUG_AUTHORIZED);
-		
-		if ($this->member()->option(UserOption::SMUGMUG_REQUEST)) {
-			$this->member()->smugmugSetRequestToken();
-			
-			if (isset($authorize)) {
-				try {
-					$token = $this->member()->smugmug()->auth_getAccessToken();
-					
-					// save auth token and remove request token
-					$this->member()->editOption(UserOption::SMUGMUG_HASH, $token);
-					$this->member()->editOption(UserOption::SMUGMUG_AUTHORIZED, 1);
-					$this->member()->deleteOption(UserOption::SMUGMUG_REQUEST);
-					
-					$this->redirect(array('settings/smugmug/'));
-					
-				} catch (Exception $e) {
-					$this->setError($e->getMessage());
-					$this->redirect(array('settings/smugmug/'));
-				}	
-			} else {
-				
-			}
+		if (isset(Yii::app()->session['smugmugRequestToken'])) {
+			$this->member()->smugmugSetRequestToken(Yii::app()->session['smugmugRequestToken']);
 		}
+		
+		if (isset($authorize)) {
+			$token = $this->member()->smugmug()->auth_getAccessToken();
+			unset(Yii::app()->session['smugmugRequestToken']);
+			$this->member()->editOption(UserOption::SMUGMUG_HASH, $token);
+			$this->redirect(array('settings/smugmug/'));
+		}
+
 		if ($this->member()->smugmugAuthorized()) {
 			try {
 				$this->member()->smugmugSetAccessToken();
