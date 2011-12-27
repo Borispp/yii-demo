@@ -13,13 +13,13 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('album_id, rank, state', 'numerical', 'integerOnly'=>true),
+			array('album_id, rank, state, imported', 'numerical', 'integerOnly'=>true),
 			array('album_id, basename, extention', 'required'),
 			array('basename, name', 'length', 'max'=>100),
 			array('extention', 'length', 'max'=>5),
 			array('meta_type', 'length', 'max'=>20),
 			array('alt', 'length', 'max'=>255),
-			array('meta_type, alt, rank, created, updated, exif_data, size', 'safe'),
+			array('meta_type, alt, rank, created, updated, exif_data, size, imported_data', 'safe'),
 		);
     }
 	

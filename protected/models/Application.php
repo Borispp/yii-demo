@@ -233,7 +233,6 @@ class Application extends YsaActiveRecord
 
 			if ($width && $height) {
 				$image->resize($width, $height);
-				//                $image->crop($width, $height);
 			}
 
 			$image->save($imageSaveDir);

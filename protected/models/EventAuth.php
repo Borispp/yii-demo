@@ -114,8 +114,8 @@ class EventAuth extends YsaActiveRecord
 	/**
 	 * @param string $token
 	 * @param string $appKey
+	 * @param integer $eventId
 	 * @param string $deviceId
-	 * @param string $type
 	 * @return bool
 	 */
 	public function authByToken($token, $appKey, $eventId, $deviceId)
@@ -132,6 +132,30 @@ class EventAuth extends YsaActiveRecord
 				'device_id'	=> $deviceId,
 				'event_id'	=> $eventId
 			));
+	}
+
+	/**
+	 * @param string $token
+	 * @param string $appKey
+	 * @param integer $eventId
+	 * @param string $deviceId
+	 * @return bool
+	 */
+	public function removeAuth($token, $appKey, $eventId, $deviceId)
+	{
+		$obApplication = Application::model()->findByKey($appKey);
+		$obEvent = Event::model()->findByPk($eventId);
+		if (!$obApplication)
+			return FALSE;
+		if (!$obEvent)
+			return FALSE;
+		$obEvent = $this->findByAttributes(array(
+				'app_id'	=> $obApplication->id,
+				'token'		=> $token,
+				'device_id'	=> $deviceId,
+				'event_id'	=> $eventId
+			));
+		$obEvent->delete();
 	}
 
 }

@@ -3,7 +3,7 @@
 
 	<?php if ($entry->smugmugAuthorized()) : ?>
 	
-		<?php $smugInfo = $entry->smugmug()->auth_checkAccessToken();?>
+		<?php $smugInfo = $entry->smugmug()->auth_checkAccessToken(); ?>
 	
 		<p>Api Key: <?php echo $this->member()->option('smug_api'); ?></p>
 		<p>Secret Key: <?php echo $this->member()->option('smug_secret'); ?></p>
@@ -44,12 +44,34 @@
 
 		<?php $this->endWidget();?>
 		
-		<?php if ($entry->option(UserOption::SMUGMUG_REQUEST)) : ?>
-			<p>Please click <?php echo YsaHtml::link('this link', $entry->smugmug()->authorize(), array('target' => '_blank')); ?> to authorize to SmugMug.<br/>
+		<?php if (isset(Yii::app()->session['smugmugRequestToken'])) : ?>
+			<p>Please click <?php echo YsaHtml::link('this link', $entry->smugmug()->authorize(), array('target' => '_blank', 'id' => 'settings-smugmug-authorize')); ?> to authorize to SmugMug.<br/>
 			After authorization please click <?php echo YsaHtml::link('this link', array('settings/smugmug/authorize/')); ?> to complete authentication.</p>
 		<?php endif; ?>
 			
 	<?php endif; ?>
 	
 </div>
+
+
+
+<?php if (isset(Yii::app()->session['smugmugRequestToken'])) : ?>
+<script type="text/javascript">
+	$(function(){
+		$('#settings-smugmug-authorize').click(function(e){
+			e.preventDefault();
+			var smugmug_window = window.open($(this).attr('href'), 'smugmugWindow', 'width=800,height=500');
+			var watchClose = setInterval(function() {
+				try {
+					if (smugmug_window.closed) {
+						clearInterval(watchClose);
+						smugmug_window.close();
+						window.location = '<?php echo Yii::app()->createAbsoluteUrl('member/settings/smugmug/authorize/') ?>';
+					}
+				} catch (e) {}
+			}, 200);
+		})
+	});
+</script>
+<?php endif; ?>
 

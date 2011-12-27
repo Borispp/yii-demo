@@ -17,6 +17,8 @@
  * @property string $created
  * @property string $updated
  * @property string $size
+ * @property integer $imported
+ * @property string $imported_data
  */
 class PortfolioPhoto extends YsaPhotoActiveRecord
 {

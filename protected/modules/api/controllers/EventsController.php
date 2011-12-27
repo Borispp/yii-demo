@@ -1,12 +1,30 @@
 <?php
 class EventsController extends YsaApiController
 {
+	protected $_obEventAlbum = NULL;
 	/**
 	 * @return Event
 	 */
 	protected function _getEvent()
 	{
 		return Event::model()->findByPk($_POST['event_id']);
+	}
+
+	/**
+	 * @return EventAlbum
+	 */
+	protected function _getEventAlbum()
+	{
+		if (!$this->_obEventAlbum)
+		{
+			$obEventAlbum = EventAlbum::model()->findByPk($_POST['album_id']);
+			if (!$obEventAlbum)
+				return $this->_renderError('020', 'Event album not found');
+			if ($obEventAlbum->event_id != $_POST['event_id'] || $obEventAlbum->isActive())
+				return $this->_renderError('021', 'Access to event album restricted');
+			$this->_obEventAlbum = $obEventAlbum;
+		}
+		return $this->_obEventAlbum;
 	}
 
 	/**
@@ -28,6 +46,26 @@ class EventsController extends YsaApiController
 			)
 		)));
 		$this->_checkAuth();
+	}
+
+	/**
+	 * Action client authorization.
+	 * Inquiry params: [app_key, device_id, password, event_id]
+	 * Response params: [state]
+	 * @return void
+	 */
+	public function actionLogout()
+	{
+		$this->_commonValidate();
+		$obEvents = EventAuth::model()->findByAttributes(array(
+			'device_id'	=> $_POST['device_id']
+		));
+		if (!$obEvents)
+			return;
+		$obEvents = is_array($obEvents) ? $obEvents : array($obEvents);
+		foreach($obEvents as $obEvent)
+			$obEvent->delete();
+		$this->_render(array('state' => TRUE));
 	}
 
 	/**
@@ -60,6 +98,22 @@ class EventsController extends YsaApiController
 			'state'		=> 1,
 			'message'	=> '',
 			'token'		=> $token
+		));
+	}
+
+	/**
+	 * Action event drop.
+	 * Inquiry params: [app_key, device_id, password, event_id]
+	 * Response params: [state]
+	 * @return void
+	 */
+	public function actionRemoveEvent()
+	{
+		$this->_commonValidate();
+		$this->_validateAuth();
+		EventAuth::model()->removeAuth($_POST['token'], $_POST['app_key'], $_POST['event_id'], $_POST['device_id']);
+		$this->_render(array(
+			'state'		=> 1,
 		));
 	}
 
@@ -124,6 +178,38 @@ class EventsController extends YsaApiController
 		}
 		$this->_render($params);
 	}
+
+	/**
+	 * Checks if album'd been updated since last fetch.
+	 * Inquiry params: [device_id, event_id, token, app_key, album_id, checksum]
+	 * Response params: [state, checksum]
+	 * @return void
+	 */
+	public function actionIsEventAlbumUpdated()
+	{
+		$this->_commonValidate();
+		$this->_validateAuth();
+		$this->_validateVars(array(
+			'album_id' => array(
+				'code'		=> '011',
+				'message'	=> 'Gallery id must not be empty',
+				'required'	=> TRUE,
+			),
+			'checksum' => array(
+				'code'		=> '012',
+				'message'	=> 'Checksum id must not be empty',
+				'required'	=> TRUE,
+			),
+		));
+		$this->_getEventAlbum();
+		$obPortfolioAlbum = $this->_getEvent()->user->studio->portfolio()->getAlbumById($_POST['album_id']);
+		$this->_checkPhotoAlbum($obPortfolioAlbum);
+		$this->_render(array(
+			'state'			=> $obPortfolioAlbum->checkHash($_POST['checksum']),
+			'checksumm'		=> $obPortfolioAlbum->getChecksum(),
+		));
+	}
+
 
 /**
  *
