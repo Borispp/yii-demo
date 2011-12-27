@@ -137,4 +137,18 @@ class SettingsController extends YsaMemberController
 		
 		$this->redirect(array('settings/smugmug/'));
 	}
+	
+	public function actionZenfolio()
+	{
+		$this->render('zenfolio', array(
+			
+		));
+	}
+	
+	public function action500px()
+	{
+		$this->render('500px', array(
+			
+		));
+	}
 }

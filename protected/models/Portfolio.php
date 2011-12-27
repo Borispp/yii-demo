@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This is the model class for table "portfolio".
  *
@@ -7,10 +6,14 @@
  * @property string $id
  * @property integer $studio_id
  * @property string $name
+ * 
+ * @property Studio $studio
  */
 class Portfolio extends YsaActiveRecord
 {
 	protected $_albums;
+	
+	const DEFAULT_NAME = 'Portfolio';
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -39,8 +42,6 @@ class Portfolio extends YsaActiveRecord
 		return array(
 			array('studio_id', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>50),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
 			array('id, name', 'safe', 'on'=>'search'),
 		);
 	}
@@ -50,11 +51,9 @@ class Portfolio extends YsaActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 			'studio' => array(self::BELONGS_TO, 'Studio', 'studio_id'),
-			'cat'	 => array(self::HAS_MANY, 'PortfolioCategory', 'portfolio_id'),
+			'albums' => array(self::HAS_MANY, 'PortfolioAlbum', 'portfolio_id', 'order' => 'rank ASC'),
 		);
 	}
 
@@ -82,8 +81,8 @@ class Portfolio extends YsaActiveRecord
 		$criteria->compare('name',$this->name,true);
 
 		return new CActiveDataProvider($this, array(
-				'criteria'=>$criteria,
-			));
+			'criteria'=>$criteria,
+		));
 	}
 
 	/**
@@ -111,11 +110,6 @@ class Portfolio extends YsaActiveRecord
 		return $this->_albums;
 	}
 
-	public function isOwner()
-	{
-		return $this->studio()->isOwner();
-	}
-
 	public function getAlbumById($albumId)
 	{
 		list($obAlbum) = PortfolioAlbum::model()->findAll(array(
@@ -127,5 +121,10 @@ class Portfolio extends YsaActiveRecord
 				'order' => 'rank ASC',
 			));
 		return $obAlbum;
+	}
+	
+	public function isOwner()
+	{
+		return $this->studio->isOwner();
 	}
 }

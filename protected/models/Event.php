@@ -14,14 +14,16 @@
  * @property string $created
  * @property string $updated
  * @property string $passwd
+ * 
+ * @property array $albums
+ * @property array $user
  */
 class Event extends YsaActiveRecord
 {
     const TYPE_PUBLIC = 'public';
+	
     const TYPE_PROOF  = 'proof';
 	
-	protected $_albums;
-
     /**
      * Returns the static model of the specified AR class.
      * @return Event the static model class
@@ -44,19 +46,16 @@ class Event extends YsaActiveRecord
      */
     public function rules()
     {
-            // NOTE: you should only define rules for those attributes that
-            // will receive user inputs.
-            return array(
-                    array('user_id, state, type', 'required'),
-                    array('user_id, state', 'numerical', 'integerOnly'=>true),
-                    array('type', 'length', 'max'=>6),
-                    array('name', 'length', 'max'=>255),
-                    array('passwd', 'length', 'max'=>20),
-                    array('description, date, created, updated', 'safe'),
-                    // The following rule is used by search().
-                    // Please remove those attributes that should not be searched.
-                    array('id, user_id, type, name, date, state, created', 'safe', 'on'=>'search'),
-            );
+		return array(
+				array('user_id, state, type', 'required'),
+				array('user_id, state', 'numerical', 'integerOnly'=>true),
+				array('type', 'length', 'max'=>6),
+				array('name', 'length', 'max'=>255),
+				array('passwd', 'length', 'max'=>20),
+				array('name, passwd, user_id, state, type', 'required'),
+				array('description, date, created, updated', 'safe'),
+				array('id, user_id, type, name, date, state, created', 'safe', 'on'=>'search'),
+		);
     }
 
     /**
@@ -67,8 +66,8 @@ class Event extends YsaActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'album' => array(self::HAS_MANY, 'EventAlbum', 'event_id'),
-            'user'  => array(self::BELONGS_TO, 'User', 'user_id'),
+            'albums' => array(self::HAS_MANY, 'EventAlbum', 'event_id', 'order' => 'rank ASC'),
+            'user'   => array(self::BELONGS_TO, 'User', 'user_id'),
         );
     }
 
@@ -124,19 +123,19 @@ class Event extends YsaActiveRecord
         );
     }
     
-    public function albums()
-    {
-		if (null === $this->_albums) {
-			$this->_albums = EventAlbum::model()->findAll(array(
-				'condition' => 'event_id=:event_id',
-				'params'    => array(
-					':event_id' => $this->id,
-				),
-				'order' => 'rank ASC',
-			));
-		}
-		return $this->_albums;
-    }
+//    public function albums()
+//    {
+//		if (null === $this->_albums) {
+//			$this->_albums = EventAlbum::model()->findAll(array(
+//				'condition' => 'event_id=:event_id',
+//				'params'    => array(
+//					':event_id' => $this->id,
+//				),
+//				'order' => 'rank ASC',
+//			));
+//		}
+//		return $this->_albums;
+//    }
     
     public function type()
     {
@@ -206,7 +205,7 @@ class Event extends YsaActiveRecord
 	public function beforeDelete() {
 		parent::beforeDelete();
 		
-		foreach ($this->albums() as $album) {
+		foreach ($this->albums as $album) {
 			$album->delete();
 		}
 		

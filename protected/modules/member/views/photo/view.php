@@ -4,10 +4,10 @@
 
 
 
-<?php if ($entry->album()->event()->isProofing()) : ?>
+<?php if ($entry->album->event->isProofing()) : ?>
 	<h3>Comments</h3>
 	<ul>
-		<?php foreach ($entry->comments() as $comment) : ?>
+		<?php foreach ($entry->comments as $comment) : ?>
 			<?php $this->renderPartial('/photoComment/_listcomment', array(
 				'entry' => $comment,
 			)); ?>
@@ -50,7 +50,7 @@
 			)
 		); ?>
 	</ul>
-	<p>Album default sizes: <?php foreach ($entry->album()->sizes as $k => $size) : ?>
+	<p>Album default sizes: <?php foreach ($entry->album->sizes as $k => $size) : ?>
 			<strong><?php echo $size->title; ?></strong>
 		<?php endforeach; ?></p>
 
@@ -59,7 +59,7 @@
 
 	
 	
-<?php if ($entry->album()->event()->isProofing()) : ?>
+<?php if ($entry->album->event->isProofing()) : ?>
 	<h3>Photo Rating: <?php echo $entry->rating(); ?></h3>
 	
 <?php else:?>
@@ -71,17 +71,17 @@
 	)); ?>
 	<p>
 		<?php echo $avlForm->labelEx($availability,'can_order'); ?>
-		<?php echo $avlForm->checkBox($availability, 'can_order', array('checked' => $entry->canOrder(), 'disabled' => !$entry->album()->canOrder())); ?>
+		<?php echo $avlForm->checkBox($availability, 'can_order', array('checked' => $entry->canOrder(), 'disabled' => !$entry->album->canOrder())); ?>
 	</p>
 	<p>
 		<?php echo $avlForm->labelEx($availability,'can_share'); ?>
-		<?php echo $avlForm->checkBox($availability, 'can_share', array('checked' => $entry->canShare(), 'disabled' => !$entry->album()->canShare())); ?>
+		<?php echo $avlForm->checkBox($availability, 'can_share', array('checked' => $entry->canShare(), 'disabled' => !$entry->album->canShare())); ?>
 	</p>
 
 	<p><?php echo YsaHtml::submitButton('Save'); ?></p>
 
-	<p>Album photo order: <?php echo $entry->album()->canOrder() ? 'Yes' : 'No'; ?></p>
-	<p>Album photo sharing: <?php echo $entry->album()->canShare() ? 'Yes' : 'No'; ?></p>
+	<p>Album photo order: <?php echo $entry->album->canOrder() ? 'Yes' : 'No'; ?></p>
+	<p>Album photo sharing: <?php echo $entry->album->canShare() ? 'Yes' : 'No'; ?></p>
 	
 	<?php $this->endWidget();?>
 		

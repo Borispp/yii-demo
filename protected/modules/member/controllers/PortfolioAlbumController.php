@@ -9,7 +9,7 @@ class PortfolioAlbumController extends YsaMemberController
 			
             $entry->attributes = $_POST['PortfolioAlbum'];
 			
-			$entry->portfolio_id = $this->member()->studio()->portfolio()->id;
+			$entry->portfolio_id = $this->member()->studio->portfolio->id;
 			
             if ($entry->validate()) {
                 $entry->save();
@@ -117,7 +117,7 @@ class PortfolioAlbumController extends YsaMemberController
 	public function actionSort($albumId = 0)
 	{
 		if (Yii::app()->getRequest()->isAjaxRequest) {
-			if (isset($_POST['event-album'])) {
+			if (isset($_POST['event-album']) && is_array($_POST['event-album'])) {
 				foreach ($_POST['event-album'] as $k => $id) {
 					$entry = PortfolioAlbum::model()->findByPk($id);
 					if ($entry && $entry->isOwner()) {

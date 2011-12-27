@@ -5,7 +5,7 @@ class PhotoController extends YsaMemberController
 	{
 		$entry = EventPhoto::model()->findByPk($photoId);
 		
-		if (!$entry || !$entry->album()->event()->isOwner()) {
+		if (!$entry || !$entry->album->event->isOwner()) {
 			$this->redirect(array('event/'));
 		}
 		
@@ -27,7 +27,7 @@ class PhotoController extends YsaMemberController
 			}
 		}
 		
-		if (isset($_POST['AlbumPhotoAvailability']) && !$entry->album()->event()->isProofing()) {
+		if (isset($_POST['AlbumPhotoAvailability']) && !$entry->album->event->isProofing()) {
 			$availability->attributes = $_POST['AlbumPhotoAvailability'];
 			if ($availability->validate()) {
 				$entry->can_order = $availability->can_order;
@@ -45,8 +45,8 @@ class PhotoController extends YsaMemberController
 		
 		
 		$this->crumb('Events', array('event/'))
-			 ->crumb($entry->album()->event()->name, array('event/view/' . $entry->album()->event()->id))
-			 ->crumb($entry->album()->name, array('album/view/' . $entry->album()->id))
+			 ->crumb($entry->album->event->name, array('event/view/' . $entry->album->event->id))
+			 ->crumb($entry->album->name, array('album/view/' . $entry->album->id))
 			 ->crumb('Photo #' . $entry->id);
 		
 		$this->setMemberPageTitle('Photo #' . $entry->id);
@@ -71,7 +71,7 @@ class PhotoController extends YsaMemberController
         foreach ($ids as $id) {
 			$photo = EventPhoto::model()->findByPk($id);
 			if ($photo) {
-				$album = $photo->album();
+				$album = $photo->album;
 				if ($photo->isOwner()) {
 					$photo->delete();
 				}

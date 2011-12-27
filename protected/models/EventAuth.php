@@ -93,6 +93,7 @@ class EventAuth extends YsaActiveRecord
 	{
 		$obApplication = Application::model()->findByKey($appKey);
 		$obEvent = Event::model()->findByPk($eventId);
+		
 		if (!$obEvent)
 			return FALSE;
 		if (!$obApplication)

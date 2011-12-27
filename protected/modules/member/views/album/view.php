@@ -37,8 +37,8 @@
 	
 	<h3>Album Photos</h3>
 	<ul id="album-photos" class="album-photos">
-		<?php if (count($entry->photos())) : ?>
-				<?php foreach ($entry->photos() as $photo) : ?>
+		<?php if (count($entry->photos)) : ?>
+				<?php foreach ($entry->photos as $photo) : ?>
 				<?php echo $this->renderPartial('/photo/_listphoto', array(
 					'entry' => $photo
 				)); ?>
@@ -66,7 +66,7 @@
 	<?php $this->endWidget();?>
 	
 
-<?php if (!$entry->event()->isProofing()) : ?>
+<?php if (!$entry->event->isProofing()) : ?>
 	<h3>Availability for sharing/order this album</h3>
 	<?php $avlForm = $this->beginWidget('YsaMemberForm', array(
 			'id'=>'album-availability-form',
@@ -78,7 +78,7 @@
 	</p>
 	<p>
 		<?php echo $avlForm->labelEx($availability,'can_share'); ?>
-		<?php echo $avlForm->checkBox($availability, 'can_share', array('checked' => $entry->canOrder())); ?>
+		<?php echo $avlForm->checkBox($availability, 'can_share', array('checked' => $entry->canShare())); ?>
 	</p>
 	<p><?php echo YsaHtml::submitButton('Save'); ?></p>
 	<?php $this->endWidget();?>

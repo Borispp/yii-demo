@@ -50,7 +50,7 @@ class YsaAlbumActiveRecord extends YsaActiveRecord
 	public function beforeDelete() {
 		parent::beforeDelete();
 
-		foreach ($this->photos() as $p) {
+		foreach ($this->photos as $p) {
 			$p->delete();
 		}
 		
@@ -120,7 +120,7 @@ class YsaAlbumActiveRecord extends YsaActiveRecord
 	{
 		if (!$this->_size)
 		{
-			foreach ($this->photos() as $obPortfolioPhoto)
+			foreach ($this->photos as $obPortfolioPhoto)
 				$this->_size += $obPortfolioPhoto->size;
 		}
 		return $this->_size;
@@ -135,7 +135,7 @@ class YsaAlbumActiveRecord extends YsaActiveRecord
 		if (!$this->_hash)
 		{
 			$hash = array();
-			foreach ($this->photos() as $obPortfolioPhoto)
+			foreach ($this->photos as $obPortfolioPhoto)
 				$hash[] = $obPortfolioPhoto->getChecksum();
 			sort($hash, SORT_STRING);
 			$this->_hash = md5(implode('', $hash));

@@ -1,7 +1,20 @@
 <?php
-Yii::import('zii.widgets.CBreadcrumbs');
-class YsaMemberBreadcrumbs extends CBreadcrumbs
+class YsaMemberBreadcrumbs extends CWidget
 {
+	public $tagName = 'section';
+	
+	public $tagList = 'ul';
+	
+	public $tagElement = 'li';
+	
+	public $htmlOptions=array('class'=>'breadcrumb');
+	
+	public $encodeLabel=true;
+	
+	public $homeLink;
+	
+	public $links=array();
+	
 	public function init() {
 		parent::init();
 		
@@ -13,28 +26,33 @@ class YsaMemberBreadcrumbs extends CBreadcrumbs
 		if(empty($this->links)) {
 			return;
 		}
-
-		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 		
 		$links=array();
 		if(isset($this->homeLink) && $this->homeLink !== false) {
-			$links[]=$this->homeLink;
+			$links[]=YsaHtml::openTag($this->tagElement) . $this->homeLink . YsaHtml::closeTag($this->tagElement);
 		}
 
-		foreach ($this->links as $k => $link) {		
+		echo YsaHtml::openTag($this->tagName,$this->htmlOptions)."\n";
+		echo YsaHtml::openTag($this->tagList)."\n";
+		
+		foreach ($this->links as $k => $link) {	
 			if (isset($this->links[$k+1])) {
 				if (isset($link['url'])) {
-					$links[] = YsaHtml::link($this->encodeLabel ? YsaHtml::encode($link['label']) : $link['label'], $link['url']);
+					$lnk = YsaHtml::link($this->encodeLabel ? YsaHtml::encode($link['label']) : $link['label'], $link['url']);
 				} else {
-					$links[] = YsaHtml::openTag('span') . ($this->encodeLabel ? CHtml::encode($link['label']) : $link['label']) . YsaHtml::closeTag('span');
+					$lnk = YsaHtml::openTag('span') . ($this->encodeLabel ? YsaHtml::encode($link['label']) : $link['label']) . YsaHtml::closeTag('span');
 				}
 			} else {
-				$links[] = YsaHtml::openTag('span') . ($this->encodeLabel ? CHtml::encode($link['label']) : $link['label']) . YsaHtml::closeTag('span');
+				$lnk = YsaHtml::openTag('span') . ($this->encodeLabel ? YsaHtml::encode($link['label']) : $link['label']) . YsaHtml::closeTag('span');
 			}
+			
+			$links[] = YsaHtml::openTag($this->tagElement) . $lnk . YsaHtml::closeTag($this->tagElement);
 		}
 		
-		echo implode($this->separator,$links);
+		echo implode('', $links);
 		
-		echo CHtml::closeTag($this->tagName);
+		
+		echo YsaHtml::closeTag($this->tagList);
+		echo YsaHtml::closeTag($this->tagName);
 	}
 }

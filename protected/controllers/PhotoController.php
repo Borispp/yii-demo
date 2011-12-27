@@ -10,7 +10,7 @@ class PhotoController extends YsaFrontController
         
 		$entry = EventPhoto::model()->find('basename=:basename', array('basename' => $k));
 		
-		if (!$entry || $entry->album()->event()->type == Event::TYPE_PROOF) {
+		if (!$entry || $entry->album->event->type == Event::TYPE_PROOF) {
 			$this->redirect(Yii::app()->homeUrl);
 		}
 		
