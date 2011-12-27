@@ -21,7 +21,7 @@ class EventsController extends YsaApiController
 			$obEventAlbum = EventAlbum::model()->findByPk($_POST['album_id']);
 			if (!$obEventAlbum)
 				return $this->_renderError('020', 'Event album not found');
-			if ($obEventAlbum->event_id != $_POST['event_id'] || $obEventAlbum->isActive())
+			if ($obEventAlbum->event_id != $_POST['event_id'] || !$obEventAlbum->isActive())
 				return $this->_renderError('021', 'Access to event album restricted');
 			$this->_obEventAlbum = $obEventAlbum;
 		}
@@ -38,7 +38,7 @@ class EventsController extends YsaApiController
 			$obEventPhoto = EventPhoto::model()->findByPk($_POST['photo_id']);
 			if (!$obEventPhoto)
 				return $this->_renderError('020', 'Event album not found');
-			if ($obEventPhoto->album_id != $_POST['album_id'] || $obEventPhoto->isActive())
+			if ($obEventPhoto->album_id != $_POST['album_id'] || !$obEventPhoto->isActive())
 				return $this->_renderError('021', 'Access to event album restricted');
 			$this->_obEventPhoto = $obEventPhoto;
 		}
@@ -100,12 +100,13 @@ class EventsController extends YsaApiController
 					'code'		=> '005',
 					'message'	=> 'No password received',
 					'required'	=> TRUE,
-					'event_id'	=> array(
-						'code'		=> '111',
-						'message'	=> 'No event ID found',
-						'required'	=> TRUE
-					)
-				)));
+				),
+				'event_id'	=> array(
+					'code'		=> '006',
+					'message'	=> 'No event ID found',
+					'required'	=> TRUE
+				)
+			));
 		if (!$token = EventAuth::model()->authByPassword($_POST['password'], $_POST['app_key'], $_POST['event_id'], $_POST['device_id']))
 			$this->_render(array(
 					'state'		=> 0,
@@ -243,10 +244,10 @@ class EventsController extends YsaApiController
 					'required'	=> TRUE,
 				),
 			));
-		if (!$this->_getEventAlbum()->photo)
+		if (!$this->_getEventAlbum()->photos)
 			$this->_renderError('041', 'Album has no photos');
 		$params = array();
-		foreach($this->_getEventAlbum()->photo as $obPhoto)
+		foreach($this->_getEventAlbum()->photos as $obPhoto)
 			$params['images'][] = $this->_getPhotoInfo($obPhoto);
 		$this->_render($params);
 	}
@@ -274,9 +275,9 @@ class EventsController extends YsaApiController
 				),
 			));
 		$this->_getEventAlbum();
-		if (!$this->_getEventPhoto());
+		if (!$this->_getEventPhoto())
 			$this->_renderError('041', 'Album has no such photo');
-		$this->_render($this->_getEventPhoto());
+		$this->_render($this->_getPhotoInfo($this->_getEventPhoto()));
 	}
 
 	/**
@@ -329,7 +330,7 @@ class EventsController extends YsaApiController
 	/**
 	 * Send rank for event photo
 	 * Inquiry params: [device_id, event_id, token, app_key, album_id, checksum, photo_id]
-	 * Response params: [photo_id filesize name thumbnail fullsize meta rank comments can_share can_order has_sizes sizes share_link]
+	 * Response params: [state message name thumbnail fullsize meta rank comments can_share can_order has_sizes sizes share_link]
 	 * @return void
 	 */
 	public function actionRankEventPhoto()
@@ -347,11 +348,36 @@ class EventsController extends YsaApiController
 					'message'	=> 'Photo id must not be empty',
 					'required'	=> TRUE,
 				),
+				'rate'		=> array(
+					'code'		=> '034',
+					'message'	=> 'Photo rate 0 or 1 is required',
+					'required'	=> TRUE,
+				)
 			));
 		$this->_getEventAlbum();
-		if (!$this->_getEventPhoto());
+		if (!$this->_getEventPhoto())
 			$this->_renderError('041', 'Album has no such photo');
-		//$this->_getEventPhoto()->rate
+		$obEventPhotoRate = EventPhotoRate::model()->findByAttributes(array(
+			'device_id'		=> $_POST['device_id'],
+			'photo_id'		=> $_POST['photo_id']
+		));
+		if ($obEventPhotoRate)
+			$this->_renderError('050', 'Photo\'d been already rated');
+		$obEventPhotoRate = new EventPhotoRate();
+		$obEventPhotoRate->photo_id = $_POST['photo_id'];
+		$obEventPhotoRate->device_id = $_POST['device_id'];
+		$obEventPhotoRate->rate += (bool)$_POST['rate'] ? 1 : -1;
+		if (!$obEventPhotoRate->validate())
+			$this->_render(array(
+				'state'		=> FALSE,
+				'message'	=> 'Photo rate validation failed',
+				'rank'		=> $this->_getEventPhoto()->rating()
+			));
+		$obEventPhotoRate->save();
+		$this->_render(array(
+			'state'	=> 1,
+			'rank'	=> $this->_getEventPhoto()->rating()
+		));
 	}
 
 	/**
@@ -388,7 +414,7 @@ class EventsController extends YsaApiController
 
 			));
 		$this->_getEventAlbum();
-		if (!$this->_getEventPhoto());
+		if (!$this->_getEventPhoto())
 			$this->_renderError('041', 'Album has no such photo');
 		$obComment = new EventPhotoComment();
 		$obComment->name = $_POST['name'];
@@ -396,15 +422,15 @@ class EventsController extends YsaApiController
 		$obComment->photo_id = $this->_getEventPhoto()->id;
 		if (!$obComment->validate())
 			$this->_render(array(
-				'state'				=> FALSE,
-				'message'			=> 'Comment validation failed',
-				'comments_number'	=> count($this->_getEventPhoto()->comment)
-			));
+					'state'				=> FALSE,
+					'message'			=> 'Comment validation failed',
+					'comments_number'	=> count($this->_getEventPhoto()->comments)
+				));
 		$obComment->save();
 		$this->_render(array(
-			'state'				=> TRUE,
-			'message'			=> '',
-			'comments_number'	=> count($this->_getEventPhoto()->comment)
-		));
+				'state'				=> TRUE,
+				'message'			=> '',
+				'comments_number'	=> count($this->_getEventPhoto()->comments)
+			));
 	}
 }
