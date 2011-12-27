@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This is the model class for table "portfolio".
  *
@@ -7,6 +6,8 @@
  * @property string $id
  * @property integer $studio_id
  * @property string $name
+ * 
+ * @property Studio $studio
  */
 class Portfolio extends YsaActiveRecord
 {
@@ -41,8 +42,6 @@ class Portfolio extends YsaActiveRecord
 		return array(
 			array('studio_id', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>50),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
 			array('id, name', 'safe', 'on'=>'search'),
 		);
 	}
@@ -54,8 +53,7 @@ class Portfolio extends YsaActiveRecord
 	{
 		return array(
 			'studio' => array(self::BELONGS_TO, 'Studio', 'studio_id'),
-			'cat'	 => array(self::HAS_MANY, 'PortfolioCategory', 'portfolio_id'),
-			'albums' => array(self::HAS_MANY, 'PortfolioAlbum', 'portfolio_id'),
+			'albums' => array(self::HAS_MANY, 'PortfolioAlbum', 'portfolio_id', 'order' => 'rank ASC'),
 		);
 	}
 
@@ -123,5 +121,10 @@ class Portfolio extends YsaActiveRecord
 				'order' => 'rank ASC',
 			));
 		return $obAlbum;
+	}
+	
+	public function isOwner()
+	{
+		return $this->studio->isOwner();
 	}
 }

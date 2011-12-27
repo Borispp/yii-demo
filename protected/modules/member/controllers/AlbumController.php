@@ -95,7 +95,9 @@ class AlbumController extends YsaMemberController
 		}
 		
 		if (isset($_POST['AlbumPhotoAvailability']) && !$entry->event->isProofing()) {
+			
 			$availability->attributes = $_POST['AlbumPhotoAvailability'];
+			
 			if ($availability->validate()) {
 				$entry->can_order = $availability->can_order;
 				$entry->can_share = $availability->can_share;

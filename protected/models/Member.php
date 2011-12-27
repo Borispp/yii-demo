@@ -23,15 +23,6 @@ class Member extends User
 		) + parent::relations();
 	}
 
-//	public function application()
-//	{
-//		if (null === $this->_application) {
-//			$this->_application = Application::model()->findByMember($this->id);
-//		}
-//
-//		return $this->_application;
-//	}
-
 	/**
 	 * @TODO instead of userSubscription foreach use sql-query
 	 * @return bool

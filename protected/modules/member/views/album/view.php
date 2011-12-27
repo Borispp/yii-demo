@@ -78,7 +78,7 @@
 	</p>
 	<p>
 		<?php echo $avlForm->labelEx($availability,'can_share'); ?>
-		<?php echo $avlForm->checkBox($availability, 'can_share', array('checked' => $entry->canOrder())); ?>
+		<?php echo $avlForm->checkBox($availability, 'can_share', array('checked' => $entry->canShare())); ?>
 	</p>
 	<p><?php echo YsaHtml::submitButton('Save'); ?></p>
 	<?php $this->endWidget();?>
