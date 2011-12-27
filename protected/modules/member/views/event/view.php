@@ -1,4 +1,4 @@
-<section id="event" eventid="<?php echo $entry->id; ?>">
+<section id="event" eventid="<?php echo $entry->id; ?>" class="w">
 	<p><?php echo CHtml::link('Edit Event', array('event/edit/' . $entry->id)); ?></p>
 
 	<p><?php echo $entry->description; ?></p>
