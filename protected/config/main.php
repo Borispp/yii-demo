@@ -22,6 +22,8 @@ return array(
         'application.extensions.mailer.*',
         'application.extensions.image.*',
 		'application.extensions.phpsmug.*',
+		'application.extensions.phpzenfolio.*',
+		'application.extensions.twitteroauth.*',
     ),
 
     'modules'=>array(

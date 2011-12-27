@@ -7,6 +7,8 @@ class Member extends User
 	protected $_application = null;
 	
 	protected $_smugmug;
+	
+	protected $_zenfolio;
 
 	public static function model($className=__CLASS__)
 	{
@@ -111,5 +113,14 @@ class Member extends User
 	public function smugmugAuthorized()
 	{
 		return $this->option(UserOption::SMUGMUG_HASH) ? true : false;
+	}
+	
+	public function zenfolio()
+	{
+		if (null === $this->_zenfolio) {
+			// apply for zenfolio
+		}
+		
+		return $this->_zenfolio;
 	}
 }
