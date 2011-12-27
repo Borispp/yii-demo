@@ -258,4 +258,10 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 	{	
 		return ImageHelper::thumb($width, $height, rtrim(Yii::getPathOfAlias('webroot.resources.images'), '/') . DIRECTORY_SEPARATOR . 'no-image.png');
 	}
+
+
+	public function getChecksum()
+	{
+		return md5($this->basename);
+	}
 }
