@@ -122,15 +122,6 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 		));
 	}
 	
-	/**
-	 * Method should be reinitialized
-	 * 
-	 * @return null
-	 */
-	public function album()
-	{
-		return null;
-	}
 	
 	/**
 	 * Generate BaseName for new Image
@@ -146,7 +137,7 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 	 */
 	public function url()
 	{
-		return $this->album()->albumUrl() . '/' .  $this->basename . '.' . $this->extention;
+		return $this->album->albumUrl() . '/' .  $this->basename . '.' . $this->extention;
 	}
 	
 	/**
@@ -155,7 +146,7 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 	 */
 	public function path()
 	{
-		return $this->album()->albumPath() . DIRECTORY_SEPARATOR .  $this->basename . '.' . $this->extention;
+		return $this->album->albumPath() . DIRECTORY_SEPARATOR .  $this->basename . '.' . $this->extention;
 	}
 	
 	/**
@@ -235,7 +226,7 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 		
 		$this->generateBaseName();
 		
-		$savePath = $this->album()->albumPath() . DIRECTORY_SEPARATOR . $this->basename . '.' . $this->extention;
+		$savePath = $this->album->albumPath() . DIRECTORY_SEPARATOR . $this->basename . '.' . $this->extention;
 		
 		$image->quality(100);
 		$image->resize(
@@ -258,7 +249,6 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 	{	
 		return ImageHelper::thumb($width, $height, rtrim(Yii::getPathOfAlias('webroot.resources.images'), '/') . DIRECTORY_SEPARATOR . 'no-image.png');
 	}
-
 
 	public function getChecksum()
 	{

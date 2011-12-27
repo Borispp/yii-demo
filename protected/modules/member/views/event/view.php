@@ -23,9 +23,9 @@
 	<?php else:?>
 		<h2>Albums</h2>
 	<?php endif; ?>
-	<?php if (count($entry->albums())) : ?>
+	<?php if ($entry->albums) : ?>
 		<ul id="event-albums" class="albums">
-			<?php foreach ($entry->albums() as $album) : ?>
+			<?php foreach ($entry->albums as $album) : ?>
 				<li id="event-album-<?php echo $album->id?>">
 					<?php echo $album->preview(); ?>
 					<?php echo YsaHtml::link('View', array('album/view/' . $album->id), array('class' => 'view')); ?>

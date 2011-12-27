@@ -5,7 +5,7 @@ class ApplicationController extends YsaMemberController
     
     public function actionView()
     {
-        $app = $this->member()->application();
+        $app = $this->member()->application;
 		
         // new member -> redirect to application creation
         if (null === $app) {
@@ -27,7 +27,7 @@ class ApplicationController extends YsaMemberController
     
     public function actionCreate()
     {
-        if ($this->member()->application()) {
+        if ($this->member()->application) {
             $this->redirect(array('application/'));
         }
         
@@ -61,7 +61,7 @@ class ApplicationController extends YsaMemberController
     
     public function actionEdit()
     {
-        $app = $this->member()->application();
+        $app = $this->member()->application;
         
         if (!$app) {
             $this->redirect(array('application/create'));

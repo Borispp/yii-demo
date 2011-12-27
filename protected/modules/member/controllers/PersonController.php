@@ -9,7 +9,7 @@ class PersonController extends YsaMemberController
 			
 			$entry->attributes = $_POST['StudioPerson'];
 			$entry->photo = CUploadedFile::getInstance($entry, 'photo');
-			$entry->studio_id = $this->member()->studio()->id;
+			$entry->studio_id = $this->member()->studio->id;
 			
 			$entry->setNextRank();
 			

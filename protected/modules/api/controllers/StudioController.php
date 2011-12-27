@@ -93,15 +93,15 @@ class StudioController extends YsaApiController
 		$this->_commonValidate();
 		$obStudio = $this->_getApplication()->user->studio;
 		$params = array();
-		if (!count($obStudio->portfolio()->albums(TRUE)))
+		if (!count($obStudio->portfolio->albums(TRUE)))
 			return $this->_renderError('015', 'No albums found');
-		foreach($obStudio->portfolio()->albums(TRUE) as $obPortfolioAlbum)
+		foreach($obStudio->portfolio->albums(TRUE) as $obPortfolioAlbum)
 		{
 			$params['portfolio'][] = array(
 				'gallery_id'		=> $obPortfolioAlbum->id,
 				'name'				=> $obPortfolioAlbum->name,
 				'description'		=> $obPortfolioAlbum->description,
-				'number_of_photos'	=> count($obPortfolioAlbum->photos()),
+				'number_of_photos'	=> count($obPortfolioAlbum->photos),
 				'filesize'			=> $obPortfolioAlbum->size(),
 				'checksum'			=> $obPortfolioAlbum->getChecksum()
 			);
@@ -125,9 +125,9 @@ class StudioController extends YsaApiController
 				'required'	=> TRUE,
 			),
 		));
-		$obPortfolioAlbum = $this->_getApplication()->user->studio->portfolio()->getAlbumById($_POST['gallery_id']);
+		$obPortfolioAlbum = $this->_getApplication()->user->studio->portfolio->getAlbumById($_POST['gallery_id']);
 		$this->_checkPhotoAlbum($obPortfolioAlbum);
-		if (!count($photos = $obPortfolioAlbum->photos()))
+		if (!count($photos = $obPortfolioAlbum->photos))
 			$this->_renderError('016', 'Portfolio Album is empty');
 		$params = array();
 		foreach($photos as $obPortfolioPhoto)
@@ -174,7 +174,7 @@ class StudioController extends YsaApiController
 				'required'	=> TRUE,
 			),
 		));
-		$obPortfolioAlbum = $this->_getApplication()->user->studio->portfolio()->getAlbumById($_POST['gallery_id']);
+		$obPortfolioAlbum = $this->_getApplication()->user->studio->portfolio->getAlbumById($_POST['gallery_id']);
 		$this->_checkPhotoAlbum($obPortfolioAlbum);
 		$this->_render(array(
 			'state'			=> $obPortfolioAlbum->checkHash($_POST['checksum']),

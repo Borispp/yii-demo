@@ -151,7 +151,7 @@ class EventsController extends YsaApiController
 		$this->_validateAuth();
 		$obEvent = $this->_getEvent();
 		$params = array();
-		foreach($obEvent->albums() as $obEventAlbum)
+		foreach($obEvent->albums as $obEventAlbum)
 		{
 			$sizes = array();
 			if ($obEventAlbum->canOrder() && $obEventAlbum->size())
@@ -168,7 +168,7 @@ class EventsController extends YsaApiController
 				'place'				=> $obEventAlbum->place,
 				'album_id'			=> $obEventAlbum->id,
 				'preview'			=> $obEventAlbum->previewUrl(),
-				'number_of_photos'	=> count($obEventAlbum->photos()),
+				'number_of_photos'	=> count($obEventAlbum->photos),
 				'filesize'			=> $obEventAlbum->size(),
 				'checksum'			=> $obEventAlbum->getChecksum(),
 				'can_order'			=> $obEventAlbum->canOrder(),
@@ -202,7 +202,7 @@ class EventsController extends YsaApiController
 			),
 		));
 		$this->_getEventAlbum();
-		$obPortfolioAlbum = $this->_getEvent()->user->studio->portfolio()->getAlbumById($_POST['album_id']);
+		$obPortfolioAlbum = $this->_getEvent()->user->studio->portfolio->getAlbumById($_POST['album_id']);
 		$this->_checkPhotoAlbum($obPortfolioAlbum);
 		$this->_render(array(
 			'state'			=> $obPortfolioAlbum->checkHash($_POST['checksum']),

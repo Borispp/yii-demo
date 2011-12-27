@@ -19,18 +19,18 @@ class Member extends User
 	{
 		return array(
 			'UserSubscription'	=> array(self::HAS_MANY, 'UserSubscription', 'user_id'),
-			'Membership'		=> array(self::MANY_MANY, 'Membership', 'user_subscription(user_id, membership_id)')
-		)+parent::relations();
+			'Membership'		=> array(self::MANY_MANY, 'Membership', 'user_subscription(user_id, membership_id)'),
+		) + parent::relations();
 	}
 
-	public function application()
-	{
-		if (null === $this->_application) {
-			$this->_application = Application::model()->findByMember($this->id);
-		}
-
-		return $this->_application;
-	}
+//	public function application()
+//	{
+//		if (null === $this->_application) {
+//			$this->_application = Application::model()->findByMember($this->id);
+//		}
+//
+//		return $this->_application;
+//	}
 
 	/**
 	 * @TODO instead of userSubscription foreach use sql-query

@@ -12,6 +12,8 @@
  * @property string $created
  * @property string $updated
  * @property string $friendly_url
+ * 
+ * @property Studio $studio
  */
 class StudioLink extends YsaActiveRecord
 {
@@ -55,7 +57,7 @@ class StudioLink extends YsaActiveRecord
 	public function relations()
 	{
 		return array(
-			'user' => array(self::BELONGS_TO, 'User', 'studio_id'),
+			'studio' => array(self::BELONGS_TO, 'Studio', 'studio_id'),
 		);
 	}
 
@@ -94,15 +96,6 @@ class StudioLink extends YsaActiveRecord
 	
 	public function isOwner()
 	{
-		return $this->studio()->isOwner();
-	}
-	
-	public function studio()
-	{
-		if (null === $this->_studio) {
-			$this->_studio = Studio::model()->find('id=:id', array('id' => $this->studio_id));
-		}
-		
-		return $this->_studio;
+		return $this->studio->isOwner();
 	}
 }

@@ -8,7 +8,7 @@ class LinkController extends YsaMemberController
 		if (isset($_POST['StudioLink'])) {
 			
 			$entry->attributes = $_POST['StudioLink'];
-			$entry->studio_id = $this->member()->studio()->id;
+			$entry->studio_id = $this->member()->studio->id;
 			
 			$entry->setNextRank();
 			

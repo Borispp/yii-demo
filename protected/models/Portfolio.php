@@ -11,6 +11,8 @@
 class Portfolio extends YsaActiveRecord
 {
 	protected $_albums;
+	
+	const DEFAULT_NAME = 'Portfolio';
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -50,11 +52,10 @@ class Portfolio extends YsaActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 			'studio' => array(self::BELONGS_TO, 'Studio', 'studio_id'),
 			'cat'	 => array(self::HAS_MANY, 'PortfolioCategory', 'portfolio_id'),
+			'albums' => array(self::HAS_MANY, 'PortfolioAlbum', 'portfolio_id'),
 		);
 	}
 
@@ -82,8 +83,8 @@ class Portfolio extends YsaActiveRecord
 		$criteria->compare('name',$this->name,true);
 
 		return new CActiveDataProvider($this, array(
-				'criteria'=>$criteria,
-			));
+			'criteria'=>$criteria,
+		));
 	}
 
 	/**
@@ -109,11 +110,6 @@ class Portfolio extends YsaActiveRecord
 				));
 		}
 		return $this->_albums;
-	}
-
-	public function isOwner()
-	{
-		return $this->studio()->isOwner();
 	}
 
 	public function getAlbumById($albumId)

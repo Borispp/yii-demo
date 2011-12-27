@@ -23,8 +23,8 @@
 	
 	<h3>Album Photos</h3>
 	<ul id="portfolio-album-photos" class="album-photos">
-		<?php if (count($entry->photos())) : ?>
-				<?php foreach ($entry->photos() as $photo) : ?>
+		<?php if (count($entry->photos)) : ?>
+				<?php foreach ($entry->photos as $photo) : ?>
 				<?php echo $this->renderPartial('/portfolioPhoto/_listphoto', array(
 					'entry' => $photo
 				)); ?>

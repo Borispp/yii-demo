@@ -64,7 +64,7 @@ class PortfolioAlbum extends YsaAlbumActiveRecord
 	{
 		return array(
 			'portfolio' => array(self::BELONGS_TO, 'Portfolio', 'portfolio_id'),
-			'photo'		=> array(self::HAS_MANY, 'PortfolioPhoto', 'album_id'),
+			'photos'	=> array(self::HAS_MANY, 'PortfolioPhoto', 'album_id'),
 		);
 	}
 
@@ -113,20 +113,20 @@ class PortfolioAlbum extends YsaAlbumActiveRecord
 		return $this->_previewUrl;
 	}
 	
-	public function photos()
-	{
-		if (null === $this->_photos) {
-			$this->_photos = PortfolioPhoto::model()->findAll(array(
-				'condition' => 'album_id=:album_id',
-				'params' => array(
-					'album_id' => $this->id,
-				),
-				'order' => 'rank ASC',
-			));
-		}
-		
-		return $this->_photos;
-	}
+//	public function photos()
+//	{
+//		if (null === $this->_photos) {
+//			$this->_photos = PortfolioPhoto::model()->findAll(array(
+//				'condition' => 'album_id=:album_id',
+//				'params' => array(
+//					'album_id' => $this->id,
+//				),
+//				'order' => 'rank ASC',
+//			));
+//		}
+//		
+//		return $this->_photos;
+//	}
 	
 	public function setNextRank()
 	{	

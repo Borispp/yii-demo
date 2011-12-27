@@ -40,7 +40,7 @@ class WizardController extends YsaMemberController
 
     public function actionApplication($step = null)
     {
-        $app = $this->member()->application();
+        $app = $this->member()->application;
         
         if (!$app) {
             $this->redirect(array('application/create'));
@@ -71,7 +71,7 @@ class WizardController extends YsaMemberController
         
         $model = new $modelName();
         
-        $app = $this->member()->application();
+        $app = $this->member()->application;
 
         $model->setApplication($app)
               ->loadDefaultValues();

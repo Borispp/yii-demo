@@ -9,7 +9,7 @@ class PortfolioAlbumController extends YsaMemberController
 			
             $entry->attributes = $_POST['PortfolioAlbum'];
 			
-			$entry->portfolio_id = $this->member()->studio()->portfolio()->id;
+			$entry->portfolio_id = $this->member()->studio->portfolio->id;
 			
             if ($entry->validate()) {
                 $entry->save();

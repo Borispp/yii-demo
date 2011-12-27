@@ -56,8 +56,8 @@ class Option extends YsaOptionActiveRecord
     public function relations()
     {
         return array(
-            'group' => array(self::HAS_ONE, 'OptionGroup', 'group_id'),
-            'type'  => array(self::HAS_ONE, 'OptionGroup', 'type_id'),
+            'group' => array(self::BELONGS_TO, 'OptionGroup', 'group_id'),
+            'type'  => array(self::HAS_ONE, 'OptionType', 'type_id'),
         );
     }
 

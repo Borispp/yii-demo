@@ -6,6 +6,8 @@
  * The followings are the available columns in table 'event_photo_size':
  * @property integer $photo_id
  * @property integer $size_id
+ * 
+ * @property EventPhoto $photo
  */
 class EventPhotoSize extends YsaActiveRecord
 {
@@ -34,7 +36,9 @@ class EventPhotoSize extends YsaActiveRecord
 
 	public function relations()
 	{
-		return array();
+		return array(
+			'photo'  => array(self::BELONGS_TO, 'EventPhoto', 'photo_id'),
+		);
 	}
 
 	public function attributeLabels()
