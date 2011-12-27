@@ -59,7 +59,11 @@
 
 	
 	
-<?php if (!$entry->album()->event()->isProofing()) : ?>
+<?php if ($entry->album()->event()->isProofing()) : ?>
+	<h3>Photo Rating: <?php echo $entry->rating(); ?></h3>
+	
+<?php else:?>
+	
 	<h3>Availability for sharing/order this photo</h3>
 	<?php $avlForm = $this->beginWidget('YsaMemberForm', array(
 			'id'=>'photo-availability-form',
@@ -78,7 +82,6 @@
 
 	<p>Album photo order: <?php echo $entry->album()->canOrder() ? 'Yes' : 'No'; ?></p>
 	<p>Album photo sharing: <?php echo $entry->album()->canShare() ? 'Yes' : 'No'; ?></p>
-	
 	
 	<?php $this->endWidget();?>
 		

@@ -1,11 +1,13 @@
 <section class="w">
 	<h3><?php echo $entry->name(); ?></h3>
 	
-	<div><?php echo YsaHtml::link('My Subscriptions', array('inbox/')); ?></div>
-	<div><?php echo YsaHtml::link('Inbox', array('subscription/list/')); ?></div>
+	<div><?php echo YsaHtml::link('Inbox', array('inbox/')); ?></div>
+	<div><?php echo YsaHtml::link('My Subscriptions', array('subscription/list/')); ?></div>
 	
 	<div><?php echo YsaHtml::link('SmugMug Settings', array('settings/smugmug/')); ?></div>
 	<div><?php echo YsaHtml::link('ShootQ Settings', array('settings/shootq/')); ?></div>
+	<div><?php echo YsaHtml::link('500px Settings', array('settings/500px/')); ?></div>
+	<div><?php echo YsaHtml::link('Zenfolio Settings', array('settings/zenfolio/')); ?></div>
 	
 	
 	<p class="descr">Lorem ipsum dccolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
