@@ -169,7 +169,7 @@ class EventsController extends YsaApiController
 		$this->_validateAuth();
 		$obEvent = $this->_getEvent();
 		$params = array();
-		foreach($obEvent->albums() as $obEventAlbum)
+		foreach($obEvent->albums as $obEventAlbum)
 		{
 			$sizes = array();
 			if ($obEventAlbum->canOrder() && $obEventAlbum->size())
@@ -186,7 +186,7 @@ class EventsController extends YsaApiController
 				'place'				=> $obEventAlbum->place,
 				'album_id'			=> $obEventAlbum->id,
 				'preview'			=> $obEventAlbum->previewUrl(),
-				'number_of_photos'	=> count($obEventAlbum->photos()),
+				'number_of_photos'	=> count($obEventAlbum->photos),
 				'filesize'			=> $obEventAlbum->size(),
 				'checksum'			=> $obEventAlbum->getChecksum(),
 				'can_order'			=> $obEventAlbum->canOrder(),
@@ -200,7 +200,7 @@ class EventsController extends YsaApiController
 	/**
 	 * Checks if album'd been updated since last fetch.
 	 * Inquiry params: [device_id, event_id, token, app_key, album_id, checksum]
-	 * Response params: [state, checksum, filesize]
+	 * Response params: [state, checksum]
 	 * @return void
 	 */
 	public function actionIsEventAlbumUpdated()

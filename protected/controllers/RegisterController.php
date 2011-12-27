@@ -58,7 +58,18 @@ class RegisterController extends YsaFrontController
                             'link'  => $model->getActivationLink(),
                         )
                     );
-                    
+					
+					// create new Studio
+					$studio = new Studio();
+					$studio->user_id = $model->id;
+					$studio->save();
+					
+					// create new Portfolio
+					$portfolio = new Portfolio();
+					$portfolio->studio_id = $studio->id;
+					$portfolio->name = Portfolio::DEFAULT_NAME;
+					$portfolio->save();
+					
                     Yii::app()->user->setFlash('registration', "Thank you for your registration. Please check your email.");
                     $this->refresh();
                 }
@@ -66,6 +77,6 @@ class RegisterController extends YsaFrontController
                 return;
             }
         }
-        $this->render('registration',array('model'=>$model));
+        $this->render('registration',array('model' => $model));
     }
 }

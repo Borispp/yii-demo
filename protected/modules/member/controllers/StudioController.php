@@ -3,7 +3,7 @@ class StudioController extends YsaMemberController
 {
     public function actionIndex()
     {
-		$entry = $this->member()->studio();
+		$entry = $this->member()->studio;
 		
 		$entryLink = new StudioLink();
 		
@@ -23,7 +23,7 @@ class StudioController extends YsaMemberController
 		
 		if (isset($_POST['StudioLink'])) {
 			$entryLink->attributes = $_POST['StudioLink'];
-			$entryLink->studio_id = $this->member()->studio()->id;
+			$entryLink->studio_id = $this->member()->studio->id;
 			$entryLink->setNextRank();
 			
 			if ($entryLink->validate()) {
@@ -69,7 +69,7 @@ class StudioController extends YsaMemberController
 	
 	public function actionDeleteSpecials()
 	{
-		$this->member()->studio()->deleteSpecials();
+		$this->member()->studio->deleteSpecials();
 		
 		if (Yii::app()->request->isAjaxRequest) {
 			$specials = new SpecialsUploadForm();

@@ -16,14 +16,13 @@
  * @property string $updated
  * @property integer $can_order
  * @property integer $can_share
+ * 
+ * @property EventPhoto $photo
+ * @property Event $event
  */
 class EventAlbum extends YsaAlbumActiveRecord
 {
     const PROOFING_NAME = 'Proofing Album';
-
-	protected $_sizes;
-	
-	protected $_event;
 	
     public function init() {
         parent::init();
@@ -72,9 +71,9 @@ class EventAlbum extends YsaAlbumActiveRecord
     public function relations()
     {
         return array(
-            'event'  => array(self::BELONGS_TO, 'Event', 'event_id'),
-            'photo'  => array(self::HAS_MANY, 'EventPhoto', 'album_id'),
-			'sizes'	 => array(self::MANY_MANY, 'PhotoSize', 'event_album_size(album_id, size_id)'),
+            'event'		=> array(self::BELONGS_TO, 'Event', 'event_id'),
+            'photos'	=> array(self::HAS_MANY, 'EventPhoto', 'album_id', 'order' => 'rank ASC'),
+			'sizes'		=> array(self::MANY_MANY, 'PhotoSize', 'event_album_size(album_id, size_id)'),
         );
     }
 
@@ -84,16 +83,11 @@ class EventAlbum extends YsaAlbumActiveRecord
      */
     public function search()
     {
-            // Warning: Please modify the following code to remove attributes that
-            // should not be searched.
-
             $criteria=new CDbCriteria;
 
             $criteria->compare('id',$this->id,true);
             $criteria->compare('event_id',$this->event_id);
             $criteria->compare('name',$this->name,true);
-            $criteria->compare('shooting_date',$this->shooting_date,true);
-            $criteria->compare('place',$this->place,true);
             $criteria->compare('rank',$this->rank);
             $criteria->compare('state',$this->state);
             $criteria->compare('created',$this->created,true);
@@ -103,14 +97,14 @@ class EventAlbum extends YsaAlbumActiveRecord
             ));
     }
 
-    public function event()
-    {
-        if (null === $this->_event) {
-            $this->_event = Event::model()->findByPk($this->event_id);
-        }
-
-        return $this->_event;
-    }
+//    public function event()
+//    {
+//        if (null === $this->_event) {
+//            $this->_event = Event::model()->findByPk($this->event_id);
+//        }
+//
+//        return $this->_event;
+//    }
 	
 	public function previewUrl()
 	{
@@ -138,20 +132,20 @@ class EventAlbum extends YsaAlbumActiveRecord
 		
 	}
 	
-	public function photos()
-	{
-		if (null === $this->_photos) {
-			$this->_photos = EventPhoto::model()->findAll(array(
-				'condition' => 'album_id=:album_id',
-				'params' => array(
-					'album_id' => $this->id,
-				),
-				'order' => 'rank ASC',
-			));
-		}
-		
-		return $this->_photos;
-	}
+//	public function photos()
+//	{
+//		if (null === $this->_photos) {
+//			$this->_photos = EventPhoto::model()->findAll(array(
+//				'condition' => 'album_id=:album_id',
+//				'params' => array(
+//					'album_id' => $this->id,
+//				),
+//				'order' => 'rank ASC',
+//			));
+//		}
+//		
+//		return $this->_photos;
+//	}
 	
 	public function setNextRank()
 	{	
@@ -166,7 +160,7 @@ class EventAlbum extends YsaAlbumActiveRecord
 	
 	public function isOwner()
 	{
-		return $this->event()->isOwner();
+		return $this->event->isOwner();
 	}
 	
 	public function setSizes($sizes)

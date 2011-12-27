@@ -82,7 +82,7 @@ class Application extends YsaActiveRecord
 	{
 		return array(
 			'user'        => array(self::BELONGS_TO, 'Member', 'user_id'),
-			'application' => array(self::HAS_MANY, 'ApplicationOption', 'app_id'),
+			'options'	  => array(self::HAS_MANY, 'ApplicationOption', 'app_id'),
 		);
 	}
 
@@ -108,8 +108,8 @@ class Application extends YsaActiveRecord
 		$criteria->compare('name',$this->name,true);
 
 		return new CActiveDataProvider($this, array(
-				'criteria'=>$criteria,
-			));
+			'criteria'=>$criteria,
+		));
 	}
 
 	public function findByMember($memberId)
@@ -118,12 +118,7 @@ class Application extends YsaActiveRecord
 				'user_id'   => $memberId,
 			));
 	}
-
-	public function settings()
-	{
-
-	}
-
+	
 	public function generatePasswd()
 	{
 		$this->passwd = YsaHelpers::genRandomString();

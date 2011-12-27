@@ -2,7 +2,7 @@
 	<p><?php echo YsaHtml::link('Add Portfolio Album', array('portfolioAlbum/create/')); ?></p>
 	
 	<ul id="portfolio-albums" class="albums">
-		<?php foreach ($this->member()->studio()->portfolio()->albums() as $entry) : ?>
+		<?php foreach ($this->member()->studio->portfolio->albums as $entry) : ?>
 			<li id="event-album-<?php echo $entry->id?>">
 				<?php echo $entry->preview(); ?>
 				<?php echo YsaHtml::link('View', array('portfolioAlbum/view/' . $entry->id), array('class' => 'view')); ?>

@@ -61,9 +61,9 @@ class Membership extends YsaActiveRecord
 	public function canUseDiscount(Discount $obDiscount)
 	{
 		return DiscountMembership::model()->findByAttributes(array(
-				'discount_id'	=> $obDiscount->id,
-				'membership_id'	=> $this->id
-			));
+			'discount_id'	=> $obDiscount->id,
+			'membership_id'	=> $this->id
+		));
 	}
 
 	/**

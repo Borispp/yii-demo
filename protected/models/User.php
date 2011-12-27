@@ -79,9 +79,9 @@ class User extends YsaActiveRecord
 	public function relations()
 	{
 		return array(
-			'option'		=> array(self::HAS_MANY, 'UserOption', 'user_id'),
+			'options'		=> array(self::HAS_MANY, 'UserOption', 'user_id'),
 			'application'	=> array(self::HAS_ONE, 'Application', 'user_id'),
-			'event'			=> array(self::HAS_MANY, 'Event', 'user_id'),
+			'events'		=> array(self::HAS_MANY, 'Event', 'user_id'),
 			'studio'		=> array(self::HAS_ONE, 'Studio', 'user_id'),
 		);
 	}
@@ -116,8 +116,8 @@ class User extends YsaActiveRecord
 		$criteria->compare('state',$this->state);
 
 		return new CActiveDataProvider($this, array(
-				'criteria'=>$criteria,
-			));
+			'criteria'=>$criteria,
+		));
 	}
 
 	public function generateActivationKey()
@@ -219,21 +219,21 @@ class User extends YsaActiveRecord
 		return $this->_options[$name];
 	}
 
-	public function studio()
-	{
-		if (null === $this->_studio) {
-
-			$this->_studio = Studio::model()->find('user_id=:user_id', array('user_id' => $this->id));
-
-			if (!$this->_studio) {
-				$this->_studio = new Studio();
-				$this->_studio->user_id = $this->id;
-				$this->_studio->save();
-			}
-		}
-
-		return $this->_studio;
-	}
+//	public function studio()
+//	{
+//		if (null === $this->_studio) {
+//
+//			$this->_studio = Studio::model()->find('user_id=:user_id', array('user_id' => $this->id));
+//
+//			if (!$this->_studio) {
+//				$this->_studio = new Studio();
+//				$this->_studio->user_id = $this->id;
+//				$this->_studio->save();
+//			}
+//		}
+//
+//		return $this->_studio;
+//	}
 
 	public function sendShootQ($data)
 	{

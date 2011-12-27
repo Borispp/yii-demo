@@ -27,7 +27,7 @@
 			<?php echo YsaHtml::link('Add Photographer', array('person/add')); ?>
 			
 			<ul>
-				<?php foreach ($this->member()->studio()->persons() as $person) : ?>
+				<?php foreach ($this->member()->studio->persons as $person) : ?>
 					<?php $this->renderPartial('/person/_listperson', array(
 						'entry' => $person,
 					)); ?>
@@ -38,7 +38,7 @@
 		<h3>Links</h3>
 		<section id="studio-links">
 			<ul>
-				<?php foreach ($this->member()->studio()->links() as $link) : ?>
+				<?php foreach ($this->member()->studio->links as $link) : ?>
 					<?php $this->renderPartial('/link/_listlink', array(
 						'entry' => $link,
 					)); ?>

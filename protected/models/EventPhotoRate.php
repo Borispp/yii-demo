@@ -8,6 +8,8 @@
  * @property integer $photo_id
  * @property string $rated_by
  * @property integer $rate
+ * 
+ * @property EventPhoto $photo
  */
 class EventPhotoRate extends YsaActiveRecord
 {

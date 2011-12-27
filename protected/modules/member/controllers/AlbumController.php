@@ -41,7 +41,7 @@ class AlbumController extends YsaMemberController
 	{
 		$entry = EventAlbum::model()->findByPk($albumId);
 		
-		if (!$entry || !$entry->event()) {
+		if (!$entry || !$entry->event) {
             $this->redirect(array('event/'));
         }
 		
@@ -54,7 +54,7 @@ class AlbumController extends YsaMemberController
             }
 		}
 		
-		$this->crumb($entry->event()->name, array('event/view/' . $entry->event()->id))
+		$this->crumb($entry->event->name, array('event/view/' . $entry->event->id))
 			 ->crumb($entry->name, array('album/view/' . $entry->id))
 			 ->crumb('Edit Album');
 		
@@ -69,7 +69,7 @@ class AlbumController extends YsaMemberController
     {
         $entry = EventAlbum::model()->findByPk($albumId);
         
-        if (!$entry || !$entry->event() || !$entry->event()->isOwner()) {
+        if (!$entry || !$entry->event || !$entry->event->isOwner()) {
             $this->redirect(array('event/'));
         }
 		$upload = new PhotoUploadForm();
@@ -94,8 +94,10 @@ class AlbumController extends YsaMemberController
 			$this->refresh();
 		}
 		
-		if (isset($_POST['AlbumPhotoAvailability']) && !$entry->event()->isProofing()) {
+		if (isset($_POST['AlbumPhotoAvailability']) && !$entry->event->isProofing()) {
+			
 			$availability->attributes = $_POST['AlbumPhotoAvailability'];
+			
 			if ($availability->validate()) {
 				$entry->can_order = $availability->can_order;
 				$entry->can_share = $availability->can_share;
@@ -106,7 +108,7 @@ class AlbumController extends YsaMemberController
         
 		$this->loadSwfUploader();
 		
-		$this->crumb($entry->event()->name, array('event/view/' . $entry->event()->id))
+		$this->crumb($entry->event->name, array('event/view/' . $entry->event->id))
 			 ->crumb($entry->name);
 		
 		$this->setMemberPageTitle($entry->name);
@@ -135,7 +137,7 @@ class AlbumController extends YsaMemberController
         foreach ($ids as $id) {
 			$album = EventAlbum::model()->findByPk($id);
 			if ($album) {
-				$event = $album->event();
+				$event = $album->event;
 				if ($event->isOwner()) {
 					$album->delete();
 				}
@@ -159,7 +161,7 @@ class AlbumController extends YsaMemberController
 			if (isset($_POST['event-album'])) {
 				foreach ($_POST['event-album'] as $k => $id) {
 					$entry = EventAlbum::model()->findByPk($id);
-					if ($entry && $entry->event()->isOwner()) {
+					if ($entry && $entry->event->isOwner()) {
 						$entry->rank = $k + 1;
 						$entry->save();
 					}
@@ -175,7 +177,7 @@ class AlbumController extends YsaMemberController
 	{
 		if (Yii::app()->getRequest()->isAjaxRequest) {
 			$entry = EventAlbum::model()->findByPk($id);
-			if ($entry && $entry->event()->isOwner()) {
+			if ($entry && $entry->event->isOwner()) {
 				if (isset($_POST['state'])) {
 					$entry->state = intval($_POST['state']);
 					$entry->save();

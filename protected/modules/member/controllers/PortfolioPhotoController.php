@@ -26,7 +26,7 @@ class PortfolioPhotoController extends YsaMemberController
         foreach ($ids as $id) {
 			$photo = PortfolioPhoto::model()->findByPk($id);
 			if ($photo && $photo->isOwner()) {
-				$album = $photo->album();
+				$album = $photo->album;
 				$photo->delete();
 			}
         }

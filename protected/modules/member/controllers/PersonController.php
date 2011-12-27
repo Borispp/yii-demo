@@ -9,7 +9,7 @@ class PersonController extends YsaMemberController
 			
 			$entry->attributes = $_POST['StudioPerson'];
 			$entry->photo = CUploadedFile::getInstance($entry, 'photo');
-			$entry->studio_id = $this->member()->studio()->id;
+			$entry->studio_id = $this->member()->studio->id;
 			
 			$entry->setNextRank();
 			
@@ -54,8 +54,12 @@ class PersonController extends YsaMemberController
 		if (isset($_POST['StudioPerson'])) {
 			
 			$entry->attributes = $_POST['StudioPerson'];
-			$entry->photo = CUploadedFile::getInstance($entry, 'photo');
 			
+			$uploaded = CUploadedFile::getInstance($entry, 'photo');
+			if ($uploaded) {
+				$entry->photo = CUploadedFile::getInstance($entry, 'photo');
+			}
+
 			if ($entry->validate()) {
 				$entry->uploadPhoto();
 				$entry->save();
