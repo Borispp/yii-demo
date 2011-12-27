@@ -52,9 +52,8 @@ class Event extends YsaActiveRecord
 				array('type', 'length', 'max'=>6),
 				array('name', 'length', 'max'=>255),
 				array('passwd', 'length', 'max'=>20),
+				array('name, passwd, user_id, state, type', 'required'),
 				array('description, date, created, updated', 'safe'),
-				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
 				array('id, user_id, type, name, date, state, created', 'safe', 'on'=>'search'),
 		);
     }
