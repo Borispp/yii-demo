@@ -1,34 +1,40 @@
 <?php
-class WizardLogo extends Wizard 
+class WizardLogo extends Wizard
 {
-    public $logo;
-    
-    public $splash_bg = 'image';
-    
-    public $splash_bg_image;
-    
-    public $splash_bg_color;
+	public $logo;
 
-    public function rules() 
-    {
-        return array(
-            array('logo, splash_bg_image', 'file', 'types'=>'jpg, gif, png', 'maxSize'=> Yii::app()->params['max_image_size'], 'tooLarge'=>'The file was larger than 5MB Please upload a smaller file.', 'allowEmpty' => true),
-            array('splash_bg_color', 'safe'),
-        );
-    }
-    
-    public function prepare()
-    {
-        parent::prepare();
+	public $icon;
 
-        $this->prepareBackgroundType('splash_bg');
+	public $itunes_logo;
 
-        if (self::BG_IMAGE == $this->splash_bg) {
-            $this->prepareImage('splash_bg_image');
-        }
+	public $splash_bg = 'image';
 
-        $this->prepareImage('logo');
-        
-        return $this;
-    }
+	public $splash_bg_image;
+
+	public $splash_bg_color;
+
+	public function rules()
+	{
+		return array(
+			array('logo, itunes_logo,icon, splash_bg_image', 'file', 'types'=>'jpg, gif, png', 'maxSize'=> Yii::app()->params['max_image_size'], 'tooLarge'=>'The file was larger than 5MB Please upload a smaller file.', 'allowEmpty' => true),
+			array('splash_bg_color', 'safe'),
+		);
+	}
+
+	public function prepare()
+	{
+		parent::prepare();
+
+		$this->prepareBackgroundType('splash_bg');
+
+		if (self::BG_IMAGE == $this->splash_bg) {
+			$this->prepareImage('splash_bg_image');
+		}
+
+		$this->prepareImage('logo');
+		$this->prepareImage('itunes_logo');
+		$this->prepareImage('icon');
+
+		return $this;
+	}
 }

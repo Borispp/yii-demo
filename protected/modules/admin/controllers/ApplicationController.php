@@ -44,8 +44,10 @@ class ApplicationController extends YsaAdminController
 		$this->setContentDescription($entry->info);
 
 		$this->render('edit', array(
-				'entry'     => $entry,
-				'options'	=> $this->_getLabelifiedOptions($entry)
+				'entry'			=> $entry,
+				'options'		=> $this->_getLabelifiedOptions($entry),
+				'icon'			=> $entry->option('icon'),
+				'itunes_logo'	=> $entry->option('itunes_logo')
 			));
 	}
 
