@@ -167,6 +167,7 @@ class YsaController extends CController
 				array('label'=>'Studio', 'url'=>array('studio/')),
 				array('label'=>'Events', 'url'=>array('event/')),
 				array('label'=>'Portfolio', 'url'=>array('portfolio/')),
+				array('label'=>'Orders', 'url'=>array('order/')),
 				array('label'=>'Settings', 'url'=>array('settings/')),
 			);
 		}
