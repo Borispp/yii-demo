@@ -23,7 +23,7 @@ class ApplicationController extends YsaAdminController
 			));
 	}
 
-	public function actionView($id)
+	public function actionEdit($id)
 	{
 		$id = (int) $id;
 
@@ -32,13 +32,22 @@ class ApplicationController extends YsaAdminController
 		if (!$entry) {
 			$this->redirect('/admin/' . $this->getId());
 		}
-
+		if(Yii::app()->request->isPostRequest && isset($_POST['Application']) && !empty($_POST['Application']['state']))
+		{
+			$entry->state = $_POST['Application']['state'];
+			if($entry->save()) {
+				$this->setSuccessFlash("Application status successfully updated. " . CHtml::link('Back to listing.', array('index')));
+				$this->refresh();
+			}
+		}
 		$this->setContentTitle($entry->name);
 		$this->setContentDescription($entry->info);
 
-		$this->render('view',array(
-				'entry'     => $entry,
-				'options'	=> $this->_getLabelifiedOptions($entry)
+		$this->render('edit', array(
+				'entry'			=> $entry,
+				'options'		=> $this->_getLabelifiedOptions($entry),
+				'icon'			=> $entry->option('icon'),
+				'itunes_logo'	=> $entry->option('itunes_logo')
 			));
 	}
 

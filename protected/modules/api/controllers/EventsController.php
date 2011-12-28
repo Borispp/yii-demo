@@ -366,7 +366,7 @@ class EventsController extends YsaApiController
 		$obEventPhotoRate = new EventPhotoRate();
 		$obEventPhotoRate->photo_id = $_POST['photo_id'];
 		$obEventPhotoRate->device_id = $_POST['device_id'];
-		$obEventPhotoRate->rate += (bool)$_POST['rate'] ? 1 : -1;
+		$obEventPhotoRate->rate += (int)$_POST['rate'];
 		if (!$obEventPhotoRate->validate())
 			$this->_render(array(
 				'state'		=> FALSE,

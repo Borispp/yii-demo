@@ -39,7 +39,8 @@ class EventPhotoRate extends YsaActiveRecord
 		// will receive user inputs.
 		return array(
 			array('photo_id', 'required'),
-			array('photo_id, rate', 'numerical', 'integerOnly'=>true),
+			array('photo_id', 'numerical', 'integerOnly'=>true),
+			array('rate', 'numerical', 'integerOnly'=>true, 'max' => 5, 'min' => 1),
 			array('rated_by', 'length', 'max'=>255),
 			array('rated_by', 'safe'),
 		);

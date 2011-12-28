@@ -157,6 +157,7 @@ class YsaController extends CController
 				array('label'=>'About', 'url'=> array('about/')),
 				array('label'=>'Contact', 'url'=>array('contact/')),
 				array('label'=>'Blog', 'url'=>array('blog/')),
+				array('label'=>'Faq', 'url'=>array('faq/')),
 				array('label'=>'Tour', 'url'=>array('tour/')),
 				array('label'=>'Panel', 'url'=>array('member/'), 'visible' => !Yii::app()->user->isGuest),
 			);
@@ -167,6 +168,7 @@ class YsaController extends CController
 				array('label'=>'Studio', 'url'=>array('studio/')),
 				array('label'=>'Events', 'url'=>array('event/')),
 				array('label'=>'Portfolio', 'url'=>array('portfolio/')),
+				array('label'=>'Orders', 'url'=>array('order/')),
 				array('label'=>'Settings', 'url'=>array('settings/')),
 			);
 		}

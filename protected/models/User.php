@@ -22,6 +22,7 @@
  * @property Application $application
  * @property Event $event
  * @property Studio $studio
+ * @property UserOrder $orders
  */
 class User extends YsaActiveRecord
 {
@@ -83,6 +84,7 @@ class User extends YsaActiveRecord
 			'application'	=> array(self::HAS_ONE, 'Application', 'user_id'),
 			'events'		=> array(self::HAS_MANY, 'Event', 'user_id'),
 			'studio'		=> array(self::HAS_ONE, 'Studio', 'user_id'),
+			'orders'		=> array(self::HAS_MANY, 'UserOrder', 'user_id'),
 		);
 	}
 
