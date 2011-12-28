@@ -18,11 +18,11 @@
 		<tr>
 			<td><?php echo $entry->id; ?></td>
 			<td class="l">
-				<?php echo CHtml::link($entry->name, array('view', 'id' => $entry->id)); ?>
+				<?php echo CHtml::link($entry->name, array('edit', 'id' => $entry->id)); ?>
 			</td>
 			<td><?php echo $entry->state(); ?></td>
 			<td>
-				<?php echo CHtml::link('View', array('view', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
+				<?php echo CHtml::link('Moderate', array('edit', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
 
 			</td>
 		</tr>
