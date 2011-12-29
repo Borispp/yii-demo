@@ -225,6 +225,12 @@
 					'linkOptions' => array('class' => $this->getNavigationClass('page')),
 				),
 				array(
+					'label'=>'Faq',
+					'url'=>array('/admin/faq'),
+					'itemOptions' => array('class' => 'i_grid'),
+					'linkOptions' => array('class' => $this->getNavigationClass('faq')),
+				),
+				array(
 					'label'=>'Newsletters',
 					'url'=>array('/admin/email'),
 					'itemOptions' => array('class' => 'i_mail'),
