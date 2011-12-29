@@ -188,4 +188,23 @@ class AlbumController extends YsaMemberController
 			$this->redirect(Yii::app()->homeUrl);
 		}
 	}
+	
+	public function actionSetCover($albumId = 0)
+	{
+		$entry = EventAlbum::model()->findByPk($albumId);
+		
+		$photo = EventPhoto::model()->findByPk($_POST['photo']);
+		
+		if ($entry && $photo && $entry->id == $photo->album_id && $entry->isOwner()) {
+			$entry->cover_id = $photo->id;
+			$entry->save();
+		}
+		
+		if (Yii::app()->getRequest()->isAjaxRequest) {
+			$this->sendJsonSuccess();
+		} else {
+			$this->redirect(array('album/' . $entry->id));
+		}
+	}
+	
 }

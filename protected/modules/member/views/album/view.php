@@ -36,7 +36,7 @@
 	<?php endif; ?>
 	
 	<h3>Album Photos</h3>
-	<ul id="album-photos" class="album-photos">
+	<ul id="album-photos" class="album-photos cf">
 		<?php if (count($entry->photos)) : ?>
 				<?php foreach ($entry->photos as $photo) : ?>
 				<?php echo $this->renderPartial('/photo/_listphoto', array(

@@ -8,6 +8,9 @@ class Member extends User
 	
 	protected $_smugmug;
 	
+	/**
+	 * @var phpZenfolio
+	 */
 	protected $_zenfolio;
 
 	public static function model($className=__CLASS__)
@@ -109,9 +112,24 @@ class Member extends User
 	public function zenfolio()
 	{
 		if (null === $this->_zenfolio) {
-			// apply for zenfolio
+			$this->_zenfolio = new phpZenfolio(array(
+				"AppName" => "YourStudioApp/1.0 (http://yourstudioapp.com)",
+				"APIVer" => "1.4"
+			));
 		}
 		
 		return $this->_zenfolio;
+	}
+	
+	public function zenfolioAuthorize()
+	{
+		$this->zenfolio()->setAuthToken($this->option(UserOption::ZENFOLIO_HASH));
+		
+		return $this;
+	}
+	
+	public function zenfolioAuthorized()
+	{
+		return $this->option(UserOption::ZENFOLIO_HASH) ? true : false;
 	}
 }

@@ -24,6 +24,7 @@ class UserOption extends YsaOptionActiveRecord
 	
 	const SMUGMUG_AUTHORIZED = 'smug_authorized';
 	
+	const ZENFOLIO_HASH = 'zenf_hash';
 	
 	/**
 	 * Returns the static model of the specified AR class.
