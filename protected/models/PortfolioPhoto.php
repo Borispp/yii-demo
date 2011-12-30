@@ -49,19 +49,6 @@ class PortfolioPhoto extends YsaPhotoActiveRecord
 		);
 	}
 	
-	/**
-	 *
-	 * @return Album
-	 */
-//    public function album()
-//    {
-//        if (null === $this->_album) {
-//            $this->_album = PortfolioAlbum::model()->findByPk($this->album_id);
-//        }
-//
-//        return $this->_album;
-//    }
-	
 	public function isOwner()
 	{
 		return $this->album()->isOwner();

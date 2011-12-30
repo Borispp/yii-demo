@@ -1,7 +1,6 @@
 .albums,
 .album-photos {
-	overflow: hidden;
-	zoom:1;
+	margin-bottom: 5em;
 }
 .albums li,
 .album-photos li {
@@ -12,35 +11,83 @@
 	height: 200px;
 	border: 1px solid #eee;
 }
-.albums li a.delete,
-.album-photos li a.delete {
-	display: block;
-	color: red;
-	width:20px;
-	height:20px;
+
+.albums li .toggler {
+	cursor: pointer;
 	position: absolute;
 	right:0;
-	top:0;
+	bottom:0;
+	padding:4px;
+	color: #000;
 	background: #fff;
-	text-align: center;
-	line-height: 20px;
+	display: block;
+	line-height: 1;
 	display: none;
 }
-.albums li:hover a.delete,
-.album-photos li:hover a.delete {
-	display: block;
+.albums li:hover .toggler {
+/*	display: block;*/
 }
 
-.albums li a.view {
-	position: absolute;
-	left:0;
-	top:0;
-}
-.albums li a.edit {
+
+
+.album-photos li .menu,
+.albums li .menu {
 	position: absolute;
 	left:0;
 	bottom:0;
+	width:280px;
+	padding:10px;
+	background: rgba(0,0,0,.7);
+	font-size: 11px;
+	display: none;
 }
+
+.album-photos li figcaption,
+.albums li figcaption {
+	position: absolute;
+	left:0;
+	top:0;
+	padding:10px;
+	background: rgba(0,0,0,.8);
+	font-size: 16px;
+	color: #fff;
+	display: none;
+}
+
+.album-photos li:hover .menu,
+.album-photos li:hover figcaption,
+.albums li:hover .menu,
+.albums li:hover figcaption {
+	display: block;
+}
+.album-photos li a:last-child:after {
+	content:'';
+}
+
+
+.album-photos li .menu a,
+.albums li .menu a {
+	color: #ddd;
+	padding:0 5px;
+}
+.album-photos li .menu a:hover,
+.albums li .menu a:hover {
+	text-decoration: underline;
+}
+
+
+.album-photos .cover {
+	-webkit-box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 1);
+	-moz-box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 1);
+	box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 1); 
+}
+
+
+
+
+
+
+
 
 
 

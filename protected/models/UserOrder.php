@@ -20,7 +20,8 @@
  * @property string $fax
  * @property string $email
  * @property string $notes
- * 
+ * @property date $created
+ *
  * Relations
  * @property User $user
  */
@@ -54,7 +55,7 @@ class UserOrder extends YsaActiveRecord
 			array('user_id', 'numerical', 'integerOnly'=>true),
 			array('first_name, last_name, city, country, state, zip, phone_day, phone_evening, phone_mobile, fax, email', 'length', 'max'=>50),
 			array('address1, address2', 'length', 'max'=>255),
-			array('notes', 'safe'),
+			array('notes, created', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, user_id, first_name, last_name, address1, address2, city, country, state, zip, phone_day, phone_evening, phone_mobile, fax, email, notes', 'safe', 'on'=>'search'),
@@ -128,7 +129,81 @@ class UserOrder extends YsaActiveRecord
 		$criteria->compare('notes',$this->notes,true);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
+				'criteria'=>$criteria,
+			));
+	}
+
+	public function addPhoto(EventPhoto $obPhoto, $quantity, $size, $style = NULL)
+	{
+		$obOrderPhoto = new UserOrderPhoto();
+		$obOrderPhoto->quantity = $quantity;
+		$obOrderPhoto->size = $size;
+		$obOrderPhoto->style = $style;
+		$obOrderPhoto->order_id = $this->id;
+		$obOrderPhoto->photo_id = $obPhoto->id;
+		$obOrderPhoto->save();
+		return $obOrderPhoto;
+	}
+
+	/**
+	 * @param string $outputType Destination where to send the document. It can take one of the following values:<ul><li>I: send the file inline to the browser (default). The plug-in is used if available. The name given by name is used when one selects the "Save as" option on the link generating the PDF.</li><li>D: send to the browser and force a file download with the name given by name.</li><li>F: save to a local server file with the name given by name.</li><li>S: return the document as a string (name is ignored).</li><li>FI: equivalent to F + I option</li><li>FD: equivalent to F + D option</li><li>E: return the document as base64 mime multi-part email attachment (RFC 2045)</li></ul>
+	 * @return void
+	 */
+	public function generatePdf($outputType = 'I')
+	{
+		ob_start();
+		?>
+	<h1>Order #<?php echo $this->id?></h1>
+	<table border="1">
+		<tr>
+			<th>Client Name</th>
+			<td><?php echo $this->last_name?></td>
+		</tr>
+		<tr>
+			<th>Client Email</th>
+			<td><?php echo $this->email?></td>
+		</tr>
+		<tr>
+			<th>Order date</th>
+			<td><?php echo $this->created?></td>
+		</tr>
+	</table>
+	<h2>List of ordered photos</h2>
+	<table>
+		<tr>
+			<th>Event Name (ID)</th>
+			<th>Album Name (ID)</th>
+			<th>Photo name (ID)</th>
+			<th>Quantity</th>
+			<th>Size</th>
+			<th>Style</th>
+		</tr>
+	<?php
+		foreach($this->photos as $obUserOrderPhoto)
+		{
+			?><tr>
+				<th><?php echo $obUserOrderPhoto->photo->album->event->name?> (<?php echo $obUserOrderPhoto->photo->album->event->id?>)</th>
+				<th><?php echo $obUserOrderPhoto->photo->album->name?> (<?php echo $obUserOrderPhoto->photo->album->id?>)</th>
+				<th><?php echo $obUserOrderPhoto->photo->name?> (<?php echo $obUserOrderPhoto->photo->id?>)</th>
+				<th><?php echo $obUserOrderPhoto->quantity?></th>
+				<th><?php echo $obUserOrderPhoto->style?></th>
+				<th><?php echo $obUserOrderPhoto->size?></th>
+			</tr>
+		<?php
+		}
+		echo '</table>';
+		$template = ob_get_clean();
+		$pdf = Yii::createComponent('application.extensions.tcpdf.ETcPdf',
+			'P', 'cm', 'A4', true, 'UTF-8');
+		$pdf->SetCreator(PDF_CREATOR);
+		$pdf->SetAuthor("YSA");
+		$pdf->SetTitle("Order #".$this->id);
+		$pdf->SetSubject("Photo order");
+		$pdf->setPrintHeader(false);
+		$pdf->setPrintFooter(false);
+		$pdf->AliasNbPages();
+		$pdf->AddPage();
+		$pdf->writeHTML($template, true);
+		return $pdf->Output(rtrim(Yii::getPathOfAlias('webroot.resources.pdf'), '/').'/order'.$this->id.'.pdf', $outputType);
 	}
 }

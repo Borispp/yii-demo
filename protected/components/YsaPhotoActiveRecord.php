@@ -86,6 +86,10 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 			unlink($file);
 		}
 		
+		if ($this->album->cover_id == $this->id) {
+			$this->album->changeCover($this->id);
+		}
+		
 		return true;
 	}
 	
@@ -253,5 +257,10 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 	public function getChecksum()
 	{
 		return md5($this->basename);
+	}
+	
+	public function isCover()
+	{
+		return $this->album->cover_id == $this->id;
 	}
 }

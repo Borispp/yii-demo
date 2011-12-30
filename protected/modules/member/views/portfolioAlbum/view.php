@@ -1,4 +1,4 @@
-<section id="portfolio-album" albumid="<?php echo $entry->id; ?>">
+<section id="portfolio-album" albumid="<?php echo $entry->id; ?>" class="w">
 
 	<?php echo YsaHtml::link('Edit Album Info', array('portfolioAlbum/edit/' . $entry->id))?>
 
@@ -22,7 +22,7 @@
 	</div>
 	
 	<h3>Album Photos</h3>
-	<ul id="portfolio-album-photos" class="album-photos">
+	<ul id="portfolio-album-photos" class="album-photos cf">
 		<?php if (count($entry->photos)) : ?>
 				<?php foreach ($entry->photos as $photo) : ?>
 				<?php echo $this->renderPartial('/portfolioPhoto/_listphoto', array(
