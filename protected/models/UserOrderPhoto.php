@@ -62,7 +62,7 @@ class UserOrderPhoto extends YsaActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'order'		=> array(self::BELONGS_TO, 'Order', 'order_id'),
-			'photo'		=> array(self::BELONGS_TO, 'Photo', 'photo_id'),
+			'photo'		=> array(self::BELONGS_TO, 'EventPhoto', 'photo_id'),
 		);
 	}
 

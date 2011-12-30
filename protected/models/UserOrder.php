@@ -20,6 +20,7 @@
  * @property string $fax
  * @property string $email
  * @property string $notes
+ * @property date $created
  *
  * Relations
  * @property User $user
@@ -54,7 +55,7 @@ class UserOrder extends YsaActiveRecord
 			array('user_id', 'numerical', 'integerOnly'=>true),
 			array('first_name, last_name, city, country, state, zip, phone_day, phone_evening, phone_mobile, fax, email', 'length', 'max'=>50),
 			array('address1, address2', 'length', 'max'=>255),
-			array('notes', 'safe'),
+			array('notes, created', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, user_id, first_name, last_name, address1, address2, city, country, state, zip, phone_day, phone_evening, phone_mobile, fax, email, notes', 'safe', 'on'=>'search'),
@@ -156,7 +157,7 @@ class UserOrder extends YsaActiveRecord
 	<table border="1">
 		<tr>
 			<th>Client Name</th>
-			<td><?php echo $this->name?></td>
+			<td><?php echo $this->last_name?></td>
 		</tr>
 		<tr>
 			<th>Client Email</th>
@@ -203,6 +204,6 @@ class UserOrder extends YsaActiveRecord
 		$pdf->AliasNbPages();
 		$pdf->AddPage();
 		$pdf->writeHTML($template, true);
-		return $pdf->Output("example_002.pdf", "E");
+		return $pdf->Output(rtrim(Yii::getPathOfAlias('webroot.resources.pdf'), '/').'/order'.$this->id.'.pdf', $outputType);
 	}
 }

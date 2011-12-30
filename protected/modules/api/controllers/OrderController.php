@@ -96,10 +96,12 @@ class OrderController extends YsaApiController
 			$obPhoto = EventPhoto::model()->findByPk($photoData['id']);
 			$obOrder->addPhoto($obPhoto, empty($photoData['quantity']) ? 1 : $photoData['quantity'], empty($photoData['size']) ? 'standart' : $photoData['size'], @$photoData['style']);
 		}
+		$obOrder->generatePdf('F');
 		$this->_render(array(
 			'state'		=> TRUE,
 			'message'	=> 'Order Sent',
 		));
+
 		$body = '';
 //		foreach($_POST['fields'] as $name => $value)
 //			$body .= $name.': '.($value ? $value : '')."\n\r";
