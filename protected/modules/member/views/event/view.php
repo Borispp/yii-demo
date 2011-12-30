@@ -24,15 +24,19 @@
 		<h2>Albums</h2>
 	<?php endif; ?>
 	<?php if ($entry->albums) : ?>
-		<ul id="event-albums" class="albums">
+		<ul id="event-albums" class="albums cf">
 			<?php foreach ($entry->albums as $album) : ?>
 				<li id="event-album-<?php echo $album->id?>">
-					<?php echo $album->preview(); ?>
-					<?php echo YsaHtml::link('View', array('album/view/' . $album->id), array('class' => 'view')); ?>
-					<?php if ($entry->isPublic()) : ?>
-						<?php echo YsaHtml::link('Edit', array('album/edit/' . $album->id), array('class' => 'edit')); ?>
-						<?php echo YsaHtml::link('x', array('album/delete/' . $album->id), array('class' => 'delete', 'rel' => $album->id)); ?>
-					<?php endif; ?>
+					<figure><?php echo $album->preview(); ?></figure>
+					<div class="menu">
+						<?php echo YsaHtml::link('View', array('album/view/' . $album->id), array('class' => 'view')); ?>
+						<?php if ($entry->isPublic()) : ?>
+							<span>|</span>
+							<?php echo YsaHtml::link('Edit', array('album/edit/' . $album->id), array('class' => 'edit')); ?>
+							<span>|</span>
+							<?php echo YsaHtml::link('Delete', array('album/delete/' . $album->id), array('class' => 'delete', 'rel' => $album->id)); ?>
+						<?php endif; ?>
+					</div>
 				</li>
 			<?php endforeach; ?>
 		</ul>

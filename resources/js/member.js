@@ -68,6 +68,18 @@ $(function(){
 				});
 			});
 			
+			album.find('a.setcover').live('click', function(e){
+				e.preventDefault();
+				var link = $(this);
+				$.post(_member_url + '/album/setCover/' + album_id, {
+					photo:link.attr('rel')
+				}, function(data){
+					if (data.success) {
+						link.parents('li').addClass('cover').siblings('.cover').removeClass('cover');
+					}
+				}, 'json');
+			});
+			
 			// init uploader
 			var uploader = new plupload.Uploader($.extend(_plupload_settings, {url:_member_url + '/photo/upload/album/' + album_id}));
 			
@@ -146,9 +158,6 @@ $(function(){
 					smugmug_data.show();
 					if (data.success) {
 						smugmug_import.html(data.html);
-						
-						
-						
 					} else {
 						alert(data.msg);
 					}
@@ -251,6 +260,19 @@ $(function(){
 					});
 				});
 			});
+			
+			album.find('a.setcover').live('click', function(e){
+				e.preventDefault();
+				var link = $(this);
+				$.post(_member_url + '/portfolioAlbum/setCover/' + album_id, {
+					photo:link.attr('rel')
+				}, function(data){
+					if (data.success) {
+						link.parents('li').addClass('cover').siblings('.cover').removeClass('cover');
+					}
+				}, 'json');
+			});
+			
 			
 			// init uploader
 			var uploader = new plupload.Uploader($.extend(_plupload_settings, {url:_member_url + '/portfolioPhoto/upload/album/' + album_id}));

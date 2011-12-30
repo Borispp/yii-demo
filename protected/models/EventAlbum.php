@@ -16,8 +16,9 @@
  * @property string $updated
  * @property integer $can_order
  * @property integer $can_share
+ * @property integer $cover_id
  * 
- * @property EventPhoto $photo
+ * @property EventPhoto $photos
  * @property Event $event
  */
 class EventAlbum extends YsaAlbumActiveRecord
@@ -97,15 +98,6 @@ class EventAlbum extends YsaAlbumActiveRecord
             ));
     }
 
-//    public function event()
-//    {
-//        if (null === $this->_event) {
-//            $this->_event = Event::model()->findByPk($this->event_id);
-//        }
-//
-//        return $this->_event;
-//    }
-	
 	public function previewUrl()
 	{
 		if (null === $this->_previewUrl) {
@@ -131,21 +123,6 @@ class EventAlbum extends YsaAlbumActiveRecord
 		return $this->_previewUrl;
 		
 	}
-	
-//	public function photos()
-//	{
-//		if (null === $this->_photos) {
-//			$this->_photos = EventPhoto::model()->findAll(array(
-//				'condition' => 'album_id=:album_id',
-//				'params' => array(
-//					'album_id' => $this->id,
-//				),
-//				'order' => 'rank ASC',
-//			));
-//		}
-//		
-//		return $this->_photos;
-//	}
 	
 	public function setNextRank()
 	{	
@@ -185,6 +162,26 @@ class EventAlbum extends YsaAlbumActiveRecord
 				$s->save();
 				unset($s);
 			}
+		}
+		
+		return $this;
+	}
+	
+	public function changeCover($not = 0)
+	{
+		$photo = EventPhoto::model()->find(array(
+			'condition' => 'id<>:not AND album_id=:album_id',
+			'params' => array(
+				'album_id' => $this->id,
+				'not' => (int) $not,
+			),
+			'order' => 'rank ASC',
+			'limit' => 1,
+		));
+		
+		if ($photo) {
+			$this->cover_id = $photo->id;
+			$this->save();
 		}
 		
 		return $this;

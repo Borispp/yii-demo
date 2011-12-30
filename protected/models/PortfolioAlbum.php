@@ -10,10 +10,17 @@
  * @property integer $rank
  * @property string $created
  * @property string $updated
+ * @property integer $cover_id
+ * 
+ * Relations
+ * @property Portfolio $portfolio
+ * @property PortfolioPhoto $photos
  */
 class PortfolioAlbum extends YsaAlbumActiveRecord
 {
 	protected $_portfolio;
+	
+	protected $_cover;
 
     public function init() {
         parent::init();
@@ -90,43 +97,42 @@ class PortfolioAlbum extends YsaAlbumActiveRecord
 	
 	public function previewUrl()
 	{
-		if (null === $this->_previewUrl) {
-			$photo = PortfolioPhoto::model()->find(array(
-				'condition' => 'album_id=:album_id',
-				'params' => array(
-					'album_id' => $this->id,
-				),
-				'order' => 'rank ASC',
-				'limit' => 1,
-			));
-			
-			$w = Yii::app()->params['member_area']['album']['preview']['width'];
-			$h = Yii::app()->params['member_area']['album']['preview']['height'];
-			
-			if ($photo) {
-				$this->_previewUrl = $photo->previewUrl($w, $h);
-			} else {
-				$this->_previewUrl = PortfolioPhoto::model()->defaultPicUrl($w, $h);
-			}
+		$photo = $this->cover();
+
+		$w = Yii::app()->params['member_area']['album']['preview']['width'];
+		$h = Yii::app()->params['member_area']['album']['preview']['height'];
+
+		if ($photo) {
+			$previewUrl = $photo->previewUrl($w, $h);
+		} else {
+			$previewUrl = PortfolioPhoto::model()->defaultPicUrl($w, $h);
 		}
 		
-		return $this->_previewUrl;
+		return $previewUrl;
 	}
 	
-//	public function photos()
-//	{
-//		if (null === $this->_photos) {
-//			$this->_photos = PortfolioPhoto::model()->findAll(array(
-//				'condition' => 'album_id=:album_id',
-//				'params' => array(
-//					'album_id' => $this->id,
-//				),
-//				'order' => 'rank ASC',
-//			));
-//		}
-//		
-//		return $this->_photos;
-//	}
+	public function cover()
+	{
+		if (null === $this->_cover) {
+			
+			$photo = PortfolioPhoto::model()->findByPk($this->cover_id);
+			
+			if (!$photo) {
+				$photo = PortfolioPhoto::model()->find(array(
+					'condition' => 'album_id=:album_id',
+					'params' => array(
+						'album_id' => $this->id,
+					),
+					'order' => 'rank ASC',
+					'limit' => 1,
+				));
+			}
+			
+			$this->_cover = $photo;
+		}
+		
+		return $this->_cover;
+	}
 	
 	public function setNextRank()
 	{	
@@ -142,5 +148,25 @@ class PortfolioAlbum extends YsaAlbumActiveRecord
 	public function isOwner()
 	{
 		return $this->portfolio->isOwner();
+	}
+	
+	public function changeCover($not = 0)
+	{
+		$photo = PortfolioPhoto::model()->find(array(
+			'condition' => 'id<>:not AND album_id=:album_id',
+			'params' => array(
+				'album_id' => $this->id,
+				'not' => (int) $not,
+			),
+			'order' => 'rank ASC',
+			'limit' => 1,
+		));
+		
+		if ($photo) {
+			$this->cover_id = $photo->id;
+			$this->save();
+		}
+		
+		return $this;
 	}
 }

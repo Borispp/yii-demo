@@ -140,8 +140,44 @@ class SettingsController extends YsaMemberController
 	
 	public function actionZenfolio()
 	{
-		$this->render('zenfolio', array(
+		$loginForm = new ZenFolioLogin();
+		
+		if ($this->member()->zenfolioAuthorized() && $this->member()->zenfolioAuthorize()) {
 			
+		} else {
+			if (isset($_POST['ZenFolioLogin'])) {
+				
+				$loginForm->attributes = $_POST['ZenFolioLogin'];
+				
+				if ($loginForm->validate()) {
+					try {
+						$this->member()->zenfolio()->login("Username=" . $loginForm->username, "Password=" . $loginForm->password); // "Plaintext=TRUE"
+						
+						
+						$this->member()->editOption(UserOption::ZENFOLIO_HASH, $this->member()->zenfolio()->getAuthToken());
+						
+						$this->setSuccess('ZenFolio was successfully authorized.');
+						
+						$this->refresh();
+						
+					} catch (Exception $e) {
+						$loginForm->addError('username', 'Invalid credentials. Please try again.');
+					}
+					
+				}
+				
+			}
+		}
+		
+		
+		$this->setMemberPageTitle('ZenFolio Authentification');
+		
+		$this->crumb('Settings', array('settings/'))
+			 ->crumb('ZenFolio');
+		
+		$this->render('zenfolio', array(
+			'zenlogin'	=> $loginForm,
+			'entry'		=> $this->member(),
 		));
 	}
 	
