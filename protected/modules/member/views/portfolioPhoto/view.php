@@ -1,5 +1,5 @@
-<?php echo YsaHtml::pageHeaderTitle('Album ' . $entry->album->name); ?>
-
-<figure>
-	<?php echo $entry->full(); ?>
-</figure>
+<div class="w">
+	<figure>
+		<?php echo $entry->full(); ?>
+	</figure>
+</div>
