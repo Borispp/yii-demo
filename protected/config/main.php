@@ -15,6 +15,8 @@ return array(
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
+		'application.behaviors.*',
+		'zii.behaviors.*',
 		'application.components.*',
 		'application.helpers.*',
 		'application.widgets.*',
