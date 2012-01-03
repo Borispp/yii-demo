@@ -47,7 +47,7 @@
         <div class="row">
             <?php echo $form->labelEx($model,'verifyCode'); ?>
             <?php $this->widget('CCaptcha'); ?>
-            <?php echo $form->textField($model,'verifyCode'); ?>
+            <?php echo $form->textField($model,'verifyCode', array('autocomplete' => 'off')); ?>
             <?php echo $form->error($model,'verifyCode'); ?>
         </div>
         <div class="row buttons">
