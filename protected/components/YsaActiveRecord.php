@@ -29,21 +29,15 @@ class YsaActiveRecord extends CActiveRecord
 		return (int)$this->state == self::STATE_ACTIVE;
 	}
 
-	/**
-	 * Set created | updated values for AR
-	 *
-	 * @return bool
-	 */
-	public function beforeValidate() {
-
-		if($this->isNewRecord && $this->hasAttribute('created')) {
-			$this->created = new CDbExpression('NOW()');
-		}
-		if($this->hasAttribute('updated')) {
-			$this->updated = new CDbExpression('NOW()');
-		}
-
-		return parent::beforeValidate();
+	public function behaviors()
+	{
+		return array(
+			'CTimestampBehavior' => array(
+				'class'				=> 'application.behaviors.YsaCTimestampBehavior',
+				'createAttribute'	=> 'created',
+				'updateAttribute'	=> 'updated',
+			)
+		);
 	}
 
 	public function searchOptions()

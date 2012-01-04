@@ -1,6 +1,13 @@
 <?php
 class InboxController extends YsaMemberController
 {
+	public function init()
+	{
+		parent::init();
+		$this->crumb('Settings', array('settings/'))
+			 ->crumb('Inbox');
+	}
+
 	public function actionIndex()
 	{
 		if (isset($_POST['Fields'])) {
