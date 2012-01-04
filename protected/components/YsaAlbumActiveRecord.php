@@ -15,6 +15,8 @@ class YsaAlbumActiveRecord extends YsaActiveRecord
 	
 	protected $_hash;
 	
+	protected $_cover;
+	
 	protected function _createDir()
 	{
 		if (!is_dir($this->_uploadPath)) {

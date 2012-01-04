@@ -97,33 +97,45 @@ class EventAlbum extends YsaAlbumActiveRecord
                     'criteria'=>$criteria,
             ));
     }
-
+	
 	public function previewUrl()
 	{
-		if (null === $this->_previewUrl) {
-			$photo = EventPhoto::model()->find(array(
-				'condition' => 'album_id=:album_id',
-				'params' => array(
-					'album_id' => $this->id,
-				),
-				'order' => 'rank ASC',
-				'limit' => 1,
-			));
-			
-			$w = Yii::app()->params['member_area']['album']['preview']['width'];
-			$h = Yii::app()->params['member_area']['album']['preview']['height'];
-			
-			if ($photo) {
-				$this->_previewUrl = $photo->previewUrl($w, $h);
-			} else {
-				$this->_previewUrl = EventPhoto::model()->defaultPicUrl($w, $h);
-			}
+		$photo = $this->cover();
+		
+		$w = Yii::app()->params['member_area']['album']['preview']['width'];
+		$h = Yii::app()->params['member_area']['album']['preview']['height'];
+
+		if ($photo) {
+			$previewUrl = $photo->previewUrl($w, $h);
+		} else {
+			$previewUrl = EventPhoto::model()->defaultPicUrl($w, $h);
 		}
 		
-		return $this->_previewUrl;
-		
+		return $previewUrl;
 	}
 	
+	public function cover()
+	{
+		if (null === $this->_cover) {
+			
+			$photo = EventPhoto::model()->findByPk($this->cover_id);
+			
+			if (!$photo) {
+				$photo = EventPhoto::model()->find(array(
+					'condition' => 'album_id=:album_id',
+					'params' => array(
+						'album_id' => $this->id,
+					),
+					'order' => 'rank ASC',
+					'limit' => 1,
+				));
+			}
+			$this->_cover = $photo;
+		}
+		
+		return $this->_cover;
+	}
+
 	public function setNextRank()
 	{	
 		$maxRank = (int) Yii::app()->db->createCommand()
@@ -153,7 +165,6 @@ class EventAlbum extends YsaAlbumActiveRecord
 			));
 			
 			if ($sizeEntry) {
-				
 				$s = new EventAlbumSize();
 				$s->setAttributes(array(
 					'size_id'  => $sizeEntry->id,
