@@ -122,9 +122,9 @@ class SettingsController extends YsaMemberController
 				->crumb('SmugMug');
 
 		$this->render('smugmug', array(
-				'entry' => $this->member(),
-				'smug'		=> $smugForm,
-			));
+			'entry' => $this->member(),
+			'smug'		=> $smugForm,
+		));
 	}
 
 	public function actionSmugmugUnlink()
@@ -146,29 +146,19 @@ class SettingsController extends YsaMemberController
 
 		} else {
 			if (isset($_POST['ZenFolioLogin'])) {
-
 				$loginForm->attributes = $_POST['ZenFolioLogin'];
-
 				if ($loginForm->validate()) {
 					try {
 						$this->member()->zenfolio()->login("Username=" . $loginForm->username, "Password=" . $loginForm->password); // "Plaintext=TRUE"
-
-
 						$this->member()->editOption(UserOption::ZENFOLIO_HASH, $this->member()->zenfolio()->getAuthToken());
-
 						$this->setSuccess('ZenFolio was successfully authorized.');
-
 						$this->refresh();
-
 					} catch (Exception $e) {
 						$loginForm->addError('username', 'Invalid credentials. Please try again.');
 					}
-
 				}
-
 			}
 		}
-
 
 		$this->setMemberPageTitle('ZenFolio Authentification');
 
@@ -176,15 +166,54 @@ class SettingsController extends YsaMemberController
 				->crumb('ZenFolio');
 
 		$this->render('zenfolio', array(
-				'zenlogin'	=> $loginForm,
-				'entry'		=> $this->member(),
-			));
+			'zenlogin'	=> $loginForm,
+			'entry'		=> $this->member(),
+		));
 	}
 
 	public function action500px()
 	{
-		$this->render('500px', array(
+		// set oauth token
+		if (isset($_GET['oauth_token']) && isset($_GET['oauth_verifier']) && isset(Yii::app()->session['500pxRequestToken']['oauth_token_secret'])) {
+			$this->member()->five00pxAuthorize(
+				$_GET['oauth_token'],
+				Yii::app()->session['500pxRequestToken']['oauth_token_secret'],
+				$_GET['oauth_verifier']
+			);
+			
+			if (isset(Yii::app()->session['500pxRequestToken'])) {
+				unset(Yii::app()->session['500pxRequestToken']);
+			}
+			
+			$this->setSuccess('Successfully authorized to 500px API.');
+			$this->redirect(array('settings/500px/'));
+		}
+		
+		// check token
+		if (!$this->member()->five00pxAuthorized()) {
+			// set request token
+			if (!isset(Yii::app()->session['500pxRequestToken'])) {
+				$token = $this->member()->five00px()->getRequestToken();
+				Yii::app()->session['500pxRequestToken'] = $token;
+				$this->refresh();
+			}
+		}
+		
+		$this->setMemberPageTitle('500px Authentification');
+		
+		$this->render('500px');
+	}
+	
+	public function action500pxUnlink()
+	{
+		$this->member()->deleteOption(UserOption::FIVE00_HASH);
 
-			));
+		if (isset(Yii::app()->session['500pxRequestToken'])) {
+			unset(Yii::app()->session['500pxRequestToken']);
+		}
+		
+		$this->setSuccess('500px was successfully unlinked.');
+
+		$this->redirect(array('settings/500px/'));
 	}
 }
