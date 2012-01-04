@@ -8,6 +8,8 @@ class Member extends User
 	
 	protected $_smugmug;
 	
+	protected $_five00px;
+	
 	/**
 	 * @var phpZenfolio
 	 */
@@ -132,5 +134,57 @@ class Member extends User
 	public function zenfolioAuthorized()
 	{
 		return $this->option(UserOption::ZENFOLIO_HASH) ? true : false;
+	}
+	
+	/**
+	 *
+	 * @return Five00pxOAuth
+	 */
+	public function five00px()
+	{
+		if (null === $this->_five00px) {
+			
+			if ($this->five00pxAuthorized()) {
+				$hash = $this->option(UserOption::FIVE00_HASH);
+				$this->_five00px = new Five00pxOAuth(
+					Yii::app()->settings->get('500px_consumer_key'),
+					Yii::app()->settings->get('500px_consumer_secret'),
+					$hash['oauth_token'],
+					$hash['oauth_token_secret']
+				);
+			} else {
+				$this->_five00px = new Five00pxOAuth(Yii::app()->settings->get('500px_consumer_key'), Yii::app()->settings->get('500px_consumer_secret'));
+			}
+		}
+		
+		return $this->_five00px;
+	}
+	
+	public function five00pxAuthorized()
+	{
+		return $this->option(UserOption::FIVE00_HASH) ? true : false;
+	}
+	
+	/**
+	 * return book
+	 */
+	public function five00pxAuthorize($token, $secret, $verifier)
+	{
+		$five = new Five00pxOAuth(
+			Yii::app()->settings->get('500px_consumer_key'),
+			Yii::app()->settings->get('500px_consumer_secret'), 
+			$token,
+			$secret
+		);
+
+		$accessToken = $five->getAccessToken($verifier);
+		
+		if (!$accessToken || !isset($accessToken['oauth_token']) || !isset($accessToken['oauth_token_secret'])) {
+			return false;
+		}
+		
+		$this->editOption(UserOption::FIVE00_HASH, $accessToken);
+		
+		return true;
 	}
 }

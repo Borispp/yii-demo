@@ -5,11 +5,11 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 	
 	protected $_album;
 	
-    /**
-     * @return array validation rules for model attributes.
-     */
-    public function rules()
-    {
+	/**
+	 * @return array validation rules for model attributes.
+	 */
+	public function rules()
+	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
@@ -19,9 +19,9 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 			array('extention', 'length', 'max'=>5),
 			array('meta_type', 'length', 'max'=>20),
 			array('alt', 'length', 'max'=>255),
-			array('meta_type, alt, rank, created, updated, exif_data, size, imported_data', 'safe'),
+			array('meta_type, alt, rank, created, updated, exif_data, size, original_size, imported_data', 'safe'),
 		);
-    }
+	}
 	
 	/**
 	 * @return array customized attribute labels (name=>label)
@@ -50,13 +50,13 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 	 * Set next rank for album photo
 	 * @return bool
 	 */
-    public function beforeSave() 
+	public function beforeSave() 
 	{
-        if($this->isNewRecord) {
-            $this->setNextRank();
-        }
-        return parent::beforeValidate();
-    }
+		if($this->isNewRecord) {
+			$this->setNextRank();
+		}
+		return parent::beforeValidate();
+	}
 	
 	/**
 	 * Get EXIF Data information
@@ -80,12 +80,17 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 	 */
 	public function beforeDelete() {
 		parent::beforeDelete();
+		
 		$file = $this->path();
-
 		if (is_file($file)) {
 			unlink($file);
 		}
-		
+				
+		$original_file = $this->originPath();
+		if (is_file($original_file)) {
+			unlink($original_file);
+		}
+				
 		if ($this->album->cover_id == $this->id) {
 			$this->album->changeCover($this->id);
 		}
@@ -153,6 +158,15 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 		return $this->album->albumPath() . DIRECTORY_SEPARATOR .  $this->basename . '.' . $this->extention;
 	}
 	
+	/**
+	 * Original image path
+	 * @return string
+	 */
+	public function originPath()
+	{
+		return $this->album->originPath() . DIRECTORY_SEPARATOR .  $this->basename . '.' . $this->extention;
+	}
+		
 	/**
 	 * Image Full URL
 	 * @return string
@@ -230,18 +244,23 @@ class YsaPhotoActiveRecord extends YsaActiveRecord
 		
 		$this->generateBaseName();
 		
-		$savePath = $this->album->albumPath() . DIRECTORY_SEPARATOR . $this->basename . '.' . $this->extention;
-		
 		$image->quality(100);
+				
+		$original_image = clone $image;
+				
 		$image->resize(
 			Yii::app()->params['member_area']['photo']['full']['width'], 
 			Yii::app()->params['member_area']['photo']['full']['height']
 		);
 		
+		$savePath = $this->path();
 		$image->save($savePath);
-		
 		$this->size = filesize($savePath);
 		
+		$original_save_path = $this->originPath();
+		$original_image->save( $original_save_path );
+		$this->original_size = filesize($original_save_path);
+				
 		if ($save) {
 			$this->save();
 		}

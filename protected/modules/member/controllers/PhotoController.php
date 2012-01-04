@@ -58,17 +58,17 @@ class PhotoController extends YsaMemberController
 			'availability'	=> $availability,
 		));
 	}
-    
+	
 	public function actionDelete($photoId = 0)
 	{
-        $ids = array();
-        if (isset($_POST['ids']) && count($_POST['ids'])) {
-            $ids = $_POST['ids'];
-        } elseif ($photoId) {
-            $ids = array(intval($photoId));
-        }
+		$ids = array();
+		if (isset($_POST['ids']) && count($_POST['ids'])) {
+			$ids = $_POST['ids'];
+		} elseif ($photoId) {
+			$ids = array(intval($photoId));
+		}
 		
-        foreach ($ids as $id) {
+		foreach ($ids as $id) {
 			$photo = EventPhoto::model()->findByPk($id);
 			if ($photo) {
 				$album = $photo->album;
@@ -76,17 +76,17 @@ class PhotoController extends YsaMemberController
 					$photo->delete();
 				}
 			}
-        }
+		}
 		
-        if (Yii::app()->getRequest()->isAjaxRequest) {
-            $this->sendJsonSuccess();
-        } else {
+		if (Yii::app()->getRequest()->isAjaxRequest) {
+			$this->sendJsonSuccess();
+		} else {
 			if (isset($album)) {
 				$this->redirect(array('album/view/' . $album->id));
 			} else {
 				$this->redirect(array('event/'));
 			}
-        }
+		}
 	}
 	
 	public function actionSort($albumId = 0)

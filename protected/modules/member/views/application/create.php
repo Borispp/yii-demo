@@ -1,4 +1,4 @@
-<div class="form">
+<div class="form w">
     <?php $form=$this->beginWidget('YsaMemberForm', array(
             'id'=>'create-app-form',
             'enableAjaxValidation'=>false,

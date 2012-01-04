@@ -19,16 +19,14 @@
 class PortfolioAlbum extends YsaAlbumActiveRecord
 {
 	protected $_portfolio;
-	
-	protected $_cover;
 
-    public function init() {
-        parent::init();
-        
-        $this->_uploadPath = rtrim(Yii::getPathOfAlias('webroot.images.portfolio.albums'), '/');
-        $this->_uploadUrl = Yii::app()->getBaseUrl(true) . '/images/portfolio/albums';
+	public function init() {
+		parent::init();
+		
+		$this->_uploadPath = rtrim(Yii::getPathOfAlias('webroot.images.portfolio.albums'), '/');
+		$this->_uploadUrl = Yii::app()->getBaseUrl(true) . '/images/portfolio/albums';
 		$this->_createDir();
-    }
+	}
 	
 	/**
 	 * Returns the static model of the specified AR class.
