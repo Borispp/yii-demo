@@ -3,28 +3,28 @@ class PortfolioAlbumController extends YsaMemberController
 {
 	public function actionCreate()
 	{
-        $entry = new PortfolioAlbum();
-        
-        if (isset($_POST['PortfolioAlbum'])) {
+		$entry = new PortfolioAlbum();
+		
+		if (isset($_POST['PortfolioAlbum'])) {
 			
-            $entry->attributes = $_POST['PortfolioAlbum'];
+			$entry->attributes = $_POST['PortfolioAlbum'];
 			
 			$entry->portfolio_id = $this->member()->studio->portfolio->id;
 			
-            if ($entry->validate()) {
-                $entry->save();
-                $this->redirect(array('portfolioAlbum/view/' . $entry->id));
-            }
-        }
+			if ($entry->validate()) {
+				$entry->save();
+				$this->redirect(array('portfolioAlbum/view/' . $entry->id));
+			}
+		}
 		
 		$this->crumb('Portfolio', array('portfolio/'))
 			 ->crumb('Create Album');
 		
 		$this->setMemberPageTitle('Create Album');
-        
-        $this->render('create', array(
-            'entry' => $entry,
-        ));
+		
+		$this->render('create', array(
+			'entry' => $entry,
+		));
 	}
 	
 	public function actionEdit($albumId)
@@ -32,16 +32,16 @@ class PortfolioAlbumController extends YsaMemberController
 		$entry = PortfolioAlbum::model()->findByPk($albumId);
 		
 		if (!$entry || !$entry->isOwner()) {
-            $this->redirect(array('portfolio/'));
-        }
+			$this->redirect(array('portfolio/'));
+		}
 		
 		if (isset($_POST['PortfolioAlbum'])) {
-            $entry->attributes = $_POST['PortfolioAlbum'];
+			$entry->attributes = $_POST['PortfolioAlbum'];
 			
-            if ($entry->validate()) {
-                $entry->save();
-                $this->redirect(array('portfolioAlbum/view/' . $entry->id));
-            }
+			if ($entry->validate()) {
+				$entry->save();
+				$this->redirect(array('portfolioAlbum/view/' . $entry->id));
+			}
 		}
 		
 		$this->crumb('Portfolio', array('portfolio/'))
@@ -49,19 +49,19 @@ class PortfolioAlbumController extends YsaMemberController
 		
 		$this->setMemberPageTitle('Edit Album');
 		
-        $this->render('edit', array(
-            'entry' => $entry,
-        ));
+		$this->render('edit', array(
+			'entry' => $entry,
+		));
 	}
 	
 	
-    public function actionView($albumId)
-    {
-        $entry = PortfolioAlbum::model()->findByPk($albumId);
-        
-        if (!$entry || !$entry->isOwner()) {
-            $this->redirect(array('portfolio/'));
-        }
+	public function actionView($albumId)
+	{
+		$entry = PortfolioAlbum::model()->findByPk($albumId);
+		
+		if (!$entry || !$entry->isOwner()) {
+			$this->redirect(array('portfolio/'));
+		}
 		
 		$upload = new PhotoUploadForm();
 		
@@ -77,7 +77,7 @@ class PortfolioAlbumController extends YsaMemberController
 				$this->refresh();
 			}
 		}
-        
+		
 		$this->loadSwfUploader();
 		
 		$this->crumb('Portfolio', array('portfolio/'))
@@ -85,33 +85,33 @@ class PortfolioAlbumController extends YsaMemberController
 		
 		$this->setMemberPageTitle($entry->name);
 		
-        $this->render('view', array(
-            'entry'   => $entry,
+		$this->render('view', array(
+			'entry'   => $entry,
 			'upload'  => $upload, 
-        ));
-    }
+		));
+	}
 	
 	public function actionDelete($albumId = 0)
 	{
-        $ids = array();
-        if (isset($_POST['ids']) && count($_POST['ids'])) {
-            $ids = $_POST['ids'];
-        } elseif ($albumId) {
-            $ids = array(intval($albumId));
-        }
+		$ids = array();
+		if (isset($_POST['ids']) && count($_POST['ids'])) {
+			$ids = $_POST['ids'];
+		} elseif ($albumId) {
+			$ids = array(intval($albumId));
+		}
 		
-        foreach ($ids as $id) {
+		foreach ($ids as $id) {
 			$entry = PortfolioAlbum::model()->findByPk($id);
 			if ($entry && $entry->isOwner()) {
 				$entry->delete();	
 			}
-        }
-        
-        if (Yii::app()->getRequest()->isAjaxRequest) {
-            $this->sendJsonSuccess();
-        } else {
+		}
+		
+		if (Yii::app()->getRequest()->isAjaxRequest) {
+			$this->sendJsonSuccess();
+		} else {
 			$this->redirect(array('portfolio/'));
-        }
+		}
 	}
 	
 	public function actionSort($albumId = 0)
