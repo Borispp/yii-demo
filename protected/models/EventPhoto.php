@@ -18,59 +18,60 @@
  * @property string $exif_data
  * @property integer $can_share
  * @property integer $can_order
- * @property string $size
+ * @property integer $size
+ * @property integer $original_size
  * @property integer $imported
  * @property string $imported_data
  */
 class EventPhoto extends YsaPhotoActiveRecord
 {
 	protected $_comments;
-    
-    /**
-     * Returns the static model of the specified AR class.
-     * @return EventPhoto the static model class
-     */
-    public static function model($className=__CLASS__)
-    {
-        return parent::model($className);
-    }
+	
+	/**
+	 * Returns the static model of the specified AR class.
+	 * @return EventPhoto the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
 
-    /**
-     * @return string the associated database table name
-     */
-    public function tableName()
-    {
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
+	{
 		return 'event_photo';
-    }
+	}
 
-    /**
-     * @return array relational rules.
-     */
-    public function relations()
-    {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return array(
-            'album'		=> array(self::BELONGS_TO, 'EventAlbum', 'album_id'),
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
+		return array(
+			'album'		=> array(self::BELONGS_TO, 'EventAlbum', 'album_id'),
 			'sizes'		=> array(self::MANY_MANY, 'PhotoSize', 'event_photo_size(photo_id, size_id)'),
 			'comments'	=> array(self::HAS_MANY, 'EventPhotoComment', 'photo_id', 'order' => 'created DESC'),
 			'rates'		=> array(self::HAS_MANY, 'EventPhotoRate', 'photo_id'),
 			'rating'	=> array(self::STAT, 'EventPhotoRate', 'photo_id', 'select' =>'ROUND(AVG(rate), 2)', 'group' => 'photo_id'),
-        );
-    }
+		);
+	}
 
 	/**
 	 *
 	 * @return Album
 	 */
-//    public function album()
-//    {
-//        if (null === $this->_album) {
-//            $this->_album = EventAlbum::model()->findByPk($this->album_id);
-//        }
+//	public function album()
+//	{
+//		if (null === $this->_album) {
+//			$this->_album = EventAlbum::model()->findByPk($this->album_id);
+//		}
 //
-//        return $this->_album;
-//    }
+//		return $this->_album;
+//	}
 	
 //	public function comments()
 //	{
@@ -182,18 +183,23 @@ class EventPhoto extends YsaPhotoActiveRecord
 		}
 		
 		$this->generateBaseName();
-		
-		$savePath = $this->album->albumPath() . DIRECTORY_SEPARATOR . $this->basename . '.' . $this->extention;
-		
+
 		$image->quality(100);
+		
+		$original_image = clone $image;
+		
 		$image->resize(
 			Yii::app()->params['member_area']['photo']['full']['width'], 
 			Yii::app()->params['member_area']['photo']['full']['height']
 		);
-		
+                
+		$savePath = $this->path();
 		$image->save($savePath);
-		
 		$this->size = filesize($savePath);
+		
+		$original_save_path = $this->originPath();
+		$original_image->save( $original_save_path );
+		$this->original_size = filesize($original_save_path);
 	}
 	
 	public function shareUrl()

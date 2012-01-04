@@ -133,6 +133,39 @@ class UserOrder extends YsaActiveRecord
 			));
 	}
 
+
+	public function searchCriteria()
+	{
+		$criteria = new CDbCriteria();
+		$criteria->compare('user_id', Member::model()->findByPk(Yii::app()->user->getId())->id);
+		$fields = Yii::app()->session[self::SEARCH_SESSION_NAME];
+		if (null === $fields) {
+			return $criteria;
+		}
+		extract($fields);
+		// search by keyword
+//		if (isset($keyword) && $keyword) {
+//			$criteria->compare('message', $keyword, true, 'AND');
+//		}
+
+		// search by state
+//		if (isset($unread) && $unread != '') {
+//			$criteria->compare('unread', $unread);
+//		}
+		// sort entries
+		if (isset($order_by) && isset($order_sort)) {
+			if (!in_array($fields['order_by'], array_keys($this->attributes))) {
+				$order_by = 'id';
+			}
+
+			if (!in_array($order_sort, array('ASC', 'DESC'))) {
+				$order_sort = 'DESC';
+			}
+			$criteria->order = $order_by . ' ' . $order_sort;
+		}
+		return $criteria;
+	}
+
 	public function addPhoto(EventPhoto $obPhoto, $quantity, $size, $style = NULL)
 	{
 		$obOrderPhoto = new UserOrderPhoto();
@@ -156,41 +189,41 @@ class UserOrder extends YsaActiveRecord
 	<h1>Order #<?php echo $this->id?></h1>
 	<table border="1">
 		<tr>
-			<th>Client Name</th>
-			<td><?php echo $this->last_name?></td>
+			<th nowrap="nowrap">Client Name</th>
+			<td nowrap="nowrap"><?php echo $this->last_name?></td>
 		</tr>
 		<tr>
-			<th>Client Email</th>
-			<td><?php echo $this->email?></td>
+			<th  nowrap="nowrap">Client Email</th>
+			<td nowrap="nowrap"><?php echo $this->email?></td>
 		</tr>
 		<tr>
-			<th>Order date</th>
-			<td><?php echo $this->created?></td>
+			<th nowrap="nowrap">Order date</th>
+			<td nowrap="nowrap"><?php echo $this->created?></td>
 		</tr>
 	</table>
 	<h2>List of ordered photos</h2>
-	<table>
-		<tr>
-			<th>Event Name (ID)</th>
-			<th>Album Name (ID)</th>
-			<th>Photo name (ID)</th>
-			<th>Quantity</th>
-			<th>Size</th>
-			<th>Style</th>
-		</tr>
-	<?php
-		foreach($this->photos as $obUserOrderPhoto)
-		{
-			?><tr>
-				<th><?php echo $obUserOrderPhoto->photo->album->event->name?> (<?php echo $obUserOrderPhoto->photo->album->event->id?>)</th>
-				<th><?php echo $obUserOrderPhoto->photo->album->name?> (<?php echo $obUserOrderPhoto->photo->album->id?>)</th>
-				<th><?php echo $obUserOrderPhoto->photo->name?> (<?php echo $obUserOrderPhoto->photo->id?>)</th>
-				<th><?php echo $obUserOrderPhoto->quantity?></th>
-				<th><?php echo $obUserOrderPhoto->style?></th>
-				<th><?php echo $obUserOrderPhoto->size?></th>
+		<table>
+			<tr>
+				<th nowrap="nowrap">Event Name (ID)</th>
+				<th nowrap="nowrap">Album Name (ID)</th>
+				<th nowrap="nowrap">Photo name (ID)</th>
+				<th nowrap="nowrap">Quantity</th>
+				<th nowrap="nowrap">Size</th>
+				<th nowrap="nowrap">Style</th>
 			</tr>
 		<?php
-		}
+				foreach($this->photos as $obUserOrderPhoto)
+	{
+		?><tr>
+		<th nowrap="nowrap"><?php echo $obUserOrderPhoto->photo->album->event->name?> (<?php echo $obUserOrderPhoto->photo->album->event->id?>)</th>
+		<th nowrap="nowrap"><?php echo $obUserOrderPhoto->photo->album->name?> (<?php echo $obUserOrderPhoto->photo->album->id?>)</th>
+		<th nowrap="nowrap"><?php echo $obUserOrderPhoto->photo->name?> (<?php echo $obUserOrderPhoto->photo->id?>)</th>
+		<th nowrap="nowrap"><?php echo $obUserOrderPhoto->quantity?></th>
+		<th nowrap="nowrap"><?php echo $obUserOrderPhoto->style?></th>
+		<th nowrap="nowrap"><?php echo $obUserOrderPhoto->size?></th>
+	</tr>
+	<?php
+ 		}
 		echo '</table>';
 		$template = ob_get_clean();
 		$pdf = Yii::createComponent('application.extensions.tcpdf.ETcPdf',
@@ -204,6 +237,29 @@ class UserOrder extends YsaActiveRecord
 		$pdf->AliasNbPages();
 		$pdf->AddPage();
 		$pdf->writeHTML($template, true);
-		return $pdf->Output(rtrim(Yii::getPathOfAlias('webroot.resources.pdf'), '/').'/order'.$this->id.'.pdf', $outputType);
+		return $pdf->Output($this->_getPdfPath(), $outputType);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function _getPdfPath()
+	{
+		return rtrim(Yii::getPathOfAlias('webroot.resources.pdf'), '/').'/order'.$this->id.'.pdf';
+	}
+
+	/**
+	 * Generates PDF-file and return file path
+	 * @return string
+	 */
+	public function getPdfPath()
+	{
+		$this->generatePdf('F');
+		return $this->_getPdfPath();
+	}
+
+	public function getPdfUrl()
+	{
+		return YsaHelpers::path2Url($this->getPdfPath());
 	}
 }

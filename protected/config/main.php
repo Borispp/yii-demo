@@ -15,6 +15,8 @@ return array(
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
+		'application.behaviors.*',
+		'zii.behaviors.*',
 		'application.components.*',
 		'application.helpers.*',
 		'application.widgets.*',
@@ -77,6 +79,7 @@ return array(
 
 				// member routes
 				'/member/event/<action:\w+>/<eventId>' => 'member/event/<action>',
+				'/member/notification/<action:\w+>/<notificationId>' => 'member/notification/<action>',
 				'/member/inbox/<action:\w+>/<messageId>' => 'member/inbox/<action>',
 				'/member/album/<action:\w+>/<albumId>' => 'member/album/<action>',
 				'/member/photo/<action:\w+>/<photoId>' => 'member/photo/<action>',

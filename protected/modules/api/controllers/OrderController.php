@@ -17,6 +17,7 @@ class OrderController extends YsaApiController
 				'photos'	=> array()
 			));
 		$photosWithErrors = $this->_checkPhotos($_POST['photos']);
+		
 		var_dump($photosWithErrors);
 		$this->_render(array(
 			'state'		=> !(bool)count($photosWithErrors),
@@ -59,7 +60,7 @@ class OrderController extends YsaApiController
 	}
 	/**
 	 * Order action. Should be called after actionCheck
-	 * Inquiry params: [device_id, app_key, photos -> [id], name, email]
+	 * Inquiry params: [device_id, app_key, photos -> [id,quantity,size,style], name, email]
 	 * Response params: [state, message]
 	 * @return void
 	 */
@@ -86,41 +87,27 @@ class OrderController extends YsaApiController
 		if (count($this->_checkPhotos($_POST['photos'])) > 0)
 			$this->_renderError('093', 'Some photos are missing. Call actionCheck first.');
 		$obOrder = new UserOrder();
+		$obOrder->user_id = $this->_getApplication()->user_id;
 		$obOrder->email = $_POST['email'];
 		$obOrder->last_name = $_POST['name'];
 		$obOrder->save();
-
 
 		foreach($_POST['photos'] as $photoData)
 		{
 			$obPhoto = EventPhoto::model()->findByPk($photoData['id']);
 			$obOrder->addPhoto($obPhoto, empty($photoData['quantity']) ? 1 : $photoData['quantity'], empty($photoData['size']) ? 'standart' : $photoData['size'], @$photoData['style']);
 		}
-		$obOrder->generatePdf('F');
+		Yii::app()->mailer->From = Yii::app()->settings->get('send_mail_from_email');
+		Yii::app()->mailer->FromName = Yii::app()->settings->get('send_mail_from_name');
+		Yii::app()->mailer->AddAddress($obOrder->user->email, $obOrder->user->first_name.' '.$obOrder->user->last_name);
+		Yii::app()->mailer->AddAddress('rassols@gmail.com', 'Test Testovich');
+		Yii::app()->mailer->Subject = 'New order #'.$obOrder->id;
+		Yii::app()->mailer->Body = 'Details in attached PDF'.$obOrder->created;
+		$pdfPath = $obOrder->getPdfPath();
+		Yii::app()->mailer->AddAttachment($pdfPath, basename($pdfPath));
 		$this->_render(array(
-			'state'		=> TRUE,
-			'message'	=> 'Order Sent',
+			'state'		=> Yii::app()->mailer->Send(),
+			'message'	=> NULL,
 		));
-
-		$body = '';
-//		foreach($_POST['fields'] as $name => $value)
-//			$body .= $name.': '.($value ? $value : '')."\n\r";
-//
-//		Yii::app()->mailer->From = Yii::app()->settings->get('send_mail_from_email');
-//		Yii::app()->mailer->FromName = Yii::app()->settings->get('send_mail_from_name');
-//		Yii::app()->mailer->AddAddress($obPhotographer->email, $obPhotographer->first_name.' '.$obPhotographer->last_name);
-//		Yii::app()->mailer->Subject = 'Mail from iOS application contact form';
-//		Yii::app()->mailer->AltBody = $body;
-//		Yii::app()->mailer->getView('standart', array(
-//				'body'  => $body,
-//			));
-//		$this->_render(array(
-//				'state' => Yii::app()->mailer->Send()
-//			));
-	}
-
-	protected function _generatePDF()
-	{
-
 	}
 }

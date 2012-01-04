@@ -1,6 +1,15 @@
 <?php
 class InboxController extends YsaMemberController
 {
+	public function init()
+	{
+		parent::init();
+		$this->crumb('Settings', array('settings/'))
+			 ->crumb('Inbox');
+		
+		$this->setMemberPageTitle('Inbox');
+	}
+
 	public function actionIndex()
 	{
 		if (isset($_POST['Fields'])) {
@@ -20,10 +29,10 @@ class InboxController extends YsaMemberController
 		$entries = StudioMessage::model()->findAll($criteria);
 
 		$this->render('index',array(
-				'entries'       => $entries,
-				'pagination'    => $pagination,
-				'searchOptions' => StudioMessage::model()->searchOptions(),
-			));
+			'entries'       => $entries,
+			'pagination'    => $pagination,
+			'searchOptions' => StudioMessage::model()->searchOptions(),
+		));
 	}
 
 	public function actionView($messageId)

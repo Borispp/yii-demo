@@ -190,4 +190,10 @@ class YsaHelpers
 		$r = hexdec($r); $g = hexdec($g); $b = hexdec($b);
 		return array($r, $g, $b);
 	}
+
+	public static function path2Url($path)
+	{
+		return str_ireplace(rtrim(Yii::getPathOfAlias('webroot'), '/'), '', $path);
+	}
+
 }

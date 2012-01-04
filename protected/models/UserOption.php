@@ -26,6 +26,13 @@ class UserOption extends YsaOptionActiveRecord
 	
 	const ZENFOLIO_HASH = 'zenf_hash';
 	
+	const FIVE00_API = '500px_api';
+	
+	const FIVE00_SECRET = '500px_secret';
+	
+	const FIVE00_HASH = '500px_hash';
+	
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return UserOption the static model class
