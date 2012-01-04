@@ -1,4 +1,3 @@
-<?php echo YsaHtml::pageHeaderTitle('Inbox'); ?>
 <section class="body w" id="inbox-block">
 <?php if (count($entries)):?>
 <?php $this->widget('YsaSearchBar', array(

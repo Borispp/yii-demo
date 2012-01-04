@@ -23,38 +23,46 @@
  */
 class EventAlbum extends YsaAlbumActiveRecord
 {
-    const PROOFING_NAME = 'Proofing Album';
+	const PROOFING_NAME = 'Proofing Album';
 	
-    public function init() {
-        parent::init();
+	/**
+	 * Path where stores original images
+	 *
+	 * @var type string
+	 */
+	protected $_originUploadPath;
         
-        $this->_uploadPath = rtrim(Yii::getPathOfAlias('webroot.images.albums'), '/');
-        $this->_uploadUrl = Yii::app()->getBaseUrl(true) . '/images/albums';
+	public function init() {
+		parent::init();
+		
+		$this->_uploadPath = rtrim(Yii::getPathOfAlias('webroot.images.albums'), '/');
+                $this->_originUploadPath = rtrim(Yii::getPathOfAlias('webroot.images.original.albums'), '/');
+		$this->_uploadUrl = Yii::app()->getBaseUrl(true) . '/images/albums';
 		$this->_createDir();
-    }
+	}
 	
-    /**
-     * Returns the static model of the specified AR class.
-     * @return EventAlbum the static model class
-     */
-    public static function model($className=__CLASS__)
-    {
-        return parent::model($className);
-    }
+	/**
+	 * Returns the static model of the specified AR class.
+	 * @return EventAlbum the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
 
-    /**
-     * @return string the associated database table name
-     */
-    public function tableName()
-    {
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
+	{
 		return 'event_album';
-    }
+	}
 
-    /**
-     * @return array validation rules for model attributes.
-     */
-    public function rules()
-    {
+	/**
+	 * @return array validation rules for model attributes.
+	 */
+	public function rules()
+	{
 		return array(
 			array('event_id, rank, state, can_share, can_order', 'numerical', 'integerOnly'=>true),
 			array('name, place', 'length', 'max'=>255),
@@ -64,40 +72,40 @@ class EventAlbum extends YsaAlbumActiveRecord
 			// Please remove those attributes that should not be searched.
 			array('id, event_id, name, state, created', 'safe', 'on'=>'search'),
 		);
-    }
+	}
 
-    /**
-     * @return array relational rules.
-     */
-    public function relations()
-    {
-        return array(
-            'event'		=> array(self::BELONGS_TO, 'Event', 'event_id'),
-            'photos'	=> array(self::HAS_MANY, 'EventPhoto', 'album_id', 'order' => 'rank ASC'),
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		return array(
+			'event'		=> array(self::BELONGS_TO, 'Event', 'event_id'),
+			'photos'	=> array(self::HAS_MANY, 'EventPhoto', 'album_id', 'order' => 'rank ASC'),
 			'sizes'		=> array(self::MANY_MANY, 'PhotoSize', 'event_album_size(album_id, size_id)'),
-        );
-    }
+		);
+	}
 
-    /**
-     * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-     */
-    public function search()
-    {
-            $criteria=new CDbCriteria;
+	/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 */
+	public function search()
+	{
+		$criteria=new CDbCriteria;
 
-            $criteria->compare('id',$this->id,true);
-            $criteria->compare('event_id',$this->event_id);
-            $criteria->compare('name',$this->name,true);
-            $criteria->compare('rank',$this->rank);
-            $criteria->compare('state',$this->state);
-            $criteria->compare('created',$this->created,true);
+		$criteria->compare('id',$this->id,true);
+		$criteria->compare('event_id',$this->event_id);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('rank',$this->rank);
+		$criteria->compare('state',$this->state);
+		$criteria->compare('created',$this->created,true);
 
-            return new CActiveDataProvider($this, array(
-                    'criteria'=>$criteria,
-            ));
-    }
-	
+		return new CActiveDataProvider($this, array(
+				'criteria'=>$criteria,
+		));
+	}
+
 	public function previewUrl()
 	{
 		$photo = $this->cover();
@@ -196,5 +204,21 @@ class EventAlbum extends YsaAlbumActiveRecord
 		}
 		
 		return $this;
+	}
+        
+	/**
+	 * Path where original images stores
+	 * 
+	 * @return string 
+	 */
+	public function originPath()
+	{
+		$directory =  $this->_originUploadPath . DIRECTORY_SEPARATOR . $this->encryptedId();
+                
+                if (!is_dir($directory)) {
+			mkdir($directory, 0777, true);
+		}
+                
+                return $directory;
 	}
 }

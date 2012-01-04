@@ -1,9 +1,9 @@
 <?php
 class YsaAlbumActiveRecord extends YsaActiveRecord
 {
-    protected $_uploadPath;
-    
-    protected $_uploadUrl;
+	protected $_uploadPath;
+	
+	protected $_uploadUrl;
 	
 	protected $_preview;
 	
@@ -26,8 +26,8 @@ class YsaAlbumActiveRecord extends YsaActiveRecord
 		return $this;
 	}
 	
-    public function attributeLabels()
-    {
+	public function attributeLabels()
+	{
 		return array(
 			'id' => 'ID',
 			'event_id' => 'Event',
@@ -43,7 +43,7 @@ class YsaAlbumActiveRecord extends YsaActiveRecord
 			'can_order' => 'Available for order',
 			'can_share'	=> 'Available for share',
 		);
-    }
+	}
 	
 	/**
 	 * Delete all photos with album
@@ -63,13 +63,13 @@ class YsaAlbumActiveRecord extends YsaActiveRecord
 	 * Set next rank for event album
 	 * @return bool
 	 */
-    public function beforeSave() 
+	public function beforeSave() 
 	{
-        if($this->isNewRecord) {
-            $this->setNextRank();
-        }
-        return parent::beforeValidate();
-    }
+		if($this->isNewRecord) {
+			$this->setNextRank();
+		}
+		return parent::beforeValidate();
+	}
 	
 	public function albumUrl()
 	{
@@ -86,7 +86,7 @@ class YsaAlbumActiveRecord extends YsaActiveRecord
 		
 		return $folder;
 	}
-	
+		
 	public function canShare()
 	{
 		return $this->can_share;

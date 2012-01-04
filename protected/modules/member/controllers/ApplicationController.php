@@ -74,4 +74,19 @@ class ApplicationController extends YsaMemberController
             'app' => $app,
         ));
     }
+	
+	public function actionSettings()
+	{
+        $app = $this->member()->application;
+        
+        if (!$app) {
+            $this->redirect(array('application/create'));
+        }
+		
+		$this->setMemberPageTitle('Application Settings');
+		
+        $this->render('settings', array(
+            'app' => $app,
+        ));
+	}
 }
