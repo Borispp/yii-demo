@@ -8,6 +8,9 @@
  * @property integer $app_id
  * @property string $token
  * @property integer $state
+ *
+ * @property Application $application
+ * @property Event $event
  */
 class EventAuth extends YsaActiveRecord
 {
