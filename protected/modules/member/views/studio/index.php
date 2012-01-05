@@ -1,26 +1,16 @@
-<section id="studio">
-	<div class="w">
+<section id="studio" class="w">
 		<h3>General Information</h3>
 		<?php $this->renderPartial('_form', array(
 			'entry' => $entry,
 		)); ?>
 		
-		<h3>Specials</h3>
-		
 		<div id="studio-specials">
-		<?php if ($entry->specials) : ?>
-			
-			<?php echo YsaHtml::link($entry->specials(), $entry->specialsUrl()); ?>
-			<?php echo YsaHtml::link('delete', array('deleteSpecials')); ?>
-			
-		<?php else: ?>
-			<?php $this->renderPartial('_specialsForm', array(
-				'entry' => $specials,
+			<h3>Specials</h3>
+			<?php $this->renderPartial($entry->specials ? '_specialsPhoto' : '_specialsUpload', array(
+				'entry' => $entry,
 			)); ?>
-		<?php endif; ?>
 		</div>
 
-		
 		<h3>Photographer Information</h3>
 		
 		<div id="studio-photographer-info">
@@ -56,5 +46,4 @@
 				'entry' => $splash,
 			)); ?>
 		</div>
-	</div>
 </section>

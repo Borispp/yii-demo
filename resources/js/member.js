@@ -206,28 +206,6 @@ $(function(){
 	
 	
 	
-	
-	
-	
-	$.fn.initStudioPage = function()
-	{
-		$(this).each(function(){
-			
-		});
-	}
-	
-	$('#studio').initStudioPage();
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	$.fn.initPortfolioAlbumPage = function()
 	{
 		$(this).each(function(){

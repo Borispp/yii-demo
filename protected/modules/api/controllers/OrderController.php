@@ -102,9 +102,9 @@ class OrderController extends YsaApiController
 		Yii::app()->mailer->AddAddress($obOrder->user->email, $obOrder->user->first_name.' '.$obOrder->user->last_name);
 		Yii::app()->mailer->AddAddress('rassols@gmail.com', 'Test Testovich');
 		Yii::app()->mailer->Subject = 'New order #'.$obOrder->id;
-		Yii::app()->mailer->Body = 'Details in attached PDF'.$obOrder->created;
-		$pdfPath = $obOrder->getPdfPath();
-		Yii::app()->mailer->AddAttachment($pdfPath, basename($pdfPath));
+		Yii::app()->mailer->Body = 'View PDF here: '.$this->createAbsoluteUrl('/member/order/showpdf', array('id' => $obOrder->id));
+//		$pdfPath = $obOrder->getPdfPath();
+//		Yii::app()->mailer->AddAttachment($pdfPath, basename($pdfPath));
 		$this->_render(array(
 			'state'		=> Yii::app()->mailer->Send(),
 			'message'	=> NULL,

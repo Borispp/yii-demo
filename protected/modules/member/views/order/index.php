@@ -20,7 +20,7 @@
 				<?php echo $entry->email?>
 			</td>
 			<td><?php echo date('m.d.Y H:i', strtotime($entry->created)) ?></td>
-			<td><?php echo CHtml::link('PDF', $entry->getPdfUrl(), array('target' => '_blank')); ?></td>
+			<td><?php echo CHtml::link('PDF', array('showpdf', 'id' => $entry->id), array('target' => '_blank')); ?></td>
 		</tr>
 			<?php endforeach; ?>
 		</tbody>

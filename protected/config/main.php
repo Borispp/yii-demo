@@ -272,6 +272,10 @@ return array(
 					'label'		=> 'Splash Background Type'
 				)
 			),
+			'styles' => array(
+				'dark'	=> 'Dark',
+				'light' => 'Light',
+			),
 			'colors'	=> array(
 				'studio_bg'	=> array(
 					'values'	=> array(
