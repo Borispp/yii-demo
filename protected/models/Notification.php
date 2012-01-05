@@ -38,8 +38,10 @@ class Notification extends YsaActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('message', 'numerical', 'integerOnly'=>true),
-			array('title', 'length', 'max'=>500),
+			array('id', 'numerical', 'integerOnly'=>true),
+			array('title, message', 'required'),
+			array('title', 'length', 'max'=>100),
+			array('message', 'length', 'max'=>500),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, title, message', 'safe', 'on'=>'search'),
@@ -54,7 +56,7 @@ class Notification extends YsaActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'notification_user' => array(self::BELONGS_TO, 'NotificationUser', 'id'),
+			'notification_user' => array(self::HAS_MANY, 'NotificationUser', 'notification_id'),
 		);
 	}
 
@@ -86,7 +88,53 @@ class Notification extends YsaActiveRecord
 		$criteria->compare('message',$this->message);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+				'criteria'=>$criteria,
+			));
+	}
+
+	/**
+	 * Return all notifications to member
+	 * @param Member $obMember
+	 * @return NotificationUser
+	 */
+	public function getMemberNotifications(Member $obMember)
+	{
+		return $this->with(array(
+				'notification_user'=>array(
+					// we don't want to select posts
+					'select'=>false,
+					// but want to get only users with published posts
+					'joinType'=>'INNER JOIN',
+					'condition'=>'notification_user.read=0 and notification_user.user_id=:user_id',
+					'params'	=> array(
+						':user_id' => $obMember->id
+					)
+				)
+			))->findAll();
+	}
+
+	/**
+	 * Set state read = 1 to member-specific userNotification or to all userNotifications
+	 * @param Member|null $obMember
+	 * @return void
+	 */
+	public function read(Member $obMember = NULL)
+	{
+		if (is_null($obMember))
+		{
+			foreach($this->notification_user as $obNotificationUser)
+			{
+				$obNotificationUser->read = 1;
+				$obNotificationUser->save();
+			}
+			return;
+		}
+		$obNotificationUser = NotificationUser::model()->findByAttributes(array(
+			'read'				=> 0,
+			'notification_id'	=> $this->id,
+			'user_id'			=> $obMember->id,
 		));
+		$obNotificationUser->read = 1;
+		$obNotificationUser->save();
 	}
 }
