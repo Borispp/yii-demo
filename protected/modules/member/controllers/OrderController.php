@@ -20,4 +20,9 @@ class OrderController extends YsaMemberController
 				'pagination'    => $pagination
 			));
 	}
+
+	public function actionShowPdf($id)
+	{
+		UserOrder::model()->findByPk($id)->generatePdf();die;
+	}
 }
