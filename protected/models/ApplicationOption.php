@@ -22,7 +22,7 @@ class ApplicationOption extends YsaActiveRecord
     {
         return parent::model($className);
     }
-
+	
     public function tableName()
     {
         return 'application_option';
@@ -66,8 +66,31 @@ class ApplicationOption extends YsaActiveRecord
         );
     }
     
+	/**
+	 * Get unserialized option value
+	 * @return mixed
+	 */
     public function value()
     {
         return YsaHelpers::isSerialized($this->value) ? unserialize($this->value) : $this->value;
     }
+	
+	/**
+	 * Remove image if exists
+	 * 
+	 * @return bool
+	 */
+	public function beforeDelete() {
+		parent::beforeDelete();
+		
+		$value = $this->value();
+		
+		if (isset($value['path'])) {
+			if (is_file($value['path'])) {
+				unlink($value['path']);
+			}
+		}
+		
+		return true;
+	}
 }

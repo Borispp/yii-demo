@@ -10,6 +10,11 @@ class YsaController extends CController
 	protected $_metaDescription;
 
 	protected $_metaKeywords;
+	
+	/**
+	 * @var CClientScript
+	 */
+	protected $_cs;
 
 	public function init() {
 		parent::init();
@@ -21,6 +26,8 @@ class YsaController extends CController
 				}
 			}
 		}
+		
+		$this->_cs = Yii::app()->getClientScript();
 	}
 	
 	public function setSuccess($message)
@@ -205,8 +212,7 @@ class YsaController extends CController
 //				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/swfobject.js', CClientScript::POS_HEAD)
 //				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/settings.js', CClientScript::POS_HEAD);
 		
-		Yii::app()->getClientScript()
-				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plupload/plupload.full.js', CClientScript::POS_HEAD);
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plupload/plupload.full.js', CClientScript::POS_HEAD);
 //				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/swfobject.js', CClientScript::POS_HEAD)
 //				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/swfupload/settings.js', CClientScript::POS_HEAD);
 	}
@@ -223,28 +229,26 @@ class YsaController extends CController
 		if (!$this->isAdminPanel()) {
 			$this->setMetaTitle(Yii::app()->settings->get('site_title'));
 
-			$clientScript = Yii::app()->getClientScript();
-
-			$clientScript->registerCoreScript('jquery')
-						->registerMetaTag($this->getMetaDescription(), 'description')
-						->registerMetaTag($this->getMetaKeywords(), 'keywords')
-						->registerScriptFile(Yii::app()->baseUrl . '/resources/js/modernizr-2.0.6.js', CClientScript::POS_HEAD)
-						->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins.js', CClientScript::POS_HEAD)
-						->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD)
-						->registerCssFile(Yii::app()->baseUrl . '/resources/css/style.css');
+			$this->_cs->registerCoreScript('jquery')
+					->registerMetaTag($this->getMetaDescription(), 'description')
+					->registerMetaTag($this->getMetaKeywords(), 'keywords')
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/modernizr-2.0.6.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD)
+					->registerCssFile(Yii::app()->baseUrl . '/resources/css/style.css');
 
 		}
 		
 		if ($this->isWebsite()) {
-			$clientScript->registerScriptFile(Yii::app()->baseUrl . '/resources/js/front.js', CClientScript::POS_HEAD)
-						->registerCssFile(Yii::app()->baseUrl . '/resources/css/front.css');
+			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/front.js', CClientScript::POS_HEAD)
+					->registerCssFile(Yii::app()->baseUrl . '/resources/css/front.css');
 			
 		} elseif ($this->isMemberPanel()) {
 			
-			$clientScript->registerScriptFile(Yii::app()->baseUrl . '/resources/js/jquery-ui.min.js', CClientScript::POS_HEAD)
-						->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member.js', CClientScript::POS_HEAD)
-						->registerCssFile(Yii::app()->baseUrl . '/resources/css/ui/jquery-ui.css')
-						->registerCssFile(Yii::app()->baseUrl . '/resources/css/member.css');
+			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/jquery-ui.min.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member.js', CClientScript::POS_HEAD)
+					->registerCssFile(Yii::app()->baseUrl . '/resources/css/ui/jquery-ui.css')
+					->registerCssFile(Yii::app()->baseUrl . '/resources/css/member.css');
 		}
         
         return true;

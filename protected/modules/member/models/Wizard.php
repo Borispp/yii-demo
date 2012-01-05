@@ -58,7 +58,7 @@ abstract class Wizard extends YsaFormModel
      * Save options on current wizard step
      */
     public function save()
-    {
+    {	
         foreach ($this->saveFields() as $value) {
             if ($this->$value) {
                 $this->_application->editOption($value, $this->$value);
@@ -101,6 +101,11 @@ abstract class Wizard extends YsaFormModel
 		return Yii::app()->params['studio_options']['fonts']['main_font']['values']+
 				Yii::app()->params['studio_options']['fonts']['second_font']['values'];
     }
+	
+	public function getStylesList()
+	{
+		return Yii::app()->params['studio_options']['styles'];
+	}
 
 	public function attributeLabels()
 	{
@@ -109,5 +114,12 @@ abstract class Wizard extends YsaFormModel
 		foreach(Yii::app()->params['studio_options'][$section] as $property => $params)
 			$result[$property] = $params['label'];
 		return $result;
+	}
+	
+	public function validatorStyle($attribute)
+	{
+		if (!in_array($this->$attribute, array('dark'))) {
+			$this->addError($attribute, 'Invalid style format');
+		} 
 	}
 }

@@ -1,3 +1,4 @@
+<div id="app-wizard" class="w">
 <?php echo $event->sender->menu->run(); ?>
 <?php $form = $this->beginWidget('YsaMemberForm', array(
     'id'=>'submit-step-form',
@@ -9,3 +10,4 @@
     <?php echo YsaHtml::submitButton('Finish');?>
 </section>
 <?php $this->endWidget(); ?>
+</div>
