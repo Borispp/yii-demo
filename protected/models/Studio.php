@@ -16,12 +16,6 @@
  */
 class Studio extends YsaActiveRecord
 {
-	protected $_links;
-	
-	protected $_portfolio;
-	
-	protected $_persons;
-
 	protected $_uploadPath;
 	
 	protected $_uploadUrl;
@@ -70,7 +64,6 @@ class Studio extends YsaActiveRecord
 	{
 		return array(
 			'user'		=> array(self::BELONGS_TO, 'User', 'user_id'),
-			'portfolio'	=> array(self::HAS_ONE, 'Portfolio', 'studio_id'),
 			'links'		=> array(self::HAS_MANY, 'StudioLink', 'studio_id'),
 			'persons'	=> array(self::HAS_MANY, 'StudioPerson', 'studio_id'),
 		);
@@ -94,34 +87,6 @@ class Studio extends YsaActiveRecord
 			
 		);
 	}
-	
-//	public function links()
-//	{
-//		if (null === $this->_links) {
-//			$this->_links = StudioLink::model()->findAll(array(
-//				'condition' => 'studio_id=:studio_id',
-//				'params'	=> array(
-//					'studio_id' => $this->id,
-//				),
-//				'order' => 'rank ASC',
-//			));
-//		}
-//		return $this->_links;
-//	}
-//
-//	public function persons()
-//	{
-//		if (null === $this->_persons) {
-//			$this->_persons = StudioPerson::model()->findAll(array(
-//				'condition' => 'studio_id=:studio_id',
-//				'params'	=> array(
-//					'studio_id' => $this->id,
-//				),
-//				'order' => 'rank ASC',
-//			));
-//		}
-//		return $this->_persons;
-//	}
 	
 	public function isOwner()
 	{
