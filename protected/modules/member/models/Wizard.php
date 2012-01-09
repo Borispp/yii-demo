@@ -118,7 +118,7 @@ abstract class Wizard extends YsaFormModel
 	
 	public function validatorStyle($attribute)
 	{
-		if (!in_array($this->$attribute, array('dark'))) {
+		if (!in_array($this->$attribute, array_keys($this->getStylesList()))) {
 			$this->addError($attribute, 'Invalid style format');
 		} 
 	}

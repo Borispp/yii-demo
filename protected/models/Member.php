@@ -77,8 +77,8 @@ class Member extends User
 	{
 		if (null === $this->_smugmug) {
 			$this->_smugmug = new phpSmug(array(
-				'APIKey' => $this->option(UserOption::SMUGMUG_API), 
-				'OAuthSecret' => $this->option(UserOption::SMUGMUG_SECRET), 
+				'APIKey' => $this->option(UserOption::SMUGMUG_API, '', $this->id), 
+				'OAuthSecret' => $this->option(UserOption::SMUGMUG_SECRET, '', $this->id), 
 				'AppName' => Yii::app()->settings->get('site_title'), 
 				'APIVer' => '1.3.0',
 			));
@@ -90,7 +90,7 @@ class Member extends User
 	public function smugmugSetRequestToken($token = null)
 	{
 		if (null === $token) {
-			$token = $this->option(UserOption::SMUGMUG_REQUEST);
+			$token = $this->option(UserOption::SMUGMUG_REQUEST, '', $this->id);
 		}
 		$this->smugmug()->setToken("id={$token['Token']['id']}", "Secret={$token['Token']['Secret']}");
 		
@@ -100,7 +100,7 @@ class Member extends User
 	public function smugmugSetAccessToken($token = null)
 	{
 		if (null === $token) {
-			$token = $this->option(UserOption::SMUGMUG_HASH);
+			$token = $this->option(UserOption::SMUGMUG_HASH, '', $this->id);
 			$this->smugmug()->setToken("id={$token['Token']['id']}", "Secret={$token['Token']['Secret']}");
 		}
 		
@@ -109,7 +109,7 @@ class Member extends User
 	
 	public function smugmugAuthorized()
 	{
-		return $this->option(UserOption::SMUGMUG_HASH) ? true : false;
+		return $this->option(UserOption::SMUGMUG_HASH, '', $this->id) ? true : false;
 	}
 	
 	public function zenfolio()
