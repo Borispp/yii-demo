@@ -14,11 +14,11 @@
 	</p>
 
 
-	<?php if (Event::TYPE_PUBLIC == $entry->type) : ?>
+	<?php if (!$entry->isProofing()) : ?>
 		<p><?php echo CHtml::link('Create New Event Album', array('album/create/event/' . $entry->id)); ?></p>
 	<?php endif; ?>
 
-	<?php if (Event::TYPE_PROOF == $entry->type) : ?>
+	<?php if ($entry->isProofing()) : ?>
 		<h2>Proofing Album</h2>
 	<?php else:?>
 		<h2>Albums</h2>

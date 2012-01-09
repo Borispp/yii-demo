@@ -71,6 +71,7 @@ class UserOrder extends YsaActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'user'		=> array(self::BELONGS_TO, 'User', 'user_id'),
+			'member'	=> array(self::BELONGS_TO, 'Member', 'user_id', 'condition' => "role='member'"),
 			'photos'	=> array(self::HAS_MANY, 'UserOrderPhoto', 'order_id'),
 		);
 	}

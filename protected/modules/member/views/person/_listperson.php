@@ -8,4 +8,5 @@
 	
 	<?php echo YsaHtml::link('view', array('person/view/' . $entry->id)); ?>
 	<?php echo YsaHtml::link('edit', array('person/edit/' . $entry->id)); ?>
+	<?php echo YsaHtml::link('delete', array('person/delete/' . $entry->id)); ?>
 </li>

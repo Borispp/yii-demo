@@ -1,21 +1,12 @@
 <section id="album" albumid="<?php echo $entry->id; ?>" class="w">
 	<?php echo YsaHtml::link('Edit Album Info', array('album/edit/' . $entry->id))?>
-
-	<?php $form = $this->beginWidget('YsaMemberForm', array(
-			'id'=>'album-upload-form',
-			'enableAjaxValidation'=>false,
-			'htmlOptions'=>array('enctype' => 'multipart/form-data'),
-	)); ?>
-	<?php echo $form->fileField($upload, 'photo', array()); ?>
-	<?php echo $form->error($upload, 'photo'); ?>
-	<?php echo YsaHtml::submitButton('Upload'); ?>
-
-	<?php $this->endWidget();?>
 	
 	<div id="photo-upload-container">
 		<div id="photo-filelist" style="min-height: 100px;border: 1px solid red;"></div>
 		<a href="#" id="photo-upload-browse">select files</a>
 		<a href="#" id="photo-upload-submit">upload</a>
+                
+                <noscript>Please, turn on JavaScript in your browser to enable file uploading</noscript>
 	</div>
 	
 	<?php if ($this->member()->smugmugAuthorized()) : ?>

@@ -65,7 +65,7 @@ class EventController extends YsaMemberController
             $entry->user_id = $this->member()->id;
             
             // generate password if not set
-            if (!$entry->passwd) {
+            if (!$entry->passwd && !$entry->isPortfolio()) {
                 $entry->generatePassword();
             }
             

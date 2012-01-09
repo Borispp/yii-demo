@@ -21,7 +21,6 @@ class AlbumController extends YsaMemberController
 		
 		if (isset($_POST['EventAlbum'])) {
 			$entry->attributes = $_POST['EventAlbum'];
-			
 			if ($entry->validate()) {
 				$entry->save();
 				$this->redirect(array('album/view/' . $entry->id));
@@ -30,6 +29,8 @@ class AlbumController extends YsaMemberController
 		
 		$this->crumb($event->name, array('event/view/' . $event->id))
 			 ->crumb('Create Album');
+		
+		$this->setMemberPageTitle('Create Album');
 		
 		$this->render('create', array(
 			'event' => $event,
@@ -106,7 +107,7 @@ class AlbumController extends YsaMemberController
 			$this->refresh();
 		}
 		
-		$this->loadSwfUploader();
+		$this->loadPlupload();
 		
 		$this->crumb($entry->event->name, array('event/view/' . $entry->event->id))
 			 ->crumb($entry->name);

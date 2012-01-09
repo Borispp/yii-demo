@@ -162,6 +162,7 @@ class PhotoController extends YsaMemberController
 				foreach ($images['Images'] as $image) {
 					$image = $this->member()->smugmug()->images_getInfo('ImageID=' . $image['id'], 'ImageKey=' . $image['Key'], 'CustomSize=' . $w . 'x' . $h);
 					$image['exif'] = $this->member()->smugmug()->images_getEXIF('ImageID=' . $image['id'], 'ImageKey=' . $image['Key']);
+					
 					$photo = new EventPhoto();
 					$photo->album_id = $album->id;
 					$photo->import($image, 'smugmug');

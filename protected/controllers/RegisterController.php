@@ -64,12 +64,6 @@ class RegisterController extends YsaFrontController
 					$studio->user_id = $model->id;
 					$studio->save();
 					
-					// create new Portfolio
-					$portfolio = new Portfolio();
-					$portfolio->studio_id = $studio->id;
-					$portfolio->name = Portfolio::DEFAULT_NAME;
-					$portfolio->save();
-					
                     Yii::app()->user->setFlash('registration', "Thank you for your registration. Please check your email.");
                     $this->refresh();
                 }

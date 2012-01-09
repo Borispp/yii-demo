@@ -54,17 +54,16 @@
 		</section>
 	<?php endif; ?>
 	
-
-
-	<section>
-		<?php echo $form->labelEx($entry,'passwd'); ?>
-		<div>
-			<?php echo $form->textField($entry,'passwd', array('maxlength' => 20)); ?>
-			<?php echo $form->error($entry,'passwd'); ?>
-		</div>
-	</section>
-
-
+	<?php if ($entry->isNewRecord || !$entry->isPortfolio()) : ?>
+		<section>
+			<?php echo $form->labelEx($entry,'passwd'); ?>
+			<div>
+				<?php echo $form->textField($entry,'passwd', array('maxlength' => 20)); ?>
+				<?php echo $form->error($entry,'passwd'); ?>
+			</div>
+		</section>
+	<?php endif; ?>
+	
 	<section class="button">
 		<?php echo YsaHtml::submitButton($entry->isNewRecord ? 'Create' : 'Save'); ?>
 	</section>
