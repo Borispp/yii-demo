@@ -220,10 +220,10 @@ class User extends YsaActiveRecord
 	 * @param mixed $default
 	 * @return mixed
 	 */
-	public function option($name, $default = '')
+	public function option($name, $default = '', $userId = null)
 	{
 		if (!isset($this->_options[$name])) {
-			$this->_options[$name] = UserOption::model()->getOption($name, $default);
+			$this->_options[$name] = UserOption::model()->getOption($name, $default, $userId);
 		}
 
 		return $this->_options[$name];
