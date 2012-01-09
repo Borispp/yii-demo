@@ -301,6 +301,61 @@ class EventPhoto extends YsaActiveRecord
 		// read exif data from jpegs
 		if ($this->extention === 'jpg') {
 			$data = @exif_read_data($instance->getTempName());
+			
+			$exif = array();
+			
+			if (isset($data['ApertureValue'])) {
+				$exif['aperture'] = $data['ApertureValue'];
+			}
+			if (isset($data['DateTime'])) {
+				$exif['date_time'] = $data['DateTime'];
+			}
+			if (isset($data['DateTimeDigitized'])) {
+				$exif['date_time_digitized'] = $data['DateTimeDigitized'];
+			}
+			if (isset($data['DateTimeOriginal'])) {
+				$exif['date_time_original'] = $data['DateTimeOriginal'];
+			}
+			if (isset($data['ExposureBiasValue'])) {
+				$exif['exposure_bias_value'] = $data['ExposureBiasValue'];
+			}
+			if (isset($data['ExposureMode'])) {
+				$exif['exposure_mode'] = $data['ExposureMode'];
+			}
+			if (isset($data['ExposureProgram'])) {
+				$exif['exposure_program'] = $data['ExposureProgram'];
+			}
+			if (isset($data['ExposureTime'])) {
+				$exif['exposure_time'] = $data['ExposureTime'];
+			}
+			if (isset($data['Flash'])) {
+				$exif['flash'] = $data['Flash'];
+			}
+			if (isset($data['FocalLength'])) {
+				$exif['focal_length'] = $data['FocalLength'];
+			}
+			if (isset($data['ISOSpeedRatings'])) {
+				$exif['iso'] = $data['ISOSpeedRatings'];
+			}
+			if (isset($data['Make'])) {
+				$exif['make'] = $data['Make'];
+			}
+			if (isset($data['Model'])) {
+				$exif['model'] = $data['Model'];
+			}
+			if (isset($data['MeteringMode'])) {
+				$exif['metering'] = $data['MeteringMode'];
+			}
+			if (isset($data['WhiteBalance'])) {
+				$exif['white_balance'] = $data['WhiteBalance'];
+			}
+			if (isset($data['Orientation'])) {
+				$exif['orientation'] = $data['Orientation'];
+			}			
+			if (isset($data['FNumber'])) {
+				$exif['subject_distance'] = $data['FNumber'];
+			}
+
 			$this->exif_data = serialize($data);
 		}
 		
@@ -452,12 +507,11 @@ class EventPhoto extends YsaActiveRecord
 		$this->alt = $data['Caption'];
 		$this->state = self::STATE_ACTIVE;
 		
-		
 		$data['from'] = 'smugmug';
 		$this->imported_data = serialize($data);
 		
 		if (isset($data['exif'])) {
-			$this->exif_data = serialize($data['exif']);
+			$this->exif_data = $this->_formatSmugmugExif($data['exif']);
 		}
 		
 		$this->generateBaseName();
@@ -478,6 +532,65 @@ class EventPhoto extends YsaActiveRecord
 		$original_save_path = $this->originPath();
 		$original_image->save( $original_save_path );
 		$this->original_size = filesize($original_save_path);
+	}
+	
+	protected function _formatSmugmugExif($data)
+	{
+		$exif = array();
+
+		if (isset($data['Aperture'])) {
+			$exif['aperture'] = $data['Aperture'];
+		}
+		if (isset($data['DateTime'])) {
+			$exif['date_time'] = $data['DateTime'];
+		}
+		if (isset($data['DateTimeDigitized'])) {
+			$exif['date_time_digitized'] = $data['DateTimeDigitized'];
+		}
+		if (isset($data['DateTimeOriginal'])) {
+			$exif['date_time_original'] = $data['DateTimeOriginal'];
+		}
+		if (isset($data['ExposureBiasValue'])) {
+			$exif['exposure_bias_value'] = $data['ExposureBiasValue'];
+		}
+		if (isset($data['ExposureMode'])) {
+			$exif['exposure_mode'] = $data['ExposureMode'];
+		}
+		if (isset($data['ExposureProgram'])) {
+			$exif['exposure_program'] = $data['ExposureProgram'];
+		}
+		if (isset($data['ExposureTime'])) {
+			$exif['exposure_time'] = $data['ExposureTime'];
+		}
+		if (isset($data['Flash'])) {
+			$exif['flash'] = $data['Flash'];
+		}
+		if (isset($data['FocalLength'])) {
+			$exif['focal_length'] = $data['FocalLength'];
+		}
+		if (isset($data['ISO'])) {
+			$exif['iso'] = $data['ISO'];
+		}
+		if (isset($data['Make'])) {
+			$exif['make'] = $data['Make'];
+		}
+		if (isset($data['Model'])) {
+			$exif['model'] = $data['Model'];
+		}
+		if (isset($data['Metering'])) {
+			$exif['metering'] = $data['Metering'];
+		}
+		if (isset($data['WhiteBalance'])) {
+			$exif['white_balance'] = $data['WhiteBalance'];
+		}
+		if (isset($data['Orientation'])) {
+			$exif['orientation'] = $data['Orientation'];
+		}			
+		if (isset($data['SubjectDistance'])) {
+			$exif['subject_distance'] = $data['SubjectDistance'];
+		}
+		
+		return $exif;
 	}
 	
 	public function shareUrl()

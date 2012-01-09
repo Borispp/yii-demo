@@ -32,7 +32,7 @@
 					<td>
 						<?php echo YsaHtml::link('View', array('event/view/' . $entry->id), array()); ?><br />
 						<?php echo YsaHtml::link('Edit', array('event/edit/' . $entry->id), array()); ?><br />
-							<?php if ($entry->type == Event::TYPE_PUBLIC) : ?>
+							<?php if (!$entry->isProofing()) : ?>
 								<?php echo YsaHtml::link('Add Album', array('album/create/event/' . $entry->id), array()); ?><br />
 							<?php endif; ?>
 						<?php echo YsaHtml::link('Delete', array('event/delete/' . $entry->id), array()); ?>
