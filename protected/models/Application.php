@@ -51,7 +51,6 @@ class Application extends YsaActiveRecord
 	 */
 	const STATE_REJECTED = -5;
 
-
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -195,9 +194,9 @@ class Application extends YsaActiveRecord
 	public function editOption($name, $value, $type = null)
 	{
 		$option = ApplicationOption::model()->findByAttributes(array(
-				'name'   => $name,
-				'app_id' => $this->id,
-			));
+			'name'   => $name,
+			'app_id' => $this->id,
+		));
 
 		if (null === $type) {
 			$type = Option::TYPE_TEXT;
@@ -210,12 +209,19 @@ class Application extends YsaActiveRecord
 		}
 
 		if ($value instanceof CUploadedFile) {
-
+			// remove old image if exists
+			$val = $option->value();
+			if (isset($val['path'])) {
+				if (is_file($val['path'])) {
+					unlink($val['path']);
+				}
+			}
+			
 			$ext = Yii::app()->params['application'][$name]['ext'];
 			if (!$ext) {
 				$ext = 'png';
 			}
-
+			
 			$width = Yii::app()->params['application'][$name]['width'];
 			$height = Yii::app()->params['application'][$name]['height'];
 
@@ -253,6 +259,26 @@ class Application extends YsaActiveRecord
 
 		return true;
 	}
+	
+	/**
+	 * Remove application option
+	 * 
+	 * @param string $name
+	 * @return bool
+	 */
+	public function deleteOption($name)
+	{
+		$option = ApplicationOption::model()->findByAttributes(array(
+			'name'   => $name,
+			'app_id' => $this->id,
+		));
+		
+		if (null !== $option) {
+			$option->delete();
+		}
+		
+		return true;
+	}
 
 	/**
 	 * Find specific option value for application
@@ -267,5 +293,15 @@ class Application extends YsaActiveRecord
 			));
 
 		return $option ? $option->value() : null;
+	}
+	
+	/**
+	 * Get names of available images for application
+	 * 
+	 * @return array
+	 */
+	public function getAvailableImages()
+	{
+		return array_keys(Yii::app()->params['application']);
 	}
 }

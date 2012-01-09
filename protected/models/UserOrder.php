@@ -238,7 +238,7 @@ class UserOrder extends YsaActiveRecord
 		$pdf->AliasNbPages();
 		$pdf->AddPage();
 		$pdf->writeHTML($template, true);
-		return $pdf->Output($this->_getPdfPath(), $outputType);
+		return $pdf->Output(basename($this->_getPdfPath()), $outputType);
 	}
 
 	/**

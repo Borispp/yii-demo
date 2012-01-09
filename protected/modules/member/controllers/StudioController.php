@@ -1,6 +1,16 @@
 <?php
 class StudioController extends YsaMemberController
 {
+	public function beforeRender($view) {
+		parent::beforeRender($view);
+		
+		$this->loadSwfUploader();
+		
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/studiopage.js', CClientScript::POS_HEAD);
+	
+		return true;
+	}
+	
     public function actionIndex()
     {
 		$entry = $this->member()->studio;
@@ -32,25 +42,20 @@ class StudioController extends YsaMemberController
 			}
 		}
 		
-		if (isset($_POST['SpecialsUploadForm'])) {
-			$specials->specials = CUploadedFile::getInstance($specials, 'specials');
-			
-			if ($specials->validate()) {
-				$entry->saveSpecials($specials->specials);
-				$this->refresh();
-			}	
-		}
+//		if (isset($_POST['SpecialsUploadForm'])) {
+//			$specials->specials = CUploadedFile::getInstance($specials, 'specials');
+//			
+//			if ($specials->validate()) {
+//				$entry->saveSpecials($specials->specials);
+//				$this->refresh();
+//			}	
+//		}
 		
 		if (isset($_POST['StudioSplashForm'])) {
-//			$specials->specials = CUploadedFile::getInstance($specials, 'specials');
-			
 			$splash->attributes = $_POST['StudioSplashForm'];
-			
 			if ($splash->validate()) {
-				
 				$entry->splash = $splash->text;
 				$entry->save();
-				
 				$this->refresh();
 			}	
 		}
@@ -72,14 +77,45 @@ class StudioController extends YsaMemberController
 		$this->member()->studio->deleteSpecials();
 		
 		if (Yii::app()->request->isAjaxRequest) {
-			$specials = new SpecialsUploadForm();
 			$this->sendJsonSuccess(array(
-				'html' => $this->renderPartial('_specialsForm', array(
-					'entry' => $specials,
+				'html' => $this->renderPartial('_specialsUpload', array(
+					'entry' => $this->member()->studio,
 				), true)
 			));
 		} else {
 			$this->redirect(array('studio/'));
 		}
+	}
+	
+	public function actionUploadSpecials()
+	{
+		$file = CUploadedFile::getInstanceByName('file');
+		
+		if (null === $file) {
+			$this->sendJsonError(array(
+				'msg' => 'No files uploaded. Please reload the page and try again.',
+			));
+		}
+		
+		$entry = $this->member()->studio;
+		$entry->saveSpecials($file);
+		
+		$this->sendJsonSuccess(array(
+			'html' => $this->renderPartial('_specialsPhoto', array(
+				'entry' => $entry,
+			), true)
+		));
+		
+		
+	}
+	
+	public function actionSaveGeneral()
+	{
+		
+	}
+	
+	public function actionSaveSplash()
+	{
+		
 	}
 }

@@ -1,3 +1,12 @@
+<div id="studio-specials-container">
+	<span class="loading">loading...</span>
+	<a href="#" id="studio-specials-browse" class="btn">Upload</a>
+</div>
+
+<?/*
+<?php $this->renderPartial('_specialsForm', array(
+	'entry' => $specials,
+)); ?>
 <div class="form">
 	<?php $form=$this->beginWidget('YsaMemberForm', array(
 			'id'=>'studio-specials-form',
@@ -17,3 +26,4 @@
 	</section>
 	<?php $this->endWidget(); ?>
 </div>
+ */?>

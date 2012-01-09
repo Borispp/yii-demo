@@ -3,6 +3,22 @@ class WizardController extends YsaMemberController
 {
     public $defaultAction = 'application';
     
+	public function init() {
+		parent::init();
+		
+		$this->setMemberPageTitle('Application Wizard');
+	}
+	
+	public function beforeRender($view) {
+		parent::beforeRender($view);
+		
+		$this->loadSwfUploader();
+		
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/appwizardpage.js', CClientScript::POS_HEAD);
+	
+		return true;
+	}
+	
     public function beforeAction($action) 
     {
         $config = array();
@@ -40,9 +56,7 @@ class WizardController extends YsaMemberController
 
     public function actionApplication($step = null)
     {
-        $app = $this->member()->application;
-        
-        if (!$app) {
+        if (!$this->member()->application) {
             $this->redirect(array('application/create'));
         }
         
@@ -56,21 +70,15 @@ class WizardController extends YsaMemberController
     
     public function wizardFinished($event)
     {
-//        $this->render('finished', compact('event'));
-
-        $event->sender->reset();
-		
+        $event->sender->reset();	
 		$this->redirect(array('application/'));
-		
         Yii::app()->end();
     }
     
     public function wizardProcessStep($event)
     {
         $modelName = 'Wizard' . ucfirst($event->step);
-        
         $model = new $modelName();
-        
         $app = $this->member()->application;
 
         $model->setApplication($app)

@@ -12,10 +12,14 @@ class WizardLogo extends Wizard
 	public $splash_bg_image;
 
 	public $splash_bg_color;
+	
+	public $style;
 
 	public function rules()
 	{
 		return array(
+			array('style', 'required'),
+//			array('style', 'validatorStyle'),
 			array('logo, itunes_logo,icon, splash_bg_image', 'file', 'types'=>'jpg, gif, png', 'maxSize'=> Yii::app()->params['max_image_size'], 'tooLarge'=>'The file was larger than 5MB Please upload a smaller file.', 'allowEmpty' => true),
 			array('splash_bg_color', 'safe'),
 		);
