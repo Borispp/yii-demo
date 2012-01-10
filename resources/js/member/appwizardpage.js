@@ -22,7 +22,7 @@ $(function(){
 				uploader.bind('Error', function(up, err) {
 					loading.hide();
 					browse.show();
-					alert(err.message + ' Please reload the page and try again.');
+					_alert(err.message + ' Please reload the page and try again.');
 					up.refresh();
 				});
 				uploader.bind('FilesAdded', function(up){
@@ -38,7 +38,7 @@ $(function(){
 					if (data.success) {
 						$('#' + up.settings.container).parent().html(data.html);
 					} else {
-						alert(data.msg);
+						_alert(data.msg);
 					}
 				});
 				
@@ -62,7 +62,7 @@ $(function(){
 						_init_uploader(data.image);
 						
 					} else {
-						alert(data.msg);
+						_alert(data.msg);
 					}
 				}, 'json');
 			});
