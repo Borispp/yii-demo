@@ -469,9 +469,7 @@ select optgroup, select option{
 	font-style:normal;
 	border:0;
 }
-select option{
-	border:1px solid;
-}
+select option{}
 input[type=submit], input[type=checkbox], input[type=radio], input[type=button], button{
 	width:auto !important;
 }
@@ -661,4 +659,24 @@ footer a:hover {
 
 .clear {
 	clear:both;
+}
+
+
+
+
+
+/* Ajax Loader
+*******************************/
+#ajax-loader {
+	position: fixed;
+	right:10px;
+	bottom:10px;
+	border:1px solid red;
+	background: #fff;
+	padding:10px;
+	font-size:10px;
+	color: #000;
+	line-height: 1;
+	display: block;
+	display: none;
 }

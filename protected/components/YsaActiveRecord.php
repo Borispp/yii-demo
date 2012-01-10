@@ -3,6 +3,9 @@ class YsaActiveRecord extends CActiveRecord
 {
 	const STATE_ACTIVE = 1;
 	const STATE_INACTIVE = 0;
+	
+	const FORMAT_DATE = 'Y-m-d';
+	const FORMAT_DATETIME = 'Y-m-d H:i:s';
 
 	const LEVEL = '—';
 

@@ -52,5 +52,7 @@
             <p><?php echo Yii::app()->settings->get('copyright'); ?>&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;site by <a href="http://flosites.com" rel="external">Flosites</a></p>
         </footer>
     </div>
+	
+	<span id="ajax-loader">loading...</span>
 </body>
 </html>

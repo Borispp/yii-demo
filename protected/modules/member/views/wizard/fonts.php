@@ -19,7 +19,7 @@
 		<section>
 			<?php echo $form->labelEx($model, 'main_font_color'); ?>
 			<div>
-				<?php echo $form->textField($model, 'main_font_color', array()); ?>
+				<?php echo $form->textField($model, 'main_font_color', array('class' => 'colors', 'readonly' => true)); ?>
 				<?php echo $form->error($model,'main_font_color'); ?>
 			</div>
 		</section>
@@ -35,7 +35,7 @@
 		<section>
 			<?php echo $form->labelEx($model, 'second_font_color'); ?>
 			<div>
-				<?php echo $form->textField($model, 'second_font_color', array()); ?>
+				<?php echo $form->textField($model, 'second_font_color', array('class' => 'colors', 'readonly' => true)); ?>
 				<?php echo $form->error($model,'second_font_color'); ?>
 			</div>
 		</section>

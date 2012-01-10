@@ -15,7 +15,7 @@
 <section>
 	<?php echo $form->labelEx($entry,'shooting_date'); ?>
 	<div>
-		<?php echo $form->textField($entry,'shooting_date', array('maxlength' => 100)); ?>
+		<?php echo $form->textField($entry,'shooting_date', array('maxlength' => 100, 'class' => 'datetime', 'readonly' => true)); ?>
 		<?php echo $form->error($entry,'shooting_date'); ?>
 	</div>
 </section>
