@@ -119,7 +119,6 @@ class Client extends YsaActiveRecord
 	{
 		$criteria = new CDbCriteria();
 		$criteria->compare('application_id', Member::model()->findByPk(Yii::app()->user->getId())->application->id);
-
 		$fields = Yii::app()->session[self::SEARCH_SESSION_NAME];
 
 		if (null === $fields) {
@@ -148,9 +147,7 @@ class Client extends YsaActiveRecord
 				$order_sort = 'DESC';
 			}
 			$criteria->order = $order_by . ' ' . $order_sort;
-
 		}
-
 		return $criteria;
 	}
 
