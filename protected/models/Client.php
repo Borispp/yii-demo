@@ -48,6 +48,8 @@ class Client extends YsaActiveRecord
 		return array(
 			array('state', 'numerical', 'integerOnly'=>true),
 			array('application_id', 'length', 'max'=>11),
+			array('email', 'unique'),
+			array('name, email, password', 'required'),
 			array('name, email, password, phone', 'length', 'max'=>100),
 			array('added_with, description, created, updated', 'safe'),
 			// The following rule is used by search().
@@ -218,6 +220,7 @@ class Client extends YsaActiveRecord
 	public function getAddedWith()
 	{
 		$addedWith = $this->getAddedWithList();
+		return $addedWith[$this->added_with];
 	}
 
 }

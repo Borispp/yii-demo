@@ -13,6 +13,7 @@
 				<th>Phone</th>
 				<th>Description</th>
 				<th>Created</th>
+				<th>Added</th>
 				<th>Updated</th>
 				<th>State</th>
 				<th>&nbsp;</th>
@@ -26,6 +27,7 @@
 					<td><?php echo $entry->email?></td>
 					<td><?php echo $entry->phone?></td>
 					<td><?php echo $entry->description?></td>
+					<td><?php echo $entry->getAddedWith()?></td>
 					<td><?php echo $entry->created?></td>
 					<td><?php echo $entry->updated?></td>
 					<td><?php echo $entry->state()?></td>

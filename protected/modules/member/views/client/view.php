@@ -26,7 +26,7 @@
 		</tr>
 		<tr>
 			<th>Added with</th>
-			<td><?php echo $entry->added_with?></td>
+			<td><?php echo $entry->getAddedWith()?></td>
 		</tr>
 		<tr>
 			<th>Register Date</th>

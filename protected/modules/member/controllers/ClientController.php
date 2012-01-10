@@ -20,6 +20,7 @@ class ClientController extends YsaMemberController
 				$this->redirect(array('client/'));
 			}
 		}
+		$this->setMemberPageTitle('New Client');
 		$this->render('add', array(
 				'entry' => $entry,
 			));
@@ -48,7 +49,6 @@ class ClientController extends YsaMemberController
 		$entries = Client::model()->findAll($criteria);
 
 		$this->setMemberPageTitle('Clients');
-
 		$this->render('index',array(
 			'entries'       => $entries,
 			'pagination'    => $pagination,
