@@ -33,6 +33,14 @@
 		</div>
 	</section>
 
+	<section>
+		<?php echo $form->labelEx($entry,'order_link'); ?>
+		<div>
+			<?php echo $form->textField($entry,'order_link', array('maxlength' => 100)); ?>
+			<?php echo $form->error($entry,'order_link'); ?>
+		</div>
+	</section>
+
 	<section class="button">
 		<?php echo YsaHtml::submitButton('Save'); ?>
 	</section>
