@@ -101,12 +101,12 @@ class ClientController extends YsaMemberController
 		$ids = array();
 		if (isset($_POST['ids']) && count($_POST['ids'])) {
 			$ids = $_POST['ids'];
-		} elseif ($personId) {
-			$ids = array(intval($personId));
+		} elseif ($clientId) {
+			$ids = array(intval($clientId));
 		}
 
 		foreach ($ids as $id) {
-			$entry = StudioPerson::model()->findByPk($id);
+			$entry = Client::model()->findByPk($id);
 			if ($entry && $entry->isOwner()) {
 				$entry->delete();
 			}
@@ -115,7 +115,7 @@ class ClientController extends YsaMemberController
 		if (Yii::app()->getRequest()->isAjaxRequest) {
 			$this->sendJsonSuccess();
 		} else {
-			$this->redirect(array('studio/'));
+			$this->redirect(array('client/'));
 		}
 	}
 }
