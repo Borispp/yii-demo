@@ -107,7 +107,7 @@ class AlbumController extends YsaMemberController
 			$this->refresh();
 		}
 		
-		$this->loadSwfUploader();
+		$this->loadPlupload();
 		
 		$this->crumb($entry->event->name, array('event/view/' . $entry->event->id))
 			 ->crumb($entry->name);

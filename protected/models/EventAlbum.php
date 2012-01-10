@@ -185,6 +185,8 @@ class EventAlbum extends YsaActiveRecord
 			$p->delete();
 		}
 		
+		rmdir($this->albumPath());
+		
 		return true;
 	}
 	
