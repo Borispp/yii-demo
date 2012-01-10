@@ -195,5 +195,10 @@ class YsaHelpers
 	{
 		return str_ireplace(rtrim(Yii::getPathOfAlias('webroot'), '/'), '', $path);
 	}
+	
+	public static function formatDate($date, $format = 'Y-m-d H:i:s')
+	{
+		return date($format, strtotime($date));
+	}
 
 }

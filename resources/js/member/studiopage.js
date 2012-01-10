@@ -18,7 +18,7 @@ $(function(){
 			uploader.bind('Error', function(up, err) {
 				specials_loading.hide();
 				specials_browse.show();
-				alert(err.message + ' Please reload the page and try again.');
+				_alert(err.message + ' Please reload the page and try again.');
 				up.refresh();
 			});
 			uploader.bind('FilesAdded', function(up){
@@ -34,7 +34,7 @@ $(function(){
 				if (data.success) {
 					$('#' + up.settings.container).parent().html(data.html);
 				} else {
-					alert(data.msg);
+					_alert(data.msg);
 				}
 			});
 			
@@ -61,7 +61,7 @@ $(function(){
 						specials.html(data.html);
 						_init_specials_uploader();
 					} else {
-						alert(data.msg);
+						_alert(data.msg);
 					}
 				}, 'json');
 			});
