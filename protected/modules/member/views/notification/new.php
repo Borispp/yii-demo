@@ -1,5 +1,3 @@
-<?php echo YsaHtml::pageHeaderTitle('Add Notification'); ?>
-
 <div class="w">
 	<div class="form">
 	<?php $form=$this->beginWidget('YsaMemberForm', array(

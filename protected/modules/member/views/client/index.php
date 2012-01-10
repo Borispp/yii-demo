@@ -1,8 +1,9 @@
 <div class="w">
+	<p><?php echo YsaHtml::link('Notifications', array('notification/')); ?></p>
 	<?php $this->widget('YsaSearchBar', array(
 		'searchOptions' => $searchOptions,
 	));?>
-	<p><?php echo YsaHtml::link('Register New Client', array('add'), array('class' => 'btn')); ?></p>
+	<p class="r"><?php echo YsaHtml::link('Register New Client', array('add'), array('class' => 'btn')); ?></p>
 	<table class="data">
 		<thead>
 			<tr>

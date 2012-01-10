@@ -1,9 +1,8 @@
-<?php echo YsaHtml::pageHeaderTitle('Notifications'); ?>
 <section class="body w" id="inbox-block">
-	<p class="r"><?php echo YsaHtml::link('Add new notification', array('notification/new/'), array('class' => 'btn')); ?></p>
 	<?php $this->widget('YsaSearchBar', array(
 		'searchOptions' => $searchOptions,
 	));?>
+	<p class="r"><?php echo YsaHtml::link('Add new notification', array('notification/new/'), array('class' => 'btn')); ?></p>
 	<?php if (count($entries)):?>
 	<table class="data">
 		<thead>

@@ -89,7 +89,7 @@ class ClientController extends YsaMemberController
 			}
 		}
 
-		$this->setMemberPageTitle('Edit Shooter');
+		$this->setMemberPageTitle('Edit Client');
 
 		$this->render('edit', array(
 				'entry' => $entry,
