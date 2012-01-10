@@ -247,6 +247,7 @@ class YsaController extends CController
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jqueryui-timepicker.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/fancybox.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/form.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jstorage.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member.js', CClientScript::POS_HEAD);
 			// register css
 			$this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/ui/jquery-ui.css')
