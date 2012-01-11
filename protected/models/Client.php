@@ -66,7 +66,8 @@ class Client extends YsaActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'application' => array(self::BELONGS_TO, 'Application', 'application_id'),
+			'application'	=> array(self::BELONGS_TO, 'Application', 'application_id'),
+			'auth'	=> array(self::HAS_ONE, 'ClientAuth', 'client_id'),
 		);
 	}
 
@@ -222,5 +223,4 @@ class Client extends YsaActiveRecord
 		$addedWith = $this->getAddedWithList();
 		return $addedWith[$this->added_with];
 	}
-
 }

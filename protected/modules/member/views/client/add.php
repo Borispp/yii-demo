@@ -1,5 +1,6 @@
 <div class="w">
 	<?php $this->renderPartial('_form', array(
-		'entry' => $entry,
+		'entry'		=> $entry,
+		'events'	=> $events
 	)); ?>
 </div>

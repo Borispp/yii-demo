@@ -5,6 +5,7 @@ class ClientController extends YsaMemberController
 	{
 		parent::init();
 		$this->crumb('Clients', array('client/'));
+		$this->renderVar('events', $this->member()->event);
 	}
 	public function actionAdd()
 	{
@@ -81,6 +82,7 @@ class ClientController extends YsaMemberController
 		}
 		if (isset($_POST['Client']))
 		{
+			var_dump($_POST);die;
 			$entry->attributes = $_POST['Client'];
 			if ($entry->validate())
 			{
@@ -117,5 +119,15 @@ class ClientController extends YsaMemberController
 		} else {
 			$this->redirect(array('client/'));
 		}
+	}
+
+	public function actionGetEventsList()
+	{
+		$options = array();
+		foreach($this->member()->event as $obEvent)
+			$options[$obEvent->id] = $obEvent->name;
+		$this->sendJsonSuccess(array(
+			'mebershipList' => $options,
+		));
 	}
 }
