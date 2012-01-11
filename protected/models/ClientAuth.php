@@ -93,7 +93,7 @@ class ClientAuth extends YsaActiveRecord
 	 */
 	public function authByPassword($email, $password, $appKey, $deviceId)
 	{
-		$obClient = $this->findByAttributes(array(
+		$obClient = Client::model()->findByAttributes(array(
 			'email'		=> $email,
 			'password'	=> $password,
 			'state'		=> 1

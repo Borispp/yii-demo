@@ -88,13 +88,14 @@ class ClientController extends YsaApiController
 
 	/**
 	 * Action client authorization.
-	 * Inquiry params: [app_key, device_id, password, event_id]
+	 * Inquiry params: [app_key, device_id, password, event_id, token]
 	 * Response params: [token, state, message]
 	 * @return void
 	 */
 	public function actionAddEvent()
 	{
 		$this->_commonValidate();
+		$this->_validateAuth();
 		$this->_validateVars(array(
 				'password'	=> array(
 					'code'		=> '005',
@@ -105,7 +106,7 @@ class ClientController extends YsaApiController
 					'code'		=> '006',
 					'message'	=> 'No event ID found',
 					'required'	=> TRUE
-				)
+				),
 			));
 		if (!$token = EventAuth::model()->authByPassword($_POST['password'], $_POST['app_key'], $_POST['event_id'], $_POST['device_id']))
 			$this->_render(array(
@@ -134,6 +135,18 @@ class ClientController extends YsaApiController
 		$this->_render(array(
 				'state'		=> 1,
 			));
+	}
+
+	/**
+	 * Get Event List
+	 * Inquiry params: [app_key, device_id, token]
+	 * Response params: events->[name,type,description,date,creation_date,filesize,checksumm]
+	 * @return void
+	 */
+	public function actionGetEventList()
+	{
+		$this->_commonValidate();
+		$this->_validateAuth();
 	}
 
 	/**
@@ -475,12 +488,6 @@ class ClientController extends YsaApiController
 		$this->_render(array(
 			'notifications'	=> $notifications
 		));
-	}
-
-	public function actionCheckNotifications()
-	{
-		
-
 	}
 
 	/**
