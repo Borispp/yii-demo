@@ -24,6 +24,8 @@ class Event extends YsaActiveRecord
 	
     const TYPE_PROOF  = 'proof';
 	
+	const TYPE_PORTFOLIO = 'portfolio';
+	
     /**
      * Returns the static model of the specified AR class.
      * @return Event the static model class
@@ -49,14 +51,27 @@ class Event extends YsaActiveRecord
 		return array(
 				array('user_id, state, type', 'required'),
 				array('user_id, state', 'numerical', 'integerOnly'=>true),
-				array('type', 'length', 'max'=>6),
-				array('name', 'length', 'max'=>255),
-				array('passwd', 'length', 'max'=>20),
-				array('name, passwd, user_id, state, type', 'required'),
-				array('description, date, created, updated', 'safe'),
+				array('type', 'length', 'max' => 10),
+				array('name', 'length', 'max' => 255),
+				array('type', 'validateType'),
+				array('passwd', 'length', 'max' => 20),
+				array('name, user_id, state, type', 'required'),
+				array('passwd, description, date, created, updated', 'safe'),
 				array('id, user_id, type, name, date, state, created', 'safe', 'on'=>'search'),
 		);
     }
+	
+	/**
+	 * Type validator
+	 * 
+	 * @param string $attr 
+	 */
+	public function validateType($attr)
+	{
+		if (!in_array($this->$attr, array_keys($this->getTypes()))) {
+			$this->addError($attr, 'You can add only 3 types of events - Portfolio, Public and Proof');
+		}
+	}
 
     /**
      * @return array relational rules.
@@ -118,42 +133,46 @@ class Event extends YsaActiveRecord
     public function getTypes()
     {
         return array(
-            self::TYPE_PUBLIC => 'Public',
-            self::TYPE_PROOF  => 'Proof',
+			self::TYPE_PORTFOLIO => 'Portfolio',
+            self::TYPE_PUBLIC	 => 'Public',
+            self::TYPE_PROOF	 => 'Proof',
         );
     }
     
-//    public function albums()
-//    {
-//		if (null === $this->_albums) {
-//			$this->_albums = EventAlbum::model()->findAll(array(
-//				'condition' => 'event_id=:event_id',
-//				'params'    => array(
-//					':event_id' => $this->id,
-//				),
-//				'order' => 'rank ASC',
-//			));
-//		}
-//		return $this->_albums;
-//    }
-    
+	/**
+	 * Get Event type
+	 * 
+	 * return string
+	 */
     public function type()
     {
         switch ($this->type) {
+			case self::TYPE_PORTFOLIO:
+				$type = 'Portfolio';
+				break;
             case self::TYPE_PUBLIC:
-                return 'Public';
+                $type = 'Public';
                 break;
             case self::TYPE_PROOF:
-                return 'Proofing';
+                $type = 'Proofing';
                 break;
         }
+		return $type;
     }
     
+	/**
+	 * Generate unique Event password
+	 */
     public function generatePassword()
     {
         $this->passwd = YsaHelpers::genRandomString(6);
     }
 	
+	/**
+	 * Get search criteria for search panel
+	 * 
+	 * @return CDbCriteria 
+	 */
 	public function searchCriteria()
 	{
 		$criteria = new CDbCriteria();
@@ -186,13 +205,10 @@ class Event extends YsaActiveRecord
 			if (!in_array($fields['order_by'], array_keys($this->attributes))) {
 				$order_by = 'id';
 			}
-			
 			if (!in_array($order_sort, array('ASC', 'DESC'))) {
 				$order_sort = 'DESC';
 			}
-			
 			$criteria->order = $order_by . ' ' . $order_sort;
-			
 		}
 		
 		return $criteria;
@@ -227,6 +243,16 @@ class Event extends YsaActiveRecord
 		return self::TYPE_PUBLIC == $this->type;
 	}
 	
+	public function isPortfolio()
+	{
+		return self::TYPE_PORTFOLIO == $this->type;
+	}
+	
+	/**
+	 * Get search options for search panel
+	 * 
+	 * @return array 
+	 */
 	public function searchOptions()
 	{
 		if (null !== Yii::app()->session[self::SEARCH_SESSION_NAME]) {
@@ -273,7 +299,7 @@ class Event extends YsaActiveRecord
 				'value'     => isset($values['type']) ? $values['type'] : '',
 			),
 		);
-
+		
 		return $options;
 	}
 }

@@ -15,7 +15,7 @@
 	<section>
 		<?php echo $form->labelEx($entry,'date'); ?>
 		<div>
-			<?php echo $form->textField($entry,'date', array('maxlength' => 100)); ?>
+			<?php echo $form->textField($entry,'date', array('maxlength' => 100, 'class' => 'date', 'readonly' => true)); ?>
 			<?php echo $form->error($entry,'date'); ?>
 		</div>
 	</section>
@@ -54,17 +54,16 @@
 		</section>
 	<?php endif; ?>
 	
-
-
-	<section>
-		<?php echo $form->labelEx($entry,'passwd'); ?>
-		<div>
-			<?php echo $form->textField($entry,'passwd', array('maxlength' => 20)); ?>
-			<?php echo $form->error($entry,'passwd'); ?>
-		</div>
-	</section>
-
-
+	<?php if ($entry->isNewRecord || !$entry->isPortfolio()) : ?>
+		<section>
+			<?php echo $form->labelEx($entry,'passwd'); ?>
+			<div>
+				<?php echo $form->textField($entry,'passwd', array('maxlength' => 20)); ?>
+				<?php echo $form->error($entry,'passwd'); ?>
+			</div>
+		</section>
+	<?php endif; ?>
+	
 	<section class="button">
 		<?php echo YsaHtml::submitButton($entry->isNewRecord ? 'Create' : 'Save'); ?>
 	</section>

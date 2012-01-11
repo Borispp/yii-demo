@@ -81,6 +81,7 @@ class Application extends YsaActiveRecord
 	{
 		return array(
 			'user'        => array(self::BELONGS_TO, 'Member', 'user_id'),
+			'clients'	  => array(self::HAS_MANY, 'Client', 'application_id'),
 			'options'	  => array(self::HAS_MANY, 'ApplicationOption', 'app_id'),
 		);
 	}

@@ -8,4 +8,12 @@ class VarDumper extends CVarDumper
             die;
         }
     }
+	
+    public static function dumpAjax($var,$depth=10,$highlight=false,$die = true)
+    {
+        echo self::dumpAsString($var,$depth,$highlight);
+        if ($die) {
+            die;
+        }
+    }
 }

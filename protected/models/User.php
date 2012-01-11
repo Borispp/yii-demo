@@ -23,6 +23,9 @@
  * @property Event $event
  * @property Studio $studio
  * @property UserOrder $orders
+ * @property Event $public_events
+ * @property Event $portfolio_events
+ * @property Event $proof_events
  */
 class User extends YsaActiveRecord
 {
@@ -82,9 +85,13 @@ class User extends YsaActiveRecord
 		return array(
 			'options'		=> array(self::HAS_MANY, 'UserOption', 'user_id'),
 			'application'	=> array(self::HAS_ONE, 'Application', 'user_id'),
-			'events'		=> array(self::HAS_MANY, 'Event', 'user_id'),
 			'studio'		=> array(self::HAS_ONE, 'Studio', 'user_id'),
 			'orders'		=> array(self::HAS_MANY, 'UserOrder', 'user_id'),
+			
+			'events'			=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC'),
+			'proof_events'		=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC', 'condition' => 'type=:type', 'params' => array('type' => Event::TYPE_PROOF)),
+			'portfolio_events'	=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC', 'condition' => 'type=:type', 'params' => array('type' => Event::TYPE_PORTFOLIO)),
+			'public_events'		=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC', 'condition' => 'type=:type', 'params' => array('type' => Event::TYPE_PUBLIC)),
 		);
 	}
 
@@ -221,22 +228,6 @@ class User extends YsaActiveRecord
 		return $this->_options[$name];
 	}
 
-//	public function studio()
-//	{
-//		if (null === $this->_studio) {
-//
-//			$this->_studio = Studio::model()->find('user_id=:user_id', array('user_id' => $this->id));
-//
-//			if (!$this->_studio) {
-//				$this->_studio = new Studio();
-//				$this->_studio->user_id = $this->id;
-//				$this->_studio->save();
-//			}
-//		}
-//
-//		return $this->_studio;
-//	}
-
 	public function sendShootQ($data)
 	{
 		$enabled = $this->option('shootq_enabled');
@@ -247,9 +238,6 @@ class User extends YsaActiveRecord
 
 		$abbr = $this->option('shootq_abbr');
 		$key = $this->option('shootq_key');
-
-		//		$key = '21ebf7b8-cdac-11df-9acf-001b24786824';
-		//		$abbr = 'eticket_photography';
 
 		if (!$abbr || !$key) {
 			return false;
@@ -270,8 +258,7 @@ class User extends YsaActiveRecord
 			));
 
 		$client->setRawData($data, 'application/json');
-		//		$request = $client->request(EHttpClient::POST);
-
+		
 		// FINISH SHOOTQ INTEGRATION
 
 

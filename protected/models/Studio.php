@@ -13,15 +13,10 @@
  * @property string $created
  * @property string $updated
  * @property string $specials
+ * @property string $order_link
  */
 class Studio extends YsaActiveRecord
 {
-	protected $_links;
-	
-	protected $_portfolio;
-	
-	protected $_persons;
-
 	protected $_uploadPath;
 	
 	protected $_uploadUrl;
@@ -58,8 +53,8 @@ class Studio extends YsaActiveRecord
 			array('user_id', 'required'),
 			array('user_id', 'numerical', 'integerOnly'=>true),
 			array('name, facebook_feed, twitter_feed, blog_feed', 'length', 'max'=>100),
-			array('facebook_feed, twitter_feed, blog_feed', 'url'),
-			array('name, facebook_feed, twitter_feed, blog_feed, created, updated, specials', 'safe'),
+			array('facebook_feed, twitter_feed, blog_feed, order_link', 'url'),
+			array('name, facebook_feed, twitter_feed, blog_feed, order_link, created, updated, specials', 'safe'),
 		);
 	}
 
@@ -70,7 +65,6 @@ class Studio extends YsaActiveRecord
 	{
 		return array(
 			'user'		=> array(self::BELONGS_TO, 'User', 'user_id'),
-			'portfolio'	=> array(self::HAS_ONE, 'Portfolio', 'studio_id'),
 			'links'		=> array(self::HAS_MANY, 'StudioLink', 'studio_id'),
 			'persons'	=> array(self::HAS_MANY, 'StudioPerson', 'studio_id'),
 		);
@@ -82,46 +76,18 @@ class Studio extends YsaActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'user_id' => 'User',
-			'name' => 'Name',
-			'created' => 'Created',
-			'updated' => 'Updated',
-			'specials' => 'Specials',
-			'facebook_feed' => 'Facebook',
-			'twitter_feed' => 'Twitter',
-			'blog_feed' => 'Blog RSS',
-			
+			'id'			=> 'ID',
+			'user_id'		=> 'User',
+			'name'			=> 'Name',
+			'created'		=> 'Created',
+			'updated'		=> 'Updated',
+			'specials'		=> 'Specials',
+			'facebook_feed'	=> 'Facebook',
+			'twitter_feed'	=> 'Twitter',
+			'blog_feed'		=> 'Blog RSS',
+			'order_link'	=> 'Order Link',
 		);
 	}
-	
-//	public function links()
-//	{
-//		if (null === $this->_links) {
-//			$this->_links = StudioLink::model()->findAll(array(
-//				'condition' => 'studio_id=:studio_id',
-//				'params'	=> array(
-//					'studio_id' => $this->id,
-//				),
-//				'order' => 'rank ASC',
-//			));
-//		}
-//		return $this->_links;
-//	}
-//
-//	public function persons()
-//	{
-//		if (null === $this->_persons) {
-//			$this->_persons = StudioPerson::model()->findAll(array(
-//				'condition' => 'studio_id=:studio_id',
-//				'params'	=> array(
-//					'studio_id' => $this->id,
-//				),
-//				'order' => 'rank ASC',
-//			));
-//		}
-//		return $this->_persons;
-//	}
 	
 	public function isOwner()
 	{

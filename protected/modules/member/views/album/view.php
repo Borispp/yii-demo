@@ -37,41 +37,46 @@
 		<?php endif; ?>
 	</ul>
 	
-	<h3>Order sizes for album</h3>
-	<?php $orderForm = $this->beginWidget('YsaMemberForm', array(
-			'id'=>'album-size-form',
-			'enableAjaxValidation'=>false,
-	)); ?>
-	<ul>
-		<?php echo YsaHtml::checkBoxList(
-			'AlbumSizes', 
-			YsaHtml::listData($entry->sizes, 'id', 'id'),
-			YsaHtml::listData($photoSizes, 'id', 'title'), 
-			array(
-				'template' => '<li>{input} {label}</li>',
-				'separator' => '',
-			)
-		); ?>
-	</ul>
-	<?php echo YsaHtml::submitButton('Save'); ?>
-	<?php $this->endWidget();?>
 	
-
-<?php if (!$entry->event->isProofing()) : ?>
-	<h3>Availability for sharing/order this album</h3>
-	<?php $avlForm = $this->beginWidget('YsaMemberForm', array(
-			'id'=>'album-availability-form',
-			'enableAjaxValidation'=>false,
-	)); ?>
-	<p>
-		<?php echo $avlForm->labelEx($availability,'can_order'); ?>
-		<?php echo $avlForm->checkBox($availability, 'can_order', array('checked' => $entry->canOrder())); ?>
-	</p>
-	<p>
-		<?php echo $avlForm->labelEx($availability,'can_share'); ?>
-		<?php echo $avlForm->checkBox($availability, 'can_share', array('checked' => $entry->canShare())); ?>
-	</p>
-	<p><?php echo YsaHtml::submitButton('Save'); ?></p>
-	<?php $this->endWidget();?>
-<?php endif;?>
+	
+	<div id="album-order-sizes">
+		<h3>Order sizes for album</h3>
+		<?php $this->beginWidget('YsaMemberForm', array(
+				'id'=>'album-size-form',
+				'action' => array('album/saveSizes/' . $entry->id)
+		)); ?>
+		<ul>
+			<?php echo YsaHtml::checkBoxList(
+				'AlbumSizes', 
+				YsaHtml::listData($entry->sizes, 'id', 'id'),
+				YsaHtml::listData($photoSizes, 'id', 'title'), 
+				array(
+					'template' => '<li>{input} {label}</li>',
+					'separator' => '',
+				)
+			); ?>
+		</ul>
+		<?php echo YsaHtml::submitButton('Save'); ?>
+		<?php $this->endWidget();?>
+	</div>
+	
+	<?php if (!$entry->event->isProofing()) : ?>
+		<div id="album-order-availability">
+			<h3>Availability for sharing/order this album</h3>
+			<?php $avlForm = $this->beginWidget('YsaMemberForm', array(
+					'id'=>'album-availability-form',
+					'action' => array('album/saveAvailability/' . $entry->id)
+			)); ?>
+			<p>
+				<?php echo $avlForm->labelEx($availability,'can_order'); ?>
+				<?php echo $avlForm->checkBox($availability, 'can_order', array('checked' => $entry->canOrder())); ?>
+			</p>
+			<p>
+				<?php echo $avlForm->labelEx($availability,'can_share'); ?>
+				<?php echo $avlForm->checkBox($availability, 'can_share', array('checked' => $entry->canShare())); ?>
+			</p>
+			<p><?php echo YsaHtml::submitButton('Save'); ?></p>
+			<?php $this->endWidget();?>
+		</div>
+	<?php endif;?>
 </section>

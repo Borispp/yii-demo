@@ -8,6 +8,12 @@ class DefaultController extends YsaApiController
 	 */
 	public function actionIndex()
 	{
-		$this->render('index');
+		$this->render('index', array(
+			'applicationList'	=> Application::model()->findAll(),
+			'eventList'			=> Event::model()->findAllByAttributes(array(
+				'type'	=> array('portfolio','proof'),
+				'state'	=> 1
+			))
+		));
 	}
 }

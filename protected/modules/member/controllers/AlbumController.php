@@ -21,7 +21,7 @@ class AlbumController extends YsaMemberController
 		
 		if (isset($_POST['EventAlbum'])) {
 			$entry->attributes = $_POST['EventAlbum'];
-			
+			$entry->shooting_date = YsaHelpers::formatDate($entry->shooting_date, Event::FORMAT_DATETIME);
 			if ($entry->validate()) {
 				$entry->save();
 				$this->redirect(array('album/view/' . $entry->id));
@@ -30,6 +30,8 @@ class AlbumController extends YsaMemberController
 		
 		$this->crumb($event->name, array('event/view/' . $event->id))
 			 ->crumb('Create Album');
+		
+		$this->setMemberPageTitle('Create Album');
 		
 		$this->render('create', array(
 			'event' => $event,
@@ -47,7 +49,7 @@ class AlbumController extends YsaMemberController
 		
 		if (isset($_POST['EventAlbum'])) {
 			$entry->attributes = $_POST['EventAlbum'];
-			
+			$entry->shooting_date = YsaHelpers::formatDate($entry->shooting_date, Event::FORMAT_DATETIME);
 			if ($entry->validate()) {
 				$entry->save();
 				$this->redirect(array('album/view/' . $entry->id));
@@ -58,7 +60,7 @@ class AlbumController extends YsaMemberController
 			 ->crumb($entry->name, array('album/view/' . $entry->id))
 			 ->crumb('Edit Album');
 		
-		
+		$this->setMemberPageTitle('Edit Album');
 		
 		$this->render('edit', array(
 			'entry' => $entry,
@@ -73,9 +75,7 @@ class AlbumController extends YsaMemberController
 			$this->redirect(array('event/'));
 		}
 		$upload = new PhotoUploadForm();
-		
 		$photoSizes = PhotoSize::model()->findActive();
-		
 		$availability = new AlbumPhotoAvailability();
 		
 		if (isset($_POST['PhotoUploadForm'])) {
@@ -89,33 +89,34 @@ class AlbumController extends YsaMemberController
 			}
 		}
 		
-		if (isset($_POST['AlbumSizes']) && count($_POST['AlbumSizes']) && is_array($_POST['AlbumSizes'])) {
-			$entry->setSizes($_POST['AlbumSizes']);
-			$this->refresh();
+//		if (isset($_POST['AlbumSizes']) && count($_POST['AlbumSizes']) && is_array($_POST['AlbumSizes'])) {
+//			$entry->setSizes($_POST['AlbumSizes']);
+//			$this->refresh();
+//		}		
+//		if (isset($_POST['AlbumPhotoAvailability']) && !$entry->event->isProofing()) {
+//			
+//			$availability->attributes = $_POST['AlbumPhotoAvailability'];
+//			
+//			if ($availability->validate()) {
+//				$entry->can_order = $availability->can_order;
+//				$entry->can_share = $availability->can_share;
+//				$entry->save();
+//			}
+//			$this->refresh();
+//		}
+		
+		if ($this->member()->smugmugAuthorized()) {
+			$this->member()->smugmugSetAccessToken();
 		}
 		
-		if (isset($_POST['AlbumPhotoAvailability']) && !$entry->event->isProofing()) {
-			
-			$availability->attributes = $_POST['AlbumPhotoAvailability'];
-			
-			if ($availability->validate()) {
-				$entry->can_order = $availability->can_order;
-				$entry->can_share = $availability->can_share;
-				$entry->save();
-			}
-			$this->refresh();
-		}
-		
-		$this->loadSwfUploader();
+		$this->loadPlupload();
 		
 		$this->crumb($entry->event->name, array('event/view/' . $entry->event->id))
 			 ->crumb($entry->name);
 		
 		$this->setMemberPageTitle($entry->name);
 		
-		if ($this->member()->smugmugAuthorized()) {
-			$this->member()->smugmugSetAccessToken();
-		}
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/albumpage.js', CClientScript::POS_HEAD);
 		
 		$this->render('view', array(
 			'entry'			=> $entry,
@@ -176,7 +177,7 @@ class AlbumController extends YsaMemberController
 	public function actionToggle($albumId = 0)
 	{
 		if (Yii::app()->getRequest()->isAjaxRequest) {
-			$entry = EventAlbum::model()->findByPk($id);
+			$entry = EventAlbum::model()->findByPk($albumId);
 			if ($entry && $entry->event->isOwner()) {
 				if (isset($_POST['state'])) {
 					$entry->state = intval($_POST['state']);
@@ -186,6 +187,55 @@ class AlbumController extends YsaMemberController
 			$this->sendJsonSuccess();
 		} else {
 			$this->redirect(Yii::app()->homeUrl);
+		}
+	}
+	
+	public function actionSaveSizes($albumId)
+	{
+		if (isset($_POST['AlbumSizes']) && count($_POST['AlbumSizes']) && is_array($_POST['AlbumSizes'])) {
+			$entry = EventAlbum::model()->findByPk($albumId);
+			
+			if (!$entry || !$entry->event->isOwner()) {
+				$this->redirect(array('event/'));
+			}
+			
+			// set order sizes
+			$entry->setSizes($_POST['AlbumSizes']);
+			
+			if (Yii::app()->request->isAjaxRequest) {
+				$this->sendJsonSuccess();
+			} else {
+				$this->redirect(array('album/view/' . $entry->id));
+			}
+		} else {
+			$this->redirect(array('event/'));
+		}
+	}
+	
+	public function actionSaveAvailability($albumId)
+	{
+		if (isset($_POST['AlbumPhotoAvailability'])) {
+			
+			$entry = EventAlbum::model()->findByPk($albumId);
+			
+			if (!$entry || !$entry->event->isOwner() || $entry->event->isProofing()) {
+				$this->redirect(array('event/'));
+			}
+			
+			$availability = new AlbumPhotoAvailability();
+			
+			$availability->attributes = $_POST['AlbumPhotoAvailability'];
+			
+			if ($availability->validate()) {
+				$entry->can_order = $availability->can_order;
+				$entry->can_share = $availability->can_share;
+				$entry->save();
+			}
+			if (Yii::app()->request->isAjaxRequest) {
+				$this->sendJsonSuccess();
+			} else {
+				$this->redirect(array('album/view/' . $entry->id));
+			}
 		}
 	}
 	

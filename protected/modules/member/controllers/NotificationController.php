@@ -1,8 +1,16 @@
 <?php
 class NotificationController extends YsaMemberController
 {
+	public function init()
+	{
+		parent::init();
+		$this->crumb('Clients', array('client/'));
+		$this->crumb('Notifications', array('notification/'));
+	}
+
 	public function actionNew()
 	{
+		$this->crumb('Send notification');
 		$entry = new ApplicationNotification();
 		if (isset($_POST['ApplicationNotification']))
 		{
@@ -62,6 +70,7 @@ class NotificationController extends YsaMemberController
 		$pagination = new CPagination(ApplicationNotification::model()->count($criteria));
 		$pagination->pageSize = Yii::app()->params['admin_per_page'];
 		$pagination->applyLimit($criteria);
+		$this->setMemberPageTitle('Notifications');
 
 		$entries = ApplicationNotification::model()->findAll($criteria);
 

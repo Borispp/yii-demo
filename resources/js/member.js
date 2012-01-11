@@ -32,287 +32,39 @@ function _plupload_files_added(up, files) {
 	up.refresh();
 }
 
+// confirm wrapper for uprise
+function _confirm(msg, callback) {
+	apprise(msg, {'confirm':true,animate:true}, callback);
+}
+// alert wrapper for uprise
+function _alert(msg, callback) {
+	apprise(msg, {animate:true}, callback);
+}
 
 $(function(){
+	
+	var ajax_loader = $('#ajax-loader');
+	$(document).ajaxStart(function(){
+		ajax_loader.show();
+	}).ajaxComplete(function(){
+		ajax_loader.hide();
+	});
+	
+	
+	// init color pickers 
+	$('input.colors').miniColors();
+	// init datepickers
+	$('input.date').datepicker();
+	$('input.datetime').datetimepicker({
+		ampm: true,
+		timeFormat: 'hh:mm:ss',
+		showSecond: true
+	});
+	// styling form elements
+	$("select, input:checkbox, input:radio, input:file").uniform();
 
-	$.fn.initAlbumPage = function()
-	{
-		$(this).each(function(){
-			
-			var album = $(this);
-			var album_id = album.attr('albumid');
-			
-			var album_photos_container = $('#album-photos');
-			
-			album_photos_container.sortable({
-				placeholder: "ui-state-highlight",
-				opacity: 0.6,
-				update:function(){
-					$.post(_member_url + '/photo/sort/album/' + album_id, album_photos_container.sortable('serialize'), function(){
-						
-					});
-				}
-			});
-			album_photos_container.disableSelection();
-			
-			album.find('a.delete').live('click', function(e){
-				e.preventDefault();
-				if (!confirm('Are you sure?')) {
-					return false;
-				}
-				var link = $(this);
-				$.post(_member_url + '/photo/delete/' + link.attr('rel'), function(){
-					link.parents('li').fadeOut('fast', function(){
-						$(this).remove();
-					})
-				});
-			});
-			
-			album.find('a.setcover').live('click', function(e){
-				e.preventDefault();
-				var link = $(this);
-				$.post(_member_url + '/album/setCover/' + album_id, {
-					photo:link.attr('rel')
-				}, function(data){
-					if (data.success) {
-						link.parents('li').addClass('cover').siblings('.cover').removeClass('cover');
-					}
-				}, 'json');
-			});
-			
-			// init uploader
-			var uploader = new plupload.Uploader($.extend(_plupload_settings, {url:_member_url + '/photo/upload/album/' + album_id}));
-			
-			uploader.bind('Init', _plupload_init);
-			uploader.init();
-			uploader.bind('FilesAdded', _plupload_files_added);
-			uploader.bind('UploadProgress', _plupload_upload_progress);
-			uploader.bind('Error', _plupload_error_handler);
-			uploader.bind('FileUploaded', function(up, file, response) {
-				$('#' + file.id + " b").html("100%");
-				var data = $.parseJSON(response.response);
-				if (data.success) {
-					album_photos_container.append(data.html);
-				} else {
-					alert(data.msg);
-				}
-			});
-			
-			$('#photo-upload-submit').click(function(e) {
-				e.preventDefault();
-				uploader.start();
-			});
-			
-			
-			
-			var smugmug_container = $('#photo-import-smugmug-container');
-			
-			var smugmug_data = smugmug_container.find('.data');
-			var smugmug_loading = smugmug_container.find('.loading');
-			var smugmug_import = smugmug_container.find('.import');
-			
-			smugmug_container.find('.smugmug-import-selected').live('click', function(e){
-				e.preventDefault();
-				var link = $(this);
-				
-				var chain = new Array;
-				link.parents('form').find('input[type=checkbox]:checked').each(function(){
-					var checkbox = $(this);
-					chain.push($.post(_member_url + '/photo/smugmugImportPhoto', {
-						smugmug:checkbox.val(),
-						album_id:album_id
-					}, function(data){
-						checkbox.attr('checked', false);
-						if (data.success) {
-							album_photos_container.append(data.html);
-						}
-					}, 'json'));
-				});
-				
-				$.when.apply(this, chain).done(function(){
-					alert('all done')
-				});
-			});
-			
-			smugmug_container.find('.smugmug-check-all, .smugmug-check-none').live('click', function(e){
-				e.preventDefault();
-				var link = $(this);
-				link.parents('form').find('input[type=checkbox]').attr('checked', link.hasClass('smugmug-check-all'))
-			});
-			
-			smugmug_container.find('input[type=button]').click(function(e){
-				e.preventDefault();
-				
-				var smugmug = smugmug_container.find('select').val();
-				
-				if (!smugmug) {
-					return;
-				}
-				
-				smugmug_data.hide();
-				smugmug_loading.show();
-				smugmug_import.html('');
-				
-				$.post(_member_url + '/smugmug/album/', {smugmug:smugmug}, function(data){
-					smugmug_loading.hide();
-					smugmug_data.show();
-					if (data.success) {
-						smugmug_import.html(data.html);
-					} else {
-						alert(data.msg);
-					}
-				}, 'json');
-			});			
-		});
-	}
+
+
+
 	
-	$('#album').initAlbumPage();
-	
-	$.fn.initEventPage = function()
-	{
-		$(this).each(function(){
-			var event = $(this);
-			
-			var event_id = event.attr('eventid');
-			
-			var event_albums_container = $('#event-albums');
-			
-			event_albums_container.sortable({
-				placeholder: "ui-state-highlight",
-				opacity: 0.6,
-				update:function(){
-					$.post(_member_url + '/album/sort/event/' + event_id, event_albums_container.sortable('serialize'), function(){
-						
-					});
-				}
-			});
-			
-			event.find('a.delete').click(function(e){
-				e.preventDefault();
-				if (!confirm('Are you sure?')) {
-					return false;
-				}
-				var link = $(this);
-				$.post(_member_url + '/album/delete/' + link.attr('rel'), function(){
-					link.parents('li').fadeOut('fast', function(){
-						$(this).remove();
-					})
-				});
-			});
-		});
-	};
-	
-	$('#event').initEventPage();
-	
-	
-	
-	$.fn.initPortfolioAlbumPage = function()
-	{
-		$(this).each(function(){
-			
-			var album = $(this);
-			var album_id = album.attr('albumid');
-			
-			var album_photos_container = $('#portfolio-album-photos');
-			
-			album_photos_container.sortable({
-				placeholder: "ui-state-highlight",
-				opacity: 0.6,
-				update:function(){
-					$.post(_member_url + '/portfolioPhoto/sort/album/' + album_id, album_photos_container.sortable('serialize'), function(){
-						
-					});
-				}
-			});
-			album_photos_container.disableSelection();
-			
-			album.find('a.delete').live('click', function(e){
-				e.preventDefault();
-				if (!confirm('Are you sure?')) {
-					return false;
-				}
-				var link = $(this);
-				$.post(_member_url + '/portfolioPhoto/delete/' + link.attr('rel'), function(){
-					link.parents('li').fadeOut('fast', function(){
-						$(this).remove();
-					});
-				});
-			});
-			
-			album.find('a.setcover').live('click', function(e){
-				e.preventDefault();
-				var link = $(this);
-				$.post(_member_url + '/portfolioAlbum/setCover/' + album_id, {
-					photo:link.attr('rel')
-				}, function(data){
-					if (data.success) {
-						link.parents('li').addClass('cover').siblings('.cover').removeClass('cover');
-					}
-				}, 'json');
-			});
-			
-			
-			// init uploader
-			var uploader = new plupload.Uploader($.extend(_plupload_settings, {url:_member_url + '/portfolioPhoto/upload/album/' + album_id}));
-			
-			uploader.bind('Init', _plupload_init);
-			uploader.init();
-			uploader.bind('FilesAdded', _plupload_files_added);
-			uploader.bind('UploadProgress', _plupload_upload_progress);
-			uploader.bind('Error', _plupload_error_handler);
-			uploader.bind('FileUploaded', function(up, file, response) {
-				$('#' + file.id + " b").html("100%");
-				var data = $.parseJSON(response.response);
-				if (data.success) {
-					album_photos_container.append(data.html);
-				} else {
-					alert(data.msg);
-				}
-			});
-			
-			$('#photo-upload-submit').click(function(e) {
-				e.preventDefault();
-				uploader.start();
-			});
-		});
-	}
-	
-	$('#portfolio-album').initPortfolioAlbumPage();
-	
-	
-	
-	
-	$.fn.initPortfolioPage = function()
-	{
-		$(this).each(function(){
-			var portfolio = $(this);
-			
-			var portfolio_albums_container = $('#portfolio-albums');
-			
-			portfolio_albums_container.sortable({
-				placeholder: "ui-state-highlight",
-				opacity: 0.6,
-				update:function(){
-					$.post(_member_url + '/portfolioAlbum/sort/', portfolio_albums_container.sortable('serialize'), function(){
-						
-					});
-				}
-			});
-			
-			portfolio.find('a.delete').click(function(e){
-				e.preventDefault();
-				if (!confirm('Are you sure?')) {
-					return false;
-				}
-				var link = $(this);
-				$.post(_member_url + '/portfolioAlbum/delete/' + link.attr('rel'), function(){
-					link.parents('li').fadeOut('fast', function(){
-						$(this).remove();
-					})
-				});
-			});
-		});
-	};
-	
-	$('#portfolio').initPortfolioPage();
 });

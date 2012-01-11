@@ -65,7 +65,7 @@
 		<section class="color">
 			<?php echo $form->labelEx($model, 'splash_bg_color'); ?>
 			<div class="value">
-				<?php echo $form->textField($model, 'splash_bg_color', array()); ?>
+				<?php echo $form->textField($model, 'splash_bg_color', array('class' => 'colors', 'readonly' => true)); ?>
 				<?php echo $form->error($model,'splash_bg_color'); ?>
 			</div>
 		</section>

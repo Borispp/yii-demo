@@ -38,10 +38,10 @@ class PhotoController extends YsaMemberController
 			$this->refresh();
 		}
 		
-		if (isset($_POST['PhotoSizes']) && count($_POST['PhotoSizes']) && is_array($_POST['PhotoSizes'])) {
-			$entry->setSizes($_POST['PhotoSizes']);
-			$this->refresh();
-		}
+//		if (isset($_POST['PhotoSizes']) && count($_POST['PhotoSizes']) && is_array($_POST['PhotoSizes'])) {
+//			$entry->setSizes($_POST['PhotoSizes']);
+//			$this->refresh();
+//		}
 		
 		
 		$this->crumb('Events', array('event/'))
@@ -50,6 +50,8 @@ class PhotoController extends YsaMemberController
 			 ->crumb('Photo #' . $entry->id);
 		
 		$this->setMemberPageTitle('Photo #' . $entry->id);
+		
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/photopage.js', CClientScript::POS_HEAD);
 		
 		$this->render('view', array(
 			'entry'			=> $entry,
@@ -89,7 +91,7 @@ class PhotoController extends YsaMemberController
 		}
 	}
 	
-	public function actionSort($albumId = 0)
+	public function actionSort()
 	{
 		if (Yii::app()->getRequest()->isAjaxRequest) {
 			if (isset($_POST['album-photo'])) {
@@ -162,6 +164,7 @@ class PhotoController extends YsaMemberController
 				foreach ($images['Images'] as $image) {
 					$image = $this->member()->smugmug()->images_getInfo('ImageID=' . $image['id'], 'ImageKey=' . $image['Key'], 'CustomSize=' . $w . 'x' . $h);
 					$image['exif'] = $this->member()->smugmug()->images_getEXIF('ImageID=' . $image['id'], 'ImageKey=' . $image['Key']);
+					
 					$photo = new EventPhoto();
 					$photo->album_id = $album->id;
 					$photo->import($image, 'smugmug');
@@ -221,4 +224,54 @@ class PhotoController extends YsaMemberController
 		}
 		Yii::app()->end();
 	}
+	
+	public function actionSaveSizes($photoId)
+	{
+		if (isset($_POST['PhotoSizes']) && count($_POST['PhotoSizes']) && is_array($_POST['PhotoSizes'])) {
+			$entry = EventPhoto::model()->findByPk($photoId);
+			
+			if (!$entry || !$entry->isOwner()) {
+				$this->redirect(array('event/'));
+			}
+			
+			// set order sizes
+			$entry->setSizes($_POST['PhotoSizes']);
+			
+			if (Yii::app()->request->isAjaxRequest) {
+				$this->sendJsonSuccess();
+			} else {
+				$this->redirect(array('photo/view/' . $entry->id));
+			}
+		} else {
+			$this->redirect(array('event/'));
+		}
+	}
+	
+	public function actionSaveAvailability($photoId)
+	{
+		if (isset($_POST['AlbumPhotoAvailability'])) {
+			
+			$entry = EventPhoto::model()->findByPk($photoId);
+			
+			if (!$entry || !$entry->isOwner() || $entry->album->event->isProofing()) {
+				$this->redirect(array('event/'));
+			}
+			
+			$availability = new AlbumPhotoAvailability();
+			$availability->attributes = $_POST['AlbumPhotoAvailability'];
+			
+			if ($availability->validate()) {
+				$entry->can_order = $availability->can_order;
+				$entry->can_share = $availability->can_share;
+				$entry->save();
+			}
+			if (Yii::app()->request->isAjaxRequest) {
+				$this->sendJsonSuccess();
+			} else {
+				$this->redirect(array('album/view/' . $entry->id));
+			}
+		}
+	}
+	
+	
 }

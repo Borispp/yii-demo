@@ -1,4 +1,4 @@
-<div class="w">
+<div class="w" id="photo">
 	<figure>
 		<?php echo $entry->full(); ?>
 	</figure>
@@ -32,9 +32,9 @@
 	</div>
 
 	<h3>Order sizes for photo</h3>
-	<?php $orderForm = $this->beginWidget('YsaMemberForm', array(
+	<?php $this->beginWidget('YsaMemberForm', array(
 			'id'=>'photo-size-form',
-			'enableAjaxValidation'=>false,
+			'action' => array('photo/saveSizes/' . $entry->id),
 	)); ?>
 	<ul>
 		<?php echo YsaHtml::checkBoxList(
@@ -57,13 +57,12 @@
 
 	<h3>Photo Rating: <?php echo $entry->rating(); ?></h3>
 
-
 	<?php if (!$entry->album->event->isProofing()) : ?>
 
 		<h3>Availability for sharing/order this photo</h3>
 		<?php $avlForm = $this->beginWidget('YsaMemberForm', array(
 				'id'=>'photo-availability-form',
-				'enableAjaxValidation'=>false,
+				'action' => array('photo/saveAvailability/' . $entry->id),
 		)); ?>
 		<p>
 			<?php echo $avlForm->labelEx($availability,'can_order'); ?>

@@ -4,7 +4,7 @@ class StudioController extends YsaMemberController
 	public function beforeRender($view) {
 		parent::beforeRender($view);
 		
-		$this->loadSwfUploader();
+		$this->loadPlupload();
 		
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/studiopage.js', CClientScript::POS_HEAD);
 	
