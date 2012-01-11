@@ -1,3 +1,17 @@
+<style type="text/css">
+		#user-events
+		{
+			background: #ccc;
+			width: 100px;
+			height: 100px;
+		}
+		#events
+		{
+			background: #0cc;
+			width: 100px;
+			height: 100px;
+		}
+	</style>
 <div class="form">
 	<script type="text/javascript" src="<?php echo Yii::app()->baseUrl?>/resources/js/member/client.js"></script>
 	<?php $form=$this->beginWidget('YsaMemberForm', array(
@@ -51,25 +65,19 @@
 			<?php echo $form->error($entry,'description'); ?>
 		</div>
 	</section>
-	<section id="membership-section">
-		<label>Related Memberships</label>
-		<div class="membership">
-			<a href="javascript:void(0)" id="add-to-membership">Add to membership</a>
-<!--			--><?php //foreach($entry->DiscountMembership as $obDiscountMembership):?>
-<!--			<div class="item">-->
-<!--				<div class="item-name">--><?php //echo $obDiscountMembership->getMembership()->name?><!--</div>-->
-<!--				<input type="text" class="w_20" name="Discount[membership_ids][--><?php //echo $obDiscountMembership->membership_id?><!--]" value="--><?php //echo $obDiscountMembership->amount?><!--"/>-->
-<!--				<a href="javascript:void(0)" class="item-delete-link">Delete</a>-->
-<!--			</div>-->
-<!--			--><?php //endforeach?>
-		</div>
-	</section>
 
+	<section id="user-events" rel="client-<?php echo $entry->id?>">
+		<ul>
+			<?php $ids = array();foreach($entry->events as $obEvent):$ids[] = $obEvent->id;?>
+			<li class="event" id="event-<?php echo $obEvent->id?>"><?php echo $obEvent->name?></li>
+			<?php endforeach?>
+		</ul>
+	</section>
 
 	<section id="events">
 		<ul>
-			<?php foreach($events as $obEvent):?>
-			<li id="event-<?php echo $obEvent->id?>"><?php echo $obEvent->name?></li>
+			<?php foreach($events as $obEvent): if (in_array($obEvent->id, $ids)) continue;?>
+			<li class="event" id="event-<?php echo $obEvent->id?>"><?php echo $obEvent->name?></li>
 			<?php endforeach?>
 		</ul>
 	</section>
