@@ -1,4 +1,4 @@
-<div id="app-wizard" class="w">
+<div id="app-wizard" class="w body">
 	<?php echo $event->sender->menu->run(); ?>
 	<h2>Upload your logo</h2>
 	<?php $form = $this->beginWidget('YsaMemberForm', array(

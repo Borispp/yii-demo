@@ -86,12 +86,6 @@
 
 
 
-
-
-
-
-
-
 .smugmug-import {
 	
 }
@@ -117,4 +111,100 @@
 }
 #studio-specials .loading {
 	display: none;
+}
+
+
+
+
+
+
+
+
+
+.widgets {
+	background: white;
+	min-height: 400px;
+}
+.widget h3 {
+	background: red;
+	margin-bottom: 0;
+	cursor: pointer;
+}
+.widget > div {
+	padding:5px;
+	 background: #00b8eb;
+}
+
+
+
+.crumbs {
+	display: block;
+	margin-bottom: 2em;
+}
+.crumbs li {
+	display: inline;
+}
+.crumbs li a,  
+.crumbs li a:link,  
+.crumbs li a:visited,
+.crumbs li span {  
+    color: #000;  
+    display: block;  
+    float: left;  
+    font-size: 12px;  
+	line-height: 1;
+    margin-left: -13px;  
+    padding: 7px 17px 11px 25px;  
+    position: relative;  
+    text-decoration: none;  
+}  
+.crumbs li.first a { 
+    border-left: 1px solid #d9d9d9; 
+	margin-left: 0;
+	padding-left:14px;
+}
+.crumbs li span {
+	color: #888;
+}
+.crumbs li a,
+.crumbs li span {  
+    background-image: url('../images/crumbs.png');  
+    background-repeat: no-repeat;  
+    background-position: 100% 0; 
+    position: relative;  
+}  
+.crumbs li a:hover {  
+    color: #333;
+    background-position: 100% -48px;  
+    cursor: pointer;  
+}  
+.crumbs li a:active {  
+    color: #333;  
+    background-position: 100% -96px;  
+}
+
+
+
+
+.w-crumbs {
+	margin-bottom: 2em;
+}
+.w-crumbs li {
+	float: left;
+	width:163px;
+}
+.w-crumbs li a,  
+.w-crumbs li a:link,  
+.w-crumbs li a:visited,
+.w-crumbs li span {  
+    display: block;  
+    text-align: center;
+	padding:1em 0;
+	font-size: 16px;
+}  
+.w-crumbs li.last {
+	width:165px;
+}
+.w-crumbs li a.active {
+	
 }

@@ -1,4 +1,4 @@
-<div id="app-wizard" class="w">
+<div id="app-wizard" class="w body">
 	<?php echo $event->sender->menu->run(); ?>
 
 	<?php $form = $this->beginWidget('YsaMemberForm', array(

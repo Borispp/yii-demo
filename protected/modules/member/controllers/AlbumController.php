@@ -78,6 +78,9 @@ class AlbumController extends YsaMemberController
 		$photoSizes = PhotoSize::model()->findActive();
 		$availability = new AlbumPhotoAvailability();
 		
+		$availability->order_link = $entry->order_link;
+		
+		
 		if (isset($_POST['PhotoUploadForm'])) {
 			$upload->photo = CUploadedFile::getInstance($upload, 'photo');
 			if ($upload->validate()) {
@@ -109,7 +112,7 @@ class AlbumController extends YsaMemberController
 			$this->member()->smugmugSetAccessToken();
 		}
 		
-		$this->loadPlupload();
+		$this->loadPlupload(true);
 		
 		$this->crumb($entry->event->name, array('event/view/' . $entry->event->id))
 			 ->crumb($entry->name);
@@ -227,6 +230,7 @@ class AlbumController extends YsaMemberController
 			$availability->attributes = $_POST['AlbumPhotoAvailability'];
 			
 			if ($availability->validate()) {
+				$entry->order_link = $availability->order_link;
 				$entry->can_order = $availability->can_order;
 				$entry->can_share = $availability->can_share;
 				$entry->save();

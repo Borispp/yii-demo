@@ -45,38 +45,47 @@ $(function(){
 				}, 'json');
 			});
 			
-			
-			
-			
-			
-			
-			// init uploader
-			var uploader = new plupload.Uploader($.extend(_plupload_settings, {url:_member_url + '/photo/upload/album/' + album_id}));
-			
-			uploader.bind('Init', _plupload_init);
-			uploader.init();
-			uploader.bind('FilesAdded', _plupload_files_added);
-			uploader.bind('UploadProgress', _plupload_upload_progress);
-			uploader.bind('Error', _plupload_error_handler);
-			uploader.bind('FileUploaded', function(up, file, response) {
-				$('#' + file.id + " b").html("100%");
-				var data = $.parseJSON(response.response);
-				if (data.success) {
-					album_photos_container.append(data.html);
-				} else {
-					_alert(data.msg);
+			$('#photo-upload-container').plupload({
+				runtimes : 'gears,html5,html4,browserplus',
+				url:_member_url + '/photo/upload/album/' + album_id,
+				max_file_size : '10mb',
+				filters : [
+					{title : "Image files", extensions : "jpg,gif,png"},
+				],
+				init : {
+					FileUploaded : function(up, file, response){
+						var data = $.parseJSON(response.response);
+						if (data.success) {
+							album_photos_container.append(data.html);
+						} else {
+							_alert(data.msg);
+						}
+					}
 				}
 			});
 			
-			$('#photo-upload-submit').click(function(e) {
-				e.preventDefault();
-				uploader.start();
-			});
-			
-			
-			
-			
-			
+			// init uploader
+//			var uploader = new plupload.Uploader($.extend(_plupload_settings, {url:_member_url + '/photo/upload/album/' + album_id}));
+//			
+//			uploader.bind('Init', _plupload_init);
+//			uploader.init();
+//			uploader.bind('FilesAdded', _plupload_files_added);
+//			uploader.bind('UploadProgress', _plupload_upload_progress);
+//			uploader.bind('Error', _plupload_error_handler);
+//			uploader.bind('FileUploaded', function(up, file, response) {
+//				$('#' + file.id + " b").html("100%");
+//				var data = $.parseJSON(response.response);
+//				if (data.success) {
+//					album_photos_container.append(data.html);
+//				} else {
+//					_alert(data.msg);
+//				}
+//			});
+//			
+//			$('#photo-upload-submit').click(function(e) {
+//				e.preventDefault();
+//				uploader.start();
+//			});
 			
 			
 			var smugmug_container = $('#photo-import-smugmug-container');

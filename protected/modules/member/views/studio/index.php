@@ -39,11 +39,12 @@
 				'entry' => $entryLink,
 			)); ?>
 		</section>
-		
+		<?/*
 		<h3>Splash</h3>
 		<div id="studio-splash">
 			<?php $this->renderPartial('_splashForm', array(
 				'entry' => $splash,
 			)); ?>
 		</div>
+		 */?>
 </section>
