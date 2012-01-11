@@ -6,6 +6,7 @@
     )); ?>
     
     <p>
+		<?php echo CHtml::link('Export to CSV', array('member/export'), array('class' => 'btn i_download icon')); ?>
         <?php echo CHtml::link('Add New', array('add'), array('class' => 'btn i_plus icon ysa fr')); ?>
         <span class="clearfix"></span>
     </p>

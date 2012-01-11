@@ -50,6 +50,13 @@ $(function(){
 		ajax_loader.hide();
 	});
 	
+	
+	$('div.flash').click(function(){
+		$(this).slideUp('fast', function(){
+			$(this).remove();
+		});
+	})
+	
 	// init color pickers 
 	$('input.colors').miniColors();
 	// init datepickers
@@ -62,8 +69,6 @@ $(function(){
 	// styling form elements
 	$("select, input:checkbox, input:radio, input:file").uniform();
 
-
-	
 	
 	$.fn.initWidgets = function(_settings) {
 		
@@ -79,20 +84,7 @@ $(function(){
 		var widgets_container = main_container.find('div.widgets');
 		var widgets = widgets_container.find('div.widget');
 		
-		var pathname = location.pathname.toString();
-		
 		main_container.disableSelection();
-		
-		
-		
-//		//save the total count of widgets
-//		if (!content.data(namespace + 'data')) {
-//			content.data(namespace + 'data', {
-//				containercount: container.length,
-//				currentid: 1
-//			});
-//		}
-
 
 		widgets.each(function(){
 			var widget = $(this),
@@ -103,7 +95,6 @@ $(function(){
 			widget.data(settings.namespace + 'widget', {});
 		})
 		
-		
 		widgets_container.each(function(i){
 			var widgets = $.jStorage.get(settings.namespace + 'widgets_' + i),
 				widgets_cont = $(this);
@@ -112,9 +103,6 @@ $(function(){
 			}
 			$.each(widgets, function(w, options){
 				var widget = $('#' + w);
-				
-				// collapced init will go here
-				
 				//position handling
 				if (widget.length && (widget.prevAll('div').length != options.position || widget.parent()[0] !== widgets_cont[0])) {
 					var children = widgets_cont.children('div.widget');
@@ -126,14 +114,9 @@ $(function(){
 						widget.appendTo(widgets_cont);
 					}
 				}
-				
-				
 			});
-			
 		});
 
-
-		
 		widgets_container.each(function(){
 			//use jQuery UI sortable plugin for the widget sortable function
 			$(this).sortable({
@@ -158,8 +141,6 @@ $(function(){
 							var _t = $(this);
 							_widgets[this.id] = {
 								position: pos
-//								,
-//								collapsed: _t.find('div').eq(0).is(':hidden')
 							};
 						});
 						
@@ -167,18 +148,8 @@ $(function(){
 					});
 				}
 			});
-			
 		});
-		
-		
 	}
 	$('#member-area').initWidgets();
-	
-	
-	
-	
-	
-	
-
 	
 });
