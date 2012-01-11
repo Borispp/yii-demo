@@ -30,7 +30,7 @@
 		</section>
 		<?php $this->endWidget(); ?>
 	</div>
-
+	<?/*
 	<h3>Order sizes for photo</h3>
 	<?php $this->beginWidget('YsaMemberForm', array(
 			'id'=>'photo-size-form',
@@ -47,13 +47,14 @@
 			)
 		); ?>
 	</ul>
+	 
 	<p>Album default sizes: <?php foreach ($entry->album->sizes as $k => $size) : ?>
 			<strong><?php echo $size->title; ?></strong>
 		<?php endforeach; ?></p>
 
 	<?php echo YsaHtml::submitButton('Save'); ?>
 	<?php $this->endWidget();?>
-
+	*/?>
 
 	<h3>Photo Rating: <?php echo $entry->rating(); ?></h3>
 

@@ -37,6 +37,14 @@
 </section>
 
 <section>
+	<?php echo $form->labelEx($entry,'order_link'); ?>
+	<div>
+		<?php echo $form->textField($entry,'order_link', array('maxlength' => 200)); ?>
+		<?php echo $form->error($entry,'order_link'); ?>
+	</div>
+</section>
+	
+<section>
 	<?php echo $form->labelEx($entry,'state'); ?>
 	<div>
 		<?php echo $form->dropDownList($entry, 'state', $entry->getStates()); ?>

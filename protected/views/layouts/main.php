@@ -43,7 +43,7 @@
             </nav>
         </header>
     </div>
-    <section id="content">
+    <section id="content" class="cf">
         <?php echo $content; ?>
     </section>
     

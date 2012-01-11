@@ -16,6 +16,7 @@
  * @property integer $can_order
  * @property integer $can_share
  * @property integer $cover_id
+ * @property string $order_link
  * 
  * @property EventPhoto $photos
  * @property Event $event
@@ -125,6 +126,7 @@ class EventAlbum extends YsaActiveRecord
 			'updated' => 'Updated',
 			'can_order' => 'Available for order',
 			'can_share'	=> 'Available for share',
+			'order_link' => 'Order Link'
 		);
 	}
 
@@ -137,7 +139,7 @@ class EventAlbum extends YsaActiveRecord
 			array('event_id, rank, state, can_share, can_order', 'numerical', 'integerOnly'=>true),
 			array('name, place', 'length', 'max' => 255),
 			array('event_id, state, name', 'required'),
-			array('description, shooting_date, created, updated, can_share, can_order', 'safe'),
+			array('description, shooting_date, created, updated, can_share, can_order, order_link', 'safe'),
 			array('id, event_id, name, state, created', 'safe', 'on'=>'search'),
 		);
 	}

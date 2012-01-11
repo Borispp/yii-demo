@@ -30,8 +30,8 @@
 					<figure><?php echo $album->preview(); ?></figure>
 					<div class="menu">
 						<?php echo YsaHtml::link('View', array('album/view/' . $album->id), array('class' => 'view')); ?>
+						<?php echo YsaHtml::link('Edit', array('album/edit/' . $album->id), array('class' => 'edit')); ?>
 						<?php if ($entry->isPublic()) : ?>
-							<?php echo YsaHtml::link('Edit', array('album/edit/' . $album->id), array('class' => 'edit')); ?>
 							<?php echo YsaHtml::link('Delete', array('album/delete/' . $album->id), array('class' => 'delete', 'rel' => $album->id)); ?>
 						<?php endif; ?>
 					</div>

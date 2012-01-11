@@ -205,10 +205,15 @@ class YsaController extends CController
 		$this->_renderVars[$name] = $value;
 	}
 	
-	public function loadPlupload()
+	public function loadPlupload($loadCss = false)
 	{
-		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plupload/plupload.full.js', CClientScript::POS_HEAD);
-//				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plupload/jquery.plupload.queue/jquery.plupload.queue.js', CClientScript::POS_HEAD);
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plupload/plupload.full.js', CClientScript::POS_END)
+				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plupload/jquery.plupload.queue/jquery.plupload.queue.js', CClientScript::POS_END)
+				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plupload/jquery.ui.plupload/jquery.ui.plupload.js', CClientScript::POS_END);
+		
+		  if ($loadCss) {
+			  $this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/plupload/plupload.css');
+		  }
 	}
 	
     /**
@@ -247,6 +252,7 @@ class YsaController extends CController
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jqueryui-timepicker.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/fancybox.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/form.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/json.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jstorage.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member.js', CClientScript::POS_HEAD);
 			// register css
