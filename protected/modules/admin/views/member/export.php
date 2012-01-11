@@ -1,0 +1,2 @@
+"Email Address","First Name","Last Name"<?php echo "\n"; ?>
+<?php foreach ($entries as $entry) : ?><?php echo $entry->email; ?>,<?php echo $entry->first_name; ?>,<?php echo $entry->last_name; ?><?php echo "\n"; ?><?php endforeach; ?>
