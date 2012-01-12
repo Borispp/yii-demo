@@ -5,6 +5,7 @@ class ClientController extends YsaMemberController
 	{
 		parent::init();
 		$this->crumb('Clients', array('client/'));
+		$this->renderVar('events', $this->member()->event);
 	}
 	public function actionAdd()
 	{
@@ -117,5 +118,48 @@ class ClientController extends YsaMemberController
 		} else {
 			$this->redirect(array('client/'));
 		}
+	}
+
+	/**
+	 * Ajax action used to add client access to events
+	 * @return void
+	 */
+	public function actionAddEvent()
+	{
+		if (empty($_POST['client_id']) || empty($_POST['event_id']))
+			return $this->sendJsonSuccess(array(
+				'state' => false,
+			));
+		$obEvent = Event::model()->findByPk($_POST['event_id']);
+		$obClient = Client::model()->findByPk($_POST['client_id']);
+		if (!$obEvent || !$obClient)
+			return $this->sendJsonSuccess(array(
+				'state' => false,
+			));
+		return $this->sendJsonSuccess(array(
+			'state' => $obClient->addEvent($obEvent),
+		));
+	}
+
+	/**
+	 * Ajax action used to remove client access to events
+	 * @return void
+	 */
+	public function actionRemoveEvent()
+	{
+		if (empty($_POST['client_id']) || empty($_POST['event_id']))
+			return $this->sendJsonSuccess(array(
+				'state' => false,
+			));
+		$obEvent = Event::model()->findByPk($_POST['event_id']);
+		$obClient = Client::model()->findByPk($_POST['client_id']);
+
+		if (!$obEvent || !$obClient)
+			return $this->sendJsonSuccess(array(
+				'state' => false,
+			));
+		return $this->sendJsonSuccess(array(
+			'state' => $obClient->removeEvent($obEvent),
+		));
 	}
 }

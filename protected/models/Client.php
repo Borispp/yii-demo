@@ -66,7 +66,9 @@ class Client extends YsaActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'application' => array(self::BELONGS_TO, 'Application', 'application_id'),
+			'application'	=> array(self::BELONGS_TO, 'Application', 'application_id'),
+			'auth'			=> array(self::HAS_ONE, 'ClientAuth', 'client_id'),
+			'events'		=> array(self::MANY_MANY, 'Event', 'client_events(client_id, event_id)'),
 		);
 	}
 
@@ -223,4 +225,42 @@ class Client extends YsaActiveRecord
 		return $addedWith[$this->added_with];
 	}
 
+	/**
+	 * Add client access to event
+	 * @param Event $obEvent
+	 * @param string $addedBy
+	 * @return bool
+	 */
+	public function addEvent(Event $obEvent, $addedBy = 'member')
+	{
+		if (!ClientEvents::model()->findByAttributes(array(
+				'event_id'	=> $obEvent->id,
+				'client_id'	=> $this->id,
+			)))
+		{
+			$obClientEvents = new ClientEvents();
+			$obClientEvents->client_id = $this->id;
+			$obClientEvents->event_id = $obEvent->id;
+			$obClientEvents->added_by = $addedBy;
+			if (!$obClientEvents->validate())
+				return FALSE;
+			$obClientEvents->save();
+			return TRUE;
+		}
+	}
+
+	/**
+	 * Remove client access to event
+	 * @param Event $obEvent
+	 * @return bool
+	 */
+	public function removeEvent(Event $obEvent)
+	{
+		if (!($obClientEvents = ClientEvents::model()->findByAttributes(array(
+				'event_id'	=> $obEvent->id,
+				'client_id'	=> $this->id,
+			))))
+			return FALSE;
+		$obClientEvents->delete();
+	}
 }

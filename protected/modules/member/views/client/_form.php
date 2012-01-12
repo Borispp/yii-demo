@@ -1,7 +1,22 @@
+<style type="text/css">
+		#user-events
+		{
+			background: #ccc;
+			width: 100px;
+			height: 100px;
+		}
+		#events
+		{
+			background: #0cc;
+			width: 100px;
+			height: 100px;
+		}
+	</style>
 <div class="form">
+	<script type="text/javascript" src="<?php echo Yii::app()->baseUrl?>/resources/js/member/client.js"></script>
 	<?php $form=$this->beginWidget('YsaMemberForm', array(
-			'id'=>'client-form',
-			'enableAjaxValidation'=>false,
+		'id'=>'client-form',
+		'enableAjaxValidation'=>false,
 	)); ?>
 	<section>
 		<?php echo $form->labelEx($entry,'name'); ?>
@@ -10,7 +25,7 @@
 			<?php echo $form->error($entry,'name'); ?>
 		</div>
 	</section>
-	
+
 	<section>
 		<?php echo $form->labelEx($entry,'email'); ?>
 		<div>
@@ -49,6 +64,22 @@
 			<?php echo $form->textArea($entry,'description', array('cols' => 40, 'rows' => 4)); ?>
 			<?php echo $form->error($entry,'description'); ?>
 		</div>
+	</section>
+
+	<section id="user-events" rel="client-<?php echo $entry->id?>">
+		<ul>
+			<?php $ids = array();foreach($entry->events as $obEvent):$ids[] = $obEvent->id;?>
+			<li class="event" id="event-<?php echo $obEvent->id?>"><?php echo $obEvent->name?></li>
+			<?php endforeach?>
+		</ul>
+	</section>
+
+	<section id="events">
+		<ul>
+			<?php foreach($events as $obEvent): if (in_array($obEvent->id, $ids)) continue;?>
+			<li class="event" id="event-<?php echo $obEvent->id?>"><?php echo $obEvent->name?></li>
+			<?php endforeach?>
+		</ul>
 	</section>
 
 	<section class="button">

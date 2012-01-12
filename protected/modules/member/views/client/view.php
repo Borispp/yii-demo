@@ -32,9 +32,11 @@
 			<th>Register Date</th>
 			<td><?php echo date('m.d.Y H:i', strtotime($entry->created))?></td>
 		</tr>
+		<?php if ($entry->updated):?>
 		<tr>
 			<th>Update Date</th>
 			<td><?php echo date('m.d.Y H:i', strtotime($entry->updated))?></td>
 		</tr>
+		<?php endif?>
 	</table>
 </section>
