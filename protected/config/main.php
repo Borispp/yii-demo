@@ -26,6 +26,10 @@ return array(
 		'application.extensions.phpsmug.*',
 		'application.extensions.phpzenfolio.*',
 		'application.extensions.twitteroauth.*',
+		'ext.eoauth.*',
+        'ext.eoauth.lib.*',
+        'ext.lightopenid.*',
+        'ext.eauth.services.*',
 	),
 
 	'modules'=>array(
@@ -162,6 +166,39 @@ return array(
 				),
 			),
 		),
+		
+		'loid' => array(
+            'class' => 'ext.lightopenid.loid',
+        ),
+		
+        'eauth' => array(
+            'class' => 'ext.eauth.EAuth',
+            'popup' => true, // Use the popup window instead of redirecting.
+            'services' => array( // You can change the providers and their classes.
+//                'google' => array(
+//                    'class' => 'GoogleOpenIDService',
+//                ),
+//                'twitter' => array(
+//                    // register your app here: https://dev.twitter.com/apps/new
+//                    'class' => 'TwitterOAuthService',
+//                    'key' => '...',
+//                    'secret' => '...',
+//                ),
+//                'google_oauth' => array(
+//                    // register your app here: https://code.google.com/apis/console/
+//                    'class' => 'GoogleOAuthService',
+//                    'client_id' => '...',
+//                    'client_secret' => '...',
+//                    'title' => 'Google (OAuth)',
+//                ),
+                'facebook' => array(
+                    // register your app here: https://developers.facebook.com/apps/
+                    'class' => 'FacebookOAuthService',
+                    'client_id' => '328815410473890',
+                    'client_secret' => '1b7ed31430e3e0110dcce0077e8cf28d',
+                ),
+            ),
+        ),
 	),
 
 	// application-level parameters that can be accessed
