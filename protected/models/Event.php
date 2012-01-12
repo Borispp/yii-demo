@@ -247,6 +247,20 @@ class Event extends YsaActiveRecord
 	{
 		return self::TYPE_PORTFOLIO == $this->type;
 	}
+
+	/**
+	 * @param Client $obClient
+	 * @param null $passwd
+	 * @return bool
+	 */
+	public function canBeAddedByClient(Client $obClient, $passwd = NULL)
+	{
+		if (!$obClient->hasPhotoEvent($this) && $this->user->application->id == $obClient->application_id && $this->isPublic())
+		{
+			return (is_null($passwd) || $passwd == $this->passwd);
+		}
+		return FALSE;
+	}
 	
 	/**
 	 * Get search options for search panel
