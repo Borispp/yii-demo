@@ -38,10 +38,8 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    <p>
-        <button class="submit small red icon i_recycle delete-entries">Delete Selected</button>
-    </p>
+	<p class="fl"><button class="submit small red icon i_recycle delete-entries">Delete Selected</button></p>
+	<?php $this->widget('YsaAdminPager',array('pages'=>$pagination)) ?>
+	<div class="clearfix"></div>
     <?php $this->endWidget(); ?>
-    
-    <?php $this->widget('YsaAdminPager',array('pages'=>$pagination)) ?>
 </div>

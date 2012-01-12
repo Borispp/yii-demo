@@ -97,6 +97,15 @@
 		<?php echo CHtml::link('YourStudioApp', array('/admin')); ?>
 	</div>
 	<div id="header">
+		
+		<?php if (0) : ?>
+			<ul id="headernav">
+				<li><ul>
+						<li><a href="icons.html">Contact Messages</a><span></span></li>
+				</ul></li>
+			</ul>
+		<?php endif; ?>
+
 		<?/*
                 <ul id="headernav">
                         <li><ul>
@@ -241,6 +250,13 @@
 					'url'=>array('/admin/email'),
 					'itemOptions' => array('class' => 'i_mail'),
 					'linkOptions' => array('class' => $this->getNavigationClass('email')),
+				),
+				
+				array(
+					'label'=>'Contact Messages',
+					'url'=>array('/admin/contact'),
+					'itemOptions' => array('class' => 'i_companies'),
+					'linkOptions' => array('class' => $this->getNavigationClass('contact')),
 				),
 			),
 		)); ?>

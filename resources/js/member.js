@@ -31,7 +31,7 @@ var _plupload_settings = {
 
 
 
-$(function(){
+$(function() {
 	// init color pickers 
 	$('input.colors').miniColors();
 	// init datepickers

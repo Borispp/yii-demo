@@ -1,8 +1,7 @@
 $(function(){
 	$.fn.initAlbumPage = function()
 	{
-		$(this).each(function(){
-			
+		$(this).each(function(){		
 			var album = $(this);
 			var album_id = album.attr('albumid');
 			

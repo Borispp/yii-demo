@@ -84,4 +84,9 @@ class ContactMessage extends YsaActiveRecord
 		 * TODO send email to admin 
 		 */
 	}
+	
+	public function message()
+	{
+		return nl2br($this->message);
+	}
 }
