@@ -3,7 +3,7 @@ $(function(){
 	{
 		$(this).each(function(){		
 			var album = $(this);
-			var album_id = album.attr('albumid');
+			var album_id = album.data('albumid');
 			
 			var album_photos_container = $('#album-photos');
 			

@@ -164,3 +164,21 @@ nav ul li.activated ul {
 	background-color: #ccc;
 	cursor: default;
 }
+
+
+
+
+dl {
+	font-size: 13px;
+	margin-bottom: 2em;
+	line-height: 2;
+}
+dt {
+	float:left;
+	width:200px;
+	clear:both;
+}
+dd {
+	float:left;	
+	font-weight: bold;
+}

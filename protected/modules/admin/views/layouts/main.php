@@ -258,6 +258,13 @@
 					'itemOptions' => array('class' => 'i_companies'),
 					'linkOptions' => array('class' => $this->getNavigationClass('contact')),
 				),
+				
+				array(
+					'label'=>'Mailchimp Newsletters',
+					'url'=>array('mailchimp/'),
+					'itemOptions' => array('class' => 'i_speech_bubbles'),
+					'linkOptions' => array('class' => $this->getNavigationClass('mailchimp')),
+				),
 			),
 		)); ?>
 </nav>
