@@ -153,18 +153,6 @@ class YsaApiController extends YsaController
 	}
 
 	/**
-	 * Method called from child classes ClientController and ProofingController.
-	 * Use protected var _type to identify type of authorization.
-	 * @return void
-	 */
-	protected function _checkAuth()
-	{
-		if (ClientAuth::model()->authByToken($_POST['token'], $_POST['app_key'], $_POST['device_id']))
-			return TRUE;
-		$this->_renderError(101, 'Authorization by token failed');
-	}
-
-	/**
 	 * Rejects requests to child controller index action
 	 * @return void
 	 */

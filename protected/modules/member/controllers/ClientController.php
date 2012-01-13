@@ -137,7 +137,7 @@ class ClientController extends YsaMemberController
 				'state' => false,
 			));
 		return $this->sendJsonSuccess(array(
-			'state' => $obClient->addEvent($obEvent),
+			'state' => $obClient->addPhotoEvent($obEvent),
 		));
 	}
 
@@ -159,7 +159,7 @@ class ClientController extends YsaMemberController
 				'state' => false,
 			));
 		return $this->sendJsonSuccess(array(
-			'state' => $obClient->removeEvent($obEvent),
+			'state' => $obClient->removePhotoEvent($obEvent),
 		));
 	}
 }
