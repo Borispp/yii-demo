@@ -6,6 +6,7 @@
 	
 	<div><?php echo YsaHtml::link('SmugMug Settings', array('settings/smugmug/')); ?></div>
 	<div><?php echo YsaHtml::link('ShootQ Settings', array('settings/shootq/')); ?></div>
+	<div><?php echo YsaHtml::link('Facebok Account', array('settings/facebook/')); ?></div>
 	<?/*
 	<div><?php echo YsaHtml::link('500px Settings', array('settings/500px/')); ?></div>
 	<div><?php echo YsaHtml::link('Zenfolio Settings', array('settings/zenfolio/')); ?></div>

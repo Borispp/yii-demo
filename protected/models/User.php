@@ -214,6 +214,32 @@ class User extends YsaActiveRecord
 	}
 
 	/**
+	 * Delete many options in safe transactional manner
+	 * 
+	 * @param array $options
+	 * @return boolean
+	 */
+	public function deleteOptions( array $options )
+	{
+		$transaction = Yii::app()->db->beginTransaction();
+		try
+		{
+			foreach ( $options as $option )
+			{
+				if ( ! $this->deleteOption( $option ) )
+					throw new CException();
+			}
+			$transaction->commit();
+			return true;
+		}
+		catch ( CException $e )
+		{
+			$transaction->rollBack();
+			return false;
+		}
+	}
+	
+	/**
 	 * Get option wrapper for UserOption
 	 * @param string $name
 	 * @param mixed $default
