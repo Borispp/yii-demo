@@ -82,34 +82,43 @@ class RegisterController extends YsaFrontController
 		}
 	}
 
+	/**
+	 * Runing in popup window
+	 */
 	public function actionOauth()
 	{
 		$service = Yii::app()->request->getQuery('service');
 		if (isset($service)) 
 		{
 			$authIdentity = Yii::app()->eauth->getIdentity($service, array('scope' => 'email'));
-			$authIdentity->redirectUrl = $this->createAbsoluteUrl('register/oauth/complete'); //Yii::app()->user->returnUrl;
-			$authIdentity->cancelUrl = $this->createAbsoluteUrl('register');
+			$authIdentity->redirectUrl = $this->createAbsoluteUrl('/register/oauth/complete'); //Yii::app()->user->returnUrl;
+			$authIdentity->cancelUrl = $this->createAbsoluteUrl('/register');
 
-			if ($authIdentity->authenticate()) {
-			 $identity = new ServiceUserIdentity($authIdentity);
+			if ($authIdentity->authenticate()) 
+			{
+				$identity = new ServiceUserIdentity($authIdentity);
 
-			 // successful authentication
-			 if ($identity->authenticate()) {
-				
+				// try to authentificate with existing user
+				if ( $identity->authenticate()) 
+				{
+					//TODO: simply login
+					// special redirect with closing popup window
+					//$authIdentity->redirect();
+					
+					$authIdentity->cancel();
+				}
+				else 
+				{
 					Yii::app()->session['oauth_user_identity'] = $authIdentity;
-
-				// special redirect with closing popup window
-				$authIdentity->redirect();
-			 }
-			 else {
-				// close popup window and redirect to cancelUrl
-				$authIdentity->cancel();
-			 }
+					
+					// special redirect with closing popup window
+					$authIdentity->redirect();
+				}
 			}
+			$authIdentity->cancel();
 		}
 		
-		$this->redirect( $this->createAbsoluteUrl('/register') );
+		//TODO: close popup
 	}
 	
 	public function actionOauthComplete()
@@ -134,9 +143,11 @@ class RegisterController extends YsaFrontController
 			$this->render('oauth',array('model' => $model));
 			Yii::app()->end();
 		}
-
+		
 		if ( $this->_register($model) )
 		{
+			$member = Member::model()->findByPk(Yii::app()->user->getId());
+			$member->linkFacebook( $attr['email'], $attr['id'] );
 			unset( Yii::app()->session['oauth_user_identity'] );
 			Yii::app()->end();
 		}
