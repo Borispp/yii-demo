@@ -287,16 +287,16 @@ header .login a:hover {
 .page-header h2 {
     color: #f6f6f6;
     margin:0;
-    padding:2em 1em;
+    padding:1.5em 1em;
     font-weight: normal;
-    background: -moz-linear-gradient(left,  rgba(255,255,255,0) 10%, rgba(255,255,255,0.14) 50%, rgba(255,255,255,0) 90%);
+/*    background: -moz-linear-gradient(left,  rgba(255,255,255,0) 10%, rgba(255,255,255,0.14) 50%, rgba(255,255,255,0) 90%);
     background: -webkit-gradient(linear, left top, right top, color-stop(10%,rgba(255,255,255,0)), color-stop(50%,rgba(255,255,255,0.14)), color-stop(90%,rgba(255,255,255,0)));
     background: -webkit-linear-gradient(left,  rgba(255,255,255,0) 10%,rgba(255,255,255,0.14) 50%,rgba(255,255,255,0) 90%);
     background: -o-linear-gradient(left,  rgba(255,255,255,0) 10%,rgba(255,255,255,0.14) 50%,rgba(255,255,255,0) 90%);
     background: -ms-linear-gradient(left,  rgba(255,255,255,0) 10%,rgba(255,255,255,0.14) 50%,rgba(255,255,255,0) 90%);
     background: linear-gradient(left,  rgba(255,255,255,0) 10%,rgba(255,255,255,0.14) 50%,rgba(255,255,255,0) 90%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=1 );
-    display: inline-block;
+    display: inline-block;*/
 }
 
 

@@ -1,10 +1,9 @@
 $(function(){
 	$.fn.initAlbumPage = function()
 	{
-		$(this).each(function(){
-			
+		$(this).each(function(){		
 			var album = $(this);
-			var album_id = album.attr('albumid');
+			var album_id = album.data('albumid');
 			
 			var album_photos_container = $('#album-photos');
 			
@@ -22,7 +21,7 @@ $(function(){
 			album.find('a.delete').live('click', function(e){
 				e.preventDefault();
 				var link = $(this);
-				_confirm('Are you sure?', function(confirmed){
+				$._confirm('Are you sure?', function(confirmed){
 					if (confirmed) {
 						$.post(_member_url + '/photo/delete/' + link.attr('rel'), function(){
 							link.parents('li').fadeOut('fast', function(){
@@ -58,7 +57,7 @@ $(function(){
 						if (data.success) {
 							album_photos_container.append(data.html);
 						} else {
-							_alert(data.msg);
+							$._alert(data.msg);
 						}
 					}
 				}
@@ -66,8 +65,6 @@ $(function(){
 			
 			// init uploader
 //			var uploader = new plupload.Uploader($.extend(_plupload_settings, {url:_member_url + '/photo/upload/album/' + album_id}));
-//			
-//			uploader.bind('Init', _plupload_init);
 //			uploader.init();
 //			uploader.bind('FilesAdded', _plupload_files_added);
 //			uploader.bind('UploadProgress', _plupload_upload_progress);
@@ -113,7 +110,7 @@ $(function(){
 				});
 				
 				$.when.apply(this, chain).done(function(){
-					_alert('Photos were successfully imported.')
+					$._alert('Photos were successfully imported.')
 				});
 			});
 			
@@ -142,7 +139,7 @@ $(function(){
 					if (data.success) {
 						smugmug_import.html(data.html);
 					} else {
-						_alert(data.msg);
+						$._alert(data.msg);
 					}
 				}, 'json');
 			});		

@@ -31,6 +31,9 @@
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-	<?php $this->endWidget(); ?>
+	
 	<?php $this->widget('YsaAdminPager',array('pages'=>$pagination)) ?>
+	<div class="clearfix"></div>
+	
+	<?php $this->endWidget(); ?>
 </div>

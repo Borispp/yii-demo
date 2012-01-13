@@ -75,6 +75,9 @@ return array(
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 
+				// pages routes
+				'contact' => 'page/contact',
+				
 				// auth, registration rotes
 				'<action:(login|logout|loginoauth)>' => 'auth/<action>',
 				'/recovery/k/<k>' => 'recovery',

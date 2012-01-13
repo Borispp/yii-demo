@@ -6,16 +6,15 @@
 	
 	<div><?php echo YsaHtml::link('SmugMug Settings', array('settings/smugmug/')); ?></div>
 	<div><?php echo YsaHtml::link('ShootQ Settings', array('settings/shootq/')); ?></div>
+	<?/*
 	<div><?php echo YsaHtml::link('500px Settings', array('settings/500px/')); ?></div>
 	<div><?php echo YsaHtml::link('Zenfolio Settings', array('settings/zenfolio/')); ?></div>
-	
-	
+	*/?>
 	<p class="descr">Lorem ipsum dccolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
 
 	<div class="form">
 		<?php $form=$this->beginWidget('YsaForm', array(
 			'id'=>'settings-form',
-			'enableAjaxValidation'=>false,
 		)); ?>
 
 		<section>
@@ -54,7 +53,6 @@
 	
 	<?php $form = $this->beginWidget('YsaForm', array(
 		'id'=>'change-password-form',
-		'enableAjaxValidation'=>false,
 	)); ?>
 
 	<section>
@@ -86,11 +84,6 @@
 	</div>
 
 	<?php $this->endWidget();?>
-
-
-
-
-
 </section>
 
 
