@@ -6,6 +6,8 @@
 </div>
 <?php else: ?>
 
+	<?php $this->widget('ext.eauth.EAuthWidget', array('action' => 'register/oauth')) ?>
+
     <div class="form">
     <?php $form=$this->beginWidget('CActiveForm', array(
             'id'=>'registration-form',

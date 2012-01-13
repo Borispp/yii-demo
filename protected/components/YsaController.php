@@ -207,9 +207,9 @@ class YsaController extends CController
 	
 	public function loadPlupload($loadCss = false)
 	{
-		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plupload/plupload.full.js', CClientScript::POS_END)
-				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plupload/jquery.plupload.queue/jquery.plupload.queue.js', CClientScript::POS_END)
-				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plupload/jquery.ui.plupload/jquery.ui.plupload.js', CClientScript::POS_END);
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/plupload/plupload.full.js', CClientScript::POS_END)
+				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/plupload/jquery.plupload.queue/jquery.plupload.queue.js', CClientScript::POS_END)
+				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/plupload/jquery.ui.plupload/jquery.ui.plupload.js', CClientScript::POS_END);
 		
 		  if ($loadCss) {
 			  $this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/plupload/plupload.css');
@@ -231,8 +231,7 @@ class YsaController extends CController
 			$this->_cs->registerCoreScript('jquery')
 					->registerMetaTag($this->getMetaDescription(), 'description')
 					->registerMetaTag($this->getMetaKeywords(), 'keywords')
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/modernizr-2.0.6.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/modernizr-2.0.6.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD)
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/style.css');
 
@@ -244,7 +243,7 @@ class YsaController extends CController
 			
 		} elseif ($this->isMemberPanel()) {
 			// register js
-			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/jquery-ui.min.js', CClientScript::POS_HEAD)
+			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jquery-ui.min.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/minicolors.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/uniform.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/apprise.js', CClientScript::POS_HEAD)
@@ -254,6 +253,7 @@ class YsaController extends CController
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/form.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/json.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jstorage.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/widgets.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member.js', CClientScript::POS_HEAD);
 			// register css
 			$this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/ui/jquery-ui.css')

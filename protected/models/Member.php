@@ -187,4 +187,12 @@ class Member extends User
 		
 		return true;
 	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function isFacebookConnected()
+	{
+		return $this->option(UserOption::FACEBOOK_ID, false, $this->id) ? true : false;
+	}
 }

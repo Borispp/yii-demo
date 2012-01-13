@@ -1,4 +1,4 @@
-<section id="album" albumid="<?php echo $entry->id; ?>" class="w">
+<section id="album" data-albumid="<?php echo $entry->id; ?>" class="w">
 	<?php echo YsaHtml::link('Edit Album Info', array('album/edit/' . $entry->id))?>
 	
 	<?/*

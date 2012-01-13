@@ -14,24 +14,20 @@
  */
 class UserOption extends YsaOptionActiveRecord
 {
-	const SMUGMUG_API = 'smug_api';
-	
-	const SMUGMUG_SECRET = 'smug_secret';
-	
-	const SMUGMUG_HASH = 'smug_hash';
-	
-	const SMUGMUG_REQUEST = 'smug_request';
-	
+	const SMUGMUG_API = 'smug_api';	
+	const SMUGMUG_SECRET = 'smug_secret';	
+	const SMUGMUG_HASH = 'smug_hash';	
+	const SMUGMUG_REQUEST = 'smug_request';	
 	const SMUGMUG_AUTHORIZED = 'smug_authorized';
 	
 	const ZENFOLIO_HASH = 'zenf_hash';
 	
-	const FIVE00_API = '500px_api';
-	
-	const FIVE00_SECRET = '500px_secret';
-	
+	const FIVE00_API = '500px_api';	
+	const FIVE00_SECRET = '500px_secret';	
 	const FIVE00_HASH = '500px_hash';
 	
+	const FACEBOOK_EMAIL = 'facebook_email';	
+	const FACEBOOK_ID = 'facebook_id';
 	
 	/**
 	 * Returns the static model of the specified AR class.
@@ -147,7 +143,7 @@ class UserOption extends YsaOptionActiveRecord
 	 * 
 	 * @param string $name
 	 * @param integer $userId
-	 * @return bool
+	 * @return bool|integer boolean whether the deletion is successful or integer the number of rows deleted
 	 */
 	public function deleteOption($name, $userId = null)
 	{
@@ -158,7 +154,7 @@ class UserOption extends YsaOptionActiveRecord
 		$option = $this->findByName($name, $userId);
 		
 		if ($option) {
-			$option->delete();
+			return $option->delete();
 		}
 		
 		return true;

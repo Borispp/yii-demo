@@ -226,17 +226,36 @@ class Client extends YsaActiveRecord
 	}
 
 	/**
+	 * Check if client has access to event
+	 * @param Event $obEvent
+	 * @return bool
+	 */
+	public function hasPhotoEvent(Event $obEvent)
+	{
+		return (bool)$this->_getClientEvent($obEvent);
+	}
+
+	/**
+	 * @param Event $obEvent
+	 * @return ClientEvent
+	 */
+	protected function _getClientEvent(Event $obEvent)
+	{
+		return ClientEvents::model()->findByAttributes(array(
+			'event_id'	=> $obEvent->id,
+			'client_id'	=> $this->id,
+		));
+	}
+
+	/**
 	 * Add client access to event
 	 * @param Event $obEvent
 	 * @param string $addedBy
 	 * @return bool
 	 */
-	public function addEvent(Event $obEvent, $addedBy = 'member')
+	public function addPhotoEvent(Event $obEvent, $addedBy = 'member')
 	{
-		if (!ClientEvents::model()->findByAttributes(array(
-				'event_id'	=> $obEvent->id,
-				'client_id'	=> $this->id,
-			)))
+		if (!$this->hasPhotoEvent($obEvent))
 		{
 			$obClientEvents = new ClientEvents();
 			$obClientEvents->client_id = $this->id;
@@ -254,13 +273,17 @@ class Client extends YsaActiveRecord
 	 * @param Event $obEvent
 	 * @return bool
 	 */
-	public function removeEvent(Event $obEvent)
+	public function removePhotoEvent(Event $obEvent, $addedBy = NULL)
 	{
-		if (!($obClientEvents = ClientEvents::model()->findByAttributes(array(
-				'event_id'	=> $obEvent->id,
-				'client_id'	=> $this->id,
-			))))
+		if (!$obClientEvents = $this->_getClientEvent($obEvent))
+		{
 			return FALSE;
-		$obClientEvents->delete();
+		}
+		if (is_null($addedBy) || ($addedBy == $obClientEvents->added_by))
+		{
+			$obClientEvents->delete();
+			return TRUE;
+		}
+		return FALSE;
 	}
 }
