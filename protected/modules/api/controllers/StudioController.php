@@ -54,6 +54,7 @@ class StudioController extends YsaApiController
 		$params = array(
 			'splash'		=> $obStudio->splash,
 			'specials'		=> $obStudio->specialsUrl(),
+			'order_link'	=> $obStudio->order_link,
 			'feeds'	=> array(
 				array(
 					'type'		=> 'twitter',

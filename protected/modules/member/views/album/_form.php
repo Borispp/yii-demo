@@ -15,7 +15,7 @@
 <section>
 	<?php echo $form->labelEx($entry,'shooting_date'); ?>
 	<div>
-		<?php echo $form->textField($entry,'shooting_date', array('maxlength' => 100)); ?>
+		<?php echo $form->textField($entry,'shooting_date', array('maxlength' => 100, 'class' => 'datetime', 'readonly' => true)); ?>
 		<?php echo $form->error($entry,'shooting_date'); ?>
 	</div>
 </section>
@@ -36,6 +36,14 @@
 	</div>
 </section>
 
+<section>
+	<?php echo $form->labelEx($entry,'order_link'); ?>
+	<div>
+		<?php echo $form->textField($entry,'order_link', array('maxlength' => 200)); ?>
+		<?php echo $form->error($entry,'order_link'); ?>
+	</div>
+</section>
+	
 <section>
 	<?php echo $form->labelEx($entry,'state'); ?>
 	<div>

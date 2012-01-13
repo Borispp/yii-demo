@@ -79,6 +79,7 @@ return array(
 
 				// member routes
 				'/member/event/<action:\w+>/<eventId>' => 'member/event/<action>',
+				'/member/client/<action:\w+>/<clientId>' => 'member/client/<action>',
 				'/member/notification/<action:\w+>/<notificationId>' => 'member/notification/<action>',
 				'/member/inbox/<action:\w+>/<messageId>' => 'member/inbox/<action>',
 				'/member/album/<action:\w+>/<albumId>' => 'member/album/<action>',

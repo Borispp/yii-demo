@@ -47,7 +47,7 @@ class WizardController extends YsaMemberController
         }
         
         if (!empty($config)) {
-            $config['class'] = 'application.extensions.WizardBehavior';
+            $config['class'] = 'application.extensions.YsaWizardBehavior';
             $this->attachBehavior('wizard', $config);
         }
         

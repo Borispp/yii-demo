@@ -1,4 +1,4 @@
-<div id="app-wizard" class="w">
+<div id="app-wizard" class="w body">
 	<?php echo $event->sender->menu->run(); ?>
 	<?php $form = $this->beginWidget('YsaMemberForm', array(
 		'id'=>'colors-step-form',
@@ -24,7 +24,7 @@
 		<section class="color">
 			<?php echo $form->labelEx($model, 'studio_bg_color'); ?>
 			<div>
-				<?php echo $form->textField($model, 'studio_bg_color', array()); ?>
+				<?php echo $form->textField($model, 'studio_bg_color', array('class' => 'colors', 'readonly' => true)); ?>
 				<?php echo $form->error($model,'studio_bg_color'); ?>
 			</div>
 		</section>
@@ -48,7 +48,7 @@
 		<section class="color">
 			<?php echo $form->labelEx($model, 'generic_bg_color'); ?>
 			<div>
-				<?php echo $form->textField($model, 'generic_bg_color', array()); ?>
+				<?php echo $form->textField($model, 'generic_bg_color', array('class' => 'colors', 'readonly' => true)); ?>
 				<?php echo $form->error($model,'generic_bg_color'); ?>
 			</div>
 		</section>

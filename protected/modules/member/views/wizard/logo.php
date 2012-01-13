@@ -1,4 +1,4 @@
-<div id="app-wizard" class="w">
+<div id="app-wizard" class="w body">
 	<?php echo $event->sender->menu->run(); ?>
 	<h2>Upload your logo</h2>
 	<?php $form = $this->beginWidget('YsaMemberForm', array(
@@ -65,7 +65,7 @@
 		<section class="color">
 			<?php echo $form->labelEx($model, 'splash_bg_color'); ?>
 			<div class="value">
-				<?php echo $form->textField($model, 'splash_bg_color', array()); ?>
+				<?php echo $form->textField($model, 'splash_bg_color', array('class' => 'colors', 'readonly' => true)); ?>
 				<?php echo $form->error($model,'splash_bg_color'); ?>
 			</div>
 		</section>

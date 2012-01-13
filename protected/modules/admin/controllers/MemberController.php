@@ -112,4 +112,31 @@ class MemberController extends YsaAdminController
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 		}
 	}
+	
+	/**
+	 * Export CSV (to Mailchimp)
+	 * @param string $type 
+	 */
+	public function actionExport($type = 'csv')
+	{
+		$entries = Member::model()->findAllByAttributes(array(
+			'role' => Member::ROLE_MEMBER
+		));
+		
+		// disable YII DEBUG TOOLBAR for this action
+		foreach (Yii::app()->log->routes as $route) {
+			if ($route instanceof YiiDebugToolbarRoute) {
+				$route->enabled = false;
+			}
+		}
+		
+		try {
+			$content = $this->renderPartial('export', array('entries' => $entries), true);
+			Yii::app()->getRequest()->sendFile('members-' . date('m-d-Y') . '.csv', $content, 'text/csv');
+		} catch (Exception $e) {
+			$this->setError($e->getMessage());
+		}
+		// redirect if something goes wrong
+		$this->redirect('member/');
+	}
 }

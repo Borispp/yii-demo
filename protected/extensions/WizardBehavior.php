@@ -144,42 +144,42 @@ class WizardBehavior extends CBehavior {
 	/**
 	* @var string Internal step tracking.
 	*/
-	private $_currentStep;
+	protected $_currentStep;
 
 	/**
 	* @var object The menu.
 	*/
-	private $_menu;
+	protected $_menu;
 
 	/**
 	* @var CList The steps to be processed.
 	*/
-	private $_steps;
+	protected $_steps;
 
 	/**
 	* @var CMap Step Labels.
 	*/
-	private $_stepLabels;
+	protected $_stepLabels;
 
 	/**
 	* @var string The session key that holds processed step data.
 	*/
-	private $_stepsKey;
+	protected $_stepsKey;
 
 	/**
 	* @var string The session key that holds branch directives.
 	*/
-	private $_branchKey;
+	protected $_branchKey;
 
 	/**
 	* @var string The session key that holds the timeout value.
 	*/
-	private $_timeoutKey;
+	protected $_timeoutKey;
 
 	/**
 	* @var CHttpSession The session
 	*/
-	private $_session;
+	protected $_session;
 
 	/**
 	* Attaches this behavior to the owner.
@@ -341,7 +341,7 @@ class WizardBehavior extends CBehavior {
 		return $this->_menu;
 	}
 
-	private function generateMenuItems() {
+	protected function generateMenuItems() {
 		$previous = true;
 		$items = array();
 		$url = array($this->owner->id.'/'.$this->getOwner()->getAction()->getId());
@@ -476,7 +476,7 @@ class WizardBehavior extends CBehavior {
 	* Returns a map of the current branch directives
 	* @return CMap A map of the current branch directives
 	*/
-	private function branches() {
+	protected function branches() {
 		return (isset($this->_session[$this->_branchKey])?
 			$this->_session[$this->_branchKey]:new CMap());
 	}
@@ -530,7 +530,7 @@ class WizardBehavior extends CBehavior {
 	* @param array The steps array.
 	* @return array Steps to take
 	*/
-	private function _parseSteps($steps) {
+	protected function _parseSteps($steps) {
 		$parsed = array();
 
 		foreach ($steps as $label=>$step) {
@@ -562,7 +562,7 @@ class WizardBehavior extends CBehavior {
 	* Returns the branch directive.
 	* @return string the branch directive or NULL if no directive for the branch
 	*/
-	private function branchDirective($branch) {
+	protected function branchDirective($branch) {
 		return (isset($this->_session[$this->_branchKey])?
 			$this->_session[$this->_branchKey][$branch]:null
 		);
@@ -699,8 +699,8 @@ class WizardBehavior extends CBehavior {
 * This is the event raised by the wizard.
 */
 class WizardEvent extends CEvent {
-	private $data=array();
-	private $step;
+	protected $data=array();
+	protected $step;
 
 	public function __construct($sender, $step=null, $data=null) {
 		parent::__construct($sender);

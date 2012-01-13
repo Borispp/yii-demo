@@ -469,9 +469,7 @@ select optgroup, select option{
 	font-style:normal;
 	border:0;
 }
-select option{
-	border:1px solid;
-}
+select option{}
 input[type=submit], input[type=checkbox], input[type=radio], input[type=button], button{
 	width:auto !important;
 }
@@ -661,4 +659,97 @@ footer a:hover {
 
 .clear {
 	clear:both;
+}
+
+/* Grid System (based on the 960 Grid System (http://960.gs)
+*******************************/
+.g1,.g2,.g3,.g4,.g5,.g6,.g7,.g8,.g9,.g10,.g11,.g12 {
+	display:inline;
+	float:left;
+	margin-left:1%;
+	margin-right:1%;
+	padding:9px 0;
+	min-height:10px;
+}
+.alpha{margin-left:0;}
+.omega{margin-right:0;}
+
+.g1{width:6.333%;}
+.g2{width:14.667%;}
+.g3{width:23.0%;}
+.g4{width:31.333%;}
+.g5{width:39.667%;}
+.g6{width:48.0%;}
+.g7{width:56.333%;}
+.g8{width:64.667%;}
+.g9{width:73.0%;}
+.g10{width:81.333%;}
+.g11{width:89.667%;}
+.g12{width:98.0%;}
+
+.p1{padding-left:8.333%;}
+.p2{padding-left:16.667%;}
+.p3{padding-left:25.0%;}
+.p4{padding-left:33.333%;}
+.p5{padding-left:41.667%;}
+.p6{padding-left:50.0%;}
+.p7{padding-left:58.333%;}
+.p8{padding-left:66.667%;}
+.p9{padding-left:75.0%;}
+.p10{padding-left:83.333%;}
+.p11{padding-left:91.667%;}
+
+.s1{padding-right:8.333%;}
+.s2{padding-right:16.667%;}
+.s3{padding-right:25.0%;}
+.s4{padding-right:33.333%;}
+.s5{padding-right:41.667%;}
+.s6{padding-right:50.0%;}
+.s7{padding-right:58.333%;}
+.s8{padding-right:66.667%;}
+.s9{padding-right:75.0%;}
+.s10{padding-right:83.333%;}
+.s11{padding-right:91.667%;}
+
+.ps1{left:8.333%;}
+.ps2{left:16.667%;}
+.ps3{left:25.0%;}
+.ps4{left:33.333%;}
+.ps5{left:41.667%;}
+.ps6{left:50.0%;}
+.ps7{left:58.333%;}
+.ps8{left:66.667%;}
+.ps9{left:75.0%;}
+.ps10{left:83.333%;}
+.ps11{left:91.667%;}
+
+.pl1{left:-8.333%;}
+.pl2{left:-16.667%;}
+.pl3{left:-25.0%;}
+.pl4{left:-33.333%;}
+.pl5{left:-41.667%;}
+.pl6{left:-50.0%;}
+.pl7{left:-58.333%;}
+.pl8{left:-66.667%;}
+.pl9{left:-75.0%;}
+.pl10{left:-83.333%;}
+.pl11{left:-91.667%;}
+
+
+
+
+/* Ajax Loader
+*******************************/
+#ajax-loader {
+	position: fixed;
+	right:10px;
+	bottom:10px;
+	border:1px solid red;
+	background: #fff;
+	padding:10px;
+	font-size:10px;
+	color: #000;
+	line-height: 1;
+	display: block;
+	display: none;
 }

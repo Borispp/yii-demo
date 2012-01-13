@@ -93,7 +93,6 @@ class User extends YsaActiveRecord
 			'portfolio_events'	=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC', 'condition' => 'type=:type', 'params' => array('type' => Event::TYPE_PORTFOLIO)),
 			'public_events'		=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC', 'condition' => 'type=:type', 'params' => array('type' => Event::TYPE_PUBLIC)),
 		);
-		
 	}
 
 	/**

@@ -174,7 +174,8 @@ class YsaController extends CController
 				array('label'=>'Application', 'url'=>array('application/')),
 				array('label'=>'Studio', 'url'=>array('studio/')),
 				array('label'=>'Events', 'url'=>array('event/')),
-				array('label'=>'Orders', 'url'=>array('order/')),
+//				array('label'=>'Orders', 'url'=>array('order/')),
+				array('label'=>'Clients', 'url'=>array('client/')),
 				array('label'=>'Settings', 'url'=>array('settings/')),
 			);
 		}
@@ -204,10 +205,15 @@ class YsaController extends CController
 		$this->_renderVars[$name] = $value;
 	}
 	
-	public function loadPlupload()
+	public function loadPlupload($loadCss = false)
 	{
-		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plupload/plupload.full.js', CClientScript::POS_HEAD);
-//				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plupload/jquery.plupload.queue/jquery.plupload.queue.js', CClientScript::POS_HEAD);
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plupload/plupload.full.js', CClientScript::POS_END)
+				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plupload/jquery.plupload.queue/jquery.plupload.queue.js', CClientScript::POS_END)
+				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plupload/jquery.ui.plupload/jquery.ui.plupload.js', CClientScript::POS_END);
+		
+		  if ($loadCss) {
+			  $this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/plupload/plupload.css');
+		  }
 	}
 	
     /**
@@ -237,10 +243,25 @@ class YsaController extends CController
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/front.css');
 			
 		} elseif ($this->isMemberPanel()) {
-			
+			// register js
 			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/jquery-ui.min.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member.js', CClientScript::POS_HEAD)
-					->registerCssFile(Yii::app()->baseUrl . '/resources/css/ui/jquery-ui.css')
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/minicolors.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/uniform.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/apprise.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/tiptip.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jqueryui-timepicker.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/fancybox.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/form.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/json.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jstorage.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member.js', CClientScript::POS_HEAD);
+			// register css
+			$this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/ui/jquery-ui.css')
+					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/uniform.css')
+					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/apprise.css')
+					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/minicolors.css')
+					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/tiptip.css')
+					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/fancybox.css')
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/member.css');
 		}
         

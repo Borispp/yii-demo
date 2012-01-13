@@ -49,6 +49,8 @@ class EventController extends YsaMemberController
 		$this->crumb($entry->name);
 		
 		$this->setMemberPageTitle($entry->name);
+		
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/eventpage.js', CClientScript::POS_HEAD);
         
         $this->render('view', array(
             'entry' => $entry,
@@ -68,8 +70,13 @@ class EventController extends YsaMemberController
             if (!$entry->passwd && !$entry->isPortfolio()) {
                 $entry->generatePassword();
             }
-            
+			
+			$entry->date = YsaHelpers::formatDate($entry->date, Event::FORMAT_DATE);
+			
             if ($entry->validate()) {
+				
+				VarDumper::dump($entry->attributes);
+				
                 $entry->save();
                 
                 // create default proofing album for proof event
