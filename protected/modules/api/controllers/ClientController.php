@@ -138,10 +138,11 @@ class ClientController extends YsaApiController
 				));
 		}
 		$entry->save();
+
 		$this->_render(array(
 				'state'		=> TRUE,
 				'message'	=> NULL,
-				'token'		=> NULL
+				'token'		=> ClientAuth::model()->authByPassword($_POST['email'], $_POST['password'], $_POST['app_key'], $_POST['device_id'])
 			));
 	}
 
