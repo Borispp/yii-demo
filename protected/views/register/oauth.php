@@ -6,8 +6,6 @@
 </div>
 <?php else: ?>
 
-	<?php $this->widget('ext.eauth.EAuthWidget', array('action' => 'register/oauth')) ?>
-
     <div class="form">
     <?php $form=$this->beginWidget('CActiveForm', array(
             'id'=>'registration-form',
@@ -18,20 +16,8 @@
         <?php echo $form->errorSummary($model); ?>
         <div class="row">
             <?php echo $form->labelEx($model,'email'); ?>
-            <?php echo $form->textField($model,'email'); ?>
+            <?php echo $form->textField($model,'email', array('disabled' => 'disabled')); ?>
             <?php echo $form->error($model,'email'); ?>
-        </div>
-
-        <div class="row">
-            <?php echo $form->labelEx($model,'password'); ?>
-            <?php echo $form->passwordField($model,'password'); ?>
-            <?php echo $form->error($model,'password'); ?>
-        </div>
-
-        <div class="row">
-            <?php echo $form->labelEx($model,'verifyPassword'); ?>
-            <?php echo $form->passwordField($model,'verifyPassword'); ?>
-            <?php echo $form->error($model,'verifyPassword'); ?>
         </div>
 
         <div class="row">
@@ -46,12 +32,18 @@
             <?php echo $form->error($model,'lastlast_nameName'); ?>
         </div>
 
-        <div class="row">
-            <?php echo $form->labelEx($model,'verifyCode'); ?>
-            <?php $this->widget('CCaptcha'); ?>
-            <?php echo $form->textField($model,'verifyCode', array('autocomplete' => 'off')); ?>
-            <?php echo $form->error($model,'verifyCode'); ?>
+		<div class="row">
+            <?php echo $form->labelEx($model,'password'); ?>
+            <?php echo $form->passwordField($model,'password'); ?>
+            <?php echo $form->error($model,'password'); ?>
         </div>
+
+        <div class="row">
+            <?php echo $form->labelEx($model,'verifyPassword'); ?>
+            <?php echo $form->passwordField($model,'verifyPassword'); ?>
+            <?php echo $form->error($model,'verifyPassword'); ?>
+        </div>
+		
         <div class="row buttons">
             <?php echo CHtml::submitButton('Submit'); ?>
         </div>

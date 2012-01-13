@@ -31,11 +31,7 @@ class FacebookOAuthService extends EOAuth2Service {
 	);
 		
 	protected function fetchAttributes() {
-		$info = (object) $this->makeSignedRequest('https://graph.facebook.com/me');
-
-		$this->attributes['id'] = $info->id;
-		$this->attributes['name'] = $info->name;
-		$this->attributes['url'] = $info->link;
+		$this->attributes = (array) $this->makeSignedRequest('https://graph.facebook.com/me');
 	}
 	
 	protected function getCodeUrl($redirect_uri) {

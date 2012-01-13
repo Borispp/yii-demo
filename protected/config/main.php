@@ -68,7 +68,7 @@ return array(
 			'urlFormat'=>'path',
 			'showScriptName'=>false,
 			'urlSuffix'=>'/',
-			//                        'useStrictParsing'=> true,
+			//'useStrictParsing'=> true,
 			'rules'=>array(
 				// general routes
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
@@ -76,10 +76,11 @@ return array(
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 
 				// auth, registration rotes
-				'<action:(login|logout)>' => 'auth/<action>',
+				'<action:(login|logout|loginoauth)>' => 'auth/<action>',
 				'/recovery/k/<k>' => 'recovery',
 				'/activate/k/<k>' => 'auth/activate',
 				'/photo/v/<k>' => 'photo/view',
+				'/register/oauth/complete'=>'register/oauthcomplete',
 
 				// member routes
 				'/member/event/<action:\w+>/<eventId>' => 'member/event/<action>',
