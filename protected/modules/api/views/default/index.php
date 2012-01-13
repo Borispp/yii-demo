@@ -22,7 +22,7 @@
 			<th>name</th>
 			<th>password</th>
 		</tr>
-		<?php foreach($eventList as $obEvent):?>
+		<?php foreach($eventList as $obEvent):if (!$obEvent->user->application) continue;?>
 		<tr>
 			<td><?php echo $obEvent->user->application->id?></td>
 			<td><?php echo $obEvent->id?></td>

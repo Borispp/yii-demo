@@ -194,7 +194,18 @@ class EventController extends YsaApiController
 	 */
 	public function actionGetEventInfo()
 	{
-		$this->_render($this->_getEventInformation($this->_getEvent()));
+		$this->_validateVars(array(
+			'event_id'	=> array(
+				'code'		=> '006',
+				'message'	=> 'No event ID found',
+				'required'	=> TRUE
+			),
+		));
+		if (!$this->_getEvent()->isPortfolio() && $this->_obClient->hasPhotoEvent($this->_getEvent()))
+		{
+			$this->_render($this->_getEventInformation($this->_getEvent()));
+		}
+		$this->_renderError('087', 'Access denied');
 	}
 
 	/**
