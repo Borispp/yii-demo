@@ -1,15 +1,9 @@
 $(function(){
-//	$.fn.initMemberPage = function(){
-//		$(this).each(function(){
-//
-//
-//
-//
-//
-//
-//
-//		});
-//	};
-//	
-//	$('#member').initFrontPage();
+	$.fn.initMemberPage = function(){
+		$(this).each(function(){
+			
+		});
+	};
+	
+	$('#member').initMemberPage();
 });

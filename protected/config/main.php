@@ -26,6 +26,10 @@ return array(
 		'application.extensions.phpsmug.*',
 		'application.extensions.phpzenfolio.*',
 		'application.extensions.twitteroauth.*',
+		'ext.eoauth.*',
+        'ext.eoauth.lib.*',
+        'ext.lightopenid.*',
+        'ext.eauth.services.*',
 	),
 
 	'modules'=>array(
@@ -64,18 +68,22 @@ return array(
 			'urlFormat'=>'path',
 			'showScriptName'=>false,
 			'urlSuffix'=>'/',
-			//                        'useStrictParsing'=> true,
+			//'useStrictParsing'=> true,
 			'rules'=>array(
 				// general routes
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 
+				// pages routes
+				'contact' => 'page/contact',
+				
 				// auth, registration rotes
-				'<action:(login|logout)>' => 'auth/<action>',
+				'<action:(login|logout|loginoauth)>' => 'auth/<action>',
 				'/recovery/k/<k>' => 'recovery',
 				'/activate/k/<k>' => 'auth/activate',
 				'/photo/v/<k>' => 'photo/view',
+				'/register/oauth/complete'=>'register/oauthcomplete',
 
 				// member routes
 				'/member/event/<action:\w+>/<eventId>' => 'member/event/<action>',
@@ -162,6 +170,39 @@ return array(
 				),
 			),
 		),
+		
+		'loid' => array(
+            'class' => 'ext.lightopenid.loid',
+        ),
+		
+        'eauth' => array(
+            'class' => 'ext.eauth.EAuth',
+            'popup' => true, // Use the popup window instead of redirecting.
+            'services' => array( // You can change the providers and their classes.
+//                'google' => array(
+//                    'class' => 'GoogleOpenIDService',
+//                ),
+//                'twitter' => array(
+//                    // register your app here: https://dev.twitter.com/apps/new
+//                    'class' => 'TwitterOAuthService',
+//                    'key' => '...',
+//                    'secret' => '...',
+//                ),
+//                'google_oauth' => array(
+//                    // register your app here: https://code.google.com/apis/console/
+//                    'class' => 'GoogleOAuthService',
+//                    'client_id' => '...',
+//                    'client_secret' => '...',
+//                    'title' => 'Google (OAuth)',
+//                ),
+                'facebook' => array(
+                    // register your app here: https://developers.facebook.com/apps/
+                    'class' => 'FacebookOAuthService',
+                    'client_id' => '328815410473890',
+                    'client_secret' => '1b7ed31430e3e0110dcce0077e8cf28d',
+                ),
+            ),
+        ),
 	),
 
 	// application-level parameters that can be accessed

@@ -12,13 +12,11 @@ $(function(){
 				browse_button:'studio-specials-browse',
 				multi_selection:false
 			}));
-			
-			uploader.bind('Init', _plupload_init);
 			uploader.init();
 			uploader.bind('Error', function(up, err) {
 				specials_loading.hide();
 				specials_browse.show();
-				_alert(err.message + ' Please reload the page and try again.');
+				$._alert(err.message + ' Please reload the page and try again.');
 				up.refresh();
 			});
 			uploader.bind('FilesAdded', function(up){
@@ -34,7 +32,7 @@ $(function(){
 				if (data.success) {
 					$('#' + up.settings.container).parent().html(data.html);
 				} else {
-					_alert(data.msg);
+					$._alert(data.msg);
 				}
 			});
 			
@@ -61,14 +59,10 @@ $(function(){
 						specials.html(data.html);
 						_init_specials_uploader();
 					} else {
-						_alert(data.msg);
+						$._alert(data.msg);
 					}
 				}, 'json');
 			});
-			
-			
-			
-			
 		});
 	}
 	$('#studio').initStudioPage();

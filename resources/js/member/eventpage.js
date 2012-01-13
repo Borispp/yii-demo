@@ -3,7 +3,7 @@ $(function(){
 		$(this).each(function(){
 			var event = $(this);
 			
-			var event_id = event.attr('eventid');
+			var event_id = event.data('eventid');
 			
 			var event_albums_container = $('#event-albums');
 			
