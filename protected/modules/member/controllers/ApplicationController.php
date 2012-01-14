@@ -3,6 +3,22 @@ class ApplicationController extends YsaMemberController
 {
     public $defaultAction = 'view';
     
+	public function init() {
+		parent::init();
+		
+		$this->setMemberPageTitle('Application Wizard');
+	}
+	
+	public function beforeRender($view) {
+		parent::beforeRender($view);
+		
+		$this->loadPlupload();
+		
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/appwizardpage.js', CClientScript::POS_HEAD);
+	
+		return true;
+	}
+	
     public function actionView()
     {
         $app = $this->member()->application;
@@ -13,7 +29,7 @@ class ApplicationController extends YsaMemberController
         }
         
         if (!$app->filled()) {
-            $this->redirect(array('wizard/'));
+            $this->redirect(array('application/wizard/'));
         }
 		
 		$this->crumb('Application');
@@ -46,7 +62,7 @@ class ApplicationController extends YsaMemberController
             
             if ($app->validate()) {
                 $app->save();
-                $this->redirect(array('wizard/'));
+                $this->redirect(array('application/wizard/'));
             }
         }
 		
@@ -152,6 +168,119 @@ class ApplicationController extends YsaMemberController
 					'name'	=> $image,
 					'image' => $app->option($image),
 				), true)
+		));
+	}
+	
+	public function actionWizard()
+	{
+		$app = $this->member()->application;
+		
+        if (null === $app) {
+            $this->redirect(array('application/create'));
+        }
+		
+		$models = array(
+			'logo' => new WizardLogo(),
+			'colors' => new WizardColors(),
+			'fonts' => new WizardFonts(),
+			'copyrights' => new WizardCopyrights(),
+			'submit' => new WizardSubmit(),
+		);
+		
+		foreach ($models as $k => $model) {
+			$models[$k]->setApplication($app)
+				->loadDefaultValues();
+		}
+		
+		$this->render('wizard', array(
+			'app' => $app,
+			
+			'models' => $models,
+		));
+	}
+	
+	public function actionLoadStep($step)
+	{
+		if (Yii::app()->request->isAjaxRequest) {
+			
+			$app = $this->member()->application;
+			
+			if (!$app) {
+				$this->sendJsonError(array(
+					'msg' => 'No application found.',
+				));
+			}
+			
+			if (!$app->filterWizardStep($step)) {
+				$this->sendJsonError(array(
+					'msg' => 'Invalid step. Please reload the page and try again.',
+				));
+			}
+			
+			$model = 'Wizard' . ucfirst($step);
+
+			$view = '/wizard/' . $step;
+			
+			if (!class_exists($model)) {
+				$this->sendJsonError(array(
+					'msg' => 'Some errors occured. Please reload the page and try again.',
+				));
+			}
+			
+			$this->sendJsonSuccess(array(
+				'html' => $this->renderPartial($view, array(
+					'app' => $app,
+				)),
+			));
+			
+		} else {
+			$this->redirect('application/');
+		}
+	}
+	
+	public function actionSaveStep($step)
+	{
+		if (Yii::app()->request->isAjaxRequest) {
+			$app = $this->member()->application;
+			
+			if (!$app->filterWizardStep($step)) {
+				$this->sendJsonError(array(
+					'msg' => 'Invalid step. Please reload the page and try again.',
+				));
+			}
+			
+			$modelName = 'Wizard' . ucfirst($step);
+	        
+			if (!class_exists($modelName)) {
+				$this->sendJsonError(array(
+					'msg' => 'Some errors occured. Please reload the page and try again.',
+				));
+			}
+			
+			$model = new $modelName();
+			$model->setApplication($app)
+				->loadDefaultValues();
+			$model->prepare()->save();
+			
+			$data = array();
+			if ('submit' == $step) {
+				$data['redirectUrl'] = $this->createAbsoluteUrl('application/congratulations/');
+			}
+			$this->sendJsonSuccess($data);
+			
+		} else {
+			$this->redirect('application/');
+		}
+	}
+	
+	public function actionCongratulations()
+	{
+		$page = Page::model()->findBySlug('wizard-congratulations');
+		
+		$this->setMemberPageTitle($page->title);
+		
+		$this->render('congratulations', array(
+			'page' => $page,
 		));
 	}
 }

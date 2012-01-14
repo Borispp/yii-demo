@@ -50,6 +50,40 @@ class Application extends YsaActiveRecord
 	 * Rejected by AppStore
 	 */
 	const STATE_REJECTED = -5;
+	
+	protected $_steps = array(
+		'logo' => array(
+			'position' => 1,
+			'title' => 'Logo',
+			'title_annotation' => 'Logo &amp; backgrounds',
+			'header' => 'Upload Your Logo',
+		),
+		'colors' => array(
+			'position' => 2,
+			'title' => 'Colors',
+			'title_annotation' => 'Colors &amp; images',
+			'header' => 'Set Your Colors',
+		),
+		'fonts' => array(
+			'position' => 3,
+			'title' => 'Fonts',
+			'title_annotation' => 'Fonts &amp; colors',
+			'header' => 'Choose Your Fonts',
+		),
+		'copyrights' => array(
+			'position' => 4,
+			'title' => 'Copyrights',
+			'title_annotation' => 'Copyrights',
+			'header' => 'Set Your Copyrights',
+		),
+		'submit' => array(
+			'position' => 5,
+			'title' => 'Submit',
+			'title_annotation' => 'It\'s all done!',
+			'header' => 'Submit Your Application',
+		),
+		
+	);
 
 	public static function model($className=__CLASS__)
 	{
@@ -304,5 +338,26 @@ class Application extends YsaActiveRecord
 	public function getAvailableImages()
 	{
 		return array_keys(Yii::app()->params['application']);
+	}
+	
+	/**
+	 * Get steps for Application Wizard
+	 * 
+	 * @return array
+	 */
+	public function wizardSteps()
+	{
+		return $this->_steps;
+	}
+	
+	/**
+	 * Check if current Wizard Step exists
+	 * 
+	 * @param string $step
+	 * @return bool
+	 */
+	public function filterWizardStep($step)
+	{
+		return in_array($step, array_keys($this->wizardSteps()));
 	}
 }

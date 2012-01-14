@@ -4,11 +4,11 @@
 	<?php echo YsaHtml::pageHeaderTitle($this->memberPageTitle); ?>
 <?php endif; ?>
 
-<div class="w">
-	<?php $this->widget('YsaMemberBreadcrumbs', array(
-		'links' => $this->breadcrumbs,
-	)); ?>
+<?php $this->widget('YsaMemberBreadcrumbs', array(
+	'links' => $this->breadcrumbs,
+)); ?>
 
+<div class="w">
 	<?php if(Yii::app()->user->hasFlash('success')): ?>
 		<div class="flash success">
 			<?php echo Yii::app()->user->getFlash('success'); ?>
