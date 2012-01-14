@@ -233,6 +233,7 @@ class YsaController extends CController
 					->registerMetaTag($this->getMetaKeywords(), 'keywords')
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/modernizr-2.0.6.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD)
+					->registerCssFile('http://fonts.googleapis.com/css?family=Candal')
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/style.css');
 
 		}

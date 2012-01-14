@@ -15,7 +15,7 @@ abstract class Wizard extends YsaFormModel
         
         $this->_class = get_class($this);
     }
-    
+	
     public function setApplication($app)
     {
         $this->_application = $app;
@@ -113,6 +113,7 @@ abstract class Wizard extends YsaFormModel
 		$section = str_replace('wizard','', strtolower($this->_class));
 		foreach(Yii::app()->params['studio_options'][$section] as $property => $params)
 			$result[$property] = $params['label'];
+		
 		return $result;
 	}
 	
