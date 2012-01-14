@@ -94,6 +94,8 @@ return array(
 				'/member/photo/<action:\w+>/<photoId>' => 'member/photo/<action>',
 				'/member/link/<action:\w+>/<linkId>' => 'member/link/<action>',
 				'/member/person/<action:\w+>/<personId>' => 'member/person/<action>',
+				'/member/settings/facebook/connect/<service_param>/<service>'=>'member/settings/facebookconnect',
+				'/member/settings/facebook/unlink/'=>'member/settings/facebookunlink',
 
 				// page routes
 				array(

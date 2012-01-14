@@ -216,4 +216,49 @@ class SettingsController extends YsaMemberController
 
 		$this->redirect(array('settings/500px/'));
 	}
+	
+	public function actionFacebook()
+	{
+		$this->setMemberPageTitle('Facebook Account');
+		
+		$this->crumb('Settings', array('settings/'))
+				->crumb('Facebook');
+		
+		$fb_form = new FacebookSettingsForm;
+		$fb_form->email = $this->member()->option(UserOption::FACEBOOK_EMAIL, false);
+		$fb_form->fb_id = $this->member()->option(UserOption::FACEBOOK_ID, false);
+		
+		$this->render('facebook', array( 'member' => $this->member(), 'fb' => $fb_form));
+	}
+	
+	public function actionFacebookConnect()
+	{
+		$authIdentity = Yii::app()->eauth->getIdentity( 'facebook', array('scope' => 'email'));
+		$authIdentity->redirectUrl = $this->createAbsoluteUrl('settings/facebook');
+		$authIdentity->cancelUrl = $this->createAbsoluteUrl('settings/facebook');
+
+		if ( $authIdentity->authenticate() ) 
+		{
+				$this->member()->editOption(UserOption::FACEBOOK_EMAIL, $authIdentity->getAttribute('email'));
+				$this->member()->editOption(UserOption::FACEBOOK_ID, $authIdentity->getAttribute('id'));
+
+				$this->setSuccess( 'Facebook account was successfully linked' );
+				
+				// special redirect with closing popup window
+				$authIdentity->redirect();
+		}
+		else {
+			// close popup window and redirect to cancelUrl
+			$authIdentity->cancel();
+		}
+	}
+	
+	public function actionFacebookUnlink()
+	{
+		if ( ! $this->member()->deleteOptions( array( UserOption::FACEBOOK_EMAIL, UserOption::FACEBOOK_ID) ) )
+			$this->setError( 'Unable to unlink Facebook account' );
+		
+		$this->setSuccess( 'Facebook account was successfully unlinked' );
+		$this->redirect(array('settings/'));
+	}
 }

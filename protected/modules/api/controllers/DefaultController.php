@@ -11,7 +11,7 @@ class DefaultController extends YsaApiController
 		$this->render('index', array(
 			'applicationList'	=> Application::model()->findAll(),
 			'eventList'			=> Event::model()->findAllByAttributes(array(
-				'type'	=> array('portfolio','proof'),
+				'type'	=> array('public','proof'),
 				'state'	=> 1
 			))
 		));
