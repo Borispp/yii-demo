@@ -25,7 +25,6 @@
 					</tr>
 				</thead>
 				<tbody>
-					
 					<?php if (count($entries)) : ?>
 						<?php foreach ($entries as $entry) : ?>
 								<tr>
@@ -49,9 +48,6 @@
 										&nbsp;
 										<?php echo YsaHtml::link('Edit', array('event/edit/' . $entry->id), array('class' => 'icon i_brush', 'title' => 'Edit Event')); ?>
 										&nbsp;
-											<?php if (!$entry->isProofing()) : ?>
-												<!-- <?php echo YsaHtml::link('Add Album', array('album/create/event/' . $entry->id), array('icons i_', 'title' => 'Add Album')); ?> -->
-											<?php endif; ?>
 										<?php echo YsaHtml::link('Delete', array('event/delete/' . $entry->id), array('class' => 'delete icon i_x_alt', 'title' => 'Delete Event')); ?>
 									</td>
 								</tr>
@@ -63,18 +59,10 @@
 							</td>
 						</tr>
 					<?php endif; ?>
-					
-	
 				</tbody>
 			</table>
-
-			<? $this->widget('YsaMemberPager',array('pages'=>$pagination)) ?>
+			<?php $this->widget('YsaMemberPager',array('pages'=>$pagination)) ?>
 		</div>
-
-
-		
-		
 		<div class="cf"></div>
-		
 	</div>
 </section>

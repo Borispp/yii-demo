@@ -3,7 +3,7 @@
 	'action' => array('application/saveStep/step/colors/'),
 )); ?>
 
-<section class="part group studio-bg">
+<section class="part group studio-bg shadow-box">
 	<label class="title">Studio Background</label>
 	<?php
 		$this->renderPartial('/wizard/_selector', array(
@@ -18,7 +18,7 @@
 	?>
 </section>
 
-<section class="part group generic-bg">
+<section class="part group generic-bg shadow-box">
 	<label class="title">Generic Background</label>
 	<?php
 		$this->renderPartial('/wizard/_selector', array(

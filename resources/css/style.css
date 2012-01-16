@@ -6,15 +6,14 @@ golf, hotel, india, juliet, kilo, lima, mike,
 novemeber, oscar, papa, quebec, romeo, sierra, 
 tango, uniform, victor, whiskey, x-ray, yankee, zulu.
 
-
 */
 /** colors **/
-/** gradients **/
+/** buttons **/
 .button-gray {
+  color: #03b6f2;
   -webkit-box-shadow: 1px 1px 0px 0px rgba(100, 100, 100, 0.5);
   -moz-box-shadow: 1px 1px 0px 0px rgba(100, 100, 100, 0.5);
   box-shadow: 1px 1px 0px 0px rgba(100, 100, 100, 0.5);
-  color: #01b1f0;
   background: #fafafa;
   /* Old browsers */
 
@@ -101,7 +100,7 @@ tango, uniform, victor, whiskey, x-ray, yankee, zulu.
 
 }
 .button-blue {
-  border: 0;
+  color: #fff;
   background: #01b1f0;
   /* Old browsers */
 
@@ -129,7 +128,6 @@ tango, uniform, victor, whiskey, x-ray, yankee, zulu.
   -webkit-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.5);
-  color: #fff;
 }
 .button-blue-hover {
   background: #0bb6ef;
@@ -345,7 +343,7 @@ a {
   cursor: pointer;
 }
 a:hover {
-  color: #01b1f0;
+  color: #03b6f2;
 }
 /* Headers
 *******************************/
@@ -488,7 +486,7 @@ nav ul li a {
 }
 nav ul li a:hover {
   text-decoration: none;
-  color: #01b1f0;
+  color: #03b6f2;
 }
 header .social {
   float: right;
@@ -587,12 +585,12 @@ header .login a:hover {
 .breadcrumb li a, .breadcrumb li span {
   font-size: 12px;
   line-height: 1;
-  color: #03b6f2;
+  color: #05ade9;
   text-decoration: none;
   text-shadow: 1px 1px 0px #fff;
 }
 .breadcrumb li a:hover {
-  color: #08a4d8;
+  color: #008eb0;
 }
 .breadcrumb li.separator {
   padding: 0 20px;
@@ -721,10 +719,10 @@ input[type="button"] {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+  color: #03b6f2;
   -webkit-box-shadow: 1px 1px 0px 0px rgba(100, 100, 100, 0.5);
   -moz-box-shadow: 1px 1px 0px 0px rgba(100, 100, 100, 0.5);
   box-shadow: 1px 1px 0px 0px rgba(100, 100, 100, 0.5);
-  color: #01b1f0;
   background: #fafafa;
   /* Old browsers */
 
@@ -826,7 +824,7 @@ button.blue,
 a.btn.blue,
 input[type="submit"].blue,
 input[type="button"].blue {
-  border: 0;
+  color: #fff;
   background: #01b1f0;
   /* Old browsers */
 
@@ -854,7 +852,6 @@ input[type="button"].blue {
   -webkit-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.5);
-  color: #fff;
 }
 button.blue:hover,
 a.btn.blue:hover,
@@ -1132,10 +1129,10 @@ section.box .box-content {
   line-height: 15px;
   font-size: 10px;
   padding: 4px 7px;
+  color: #03b6f2;
   -webkit-box-shadow: 1px 1px 0px 0px rgba(100, 100, 100, 0.5);
   -moz-box-shadow: 1px 1px 0px 0px rgba(100, 100, 100, 0.5);
   box-shadow: 1px 1px 0px 0px rgba(100, 100, 100, 0.5);
-  color: #01b1f0;
   background: #fafafa;
   /* Old browsers */
 
@@ -1224,7 +1221,7 @@ section.box .box-content {
 }
 .pager li.selected a {
   cursor: default;
-  border: 0;
+  color: #fff;
   background: #01b1f0;
   /* Old browsers */
 
@@ -1252,7 +1249,6 @@ section.box .box-content {
   -webkit-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.5);
-  color: #fff;
 }
 /* Data Tables
 *******************************/

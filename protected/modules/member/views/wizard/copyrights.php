@@ -2,7 +2,7 @@
 		'id'=>'copyrights-step-form',
 	'action' => array('application/saveStep/step/copyrights/'),
 )); ?>
-	<section class="part copyrights">
+	<section class="part copyrights shadow-box">
 		<?php echo $form->labelEx($model, 'copyright', array('class' => 'title')); ?>
 		<p>This information will show at the bottom of your app. Here's an example - <em>&copy; by YourStudioName. All rights reserved.</em></p>
 		<div>

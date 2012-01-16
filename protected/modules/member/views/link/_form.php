@@ -1,4 +1,4 @@
-<div class="form standart-form shadow-box">
+<div class="form standart-form">
 	<?php $form=$this->beginWidget('YsaMemberForm', array(
 			'id'=>'studio-add-link-form',
 			'enableAjaxValidation'=>false,

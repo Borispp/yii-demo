@@ -130,14 +130,6 @@
   display: none;
 }
 #wizard-accordion .step section.part {
-  padding: 20px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background: #fff;
-  -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.5);
-  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.5);
   position: relative;
   float: left;
   margin-bottom: 20px;
@@ -436,12 +428,12 @@
 #wizard-breadcrumbs li.submit {
   z-index: 5;
 }
-#event-list .search-bar {
+#client-list .search-bar, #event-list .search-bar {
   float: left;
   width: 16%;
   background: #fff;
 }
-#event-list .data-box {
+#client-list .data-box, #event-list .data-box {
   width: 73%;
   float: right;
 }

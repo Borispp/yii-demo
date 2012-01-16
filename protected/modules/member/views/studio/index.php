@@ -52,16 +52,22 @@
 			<h3>Links</h3>
 		</div>
 		<div class="box-content">
-			<ul>
-				<?php foreach ($this->member()->studio->links as $link) : ?>
-					<?php $this->renderPartial('/link/_listlink', array(
-						'entry' => $link,
-					)); ?>
-				<?php endforeach; ?>
-			</ul>
-			<?php $this->renderPartial('/link/_form', array(
-				'entry' => $entryLink,
-			)); ?>
+			
+			<div class="shadow-box">
+				<ul>
+					<?php foreach ($this->member()->studio->links as $link) : ?>
+						<?php $this->renderPartial('/link/_listlink', array(
+							'entry' => $link,
+						)); ?>
+					<?php endforeach; ?>
+				</ul>
+				
+				<?php $this->renderPartial('/link/_form', array(
+					'entry' => $entryLink,
+				)); ?>
+				
+			</div>
+
 		</div>
 	</section>
 	

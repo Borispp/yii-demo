@@ -7,24 +7,25 @@ golf, hotel, india, juliet, kilo, lima, mike,
 novemeber, oscar, papa, quebec, romeo, sierra, 
 tango, uniform, victor, whiskey, x-ray, yankee, zulu.
 
-
 */
 
 /** colors **/
 @blue-alpha : #008eb0; 
-@blue-bravo : #01b1f0;
+@blue-bravo : #03b6f2;
+@blue-charlie : #02b5f5;
+@blue-delta : #05ade9;
 
 @dark-gray-alpha: #777;
 @dark-gray-bravo: #999;
 
-/** gradients **/
+/** buttons **/
 .button-gray {
+	color: @blue-bravo;
 	
 	-webkit-box-shadow: 1px 1px 0px 0px rgba(100, 100, 100, .5);
 	-moz-box-shadow: 1px 1px 0px 0px rgba(100, 100, 100, .5);
 	box-shadow: 1px 1px 0px 0px rgba(100, 100, 100, .5);
 	
-	color: @blue-bravo;
 	background: rgb(250,250,250); /* Old browsers */
 	background: -moz-linear-gradient(top,  rgba(250,250,250,1) 24%, rgba(239,239,239,1) 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(24%,rgba(250,250,250,1)), color-stop(100%,rgba(239,239,239,1))); /* Chrome,Safari4+ */
@@ -34,8 +35,9 @@ tango, uniform, victor, whiskey, x-ray, yankee, zulu.
 	background: linear-gradient(top,  rgba(250,250,250,1) 24%,rgba(239,239,239,1) 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fafafa', endColorstr='#efefef',GradientType=0 ); /* IE6-9 */
 }
+
 .button-gray-hover {
-	color: #02b5f5;
+	color: @blue-charlie;
 	
 	-webkit-box-shadow: 1px 1px 0px 0px rgba(100, 100, 100, .4);
 	-moz-box-shadow: 1px 1px 0px 0px rgba(100, 100, 100, .4);
@@ -56,7 +58,7 @@ tango, uniform, victor, whiskey, x-ray, yankee, zulu.
 	-moz-box-shadow: 1px 1px 0px 0px rgba(100, 100, 100, .6);
 	box-shadow: 1px 1px 0px 0px rgba(100, 100, 100, .6);
 	
-	color: #05ade9;
+	color: @blue-delta;
 	background: rgb(244,244,244); /* Old browsers */
 	background: -moz-linear-gradient(top,  rgba(244,244,244,1) 27%, rgba(232,232,232,1) 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(27%,rgba(244,244,244,1)), color-stop(100%,rgba(232,232,232,1))); /* Chrome,Safari4+ */
@@ -68,7 +70,8 @@ tango, uniform, victor, whiskey, x-ray, yankee, zulu.
 }
 
 .button-blue {
-	border:0;
+	color:#fff;
+	
 	background: rgb(1,177,240); /* Old browsers */
 	background: -moz-linear-gradient(top,  rgba(1,177,240,1) 27%, rgba(2,162,229,1) 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(27%,rgba(1,177,240,1)), color-stop(100%,rgba(2,162,229,1))); /* Chrome,Safari4+ */
@@ -81,7 +84,7 @@ tango, uniform, victor, whiskey, x-ray, yankee, zulu.
 	-webkit-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, .5);
 	-moz-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, .5);
 	box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, .5);
-	color:#fff;
+	
 	
 }
 .button-blue-hover {
@@ -466,12 +469,12 @@ header .login a:hover {
 .breadcrumb li span {
 	font-size:12px;
 	line-height: 1;
-	color: #03b6f2;
+	color: @blue-delta;
 	text-decoration:none;
 	text-shadow: 1px 1px 0px #fff;
 }
 .breadcrumb li a:hover {
-	color:#08a4d8;
+	color:@blue-alpha;
 }
 .breadcrumb li.separator {
 	padding: 0 20px;
@@ -563,7 +566,6 @@ textarea:focus {
 	color: #444;
 }
 
-
 textarea {
     resize:none;
 }
@@ -581,18 +583,6 @@ select option{}
 input[type=submit], input[type=checkbox], input[type=radio], input[type=button], button{
 	width:auto !important;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* Buttons
@@ -622,7 +612,6 @@ input[type="button"] {
 	border:0;
 	
 	.rounded4;
-	
 	.button-gray;
 }
 
