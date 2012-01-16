@@ -41,45 +41,49 @@ class RegisterController extends YsaFrontController
 		{
 			$model->attributes = $_POST['RegistrationForm'];
 			if ( $this->_register($model) )
-				return;
+			{
+				$this->setSuccess( 'Thank you for your registration. Please check your email' );
+				$this->redirect( $this->createAbsoluteUrl( 'auth/login' ) );
+			}
 		}
 		$this->render('registration',array('model' => $model));
 	}
 	
+	/**
+	 *
+	 * @param RegistrationForm $model
+	 * @return boolean 
+	 */
 	protected function _register( RegistrationForm $model )
 	{
-		if($model->validate()) 
-		{
-			$model->state = User::STATE_INACTIVE;
-			$model->role = User::ROLE_MEMBER;
-			$model->encryptPassword();
-			$model->generateActivationKey();
+		if( !$model->validate() ) 
+			return false;
+		
+		$model->state = User::STATE_INACTIVE;
+		$model->role = User::ROLE_MEMBER;
+		$model->encryptPassword();
+		$model->generateActivationKey();
 
-			if ($model->save(false)) 
-			{
+		if ( !$model->save(false) )
+			return false;
 
-				// send confirmation email
-				Email::model()->send(
-					array($model->email, $model->name()), 
-					'member_confirmation', 
-					array(
-						'name'	=> $model->name(),
-						'email' => $model->email,
-						'link'	=> $model->getActivationLink(),
-					)
-				);
+		// send confirmation email
+		Email::model()->send(
+			array($model->email, $model->name()), 
+			'member_confirmation', 
+			array(
+				'name'	=> $model->name(),
+				'email' => $model->email,
+				'link'	=> $model->getActivationLink(),
+			)
+		);
 
-				// create new Studio
-				$studio = new Studio();
-				$studio->user_id = $model->id;
-				$studio->save();
+		// create new Studio
+		$studio = new Studio();
+		$studio->user_id = $model->id;
+		$studio->save();
 
-				Yii::app()->user->setFlash('registration', "Thank you for your registration. Please check your email.");
-				$this->refresh();
-			}
-
-			return true;
-		}
+		return true;
 	}
 
 	/**
@@ -137,19 +141,13 @@ class RegisterController extends YsaFrontController
 		}
 
 		$model->attributes = array_merge( $_POST['OauthRegistrationForm'], $safe_attr );
-
-		if (!$model->validate())
-		{
-			$this->render('oauth',array('model' => $model));
-			Yii::app()->end();
-		}
 		
 		if ( $this->_register($model) )
 		{
-			$member = Member::model()->findByPk(Yii::app()->user->getId());
-			$member->linkFacebook( $attr['email'], $attr['id'] );
+			$model->linkFacebook( $attr['email'], $attr['id'] );
 			unset( Yii::app()->session['oauth_user_identity'] );
-			Yii::app()->end();
+			$this->setSuccess( 'Thank you for your registration. Please check your email' );
+			$this->redirect( $this->createAbsoluteUrl( 'auth/login' ) );
 		}
 
 		$this->render('oauth', array('model' => $model));

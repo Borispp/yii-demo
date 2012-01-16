@@ -195,4 +195,26 @@ class Member extends User
 	{
 		return $this->option(UserOption::FACEBOOK_ID, false, $this->id) ? true : false;
 	}
+	
+	/**
+	 * Link Facebook Account
+	 *
+	 * @param string $email
+	 * @param string $fb_id 
+	 */
+	public function linkFacebook( $email, $fb_id )
+	{
+		$this->editOption(UserOption::FACEBOOK_EMAIL, $email);
+		$this->editOption(UserOption::FACEBOOK_ID, $fb_id);
+	}
+	
+	/**
+	 * Unlink Facebook Account
+	 * 
+	 * @return boolean false when unable to remove user options
+	 */
+	public function unlinkFacebook()
+	{
+		return $this->deleteOptions( array( UserOption::FACEBOOK_EMAIL, UserOption::FACEBOOK_ID) );
+	}
 }

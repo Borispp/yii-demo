@@ -6,7 +6,7 @@
  */
 class ServiceUserIdentity extends YsaUserIdentity
 {
-	const ERROR_NOT_AUTHENTICATED = 33;
+	const ERROR_OAUTH_NOT_AUTHENTICATED = 33;
 
 	/**
 	 * @var EAuthServiceBase the authorization service instance.
@@ -42,13 +42,25 @@ class ServiceUserIdentity extends YsaUserIdentity
 				$this->password = $user->password;
 				return parent::authenticate();
 			}
-			$this->errorCode = self::ERROR_EMAIL_INVALID;
+			$this->setError( self::ERROR_EMAIL_INVALID );
 		}
 		else
 		{
-			$this->errorCode = self::ERROR_NOT_AUTHENTICATED;
+			$this->setError( self::ERROR_OAUTH_NOT_AUTHENTICATED );
 		}
 		
 		return !$this->errorCode;
+	}
+	
+	protected function setError( $code )
+	{
+		switch ( $code )
+		{
+			case self::ERROR_OAUTH_NOT_AUTHENTICATED: 
+				$this->errorCode = $code; 
+				$this->errorMessage = 'Remote authntification failed'; 
+				break;
+			default : parent::setError($code);
+		}
 	}
 }

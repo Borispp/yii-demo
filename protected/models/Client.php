@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'client':
  * @property integer $id
- * @property integer $application_id
+ * @property integer $user_id
  * @property string $name
  * @property string $email
  * @property string $password
@@ -46,15 +46,14 @@ class Client extends YsaActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('state', 'numerical', 'integerOnly'=>true),
-			array('application_id', 'length', 'max'=>11),
+			array('state,user_id', 'numerical', 'integerOnly'=>true),
 			array('email', 'unique'),
 			array('name, email, password', 'required'),
 			array('name, email, password, phone', 'length', 'max'=>100),
 			array('added_with, description, created, updated', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, application_id, name, email, password, phone, description, state, created, updated', 'safe', 'on'=>'search'),
+			array('id, user_id, name, email, password, phone, description, state, created, updated', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,7 +65,7 @@ class Client extends YsaActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'application'	=> array(self::BELONGS_TO, 'Application', 'application_id'),
+			'member'		=> array(self::BELONGS_TO, 'Member', 'user_id'),
 			'auth'			=> array(self::HAS_ONE, 'ClientAuth', 'client_id'),
 			'events'		=> array(self::MANY_MANY, 'Event', 'client_events(client_id, event_id)'),
 		);
@@ -79,7 +78,7 @@ class Client extends YsaActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'application_id' => 'Application',
+			'user_id' => 'Member',
 			'name' => 'Name',
 			'email' => 'Email',
 			'password' => 'Password',
@@ -103,7 +102,7 @@ class Client extends YsaActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('application_id',$this->application_id,true);
+		$criteria->compare('user_id',$this->user_id,true);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('email',$this->email,true);
 		$criteria->compare('password',$this->password,true);
@@ -122,7 +121,7 @@ class Client extends YsaActiveRecord
 	public function searchCriteria()
 	{
 		$criteria = new CDbCriteria();
-		$criteria->compare('application_id', Member::model()->findByPk(Yii::app()->user->getId())->application->id);
+		$criteria->compare('user_id', Yii::app()->user->getId());
 		$fields = Yii::app()->session[self::SEARCH_SESSION_NAME];
 
 		if (null === $fields) {
@@ -208,7 +207,7 @@ class Client extends YsaActiveRecord
 
 	public function isOwner()
 	{
-		return $this->application->user_id == Yii::app()->user->id;
+		return $this->user_id == Yii::app()->user->id;
 	}
 
 	public function getAddedWithList()
