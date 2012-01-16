@@ -105,7 +105,7 @@ class EventPhotoComment extends YsaActiveRecord
 		$obPhotoCommentUser = new EventPhotoCommentUser();
 		$obPhotoCommentUser->comment_id = $this->id;
 		$obPhotoCommentUser->user_id = $obUser->id;
-		var_dump($obPhotoCommentUser->save());
+		$obPhotoCommentUser->save();
 	}
 
 	/**
