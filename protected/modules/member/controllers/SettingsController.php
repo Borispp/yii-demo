@@ -239,13 +239,11 @@ class SettingsController extends YsaMemberController
 
 		if ( $authIdentity->authenticate() ) 
 		{
-				$this->member()->editOption(UserOption::FACEBOOK_EMAIL, $authIdentity->getAttribute('email'));
-				$this->member()->editOption(UserOption::FACEBOOK_ID, $authIdentity->getAttribute('id'));
-
-				$this->setSuccess( 'Facebook account was successfully linked' );
+			$this->member()->linkFacebook( $authIdentity->getAttribute('email'), $authIdentity->getAttribute('id') );
+			$this->setSuccess( 'Facebook account was successfully linked' );
 				
-				// special redirect with closing popup window
-				$authIdentity->redirect();
+			// special redirect with closing popup window
+			$authIdentity->redirect();
 		}
 		else {
 			// close popup window and redirect to cancelUrl
@@ -255,7 +253,7 @@ class SettingsController extends YsaMemberController
 	
 	public function actionFacebookUnlink()
 	{
-		if ( ! $this->member()->deleteOptions( array( UserOption::FACEBOOK_EMAIL, UserOption::FACEBOOK_ID) ) )
+		if ( ! $this->member()->unlinkFacebook() )
 			$this->setError( 'Unable to unlink Facebook account' );
 		
 		$this->setSuccess( 'Facebook account was successfully unlinked' );
