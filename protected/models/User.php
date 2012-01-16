@@ -192,7 +192,7 @@ class User extends YsaActiveRecord
 	 */
 	public function editOption($name, $value)
 	{
-		UserOption::model()->editOption($name, $value);
+		UserOption::model()->editOption($name, $value, $this->id);
 		if (isset ($this->_options[$name])) {
 			unset ($this->_options[$name]);
 		}
@@ -206,7 +206,7 @@ class User extends YsaActiveRecord
 	 */
 	public function deleteOption($name)
 	{
-		UserOption::model()->deleteOption($name);
+		UserOption::model()->deleteOption($name, $this->id);
 		if (isset($this->_options[$name])) {
 			unset ($this->_options[$name]);
 		}
@@ -226,7 +226,7 @@ class User extends YsaActiveRecord
 		{
 			foreach ( $options as $option )
 			{
-				if ( ! $this->deleteOption( $option ) )
+				if ( ! $this->deleteOption( $option, $this->id ) )
 					throw new CException();
 			}
 			$transaction->commit();
@@ -245,10 +245,10 @@ class User extends YsaActiveRecord
 	 * @param mixed $default
 	 * @return mixed
 	 */
-	public function option($name, $default = '', $userId = null)
+	public function option($name, $default = '')
 	{
 		if (!isset($this->_options[$name])) {
-			$this->_options[$name] = UserOption::model()->getOption($name, $default, $userId);
+			$this->_options[$name] = UserOption::model()->getOption($name, $default, $this->id);
 		}
 
 		return $this->_options[$name];
