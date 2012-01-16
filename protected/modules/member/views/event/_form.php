@@ -1,10 +1,9 @@
-<div class="form">
+<div class="form standart-form shadow-box">
 	<?php $form=$this->beginWidget('YsaMemberForm', array(
 			'id'=>'create-event-form',
 			'enableAjaxValidation'=>false,
 	)); ?>
-
-	<section>
+	<section class="cf">
 		<?php echo $form->labelEx($entry,'name'); ?>
 		<div>
 			<?php echo $form->textField($entry,'name', array('maxlength' => 100)); ?>
@@ -12,7 +11,7 @@
 		</div>
 	</section>
 
-	<section>
+	<section class="cf">
 		<?php echo $form->labelEx($entry,'date'); ?>
 		<div>
 			<?php echo $form->textField($entry,'date', array('maxlength' => 100, 'class' => 'date', 'readonly' => true)); ?>
@@ -20,7 +19,7 @@
 		</div>
 	</section>
 
-	<section>
+	<section class="cf">
 		<?php echo $form->labelEx($entry,'description'); ?>
 		<div>
 			<?php echo $form->textArea($entry,'description', array('cols' => 40, 'rows' => 4)); ?>
@@ -28,7 +27,7 @@
 		</div>
 	</section>
 
-	<section>
+	<section class="cf">
 		<?php echo $form->labelEx($entry,'state'); ?>
 		<div>
 			<?php echo $form->dropDownList($entry, 'state', $entry->getStates()); ?>
@@ -38,7 +37,7 @@
 
 	
 	<?php if ($entry->isNewRecord) : ?>
-		<section>
+		<section class="cf">
 			<?php echo $form->labelEx($entry,'type'); ?>
 			<div>
 				<?php echo $form->dropDownList($entry, 'type', $entry->getTypes()); ?>
@@ -46,16 +45,16 @@
 			</div>
 		</section>
 	<?php else: ?>
-		<section>
+		<section class="cf">
 			<label>Type</label>
 			<div>
-				<?php echo $entry->type(); ?>
+				<strong><?php echo $entry->type(); ?></strong>
 			</div>
 		</section>
 	<?php endif; ?>
 	
 	<?php if ($entry->isNewRecord || !$entry->isPortfolio()) : ?>
-		<section>
+		<section class="cf">
 			<?php echo $form->labelEx($entry,'passwd'); ?>
 			<div>
 				<?php echo $form->textField($entry,'passwd', array('maxlength' => 20)); ?>
@@ -63,10 +62,9 @@
 			</div>
 		</section>
 	<?php endif; ?>
-	
-	<section class="button">
+	<div class="button">
 		<?php echo YsaHtml::submitButton($entry->isNewRecord ? 'Create' : 'Save'); ?>
-	</section>
+	</div>
 
 	<?php $this->endWidget(); ?>
 </div>

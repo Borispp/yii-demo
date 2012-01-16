@@ -1,48 +1,25 @@
-<div class="form">
+<div class="form standart-form shadow-box">
 	<?php $form=$this->beginWidget('YsaMemberForm', array(
 			'id'=>'studio-info-form',
 			'enableAjaxValidation'=>false,
 	)); ?>
-	<section>
-		<?php echo $form->labelEx($entry,'name'); ?>
-		<div>
-			<?php echo $form->textField($entry,'name', array('maxlength' => 100)); ?>
-			<?php echo $form->error($entry,'name'); ?>
-		</div>
-	</section>
-	<section>
-		<?php echo $form->labelEx($entry,'blog_feed'); ?>
-		<div>
-			<?php echo $form->textField($entry,'blog_feed', array('maxlength' => 100)); ?>
-			<?php echo $form->error($entry,'blog_feed'); ?>
-		</div>
-	</section>
-	<section>
-		<?php echo $form->labelEx($entry,'twitter_feed'); ?>
-		<div>
-			<?php echo $form->textField($entry,'twitter_feed', array('maxlength' => 100)); ?>
-			<?php echo $form->error($entry,'twitter_feed'); ?>
-		</div>
-	</section>
-
-	<section>
-		<?php echo $form->labelEx($entry,'facebook_feed'); ?>
-		<div>
-			<?php echo $form->textField($entry,'facebook_feed', array('maxlength' => 100)); ?>
-			<?php echo $form->error($entry,'facebook_feed'); ?>
-		</div>
-	</section>
-
-	<section>
-		<?php echo $form->labelEx($entry,'order_link'); ?>
-		<div>
-			<?php echo $form->textField($entry,'order_link', array('maxlength' => 100)); ?>
-			<?php echo $form->error($entry,'order_link'); ?>
-		</div>
-	</section>
-
-	<section class="button">
+	
+	<?php
+		$fields = array('name', 'blog_feed', 'twitter_feed', 'facebook_feed', 'order_link');
+	?>
+	
+	<?php foreach ($fields as $field) : ?>
+		<section class="cf">
+			<?php echo $form->labelEx($entry, $field); ?>
+			<div>
+				<?php echo $form->textField($entry, $field, array('maxlength' => 100)); ?>
+				<?php echo $form->error($entry, $field); ?>
+			</div>
+		</section>
+	<?php endforeach; ?>
+	
+	<div class="button">
 		<?php echo YsaHtml::submitButton('Save'); ?>
-	</section>
+	</div>
 	<?php $this->endWidget(); ?>
 </div>

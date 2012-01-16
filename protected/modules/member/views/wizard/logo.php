@@ -11,7 +11,7 @@
 		<?php echo $form->hiddenField($model, 'style'); ?>
 	</section>
 
-	<section class="part icon">
+	<section class="part icons">
 		<?php echo $form->labelEx($model, 'icon', array('class' => 'title')); ?>
 		<?php
 			$this->renderPartial('/wizard/_uploader', array(

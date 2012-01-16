@@ -30,6 +30,8 @@ class EventController extends YsaMemberController
 		$entries = Event::model()->findAll($criteria);
 
 		$this->setMemberPageTitle('Events');
+		
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/eventlist.js', CClientScript::POS_HEAD);
 
 		$this->render('index',array(
 				'entries'       => $entries,
@@ -96,8 +98,8 @@ class EventController extends YsaMemberController
 		$this->setMemberPageTitle('Create New Event');
 
 		$this->render('create', array(
-				'entry' => $entry,
-			));
+			'entry' => $entry,
+		));
 	}
 
 	public function actionEdit($eventId)
