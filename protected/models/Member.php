@@ -24,6 +24,7 @@ class Member extends User
 	{
 		return array(
 			'UserSubscription'	=> array(self::HAS_MANY, 'UserSubscription', 'user_id'),
+			'clients'			=> array(self::HAS_MANY, 'Client', 'user_id'),
 			'Membership'		=> array(self::MANY_MANY, 'Membership', 'user_subscription(user_id, membership_id)'),
 			'event'				=> array(self::HAS_MANY, 'Event', 'user_id'),
 		) + parent::relations();

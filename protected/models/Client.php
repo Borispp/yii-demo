@@ -225,6 +225,20 @@ class Client extends YsaActiveRecord
 	}
 
 	/**
+	 * @param Member $obMember
+	 * @param string $orderBy
+	 * @return array
+	 */
+	public function findAllByMember(Member $obMember, $orderBy = 'id DESC')
+	{
+		$criteria = new CDbCriteria();
+		$criteria->compare('user_id', $obMember->id);
+		$criteria->order = $orderBy;
+		return $this->findAll($criteria);
+	}
+
+
+	/**
 	 * Check if client has access to event
 	 * @param Event $obEvent
 	 * @return bool

@@ -6,7 +6,7 @@
 			<div>
 				<ul>
 					<li><span><?php echo count($this->member()->events); ?></span> Events</li>
-					<li><span><?php echo count($this->member()->application->clients); ?></span> Clients</li>
+					<li><span><?php echo count($this->member()->clients); ?></span> Clients</li>
 				</ul>
 			</div>
 		</div>
@@ -37,7 +37,7 @@
 			<div>
 				<ul>
 					<li><span><?php echo count($this->member()->events); ?></span> Events</li>
-					<li><span><?php echo count($this->member()->application->clients); ?></span> Clients</li>
+					<li><span><?php echo count($this->member()->clients); ?></span> Clients</li>
 				</ul>
 			</div>
 		</div>
@@ -45,7 +45,9 @@
 			<h3>Latest Registered Clients</h3>
 			<div>
 				<ul>
-					<li>Client</li>
+					<?php foreach(Client::model()->findAllByMember($this->member()) as $obClient):?>
+					<li><?php echo YsaHtml::link($obClient->name, array('client/view/' . $obClient->id), array()); ?></li>
+					<?php endforeach?>
 				</ul>
 			</div>
 		</div>
