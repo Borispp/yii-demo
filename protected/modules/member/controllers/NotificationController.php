@@ -15,6 +15,7 @@ class NotificationController extends YsaMemberController
 		if (isset($_POST['ApplicationNotification']))
 		{
 			$entry->attributes = $_POST['ApplicationNotification'];
+			var_dump('ApplicationNotification');
 			$entry->application_id = $this->member()->application->id;
 			if ($entry->validate())
 			{
@@ -25,7 +26,9 @@ class NotificationController extends YsaMemberController
 		$this->setMemberPageTitle('Add Notification');
 		$this->render('new', array(
 				'entry'		=> $entry,
-				'events'	=> $this->member()->event
+				'events'	=> $this->member()->event,
+				'clients'	=> $this->member()->clients,
+
 			));
 	}
 
@@ -78,6 +81,93 @@ class NotificationController extends YsaMemberController
 			'entries'		=> $entries,
 			'pagination'	=> $pagination,
 			'searchOptions'	=> ApplicationNotification::model()->searchOptions(),
+		));
+	}
+
+
+	/**
+	 * Ajax action used to add client access to events
+	 * @return void
+	 */
+	public function actionAddClient()
+	{
+		if (empty($_POST['client_id']) || empty($_POST['event_id']))
+			return $this->sendJsonSuccess(array(
+				'state' => false,
+			));
+		$obEvent = Event::model()->findByPk($_POST['event_id']);
+		$obClient = Client::model()->findByPk($_POST['client_id']);
+		if (!$obEvent || !$obClient)
+			return $this->sendJsonSuccess(array(
+				'state' => false,
+			));
+		return $this->sendJsonSuccess(array(
+			'state' => $obClient->addPhotoEvent($obEvent),
+		));
+	}
+
+	/**
+	 * Ajax action used to remove client access to events
+	 * @return void
+	 */
+	public function actionRemoveClient()
+	{
+		if (empty($_POST['client_id']) || empty($_POST['event_id']))
+			return $this->sendJsonSuccess(array(
+				'state' => false,
+			));
+		$obEvent = Event::model()->findByPk($_POST['event_id']);
+		$obClient = Client::model()->findByPk($_POST['client_id']);
+
+		if (!$obEvent || !$obClient)
+			return $this->sendJsonSuccess(array(
+				'state' => false,
+			));
+		return $this->sendJsonSuccess(array(
+			'state' => $obClient->removePhotoEvent($obEvent),
+		));
+	}
+
+	/**
+	 * Ajax action used to add client access to events
+	 * @return void
+	 */
+	public function actionAddEvent()
+	{
+		if (empty($_POST['client_id']) || empty($_POST['event_id']))
+			return $this->sendJsonSuccess(array(
+				'state' => false,
+			));
+		$obEvent = Event::model()->findByPk($_POST['event_id']);
+		$obClient = Client::model()->findByPk($_POST['client_id']);
+		if (!$obEvent || !$obClient)
+			return $this->sendJsonSuccess(array(
+				'state' => false,
+			));
+		return $this->sendJsonSuccess(array(
+			'state' => $obClient->addPhotoEvent($obEvent),
+		));
+	}
+
+	/**
+	 * Ajax action used to remove client access to events
+	 * @return void
+	 */
+	public function actionRemoveEvent()
+	{
+		if (empty($_POST['client_id']) || empty($_POST['event_id']))
+			return $this->sendJsonSuccess(array(
+				'state' => false,
+			));
+		$obEvent = Event::model()->findByPk($_POST['event_id']);
+		$obClient = Client::model()->findByPk($_POST['client_id']);
+
+		if (!$obEvent || !$obClient)
+			return $this->sendJsonSuccess(array(
+				'state' => false,
+			));
+		return $this->sendJsonSuccess(array(
+			'state' => $obClient->removePhotoEvent($obEvent),
 		));
 	}
 }

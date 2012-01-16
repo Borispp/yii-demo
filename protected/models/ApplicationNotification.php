@@ -16,6 +16,9 @@
  */
 class ApplicationNotification extends YsaActiveRecord
 {
+	public $events;
+	public $clients;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return ApplicationNotification the static model class
@@ -155,11 +158,9 @@ class ApplicationNotification extends YsaActiveRecord
 
 	public function searchCriteria()
 	{
-		$eventIdList = array();
-		foreach(Member::model()->findByPk(Yii::app()->user->getId())->event as $obEvent)
-			$eventIdList[$obEvent->id] = $obEvent->id;
+		$obApplication = Member::model()->findByPk(Yii::app()->user->getId())->application;
 		$criteria = new CDbCriteria();
-		$criteria->compare('event_id', $eventIdList);
+		$criteria->compare('application_id', $obApplication->id);
 		$fields = Yii::app()->session[self::SEARCH_SESSION_NAME];
 
 		if (null === $fields) {
@@ -212,9 +213,41 @@ class ApplicationNotification extends YsaActiveRecord
 		));
 	}
 
-	public function sent()
+	/**
+	 * Marks notification as sent (Creates application_notification_state record with link to device id)
+	 * @param $deviceId
+	 * @return void
+	 */
+	public function sent($deviceId)
 	{
+		$obApplicationNotificatioState = new ApplicationNotificationState();
+		$obApplicationNotificatioState->app_notification_id = $this->id;
+		$obApplicationNotificatioState->device_id = $deviceId;
 		$this->sent = 1;
 		$this->save();
+	}
+
+	/**
+	 * @param Event $obEvent
+	 * @return void
+	 */
+	public function appendToEvent(Event $obEvent)
+	{
+		$obApplicationNotificationEvent = new ApplicationNotificationEvent();
+		$obApplicationNotificationEvent->app_notification_id = $this->id;
+		$obApplicationNotificationEvent->event_id = $obEvent->id;
+		$obApplicationNotificationEvent->save();
+	}
+
+	/**
+	 * @param Client $obClient
+	 * @return void
+	 */
+	public function appendToClient(Client $obClient)
+	{
+		$obApplicationNotificationClient = new ApplicationNotificationClient();
+		$obApplicationNotificationClient->app_notification_id = $this->id;
+		$obApplicationNotificationClient->clien_id = $obClient->id;
+		$obApplicationNotificationClient->save();
 	}
 }
