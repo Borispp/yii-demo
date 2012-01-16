@@ -34,22 +34,20 @@ class ServiceUserIdentity extends YsaUserIdentity
 	 */
 	public function authenticate()
 	{		
-		if ($this->service->isAuthenticated) 
-		{
-			$user = User::model()->findByAttributes(array('email' => $this->username = $this->service->getAttribute('email')));
-			if (null !== $user) 
-			{
-				$this->password = $user->password;
-				return parent::authenticate();
-			}
-			$this->setError( self::ERROR_EMAIL_INVALID );
-		}
-		else
-		{
-			$this->setError( self::ERROR_OAUTH_NOT_AUTHENTICATED );
-		}
+		if ( !$this->service->isAuthenticated )
+			return ! $this->setError( self::ERROR_OAUTH_NOT_AUTHENTICATED );
+
+		$condition = "name='".UserOption::FACEBOOK_ID."' AND value='{$this->service->getAttribute('id')}'";
+		$user = User::model()
+				->with(array('options' => array('condition' => $condition)))
+				->find();
+
+		if (null === $user) 
+			return ! $this->setError( self::ERROR_UNKNOWN_IDENTITY );
 		
-		return !$this->errorCode;
+		$this->username = $user->email;
+		$this->password = $user->password;
+		return parent::authenticate();
 	}
 	
 	protected function setError( $code )
@@ -58,9 +56,10 @@ class ServiceUserIdentity extends YsaUserIdentity
 		{
 			case self::ERROR_OAUTH_NOT_AUTHENTICATED: 
 				$this->errorCode = $code; 
-				$this->errorMessage = 'Remote authntification failed'; 
+				$this->errorMessage = 'Remote authentication failed'; 
 				break;
-			default : parent::setError($code);
+			default : return parent::setError($code);
 		}
+		return $code;
 	}
 }

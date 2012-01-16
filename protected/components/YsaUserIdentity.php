@@ -49,6 +49,7 @@ class YsaUserIdentity extends CUserIdentity
 	/**
 	 * Set both error code and error message
 	 * @param integer $code
+	 * @return integer return code back
 	 * @throws CException 
 	 */
 	protected function setError( $code )
@@ -65,7 +66,7 @@ class YsaUserIdentity extends CUserIdentity
 			default : throw new CException( "Unknown error code [{$code}], can't define error message" );
 		}
 		
-		$this->errorCode = $code;
+		return $this->errorCode = $code;
 	}
 	
 	public function getId() 
