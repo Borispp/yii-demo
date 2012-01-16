@@ -14,7 +14,7 @@ class ClientController extends YsaMemberController
 		if (isset($_POST['Client']))
 		{
 			$entry->attributes = $_POST['Client'];
-			$entry->application_id = $this->member()->application->id;
+			$entry->user_id = $this->member()->id;
 			if ($entry->validate())
 			{
 				$entry->save();
@@ -41,7 +41,7 @@ class ClientController extends YsaMemberController
 		$criteria = Client::model()->searchCriteria();
 
 		// load only current user's events
-		$criteria->addSearchCondition('application_id', $this->member()->application->id);
+		$criteria->addSearchCondition('user_id', $this->member()->id);
 
 		$pagination = new CPagination(Client::model()->count($criteria));
 		$pagination->pageSize = Yii::app()->params['admin_per_page'];

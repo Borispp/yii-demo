@@ -62,7 +62,7 @@ class ClientController extends YsaApiController
 		$notificationIterator = array();
 		foreach($_POST['events'] as $eventData)
 		{
-			if (!($obEventAuth = EventAuth::model()->authByToken($eventData['token'], $_POST['app_key'], $eventData['event_id'], $_POST['device_id'])))
+			if (!($obEventAuth = ClientAuth::model()->authByToken($eventData['token'], $_POST['app_key'], $eventData['event_id'], $_POST['device_id'])))
 			{
 				return $this->_renderError(101, 'Authorization by token failed for event '.$eventData['event_id']);
 			}
@@ -123,7 +123,7 @@ class ClientController extends YsaApiController
 			'password'			=> $_POST['password'],
 			'added_with'		=> 'ipad',
 			'state'				=> 1,
-			'application_id'	=> $this->_getApplication()->id
+			'client_id'			=> $this->_getApplication()->user_id
 		);
 		if (!empty($_POST['phone']))
 			$params['phone'] = $_POST['phone'];
