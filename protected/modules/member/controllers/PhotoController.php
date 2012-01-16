@@ -17,12 +17,12 @@ class PhotoController extends YsaMemberController
 		
 		if (isset($_POST['EventPhotoComment'])) {
 			$entryComment->attributes = $_POST['EventPhotoComment'];
-			
-			$entryComment->user_id = $this->member()->id;
+
 			$entryComment->photo_id = $entry->id;
 			
 			if ($entryComment->validate()) {
 				$entryComment->save();
+				$entryComment->appendToUser($this->member());
 				$this->refresh();
 			}
 		}

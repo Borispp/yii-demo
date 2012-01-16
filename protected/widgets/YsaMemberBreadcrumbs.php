@@ -7,13 +7,15 @@ class YsaMemberBreadcrumbs extends CWidget
 	
 	public $tagElement = 'li';
 	
-	public $htmlOptions=array('class'=>'breadcrumb');
+	public $htmlOptions=array('class'=>'breadcrumb w');
 	
 	public $encodeLabel=true;
 	
 	public $homeLink;
 	
 	public $links=array();
+	
+	public $separator = '//';
 	
 	public function init() {
 		parent::init();
@@ -30,6 +32,9 @@ class YsaMemberBreadcrumbs extends CWidget
 		$links=array();
 		if(isset($this->homeLink) && $this->homeLink !== false) {
 			$links[]=YsaHtml::openTag($this->tagElement) . $this->homeLink . YsaHtml::closeTag($this->tagElement);
+			if ($this->separator) {
+				$links[] = YsaHtml::openTag($this->tagElement, array('class' => 'separator')) . $this->separator . YsaHtml::closeTag($this->tagElement);
+			}
 		}
 
 		echo YsaHtml::openTag($this->tagName,$this->htmlOptions)."\n";
@@ -45,8 +50,10 @@ class YsaMemberBreadcrumbs extends CWidget
 			} else {
 				$lnk = YsaHtml::openTag('span') . ($this->encodeLabel ? YsaHtml::encode($link['label']) : $link['label']) . YsaHtml::closeTag('span');
 			}
-			
 			$links[] = YsaHtml::openTag($this->tagElement) . $lnk . YsaHtml::closeTag($this->tagElement);
+			if ($this->separator && isset($this->links[$k+1])) {
+				$links[] = YsaHtml::openTag($this->tagElement, array('class' => 'separator')) . $this->separator . YsaHtml::closeTag($this->tagElement);
+			}
 		}
 		
 		echo implode('', $links);

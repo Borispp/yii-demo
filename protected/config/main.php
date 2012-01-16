@@ -350,7 +350,7 @@ return array(
 						'helvetica' => 'Helvetica',
 						'georgia'   => 'Georgia',
 					),
-					'label'		=> 'Main font'
+					'label'		=> 'Font'
 				),
 				'second_font' => array(
 					'values'	=> array(
@@ -358,13 +358,13 @@ return array(
 						'helvetica' => 'Helvetica',
 						'georgia'   => 'Georgia',
 					),
-					'label'		=> 'Second font'
+					'label'		=> 'Font'
 				),
 				'main_font_color' => array(
-					'label'		=> 'Color of the main font'
+					'label'		=> 'Color'
 				),
 				'second_font_color' => array(
-					'label'		=> 'Color of the second font'
+					'label'		=> 'Color'
 				),
 			),
 			'copyrights'	=> array(
