@@ -19,14 +19,15 @@ $(function(){
 			
 			event.find('a.delete').click(function(e){
 				e.preventDefault();
-				if (!confirm('Are you sure?')) {
-					return false;
-				}
 				var link = $(this);
-				$.post(_member_url + '/album/delete/' + link.attr('rel'), function(){
-					link.parents('li').fadeOut('fast', function(){
-						$(this).remove();
-					})
+				$._confirm('Are you sure?', function(confirmed){
+					if (confirmed) {
+						$.post(_member_url + '/album/delete/' + link.attr('rel'), function(){
+							link.parents('li').fadeOut('fast', function(){
+								$(this).remove();
+							})
+						});
+					}
 				});
 			});
 		});

@@ -21,7 +21,7 @@
     </section>
 
     <section class="button">
-        <?php echo YsaHtml::submitButton('Create'); ?>
+        <?php echo YsaHtml::submitButton('Create', array('class' => 'blue')); ?>
     </section>
 
     <?php $this->endWidget(); ?>

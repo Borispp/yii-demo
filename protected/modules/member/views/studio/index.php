@@ -1,6 +1,4 @@
 <section id="studio" class="w">
-	
-	
 	<section class="box">
 		<div class="box-title">
 			<h3>General Information</h3>
@@ -12,15 +10,16 @@
 		</div>
 	</section>
 	
-	
-	<section class="box" id="studio-specials">
+	<section class="box">
 		<div class="box-title">
 			<h3>Specials</h3>
 		</div>
 		<div class="box-content">
-			<?php $this->renderPartial($entry->specials ? '_specialsPhoto' : '_specialsUpload', array(
-				'entry' => $entry,
-			)); ?>
+			<div class="shadow-box" id="studio-specials">
+				<?php $this->renderPartial($entry->specials ? '_specialsPhoto' : '_specialsUpload', array(
+					'entry' => $entry,
+				)); ?>
+			</div>
 		</div>
 	</section>
 		
@@ -32,13 +31,19 @@
 			</div>
 		</div>
 		<div class="box-content">
-			<ul>
-				<?php foreach ($this->member()->studio->persons as $person) : ?>
-					<?php $this->renderPartial('/person/_listperson', array(
-						'entry' => $person,
-					)); ?>
-				<?php endforeach; ?>
-			</ul>
+			<div class="shadow-box">
+				<?php if (count($this->member()->studio->persons)) : ?>
+					<ul>
+						<?php foreach ($this->member()->studio->persons as $person) : ?>
+							<?php $this->renderPartial('/person/_listperson', array(
+								'entry' => $person,
+							)); ?>
+						<?php endforeach; ?>
+					</ul>
+				<?php else:?>
+				<div class="empty-list">Empty List</div>
+				<?php endif; ?>
+			</div>
 		</div>
 	</section>
 	
@@ -47,17 +52,22 @@
 			<h3>Links</h3>
 		</div>
 		<div class="box-content">
-			<ul>
-				<?php foreach ($this->member()->studio->links as $link) : ?>
-					<?php $this->renderPartial('/link/_listlink', array(
-						'entry' => $link,
-					)); ?>
-				<?php endforeach; ?>
-			</ul>
 			
-			<?php $this->renderPartial('/link/_form', array(
-				'entry' => $entryLink,
-			)); ?>
+			<div class="shadow-box">
+				<ul>
+					<?php foreach ($this->member()->studio->links as $link) : ?>
+						<?php $this->renderPartial('/link/_listlink', array(
+							'entry' => $link,
+						)); ?>
+					<?php endforeach; ?>
+				</ul>
+				
+				<?php $this->renderPartial('/link/_form', array(
+					'entry' => $entryLink,
+				)); ?>
+				
+			</div>
+
 		</div>
 	</section>
 	

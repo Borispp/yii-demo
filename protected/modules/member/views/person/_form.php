@@ -39,7 +39,7 @@
 	</section>
 
 	<section class="button">
-		<?php echo YsaHtml::submitButton($entry->isNewRecord ? 'Add' : 'Save'); ?>
+		<?php echo YsaHtml::submitButton($entry->isNewRecord ? 'Add' : 'Save', array('class' => 'blue')); ?>
 	</section>
 	<?php $this->endWidget(); ?>
 </div>

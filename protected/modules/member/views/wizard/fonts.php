@@ -3,7 +3,7 @@
 		'action' => array('application/saveStep/step/fonts/'),
 )); ?>
 
-	<section class="group part main-font">
+	<section class="group part main-font shadow-box">
 		
 		<label class="title">Main Font</label>
 		<p>Please select the main font for your application. Font is used in headers, comments, etc.</p>
@@ -23,7 +23,7 @@
 		</div>
 	</section>
 
-	<section class="group part second-font">
+	<section class="group part second-font shadow-box">
 		
 		<label class="title">Secondary Font</label>
 		
@@ -48,7 +48,7 @@
 	<div class="clearfix"></div>
 
 	<div class="save">
-		<?php echo YsaHtml::submitButton('Save & Continue');?>
+		<?php echo YsaHtml::submitButton('Save & Continue', array('class' => 'blue'));?>
 	</div>
 
 <?php $this->endWidget(); ?>

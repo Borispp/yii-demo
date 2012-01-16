@@ -3,7 +3,7 @@ $(function(){
 		
 		var settings = $.extend({
 			namespace : 'ysawdgt_',
-			handle : 'h3',
+			handle : 'div.box-title',
 			placeholder : 'sortable-placeholder',
 			opacity : .8,
 			distance : 5
@@ -11,17 +11,12 @@ $(function(){
 		
 		var main_container = $(this);
 		var widgets_container = main_container.find('div.widgets');
-		var widgets = widgets_container.find('div.widget');
+		var widgets = widgets_container.find('section.widget');
 		
 		main_container.disableSelection();
 
 		widgets.each(function(){
 			var widget = $(this);
-//			var widget = $(this),
-//				widget_handle = widget.find(settings.handle),
-//				widget_content = widget.find('div').eq(0),
-//				widget_container = widget.parent();
-				
 			widget.data(settings.namespace + 'widget', {});
 		})
 		
@@ -34,8 +29,8 @@ $(function(){
 			$.each(widgets, function(w, options){
 				var widget = $('#' + w);
 				//position handling
-				if (widget.length && (widget.prevAll('div').length != options.position || widget.parent()[0] !== widgets_cont[0])) {
-					var children = widgets_cont.children('div.widget');
+				if (widget.length && (widget.prevAll('section').length != options.position || widget.parent()[0] !== widgets_cont[0])) {
+					var children = widgets_cont.children('section.widget');
 					if (children.eq(options.position).length) {
 						widget.insertBefore(children.eq(options.position));
 					} else if (children.length) {
@@ -67,7 +62,7 @@ $(function(){
 					widgets_container.each(function(containerid, e){
 						var _widgets = {};
 						//get info from all widgets from that container
-						$(this).find('div.widget').each(function (pos, e) {
+						$(this).find('section.widget').each(function (pos, e) {
 							var _t = $(this);
 							_widgets[this.id] = {
 								position: pos

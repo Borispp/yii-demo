@@ -1,54 +1,63 @@
 <div class="w body" id="member-area">
-
 	<div class="widgets g4">
-		<div class="widget" id="widget_quick_info">
-			<h3>Quick Information</h3>
-			<div>
+		<section class="box widget" id="widget_quick_info">
+			<div class="box-title">
+				<h3>Quick Information</h3>
+			</div>
+			<div class="box-content">
 				<ul>
 					<li><span><?php echo count($this->member()->events); ?></span> Events</li>
 					<li><span><?php echo count($this->member()->application->clients); ?></span> Clients</li>
 				</ul>
 			</div>
-		</div>
-		<div class="widget" id="widget_quick_access">
-			<h3>Quick Access</h3>
-			<div>
+		</section>
+		<section class="box widget" id="widget_quick_access">
+			<div class="box-title">
+				<h3>Quick Access</h3>
+			</div>
+			<div class="box-content">
 				<ul>
 					<li><?php echo YsaHtml::link('Create New Event'); ?></li>
 					<li><?php echo YsaHtml::link('Add New Event'); ?></li>
 					<li><?php echo YsaHtml::link('Application Wizard'); ?></li>
 				</ul>
 			</div>
-		</div>
+		</section>
 	</div>
 	
 	<div class="widgets g4">
-		<div class="widget" id="widget_statistics">
-			<h3>Statistics</h3>
-			<div>
+		<section class="box widget" id="widget_statistics">
+			<div class="box-title">
+				<h3>Statistics</h3>
+			</div>
+			<div class="box-content">
 				some statistics goes here
 			</div>
-		</div>
+		</section>
 	</div>
 	
 	<div class="widgets g4">
-		<div class="widget" id="widget_latest_comments">
-			<h3>Latest Comments</h3>
-			<div>
+		<section class="box widget" id="widget_latest_comments">
+			<div class="box-title">
+				<h3>Latest Comments</h3>
+			</div>
+			<div class="box-content">
 				<ul>
 					<li><span><?php echo count($this->member()->events); ?></span> Events</li>
 					<li><span><?php echo count($this->member()->application->clients); ?></span> Clients</li>
 				</ul>
 			</div>
-		</div>
-		<div class="widget number-widget" id="widget_latest_registered">
-			<h3>Latest Registered Clients</h3>
-			<div>
+		</section>
+		<section class="box widget number-widget" id="widget_latest_registered">
+			<div class="box-title">
+				<h3>Latest Registered Clients</h3>
+			</div>
+			<div class="box-content">
 				<ul>
 					<li>Client</li>
 				</ul>
 			</div>
-		</div>
+		</section>
 	</div>
 	<div class="cf"></div>
 </div>

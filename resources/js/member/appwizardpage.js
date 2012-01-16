@@ -5,8 +5,8 @@ $(function(){
 		
 		var settings = $.extend({
 			'title':'h3',
-			'step':'div.step',
-			'content':'div.content',
+			'step':'section.step',
+			'content':'div.box-content',
 			'activeClass':'active',
 			'opened':function(){},
 			'closed':function(){},
