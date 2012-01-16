@@ -38,7 +38,7 @@
     <div class="search-box search-submit">
 		<?php echo YsaHtml::hiddenField(YsaSearchBar::FIELD_BAR_NAME); ?>
 		<?php echo YsaHtml::hiddenField(YsaSearchBar::FIELD_RESET_NAME, 0); ?>
-        <?php echo YsaHtml::submitButton('Search', array('class' => 'submit')); ?>
+        <?php echo YsaHtml::submitButton('Search', array('class' => 'submit blue')); ?>
 		<?/*
 		<?php echo YsaHtml::button('Reset', array(
 			'id' => YsaSearchBar::BUTTON_RESET_ID,

@@ -60,7 +60,7 @@
 		</div>
 	</section>
 	<div class="button">
-		<?php echo YsaHtml::submitButton($entry->isNewRecord ? 'Create' : 'Save'); ?>
+		<?php echo YsaHtml::submitButton($entry->isNewRecord ? 'Create' : 'Save', array('class' => 'blue')); ?>
 	</div>
 	<?php $this->endWidget(); ?>
 </div>

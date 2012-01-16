@@ -12,6 +12,6 @@
 	<div class="save">
 		<?php echo YsaHtml::link('Submit Later', array('application/'), array('class' => 'btn small')); ?>
 		
-		<?php echo YsaHtml::submitButton('Finish & Submit');?>
+		<?php echo YsaHtml::submitButton('Finish & Submit', array('class' => 'blue'));?>
 	</div>
 <?php $this->endWidget(); ?>

@@ -48,7 +48,7 @@
 	<div class="clearfix"></div>
 
 	<div class="save">
-		<?php echo YsaHtml::submitButton('Save & Continue');?>
+		<?php echo YsaHtml::submitButton('Save & Continue', array('class' => 'blue'));?>
 	</div>
 
 <?php $this->endWidget(); ?>

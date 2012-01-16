@@ -48,7 +48,7 @@
 				</section>
 
 				<div class="button">
-					<?php echo YsaHtml::submitButton('Submit'); ?>
+					<?php echo YsaHtml::submitButton('Submit', array('class' => 'blue')); ?>
 				</div>
 
 				<?php $this->endWidget();?>
@@ -90,7 +90,7 @@
 				</section>
 
 				<div class="button">
-					<?php echo YsaHtml::submitButton('Submit'); ?>
+					<?php echo YsaHtml::submitButton('Submit', array('class' => 'blue')); ?>
 				</div>
 
 				<?php $this->endWidget();?>
