@@ -22,13 +22,13 @@ class YsaApiController extends YsaController
 	protected function _commonValidate()
 	{
 		if ($_SERVER['REQUEST_METHOD'] != 'POST')
-			$this->_renderError(001,'No post data received');
+			$this->_renderError('No post data received');
 		if (empty($_POST['app_key']))
-			$this->_renderError(002,'No app_key received');
+			$this->_renderError('No app_key received');
 		if (empty($_POST['device_id']))
-			$this->_renderError(003,'No device_id received');
+			$this->_renderError('No device_id received');
 		if (!$this->_validateApp())
-			$this->_renderError(100,'No app with received app_id');
+			$this->_renderError('No app with received app_id');
 	}
 
 	/**
@@ -49,7 +49,7 @@ class YsaApiController extends YsaController
 		{
 			if (!array_key_exists($var, $_POST))
 				if (!empty($params['required']))
-					$this->_renderError($params['code'], $params['message']);
+					$this->_renderError($params['message']);
 				else
 					continue;
 			if (empty($params['filter']))
@@ -72,7 +72,7 @@ class YsaApiController extends YsaController
 						continue;
 					break;
 			}
-			$this->_renderError($params['code'], $params['message']);
+			$this->_renderError($params['message']);
 		}
 	}
 
@@ -102,12 +102,12 @@ class YsaApiController extends YsaController
 	 * @param array $errors
 	 * @return void
 	 */
-	protected function _renderErrors($code, array $errors)
+	protected function _renderErrors(array $errors)
 	{
 		$message = '';
 		foreach($errors as $key => $error)
 			$message .= ($message ? "\n\r" : '').($key ? $key.' - ': '').is_array($error) ? implode(', ', $error) : $error;
-		$this->_renderError($code, $message);
+		$this->_renderError($message);
 	}
 
 	/**
@@ -116,11 +116,10 @@ class YsaApiController extends YsaController
 	 * @param string $message
 	 * @return void
 	 */
-	protected function _renderError($code, $message)
+	protected function _renderError($message)
 	{
 		$this->_render(array(
 				'message'	=> $message,
-				'code'		=> $code,
 			), 'error');
 	}
 
@@ -158,6 +157,6 @@ class YsaApiController extends YsaController
 	 */
 	public function actionIndex()
 	{
-		$this->_renderError(000, 'Action parameter is required');
+		$this->_renderError('Action parameter is required');
 	}
 }
