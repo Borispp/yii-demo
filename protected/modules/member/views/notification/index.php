@@ -1,7 +1,4 @@
 <div class="w" id="notification-list">
-
-
-
 	<section class="box">
 		<div class="box-title">
 			<h3>Notifications</h3>
@@ -10,11 +7,9 @@
 			</div>
 		</div>
 		<div class="box-content">
-
 			<?php $this->widget('YsaSearchBar', array(
 				'searchOptions' => $searchOptions,
 			));?>
-			
 			<div class="data-box shadow-box">
 				<table class="data">
 					<thead>
@@ -33,9 +28,9 @@
 									<td><?php echo YsaHtml::link('<strong>' . nl2br($entry->message) . '</strong>', array('notification/view/' . $entry->id), array('class' => 'title')); ?></td>
 									<td><?php echo date('m.d.Y H:i', strtotime($entry->created))?></td>
 									<td class="actions">
-										<?php echo YsaHtml::link('View', array('client/view/' . $entry->id), array('class' => 'icon i_wrench', 'title' => 'View Notification')); ?>
+										<?php echo YsaHtml::link('View', array('notification/view/' . $entry->id), array('class' => 'icon i_wrench', 'title' => 'View Notification')); ?>
 										&nbsp;
-										<?php echo YsaHtml::link('Delete', array('client/delete/' . $entry->id), array('class' => 'delete icon i_x_alt', 'title' => 'Delete Notification')); ?>
+										<?php echo YsaHtml::link('Delete', array('notification/delete/' . $entry->id), array('class' => 'delete icon i_x_alt', 'title' => 'Delete Notification')); ?>
 									</td>
 								</tr>
 							<?php endforeach; ?>
@@ -46,7 +41,6 @@
 								</td>
 							</tr>
 						<?php endif; ?>
-
 					</tbody>
 				</table>
 				<?php $this->widget('YsaAdminPager',array('pages'=>$pagination)) ?>
