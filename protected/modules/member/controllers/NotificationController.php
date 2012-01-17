@@ -15,11 +15,11 @@ class NotificationController extends YsaMemberController
 		if (isset($_POST['ApplicationNotification']))
 		{
 			$entry->attributes = $_POST['ApplicationNotification'];
-			var_dump('ApplicationNotification');
 			$entry->application_id = $this->member()->application->id;
 			if ($entry->validate())
 			{
 				$entry->save();
+				$this->_addEventsAndClients($entry);
 				$this->redirect(array('notification/'));
 			}
 		}
@@ -30,6 +30,26 @@ class NotificationController extends YsaMemberController
 				'clients'	=> $this->member()->clients,
 
 			));
+	}
+
+	protected function _addEventsAndClients(ApplicationNotification $obAppNotification)
+	{
+		if (!empty($_POST['ApplicationNotification']['events']))
+		{
+			$ids = explode(',', $_POST['ApplicationNotification']['events']);
+			foreach($ids as $eventId)
+			{
+				$obAppNotification->appendToEvent(Event::model()->findByPk($eventId));
+			}
+		}
+		if (!empty($_POST['ApplicationNotification']['clients']))
+		{
+			$ids = explode(',', $_POST['ApplicationNotification']['clients']);
+			foreach($ids as $clientId)
+			{
+				$obAppNotification->appendToClient(Client::model()->findByPk($clientId));
+			}
+		}
 	}
 
 	public function actionDelete($notificationId = NULL)
