@@ -22,7 +22,6 @@ class ClientController extends YsaApiController
 		$this->_validateVars(array(
 			'token'		=> array(
 				'message'	=> 'No token received',
-				'code'		=> '006',
 				'required'	=> TRUE,
 				'event_id'	=> array(
 					'code'		=> '111',
@@ -53,22 +52,18 @@ class ClientController extends YsaApiController
 		$this->_commonValidate();
 		$this->_validateVars(array(
 				'name' => array(
-					'code'		=> '090',
 					'message'	=> 'Name is required',
 					'required'	=> TRUE,
 				),
 				'email' => array(
-					'code'		=> '091',
 					'message'	=> 'Email is required',
 					'required'	=> TRUE,
 				),
 				'password' => array(
-					'code'		=> '092',
 					'message'	=> 'Password is required',
 					'required'	=> TRUE,
 				),
 				'phone' => array(
-					'code'		=> '093',
 					'message'	=> 'Phone is optional',
 				),
 			));
@@ -114,12 +109,10 @@ class ClientController extends YsaApiController
 		$this->_commonValidate();
 		$this->_validateVars(array(
 				'password'	=> array(
-					'code'		=> '075',
 					'message'	=> 'No password received',
 					'required'	=> TRUE,
 				),
 				'email'	=> array(
-					'code'		=> '076',
 					'message'	=> 'No email received',
 					'required'	=> TRUE
 				)

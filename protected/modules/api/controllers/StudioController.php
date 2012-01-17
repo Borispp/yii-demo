@@ -109,7 +109,7 @@ class StudioController extends YsaApiController
 			}
 		}
 		if (!count($params))
-			return $this->_renderError('015', 'No albums found');
+			return $this->_renderError('No albums found');
 		$this->_render($params);
 	}
 
@@ -124,7 +124,6 @@ class StudioController extends YsaApiController
 		$this->_commonValidate();
 		$this->_validateVars(array(
 				'gallery_id' => array(
-					'code'		=> '011',
 					'message'	=> 'Gallery id must not be empty',
 					'required'	=> TRUE,
 				),
@@ -132,7 +131,7 @@ class StudioController extends YsaApiController
 		$obPortfolioAlbum = EventAlbum::model()->findByPk($_POST['gallery_id']);
 		$this->_checkPhotoAlbum($obPortfolioAlbum);
 		if (!count($photos = $obPortfolioAlbum->photos))
-			$this->_renderError('016', 'Portfolio Album is empty');
+			$this->_renderError('Portfolio Album is empty');
 		$params = array();
 		foreach($photos as $obPortfolioPhoto)
 		{
@@ -152,11 +151,11 @@ class StudioController extends YsaApiController
 	protected function _checkPhotoAlbum($obPortfolioAlbum = NULL)
 	{
 		if ($obPortfolioAlbum->event->user->id != $this->_getApplication()->user_id)
-			return $this->_renderError('012', 'Access denied');
+			return $this->_renderError('Access denied');
 		if (!$obPortfolioAlbum)
-			return $this->_renderError('013', 'No album found');
+			return $this->_renderError('No album found');
 		if (!$obPortfolioAlbum->isActive())
-			return $this->_renderError('014', 'Album is blocked');
+			return $this->_renderError('Album is blocked');
 	}
 
 	/**
@@ -170,12 +169,10 @@ class StudioController extends YsaApiController
 		$this->_commonValidate();
 		$this->_validateVars(array(
 				'gallery_id' => array(
-					'code'		=> '011',
 					'message'	=> 'Gallery id must not be empty',
 					'required'	=> TRUE,
 				),
 				'checksum' => array(
-					'code'		=> '012',
 					'message'	=> 'Checksum id must not be empty',
 					'required'	=> TRUE,
 				),

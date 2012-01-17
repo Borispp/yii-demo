@@ -38,7 +38,6 @@ class EventController extends YsaApiController
 		$this->_validateVars(array(
 				'token'		=> array(
 					'message'	=> 'No token received',
-					'code'		=> '006',
 					'required'	=> TRUE,
 					'event_id'	=> array(
 						'code'		=> '111',
@@ -51,7 +50,7 @@ class EventController extends YsaApiController
 			$this->_obClient = $obClientAuth->client;
 			return TRUE;
 		}
-		$this->_renderError(101, 'Authorization by token failed');
+		$this->_renderError('Authorization by token failed');
 	}
 
 	/**
@@ -71,9 +70,9 @@ class EventController extends YsaApiController
 		{
 			$obEventAlbum = EventAlbum::model()->findByPk($_POST['album_id']);
 			if (!$obEventAlbum)
-				return $this->_renderError('020', 'Event album not found');
+				return $this->_renderError('Event album not found');
 			if ($obEventAlbum->event_id != $_POST['event_id'] || !$obEventAlbum->isActive())
-				return $this->_renderError('021', 'Access to event album restricted');
+				return $this->_renderError('Access to event album restricted');
 			$this->_obEventAlbum = $obEventAlbum;
 		}
 		return $this->_obEventAlbum;
@@ -104,9 +103,9 @@ class EventController extends YsaApiController
 		{
 			$obEventPhoto = EventPhoto::model()->findByPk($_POST['photo_id']);
 			if (!$obEventPhoto)
-				return $this->_renderError('020', 'Event album not found');
+				return $this->_renderError('Event album not found');
 			if ($obEventPhoto->album_id != $_POST['album_id'] || !$obEventPhoto->isActive())
-				return $this->_renderError('021', 'Access to event album restricted');
+				return $this->_renderError('Access to event album restricted');
 			$this->_obEventPhoto = $obEventPhoto;
 		}
 		return $this->_obEventPhoto;
@@ -122,12 +121,10 @@ class EventController extends YsaApiController
 	{
 		$this->_validateVars(array(
 				'password'	=> array(
-					'code'		=> '005',
 					'message'	=> 'No password received',
 					'required'	=> TRUE,
 				),
 				'event_id'	=> array(
-					'code'		=> '006',
 					'message'	=> 'No event ID found',
 					'required'	=> TRUE
 				),
@@ -196,7 +193,6 @@ class EventController extends YsaApiController
 	{
 		$this->_validateVars(array(
 			'event_id'	=> array(
-				'code'		=> '006',
 				'message'	=> 'No event ID found',
 				'required'	=> TRUE
 			),
@@ -205,7 +201,7 @@ class EventController extends YsaApiController
 		{
 			$this->_render($this->_getEventInformation($this->_getEvent()));
 		}
-		$this->_renderError('087', 'Access denied');
+		$this->_renderError('Access denied');
 	}
 
 	/**
@@ -255,12 +251,10 @@ class EventController extends YsaApiController
 	{
 		$this->_validateVars(array(
 				'album_id' => array(
-					'code'		=> '011',
 					'message'	=> 'Album id must not be empty',
 					'required'	=> TRUE,
 				),
 				'checksum' => array(
-					'code'		=> '012',
 					'message'	=> 'Checksum id must not be empty',
 					'required'	=> TRUE,
 				),
@@ -282,13 +276,12 @@ class EventController extends YsaApiController
 	{
 		$this->_validateVars(array(
 				'album_id' => array(
-					'code'		=> '031',
 					'message'	=> 'Gallery id must not be empty',
 					'required'	=> TRUE,
 				),
 			));
 		if (!$this->_getEventAlbum()->photos)
-			$this->_renderError('041', 'Album has no photos');
+			$this->_renderError('Album has no photos');
 		$params = array();
 		foreach($this->_getEventAlbum()->photos as $obPhoto)
 			$params['images'][] = $this->_getPhotoInfo($obPhoto);
@@ -305,19 +298,17 @@ class EventController extends YsaApiController
 	{
 		$this->_validateVars(array(
 				'album_id' => array(
-					'code'		=> '031',
 					'message'	=> 'Album id must not be empty',
 					'required'	=> TRUE,
 				),
 				'photo_id' => array(
-					'code'		=> '033',
 					'message'	=> 'Photo id must not be empty',
 					'required'	=> TRUE,
 				),
 			));
 		$this->_getEventAlbum();
 		if (!$this->_getEventPhoto())
-			$this->_renderError('041', 'Album has no such photo');
+			$this->_renderError('Album has no such photo');
 		$this->_render($this->_getPhotoInfo($this->_getEventPhoto()));
 	}
 
@@ -378,30 +369,27 @@ class EventController extends YsaApiController
 	{
 		$this->_validateVars(array(
 				'album_id' => array(
-					'code'		=> '031',
 					'message'	=> 'Album id must not be empty',
 					'required'	=> TRUE,
 				),
 				'photo_id' => array(
-					'code'		=> '033',
 					'message'	=> 'Photo id must not be empty',
 					'required'	=> TRUE,
 				),
 				'rate'		=> array(
-					'code'		=> '034',
 					'message'	=> 'Photo rate 0 or 1 is required',
 					'required'	=> TRUE,
 				)
 			));
 		$this->_getEventAlbum();
 		if (!$this->_getEventPhoto())
-			$this->_renderError('041', 'Album has no such photo');
+			$this->_renderError('Album has no such photo');
 		$obEventPhotoRate = EventPhotoRate::model()->findByAttributes(array(
 				'device_id'		=> $_POST['device_id'],
 				'photo_id'		=> $_POST['photo_id']
 			));
 		if ($obEventPhotoRate)
-			$this->_renderError('050', 'Photo\'d been already rated');
+			$this->_renderError('Photo\'d been already rated');
 		$obEventPhotoRate = new EventPhotoRate();
 		$obEventPhotoRate->photo_id = $_POST['photo_id'];
 		$obEventPhotoRate->device_id = $_POST['device_id'];
@@ -431,17 +419,14 @@ class EventController extends YsaApiController
 		$this->_validateAuth();
 		$this->_validateVars(array(
 				'album_id' => array(
-					'code'		=> '031',
 					'message'	=> 'Album id must not be empty',
 					'required'	=> TRUE,
 				),
 				'photo_id' => array(
-					'code'		=> '033',
 					'message'	=> 'Photo id must not be empty',
 					'required'	=> TRUE,
 				),
 				'comment' => array(
-					'code'		=> '035',
 					'message'	=> 'Comment must not be empty',
 					'required'	=> TRUE,
 				),
@@ -449,7 +434,7 @@ class EventController extends YsaApiController
 			));
 		$this->_getEventAlbum();
 		if (!$this->_getEventPhoto())
-			$this->_renderError('041', 'Album has no such photo');
+			$this->_renderError('Album has no such photo');
 		$obComment = new EventPhotoComment();
 		$obComment->comment = $_POST['comment'];
 		$obComment->photo_id = $this->_getEventPhoto()->id;
@@ -500,12 +485,10 @@ class EventController extends YsaApiController
 	{
 		$this->_validateVars(array(
 			'subject' => array(
-				'code'		=> 010,
 				'message'	=> 'Subject must be not empty',
 				'required'	=> TRUE,
 			),
 			'message' => array(
-				'code'		=> 011,
 				'message'	=> 'Message must be not empty',
 				'required'	=> TRUE,
 			))
@@ -521,7 +504,7 @@ class EventController extends YsaApiController
 		$obStudioMessage->user_id = $obPhotographer->id;
 		$obStudioMessage->device_id = $_POST['device_id'];
 		if(!$obStudioMessage->save())
-			$this->_renderErrors(11, $obStudioMessage->getErrors());
+			$this->_renderErrors($obStudioMessage->getErrors());
 
 		$body = '';
 		foreach(array('name', 'email', 'phone', 'subject', 'message') as $name)
