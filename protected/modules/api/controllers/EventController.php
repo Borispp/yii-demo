@@ -468,45 +468,24 @@ class EventController extends YsaApiController
 	}
 
 	/**
-	 * Send comment to event photo
-	 * Inquiry params: [device_id, app_key, events -> [event_id,token]]
-	 * Response params: [notifications -> [event_id, message, date]]
+	 * Get unread notifications
+	 * Inquiry params: [device_id, app_key, token]
+	 * Response params: [notifications -> [message, date]]
 	 * @return void
 	 */
 	public function actionGetNotifications()
 	{
-		$this->_commonValidate();
-		$this->_validateVars(array(
-				'events' => array(
-					'code'		=> '060',
-					'message'	=> 'Event list is required',
-					'required'	=> TRUE,
-				),
-			));
 		$notifications = array();
-		$notificationIterator = array();
-		foreach($_POST['events'] as $eventData)
+		foreach(ApplicationNotification::model()->findByClient($this->_obClient, $_POST['device_id']) as $obApplicationNotification)
 		{
-			if (!($obEventAuth = EventAuth::model()->authByToken($eventData['token'], $_POST['app_key'], $eventData['event_id'], $_POST['device_id'])))
-			{
-				return $this->_renderError(101, 'Authorization by token failed for event '.$eventData['event_id']);
-			}
-			$applicationNotifications = ApplicationNotification::model()->findByApplicationAndEvent($obEventAuth->application, $obEventAuth->event);
-			$applicationNotifications = is_object($applicationNotifications) ? array($applicationNotifications) : $applicationNotifications;
-			$notificationIterator += $applicationNotifications;
-		}
-		foreach($notificationIterator as $obApplicationNotification)
-		{
-			if ($obApplicationNotification)
 			$notifications[] = array(
-				'event_id'	=> $obApplicationNotification->event_id,
 				'message'	=> $obApplicationNotification->message,
 				'date'		=> $obApplicationNotification->created,
 			);
-			$obApplicationNotification->sent();
+			$obApplicationNotification->sent($_POST['device_id']);
 		}
 		$this->_render(array(
-			'notifications'	=> $notifications
-		));
+				'notifications'	=> $notifications
+			));
 	}
 }

@@ -6,7 +6,6 @@
  * The followings are the available columns in table 'application_notification':
  * @property string $id
  * @property string $created
- * @property integer $sent
  * @property string $message
  * @property integer $application_id
  *
@@ -44,12 +43,12 @@ class ApplicationNotification extends YsaActiveRecord
 		// will receive user inputs.
 		return array(
 			array('application_id', 'required'),
-			array('sent, application_id', 'numerical', 'integerOnly'=>true),
+			array('application_id', 'numerical', 'integerOnly'=>true),
 			array('message', 'length', 'max'=>300),
 			array('created', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, created, sent, message, application_id', 'safe', 'on'=>'search'),
+			array('id, created, message, application_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -75,7 +74,6 @@ class ApplicationNotification extends YsaActiveRecord
 		return array(
 			'id'				=> 'ID',
 			'created'			=> 'Created',
-			'sent'				=> 'Sent',
 			'message'			=> 'Message',
 			'application_id'	=> 'Application',
 		);
@@ -94,7 +92,6 @@ class ApplicationNotification extends YsaActiveRecord
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('created',$this->created,true);
-		$criteria->compare('sent',$this->sent);
 		$criteria->compare('message',$this->message,true);
 		$criteria->compare('application_id',$this->application_id);
 
@@ -133,14 +130,7 @@ class ApplicationNotification extends YsaActiveRecord
 					'DESC' => 'DESC',
 				),
 				'value'     => isset($values['order_sort']) ? $values['order_sort'] : '',
-			),
-			'sent' => array(
-				'label'             => 'State',
-				'type'              => 'select',
-				'addEmptyOption'    => true,
-				'options'           => array(1 => 'Sent', 0 => 'Unsent'),
-				'value'     => isset($values['sent']) ? $values['sent'] : '',
-			),
+			)
 		);
 
 		return $options;
@@ -161,10 +151,6 @@ class ApplicationNotification extends YsaActiveRecord
 		// search by keyword
 		if (isset($keyword) && $keyword) {
 			$criteria->compare('message', $keyword, true, 'AND');
-		}
-		// search by state
-		if (isset($sent)) {
-			$criteria->compare('sent', $sent);
 		}
 
 		// sort entries
@@ -187,20 +173,6 @@ class ApplicationNotification extends YsaActiveRecord
 	}
 
 	/**
-	 * @param Application $obApp
-	 * @param Event $obEvent
-	 * @return ApplicationNotification
-	 * @todo fix 
-	 */
-	public function findByApplicationAndEvent(Application $obApp, Event $obEvent)
-	{
-		return $this->findAllByAttributes(array(
-			'application_id'	=> $obApp->id,
-			'sent'				=> 0
-		));
-	}
-
-	/**
 	 * Marks notification as sent (Creates application_notification_state record with link to device id)
 	 * @param $deviceId
 	 * @return void
@@ -210,9 +182,8 @@ class ApplicationNotification extends YsaActiveRecord
 		$obApplicationNotificatioState = new ApplicationNotificationState();
 		$obApplicationNotificatioState->app_notification_id = $this->id;
 		$obApplicationNotificatioState->device_id = $deviceId;
-		$this->sent = 1;
-		$this->save();
-	}
+		$obApplicationNotificatioState->save();
+	}	
 
 	/**
 	 * @param Event $obEvent
@@ -236,5 +207,26 @@ class ApplicationNotification extends YsaActiveRecord
 		$obApplicationNotificationClient->app_notification_id = $this->id;
 		$obApplicationNotificationClient->client_id = $obClient->id;
 		$obApplicationNotificationClient->save();
+	}
+
+	/**
+	 * @param Client $obClient
+	 * @return array
+	 */
+	public function findByClient(Client $obClient, $deviceId = NULL)
+	{
+		$criteria=new CDbCriteria;
+		$criteria->alias = 'app_n';
+		$criteria->join = 'LEFT JOIN application_notification_client ON app_n.id = application_notification_client.app_notification_id'.
+		' LEFT JOIN application_notification_event ON application_notification_event.app_notification_id = app_n.id'.
+		' LEFT JOIN client_events ON client_events.event_id = application_notification_event.event_id';
+		$criteria->params = array(':clientId' => $obClient->id);
+		$criteria->condition = 'client_events.client_id = :clientId OR application_notification_client.client_id = :clientId';
+		if ($deviceId)
+		{
+			$criteria->params[':deviceId'] = $deviceId;
+			$criteria->condition = '('.$criteria->condition.') AND NOT (SELECT COUNT(*) FROM application_notification_state WHERE application_notification_state.app_notification_id = app_n.id AND device_id = :deviceId)';
+		}
+		return $this->findAll($criteria);
 	}
 }
