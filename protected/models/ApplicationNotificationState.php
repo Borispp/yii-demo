@@ -1,22 +1,21 @@
 <?php
 
 /**
- * This is the model class for table "event_photo_comment_user".
+ * This is the model class for table "application_notification_state".
  *
- * The followings are the available columns in table 'event_photo_comment_user':
+ * The followings are the available columns in table 'application_notification_state':
  * @property string $id
- * @property string $user_id
- * @property string $comment_id
+ * @property string $device_id
+ * @property string $app_notification_id
  *
  * The followings are the available model relations:
- * @property User $user
- * @property EventPhotoComment $comment
+ * @property ApplicationNotification $appNotification
  */
-class EventPhotoCommentUser extends YsaActiveRecord
+class ApplicationNotificationState extends YsaActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return EventPhotoCommentUser the static model class
+	 * @return ApplicationNotificationState the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -28,7 +27,7 @@ class EventPhotoCommentUser extends YsaActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'event_photo_comment_user';
+		return 'application_notification_state';
 	}
 
 	/**
@@ -39,10 +38,12 @@ class EventPhotoCommentUser extends YsaActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, comment_id', 'length', 'max'=>11),
+			array('app_notification_id', 'required'),
+			array('device_id', 'length', 'max'=>100),
+			array('app_notification_id', 'length', 'max'=>11),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, user_id, comment_id', 'safe', 'on'=>'search'),
+			array('id, device_id, app_notification_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -54,8 +55,7 @@ class EventPhotoCommentUser extends YsaActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
-			'comment' => array(self::BELONGS_TO, 'EventPhotoComment', 'comment_id'),
+			'appNotification' => array(self::BELONGS_TO, 'ApplicationNotification', 'app_notification_id'),
 		);
 	}
 
@@ -66,8 +66,8 @@ class EventPhotoCommentUser extends YsaActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'user_id' => 'User',
-			'comment_id' => 'Comment',
+			'device_id' => 'Device',
+			'app_notification_id' => 'App Notification',
 		);
 	}
 
@@ -83,8 +83,8 @@ class EventPhotoCommentUser extends YsaActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('user_id',$this->user_id,true);
-		$criteria->compare('comment_id',$this->comment_id,true);
+		$criteria->compare('device_id',$this->device_id,true);
+		$criteria->compare('app_notification_id',$this->app_notification_id,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

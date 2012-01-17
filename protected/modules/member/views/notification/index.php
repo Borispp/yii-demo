@@ -8,10 +8,8 @@
 		<thead>
 		<tr>
 			<th>ID</th>
-			<th>Event Name</th>
 			<th>Text</th>
 			<th>Date</th>
-			<th>State</th>
 			<th>Delete</th>
 		</tr>
 		</thead>
@@ -19,10 +17,8 @@
 			<?php foreach ($entries as $entry) : ?>
 		<tr>
 			<td><?php echo $entry->id?></td>
-			<td><?php echo $entry->event->name?></td>
 			<td><?php echo nl2br($entry->message)?></td>
 			<td><?php echo date('m.d.Y H:i', strtotime($entry->created)) ?></td>
-			<td><?php echo $entry->sent ? 'Sent' : 'Unsent'?></td>
 			<td>
 				<?php if (!$entry->sent):?>
 				<?php echo CHtml::link('Delete', array('notification/delete/' . $entry->id)); ?>
