@@ -45,4 +45,8 @@ $(function() {
 	$("select, input:checkbox, input:radio, input:file").uniform();
 	// init widgets in memeber area
 	$('#member-area').initWidgets();
+	// init tips for icons
+	$('a.icon').tipTip({
+		'defaultPosition':'top'
+	});
 });

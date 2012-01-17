@@ -50,17 +50,19 @@ class AuthController extends YsaFrontController
 				if ($identity->authenticate()) 
 				{
 					Yii::app()->user->login($identity); //TODO: add if statement and skip password check somehow
-					$authIdentity->redirectUrl = $this->_urlToRedirectAuthenticated();
-
+					
 					// special redirect with closing popup window
-					$authIdentity->redirect();
+					$authIdentity->redirect( $this->_urlToRedirectAuthenticated() );
 				}
-				else {
+				else 
+				{
+					$this->setError( 'Unable to authenticate: '.$identity->errorMessage );
 					// close popup window and redirect to cancelUrl
-					$authIdentity->cancel();
+					$authIdentity->cancel( null, true );
 				}
 			}
-
+			
+			$this->setError( 'Unable to authenticate' );
 			// Something went wrong, redirect to login page
 			$this->redirect(array('/login/'));
 		}
@@ -93,20 +95,28 @@ class AuthController extends YsaFrontController
 		$k = isset($_GET['k']) ? $_GET['k'] : null;
 		
 		if (!$k) {
-			$this->render('activate', array('title' => "User activation", 'content' => "Incorrect activation URL."));
+			$request = Yii::app()->getRequest();
+			$this->setError( 'Incorrect activation URL: '.$request->getHostInfo().$request->getUrl() );
+			$this->redirect( $this->createAbsoluteUrl('login') );
 		}
 		
 		$user = User::model()->findByAttributes(array('activation_key' => $k));
 		
-		if ($user && $user->state) {
-			$this->render('activate', array('title' => "User activation", 'content' => "You account is already activated."));
-		} elseif(isset($user->activation_key) && ($user->activation_key==$k)) {
-			
-			$user->activate();
-			
-			$this->render('activate', array('title' => "User activation", 'content' => "Your account was successfully activated."));
-		} else {
-			$this->render('activate', array('title' => "User activation", 'content' => "Incorrect activation URL."));
+		if ($user && $user->state) 
+		{
+			$this->setNotice( 'You account is already activated' );
+			$this->redirect( $this->createAbsoluteUrl('login') );
+		} 
+		elseif(isset($user->activation_key) && ($user->activation_key==$k)) 
+		{
+			$user->activate();			
+			$this->setSuccess( 'Your account was successfully activated' );
+			$this->redirect( $this->createAbsoluteUrl('login') );
+		} 
+		else 
+		{
+			$this->setError( 'Unable to activate account, maybe key is invalid' );
+			$this->redirect( $this->createAbsoluteUrl('login') );
 		}
 	}
 }
