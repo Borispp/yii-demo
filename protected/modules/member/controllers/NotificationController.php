@@ -104,6 +104,14 @@ class NotificationController extends YsaMemberController
 		));
 	}
 
+	public function actionView($notificationId)
+	{
+		$this->crumb('View notification');
+		$this->setMemberPageTitle('View Notification');
+		$entry = ApplicationNotification::model()->findByPk($notificationId);
+		$this->render('view',array('entry' => $entry));
+	}
+
 
 	/**
 	 * Ajax action used to add client access to events

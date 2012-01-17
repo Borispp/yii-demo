@@ -11,6 +11,7 @@
  *
  * @property Application $application
  * @property Event $event
+ * @property Client $client
  */
 class ApplicationNotification extends YsaActiveRecord
 {
@@ -62,7 +63,8 @@ class ApplicationNotification extends YsaActiveRecord
 		return array(
 			'application'	=> array(self::BELONGS_TO, 'Application', 'application_id'),
 			'event'			=> array(self::MANY_MANY, 'Event', 'application_notification_event(app_notification_id, event_id)'),
-			'client'			=> array(self::MANY_MANY, 'Client', 'application_notification_client(app_notification_id, client_id)'),
+			'client'		=> array(self::MANY_MANY, 'Client', 'application_notification_client(app_notification_id, client_id)'),
+			'state'			=> array(self::HAS_MANY, 'ApplicationNotificationState', 'app_notification_id'),
 		);
 	}
 
