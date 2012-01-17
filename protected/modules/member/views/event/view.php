@@ -9,46 +9,69 @@
 			</div>
 		</div>
 		<div class="box-content">
-			
 			<div class="description shadow-box">
-				<p><?php echo $entry->description; ?></p>
-
-				<p>
-					Credentials : ID - <?php echo $entry->id; ?>, Password: <?php echo $entry->passwd; ?>
-					<br/>
-					<?php echo $entry->state(); ?>
-					<br/>
-					<?php echo $entry->type(); ?>
-					<br />
-					date: <?php echo $entry->date; ?>
-				</p>
+				<?php if ($entry->description) : ?>
+					<strong>Description</strong>
+					<p><?php echo $entry->description; ?></p>
+				<?php endif; ?>
+				
+					<dl>
+						<dt>ID</dt>
+						<dd><?php echo $entry->id; ?></dd>
+						
+						<dt>Password</dt>
+						<dd><?php echo $entry->passwd; ?></dd>
+						
+						<dt>State</dt>
+						<dd><?php echo $entry->state(); ?></dd>
+						
+						<dt>Type</dt>
+						<dd><?php echo $entry->type(); ?></dd>
+						
+						<dt>Date</dt>
+						<dd><?php echo Yii::app()->dateFormatter->format('MM/dd/yyyy', $entry->date); ?></dd>
+					</dl>
 			</div>
 			
-			<?php if (!$entry->isProofing()) : ?>
-				<p><?php echo CHtml::link('Create New Event Album', array('album/create/event/' . $entry->id), array('class' => 'btn')); ?></p>
-			<?php endif; ?>
-			
-			
-			<div class="shadow-box">
-				<?php if ($entry->isProofing()) : ?>
-					<h3>Proofing Album</h3>
-				<?php else:?>
-					<h3>Albums</h3>
-				<?php endif; ?>
+			<div class="main-box">
+				
+				<div class="main-box-title">
+					<?php if ($entry->isProofing()) : ?>
+						<h3>Proofing Album</h3>
+					<?php else:?>
+						<h3>Albums</h3>
+					<?php endif; ?>
+						
+					<?php if (!$entry->isProofing()) : ?>
+						<?php echo CHtml::link('Create New Album', array('album/create/event/' . $entry->id), array('class' => 'btn')); ?>
+					<?php endif; ?>
+						
+						<div class="cf"></div>
+				</div>
+				
+				
+
+				
+
 					
-					
+				<div class="cf"></div>
 				<?php if (count($entry->albums)) : ?>
 					<ul id="event-albums" class="albums cf">
 						<?php foreach ($entry->albums as $album) : ?>
 							<li id="event-album-<?php echo $album->id?>">
-								<figure><?php echo $album->preview(); ?></figure>
-								<div class="menu">
-									<?php echo YsaHtml::link('View', array('album/view/' . $album->id), array('class' => 'view')); ?>
-									<?php echo YsaHtml::link('Edit', array('album/edit/' . $album->id), array('class' => 'edit')); ?>
-									<?php if ($entry->isPublic()) : ?>
-										<?php echo YsaHtml::link('Delete', array('album/delete/' . $album->id), array('class' => 'delete', 'rel' => $album->id)); ?>
-									<?php endif; ?>
-								</div>
+								<figure>
+									<?php echo $album->preview(); ?>
+									<figcaption><?php echo YsaHtml::link($album->name, array('album/view/' . $album->id)); ?></figcaption>
+									<span class="menu">
+										<?php echo YsaHtml::link('View', array('album/view/' . $album->id), array('class' => 'view icon i_aperture', 'title' => 'View Album')); ?>
+										&nbsp;|&nbsp;
+										<?php echo YsaHtml::link('Edit', array('album/edit/' . $album->id), array('class' => 'edit icon i_brush', 'title' => 'Edit Album Details')); ?>
+										<?php if (!$entry->isProofing()) : ?>
+											&nbsp;|&nbsp;
+											<?php echo YsaHtml::link('Delete', array('album/delete/' . $album->id), array('class' => 'del icon i_x_alt', 'rel' => $album->id, 'title' => 'Delete Album')); ?>
+										<?php endif; ?>
+									</span>
+								</figure>
 							</li>
 						<?php endforeach; ?>
 					</ul>
@@ -60,6 +83,7 @@
 			</div>
 			
 				
+			<div class="cf"></div>
 				
 		</div>
 		

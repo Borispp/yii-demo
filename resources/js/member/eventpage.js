@@ -17,12 +17,12 @@ $(function(){
 				}
 			});
 			
-			event.find('a.delete').click(function(e){
+			event.find('a.del').click(function(e){
 				e.preventDefault();
 				var link = $(this);
 				$._confirm('Are you sure?', function(confirmed){
 					if (confirmed) {
-						$.post(_member_url + '/album/delete/' + link.attr('rel'), function(){
+						$.post(link.attr('href'), function(){
 							link.parents('li').fadeOut('fast', function(){
 								$(this).remove();
 							})
