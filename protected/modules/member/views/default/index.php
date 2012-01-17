@@ -7,7 +7,7 @@
 			<div class="box-content">
 				<ul>
 					<li><span><?php echo count($this->member()->events); ?></span> Events</li>
-					<li><span><?php echo count($this->member()->application->clients); ?></span> Clients</li>
+					<li><span><?php echo isset($this->member()->application) ? count($this->member()->application->clients) : 0 ?></span> Clients</li>
 				</ul>
 			</div>
 		</section>
@@ -44,7 +44,7 @@
 			<div class="box-content">
 				<ul>
 					<li><span><?php echo count($this->member()->events); ?></span> Events</li>
-					<li><span><?php echo count($this->member()->application->clients); ?></span> Clients</li>
+					<li><span><?php echo isset($this->member()->application) ? count($this->member()->application->clients) : 0 ?></span> Clients</li>
 				</ul>
 			</div>
 		</section>
