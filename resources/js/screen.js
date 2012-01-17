@@ -27,8 +27,20 @@ $(function(){
 		apprise(msg, {animate:true}, callback);
 	}
 	
+	$._flash = function(msg, _settings) {
+		var settings = $.extend({
+			'type':'notice'
+		}, _settings);
+		
+		var flash = $('<div class="flash ' + settings.type + '">' + msg + '</div>');
+		flash.hide();
+		$('#notifications').append(flash);
+		
+		flash.slideDown('fast');
+	}
+	
 	// flashing notices, errors & success messages
-	$('div.flash').click(function(){
+	$('div.flash').live('click', function(){
 		$(this).slideUp('fast', function(){
 			$(this).remove();
 		});

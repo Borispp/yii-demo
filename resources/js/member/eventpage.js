@@ -8,8 +8,9 @@ $(function(){
 			var event_albums_container = $('#event-albums');
 			
 			event_albums_container.sortable({
-				placeholder: "ui-state-highlight",
-				opacity: 0.6,
+				placeholder: "place",
+				handle: 'a.move',
+				opacity: 0.5,
 				update:function(){
 					$.post(_member_url + '/album/sort/event/' + event_id, event_albums_container.sortable('serialize'), function(){
 						

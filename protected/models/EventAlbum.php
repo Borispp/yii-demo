@@ -186,9 +186,7 @@ class EventAlbum extends YsaActiveRecord
 		foreach ($this->photos as $p) {
 			$p->delete();
 		}
-		
-		rmdir($this->albumPath());
-		
+		@rmdir($this->albumPath());
 		return true;
 	}
 	

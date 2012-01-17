@@ -14,7 +14,6 @@
 					<strong>Description</strong>
 					<p><?php echo $entry->description; ?></p>
 				<?php endif; ?>
-				
 					<dl>
 						<dt>ID</dt>
 						<dd><?php echo $entry->id; ?></dd>
@@ -41,16 +40,12 @@
 					<?php else:?>
 						<h3>Albums</h3>
 					<?php endif; ?>
-						
 					<?php if (!$entry->isProofing()) : ?>
-						<?php echo CHtml::link('Create New Album', array('album/create/event/' . $entry->id), array('class' => 'btn')); ?>
+						<?php echo YsaHtml::link('Create New Album', array('album/create/event/' . $entry->id), array('class' => 'btn')); ?>
 					<?php endif; ?>
 						
 						<div class="cf"></div>
 				</div>
-				
-				
-
 				
 
 					
@@ -61,7 +56,7 @@
 							<li id="event-album-<?php echo $album->id?>">
 								<figure>
 									<?php echo $album->preview(); ?>
-									<figcaption><?php echo YsaHtml::link($album->name, array('album/view/' . $album->id)); ?></figcaption>
+									<figcaption><?php echo YsaHtml::link(YsaHelpers::truncate($album->name, 25), array('album/view/' . $album->id), array('title' => $album->name)); ?></figcaption>
 									<span class="menu">
 										<?php echo YsaHtml::link('View', array('album/view/' . $album->id), array('class' => 'view icon i_aperture', 'title' => 'View Album')); ?>
 										&nbsp;|&nbsp;
@@ -71,6 +66,7 @@
 											<?php echo YsaHtml::link('Delete', array('album/delete/' . $album->id), array('class' => 'del icon i_x_alt', 'rel' => $album->id, 'title' => 'Delete Album')); ?>
 										<?php endif; ?>
 									</span>
+									<?php echo YsaHtml::link('Sort', '#', array('class' => 'move icon i_move')); ?>
 								</figure>
 							</li>
 						<?php endforeach; ?>

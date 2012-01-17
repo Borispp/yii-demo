@@ -8,8 +8,9 @@ $(function(){
 			var album_photos_container = $('#album-photos');
 			
 			album_photos_container.sortable({
-				placeholder: "ui-state-highlight",
-				opacity: 0.6,
+				placeholder: "place",
+				handle: 'a.move',
+				opacity: 0.5,
 				update:function(){
 					$.post(_member_url + '/photo/sort/album/' + album_id, album_photos_container.sortable('serialize'), function(){
 						
@@ -18,12 +19,12 @@ $(function(){
 			});
 			album_photos_container.disableSelection();
 			
-			album.find('a.delete').live('click', function(e){
+			album.find('a.del').live('click', function(e){
 				e.preventDefault();
 				var link = $(this);
 				$._confirm('Are you sure?', function(confirmed){
 					if (confirmed) {
-						$.post(_member_url + '/photo/delete/' + link.attr('rel'), function(){
+						$.post(link.attr('href'), function(){
 							link.parents('li').fadeOut('fast', function(){
 								$(this).remove();
 							})
@@ -44,45 +45,67 @@ $(function(){
 				}, 'json');
 			});
 			
-			$('#photo-upload-container').plupload({
-				runtimes : 'gears,html5,html4,browserplus',
-				url:_member_url + '/photo/upload/album/' + album_id,
-				max_file_size : '10mb',
-				filters : [
-					{title : "Image files", extensions : "jpg,gif,png"},
-				],
-				init : {
-					FileUploaded : function(up, file, response){
-						var data = $.parseJSON(response.response);
-						if (data.success) {
-							album_photos_container.append(data.html);
-						} else {
-							$._alert(data.msg);
+
+			
+			function _init_uploader()
+			{
+				$('#photo-upload-container').pluploadQueue({
+					runtimes : 'gears,html5,html4,browserplus',
+					url:_member_url + '/photo/upload/album/' + album_id,
+					max_file_size : '10mb',
+					filters : [
+						{title : "Image files", extensions : "jpg,gif,png"},
+					],
+					init : {
+						FileUploaded : function(up, file, response){
+							var data = $.parseJSON(response.response);
+
+							if (data.success) {
+								album_photos_container.append(data.html);
+
+								if(this.total.queued == 0) {
+									$.fancybox.close();
+									
+									$._flash('All Files Uploaded.', {type:'success'});
+								}
+
+							} else {
+								$._alert(data.msg);
+							}
 						}
 					}
+				});
+			}
+			
+			function _reset_uploader()
+			{
+				var container = $('#photo-upload-container')
+				container.pluploadQueue().destroy();
+				container.html('');
+			}
+			
+			$('#album-upload-photos-button').fancybox({
+				beforeLoad:function() {
+					_init_uploader();
+				},
+				afterClose:function(){
+					_reset_uploader();
 				}
 			});
 			
-			// init uploader
-//			var uploader = new plupload.Uploader($.extend(_plupload_settings, {url:_member_url + '/photo/upload/album/' + album_id}));
-//			uploader.init();
-//			uploader.bind('FilesAdded', _plupload_files_added);
-//			uploader.bind('UploadProgress', _plupload_upload_progress);
-//			uploader.bind('Error', _plupload_error_handler);
-//			uploader.bind('FileUploaded', function(up, file, response) {
-//				$('#' + file.id + " b").html("100%");
-//				var data = $.parseJSON(response.response);
-//				if (data.success) {
-//					album_photos_container.append(data.html);
-//				} else {
-//					_alert(data.msg);
-//				}
-//			});
-//			
-//			$('#photo-upload-submit').click(function(e) {
-//				e.preventDefault();
-//				uploader.start();
-//			});
+			$('#album-slideshow-button').click(function(e){
+				e.preventDefault();
+				var images = [];
+				$('#album-photos').find('figure').each(function(){
+					images.push({
+						href:$(this).data('src')
+					});
+				});
+				$.fancybox.open(images);
+			});
+			
+			
+			
 			
 			
 			var smugmug_container = $('#photo-import-smugmug-container');

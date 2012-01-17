@@ -150,7 +150,7 @@ class EventPhoto extends YsaActiveRecord
 		if (is_file($file)) {
 			unlink($file);
 		}
-				
+		
 		$original_file = $this->originPath();
 		if (is_file($original_file)) {
 			unlink($original_file);

@@ -266,8 +266,8 @@ return array(
 			),
 			'photo' => array(
 				'preview' => array(
-					'width'  => 300,
-					'height' => 200,
+					'width'  => 210,
+					'height' => 140,
 				),
 				'full' => array(
 					'width'  => 1024,
