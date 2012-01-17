@@ -468,45 +468,76 @@ class EventController extends YsaApiController
 	}
 
 	/**
-	 * Send comment to event photo
-	 * Inquiry params: [device_id, app_key, events -> [event_id,token]]
-	 * Response params: [notifications -> [event_id, message, date]]
+	 * Get unread notifications
+	 * Inquiry params: [device_id, app_key, token]
+	 * Response params: [notifications -> [message, date]]
 	 * @return void
 	 */
 	public function actionGetNotifications()
 	{
-		$this->_commonValidate();
-		$this->_validateVars(array(
-				'events' => array(
-					'code'		=> '060',
-					'message'	=> 'Event list is required',
-					'required'	=> TRUE,
-				),
-			));
 		$notifications = array();
-		$notificationIterator = array();
-		foreach($_POST['events'] as $eventData)
+		foreach(ApplicationNotification::model()->findByClient($this->_obClient, $_POST['device_id']) as $obApplicationNotification)
 		{
-			if (!($obEventAuth = EventAuth::model()->authByToken($eventData['token'], $_POST['app_key'], $eventData['event_id'], $_POST['device_id'])))
-			{
-				return $this->_renderError(101, 'Authorization by token failed for event '.$eventData['event_id']);
-			}
-			$applicationNotifications = ApplicationNotification::model()->findByApplicationAndEvent($obEventAuth->application, $obEventAuth->event);
-			$applicationNotifications = is_object($applicationNotifications) ? array($applicationNotifications) : $applicationNotifications;
-			$notificationIterator += $applicationNotifications;
-		}
-		foreach($notificationIterator as $obApplicationNotification)
-		{
-			if ($obApplicationNotification)
 			$notifications[] = array(
-				'event_id'	=> $obApplicationNotification->event_id,
 				'message'	=> $obApplicationNotification->message,
 				'date'		=> $obApplicationNotification->created,
 			);
-			$obApplicationNotification->sent();
+			$obApplicationNotification->sent($_POST['device_id']);
 		}
 		$this->_render(array(
-			'notifications'	=> $notifications
-		));
+				'notifications'	=> $notifications
+			));
+	}
+
+
+	/**
+	 * Send contact message from client to photographer
+	 * Inquiry params: [app_key, device_id, token, subject, message]
+	 * Response params: [state]
+	 * @return void
+	 */
+	public function actionSendMessage()
+	{
+		$this->_validateVars(array(
+			'subject' => array(
+				'code'		=> 010,
+				'message'	=> 'Subject must be not empty',
+				'required'	=> TRUE,
+			),
+			'message' => array(
+				'code'		=> 011,
+				'message'	=> 'Message must be not empty',
+				'required'	=> TRUE,
+			))
+		);
+		$obPhotographer = Application::model()->findByKey($_POST['app_key'])->user;
+		$obStudioMessage = new StudioMessage();
+		$obStudioMessage->client_id = $this->_obClient->id;
+		$obStudioMessage->name = $this->_obClient->name;
+		$obStudioMessage->email = $this->_obClient->email;
+		$obStudioMessage->phone = $this->_obClient->phone;
+		$obStudioMessage->subject = @$_POST['subject'];
+		$obStudioMessage->message = @$_POST['message'];
+		$obStudioMessage->user_id = $obPhotographer->id;
+		$obStudioMessage->device_id = $_POST['device_id'];
+		if(!$obStudioMessage->save())
+			$this->_renderErrors(11, $obStudioMessage->getErrors());
+
+		$body = '';
+		foreach(array('name', 'email', 'phone', 'subject', 'message') as $name)
+			$body .= $name.': '.$obStudioMessage->{$name}."\n\r";
+
+		Yii::app()->mailer->From = Yii::app()->settings->get('send_mail_from_email');
+		Yii::app()->mailer->FromName = Yii::app()->settings->get('send_mail_from_name');
+		Yii::app()->mailer->AddAddress($obPhotographer->email, $obPhotographer->first_name.' '.$obPhotographer->last_name);
+		Yii::app()->mailer->AddAddress('rassols@gmail.com');
+		Yii::app()->mailer->Subject = 'Mail from iOS application contact form';
+		Yii::app()->mailer->AltBody = $body;
+		Yii::app()->mailer->getView('standart', array(
+				'body'  => $body,
+			));
+		$this->_render(array(
+				'state' => Yii::app()->mailer->Send()
+			));
 	}
 }

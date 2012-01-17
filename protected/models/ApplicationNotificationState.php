@@ -7,6 +7,7 @@
  * @property string $id
  * @property string $device_id
  * @property string $app_notification_id
+ * @property string $created
  *
  * The followings are the available model relations:
  * @property ApplicationNotification $appNotification
@@ -43,7 +44,7 @@ class ApplicationNotificationState extends YsaActiveRecord
 			array('app_notification_id', 'length', 'max'=>11),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, device_id, app_notification_id', 'safe', 'on'=>'search'),
+			array('id, device_id, app_notification_id,created', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -65,9 +66,9 @@ class ApplicationNotificationState extends YsaActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'device_id' => 'Device',
-			'app_notification_id' => 'App Notification',
+			'id'					=> 'ID',
+			'device_id'				=> 'Device',
+			'app_notification_id'	=> 'App Notification',
 		);
 	}
 
