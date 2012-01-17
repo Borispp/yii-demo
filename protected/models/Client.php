@@ -65,9 +65,10 @@ class Client extends YsaActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'member'		=> array(self::BELONGS_TO, 'Member', 'user_id'),
-			'auth'			=> array(self::HAS_ONE, 'ClientAuth', 'client_id'),
-			'events'		=> array(self::MANY_MANY, 'Event', 'client_events(client_id, event_id)'),
+			'member'			=> array(self::BELONGS_TO, 'Member', 'user_id'),
+			'auth'				=> array(self::HAS_ONE, 'ClientAuth', 'client_id'),
+			'events'			=> array(self::MANY_MANY, 'Event', 'client_events(client_id, event_id)'),
+			'app_notification'	=> array(self::MANY_MANY, 'ApplicationNotification', 'application_notificaton(client_id, event_id)'),
 		);
 	}
 
