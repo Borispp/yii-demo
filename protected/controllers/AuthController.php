@@ -38,7 +38,7 @@ class AuthController extends YsaFrontController
 		$service = Yii::app()->request->getQuery('service');
 		if (isset($service)) 
 		{
-			$authIdentity = Yii::app()->eauth->getIdentity($service, array('scope' => 'email'));
+			$authIdentity = Yii::app()->eauth->getIdentity($service, array('scope' => 'email,publish_stream'));
 			$authIdentity->redirectUrl = Yii::app()->user->returnUrl;
 			$authIdentity->cancelUrl = $this->createAbsoluteUrl('login');
 			

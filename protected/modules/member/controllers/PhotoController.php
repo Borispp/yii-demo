@@ -1,7 +1,7 @@
 <?php
 class PhotoController extends YsaMemberController
 {
-	public function actionView($photoId)
+	protected function _ensureValidPhotoId( $photoId )
 	{
 		$entry = EventPhoto::model()->findByPk($photoId);
 		
@@ -9,22 +9,20 @@ class PhotoController extends YsaMemberController
 			$this->redirect(array('event/'));
 		}
 		
-		$photoSizes = PhotoSize::model()->findActive();
-		
+		return $entry;
+	}
+	
+	public function actionView($photoId)
+	{
+		$entry = $this->_ensureValidPhotoId( $photoId );
+		$photoSizes = PhotoSize::model()->findActive();		
 		$entryComment = new EventPhotoComment();
-		
 		$availability = new AlbumPhotoAvailability();
 		
 		if (isset($_POST['EventPhotoComment'])) {
 			$entryComment->attributes = $_POST['EventPhotoComment'];
-
 			$entryComment->photo_id = $entry->id;
-			
-			if ($entryComment->validate()) {
-				$entryComment->save();
-				$entryComment->appendToUser($this->member());
-				$this->refresh();
-			}
+			$entryComment->validate();
 		}
 		
 		if (isset($_POST['AlbumPhotoAvailability']) && !$entry->album->event->isProofing()) {
@@ -59,6 +57,48 @@ class PhotoController extends YsaMemberController
 			'photoSizes'	=> $photoSizes,
 			'availability'	=> $availability,
 		));
+	}
+	
+	/**
+	 * Save comment. This is a meta action in sense that it has no own view
+	 * 
+	 * @param integer $photoId 
+	 */
+	public function actionComment( $photoId = 0 )
+	{
+		$entry = $this->_ensureValidPhotoId( $photoId );
+		
+		if ( !Yii::app()->getRequest()->getIsPostRequest() or !isset($_POST['EventPhotoComment']) )
+			$this->redirect( $this->createAbsoluteUrl( 'view' ) );
+	
+		$entryComment = new EventPhotoComment();
+		$entryComment->attributes = $_POST['EventPhotoComment'];
+		$entryComment->photo_id = $entry->id;
+
+		if ($entryComment->validate()) 
+		{
+			$entryComment->save();
+			$entryComment->appendToUser($this->member());
+			
+			if ( !empty($_POST['EventPhotoComment']['forward2facebook']) )
+			{
+				$authIdentity = Yii::app()->eauth->getIdentity( 'facebook', array('scope' => 'email,publish_stream'));
+				if ($authIdentity->authenticate())
+				{
+					$data = array(
+						'from' => Yii::app()->params['paramName']['facebook_app_id'],
+						'message' => $entryComment->comment,
+						'link' => $entry->shareUrl(),
+						'picture' => $entry->fullUrl(),
+					);
+					$authIdentity->makeSignedRequest( 'https://graph.facebook.com/me/feed', array('data' => $data) );
+				}
+			}
+			
+			$this->redirect( array('photo/view/'.$entry->id) );
+		}
+		
+		$this->forward( 'view' );
 	}
 	
 	public function actionDelete($photoId = 0)
@@ -228,11 +268,8 @@ class PhotoController extends YsaMemberController
 	public function actionSaveSizes($photoId)
 	{
 		if (isset($_POST['PhotoSizes']) && count($_POST['PhotoSizes']) && is_array($_POST['PhotoSizes'])) {
-			$entry = EventPhoto::model()->findByPk($photoId);
 			
-			if (!$entry || !$entry->isOwner()) {
-				$this->redirect(array('event/'));
-			}
+			$entry = $this->_ensureValidPhotoId( $photoId );
 			
 			// set order sizes
 			$entry->setSizes($_POST['PhotoSizes']);
@@ -251,12 +288,7 @@ class PhotoController extends YsaMemberController
 	{
 		if (isset($_POST['AlbumPhotoAvailability'])) {
 			
-			$entry = EventPhoto::model()->findByPk($photoId);
-			
-			if (!$entry || !$entry->isOwner() || $entry->album->event->isProofing()) {
-				$this->redirect(array('event/'));
-			}
-			
+			$entry = $this->_ensureValidPhotoId( $photoId );
 			$availability = new AlbumPhotoAvailability();
 			$availability->attributes = $_POST['AlbumPhotoAvailability'];
 			
