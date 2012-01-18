@@ -28,7 +28,7 @@
 		</section>
 
 		<section class="button">
-			<?php if ( $member->hasFacebook() && $entry->canShare() ) : ?>
+			<?php if ( $member->hasFacebook() && $entry->canShareComments() ) : ?>
 				<?php $checkbox_options = isset($_POST['EventPhotoComment']['forward2facebook']) && empty($_POST['EventPhotoComment']['forward2facebook']) ? null : array('checked'=>'checked') ?>
 				<?php echo $form->checkbox($entryComment,'forward2facebook', $checkbox_options); ?>
 				<?php echo $form->labelEx($entryComment,'forward2facebook'); ?>
