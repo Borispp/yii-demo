@@ -14,6 +14,7 @@
 
 	<div class="form">
 		<?php $form=$this->beginWidget('YsaMemberForm', array(
+				'action' => Chtml::normalizeUrl( array('photo/comment/'.$entry->id) ),
 				'id'=>'photo-comment-form',
 				'enableAjaxValidation'=>false,
 		)); ?>
@@ -26,6 +27,8 @@
 		</section>
 
 		<section class="button">
+			<?php echo $form->checkbox($entryComment,'forward2facebook'); ?>	
+			<?php echo $form->labelEx($entryComment,'forward2facebook'); ?>
 			<?php echo YsaHtml::submitButton('Add Comment'); ?>
 		</section>
 		<?php $this->endWidget(); ?>
