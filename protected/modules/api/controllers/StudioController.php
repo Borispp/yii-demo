@@ -155,6 +155,7 @@ class StudioController extends YsaApiController
 				'checksum'			=> $obEventAlbum->getChecksum(),
 				'can_order'			=> $obEventAlbum->canOrder(),
 				'can_share'			=> $obEventAlbum->canShare(),
+				'order_link'		=> $obEventAlbum->order_link,
 				'sizes'				=> $sizes
 			);
 		}

@@ -3,7 +3,7 @@
 		<div class="box-title">
 			<h3>Notifications</h3>
 			<div class="box-title-button">
-				<?php echo YsaHtml::link('Add New Notification', array('new'), array('class' => 'btn blue')); ?>
+				<?php echo YsaHtml::link('<span class="icon i_plus_alt"></span>Add New Notification', array('new'), array('class' => 'secondary iconed')); ?>
 			</div>
 		</div>
 		<div class="box-content">

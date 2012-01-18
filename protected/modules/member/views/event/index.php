@@ -2,7 +2,7 @@
 	<div class="box-title">
 		<h3>Events</h3>
 		<div class="box-title-button">
-			<?php echo YsaHtml::link('Create New Event', array('create'), array('class' => 'btn blue primary')); ?>
+			<?php echo YsaHtml::link('<span class="icon i_plus_alt"></span>Create New Event', array('create'), array('class' => 'secondary iconed')); ?>
 		</div>
 	</div>
 	

@@ -14,11 +14,23 @@ class LinkController extends YsaMemberController
 			
 			if ($entry->validate()) {
 				$entry->save();
+				$this->setSuccess('Link was successfully added.');
+				
 				$this->redirect(array('studio/'));
 			}
 		}
 		
-		$this->setMemberPageTitle('Add Shooter');
+		if (Yii::app()->request->isAjaxRequest || isset($_GET['iframe'])) {
+			$this->renderPartial('add', array(
+				'entry' => $entry,
+			));
+			Yii::app()->end();
+		}
+		
+		$this->setMemberPageTitle('Add Link');
+		
+		$this->crumb('Studio', array('studio/'))
+			 ->crumb('Add Link');
 		
 		$this->render('add', array(
 			'entry' => $entry,

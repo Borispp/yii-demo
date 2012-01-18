@@ -1,11 +1,11 @@
-<li id="member-link-<?php echo $entry->id?>">
-	<span>
-		<?php echo $entry->name; ?>
+<li id="member-link-<?php echo $entry->id?>" class="cf">
+	
+	<figure></figure>
+	<strong><?php echo $entry->name; ?></strong>
+	<?php echo YsaHtml::link($entry->url, $entry->url, array('rel' => 'external', 'class' => 'url')); ?>
+	
+	<span class="menu">
+		<?php echo YsaHtml::link('Edit', array('link/edit/' . $entry->id), array('class' => 'icon i_brush', 'title' => 'Edit Link Details')); ?>
+		<?php echo YsaHtml::link('Delete', array('link/delete/' . $entry->id), array('class' => 'del icon i_x_alt', 'title' => 'Delete Link')); ?>
 	</span>
-	
-	<?php echo YsaHtml::link($entry->url, $entry->url, array('rel' => 'external')); ?>
-	
-	<?php echo YsaHtml::link('edit', array('link/edit/' . $entry->id)); ?>
-	
-	<?php echo YsaHtml::link('delete', array('link/delete/' . $entry->id)); ?>
 </li>

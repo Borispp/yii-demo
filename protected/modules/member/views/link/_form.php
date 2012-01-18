@@ -1,4 +1,4 @@
-<div class="form standart-form">
+<div class="form  <?php echo Yii::app()->request->isAjaxRequest ? 'ajax-form' : 'standart-form'?>">
 	<?php $form=$this->beginWidget('YsaMemberForm', array(
 			'id'=>'studio-add-link-form',
 			'enableAjaxValidation'=>false,
