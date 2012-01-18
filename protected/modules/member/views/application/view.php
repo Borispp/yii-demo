@@ -5,9 +5,8 @@
 			<h3>Your Application</h3>
 		</div>
 		<div class="box-content">
-			<?php echo YsaHtml::link('Settings Wizard', array('wizard')); ?>
-			&nbsp;&nbsp;|&nbsp;&nbsp;
-			<?php echo YsaHtml::link('Preview Settings', array('settings')); ?>
+			<?php echo YsaHtml::link('Settings Wizard', array('wizard'), array('class' => 'btn')); ?>
+			<?php echo YsaHtml::link('Preview Settings', array('settings'), array('class' => 'btn')); ?>
 		</div>
 	</section>
 

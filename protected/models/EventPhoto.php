@@ -453,9 +453,24 @@ class EventPhoto extends YsaActiveRecord
 		return $this;
 	}
 	
+	/**
+	 * Allow to FB like on iPad
+	 * 
+	 * @return boolean
+	 */
 	public function canShare()
 	{
 		return $this->album->can_share ? $this->can_share : false;
+	}
+	
+	/**
+	 * Allow to share comments on Facebook
+	 *
+	 * @return boolean
+	 */
+	public function canShareComments()
+	{
+		return $this->canShare() && $this->album->event->isPublic();
 	}
 	
 	public function canOrder()

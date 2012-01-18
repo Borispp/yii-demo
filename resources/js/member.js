@@ -27,4 +27,8 @@ $(function() {
 	$('a.icon[title]').tipTip({
 		'defaultPosition':'top'
 	});
+	$('a.btn.disabled,button.disabled,input:submit.disabled,input:button.disabled').live('click', function(e){
+		e.preventDefault();
+		return false;
+	})
 });

@@ -1,3 +1,5 @@
 <div class="w body">
-	<?php echo $page->content; ?>
+	<div class="page">
+		<?php echo $page->content; ?>
+	</div>
 </div>

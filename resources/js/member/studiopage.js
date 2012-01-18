@@ -68,6 +68,40 @@ $(function(){
 					}
 				});
 			});
+			
+			$('#studio-person-add-button').fancybox({
+				type:'ajax',
+				autoSize:true,
+				padding:0,
+				beforeShow:function(){
+					$('#studio-add-person-form').find('input:file').uniform();
+				}
+			});
+			
+			$('#studio-link-add-button').fancybox({
+				type:'ajax',
+				autoSize:true,
+				padding:0
+			});
+			
+			studio.find('a.del').click(function(e){
+				e.preventDefault();
+				var link = $(this);
+				$._confirm('Are you sure?', function(confirmed){
+					if (confirmed) {
+						$.post(link.attr('href'), function(data){
+							if (data.success) {
+								link.parents('li').fadeOut('fast', function(){
+									$(this).remove();
+								});
+							} else {
+								$._alert(data.msg);
+							}
+						}, 'json');
+					}
+				})
+			});
+			
 		});
 	}
 	$('#studio').initStudioPage();

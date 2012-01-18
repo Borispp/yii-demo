@@ -1,27 +1,10 @@
 <section id="album" data-albumid="<?php echo $entry->id; ?>" class="w">
 
-	<?php if ($this->member()->smugmugAuthorized()) : ?>
-		<div id="photo-import-smugmug-container" class="smugmug-import">
-			<div class="data">
-				Import from SmugMug Album
-				<select name="album">
-					<option value="">&ndash;&ndash;&ndash;</option>
-					<?php foreach ($this->member()->smugmug()->albums_get() as $album) : ?>
-						<option value="<?php echo $album['id']; ?>|<?php echo $album['Key']; ?>"><?php echo $album['Title']; ?></option>
-					<?php endforeach; ?>
-				</select>
-				<input type="button" value="Show Photos" />
-			</div>
-			<div class="import"></div>
-			<div class="loading">Loading album images. Please be patient &mdash; it takes a while...</div>
-		</div>
-	<?php endif; ?>
-	
 	<section class="box">
 		<div class="box-title">
 			<h3><?php echo $entry->name; ?></h3>
 			<div class="box-title-button">
-				<?php echo YsaHtml::link('Edit Album Info', array('album/edit/' . $entry->id), array('class' => 'btn blue'))?>
+				<?php echo YsaHtml::link('<span class="icon i_brush"></span>Edit Album Info', array('album/edit/' . $entry->id), array('class' => 'secondary iconed'))?>
 			</div>
 		</div>
 		<div class="box-content">
@@ -38,7 +21,7 @@
 					<dd><?php echo $entry->id; ?></dd>
 
 					<dt>State</dt>
-					<dd><?php echo $entry->state(); ?></dd>
+					<dd class="<?php echo strtolower($entry->state()); ?>"><?php echo $entry->state(); ?></dd>
 					
 					<dt>Photos</dt>
 					<dd><?php echo count($entry->photos); ?></dd>
@@ -64,7 +47,7 @@
 					<?php echo YsaHtml::link('Upload Photos', '#photo-upload-container', array('class' => 'btn blue fancybox fancybox.inline', 'id' => 'album-upload-photos-button')); ?>
 					<?php if ($this->member()->smugmugAuthorized()) : ?>
 					
-						<?php echo YsaHtml::link('Import from SmugMug', '#', array('class' => 'btn blue', 'id' => 'album-smugmug-import-button')); ?>
+						<?php echo YsaHtml::link('Import from SmugMug', '#photo-import-smugmug-container', array('class' => 'btn blue fancybox fancybox.inline', 'id' => 'album-smugmug-import-button')); ?>
 					<?php endif;?>
 					
 					
@@ -138,7 +121,7 @@
 					<div><?php echo $avlForm->checkBox($availability, 'can_share', array('checked' => $entry->canShare())); ?></div>
 				</section>
 				<div class="button">
-					<?php echo YsaHtml::submitButton('Save', array('class' => 'blue')); ?>
+					<?php echo YsaHtml::submitButton('Save', array('class' => 'blue', 'data-loading' => 'Loading', 'data-value' => 'Save')); ?>
 				</div>
 				<?php $this->endWidget();?>
 			</div>
@@ -148,6 +131,35 @@
     <div id="photo-upload-container" class="multi-uploader">
 		<p>You browser doesn't have HTML5 support.</p>
 	</div>	
+	
+	
+	
+	<?php if ($this->member()->smugmugAuthorized()) : ?>
+		<section id="photo-import-smugmug-container" class="smugmug-import box">
+			<div class="box-title">
+				<h3>Import from SmugMug Album</h3>
+			</div>
+			<div class="box-content">
+				<div class="data">
+					<select name="album">
+						<option value="">&ndash;&ndash;&ndash;</option>
+						<?php foreach ($this->member()->smugmug()->albums_get() as $album) : ?>
+							<option value="<?php echo $album['id']; ?>|<?php echo $album['Key']; ?>"><?php echo $album['Title']; ?></option>
+						<?php endforeach; ?>
+					</select>
+					<input type="button" value="Show Photos" />
+				</div>
+				
+				<div class="import cf"></div>
+				<div class="loading">Loading album images. Please be patient &mdash; it takes a while...</div>
+				
+			</div>
+		</section>
+	<?php endif; ?>
+	
+	
+	
+	
 
 	<?php endif;?>
 </section>

@@ -3,6 +3,7 @@
 		<?php echo $entry->full(); ?>
 	</figure>
 
+	<?php if ( !$entry->album->event->isPortfolio() ) : ?>
 	<h3>Comments</h3>
 	<ul>
 		<?php foreach ($entry->comments as $comment) : ?>
@@ -27,12 +28,16 @@
 		</section>
 
 		<section class="button">
-			<?php echo $form->checkbox($entryComment,'forward2facebook'); ?>	
-			<?php echo $form->labelEx($entryComment,'forward2facebook'); ?>
+			<?php if ( $member->hasFacebook() && $entry->canShareComments() ) : ?>
+				<?php $checkbox_options = isset($_POST['EventPhotoComment']['forward2facebook']) && empty($_POST['EventPhotoComment']['forward2facebook']) ? null : array('checked'=>'checked') ?>
+				<?php echo $form->checkbox($entryComment,'forward2facebook', $checkbox_options); ?>
+				<?php echo $form->labelEx($entryComment,'forward2facebook'); ?>
+			<?php endif ?>
 			<?php echo YsaHtml::submitButton('Add Comment'); ?>
 		</section>
 		<?php $this->endWidget(); ?>
 	</div>
+	<?php endif ?>
 	<?/*
 	<h3>Order sizes for photo</h3>
 	<?php $this->beginWidget('YsaMemberForm', array(

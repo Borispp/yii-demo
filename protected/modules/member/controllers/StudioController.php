@@ -17,6 +17,8 @@ class StudioController extends YsaMemberController
 		
 		$entryLink = new StudioLink();
 		
+		$entryLink->icons();
+		
 		$specials = new SpecialsUploadForm();
 		
 		$splash = new StudioSplashForm();
