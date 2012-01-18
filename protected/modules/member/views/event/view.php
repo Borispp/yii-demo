@@ -5,7 +5,7 @@
 		<div class="box-title">
 			<h3><?php echo $entry->name; ?></h3>
 			<div class="box-title-button">
-				<?php echo YsaHtml::link('Edit Event', array('event/edit/' . $entry->id), array('class' => 'btn blue')); ?>
+				<?php echo YsaHtml::link('<span class="icon i_brush"></span>Edit Event', array('event/edit/' . $entry->id), array('class' => 'secondary iconed')); ?>
 			</div>
 		</div>
 		<div class="box-content">
@@ -22,7 +22,7 @@
 						<dd><?php echo $entry->passwd; ?></dd>
 						
 						<dt>State</dt>
-						<dd><?php echo $entry->state(); ?></dd>
+						<dd class="<?php echo strtolower($entry->state()); ?>"><?php echo $entry->state(); ?></dd>
 						
 						<dt>Type</dt>
 						<dd><?php echo $entry->type(); ?></dd>
@@ -53,7 +53,7 @@
 				<?php if (count($entry->albums)) : ?>
 					<ul id="event-albums" class="albums cf">
 						<?php foreach ($entry->albums as $album) : ?>
-							<li id="event-album-<?php echo $album->id?>">
+							<li id="event-album-<?php echo $album->id?>" class="<?php echo strtolower($album->state()); ?>">
 								<figure>
 									<?php echo $album->preview(); ?>
 									<figcaption><?php echo YsaHtml::link(YsaHelpers::truncate($album->name, 25), array('album/view/' . $album->id), array('title' => $album->name)); ?></figcaption>

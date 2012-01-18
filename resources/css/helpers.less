@@ -218,17 +218,19 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 .pl10{left:-83.333%;}
 .pl11{left:-91.667%;}
 
-
 .icon {
 	display: inline-block;
 	background-image: url(../images/icons.png);
 	text-indent: -9999px;
 	position: relative;
 }
-.icon:active {
+a.icon:active { 
 	top:1px;
 }
-.icon:hover {
+.icon-blue {
+	background-image: url(../images/icons-hover.png);
+}
+a.icon:hover {
 	background-image: url(../images/icons-hover.png);
 }
 
@@ -319,7 +321,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 	right:10px;
 	bottom:10px;
 	border:1px solid red;
-	background: @white-alpha;
+	background: #fff;
 	padding:10px;
 	font-size:10px;
 	color: #000;
