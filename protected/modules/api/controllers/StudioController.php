@@ -109,7 +109,7 @@ class StudioController extends YsaApiController
 			}
 		}
 		if (!count($params))
-			return $this->_renderError('015', 'No albums found');
+			return $this->_renderError('No albums found');
 		$this->_render($params);
 	}
 
@@ -124,7 +124,6 @@ class StudioController extends YsaApiController
 		$this->_commonValidate();
 		$this->_validateVars(array(
 				'gallery_id' => array(
-					'code'		=> '011',
 					'message'	=> 'Gallery id must not be empty',
 					'required'	=> TRUE,
 				),
@@ -132,7 +131,7 @@ class StudioController extends YsaApiController
 		$obPortfolioAlbum = EventAlbum::model()->findByPk($_POST['gallery_id']);
 		$this->_checkPhotoAlbum($obPortfolioAlbum);
 		if (!count($photos = $obPortfolioAlbum->photos))
-			$this->_renderError('016', 'Portfolio Album is empty');
+			$this->_renderError('Portfolio Album is empty');
 		$params = array();
 		foreach($photos as $obPortfolioPhoto)
 		{
@@ -152,11 +151,11 @@ class StudioController extends YsaApiController
 	protected function _checkPhotoAlbum($obPortfolioAlbum = NULL)
 	{
 		if ($obPortfolioAlbum->event->user->id != $this->_getApplication()->user_id)
-			return $this->_renderError('012', 'Access denied');
+			return $this->_renderError('Access denied');
 		if (!$obPortfolioAlbum)
-			return $this->_renderError('013', 'No album found');
+			return $this->_renderError('No album found');
 		if (!$obPortfolioAlbum->isActive())
-			return $this->_renderError('014', 'Album is blocked');
+			return $this->_renderError('Album is blocked');
 	}
 
 	/**
@@ -170,12 +169,10 @@ class StudioController extends YsaApiController
 		$this->_commonValidate();
 		$this->_validateVars(array(
 				'gallery_id' => array(
-					'code'		=> '011',
 					'message'	=> 'Gallery id must not be empty',
 					'required'	=> TRUE,
 				),
 				'checksum' => array(
-					'code'		=> '012',
 					'message'	=> 'Checksum id must not be empty',
 					'required'	=> TRUE,
 				),
@@ -185,45 +182,6 @@ class StudioController extends YsaApiController
 		$this->_render(array(
 				'state'			=> !$obPortfolioAlbum->checkHash($_POST['checksum']),
 				'checksumm'		=> $obPortfolioAlbum->getChecksum(),
-			));
-	}
-
-	/**
-	 * Send contact message from application user to photographer
-	 * Inquiry params: [app_key, device_id, fields -> [name -> value]]
-	 * Response params: [state]
-	 * @return void
-	 */
-	public function actionSendMessage()
-	{
-		$this->_commonValidate();
-		$this->_validateVars(array('fields' => array(
-				'code'		=> 010,
-				'message'	=> 'Fields must be not empty',
-				'required'	=> TRUE,
-			)));
-		$obPhotographer = Application::model()->findByKey($_POST['app_key'])->user;
-		$obStudioMessage = new StudioMessage();
-		$obStudioMessage->attributes = $_POST['fields'];
-		$obStudioMessage->user_id = $obPhotographer->id;
-		$obStudioMessage->device_id = $_POST['device_id'];
-		if(!$obStudioMessage->save())
-			$this->_renderErrors(11, $obStudioMessage->getErrors());
-
-		$body = '';
-		foreach($_POST['fields'] as $name => $value)
-			$body .= $name.': '.($value ? $value : '')."\n\r";
-
-		Yii::app()->mailer->From = Yii::app()->settings->get('send_mail_from_email');
-		Yii::app()->mailer->FromName = Yii::app()->settings->get('send_mail_from_name');
-		Yii::app()->mailer->AddAddress($obPhotographer->email, $obPhotographer->first_name.' '.$obPhotographer->last_name);
-		Yii::app()->mailer->Subject = 'Mail from iOS application contact form';
-		Yii::app()->mailer->AltBody = $body;
-		Yii::app()->mailer->getView('standart', array(
-				'body'  => $body,
-			));
-		$this->_render(array(
-				'state' => Yii::app()->mailer->Send()
 			));
 	}
 }

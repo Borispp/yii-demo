@@ -428,12 +428,12 @@
 #wizard-breadcrumbs li.submit {
   z-index: 5;
 }
-#client-list .search-bar, #event-list .search-bar {
+#client-list .search-bar, #inbox-list .search-bar, #event-list .search-bar {
   float: left;
   width: 16%;
   background: #fff;
 }
-#client-list .data-box, #event-list .data-box {
+#client-list .data-box, #inbox-list .data-box, #event-list .data-box {
   width: 73%;
   float: right;
 }

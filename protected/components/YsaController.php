@@ -211,9 +211,9 @@ class YsaController extends CController
 				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/plupload/jquery.plupload.queue/jquery.plupload.queue.js', CClientScript::POS_END)
 				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/plupload/jquery.ui.plupload/jquery.ui.plupload.js', CClientScript::POS_END);
 		
-		  if ($loadCss) {
-			  $this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/plupload/plupload.css');
-		  }
+//		  if ($loadCss) {
+//			  $this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/plupload/plupload.css');
+//		  }
 	}
 	
     /**

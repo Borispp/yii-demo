@@ -22,7 +22,6 @@ class ClientController extends YsaApiController
 		$this->_validateVars(array(
 			'token'		=> array(
 				'message'	=> 'No token received',
-				'code'		=> '006',
 				'required'	=> TRUE,
 				'event_id'	=> array(
 					'code'		=> '111',
@@ -43,49 +42,6 @@ class ClientController extends YsaApiController
 	}
 
 	/**
-	 * Send comment to event photo
-	 * Inquiry params: [device_id, app_key, events -> [event_id,token]]
-	 * Response params: [notifications -> [event_id, message, date]]
-	 * @return void
-	 */
-	public function actionGetNotifications()
-	{
-		$this->_commonValidate();
-		$this->_validateVars(array(
-				'events' => array(
-					'code'		=> '060',
-					'message'	=> 'Event list is required',
-					'required'	=> TRUE,
-				),
-			));
-		$notifications = array();
-		$notificationIterator = array();
-		foreach($_POST['events'] as $eventData)
-		{
-			if (!($obEventAuth = ClientAuth::model()->authByToken($eventData['token'], $_POST['app_key'], $eventData['event_id'], $_POST['device_id'])))
-			{
-				return $this->_renderError(101, 'Authorization by token failed for event '.$eventData['event_id']);
-			}
-			$applicationNotifications = ApplicationNotification::model()->findByApplicationAndEvent($obEventAuth->application, $obEventAuth->event);
-			$applicationNotifications = is_object($applicationNotifications) ? array($applicationNotifications) : $applicationNotifications;
-			$notificationIterator += $applicationNotifications;
-		}
-		foreach($notificationIterator as $obApplicationNotification)
-		{
-			if ($obApplicationNotification)
-				$notifications[] = array(
-					'event_id'	=> $obApplicationNotification->event_id,
-					'message'	=> $obApplicationNotification->message,
-					'date'		=> $obApplicationNotification->created,
-				);
-			$obApplicationNotification->sent();
-		}
-		$this->_render(array(
-				'notifications'	=> $notifications
-			));
-	}
-
-	/**
 	 * Register Client
 	 * Inquiry params: [device_id, app_key, name, email, password, phone]
 	 * Response params: [state, message, token]
@@ -96,22 +52,18 @@ class ClientController extends YsaApiController
 		$this->_commonValidate();
 		$this->_validateVars(array(
 				'name' => array(
-					'code'		=> '090',
 					'message'	=> 'Name is required',
 					'required'	=> TRUE,
 				),
 				'email' => array(
-					'code'		=> '091',
 					'message'	=> 'Email is required',
 					'required'	=> TRUE,
 				),
 				'password' => array(
-					'code'		=> '092',
 					'message'	=> 'Password is required',
 					'required'	=> TRUE,
 				),
 				'phone' => array(
-					'code'		=> '093',
 					'message'	=> 'Phone is optional',
 				),
 			));
@@ -157,12 +109,10 @@ class ClientController extends YsaApiController
 		$this->_commonValidate();
 		$this->_validateVars(array(
 				'password'	=> array(
-					'code'		=> '075',
 					'message'	=> 'No password received',
 					'required'	=> TRUE,
 				),
 				'email'	=> array(
-					'code'		=> '076',
 					'message'	=> 'No email received',
 					'required'	=> TRUE
 				)

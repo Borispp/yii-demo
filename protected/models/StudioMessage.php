@@ -12,8 +12,12 @@
  * @property string $subject
  * @property string $message
  * @property integer $user_id
+ * @property integer $client_id
  * @property string $created
  * @property integer $unread
+ *
+ * @property Client $client
+ * @property Member $user
  */
 class StudioMessage extends YsaActiveRecord
 {
@@ -42,14 +46,14 @@ class StudioMessage extends YsaActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('message, user_id, name, email, subject, phone', 'required'),
-			array('user_id, unread', 'numerical', 'integerOnly'=>true),
+			array('message, client_id, user_id, name, email, subject, phone', 'required'),
+			array('user_id, client_id, unread', 'numerical', 'integerOnly'=>true),
 			array('name, email, subject', 'length', 'max'=>200),
 			array('device_id, phone', 'length', 'max'=>50),
 			array('created', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name, email, device_id, phone, subject, message, user_id, created, unread', 'safe', 'on'=>'search'),
+			array('id, name, client_id, email, device_id, phone, subject, message, user_id, created, unread', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,6 +65,8 @@ class StudioMessage extends YsaActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'user'			=> array(self::BELONGS_TO, 'Member', 'user_id'),
+			'client'		=> array(self::BELONGS_TO, 'Client', 'client_id'),
 		);
 	}
 
@@ -69,40 +75,40 @@ class StudioMessage extends YsaActiveRecord
 		if (null !== Yii::app()->session[self::SEARCH_SESSION_NAME]) {
 			$values = Yii::app()->session[self::SEARCH_SESSION_NAME];
 		}
-        $options = array(
-            'keyword' => array(
-                'label'     => 'Keyword',
-                'type'      => 'text',
-                'default'   => '',
-                'value'     => isset($values['keyword']) ? $values['keyword'] : '',
-            ),
-            'order_by' => array(
-                'label' => 'Order By',
-                'type'  => 'select',
-                'options' => array(
-                    'id'    => 'ID',
-                    'email'  => 'Email',
-                    'created'  => 'Date',
-                ),
+		$options = array(
+			'keyword' => array(
+				'label'     => 'Keyword',
+				'type'      => 'text',
+				'default'   => '',
+				'value'     => isset($values['keyword']) ? $values['keyword'] : '',
+			),
+			'order_by' => array(
+				'label' => 'Order By',
+				'type'  => 'select',
+				'options' => array(
+					'id'    => 'ID',
+					'email'  => 'Email',
+					'created'  => 'Date',
+				),
 				'value'     => isset($values['order_by']) ? $values['order_by'] : '',
-            ),
-            'order_sort' => array(
-                'label' => 'Order Sort',
-                'type'  => 'select',
-                'options' => array(
-                    'ASC'  => 'ASC',
-                    'DESC' => 'DESC',
-                ),
+			),
+			'order_sort' => array(
+				'label' => 'Order Sort',
+				'type'  => 'select',
+				'options' => array(
+					'ASC'  => 'ASC',
+					'DESC' => 'DESC',
+				),
 				'value'     => isset($values['order_sort']) ? $values['order_sort'] : '',
-            ),
-            'unread' => array(
-                'label'             => 'State',
-                'type'              => 'select',
-                'addEmptyOption'    => true,
-                'options'           => array(1 => 'Unread', 0=> 'Read'),
+			),
+			'unread' => array(
+				'label'             => 'State',
+				'type'              => 'select',
+				'addEmptyOption'    => true,
+				'options'           => array(1 => 'Unread', 0=> 'Read'),
 				'value'     => isset($values['unread']) ? $values['unread'] : '',
-            ),
-        );
+			),
+		);
 
 		return $options;
 	}
@@ -149,8 +155,8 @@ class StudioMessage extends YsaActiveRecord
 		$criteria->compare('unread',$this->unread);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
+				'criteria'=>$criteria,
+			));
 	}
 
 	public function searchCriteria()

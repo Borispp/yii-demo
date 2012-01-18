@@ -6,16 +6,18 @@
  * The followings are the available columns in table 'application_notification':
  * @property string $id
  * @property string $created
- * @property integer $sent
  * @property string $message
  * @property integer $application_id
- * @property integer $event_id
  *
  * @property Application $application
  * @property Event $event
+ * @property Client $client
  */
 class ApplicationNotification extends YsaActiveRecord
 {
+	public $events;
+	public $clients;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return ApplicationNotification the static model class
@@ -41,13 +43,13 @@ class ApplicationNotification extends YsaActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('application_id, event_id', 'required'),
-			array('sent, application_id, event_id', 'numerical', 'integerOnly'=>true),
+			array('application_id', 'required'),
+			array('application_id', 'numerical', 'integerOnly'=>true),
 			array('message', 'length', 'max'=>300),
 			array('created', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, created, sent, message, application_id, event_id', 'safe', 'on'=>'search'),
+			array('id, created, message, application_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,7 +62,9 @@ class ApplicationNotification extends YsaActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'application'	=> array(self::BELONGS_TO, 'Application', 'application_id'),
-			'event'			=> array(self::BELONGS_TO, 'Event', 'event_id'),
+			'event'			=> array(self::MANY_MANY, 'Event', 'application_notification_event(app_notification_id, event_id)'),
+			'client'		=> array(self::MANY_MANY, 'Client', 'application_notification_client(app_notification_id, client_id)'),
+			'state'			=> array(self::HAS_MANY, 'ApplicationNotificationState', 'app_notification_id'),
 		);
 	}
 
@@ -72,10 +76,8 @@ class ApplicationNotification extends YsaActiveRecord
 		return array(
 			'id'				=> 'ID',
 			'created'			=> 'Created',
-			'sent'				=> 'Sent',
 			'message'			=> 'Message',
 			'application_id'	=> 'Application',
-			'event_id'			=> 'Event',
 		);
 	}
 
@@ -92,10 +94,8 @@ class ApplicationNotification extends YsaActiveRecord
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('created',$this->created,true);
-		$criteria->compare('sent',$this->sent);
 		$criteria->compare('message',$this->message,true);
 		$criteria->compare('application_id',$this->application_id);
-		$criteria->compare('event_id',$this->event_id);
 
 		return new CActiveDataProvider($this, array(
 				'criteria'=>$criteria,
@@ -132,21 +132,7 @@ class ApplicationNotification extends YsaActiveRecord
 					'DESC' => 'DESC',
 				),
 				'value'     => isset($values['order_sort']) ? $values['order_sort'] : '',
-			),
-			'sent' => array(
-				'label'             => 'State',
-				'type'              => 'select',
-				'addEmptyOption'    => true,
-				'options'           => array(1 => 'Sent', 0 => 'Unsent'),
-				'value'     => isset($values['sent']) ? $values['sent'] : '',
-			),
-			'event_id' => array(
-				'label'             => 'Event',
-				'type'              => 'select',
-				'addEmptyOption'    => true,
-				'options'           => CHtml::listData(Member::model()->findByPk(Yii::app()->user->getId())->event, 'id', 'name'),
-				'value'     => isset($values['event_id']) ? $values['event_id'] : '',
-			),
+			)
 		);
 
 		return $options;
@@ -155,11 +141,9 @@ class ApplicationNotification extends YsaActiveRecord
 
 	public function searchCriteria()
 	{
-		$eventIdList = array();
-		foreach(Member::model()->findByPk(Yii::app()->user->getId())->event as $obEvent)
-			$eventIdList[$obEvent->id] = $obEvent->id;
+		$obApplication = Member::model()->findByPk(Yii::app()->user->getId())->application;
 		$criteria = new CDbCriteria();
-		$criteria->compare('event_id', $eventIdList);
+		$criteria->compare('application_id', $obApplication->id);
 		$fields = Yii::app()->session[self::SEARCH_SESSION_NAME];
 
 		if (null === $fields) {
@@ -169,14 +153,6 @@ class ApplicationNotification extends YsaActiveRecord
 		// search by keyword
 		if (isset($keyword) && $keyword) {
 			$criteria->compare('message', $keyword, true, 'AND');
-		}
-		// search by state
-		if (isset($sent)) {
-			$criteria->compare('sent', $sent);
-		}
-
-		if (isset($event_id) && $event_id) {
-			$criteria->compare('event_id', $event_id);
 		}
 
 		// sort entries
@@ -199,22 +175,60 @@ class ApplicationNotification extends YsaActiveRecord
 	}
 
 	/**
-	 * @param Application $obApp
-	 * @param Event $obEvent
-	 * @return ApplicationNotification
+	 * Marks notification as sent (Creates application_notification_state record with link to device id)
+	 * @param $deviceId
+	 * @return void
 	 */
-	public function findByApplicationAndEvent(Application $obApp, Event $obEvent)
+	public function sent($deviceId)
 	{
-		return $this->findAllByAttributes(array(
-			'application_id'	=> $obApp->id,
-			'event_id'			=> $obEvent->id,
-			'sent'				=> 0
-		));
+		$obApplicationNotificatioState = new ApplicationNotificationState();
+		$obApplicationNotificatioState->app_notification_id = $this->id;
+		$obApplicationNotificatioState->device_id = $deviceId;
+		$obApplicationNotificatioState->save();
+	}	
+
+	/**
+	 * @param Event $obEvent
+	 * @return void
+	 */
+	public function appendToEvent(Event $obEvent)
+	{
+		$obApplicationNotificationEvent = new ApplicationNotificationEvent();
+		$obApplicationNotificationEvent->app_notification_id = $this->id;
+		$obApplicationNotificationEvent->event_id = $obEvent->id;
+		$obApplicationNotificationEvent->save();
 	}
 
-	public function sent()
+	/**
+	 * @param Client $obClient
+	 * @return void
+	 */
+	public function appendToClient(Client $obClient)
 	{
-		$this->sent = 1;
-		$this->save();
+		$obApplicationNotificationClient = new ApplicationNotificationClient();
+		$obApplicationNotificationClient->app_notification_id = $this->id;
+		$obApplicationNotificationClient->client_id = $obClient->id;
+		$obApplicationNotificationClient->save();
+	}
+
+	/**
+	 * @param Client $obClient
+	 * @return array
+	 */
+	public function findByClient(Client $obClient, $deviceId = NULL)
+	{
+		$criteria=new CDbCriteria;
+		$criteria->alias = 'app_n';
+		$criteria->join = 'LEFT JOIN application_notification_client ON app_n.id = application_notification_client.app_notification_id'.
+		' LEFT JOIN application_notification_event ON application_notification_event.app_notification_id = app_n.id'.
+		' LEFT JOIN client_events ON client_events.event_id = application_notification_event.event_id';
+		$criteria->params = array(':clientId' => $obClient->id);
+		$criteria->condition = 'client_events.client_id = :clientId OR application_notification_client.client_id = :clientId';
+		if ($deviceId)
+		{
+			$criteria->params[':deviceId'] = $deviceId;
+			$criteria->condition = '('.$criteria->condition.') AND NOT (SELECT COUNT(*) FROM application_notification_state WHERE application_notification_state.app_notification_id = app_n.id AND device_id = :deviceId)';
+		}
+		return $this->findAll($criteria);
 	}
 }

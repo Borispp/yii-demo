@@ -72,23 +72,20 @@ class OrderController extends YsaApiController
 		$this->_commonValidate();
 		$this->_validateVars(array(
 			'photos' => array(
-				'code'		=> '090',
 				'message'	=> 'Order must contain at least one photo',
 				'required'	=> TRUE,
 			),
 			'name' => array(
-				'code'		=> '091',
 				'message'	=> 'Client name is required',
 				'required'	=> TRUE,
 			),
 			'email' => array(
-				'code'		=> '092',
 				'message'	=> 'Client email is required',
 				'required'	=> TRUE,
 			),
 		));
 		if (count($this->_checkPhotos($_POST['photos'])) > 0)
-			$this->_renderError('093', 'Some photos are missing. Call actionCheck first.');
+			$this->_renderError('Some photos are missing. Call actionCheck first.');
 		$obOrder = new UserOrder();
 		$obOrder->user_id = $this->_getApplication()->user_id;
 		$obOrder->email = $_POST['email'];

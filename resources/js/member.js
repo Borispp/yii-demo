@@ -7,31 +7,9 @@ var _plupload_settings = {
 		{title : "Image files", extensions : "jpg,gif,png"},
 	]
 }
-//function _plupload_error_handler(up, err) {
-//	$('#photo-filelist').append("<div>Error: " + err.code +
-//		", Message: " + err.message +
-//		(err.file ? ", File: " + err.file.name : "") +
-//		"</div>"
-//	);
-//	up.refresh();
-//}
-//function _plupload_upload_progress(up, file) {
-//	$('#' + file.id + " b").html(file.percent + "%");
-//}
-//function _plupload_files_added(up, files) {
-//	$.each(files, function(i, file) {
-//		$('#photo-filelist').append(
-//			'<div id="' + file.id + '">' +
-//			file.name + ' (' + plupload.formatSize(file.size) + ') <b></b>' +
-//		'</div>');
-//	});
-//
-//	up.refresh();
-//}
-
-
 
 $(function() {
+
 	// init color pickers 
 	$('input.colors').miniColors();
 	// init datepickers
@@ -46,7 +24,7 @@ $(function() {
 	// init widgets in memeber area
 	$('#member-area').initWidgets();
 	// init tips for icons
-	$('a.icon').tipTip({
+	$('a.icon[title]').tipTip({
 		'defaultPosition':'top'
 	});
 });

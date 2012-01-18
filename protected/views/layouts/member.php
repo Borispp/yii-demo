@@ -9,7 +9,9 @@
 		'links' => $this->breadcrumbs,
 	)); ?>
 
-	<?php $this->widget('YsaNotificationBar'); ?>
+	<div id="notifications">
+		<?php $this->widget('YsaNotificationBar'); ?>
+	</div>
 	
 </div>
 

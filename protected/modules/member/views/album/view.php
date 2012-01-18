@@ -1,22 +1,5 @@
 <section id="album" data-albumid="<?php echo $entry->id; ?>" class="w">
-	<?php echo YsaHtml::link('Edit Album Info', array('album/edit/' . $entry->id))?>
-	
-	<?/*
-	<div id="photo-upload-container">
-		<div id="photo-filelist" style="min-height: 100px;border: 1px solid red;"></div>
-		<a href="#" id="photo-upload-browse">select files</a>
-		<a href="#" id="photo-upload-submit">upload</a>
-                
-                <noscript>Please, turn on JavaScript in your browser to enable file uploading</noscript>
-	</div>
-	*/?>
-	
-	
-    <div id="photo-upload-container">
-		<p>You browser doesn't have HTML5 support.</p>
-	</div>
-	
-	
+
 	<?php if ($this->member()->smugmugAuthorized()) : ?>
 		<div id="photo-import-smugmug-container" class="smugmug-import">
 			<div class="data">
@@ -34,16 +17,76 @@
 		</div>
 	<?php endif; ?>
 	
-	<h3>Album Photos</h3>
-	<ul id="album-photos" class="album-photos cf">
-		<?php if (count($entry->photos)) : ?>
-				<?php foreach ($entry->photos as $photo) : ?>
-				<?php echo $this->renderPartial('/photo/_listphoto', array(
-					'entry' => $photo
-				)); ?>
-				<?php endforeach; ?>
-		<?php endif; ?>
-	</ul>
+	<section class="box">
+		<div class="box-title">
+			<h3><?php echo $entry->name; ?></h3>
+			<div class="box-title-button">
+				<?php echo YsaHtml::link('Edit Album Info', array('album/edit/' . $entry->id), array('class' => 'btn blue'))?>
+			</div>
+		</div>
+		<div class="box-content">
+			<div class="description shadow-box">
+				
+				<div class="title">Album Information</div>
+				
+				<?php if ($entry->description) : ?>
+					<p><?php echo $entry->description; ?></p>
+				<?php endif; ?>
+				
+				<dl>
+					<dt>Unique ID</dt>
+					<dd><?php echo $entry->id; ?></dd>
+
+					<dt>State</dt>
+					<dd><?php echo $entry->state(); ?></dd>
+					
+					<dt>Photos</dt>
+					<dd><?php echo count($entry->photos); ?></dd>
+					
+					<dt>Created</dt>
+					<dd><?php echo Yii::app()->dateFormatter->format('MM/dd/yy', $entry->created); ?></dd>
+					
+					<dt>Last Update</dt>
+					<dd><?php echo Yii::app()->dateFormatter->format('MM/dd/yy', $entry->updated); ?></dd>
+					
+					<?php if ($entry->place) : ?>
+						<dt>Place</dt>
+						<dd><?php echo $entry->place; ?></dd>
+					<?php endif; ?>
+				</dl>
+			</div>
+			<div class="main-box">
+				<div class="main-box-title">
+					<h3>
+						Album Photos
+						<?php echo YsaHtml::link('Slideshow', '#', array('class' => 'btn small', 'id' => 'album-slideshow-button'))?>
+					</h3>
+					<?php echo YsaHtml::link('Upload Photos', '#photo-upload-container', array('class' => 'btn blue fancybox fancybox.inline', 'id' => 'album-upload-photos-button')); ?>
+					<?php if ($this->member()->smugmugAuthorized()) : ?>
+					
+						<?php echo YsaHtml::link('Import from SmugMug', '#', array('class' => 'btn blue', 'id' => 'album-smugmug-import-button')); ?>
+					<?php endif;?>
+					
+					
+					<div class="cf"></div>
+				</div>
+				<ul id="album-photos" class="album-photos cf">
+					<?php if (count($entry->photos)) : ?>
+							<?php foreach ($entry->photos as $photo) : ?>
+							<?php echo $this->renderPartial('/photo/_listphoto', array(
+								'entry' => $photo
+							)); ?>
+							<?php endforeach; ?>
+					<?php endif; ?>
+				</ul>			
+			</div>
+			<div class="cf"></div>
+		</div>
+	</section>
+	
+	
+	
+
 	
 	<?/*
 	<div id="album-order-sizes">
@@ -68,27 +111,43 @@
 	</div>
 	*/?>
 	<?php if (!$entry->event->isProofing()) : ?>
-		<div id="album-order-availability">
+	
+	
+	<section class="box">
+		<div class="box-title">
 			<h3>Availability for sharing/order this album</h3>
-			<?php $avlForm = $this->beginWidget('YsaMemberForm', array(
-					'id'=>'album-availability-form',
-					'action' => array('album/saveAvailability/' . $entry->id)
-			)); ?>
-			<p>
-				<?php echo $avlForm->labelEx($availability,'order_link'); ?>
-				<?php echo $avlForm->textField($availability, 'order_link'); ?>
-			</p>
-			
-			<p>
-				<?php echo $avlForm->labelEx($availability,'can_order'); ?>
-				<?php echo $avlForm->checkBox($availability, 'can_order', array('checked' => $entry->canOrder())); ?>
-			</p>
-			<p>
-				<?php echo $avlForm->labelEx($availability,'can_share'); ?>
-				<?php echo $avlForm->checkBox($availability, 'can_share', array('checked' => $entry->canShare())); ?>
-			</p>
-			<p><?php echo YsaHtml::submitButton('Save'); ?></p>
-			<?php $this->endWidget();?>
 		</div>
+		<div class="box-content">
+			<div id="album-order-availability" class="form standart-form">
+
+				<?php $avlForm = $this->beginWidget('YsaMemberForm', array(
+						'id'=>'album-availability-form',
+						'action' => array('album/saveAvailability/' . $entry->id)
+				)); ?>
+				<section class="cf">
+					<?php echo $avlForm->labelEx($availability,'order_link'); ?>
+					<div><?php echo $avlForm->textField($availability, 'order_link'); ?></div>
+				</section>
+
+				<section class="cf">
+					<?php echo $avlForm->labelEx($availability,'can_order'); ?>
+					<div><?php echo $avlForm->checkBox($availability, 'can_order', array('checked' => $entry->canOrder())); ?></div>
+				</section>
+				<section class="cf">
+					<?php echo $avlForm->labelEx($availability,'can_share'); ?>
+					<div><?php echo $avlForm->checkBox($availability, 'can_share', array('checked' => $entry->canShare())); ?></div>
+				</section>
+				<div class="button">
+					<?php echo YsaHtml::submitButton('Save', array('class' => 'blue')); ?>
+				</div>
+				<?php $this->endWidget();?>
+			</div>
+		</div>
+	</section>
+	
+    <div id="photo-upload-container" class="multi-uploader">
+		<p>You browser doesn't have HTML5 support.</p>
+	</div>	
+
 	<?php endif;?>
 </section>

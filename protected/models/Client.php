@@ -65,9 +65,10 @@ class Client extends YsaActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'member'		=> array(self::BELONGS_TO, 'Member', 'user_id'),
-			'auth'			=> array(self::HAS_ONE, 'ClientAuth', 'client_id'),
-			'events'		=> array(self::MANY_MANY, 'Event', 'client_events(client_id, event_id)'),
+			'member'			=> array(self::BELONGS_TO, 'Member', 'user_id'),
+			'auth'				=> array(self::HAS_ONE, 'ClientAuth', 'client_id'),
+			'events'			=> array(self::MANY_MANY, 'Event', 'client_events(client_id, event_id)'),
+			'app_notification'	=> array(self::MANY_MANY, 'ApplicationNotification', 'application_notificaton(client_id, event_id)'),
 		);
 	}
 
@@ -223,6 +224,20 @@ class Client extends YsaActiveRecord
 		$addedWith = $this->getAddedWithList();
 		return $addedWith[$this->added_with];
 	}
+
+	/**
+	 * @param Member $obMember
+	 * @param string $orderBy
+	 * @return array
+	 */
+	public function findAllByMember(Member $obMember, $orderBy = 'id DESC')
+	{
+		$criteria = new CDbCriteria();
+		$criteria->compare('user_id', $obMember->id);
+		$criteria->order = $orderBy;
+		return $this->findAll($criteria);
+	}
+
 
 	/**
 	 * Check if client has access to event
