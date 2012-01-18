@@ -219,6 +219,10 @@ return array(
 
 		'max_image_size' => 1024 * 1024 * 5,
 
+		'oauth' => array(
+			'facebook_app_id' => '328815410473890'
+		),
+		
 		'application'   => array(
 			'logo'  => array(
 				'width'  => 400,

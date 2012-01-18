@@ -2,16 +2,6 @@
 class EventController extends YsaApiController
 {
 	/**
-	 * @var EventAlbum
-	 */
-	protected $_obEventAlbum = NULL;
-
-	/**
-	 * @var EventPhoto
-	 */
-	protected $_obEventPhoto = NULL;
-
-	/**
 	 * @var Client
 	 */
 	protected $_obClient = NULL;
@@ -51,64 +41,6 @@ class EventController extends YsaApiController
 			return TRUE;
 		}
 		$this->_renderError('Authorization by token failed');
-	}
-
-	/**
-	 * @return Event
-	 */
-	protected function _getEvent()
-	{
-		return Event::model()->findByPk($_POST['event_id']);
-	}
-
-	/**
-	 * @return EventAlbum
-	 */
-	protected function _getEventAlbum()
-	{
-		if (!$this->_obEventAlbum)
-		{
-			$obEventAlbum = EventAlbum::model()->findByPk($_POST['album_id']);
-			if (!$obEventAlbum)
-				return $this->_renderError('Event album not found');
-			if ($obEventAlbum->event_id != $_POST['event_id'] || !$obEventAlbum->isActive())
-				return $this->_renderError('Access to event album restricted');
-			$this->_obEventAlbum = $obEventAlbum;
-		}
-		return $this->_obEventAlbum;
-	}
-
-	/**
-	 * @param Event $obEvent
-	 * @return array
-	 */
-	protected function _getEventInformation(Event $obEvent)
-	{
-		return array(
-			'id'			=> $obEvent->id,
-			'name'			=> $obEvent->name,
-			'type'			=> $obEvent->type(),
-			'description'	=> $obEvent->description,
-			'date'			=> $obEvent->date,
-			'creation_date'	=> $obEvent->created
-		);
-	}
-
-	/**
-	 * @return EventAlbum
-	 */
-	protected function _getEventPhoto()
-	{
-		if (!$this->_obEventPhoto)
-		{
-			$obEventPhoto = EventPhoto::model()->findByPk($_POST['photo_id']);
-			if (!$obEventPhoto)
-				return $this->_renderError('Event album not found');
-			if ($obEventPhoto->album_id != $_POST['album_id'] || !$obEventPhoto->isActive())
-				return $this->_renderError('Access to event album restricted');
-			$this->_obEventPhoto = $obEventPhoto;
-		}
-		return $this->_obEventPhoto;
 	}
 
 	/**
@@ -235,6 +167,7 @@ class EventController extends YsaApiController
 				'checksum'			=> $obEventAlbum->getChecksum(),
 				'can_order'			=> $obEventAlbum->canOrder(),
 				'can_share'			=> $obEventAlbum->canShare(),
+				'order_link'		=> $obEventAlbum->order_link,
 				'sizes'				=> $sizes
 			);
 		}
@@ -312,51 +245,6 @@ class EventController extends YsaApiController
 		$this->_render($this->_getPhotoInfo($this->_getEventPhoto()));
 	}
 
-	/**
-	 * @param EventPhoto $obPhoto
-	 * @return array
-	 */
-	protected function _getPhotoInfo(EventPhoto $obPhoto)
-	{
-		$comments = array();
-		foreach($obPhoto->comments as $obComment)
-		{
-			$comments[] = array(
-				'comment_id'	=> $obComment->id,
-				'name'			=> $obComment->name,
-				'date'			=> $obComment->created,
-				'comment'		=> $obComment->comment
-			);
-		}
-		$sizes = array();
-		$hasSizes = FALSE;
-		if ($obPhoto->sizes)
-		{
-			$hasSizes = TRUE;
-			foreach($obPhoto->sizes as  $obSize)
-			{
-				$sizes[$obSize->title] = array(
-					'height'	=> $obSize->height,
-					'width'		=> $obSize->width,
-				);
-			}
-		}
-		return array(
-			'photo_id'		=> $obPhoto->id,
-			'filesize'		=> $obPhoto->size,
-			'name'			=> $obPhoto->name,
-			'thumbnail'		=> $obPhoto->previewUrl(),
-			'fullsize'		=> $obPhoto->fullUrl(),
-			'meta'			=> $obPhoto->exif(),
-			'rank'			=> $obPhoto->rating(),
-			'comments'		=> $comments,
-			'can_share'		=> $obPhoto->canShare(),
-			'can_order'		=> $obPhoto->canOrder(),
-			'has_sizes'		=> $hasSizes,
-			'sizes'			=> $sizes,
-			'share_link'	=> $obPhoto->shareUrl()
-		);
-	}
 
 
 	/**

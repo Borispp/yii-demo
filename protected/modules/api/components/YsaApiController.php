@@ -1,14 +1,25 @@
 <?php
 /**
  * API controller.
- * Error codes:
- * 0** — post params errors
- * 1** — app errors
  */
 class YsaApiController extends YsaController
 {
+		/**
+	 * @var EventAlbum
+	 */
+	protected $_obEventAlbum = NULL;
+
+	/**
+	 * @var EventPhoto
+	 */
+	protected $_obEventPhoto = NULL;
+
+
 	public $layout = '/layouts/main';
 
+	/**
+	 * @var Application
+	 */
 	protected $_obApplication;
 
 	/**
@@ -152,11 +163,123 @@ class YsaApiController extends YsaController
 	}
 
 	/**
+	 * @param Event $obEvent
+	 * @return array
+	 */
+	protected function _getEventInformation(Event $obEvent)
+	{
+		return array(
+			'id'			=> $obEvent->id,
+			'name'			=> $obEvent->name,
+			'type'			=> $obEvent->type(),
+			'description'	=> $obEvent->description,
+			'date'			=> $obEvent->date,
+			'creation_date'	=> $obEvent->created
+		);
+	}
+
+	/**
 	 * Rejects requests to child controller index action
 	 * @return void
 	 */
 	public function actionIndex()
 	{
 		$this->_renderError('Action parameter is required');
+	}
+
+		/**
+	 * @return Event
+	 */
+	protected function _getEvent()
+	{
+		return Event::model()->findByPk($_POST['event_id']);
+	}
+
+	/**
+	 * @return EventAlbum
+	 */
+	protected function _getEventAlbum($isPortfolio = FALSE)
+	{
+		if (!$this->_obEventAlbum)
+		{
+			$obEventAlbum = EventAlbum::model()->findByPk($_POST['album_id']);
+			if (!$obEventAlbum)
+				return $this->_renderError('Event album not found');
+			if (!$obEventAlbum->isActive())
+				return $this->_renderError('Event album is blocked');
+			if ($obEventAlbum->event_id != $_POST['event_id'])
+				return $this->_renderError('Event ID is wrong');
+			if ($isPortfolio)
+			{
+				if (!$obEventAlbum->event->isPortfolio())
+					return $this->_renderError('Requested event should be portfolio');
+			}
+			$this->_obEventAlbum = $obEventAlbum;
+		}
+		return $this->_obEventAlbum;
+	}
+
+	/**
+	 * @return EventAlbum
+	 */
+	protected function _getEventPhoto()
+	{
+		if (!$this->_obEventPhoto)
+		{
+			$obEventPhoto = EventPhoto::model()->findByPk($_POST['photo_id']);
+			if (!$obEventPhoto)
+				return $this->_renderError('Event album not found');
+			if ($obEventPhoto->album_id != $_POST['album_id'] || !$obEventPhoto->isActive())
+				return $this->_renderError('Access to event album restricted');
+			$this->_obEventPhoto = $obEventPhoto;
+		}
+		return $this->_obEventPhoto;
+	}
+
+
+	/**
+	 * @param EventPhoto $obPhoto
+	 * @return array
+	 */
+	protected function _getPhotoInfo(EventPhoto $obPhoto)
+	{
+		$comments = array();
+		foreach($obPhoto->comments as $obComment)
+		{
+			$comments[] = array(
+				'comment_id'	=> $obComment->id,
+				'name'			=> $obComment->name,
+				'date'			=> $obComment->created,
+				'comment'		=> $obComment->comment
+			);
+		}
+		$sizes = array();
+		$hasSizes = FALSE;
+		if ($obPhoto->sizes)
+		{
+			$hasSizes = TRUE;
+			foreach($obPhoto->sizes as  $obSize)
+			{
+				$sizes[$obSize->title] = array(
+					'height'	=> $obSize->height,
+					'width'		=> $obSize->width,
+				);
+			}
+		}
+		return array(
+			'photo_id'		=> $obPhoto->id,
+			'filesize'		=> $obPhoto->size,
+			'name'			=> $obPhoto->name,
+			'thumbnail'		=> $obPhoto->previewUrl(),
+			'fullsize'		=> $obPhoto->fullUrl(),
+			'meta'			=> $obPhoto->exif(),
+			'rank'			=> $obPhoto->rating(),
+			'comments'		=> $comments,
+			'can_share'		=> $obPhoto->canShare(),
+			'can_order'		=> $obPhoto->canOrder(),
+			'has_sizes'		=> $hasSizes,
+			'sizes'			=> $sizes,
+			'share_link'	=> $obPhoto->shareUrl()
+		);
 	}
 }
