@@ -8,6 +8,7 @@
  * @property integer $photo_id
  * @property string $created
  * @property string $comment
+ * @property boolean $forward2facebook
  *
  * @property Client $client
  */
@@ -42,6 +43,7 @@ class EventPhotoComment extends YsaActiveRecord
 		return array(
 			array('photo_id', 'numerical', 'integerOnly'=>true),
 			array('photo_id, comment', 'required'),
+			array('forward2facebook', 'boolean'),
 			array('created', 'safe'),
 		);
 	}
@@ -69,7 +71,8 @@ class EventPhotoComment extends YsaActiveRecord
 			'id' => 'ID',
 			'photo_id' => 'Photo',
 			'created' => 'Created',
-			'comment' => 'Comment'
+			'comment' => 'Comment',
+			'forward2facebook' => 'Post also to Facebook'
 		);
 	}
 
