@@ -80,7 +80,7 @@ class PhotoController extends YsaMemberController
 			$this->redirect( array('photo/view/'.$entry->id) );
 	
 		// Control access rights
-		if ( !$member->hasFacebook() or !$entry->canShare() )
+		if ( !$member->hasFacebook() or !$entry->canShareComments() )
 			$this->redirect( array('photo/view/'.$entry->id) );
 		
 		$entryComment = new EventPhotoComment();
