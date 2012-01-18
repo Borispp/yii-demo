@@ -192,7 +192,7 @@ class Member extends User
 	/**
 	 * @return boolean
 	 */
-	public function isFacebookConnected()
+	public function hasFacebook()
 	{
 		return $this->option(UserOption::FACEBOOK_ID, false, $this->id) ? true : false;
 	}

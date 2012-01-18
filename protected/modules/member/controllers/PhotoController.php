@@ -1,6 +1,12 @@
 <?php
 class PhotoController extends YsaMemberController
 {
+	/**
+	 * Ensure that given PhotoID is valid and has right owner
+	 *
+	 * @param integer $photoId
+	 * @return EventPhoto
+	 */
 	protected function _ensureValidPhotoId( $photoId )
 	{
 		$entry = EventPhoto::model()->findByPk($photoId);
@@ -56,6 +62,7 @@ class PhotoController extends YsaMemberController
 			'entryComment'	=> $entryComment,
 			'photoSizes'	=> $photoSizes,
 			'availability'	=> $availability,
+			'member'		=> $this->member()
 		));
 	}
 	
@@ -67,10 +74,15 @@ class PhotoController extends YsaMemberController
 	public function actionComment( $photoId = 0 )
 	{
 		$entry = $this->_ensureValidPhotoId( $photoId );
+		$member = $this->member();
 		
 		if ( !Yii::app()->getRequest()->getIsPostRequest() or !isset($_POST['EventPhotoComment']) )
-			$this->redirect( $this->createAbsoluteUrl( 'view' ) );
+			$this->redirect( array('photo/view/'.$entry->id) );
 	
+		// Control access rights
+		if ( !$member->hasFacebook() or !$entry->canShare() )
+			$this->redirect( array('photo/view/'.$entry->id) );
+		
 		$entryComment = new EventPhotoComment();
 		$entryComment->attributes = $_POST['EventPhotoComment'];
 		$entryComment->photo_id = $entry->id;
@@ -78,7 +90,7 @@ class PhotoController extends YsaMemberController
 		if ($entryComment->validate()) 
 		{
 			$entryComment->save();
-			$entryComment->appendToUser($this->member());
+			$entryComment->appendToUser($member);
 			
 			if ( !empty($_POST['EventPhotoComment']['forward2facebook']) )
 			{
