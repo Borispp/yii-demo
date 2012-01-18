@@ -84,92 +84,94 @@ class StudioController extends YsaApiController
 	}
 
 	/**
-	 * Returns galleries list
+	 * Get Portfolio Event List
 	 * Inquiry params: [app_key, device_id]
-	 * Response params: [portfolio -> [gallery_id, name, description, number_of_photos, filesize, checksum]]
+	 * Response params: events->[name,type,description,date,creation_date,filesize,checksumm]
 	 * @return void
 	 */
-	public function actionGalleriesList()
+	public function actionGetEventList()
 	{
-		$this->_commonValidate();
-		$obStudio = $this->_getApplication()->user->studio;
-		$params = array();
-		foreach($obStudio->user->portfolio_events as $event)
+		$result = array();
+		foreach($this->_getApplication()->user->portfolio_events as $obEvent)
 		{
-			foreach($event->albums as $obPortfolioAlbum)
-			{
-				$params['portfolio'][] = array(
-					'gallery_id'		=> $obPortfolioAlbum->id,
-					'name'				=> $obPortfolioAlbum->name,
-					'description'		=> $obPortfolioAlbum->description,
-					'number_of_photos'	=> count($obPortfolioAlbum->photos),
-					'filesize'			=> $obPortfolioAlbum->size(),
-					'checksum'			=> $obPortfolioAlbum->getChecksum()
-				);
-			}
+			$result[] = $this->_getEventInformation($obEvent);
 		}
-		if (!count($params))
-			return $this->_renderError('No albums found');
-		$this->_render($params);
+		$this->_render(array(
+			'events'	=> $result
+		));
 	}
 
 	/**
-	 * Returns images of selected gallery
-	 * Inquiry params: [app_key, device_id, gallery_id]
-	 * Response params: [images -> [photo_id, thumbnail, fullsize, name, meta, share-link]]
+	 * Returns event info.
+	 * Inquiry params: [app_key, device_id, event_id]
+	 * Response params: [name,type,description,date,creation_date,filesize,checksumm]
 	 * @return void
 	 */
-	public function actionGalleryImages()
+	public function actionGetEventInfo()
 	{
-		$this->_commonValidate();
 		$this->_validateVars(array(
-				'gallery_id' => array(
-					'message'	=> 'Gallery id must not be empty',
-					'required'	=> TRUE,
-				),
-			));
-		$obPortfolioAlbum = EventAlbum::model()->findByPk($_POST['gallery_id']);
-		$this->_checkPhotoAlbum($obPortfolioAlbum);
-		if (!count($photos = $obPortfolioAlbum->photos))
-			$this->_renderError('Portfolio Album is empty');
+			'event_id'	=> array(
+				'message'	=> 'No event ID found',
+				'required'	=> TRUE
+			),
+		));
+		if (!$this->_getEvent()->isPortfolio())
+			$this->_renderError('Requested event should be portfolio');
+		if (!$this->_getEvent()->isActive())
+			$this->_renderError('Requested event is blocked');
+		$this->_render($this->_getEventInformation($this->_getEvent()));
+	}
+
+	/**
+	 * Returns event info.
+	 * Inquiry params: [device_id, event_id, app_key]
+	 * Response params: [name,type,description,date,creation_date,filesize,checksumm,can_order,can_share,sizes]
+	 * @return void
+	 */
+	public function actionGetEventAlbums()
+	{
 		$params = array();
-		foreach($photos as $obPortfolioPhoto)
+		foreach($this->_getEvent()->albums as $obEventAlbum)
 		{
-			$params['images'][] = array(
-				'photo_id'		=> $obPortfolioPhoto->id,
-				'filesize'		=> $obPortfolioPhoto->size,
-				'name'			=> $obPortfolioPhoto->name,
-				'thumbnail'		=> $obPortfolioPhoto->previewUrl(),
-				'fullsize'		=> $obPortfolioPhoto->fullUrl(),
-				'meta'			=> $obPortfolioPhoto->exif(),
-				//'share-link'	=> ,
+			if (!$obEventAlbum->isActive())
+				continue;
+			$sizes = array();
+			if ($obEventAlbum->canOrder() && $obEventAlbum->size())
+			{
+				foreach($obEventAlbum->sizes as $obSize)
+					$sizes[$obSize->title] = array(
+						'height'	=> $obSize->height,
+						'width'		=> $obSize->width,
+					);
+			}
+			$params['albums'][] = array(
+				'name'				=> $obEventAlbum->name,
+				'date'				=> $obEventAlbum->shooting_date,
+				'place'				=> $obEventAlbum->place,
+				'album_id'			=> $obEventAlbum->id,
+				'preview'			=> $obEventAlbum->previewUrl(),
+				'number_of_photos'	=> count($obEventAlbum->photos),
+				'filesize'			=> $obEventAlbum->size(),
+				'checksum'			=> $obEventAlbum->getChecksum(),
+				'can_order'			=> $obEventAlbum->canOrder(),
+				'can_share'			=> $obEventAlbum->canShare(),
+				'sizes'				=> $sizes
 			);
 		}
 		$this->_render($params);
 	}
 
-	protected function _checkPhotoAlbum($obPortfolioAlbum = NULL)
-	{
-		if ($obPortfolioAlbum->event->user->id != $this->_getApplication()->user_id)
-			return $this->_renderError('Access denied');
-		if (!$obPortfolioAlbum)
-			return $this->_renderError('No album found');
-		if (!$obPortfolioAlbum->isActive())
-			return $this->_renderError('Album is blocked');
-	}
-
 	/**
-	 * Checks if gallery'd been up since last fetch.
-	 * Inquiry params: [app_key, device_id, gallery_id, checksum]
+	 * Checks if album'd been updated since last fetch.
+	 * Inquiry params: [device_id, event_id, app_key, album_id, checksum]
 	 * Response params: [state, checksum]
 	 * @return void
 	 */
-	public function actionIsGalleryUpdated()
+	public function actionIsEventAlbumUpdated()
 	{
-		$this->_commonValidate();
 		$this->_validateVars(array(
-				'gallery_id' => array(
-					'message'	=> 'Gallery id must not be empty',
+				'album_id' => array(
+					'message'	=> 'Album id must not be empty',
 					'required'	=> TRUE,
 				),
 				'checksum' => array(
@@ -177,11 +179,56 @@ class StudioController extends YsaApiController
 					'required'	=> TRUE,
 				),
 			));
-		$obPortfolioAlbum = EventAlbum::model()->findByPk($_POST['gallery_id']);
-		$this->_checkPhotoAlbum($obPortfolioAlbum);
 		$this->_render(array(
-				'state'			=> !$obPortfolioAlbum->checkHash($_POST['checksum']),
-				'checksumm'		=> $obPortfolioAlbum->getChecksum(),
+				'state'			=> !$this->_getEventAlbum(TRUE)->checkHash($_POST['checksum']),
+				'checksumm'		=> $this->_getEventAlbum(TRUE)->getChecksum(),
+				'filesize'		=> $this->_getEventAlbum(TRUE)->size()
 			));
+	}
+
+	/**
+	 * Return All photos
+	 * Inquiry params: [device_id, event_id, app_key, album_id]
+	 * Response params: [images -> [photo_id filesize name thumbnail fullsize meta rank comments can_share can_order has_sizes sizes share_link]]
+	 * @return void
+	 */
+	public function actionGetEventAlbumPhotos()
+	{
+		$this->_validateVars(array(
+				'album_id' => array(
+					'message'	=> 'Gallery id must not be empty',
+					'required'	=> TRUE,
+				),
+			));
+		if (!$this->_getEventAlbum(TRUE)->photos)
+			$this->_renderError('Album has no photos');
+		$params = array();
+		foreach($this->_getEventAlbum(TRUE)->photos as $obPhoto)
+			$params['images'][] = $this->_getPhotoInfo($obPhoto);
+		$this->_render($params);
+	}
+
+	/**
+	 * Checks if album'd been updated since last fetch.
+	 * Inquiry params: [device_id, event_id, app_key, album_id, photo_id]
+	 * Response params: [photo_id filesize name thumbnail fullsize meta rank comments can_share can_order has_sizes sizes share_link]
+	 * @return void
+	 */
+	public function actionGetPhotoInfo()
+	{
+		$this->_validateVars(array(
+				'album_id' => array(
+					'message'	=> 'Album id must not be empty',
+					'required'	=> TRUE,
+				),
+				'photo_id' => array(
+					'message'	=> 'Photo id must not be empty',
+					'required'	=> TRUE,
+				),
+			));
+		$this->_getEventAlbum(TRUE);
+		if (!$this->_getEventPhoto())
+			$this->_renderError('Album has no such photo');
+		$this->_render($this->_getPhotoInfo($this->_getEventPhoto()));
 	}
 }
