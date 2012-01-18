@@ -455,6 +455,7 @@ class EventPhoto extends YsaActiveRecord
 	
 	public function canShare()
 	{
+		//TODO: $this->album->event->isPublic();
 		return $this->album->can_share ? $this->can_share : false;
 	}
 	

@@ -1,7 +1,7 @@
 <div class="w">
 	<h3>Facebook Account Settings</h3>
 	
-	<?php if ( $member->isFacebookConnected() ) : ?>
+	<?php if ( $member->hasFacebook() ) : ?>
 		
 		<p>Member profile is linked to this Facebook account</p>
 	
