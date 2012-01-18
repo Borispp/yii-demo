@@ -41,7 +41,7 @@
 						<h3>Albums</h3>
 					<?php endif; ?>
 					<?php if (!$entry->isProofing()) : ?>
-						<?php echo YsaHtml::link('Create New Album', array('album/create/event/' . $entry->id), array('class' => 'btn')); ?>
+						<?php echo YsaHtml::link('Create New Album', array('album/create/event/' . $entry->id), array('class' => 'btn blue')); ?>
 					<?php endif; ?>
 						
 						<div class="cf"></div>

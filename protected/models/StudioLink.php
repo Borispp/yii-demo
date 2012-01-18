@@ -19,6 +19,20 @@ class StudioLink extends YsaActiveRecord
 {
 	protected $_studio;
 	
+	protected $_iconsUrl;
+	
+	protected $_iconsPath;
+	
+	protected $_icons;
+	
+	public function init()
+	{
+		parent::init();
+		
+		$this->_iconsPath = rtrim(Yii::getPathOfAlias('webroot.resources.images.icons'), '/');
+		$this->_iconsUrl = Yii::app()->getBaseUrl(true) . '/resources/images/icons';
+	}
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return StudioLink the static model class
@@ -97,5 +111,33 @@ class StudioLink extends YsaActiveRecord
 	public function isOwner()
 	{
 		return $this->studio->isOwner();
+	}
+	
+	public function icons()
+	{
+		if (null === $this->_icons) {
+			
+			$_icons = scandir($this->_iconsPath);
+			
+			$this->_icons = array();
+			
+			foreach ($_icons as $icon) {
+				if (!in_array($icon, array('.', '..', '.DS_Store'))) {
+					preg_match('~([^\.]+)(\.png)+~si', $icon, $matches);
+					$title = ucwords(str_replace(array('_', '-'), ' ', $matches[1]));
+					$url = $this->_iconsUrl . '/' . $icon;
+					
+					$i = new stdClass();
+					
+					$i->title = $title;
+					$i->icon = $icon;
+					$i->url = $url;
+					
+					$this->_icons[] = $i;
+				}
+			}
+		}
+		
+		return $this->_icons;
 	}
 }
