@@ -2051,6 +2051,30 @@ section.box .box-content {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
+.info-box dl {
+  padding: 0;
+  margin: 0 0 1em 0;
+}
+.info-box dl dt, .info-box dl dd {
+  line-height: 2;
+  float: left;
+  padding: 0;
+  margin: 0;
+}
+.info-box dl dt {
+  width: 150px;
+  clear: both;
+}
+.info-box dl dd {
+  font-weight: bold;
+}
+.menu-box ul li {
+  display: inline;
+  margin-right: 20px;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: bold;
+}
 /* Widget Boxes
 *******************************/
 .widgets {
@@ -2607,15 +2631,19 @@ section.smugmug-import .import li span {
   width: 780px;
   margin: 2px;
 }
-#studio .list li {
-  padding-bottom: 20px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #eeeeee;
+#studio .list {
+  position: relative;
 }
-#studio .list li:last-child {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
+#studio .list li {
+  padding: 10px;
+  background-color: #eeeeee;
+}
+#studio .list li:nth-child(2n) {
+  background-color: #ffffff;
+}
+#studio .list li.place {
+  height: 40px;
+  background-color: #fffef0;
 }
 #studio .list li figure {
   float: left;
@@ -2628,27 +2656,54 @@ section.smugmug-import .import li span {
   width: 40px;
   height: auto;
 }
-#studio .list li strong {
+#studio .list li a.url, #studio .list li a.view, #studio .list li strong {
   line-height: 40px;
   float: left;
   width: 400px;
   margin-right: 20px;
 }
-#studio .list li .menu {
+#studio .list li .sort, #studio .list li .menu {
   float: left;
   padding: 14px 0;
+  margin-right: 20px;
 }
-#studio .list li .menu a {
+#studio .list li .sort, #studio .list li .menu a {
   margin-right: 4px;
 }
-#studio .list.links strong {
+#studio .list.links a.url, #studio .list.links strong {
   width: 190px;
 }
-#studio .list.links a.url {
+#studio .list.links img {
+  width: 24px;
+  margin: 8px 0 0 8px;
+}
+#studio-add-link-form li {
+  cursor: pointer;
   float: left;
-  line-height: 44px;
-  width: 190px;
-  margin-right: 20px;
+  margin: 0 1em 1em 0;
+  padding: 2px;
+  border: 1px solid #ffffff;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#studio-add-link-form li:hover {
+  background: #e0e0e0;
+  border-color: #c9c9c9;
+}
+#studio-add-link-form li.selected {
+  background: #e1f3f9;
+  border-color: #008eb0;
+}
+#studio-form-icon-field {
+  width: 460px;
+}
+#studio-person-view figure {
+  float: left;
+  margin: 0 2em 1em 0;
 }
 #wizard-accordion .step {
   margin-bottom: 18px;

@@ -4,11 +4,15 @@
 			<h3><?php echo $entry->name(); ?></h3>
 		</div>
 		<div class="box-content">
-			<div><?php echo YsaHtml::link('Inbox', array('inbox/')); ?></div>
-			<div><?php echo YsaHtml::link('My Subscriptions', array('subscription/list/')); ?></div>
-			<div><?php echo YsaHtml::link('SmugMug Settings', array('settings/smugmug/')); ?></div>
-			<div><?php echo YsaHtml::link('ShootQ Settings', array('settings/shootq/')); ?></div>
-			<div><?php echo YsaHtml::link('Facebok Account', array('settings/facebook/')); ?></div>
+			<div class="shadow-box menu-box">
+				<ul>
+					<li><?php echo YsaHtml::link('Inbox', array('inbox/')); ?></li>
+					<li><?php echo YsaHtml::link('My Subscriptions', array('subscription/list/')); ?></li>
+					<li><?php echo YsaHtml::link('SmugMug Settings', array('settings/smugmug/')); ?></li>
+					<li><?php echo YsaHtml::link('ShootQ Settings', array('settings/shootq/')); ?></li>
+					<li><?php echo YsaHtml::link('Facebok Account', array('settings/facebook/')); ?></li>
+				</ul>
+			</div>
 		</div>
 	</section>
 

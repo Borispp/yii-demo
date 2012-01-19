@@ -65,8 +65,8 @@ class Studio extends YsaActiveRecord
 	{
 		return array(
 			'user'		=> array(self::BELONGS_TO, 'User', 'user_id'),
-			'links'		=> array(self::HAS_MANY, 'StudioLink', 'studio_id'),
-			'persons'	=> array(self::HAS_MANY, 'StudioPerson', 'studio_id'),
+			'links'		=> array(self::HAS_MANY, 'StudioLink', 'studio_id', 'order' => 'rank ASC'),
+			'persons'	=> array(self::HAS_MANY, 'StudioPerson', 'studio_id', 'order' => 'rank ASC'),
 		);
 	}
 

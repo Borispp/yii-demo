@@ -574,6 +574,40 @@ section.box {
 	.rounded(3px);
 }
 
+.info-box {
+	dl {
+		padding:0;
+		margin:0 0 1em 0;
+		dt,
+		dd {
+			line-height:2;
+			float:left;
+			padding:0;
+			margin:0;
+		}
+		dt {
+			width:150px;
+			clear:both;
+		}
+		dd {
+			font-weight:bold;
+		}
+	}
+}
+.menu-box {
+	ul {
+		li {
+			display:inline;
+			margin-right:20px;
+			text-transform:uppercase;
+			font-size:11px;
+			font-weight:bold;
+		}
+	}
+}
+
+
+
 /* Widget Boxes
 *******************************/
 .widgets {
@@ -1034,18 +1068,20 @@ section.smugmug-import {
 	margin:2px;
 }
 
-
-
 #studio .list {
+	position:relative;
 	li {
-		padding-bottom:20px;
-		margin-bottom:20px;
-		border-bottom:1px solid @dark-gray-echo;
-		&:last-child {
-			margin-bottom:0;
-			padding-bottom:0;
-			border-bottom:none;
+		padding:10px;
+		background-color:@dark-gray-echo;
+		&:nth-child(2n) {
+			background-color:@white-alpha;
 		}
+
+		&.place {
+			height:40px;
+			background-color:#fffef0;
+		}
+		
 		figure {
 			float:left;
 			width:40px;
@@ -1057,32 +1093,66 @@ section.smugmug-import {
 				height:auto;
 			}
 		}
+		
+		a.url,
+		a.view,
 		strong {
 			line-height:40px;
 			float:left;
 			width:400px;
 			margin-right:20px;
 		}
+		.sort,
 		.menu {
 			float:left;
 			padding:14px 0;
+			margin-right:20px;
 		}
+		.sort,
 		.menu a {
 			margin-right:4px;
 		}
 	}
 
 	&.links {
+		a.url,
 		strong {
 			width:190px;
 		}
-		a.url {
-			float:left;
-			line-height:44px;
-			width:190px;
-			margin-right:20px;
+		img {
+			width:24px;
+			margin:8px 0 0 8px;
 		}
 	}
+}
+
+#studio-add-link-form {
+	li {
+		cursor:pointer;
+		float:left;
+		margin:0 1em 1em 0;
+		padding:2px;
+		border:1px solid @white-alpha;
+		.rounded(3px);
+		&:hover {
+			background:@dark-gray-hotel;
+			border-color:@dark-gray-foxtrot;
+		}
+		&.selected {
+			background:@blue-echo;
+			border-color:@blue-alpha;
+		}
+	}
+}
+#studio-form-icon-field {
+	width:460px;
+}
+#studio-person-view {
+	figure {
+		float:left;
+		margin:0 2em 1em 0;
+	}
+	
 }
 
 

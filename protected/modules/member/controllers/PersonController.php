@@ -50,7 +50,17 @@ class PersonController extends YsaMemberController
 			$this->redirect(array('studio/'));
 		}
 		
+		if (Yii::app()->request->isAjaxRequest) {
+			$this->renderPartial('view', array(
+				'entry' => $entry,
+			));
+			Yii::app()->end();
+		}
+		
 		$this->setMemberPageTitle('View Shooter');
+		
+		$this->crumb('Studio', array('studio/'))
+			 ->crumb('View Shooter');
 		
 		$this->render('view', array(
 			'entry' => $entry,
