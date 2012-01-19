@@ -162,6 +162,20 @@ class EventPhoto extends YsaActiveRecord
 		
 		return true;
 	}
+
+	protected function _getKey()
+	{
+		return md5(md5($this->size).$this->basename.Yii::app()->params['salt']);
+	}
+
+	public function findByKey($imageId)
+	{
+		$criteria = new CDbCriteria;
+		$criteria->alias = 'event_photo';
+		$criteria->params = array(':salt' => Yii::app()->params['salt'], ':imageKey' => $imageId);
+		$criteria->condition = 'MD5(CONCAT(MD5(event_photo.size),event_photo.basename,:salt)) = :imageKey';
+		return $this->find($criteria);
+	}
 	
 	/**
 	 * Get EXIF Data information
@@ -208,7 +222,7 @@ class EventPhoto extends YsaActiveRecord
 	 */
 	public function url()
 	{
-		return $this->album->albumUrl() . '/' .  $this->basename . '.' . $this->extention;
+		return Yii::app()->createAbsoluteUrl('image/get/'.$this->_getKey());
 	}
 	
 	/**
