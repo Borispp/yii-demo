@@ -32,9 +32,6 @@ class AuthController extends YsaFrontController
 
 	public function actionLoginOauth()
 	{
-		//TODO: strange bug: eauth not using __eauth_facebook__expires key 
-		unset( Yii::app()->session['__eauth_facebook__auth_token'] );
-		
 		$service = Yii::app()->request->getQuery('service');
 		if (isset($service)) 
 		{

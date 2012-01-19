@@ -54,7 +54,7 @@ class RegisterController extends YsaFrontController
 	 * @param RegistrationForm $model
 	 * @return boolean 
 	 */
-	protected function _register( RegistrationForm $model )
+	protected function _register( RegistrationForm $model, $confirm_email = true )
 	{
 		if( !$model->validate() ) 
 			return false;
@@ -68,15 +68,18 @@ class RegisterController extends YsaFrontController
 			return false;
 
 		// send confirmation email
-		Email::model()->send(
-			array($model->email, $model->name()), 
-			'member_confirmation', 
-			array(
-				'name'	=> $model->name(),
-				'email' => $model->email,
-				'link'	=> $model->getActivationLink(),
-			)
-		);
+		if ( $confirm_email )
+		{
+			Email::model()->send(
+				array($model->email, $model->name()), 
+				'member_confirmation', 
+				array(
+					'name'	=> $model->name(),
+					'email' => $model->email,
+					'link'	=> $model->getActivationLink(),
+				)
+			);
+		}
 
 		// create new Studio
 		$studio = new Studio();
@@ -94,22 +97,19 @@ class RegisterController extends YsaFrontController
 		$service = Yii::app()->request->getQuery('service');
 		if (isset($service)) 
 		{
-			$authIdentity = Yii::app()->eauth->getIdentity($service, array('scope' => 'email'));
-			$authIdentity->redirectUrl = $this->createAbsoluteUrl('/register/oauth/complete'); //Yii::app()->user->returnUrl;
+			$authIdentity = Yii::app()->eauth->getIdentity($service, array('scope' => 'email,publish_stream,offline_access'));
+			$authIdentity->redirectUrl = $this->createAbsoluteUrl('/register/oauth/complete');
 			$authIdentity->cancelUrl = $this->createAbsoluteUrl('/register');
 
-			if ($authIdentity->authenticate()) 
+			if ($authIdentity->authenticate())
 			{
 				$identity = new ServiceUserIdentity($authIdentity);
 
 				// try to authentificate with existing user
-				if ( $identity->authenticate()) 
+				if ( $identity->authenticate() ) 
 				{
-					//TODO: simply login
-					// special redirect with closing popup window
-					//$authIdentity->redirect();
-					
-					$authIdentity->cancel();
+					Yii::app()->user->login( $identity );
+					$authIdentity->redirect( $this->createAbsoluteUrl( 'auth/login' ) );
 				}
 				else 
 				{
@@ -129,7 +129,7 @@ class RegisterController extends YsaFrontController
 	{
 		if ( !isset(Yii::app()->session['oauth_user_identity']) )
 			$this->redirect( $this->createAbsoluteUrl('/register') );
-		
+
 		$model = new OauthRegistrationForm('register');
 		$attr = Yii::app()->session['oauth_user_identity']->getItemAttributes();
 		$model->attributes = $safe_attr = array( 'first_name' => $attr['first_name'], 'last_name' => $attr['last_name'], 'email' => $attr['email'] );
@@ -141,12 +141,22 @@ class RegisterController extends YsaFrontController
 		}
 
 		$model->attributes = array_merge( $_POST['OauthRegistrationForm'], $safe_attr );
-		
-		if ( $this->_register($model) )
+
+		if ( $this->_register( $model, false ) )
 		{
 			$model->linkFacebook( $attr['email'], $attr['id'] );
+			$model->activate();
+
+			$identity = new ServiceUserIdentity( Yii::app()->session['oauth_user_identity'] );
+			if ($identity->authenticate()) 
+			{
+				Yii::app()->user->login( $identity );
+				unset( Yii::app()->session['oauth_user_identity'] );
+				$this->redirect( $this->createAbsoluteUrl( 'auth/login' ) );
+			}
+
 			unset( Yii::app()->session['oauth_user_identity'] );
-			$this->setSuccess( 'Thank you for your registration. Please check your email' );
+			$this->setError( 'Unable to immediately authenticate, please log in' );
 			$this->redirect( $this->createAbsoluteUrl( 'auth/login' ) );
 		}
 
