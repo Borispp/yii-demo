@@ -84,7 +84,7 @@ class OptionImage extends YsaActiveRecord
     
     public function upload($name, $options)
     {   
-        $image = new Image($_FILES[$name]['tmp_name']);
+        $image = new YsaImage($_FILES[$name]['tmp_name']);
         
         if ($options['crop'] == 'yes') {
             $image->crop($options['width'], $options['height']);
@@ -101,7 +101,7 @@ class OptionImage extends YsaActiveRecord
         $status = $image->save($savePath);
         
         if ($status) {
-            $image = new Image($savePath);
+            $image = new YsaImage($savePath);
             $this->name = $newName;
             $this->mime = $image->__get('mime');
             $this->info = array(

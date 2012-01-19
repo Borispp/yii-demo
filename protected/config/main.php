@@ -259,8 +259,8 @@ return array(
 				'ext'    => 'png',
 			),
 			'generic_bg_image' => array(
-				//                'width'  => 1024,
-				//                'height' => 768,
+//				'width'  => 1024,
+//				'height' => 768,
 				'ext'    => 'png',
 			),
 		),

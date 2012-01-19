@@ -304,7 +304,7 @@ class EventPhoto extends YsaActiveRecord
 			throw new CException('Please fill photo Album ID');
 		}
 		
-		$image = new Image($instance->getTempName());
+		$image = new YsaImage($instance->getTempName());
 		
 		$this->name = $instance->getName();
 		$this->meta_type = $image->mime;
@@ -528,7 +528,7 @@ class EventPhoto extends YsaActiveRecord
 			throw new Exception('SmugMug image file can\'t be read. Please try again later.');
 		}
 		
-		$image = new Image($target);
+		$image = new YsaImage($target);
 		
 		$this->name = $data['FileName'];
 		$this->meta_type = $image->mime;

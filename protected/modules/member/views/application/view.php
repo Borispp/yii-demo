@@ -12,7 +12,9 @@
 				
 				<div class="buttons">
 					<?php echo YsaHtml::link('Settings Wizard', array('wizard'), array('class' => 'btn blue')); ?>
-					<?php echo YsaHtml::link('Preview Settings', array('settings'), array('class' => 'btn small')); ?>
+					<?php if ($app->filled()) : ?>
+						<?php echo YsaHtml::link('Preview Settings', array('settings'), array('class' => 'btn small')); ?>
+					<?php endif; ?>
 				</div> 
 			</div>
 		</div>

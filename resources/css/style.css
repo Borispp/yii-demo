@@ -2746,6 +2746,13 @@ section.smugmug-import .import li span {
 }
 #wizard-accordion .step .loading {
   display: none;
+  position: absolute;
+  left: 0;
+  bottom: 5px;
+  width: 50px;
+  height: 6px;
+  background: url(../images/wizard-loading.gif) 0 0 no-repeat;
+  text-indent: -9999px;
 }
 #wizard-accordion .step section.part {
   position: relative;

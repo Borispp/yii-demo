@@ -106,6 +106,12 @@ abstract class Wizard extends YsaFormModel
 	{
 		return Yii::app()->params['studio_options']['styles'];
 	}
+	
+	public function defaultStyle()
+	{
+		$styles = array_keys($this->getStylesList());
+		return $styles[0];
+	}
 
 	public function attributeLabels()
 	{

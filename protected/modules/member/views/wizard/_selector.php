@@ -25,7 +25,7 @@
 <div class="value value-image">
 	<?php if ($model->{$imageName}) : ?>
 		<figure>
-			<?php echo YsaHtml::image($model->splash_bg_image['url']); ?>
+			<?php echo YsaHtml::link(YsaHtml::image($model->{$imageName}['url']), $model->{$imageName}['url'], array('class' => 'fancybox', 'rel' => 'external')); ?>
 			<?php echo YsaHtml::link('x', array('application/delete/image/' . $imageName), array('rel' => $imageName, 'class' => 'delete')); ?>
 		</figure>
 	<?php endif; ?>

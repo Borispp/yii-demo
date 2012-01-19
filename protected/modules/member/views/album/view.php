@@ -48,7 +48,7 @@
 					<?php echo YsaHtml::link('Upload Photos', '#photo-upload-container', array('class' => 'btn blue fancybox fancybox.inline', 'id' => 'album-upload-photos-button')); ?>
 					<?php if ($this->member()->smugmugAuthorized()) : ?>
 					
-						<?php echo YsaHtml::link('Import from SmugMug', '#photo-import-smugmug-container', array('class' => 'btn blue fancybox fancybox.inline', 'id' => 'album-smugmug-import-button')); ?>
+						<?php echo YsaHtml::link('Import from SmugMug', '#photo-import-smugmug-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-smugmug-import-button')); ?>
 					<?php endif;?>
 					
 					

@@ -10,7 +10,7 @@
 <div class="value value-image">
 	<?php if ($model->{$name}) : ?>
 		<figure>
-			<?php echo YsaHtml::image($model->{$name}['url']); ?>
+			<?php echo YsaHtml::link(YsaHtml::image($model->{$name}['url']), $model->{$name}['url'], array('class' => 'fancybox', 'rel' => 'external')); ?>
 			<?php echo YsaHtml::link('x', array('application/delete/image/' . $name), array('rel' => $name, 'class' => 'delete')); ?>
 		</figure>
 	<?php endif; ?>

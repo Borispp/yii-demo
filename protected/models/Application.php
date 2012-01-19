@@ -260,10 +260,11 @@ class Application extends YsaActiveRecord
 			$option->name = $name;
 			$option->app_id = $this->id;
 		}
-
+		
 		if ($value instanceof CUploadedFile) {
 			// remove old image if exists
 			$val = $option->value();
+			
 			if (isset($val['path'])) {
 				if (is_file($val['path'])) {
 					unlink($val['path']);
@@ -275,28 +276,32 @@ class Application extends YsaActiveRecord
 				$ext = 'png';
 			}
 			
-			$width = Yii::app()->params['application'][$name]['width'];
-			$height = Yii::app()->params['application'][$name]['height'];
-
 			$imageName = YsaHelpers::encrypt(microtime() . $value->tempName) . '.' . $ext;
 
 			$imageSaveDir = $this->getUploadDir() . DIRECTORY_SEPARATOR . $imageName;
 			$imageSaveUrl = $this->getUploadUrl() . '/' . $imageName;
 
-			$image = new Image($value->tempName);
-
-			if ($width && $height) {
-				$image->resize($width, $height);
+			$image = new YsaImage($value->tempName);
+			
+			// resize
+			if (isset(Yii::app()->params['application'][$name]['width']) && isset(Yii::app()->params['application'][$name]['height'])) {
+				$width = Yii::app()->params['application'][$name]['width'];
+				$height = Yii::app()->params['application'][$name]['height'];
+				
+				$image->auto_crop($width, $height);
+			} else {
+				$width = $image->width;
+				$height = $image->height;
 			}
-
+			
 			$image->save($imageSaveDir);
 
 			$value = array(
 				'width'     => $width,
 				'height'    => $height,
-				'type'      => $image->__get('type'),
+				'type'      => $image->type,
 				'ext'       => $ext,
-				'mime'      => $image->__get('mime'),
+				'mime'      => $image->mime,
 				'path'      => $imageSaveDir,
 				'url'       => $imageSaveUrl,
 			);
