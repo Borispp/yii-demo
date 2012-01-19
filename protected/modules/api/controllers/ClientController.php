@@ -20,15 +20,15 @@ class ClientController extends YsaApiController
 	public function actionLogout()
 	{
 		$this->_validateVars(array(
-			'token'		=> array(
-				'message'	=> 'No token received',
-				'required'	=> TRUE,
-				'event_id'	=> array(
-					'code'		=> '111',
-					'message'	=> 'No event ID found',
-					'required'	=> TRUE
-				)
-		)));
+				'token'		=> array(
+					'message'	=> 'No token received',
+					'required'	=> TRUE,
+					'event_id'	=> array(
+						'code'		=> '111',
+						'message'	=> 'No event ID found',
+						'required'	=> TRUE
+					)
+				)));
 		$obClientAuthList = ClientAuth::model()->findAllByAttributes(array(
 				'device_id'	=> $_POST['device_id'],
 				'token'		=> $_POST['token'],
@@ -117,16 +117,21 @@ class ClientController extends YsaApiController
 					'required'	=> TRUE
 				)
 			));
-		if (!$token = ClientAuth::model()->authByPassword($_POST['email'], $_POST['password'], $_POST['app_key'], $_POST['device_id']))
+		try
+		{
 			$this->_render(array(
-					'state'		=> 0,
-					'message'	=> 'Login failed',
-					'token'		=> NULL,
-				));
-		$this->_render(array(
 				'state'		=> 1,
 				'message'	=> '',
-				'token'		=> $token
+				'token'		=> ClientAuth::model()->authByPassword($_POST['email'], $_POST['password'], $_POST['app_key'], $_POST['device_id'])
 			));
+		}
+		catch(YsaAuthException $e)
+		{
+			$this->_render(array(
+				'state'		=> 0,
+				'message'	=> $e->getMessage(),
+				'token'		=> NULL,
+			));
+		}
 	}
 }

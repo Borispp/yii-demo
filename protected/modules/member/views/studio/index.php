@@ -32,9 +32,9 @@
 		</div>
 		<div class="box-content">
 			<div class="shadow-box">
-				<?php if (count($this->member()->studio->persons)) : ?>
+				<?php if (count($entry->persons)) : ?>
 					<ul class="list persons cf">
-						<?php foreach ($this->member()->studio->persons as $person) : ?>
+						<?php foreach ($entry->persons as $person) : ?>
 							<?php $this->renderPartial('/person/_listperson', array(
 								'entry' => $person,
 							)); ?>
@@ -59,9 +59,9 @@
 		</div>
 		<div class="box-content">
 			<div class="shadow-box">
-				<?php if (count($this->member()->studio->links)) : ?>
+				<?php if (count($entry->links)) : ?>
 					<ul class="list links cf">
-						<?php foreach ($this->member()->studio->links as $link) : ?>
+						<?php foreach ($entry->links as $link) : ?>
 							<?php $this->renderPartial('/link/_listlink', array(
 								'entry' => $link,
 							)); ?>
@@ -73,13 +73,4 @@
 			</div>
 		</div>
 	</section>
-	
-		<?/*
-		<h3>Splash</h3>
-		<div id="studio-splash">
-			<?php $this->renderPartial('_splashForm', array(
-				'entry' => $splash,
-			)); ?>
-		</div>
-		 */?>
 </section>

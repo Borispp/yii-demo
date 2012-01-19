@@ -12,6 +12,7 @@
  * @property string $created
  * @property string $updated
  * @property string $friendly_url
+ * @property string $icon
  * 
  * @property Studio $studio
  */
@@ -59,6 +60,7 @@ class StudioLink extends YsaActiveRecord
 		// will receive user inputs.
 		return array(
 			array('studio_id, name, url', 'required'),
+			array('icon', 'safe'),
 			array('studio_id, rank', 'numerical', 'integerOnly'=>true),
 			array('name, url', 'length', 'max'=>100),
 			array('created, updated', 'safe'),
@@ -113,6 +115,26 @@ class StudioLink extends YsaActiveRecord
 		return $this->studio->isOwner();
 	}
 	
+	public function iconUrl()
+	{
+		if ($this->icon && is_file($this->_iconsPath . DIRECTORY_SEPARATOR . $this->icon)) {
+			$img = $this->_iconsUrl . '/' . $this->icon;
+		} else {
+			$img = ImageHelper::thumb(
+				Yii::app()->params['studio_options']['icon']['width'], 
+				Yii::app()->params['studio_options']['icon']['height'], 
+				Yii::app()->params['studio_options']['default_image_path']
+			);
+		}
+		
+		return $img;
+	}
+	
+	public function icon()
+	{
+		return YsaHtml::image($this->iconUrl());
+	}
+	
 	public function icons()
 	{
 		if (null === $this->_icons) {
@@ -124,16 +146,18 @@ class StudioLink extends YsaActiveRecord
 			foreach ($_icons as $icon) {
 				if (!in_array($icon, array('.', '..', '.DS_Store'))) {
 					preg_match('~([^\.]+)(\.png)+~si', $icon, $matches);
-					$title = ucwords(str_replace(array('_', '-'), ' ', $matches[1]));
+					
+					$name = $matches[1];
+					$title = ucwords(str_replace(array('_', '-'), ' ', $name));
 					$url = $this->_iconsUrl . '/' . $icon;
 					
 					$i = new stdClass();
 					
 					$i->title = $title;
-					$i->icon = $icon;
+					$i->name = $name;
 					$i->url = $url;
 					
-					$this->_icons[] = $i;
+					$this->_icons[$icon] = $i;
 				}
 			}
 		}

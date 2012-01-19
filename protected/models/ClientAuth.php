@@ -93,16 +93,18 @@ class ClientAuth extends YsaActiveRecord
 	 */
 	public function authByPassword($email, $password, $appKey, $deviceId)
 	{
-		$obClient = Client::model()->findByAttributes(array(
-			'email'		=> $email,
-			'password'	=> $password,
-			'state'		=> 1
-		));
-		if (!$obClient)
-			return FALSE;
 		$obApplication = Application::model()->findByKey($appKey);
 		if (!$obApplication)
-			return FALSE;
+			throw new YsaAuthException('No application with such key found');
+		$obClient = Client::model()->findByAttributes(array(
+			'email'		=> $email,
+		));
+		if (!$obClient)
+			throw new YsaAuthException('No client with such email found');
+		if ($obClient->password != $password)
+			throw new YsaAuthException('Wrong password');
+		if (!$obClient->isActive())
+			throw new YsaAuthException('Client is blocked');
 		if ($this->authByToken($token = $this->_generateToken($obClient, $obApplication, $deviceId), $appKey, $deviceId))
 			return $token;
 		$model = new ClientAuth();
@@ -151,5 +153,4 @@ class ClientAuth extends YsaActiveRecord
 			));
 		$obEvent->delete();
 	}
-
 }
