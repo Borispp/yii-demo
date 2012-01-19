@@ -233,7 +233,7 @@ class SettingsController extends YsaMemberController
 	
 	public function actionFacebookConnect()
 	{
-		$authIdentity = Yii::app()->eauth->getIdentity( 'facebook', array('scope' => 'email'));
+		$authIdentity = Yii::app()->eauth->getIdentity( 'facebook', array('scope' => 'email,publish_stream,offline_access'));
 		$authIdentity->redirectUrl = $this->createAbsoluteUrl('settings/facebook');
 		$authIdentity->cancelUrl = $this->createAbsoluteUrl('settings/facebook');
 
