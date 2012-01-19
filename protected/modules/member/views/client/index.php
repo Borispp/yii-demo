@@ -1,15 +1,15 @@
 <div class="w" id="client-list">
-	<p><?php echo YsaHtml::link('Notifications', array('notification/')); ?></p>
-	
-	
 	<section class="box">
 		<div class="box-title">
 			<h3>Clients</h3>
 			<div class="box-title-button">
+				<?php echo YsaHtml::link('Notifications', array('notification/'), array('class' => 'btn small')); ?>
 				<?php echo YsaHtml::link('<span class="icon i_plus_alt"></span>Register New Client', array('add'), array('class' => 'secondary iconed')); ?>
 			</div>
 		</div>
 		<div class="box-content">
+			
+			
 			
 			<?php $this->widget('YsaSearchBar', array(
 				'searchOptions' => $searchOptions,
