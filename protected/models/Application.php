@@ -181,6 +181,25 @@ class Application extends YsaActiveRecord
 			self::STATE_REJECTED			=> 'Rejected by Apple',
 		);
 	}
+	
+	public function getMemberStates()
+	{
+		return array(
+			self::STATE_CREATED				=> 'Created and Waiting for Information',
+			self::STATE_FILLED				=> 'Filled & Waiting for Administrator Approval',
+			self::STATE_APPROVED			=> 'Approved and Sent to Apple',
+			self::STATE_WAITING_APPROVAL	=> 'Waiting for Apple Approval',
+			self::STATE_READY				=> 'Ready',
+			self::STATE_UNAPROVVED			=> 'Unapproved',
+			self::STATE_REJECTED			=> 'Rejected by Apple',
+		);
+	}
+	
+	public function memberState()
+	{
+		$states = $this->getMemberStates();
+		return $states[$this->state];
+	}
 
 	/**
 	 * TODO

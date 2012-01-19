@@ -99,7 +99,10 @@ class ApplicationController extends YsaMemberController
             $this->redirect(array('application/create'));
         }
 		
-		$this->setMemberPageTitle('Application Settings');
+		$this->crumb('Application', array('application/'))
+			 ->crumb('Preview');
+		
+		$this->setMemberPageTitle('Application Preview');
 		
         $this->render('settings', array(
             'app' => $app,
