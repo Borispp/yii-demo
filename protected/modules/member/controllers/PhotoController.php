@@ -97,13 +97,30 @@ class PhotoController extends YsaMemberController
 				$authIdentity = Yii::app()->eauth->getIdentity( 'facebook', array('scope' => 'email,publish_stream'));
 				if ($authIdentity->authenticate())
 				{
-					$data = array(
-						'from' => Yii::app()->params['paramName']['facebook_app_id'],
-						'message' => $entryComment->comment,
-						'link' => $entry->shareUrl(),
-						'picture' => $entry->fullUrl(),
-					);
-					$authIdentity->makeSignedRequest( 'https://graph.facebook.com/me/feed', array('data' => $data) );
+					try
+					{
+						$data = array(
+							'from' => Yii::app()->params['paramName']['facebook_app_id'],
+							'message' => $entryComment->comment,
+							'link' => $entry->shareUrl(),
+							'picture' => $entry->fullUrl(),
+						);
+						$authIdentity->makeSignedRequest( 'https://graph.facebook.com/me/feed', array('data' => $data) );
+					}
+					catch( EAuthException $e )
+					{
+						switch ($e->getCode())
+						{
+							// access forbidden
+							case 403: 
+								$this->setError( 'No enought access rights to post on your Facebook wall. Please, <a href="/logout/">log in</a> again via Facebook and provide necessary access rights' ); 
+								break;
+							// token expired
+							case 400:
+							default:
+								$this->setError( 'Unknown error while posting on your Facebook wall. You must <a href="/logout/">log out</a> and log in again with Facebook' );
+						}
+					}
 				}
 			}
 			
