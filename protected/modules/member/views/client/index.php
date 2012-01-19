@@ -1,7 +1,4 @@
 <div class="w" id="client-list">
-	<p><?php echo YsaHtml::link('Notifications', array('notification/')); ?></p>
-	
-	
 	<section class="box">
 		<div class="box-title">
 			<h3>Clients</h3>
@@ -10,12 +7,14 @@
 			</div>
 		</div>
 		<div class="box-content">
-			
 			<?php $this->widget('YsaSearchBar', array(
 				'searchOptions' => $searchOptions,
 			));?>
 			
 			<div class="data-box shadow-box">
+				
+				<p class="r"><?php echo YsaHtml::link('Notifications', array('notification/'), array('class' => 'btn')); ?></p>
+				
 				<table class="data">
 					<thead>
 						<tr>
