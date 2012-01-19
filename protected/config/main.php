@@ -379,6 +379,13 @@ return array(
 					'label'		=> 'Copyright text'
 				)
 			),
-		)
+			
+			'default_image_path' => rtrim(Yii::getPathOfAlias('webroot.resources.images'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'no-image.png',
+			
+			'icon' => array(
+				'width'  => 24,
+				'height' => 24,
+			),
+		),
 	),
 );

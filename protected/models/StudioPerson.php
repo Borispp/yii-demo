@@ -56,7 +56,7 @@ class StudioPerson extends YsaActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('studio_id', 'required'),
+			array('studio_id, name', 'required'),
 			array('studio_id, rank', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>100),
 			array('photo', 'file', 'types'=>'jpg, gif, png', 'maxSize'=> Yii::app()->params['max_image_size'], 'tooLarge'=>'The file was larger than 5MB Please upload a smaller file.', 'allowEmpty' => true),

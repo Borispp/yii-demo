@@ -33,6 +33,10 @@ $(function(){
 				});
 			});
 			
+			album.find('a.move').live('click', function(e){
+				e.preventDefault();
+			});
+			
 			album.find('a.setcover').live('click', function(e){
 				e.preventDefault();
 				var link = $(this);
@@ -44,8 +48,6 @@ $(function(){
 					}
 				}, 'json');
 			});
-			
-
 			
 			function _init_uploader()
 			{
@@ -93,6 +95,15 @@ $(function(){
 				}
 			});
 			
+			$('#album-smugmug-import-button').fancybox({
+				fitToView:true,
+				autoSize:false,
+				minWidth:720,
+				minHeight:400,
+				margin:40,
+				padding:0
+			});
+			
 			$('#album-slideshow-button').click(function(e){
 				e.preventDefault();
 				var images = [];
@@ -104,10 +115,6 @@ $(function(){
 				$.fancybox.open(images);
 			});
 			
-			
-			
-			
-			
 			var smugmug_container = $('#photo-import-smugmug-container');
 			
 			var smugmug_data = smugmug_container.find('.data');
@@ -117,8 +124,14 @@ $(function(){
 			smugmug_container.find('.smugmug-import-selected').live('click', function(e){
 				e.preventDefault();
 				var link = $(this);
-				
 				var chain = new Array;
+				
+				var buttons = smugmug_container.find('.buttons');
+				var importing = smugmug_container.find('.importing');
+				
+				buttons.hide();
+				importing.show();
+				
 				link.parents('form').find('input[type=checkbox]:checked').each(function(){
 					var checkbox = $(this);
 					chain.push($.post(_member_url + '/photo/smugmugImportPhoto', {
@@ -133,43 +146,61 @@ $(function(){
 				});
 				
 				$.when.apply(this, chain).done(function(){
-					$._alert('Photos were successfully imported.')
+					$.fancybox.close();
+					buttons.show();
+					importing.hide();
+					smugmug_import.html('');
+					smugmug_container.find('select').val('');
+					$.uniform.update(); 
+					$._flash('Photos were successfully imported.', {type:'success'});
 				});
 			});
 			
-			smugmug_container.find('.smugmug-check-all, .smugmug-check-none').live('click', function(e){
+			smugmug_container.find('.smugmug-check-all, .smugmug-check-none, .smugmug-check-invert').live('click', function(e){
 				e.preventDefault();
 				var link = $(this);
-				link.parents('form').find('input[type=checkbox]').attr('checked', link.hasClass('smugmug-check-all'))
+				var checkboxes = link.parents('form').find('input:checkbox');
+				if (link.hasClass('smugmug-check-all') || link.hasClass('smugmug-check-none')) {
+					checkboxes.attr('checked', link.hasClass('smugmug-check-all'));
+				} else if (link.hasClass('smugmug-check-invert')) {
+					checkboxes.each(function(){
+						$(this).attr('checked', !$(this).attr('checked'));
+					})
+				}
+				$.uniform.update(); 
 			});
 			
-			smugmug_container.find('input[type=button]').click(function(e){
+			smugmug_container.find('input:button').click(function(e){
 				e.preventDefault();
-				
 				var smugmug = smugmug_container.find('select').val();
-				
 				if (!smugmug) {
 					return;
 				}
-				
 				smugmug_data.hide();
 				smugmug_loading.show();
 				smugmug_import.html('');
-				
 				$.post(_member_url + '/smugmug/album/', {smugmug:smugmug}, function(data){
 					smugmug_loading.hide();
 					smugmug_data.show();
 					if (data.success) {
 						smugmug_import.html(data.html);
+						smugmug_import.find('input:checkbox').uniform();
 					} else {
 						$._alert(data.msg);
 					}
 				}, 'json');
-			});		
+			});
 			
-			
-			$('#album-order-sizes form').ajaxForm();
-			$('#album-order-availability form').ajaxForm();
+			$('#album-order-availability form').ajaxForm({
+				beforeSubmit:function(items, frm){
+					var submit = frm.find('input:submit');
+					submit.val(submit.data('loading')).addClass('disabled');
+				},
+				success:function(data, success, response, frm){
+					var submit = frm.find('input:submit');
+					submit.val(submit.data('value')).removeClass('disabled');
+				}
+			});
 		});
 	}
 	

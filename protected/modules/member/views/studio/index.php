@@ -27,14 +27,14 @@
 		<div class="box-title">
 			<h3>Studio Photographers</h3>
 			<div class="box-title-button">
-				<?php echo YsaHtml::link('Add Photographer', array('person/add'), array('class' => 'btn blue')); ?>
+				<?php echo YsaHtml::link('<span class="icon i_plus_alt"></span>Add Photographer', array('person/add'), array('class' => 'secondary iconed fancybox.ajax', 'id' => 'studio-person-add-button')); ?>
 			</div>
 		</div>
 		<div class="box-content">
 			<div class="shadow-box">
-				<?php if (count($this->member()->studio->persons)) : ?>
-					<ul>
-						<?php foreach ($this->member()->studio->persons as $person) : ?>
+				<?php if (count($entry->persons)) : ?>
+					<ul class="list persons cf">
+						<?php foreach ($entry->persons as $person) : ?>
 							<?php $this->renderPartial('/person/_listperson', array(
 								'entry' => $person,
 							)); ?>
@@ -50,33 +50,27 @@
 	<section class="box" id="studio-links">
 		<div class="box-title">
 			<h3>Links</h3>
+			<?php if (count($this->member()->studio->links) < 2) : ?>
+				<div class="box-title-button">
+					<?php echo YsaHtml::link('<span class="icon i_plus_alt"></span>Add Link', array('link/add'), array('class' => 'secondary iconed fancybox.ajax', 'id' => 'studio-link-add-button')); ?>
+				</div>
+			<?php endif; ?>
+			
 		</div>
 		<div class="box-content">
-			
 			<div class="shadow-box">
-				<ul>
-					<?php foreach ($this->member()->studio->links as $link) : ?>
-						<?php $this->renderPartial('/link/_listlink', array(
-							'entry' => $link,
-						)); ?>
-					<?php endforeach; ?>
-				</ul>
-				
-				<?php $this->renderPartial('/link/_form', array(
-					'entry' => $entryLink,
-				)); ?>
-				
+				<?php if (count($entry->links)) : ?>
+					<ul class="list links cf">
+						<?php foreach ($entry->links as $link) : ?>
+							<?php $this->renderPartial('/link/_listlink', array(
+								'entry' => $link,
+							)); ?>
+						<?php endforeach; ?>
+					</ul>
+				<?php else:?>
+					<div class="empty-list">Empty List</div>
+				<?php endif; ?>
 			</div>
-
 		</div>
 	</section>
-	
-		<?/*
-		<h3>Splash</h3>
-		<div id="studio-splash">
-			<?php $this->renderPartial('_splashForm', array(
-				'entry' => $splash,
-			)); ?>
-		</div>
-		 */?>
 </section>

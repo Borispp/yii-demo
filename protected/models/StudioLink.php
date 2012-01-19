@@ -12,12 +12,27 @@
  * @property string $created
  * @property string $updated
  * @property string $friendly_url
+ * @property string $icon
  * 
  * @property Studio $studio
  */
 class StudioLink extends YsaActiveRecord
 {
 	protected $_studio;
+	
+	protected $_iconsUrl;
+	
+	protected $_iconsPath;
+	
+	protected $_icons;
+	
+	public function init()
+	{
+		parent::init();
+		
+		$this->_iconsPath = rtrim(Yii::getPathOfAlias('webroot.resources.images.icons'), '/');
+		$this->_iconsUrl = Yii::app()->getBaseUrl(true) . '/resources/images/icons';
+	}
 	
 	/**
 	 * Returns the static model of the specified AR class.
@@ -45,6 +60,7 @@ class StudioLink extends YsaActiveRecord
 		// will receive user inputs.
 		return array(
 			array('studio_id, name, url', 'required'),
+			array('icon', 'safe'),
 			array('studio_id, rank', 'numerical', 'integerOnly'=>true),
 			array('name, url', 'length', 'max'=>100),
 			array('created, updated', 'safe'),
@@ -97,5 +113,55 @@ class StudioLink extends YsaActiveRecord
 	public function isOwner()
 	{
 		return $this->studio->isOwner();
+	}
+	
+	public function iconUrl()
+	{
+		if ($this->icon && is_file($this->_iconsPath . DIRECTORY_SEPARATOR . $this->icon)) {
+			$img = $this->_iconsUrl . '/' . $this->icon;
+		} else {
+			$img = ImageHelper::thumb(
+				Yii::app()->params['studio_options']['icon']['width'], 
+				Yii::app()->params['studio_options']['icon']['height'], 
+				Yii::app()->params['studio_options']['default_image_path']
+			);
+		}
+		
+		return $img;
+	}
+	
+	public function icon()
+	{
+		return YsaHtml::image($this->iconUrl());
+	}
+	
+	public function icons()
+	{
+		if (null === $this->_icons) {
+			
+			$_icons = scandir($this->_iconsPath);
+			
+			$this->_icons = array();
+			
+			foreach ($_icons as $icon) {
+				if (!in_array($icon, array('.', '..', '.DS_Store'))) {
+					preg_match('~([^\.]+)(\.png)+~si', $icon, $matches);
+					
+					$name = $matches[1];
+					$title = ucwords(str_replace(array('_', '-'), ' ', $name));
+					$url = $this->_iconsUrl . '/' . $icon;
+					
+					$i = new stdClass();
+					
+					$i->title = $title;
+					$i->name = $name;
+					$i->url = $url;
+					
+					$this->_icons[$icon] = $i;
+				}
+			}
+		}
+		
+		return $this->_icons;
 	}
 }

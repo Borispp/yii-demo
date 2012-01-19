@@ -1,10 +1,10 @@
-<div class="form">
+<div class="form <?php echo Yii::app()->request->isAjaxRequest ? 'ajax-form' : 'standart-form'?>">
 	<?php $form=$this->beginWidget('YsaMemberForm', array(
 			'id'=>'studio-add-person-form',
 			'enableAjaxValidation'=>false,
 			'htmlOptions'=>array('enctype' => 'multipart/form-data'),
 	)); ?>
-	<section>
+	<section class="cf">
 		<?php echo $form->labelEx($entry,'name'); ?>
 		<div>
 			<?php echo $form->textField($entry,'name', array('maxlength' => 100)); ?>
@@ -14,12 +14,12 @@
 	
 	
 	<?php if ($entry->photo) : ?>
-		<section>
+		<section class="cf">
 			<?php echo $entry->photo(); ?>
 				<?php echo YsaHtml::link('x', array('person/deleteImage/' . $entry->id)); ?>
 		</section>
 	<?php else: ?>
-		<section>
+		<section class="cf">
 			<?php echo $form->labelEx($entry,'photo'); ?>
 			<div>
 				<?php echo $form->fileField($entry,'photo', array('maxlength' => 100)); ?>
@@ -30,7 +30,7 @@
 	
 
 	
-	<section>
+	<section class="cf">
 		<?php echo $form->labelEx($entry,'description'); ?>
 		<div>
 			<?php echo $form->textArea($entry,'description', array('cols' => 40, 'rows' => 4)); ?>

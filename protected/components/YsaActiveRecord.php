@@ -10,7 +10,7 @@ class YsaActiveRecord extends CActiveRecord
 	const LEVEL = '—';
 
 	const SEARCH_SESSION_NAME = 'ar_search';
-
+	
 	protected $_searchFields;
 
 	public function getStates()

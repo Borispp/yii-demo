@@ -1,4 +1,4 @@
-<div class="form standart-form">
+<div class="form  <?php echo Yii::app()->request->isAjaxRequest ? 'ajax-form' : 'standart-form'?>">
 	<?php $form=$this->beginWidget('YsaMemberForm', array(
 			'id'=>'studio-add-link-form',
 			'enableAjaxValidation'=>false,
@@ -17,8 +17,32 @@
 			<?php echo $form->error($entry,'url'); ?>
 		</div>
 	</section>
+	<section class="cf">
+		<?php echo $form->labelEx($entry,'icon'); ?>
+		<div id="studio-form-icon-field">
+			<ul>
+				<?php foreach ($entry->icons() as $icon => $values) : ?>
+					<li<?php echo $icon == $entry->icon ? ' class="selected"' : ''?>>
+						<figure data-icon="<?php echo $icon?>"><img src="<?php echo $values->url; ?>" alt="<?php echo $values->title; ?>"/></figure>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+			<?php echo $form->hiddenField($entry,'icon'); ?>
+		</div>
+	</section>
 	<div class="button">
 		<?php echo YsaHtml::submitButton($entry->isNewRecord ? 'Add' : 'Save', array('class' => 'blue')); ?>
 	</div>
 	<?php $this->endWidget(); ?>
 </div>
+<script type="text/javascript">
+	$(function(){
+		var field = $('#studio-form-icon-field');
+		field.find('figure').click(function(e){
+			e.preventDefault();
+			var figure = $(this);
+			figure.parent().addClass('selected').siblings().removeClass('selected');
+			field.find('input:hidden').val(figure.data('icon'));
+		});
+	});
+</script>

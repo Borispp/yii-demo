@@ -1,12 +1,13 @@
-<li id="member-person-<?php echo $entry->id?>">
+<li id="studio-person-<?php echo $entry->id?>" class="cf">
 	<figure>
 		<?php echo $entry->photo(); ?>
 	</figure>
-	<strong>
-		<?php echo $entry->name; ?>
-	</strong>
-	
-	<?php echo YsaHtml::link('view', array('person/view/' . $entry->id)); ?>
-	<?php echo YsaHtml::link('edit', array('person/edit/' . $entry->id)); ?>
-	<?php echo YsaHtml::link('delete', array('person/delete/' . $entry->id)); ?>
+	<?php echo YsaHtml::link('<strong>' . $entry->name . '</strong>', array('person/view/' . $entry->id), array('class' => 'view')); ?>
+	<span class="menu">
+		<?php echo YsaHtml::link('Edit', array('person/edit/' . $entry->id), array('class' => 'icon i_brush', 'title' => 'Edit Shooter Details')); ?>
+		<?php echo YsaHtml::link('Delete', array('person/delete/' . $entry->id), array('class' => 'del icon i_x_alt', 'title' => 'Delete Shooter')); ?>
+	</span>
+	<span class="sort">
+		<?php echo YsaHtml::link('Sort', '#', array('class' => 'move icon i_move')); ?>
+	</span>
 </li>

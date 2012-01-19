@@ -6,7 +6,7 @@
 		<div class="box-title">
 			<h3>Clients</h3>
 			<div class="box-title-button">
-				<?php echo YsaHtml::link('Register New Client', array('add'), array('class' => 'btn blue')); ?>
+				<?php echo YsaHtml::link('<span class="icon i_plus_alt"></span>Register New Client', array('add'), array('class' => 'secondary iconed')); ?>
 			</div>
 		</div>
 		<div class="box-content">

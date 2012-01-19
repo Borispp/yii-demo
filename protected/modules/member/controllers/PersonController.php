@@ -17,11 +17,25 @@ class PersonController extends YsaMemberController
 				$entry->uploadPhoto();
 				$entry->save();
 				
+				$this->setSuccess('Shooter was successfully added.');
+				
 				$this->redirect(array('studio/'));
 			}
 		}
 		
+		
+		if (Yii::app()->request->isAjaxRequest || isset($_GET['iframe'])) {
+			$this->renderPartial('add', array(
+				'entry' => $entry,
+			));
+			Yii::app()->end();
+		}
+		
+		
 		$this->setMemberPageTitle('Add Shooter');
+		
+		$this->crumb('Studio', array('studio/'))
+			 ->crumb('Add Shooter');
 		
 		$this->render('add', array(
 			'entry' => $entry,
@@ -36,7 +50,17 @@ class PersonController extends YsaMemberController
 			$this->redirect(array('studio/'));
 		}
 		
+		if (Yii::app()->request->isAjaxRequest) {
+			$this->renderPartial('view', array(
+				'entry' => $entry,
+			));
+			Yii::app()->end();
+		}
+		
 		$this->setMemberPageTitle('View Shooter');
+		
+		$this->crumb('Studio', array('studio/'))
+			 ->crumb('View Shooter');
 		
 		$this->render('view', array(
 			'entry' => $entry,
