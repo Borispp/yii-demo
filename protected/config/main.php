@@ -97,6 +97,9 @@ return array(
 				'/member/settings/facebook/connect/<service_param>/<service>'=>'member/settings/facebookconnect',
 				'/member/settings/facebook/unlink/'=>'member/settings/facebookunlink',
 
+				//image route
+				'/image/<action:\w+>/<imageId>' => 'image/<action>',
+
 				// page routes
 				array(
 					'class' => 'application.components.YsaPageUrlRule',
