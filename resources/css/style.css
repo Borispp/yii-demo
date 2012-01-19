@@ -2323,7 +2323,7 @@ table.data {
   width: 100%;
   border: 0;
 }
-table.data th, table.data td {
+table.data td, table.data th {
   border: 0;
   text-align: left;
 }
@@ -2342,7 +2342,7 @@ table.data thead th {
   border-bottom: 1px solid #dddddd;
   padding: 0 5px 10px 5px;
 }
-table.data tbody tr:nth-child(2n) td {
+table.data tr:nth-child(2n) th, table.data tr:nth-child(2n) td {
   background-color: #f3f3f3;
 }
 table.data a.title {
@@ -3075,12 +3075,12 @@ section.smugmug-import .import li span {
   width: 940px;
   height: 700px;
 }
-#client-list .search-bar, #event-list .search-bar {
+#client-list .search-bar, #notification-list .search-bar, #event-list .search-bar {
   float: left;
   width: 16%;
   background: #fff;
 }
-#client-list .data-box, #event-list .data-box {
+#client-list .data-box, #notification-list .data-box, #event-list .data-box {
   width: 73%;
   float: right;
 }
