@@ -262,7 +262,8 @@ class EventPhoto extends YsaActiveRecord
 	public function previewUrl($width = 300, $height = 200)
 	{
 		if (is_file($this->path())) {
-			return ImageHelper::thumb($width, $height, $this->path());
+			return Yii::app()->createAbsoluteUrl('image/thumb/'.$this->_getKey()).'?width='.$width.'&height='.$height;
+//			return ImageHelper::thumb($width, $height, $this->path());
 		} else {
 			return $this->defaultPicUrl($width, $height);
 		}
@@ -469,14 +470,14 @@ class EventPhoto extends YsaActiveRecord
 	
 	/**
 	 * Allow to FB like on iPad
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public function canShare()
 	{
 		return $this->album->can_share ? $this->can_share : false;
 	}
-	
+
 	/**
 	 * Allow to share comments on Facebook
 	 *

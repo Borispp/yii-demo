@@ -26,6 +26,29 @@ class ImageHelper {
 	 */
 	public static function thumb($width, $height, $img, $options = null)
 	{
+		$path = self::thumbPath($width, $height, $img, $options = null);
+		if (isset($relative) && $relative) {
+			$path = str_replace(YiiBase::getPathOfAlias('webroot'), '', $path);
+		} else {
+			$path = Yii::app()->getBaseUrl(true) . str_replace(YiiBase::getPathOfAlias('webroot'), '', $path);
+		}
+
+		return $path;
+	}
+
+	/**
+	 * Create a thumbnail of an image and returns relative path in webroot
+	 * the options array is an associative array which can take the values
+	 * quality (jpg quality) and method (the method for resizing)
+	 *
+	 * @param int $width
+	 * @param int $height
+	 * @param string $img
+	 * @param array $options
+	 * @return string $path
+	 */
+	public static function thumbPath($width, $height, $img, $options = null)
+	{
 		if(!file_exists($img)){
 			$img = str_replace('\\', '/', YiiBase::getPathOfAlias('webroot').$img);
 			if(!file_exists($img)){
@@ -57,13 +80,6 @@ class ImageHelper {
 			$thumb->{$method}($width, $height);
 			$thumb->save($thumb_path.$thumb_name);
 		}
-
-		if (isset($relative) && $relative) {
-			$path = str_replace(YiiBase::getPathOfAlias('webroot'), '', $thumb_path.$thumb_name);
-		} else {
-			$path = Yii::app()->getBaseUrl(true) . str_replace(YiiBase::getPathOfAlias('webroot'), '', $thumb_path.$thumb_name);
-		}
-
-		return $path;
+		return $thumb_path.$thumb_name;
 	}
 }

@@ -15,4 +15,19 @@ class ImageController extends YsaFrontController
 		readfile($fname);
 		die;
 	}
+
+	public function actionThumb($imageId)
+	{
+		if (!($obEventPhoto = EventPhoto::model()->findByKey($imageId)))
+			throw new CHttpException(404,'The requested image does not exist.');
+		$fname = ImageHelper::thumbPath($_GET['width'], $_GET['height'], $obEventPhoto->path());
+		header("HTTP/1.1 200 OK");
+		header("Connection: close");
+		header ('Content-Type: ' . mime_content_type($fname));
+		header("Accept-Ranges: bytes");
+		header("Content-Disposition: Attachment; filename=".basename($fname));
+		header("Content-Length: ".filesize($fname));
+		readfile($fname);
+		die;
+	}
 }
