@@ -4,13 +4,15 @@
 	)); ?>
 
 	<section class="part style shadow-box">
+		<?php if (!$model->style) {
+			$model->style = $model->defaultStyle();
+		 }?>
 		<?php echo $form->labelEx($model, 'style', array('class' => 'title')); ?>
 		<?php foreach ($model->getStylesList() as $kStyle => $style) : ?>
 			<a href="#" data-style="<?php echo $kStyle; ?>" class="<?php echo $kStyle; ?><?php echo $kStyle == $model->style ? ' selected' : ''?>"><?php echo $style ?></a>
 		<?php endforeach; ?>
 		<?php echo $form->hiddenField($model, 'style'); ?>
 	</section>
-
 	<section class="part icons shadow-box">
 		<?php echo $form->labelEx($model, 'icon', array('class' => 'title')); ?>
 		<?php
@@ -21,7 +23,6 @@
 			));
 		?>
 	</section>
-
 	<section class="part itunes-logo shadow-box">
 		<?php echo $form->labelEx($model, 'itunes_logo', array('class' => 'title')); ?>
 		<?php

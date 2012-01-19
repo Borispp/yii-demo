@@ -924,13 +924,10 @@ a.icon:hover {
   position: fixed;
   right: 10px;
   bottom: 10px;
-  border: 1px solid red;
-  background: #fff;
-  padding: 10px;
-  font-size: 10px;
-  color: #000;
-  line-height: 1;
-  display: block;
+  background: url(../images/page-loading.gif) 0 0 no-repeat;
+  width: 48px;
+  height: 48px;
+  text-indent: -9999px;
   display: none;
 }
 /*
@@ -2366,6 +2363,12 @@ table.data .actions {
 }
 /* Event Page
 *******************************/
+#event #uniform-description-state span, #album #uniform-description-state span {
+  width: 115px;
+}
+#event #uniform-description-state #description-state, #album #uniform-description-state #description-state {
+  min-width: 150px;
+}
 #event .description, #album .description {
   float: left;
   width: 16%;
@@ -2376,7 +2379,7 @@ table.data .actions {
   color: #5e646e;
   font-weight: 700;
   text-transform: uppercase;
-  margin-bottom: 1em;
+  margin-bottom: .5em;
 }
 #event .description dl,
 #album .description dl,
@@ -2743,6 +2746,13 @@ section.smugmug-import .import li span {
 }
 #wizard-accordion .step .loading {
   display: none;
+  position: absolute;
+  left: 0;
+  bottom: 5px;
+  width: 50px;
+  height: 6px;
+  background: url(../images/wizard-loading.gif) 0 0 no-repeat;
+  text-indent: -9999px;
 }
 #wizard-accordion .step section.part {
   position: relative;

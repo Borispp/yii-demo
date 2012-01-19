@@ -106,7 +106,7 @@ class StudioPerson extends YsaActiveRecord
 			return false;
 		}
 		
-		$image = new Image($this->photo->getTempName());
+		$image = new YsaImage($this->photo->getTempName());
 		
 		$image->resize(
 			Yii::app()->params['studio']['person']['photo']['width'], 

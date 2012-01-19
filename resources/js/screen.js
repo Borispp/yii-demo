@@ -10,6 +10,16 @@ $(function(){
 		}
 	};
 	
+	$.fn.backgroundImageUrl = function(options) {
+		if (options){
+			return this.each(function(){
+				$(this).css('backgroundImage','url:('+options+')');
+			});
+		}else {
+			return $(this).css('backgroundImage').replace(/url\(|\)|"|'/g,"");
+		}
+	};
+	
 	$.leadingZero = function (value) {
 		value = parseInt(value, 10);
 		if(!isNaN(value)) {
@@ -46,8 +56,14 @@ $(function(){
 		});
 	});
 	
+	
+	
+	
+//	preload
+	
 	// add ajax loader to page on any ajax call
 	var ajax_loader = $('#ajax-loader');
+	$.preload(ajax_loader.backgroundImageUrl());
 	$(document).ajaxStart(function(){
 		ajax_loader.show();
 	}).ajaxComplete(function(){

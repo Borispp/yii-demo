@@ -8,21 +8,22 @@
 			</div>
 		</div>
 		<div class="box-content">
-			<div class="description shadow-box">
-				
-				<div class="title">Album Information</div>
+			<div class="description shadow-box <?php echo strtolower($entry->state())?>">
 				
 				<?php if ($entry->description) : ?>
+					<div class="title">Description</div>
 					<p><?php echo $entry->description; ?></p>
 				<?php endif; ?>
+					
+				<div class="title">State</div>
+				<p><?php echo YsaHtml::dropDownList('state', $entry->state, $entry->getStates(), array('id' => 'description-state')); ?></p>
 				
+					
+				<div class="title">Album Information</div>
 				<dl>
 					<dt>Unique ID</dt>
 					<dd><?php echo $entry->id; ?></dd>
 
-					<dt>State</dt>
-					<dd class="<?php echo strtolower($entry->state()); ?>"><?php echo $entry->state(); ?></dd>
-					
 					<dt>Photos</dt>
 					<dd><?php echo count($entry->photos); ?></dd>
 					
@@ -47,7 +48,7 @@
 					<?php echo YsaHtml::link('Upload Photos', '#photo-upload-container', array('class' => 'btn blue fancybox fancybox.inline', 'id' => 'album-upload-photos-button')); ?>
 					<?php if ($this->member()->smugmugAuthorized()) : ?>
 					
-						<?php echo YsaHtml::link('Import from SmugMug', '#photo-import-smugmug-container', array('class' => 'btn blue fancybox fancybox.inline', 'id' => 'album-smugmug-import-button')); ?>
+						<?php echo YsaHtml::link('Import from SmugMug', '#photo-import-smugmug-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-smugmug-import-button')); ?>
 					<?php endif;?>
 					
 					

@@ -808,31 +808,19 @@ table.data .actions {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Event Page
 *******************************/
 #event,
 #album {
+	#uniform-description-state {
+		span {
+			width:115px;
+		}
+		#description-state {
+			min-width:150px;
+		}
+	}
+
 	.description {
 		float:left;
 		width:16%;
@@ -843,7 +831,7 @@ table.data .actions {
 			color:@dark-gray-alpha;
 			font-weight:700;
 			text-transform:uppercase;
-			margin-bottom:1em;
+			margin-bottom:.5em;
 		}
 		dl,dt,dd {
 			margin:0;
@@ -1198,6 +1186,13 @@ section.smugmug-import {
 }
 #wizard-accordion .step .loading {
 	display: none;
+	position:absolute;
+	left:0;
+	bottom:5px;
+	width:50px;
+	height:6px;
+	background:url(../images/wizard-loading.gif) 0 0 no-repeat;
+	text-indent:-9999px;
 }
 #wizard-accordion .step section.part {
 	position: relative;

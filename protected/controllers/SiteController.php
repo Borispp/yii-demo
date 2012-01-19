@@ -47,9 +47,12 @@ class SiteController extends YsaFrontController
     public function actionError()
     {
         $error=Yii::app()->errorHandler->error;
+		
         if($error) {
             if(Yii::app()->request->isAjaxRequest) {
-                echo $error['message'];
+                $this->sendJsonError(array(
+					'msg' => $error['message'],
+				));
             } else {
                 $this->render('error', $error);
             }

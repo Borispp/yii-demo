@@ -282,6 +282,10 @@ class ApplicationController extends YsaMemberController
 		
 		$this->setMemberPageTitle($page->title);
 		
+		$this->crumb('Application', array('application/'))
+			 ->crumb('Sucessfully Submitted');
+		
+		
 		$this->render('congratulations', array(
 			'page' => $page,
 		));

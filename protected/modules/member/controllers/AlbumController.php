@@ -182,12 +182,17 @@ class AlbumController extends YsaMemberController
 		if (Yii::app()->getRequest()->isAjaxRequest) {
 			$entry = EventAlbum::model()->findByPk($albumId);
 			if ($entry && $entry->event->isOwner()) {
-				if (isset($_POST['state'])) {
+				if (isset($_POST['state']) && in_array($_POST['state'], array_keys(EventAlbum::model()->getStates()))) {
 					$entry->state = intval($_POST['state']);
 					$entry->save();
+					$this->sendJsonSuccess();
+				} else {
+					$this->sendJsonError(array(
+						'msg' => 'Something went wrong. Please reload the page and try again',
+					));
 				}
 			}
-			$this->sendJsonSuccess();
+			
 		} else {
 			$this->redirect(Yii::app()->homeUrl);
 		}
