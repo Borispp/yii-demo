@@ -8,14 +8,14 @@
 			</div>
 		</div>
 		<div class="box-content">
-			
-			
-			
 			<?php $this->widget('YsaSearchBar', array(
 				'searchOptions' => $searchOptions,
 			));?>
 			
 			<div class="data-box shadow-box">
+				
+				<p class="r"><?php echo YsaHtml::link('Notifications', array('notification/'), array('class' => 'btn')); ?></p>
+				
 				<table class="data">
 					<thead>
 						<tr>
