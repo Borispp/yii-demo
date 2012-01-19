@@ -139,16 +139,22 @@ class User extends YsaActiveRecord
 		$this->password = YsaHelpers::encrypt($this->password);
 	}
 
+	/**
+	 * @return boolean whether the saving succeeds
+	 */
 	public function activate()
 	{
 		$this->state = self::STATE_ACTIVE;
-		$this->save();
+		return $this->save( false );
 	}
 
+	/**
+	 * @return boolean whether the saving succeeds
+	 */
 	public function ban()
 	{
 		$this->state = self::STATE_BANNED;
-		$this->save();
+		return $this->save( false );
 	}
 
 	public function name()
