@@ -123,7 +123,7 @@ class StudioLink extends YsaActiveRecord
 			$img = ImageHelper::thumb(
 				Yii::app()->params['studio_options']['icon']['width'], 
 				Yii::app()->params['studio_options']['icon']['height'], 
-				Yii::app()->params['studio_options']['default_image_path']
+				Yii::app()->params['default_image_path']
 			);
 		}
 		

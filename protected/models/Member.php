@@ -1,6 +1,11 @@
 <?php
 /**
  * @property UserSubscription $UserSubscription
+ * @property Event $event
+ * @property Membership $Membership
+ * @property Client $clients
+ * @property Ticket $tickets
+ * @property Ticket $open_tickets
  */
 class Member extends User
 {
@@ -27,6 +32,8 @@ class Member extends User
 			'clients'			=> array(self::HAS_MANY, 'Client', 'user_id'),
 			'Membership'		=> array(self::MANY_MANY, 'Membership', 'user_subscription(user_id, membership_id)'),
 			'event'				=> array(self::HAS_MANY, 'Event', 'user_id'),
+			'tickets'			=> array(self::HAS_MANY, 'Ticket', 'user_id', 'order' => 'created DESC'),
+			'open_tickets'		=> array(self::HAS_MANY, 'Ticket', 'user_id', 'order' => 'created DESC', 'condition' => 'state=:state', 'params' => array('state' => Ticket::STATE_ACTIVE)),
 		) + parent::relations();
 	}
 
@@ -217,5 +224,13 @@ class Member extends User
 	public function unlinkFacebook()
 	{
 		return $this->deleteOptions( array( UserOption::FACEBOOK_EMAIL, UserOption::FACEBOOK_ID) );
+	}
+	
+	/**
+	 * Add notification to selected Member 
+	 */
+	public function notify()
+	{
+		
 	}
 }
