@@ -31,16 +31,6 @@ jQuery(function($){
 					});
 		}
 	});
-
-	$('#send-push-link').fancybox({
-		fitToView:true,
-		autoSize:false,
-		minWidth:720,
-		minHeight:400,
-		margin:40,
-		padding:0,
-		type:'ajax'
-	});
 });
 
 //
