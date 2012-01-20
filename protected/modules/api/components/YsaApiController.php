@@ -282,4 +282,31 @@ class YsaApiController extends YsaController
 			'share_link'	=> $obPhoto->shareUrl()
 		);
 	}
+	
+	/**
+	 * Validates vars and checks token match
+	 * @return ClientAuth
+	 */
+	protected function _validateAuth()
+	{
+		$this->_commonValidate();
+		$this->_validateVars(
+			array(
+				'token'		=> array(
+					'message'	=> 'No token received',
+					'required'	=> TRUE,
+					'event_id'	=> array(
+						'code'		=> '111',
+						'message'	=> 'No event ID found',
+						'required'	=> TRUE
+					)
+				)
+			)
+		);
+		
+		if ($obClientAuth = ClientAuth::model()->authByToken($_POST['token'], $_POST['app_key'], $_POST['device_id']))
+			return $obClientAuth->client;
+		
+		$this->_renderError('Authorization by token failed');
+	}
 }
