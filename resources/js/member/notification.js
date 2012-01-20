@@ -5,10 +5,10 @@ jQuery(function($){
 			data = eval("(" + data+ ")");
 			if (!data.state)
 			{
-				return $('#response-message').html(data.message);
+				return $('#response-message').fadeIn().html(data.message);
 			}
 			form.fadeOut('fast', function(){
-				$('#response-message').html(data.message);
+				$('#response-message').fadeIn().html(data.message);
 			});
 		});
 		return false;

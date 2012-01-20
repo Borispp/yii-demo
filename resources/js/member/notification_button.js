@@ -4,9 +4,7 @@ $(function() {
 	 */
 	$('#send-push-link').fancybox({
 		fitToView:true,
-		autoSize:false,
-		minWidth:300,
-		minHeight:300,
+		autoSize:true,
 		margin:20,
 		padding:0,
 		type:'ajax'
