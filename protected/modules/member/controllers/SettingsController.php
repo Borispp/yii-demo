@@ -239,7 +239,7 @@ class SettingsController extends YsaMemberController
 
 		if ( $authIdentity->authenticate() ) 
 		{
-			$this->member()->linkFacebook( $authIdentity->getAttribute('email'), $authIdentity->getAttribute('id') );
+			$this->member()->linkFacebook( $authIdentity->getAttribute('id') );
 			$this->setSuccess( 'Facebook account was successfully linked' );
 				
 			// special redirect with closing popup window

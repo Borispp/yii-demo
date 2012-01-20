@@ -1,5 +1,8 @@
 <?php
 
+define( 'FACEBOOK_APP_ID', '328815410473890' );
+define( 'FACEBOOK_APP_SECRET', '1b7ed31430e3e0110dcce0077e8cf28d' );
+
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
@@ -203,8 +206,8 @@ return array(
                 'facebook' => array(
                     // register your app here: https://developers.facebook.com/apps/
                     'class' => 'FacebookOAuthService',
-                    'client_id' => '328815410473890',
-                    'client_secret' => '1b7ed31430e3e0110dcce0077e8cf28d',
+                    'client_id' => FACEBOOK_APP_ID,
+                    'client_secret' => FACEBOOK_APP_SECRET,
                 ),
             ),
         ),
@@ -223,7 +226,8 @@ return array(
 		'max_image_size' => 1024 * 1024 * 5,
 
 		'oauth' => array(
-			'facebook_app_id' => '328815410473890'
+			'facebook_app_id' => FACEBOOK_APP_ID,
+			'facebook_app_secret' => FACEBOOK_APP_SECRET,
 		),
 		
 		'application'   => array(
@@ -265,6 +269,7 @@ return array(
 			),
 		),
 		'member_area' => array(
+			'default_image_path' => rtrim(Yii::getPathOfAlias('webroot.resources.images'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'no-image.png',
 			'album' => array(
 				'preview' => array(
 					'width'  => 210,
@@ -290,7 +295,6 @@ return array(
 				),
 			),
 		),
-
 		'studio_options'	=> array(
 			'logo'		=> array(
 				'logo'	=> array(
@@ -379,8 +383,6 @@ return array(
 					'label'		=> 'Copyright text'
 				)
 			),
-			
-			'default_image_path' => rtrim(Yii::getPathOfAlias('webroot.resources.images'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'no-image.png',
 			
 			'icon' => array(
 				'width'  => 24,

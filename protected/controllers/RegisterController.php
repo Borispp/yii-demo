@@ -144,7 +144,7 @@ class RegisterController extends YsaFrontController
 
 		if ( $this->_register( $model, false ) )
 		{
-			$model->linkFacebook( $attr['email'], $attr['id'] );
+			$model->linkFacebook( $attr['id'] );
 			$model->activate();
 
 			$identity = new ServiceUserIdentity( Yii::app()->session['oauth_user_identity'] );
