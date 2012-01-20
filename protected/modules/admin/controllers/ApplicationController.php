@@ -18,9 +18,37 @@ class ApplicationController extends YsaAdminController
 		$this->setContentDescription('view all applications.');
 
 		$this->render('index',array(
-				'entries'   => $entries,
-				'pagination'=> $pagination,
-			));
+			'entries'   => $entries,
+			'pagination'=> $pagination,
+		));
+	}
+	
+	public function actionDownload($id, $image)
+	{
+		$id = (int) $id;
+
+		$entry = Application::model()->findByPk($id);
+
+		if (!$entry) {
+			$this->redirect('/admin/' . $this->getId());
+		}
+		
+		if (in_array($image, array('icon', 'itunes_logo'))) {
+			
+			$value = $entry->option($image);
+			
+			if (!$value) {
+				$this->redirect(array($this->getId() . '/'));
+			}
+			
+			if (!is_file($value['path'])) {
+				$this->setError('File not found.');
+				$this->redirect(array('application/edit/id/' . $id . '/'));
+			}
+			
+			Yii::app()->request->sendFile($image . '_' . $id . '.png', file_get_contents($value['path']));
+		}
+		$this->redirect(array('application/'));
 	}
 
 	public function actionEdit($id)
@@ -30,7 +58,90 @@ class ApplicationController extends YsaAdminController
 		$entry = Application::model()->findByPk($id);
 
 		if (!$entry) {
-			$this->redirect('/admin/' . $this->getId());
+			$this->redirect(array($this->getId() . '/'));
+		}
+		if(Yii::app()->request->isPostRequest && isset($_POST['Application']) && !empty($_POST['Application']['state']))
+		{
+			$entry->state = $_POST['Application']['state'];
+			if($entry->save()) {
+				$this->setSuccessFlash("Application status successfully updated. " . CHtml::link('Back to listing.', array('index')));
+				$this->refresh();
+			}
+		}
+		
+		$this->setContentTitle($entry->name);
+		$this->setContentDescription($entry->info);
+		
+		$this->render('edit', array(
+			'entry'			=> $entry,
+			'icon'			=> $entry->option('icon'),
+			'itunes_logo'	=> $entry->option('itunes_logo')
+		));
+	}
+	
+	public function actionReview($id)
+	{
+		$id = (int) $id;
+
+		$entry = Application::model()->findByPk($id);
+
+		if (!$entry) {
+			$this->redirect(array($this->getId() . '/'));
+		}
+		
+		if (isset($_POST['message'])) {
+			$ticket = new Ticket();
+			
+			$ticket->user_id = $entry->user->id;
+			$ticket->title = 'Application Ticket' ;
+			$ticket->generateCode();
+			$ticket->state = Ticket::STATE_ACTIVE;
+			$ticket->save();
+			
+			$reply = new TicketReply();
+			$reply->reply_by = Yii::app()->user->id;
+			$reply->ticket_id = $ticket->id;
+			$reply->message = $_POST['message'];
+			$reply->save();
+			
+			$member = Member::model()->findByPk($ticket->user_id);
+			
+			$member->notify('We cannot approve your application right now.');
+			
+			$entry->state = Application::STATE_UNAPROVED;
+			$entry->save();
+			
+			$this->redirect(array('ticket/view/id/' . $ticket->id . '/'));
+			
+		} elseif (isset($_POST['appstore_link'])) {
+			
+			$entry->editOption('appstore_link', $_POST['appstore_link']);
+			
+			if (isset($_POST['notify_member']) && $_POST['notify_member']) {
+				
+				$member = Member::model()->findByPk($entry->user->id);
+				
+				$member->notify('Your application was successfully added to AppStore. Here is the link [link]');
+			}
+			
+			$this->setSuccessFlash('AppStore Link has been successfully updated.');
+			
+			$this->redirect(array($this->getId() . '/moderate/id/' . $id . '/'));
+			
+		} else {
+			$this->redirect(array($this->getId() . '/moderate/id/' . $id . '/'));
+		}
+		
+	}
+	
+	public function actionModerate($id)
+	{
+		$id = (int) $id;
+
+		$entry = Application::model()->findByPk($id);
+
+		if (!$entry) {
+			$this->redirect(array($this->getId() . '/'));
 		}
 		if(Yii::app()->request->isPostRequest && isset($_POST['Application']) && !empty($_POST['Application']['state']))
 		{
@@ -42,30 +153,57 @@ class ApplicationController extends YsaAdminController
 		}
 		$this->setContentTitle($entry->name);
 		$this->setContentDescription($entry->info);
-
-		$this->render('edit', array(
-				'entry'			=> $entry,
-				'options'		=> $this->_getLabelifiedOptions($entry),
-				'icon'			=> $entry->option('icon'),
-				'itunes_logo'	=> $entry->option('itunes_logo')
-			));
+		
+		$this->render('moderate', array(
+			'entry'			=> $entry,
+			'options'		=> $this->_getLabelifiedOptions($entry),
+			'icon'			=> $entry->option('icon'),
+			'itunes_logo'	=> $entry->option('itunes_logo')
+		));
 	}
 
 	protected function _getLabelifiedOptions(Application $obApplication)
 	{
 		$result = array();
-		foreach(Yii::app()->params['studio_options'] as $section => $sectionInfo /*$property => $params*/)
+		
+		foreach(Yii::app()->params['studio_options'] as $section => $sectionInfo)
 		{
 			foreach($sectionInfo as $property => $propertyInfo)
 			{
 				$value = $obApplication->option($property);
 				if (empty($value))
 					continue;
-				if (!empty($propertyInfo['img']) && !empty($value['url']))
-					$value = '<img src="'.$value['url'].'"/>';
+				if (!empty($propertyInfo['img']) && !empty($value['url'])) {
+					$value = YsaHtml::link(YsaHtml::image($value['url']), $value['url'], array('class' => 'fancybox image', 'title' => $propertyInfo['label'], 'rel' => 'application-image'));
+				} elseif (substr_count($property, '_color')) {
+					
+					
+					$value = YsaHtml::openTag('span', array('class' => 'color', 'style' => 'background-color:' . $value)) . YsaHtml::closeTag('span') . YsaHtml::openTag('span', array('class' => 'lbl')) . $value . YsaHtml::closeTag('span');
+					
+				}
+				
+				
 				$result[$obApplication->generateAttributeLabel($section)][$propertyInfo['label']] = (!is_null($value) && array_key_exists('values', $propertyInfo) && $propertyInfo['values'][$value]) ? $propertyInfo['values'][$value] : $value;
 			}
 		}
 		return $result;
+	}
+	
+	public function actionSetState($id, $state)
+	{
+		$id = (int) $id;
+
+		$entry = Application::model()->findByPk($id);
+
+		if (!$entry) {
+			$this->redirect(array($this->getId() . '/'));
+		}
+		
+		$entry->state = $state;
+		
+		$entry->save();
+		
+		$this->setSuccessFlash("Application status successfully updated.");
+		$this->redirect(array('application/moderate/id/' . $entry->id . '/'));
 	}
 }

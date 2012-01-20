@@ -220,4 +220,14 @@ class YsaHelpers
             return $string;
         }
     }
+	
+	public function encode($string)
+	{
+		return base64_encode(sha1($string, true));
+	}
+	
+	public function short($number, $frombase = 20, $tobase = 36)
+	{
+		return base_convert($number, $frombase, $tobase);
+	}
 }

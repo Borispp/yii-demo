@@ -13,6 +13,7 @@
  * @property string $info
  * @property Member $user
  * @property ApplicationOption $application
+ * @property Member $user
  */
 class Application extends YsaActiveRecord
 {
@@ -25,7 +26,7 @@ class Application extends YsaActiveRecord
 	 * Filled with information
 	 */
 	const STATE_FILLED = 2;
-
+	
 	/**
 	 * Approved by website moderator
 	 */
@@ -44,12 +45,14 @@ class Application extends YsaActiveRecord
 	/**
 	 * Unapproved by website moderator
 	 */
-	const STATE_UNAPROVVED = -3;
+	const STATE_UNAPROVED = -3;
 
 	/**
 	 * Rejected by AppStore
 	 */
 	const STATE_REJECTED = -5;
+	
+	protected $_ticket;
 	
 	protected $_steps = array(
 		'logo' => array(
@@ -177,7 +180,7 @@ class Application extends YsaActiveRecord
 			self::STATE_APPROVED			=> 'Approved',
 			self::STATE_WAITING_APPROVAL	=> 'Waiting approval',
 			self::STATE_READY				=> 'Ready',
-			self::STATE_UNAPROVVED			=> 'Unapproved',
+			self::STATE_UNAPROVED			=> 'Unapproved',
 			self::STATE_REJECTED			=> 'Rejected by Apple',
 		);
 	}
@@ -190,7 +193,7 @@ class Application extends YsaActiveRecord
 			self::STATE_APPROVED			=> 'Approved and Sent to Apple',
 			self::STATE_WAITING_APPROVAL	=> 'Waiting for Apple Approval',
 			self::STATE_READY				=> 'Ready',
-			self::STATE_UNAPROVVED			=> 'Unapproved',
+			self::STATE_UNAPROVED			=> 'Unapproved',
 			self::STATE_REJECTED			=> 'Rejected by Apple',
 		);
 	}
@@ -220,6 +223,22 @@ class Application extends YsaActiveRecord
 
 		return $filled;
 	}
+	
+	public function hasSupport()
+	{
+		$hasSupport = false;
+		switch ($this->state) {
+			case self::STATE_UNAPROVED:
+				$hasSupport = true;
+				break;
+			default:
+				$hasSupport = false;
+				break;
+		}
+
+		return $hasSupport;
+	}
+
 
 	public function getUploadDir()
 	{
@@ -382,5 +401,21 @@ class Application extends YsaActiveRecord
 	public function filterWizardStep($step)
 	{
 		return in_array($step, array_keys($this->wizardSteps()));
+	}
+	
+	public function ticket()
+	{
+		if (!$this->hasSupport()) {
+			return null;
+		}
+		
+		if (null === $this->_ticket) {
+			$this->_ticket = Ticket::model()->find('user_id=:user_id AND state=:state', array(
+				'user_id' => $this->user->id,
+				'state'   => Ticket::STATE_ACTIVE
+			));
+		}
+		
+		return $this->_ticket;
 	}
 }

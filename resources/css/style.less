@@ -430,6 +430,16 @@ input[type="button"] {
 	&.blue:active {
 		.button-blue-active;
 	}
+
+	&.red {
+		.button-red;
+	}
+	&.red:hover {
+		.button-red-hover;
+	}
+	&.red:active {
+		.button-red-active;
+	}
 	
 	&.small {
 		min-height:14px;
@@ -1544,7 +1554,12 @@ section.smugmug-import {
 
 
 
-#application {}
+#application {
+	
+	.shadow-box {
+		min-height:400px;
+	}
+}
 
 #application-preview {
 	.box-preview {
@@ -1554,6 +1569,57 @@ section.smugmug-import {
 
 	}
 }
+
+#application-support {
+
+	h3 {
+		.date {
+			color:@dark-gray-charlie;
+		}
+	}
+
+	.replies {
+		
+		.padding-bottom-alpha;
+		border-bottom:1px solid @dark-gray-foxtrot;
+		.margin-bottom-alpha;
+
+
+		li {
+			width:450px;
+			padding:20px;
+			clear:both;
+			
+			.rounded(4px);
+			border:1px solid @dark-gray-foxtrot;
+			margin-bottom:10px;
+			.box-shadow(1px 1px 0px 0px rgba(100, 100, 100, .5));
+			&.member {
+				float:right;
+				.gradient(#E8EEF2, #E8EEF2, #fff);
+			}
+			&.admin {
+				float:left;
+				.gradient(#E8F2EA, #E8F2EA, #fff);
+			}
+			line-height:1.3;
+			.title {
+				font-weight:bold;
+			}
+			.added {
+				font-size:11px;
+				font-style:italic;
+			}
+			p {
+				line-height:1.3;
+				margin-bottom:0;
+			}
+		}
+		
+	}
+}
+
+
 #ipad {
 	position:relative;
 	.case {

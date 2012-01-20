@@ -6,26 +6,26 @@
 	)); ?>
 	<table class="data">
 		<thead>
-		<tr>
-			<th class="w_1">ID</th>
-			<th class="l">Name</th>
-			<th class="w_5">Status</th>
-			<th class="w_10">&nbsp;</th>
-		</tr>
+			<tr>
+				<th class="w_1">ID</th>
+				<th class="l">Name</th>
+				<th class="w_5">Status</th>
+				<th class="w_20">&nbsp;</th>
+			</tr>
 		</thead>
 		<tbody>
-		<?php foreach ($entries as $entry) : ?>
-		<tr>
-			<td><?php echo $entry->id; ?></td>
-			<td class="l">
-				<?php echo CHtml::link($entry->name, array('edit', 'id' => $entry->id)); ?>
-			</td>
-			<td><?php echo $entry->state(); ?></td>
-			<td>
-				<?php echo CHtml::link('Moderate', array('edit', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
-
-			</td>
-		</tr>
+			<?php foreach ($entries as $entry) : ?>
+				<tr>
+					<td><?php echo $entry->id; ?></td>
+					<td class="l">
+						<?php echo YsaHtml::link($entry->name, array('edit', 'id' => $entry->id)); ?>
+					</td>
+					<td class="state <?php echo strtolower($entry->state())?>"><?php echo $entry->state(); ?></td>
+					<td>
+						<?php echo YsaHtml::link('Moderate', array('moderate', 'id' => $entry->id), array('class' => 'btn small green')); ?>
+						<?php echo YsaHtml::link('Edit', array('edit', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
+					</td>
+				</tr>
 			<?php endforeach; ?>
 		</tbody>
 	</table>
