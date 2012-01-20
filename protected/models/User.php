@@ -21,6 +21,7 @@
  * @property UserOption $option
  * @property Application $application
  * @property Event $event
+ * @property Client $client
  * @property Studio $studio
  * @property UserOrder $orders
  * @property Event $public_events
@@ -89,6 +90,7 @@ class User extends YsaActiveRecord
 			'orders'		=> array(self::HAS_MANY, 'UserOrder', 'user_id'),
 			
 			'events'			=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC'),
+			'client'			=> array(self::HAS_MANY, 'Client', 'user_id', 'order' => 'id DESC'),
 			'proof_events'		=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC', 'condition' => 'type=:type', 'params' => array('type' => Event::TYPE_PROOF)),
 			'portfolio_events'	=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC', 'condition' => 'type=:type', 'params' => array('type' => Event::TYPE_PORTFOLIO)),
 			'public_events'		=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC', 'condition' => 'type=:type', 'params' => array('type' => Event::TYPE_PUBLIC)),
