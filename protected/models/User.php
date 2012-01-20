@@ -309,7 +309,26 @@ class User extends YsaActiveRecord
 					->find();
 	}
 	
+	/**
+	 * Link Facebook Account
+	 *
+	 * @param string $fb_id 
+	 */
+	public function linkFacebook( $fb_id )
+	{
+		$this->editOption(UserOption::FACEBOOK_ID, $fb_id);
+	}
 	
+	/**
+	 * Unlink Facebook Account
+	 * 
+	 * @return boolean false when unable to remove user options
+	 */
+	public function unlinkFacebook()
+	{
+		$this->deleteOption( UserOption::FACEBOOK_ID );
+		return true;
+	}
 
 	//function flotheme_shootq_send($data)
 	//{
