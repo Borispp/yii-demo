@@ -49,7 +49,6 @@ class ClientController extends YsaApiController
 	 */
 	public function actionRegister()
 	{
-		$this->_commonValidate();
 		$this->_validateVars(array(
 				'name' => array(
 					'message'	=> 'Name is required',
@@ -106,7 +105,6 @@ class ClientController extends YsaApiController
 	 */
 	public function actionLogin()
 	{
-		$this->_commonValidate();
 		$this->_validateVars(array(
 				'password'	=> array(
 					'message'	=> 'No password received',
@@ -131,6 +129,76 @@ class ClientController extends YsaApiController
 				'state'		=> 0,
 				'message'	=> $e->getMessage(),
 				'token'		=> NULL,
+			));
+		}
+	}
+	
+	/**
+	 * Try to auth with Facebook ID and Access Token
+	 * 1. Facebook account must be linked to any local user account
+	 * 2. Access token must be valid: request with it must give valide response
+	 * 3. Account ID in response must match requested Facebook ID 
+	 */
+	public function actionFacebook()
+	{
+		$this->_validateVars(
+			array(
+				'fb_access_token'	=> array(
+					'message'	=> 'No Facebook Access Token received',
+					'required'	=> TRUE,
+				),
+				'fb_id'	=> array(
+					'message'	=> 'No Facebook ID received',
+					'required'	=> TRUE,
+				)
+			));
+		
+		try
+		{
+			$user = User::model()->fetchByFacebookId( $_POST['fb_id'] );
+			if (null === $user) 
+			{
+				// user not exists, need registration
+				return $this->_render(array(
+					'state'		=> false,
+					'message'	=> 'Not found any linked Facebook account',
+					'token'		=> null,
+				));
+			}
+			
+			Yii::import('ext.facebook-sdk.facebook');
+			$facebook = new Facebook(array(
+				'appId'  => Yii::app()->params['oauth']['facebook_app_id'],
+				'secret' => Yii::app()->params['oauth']['facebook_app_secret'],
+			));
+
+			try 
+			{
+				$facebook->setAccessToken( $_POST['fb_access_token'] );
+				$user_profile = $facebook->api('/me');
+				
+				if ( $user_profile['id'] != $_POST['fb_id'] )
+					return $this->_renderError('Access token is invalid: Facebook ID is not matches requested with Acess Token');
+			} 
+			catch (FacebookApiException $e) 
+			{
+				return $this->_renderError('Access token is invalid, Facebook raised exception: '.$e->getMessage());
+			}
+			
+			// LOCAL AUTH
+			$access_token = ClientAuth::model()->authByPassword($user->email, $user->password, $_POST['app_key'], $_POST['device_id']);
+			return $this->_render(array(
+				'state'		=> 1,
+				'message'	=> '',
+				'token'		=> $access_token
+			));
+		}
+		catch(YsaAuthException $e)
+		{
+			$this->_render(array(
+				'state'		=> false,
+				'message'	=> $e->getMessage(),
+				'token'		=> null,
 			));
 		}
 	}

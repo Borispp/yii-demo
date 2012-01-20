@@ -298,6 +298,18 @@ class User extends YsaActiveRecord
 
 	}
 
+	/**
+	 * @param integer $id
+	 * @return CActiveRecord the record found. Null if no record is found.
+	 */
+	public function fetchByFacebookId( $id )
+	{
+		$condition = "name='".UserOption::FACEBOOK_ID."' AND value='{$id}'";
+		return $this->with(array('options' => array('condition' => $condition)))
+					->find();
+	}
+	
+	
 
 	//function flotheme_shootq_send($data)
 	//{
