@@ -1,9 +1,10 @@
+<script type="text/javascript" src="<?php echo Yii::app()->baseUrl?>/resources/js/member/client.js"></script>
 <div class="w">
 	<section class="box">
 		<div class="box-title">
 			<h3><?php echo $entry->name; ?></h3>
 			<div class="box-title-button">
-				<?php echo YsaHtml::link('<span class="icon i_chat"></span>Send Push Notification', '#', array('class' => 'secondary iconed')); ?>
+				<?php echo YsaHtml::link('<span class="icon i_chat"></span>Send Push Notification', '/member/notification/new?type=client&recipient='.$entry->id, array('class' => 'secondary iconed', 'id' => 'send-push-link')); ?>
 			</div>
 		</div>
 		<div class="box-content">

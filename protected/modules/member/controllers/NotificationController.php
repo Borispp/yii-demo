@@ -4,198 +4,67 @@ class NotificationController extends YsaMemberController
 	public function init()
 	{
 		parent::init();
-		$this->crumb('Clients', array('client/'));
-		$this->crumb('Notifications', array('notification/'));
 	}
-
+	
 	public function actionNew()
 	{
-		$this->crumb('Send notification');
+		return $this->renderPartial('new', array(
+			'type'		=> empty($_GET['type']) || !in_array($_GET['type'], array('event', 'client', 'all')) ? 'all' : $_GET['type'],
+			'recipient'	=> $_GET['recipient']
+		));
+	}
+
+	/**
+	 * @todo make three methods to send notification with
+	 * @return void
+	 */
+	public function actionSend()
+	{
+		$commonError = 'Notification send failed. Please refresh window and try again. If you see this message several times fill free to contact us.';
+		if (!empty($_POST['type']) && in_array($_POST['type'], array('event', 'client')) && empty($_POST['recipient']))
+		{
+			return $this->sendJson(array('state' => FALSE, 'message' => $commonError));
+		}
+		if (empty($_POST['message']))
+		{
+			return $this->sendJson(array('state' => FALSE, 'message' => 'Message is empty. Please fill it up and try again.'));
+		}
 		$entry = new ApplicationNotification();
-		if (isset($_POST['ApplicationNotification']))
+		$entry->application_id = $this->member()->application->id;
+		$entry->message = $_POST['message'];
+		if (!$entry->validate())
 		{
-			$entry->attributes = $_POST['ApplicationNotification'];
-			$entry->application_id = $this->member()->application->id;
-			if ($entry->validate())
-			{
-				$entry->save();
-				$this->_addEventsAndClients($entry);
-				$this->redirect(array('notification/'));
-			}
+			return $this->sendJson(array('state' => FALSE, 'message' => $commonError));
 		}
-		$this->setMemberPageTitle('Add Notification');
-		$this->render('new', array(
-				'entry'		=> $entry,
-				'events'	=> $this->member()->event,
-				'clients'	=> $this->member()->clients,
-
-			));
-	}
-
-	protected function _addEventsAndClients(ApplicationNotification $obAppNotification)
-	{
-		if (!empty($_POST['ApplicationNotification']['events']))
+		$entry->save();
+		if ($_POST['type'] == 'event')
 		{
-			$ids = explode(',', $_POST['ApplicationNotification']['events']);
-			foreach($ids as $eventId)
-			{
-				$obAppNotification->appendToEvent(Event::model()->findByPk($eventId));
-			}
-		}
-		if (!empty($_POST['ApplicationNotification']['clients']))
-		{
-			$ids = explode(',', $_POST['ApplicationNotification']['clients']);
-			foreach($ids as $clientId)
-			{
-				$obAppNotification->appendToClient(Client::model()->findByPk($clientId));
-			}
-		}
-	}
-
-	public function actionDelete($notificationId = NULL)
-	{
-		$ids = array();
-		if (isset($_POST['ids']) && count($_POST['ids'])) {
-			$ids = $_POST['ids'];
-		} elseif ($notificationId) {
-			$ids = array(intval($notificationId));
-		}
-
-		foreach ($ids as $id)
-		{
-			$entry = ApplicationNotification::model()->findByPk($id);
-			if ($entry->application_id == $this->member()->application->id)
+			$obEvent = Event::model()->findByPk($_POST['recipient']);
+			if (!$obEvent->isActive() || $obEvent->user_id != $this->member()->id)
 			{
 				$entry->delete();
+				return $this->sendJson(array('state' => FALSE, 'message' => 'You can\'t send notification to this event viewers.'));
 			}
+			$entry->appendToEvent($obEvent);
 		}
-
-		if (Yii::app()->getRequest()->isAjaxRequest)
+		elseif ($_POST['type'] == 'client')
 		{
-			$this->sendJsonSuccess();
-		} else {
-			$this->redirect(array('notification/'));
-		}
-	}
-
-	public function actionIndex()
-	{
-		if (isset($_POST['Fields'])) {
-			if (isset($_POST['SearchBarReset']) && $_POST['SearchBarReset']) {
-				StudioMessage::model()->resetSearchFields();
-			} else {
-				StudioMessage::model()->setSearchFields($_POST['Fields']);
+			$obClient = Client::model()->findByPk($_POST['recipient']);
+			if (!$obClient->isActive() || $obClient->user_id != $this->member()->id)
+			{
+				$entry->delete();
+				return $this->sendJson(array('state' => FALSE, 'message' => 'You can\'t send notification to this client.'));
 			}
-			$this->redirect(array('notification/'));
+			$entry->appendToClient($obClient);
 		}
-		$criteria = ApplicationNotification::model()->searchCriteria();
-
-		$pagination = new CPagination(ApplicationNotification::model()->count($criteria));
-		$pagination->pageSize = Yii::app()->params['admin_per_page'];
-		$pagination->applyLimit($criteria);
-		$this->setMemberPageTitle('Notifications');
-
-		$entries = ApplicationNotification::model()->findAll($criteria);
-
-		$this->render('index',array(
-			'entries'		=> $entries,
-			'pagination'	=> $pagination,
-			'searchOptions'	=> ApplicationNotification::model()->searchOptions(),
-		));
-	}
-
-	public function actionView($notificationId)
-	{
-		$this->crumb('View notification');
-		$this->setMemberPageTitle('View Notification');
-		$entry = ApplicationNotification::model()->findByPk($notificationId);
-		$this->render('view',array('entry' => $entry));
-	}
-
-
-	/**
-	 * Ajax action used to add client access to events
-	 * @return void
-	 */
-	public function actionAddClient()
-	{
-		if (empty($_POST['client_id']) || empty($_POST['event_id']))
-			return $this->sendJsonSuccess(array(
-				'state' => false,
-			));
-		$obEvent = Event::model()->findByPk($_POST['event_id']);
-		$obClient = Client::model()->findByPk($_POST['client_id']);
-		if (!$obEvent || !$obClient)
-			return $this->sendJsonSuccess(array(
-				'state' => false,
-			));
-		return $this->sendJsonSuccess(array(
-			'state' => $obClient->addPhotoEvent($obEvent),
-		));
-	}
-
-	/**
-	 * Ajax action used to remove client access to events
-	 * @return void
-	 */
-	public function actionRemoveClient()
-	{
-		if (empty($_POST['client_id']) || empty($_POST['event_id']))
-			return $this->sendJsonSuccess(array(
-				'state' => false,
-			));
-		$obEvent = Event::model()->findByPk($_POST['event_id']);
-		$obClient = Client::model()->findByPk($_POST['client_id']);
-
-		if (!$obEvent || !$obClient)
-			return $this->sendJsonSuccess(array(
-				'state' => false,
-			));
-		return $this->sendJsonSuccess(array(
-			'state' => $obClient->removePhotoEvent($obEvent),
-		));
-	}
-
-	/**
-	 * Ajax action used to add client access to events
-	 * @return void
-	 */
-	public function actionAddEvent()
-	{
-		if (empty($_POST['client_id']) || empty($_POST['event_id']))
-			return $this->sendJsonSuccess(array(
-				'state' => false,
-			));
-		$obEvent = Event::model()->findByPk($_POST['event_id']);
-		$obClient = Client::model()->findByPk($_POST['client_id']);
-		if (!$obEvent || !$obClient)
-			return $this->sendJsonSuccess(array(
-				'state' => false,
-			));
-		return $this->sendJsonSuccess(array(
-			'state' => $obClient->addPhotoEvent($obEvent),
-		));
-	}
-
-	/**
-	 * Ajax action used to remove client access to events
-	 * @return void
-	 */
-	public function actionRemoveEvent()
-	{
-		if (empty($_POST['client_id']) || empty($_POST['event_id']))
-			return $this->sendJsonSuccess(array(
-				'state' => false,
-			));
-		$obEvent = Event::model()->findByPk($_POST['event_id']);
-		$obClient = Client::model()->findByPk($_POST['client_id']);
-
-		if (!$obEvent || !$obClient)
-			return $this->sendJsonSuccess(array(
-				'state' => false,
-			));
-		return $this->sendJsonSuccess(array(
-			'state' => $obClient->removePhotoEvent($obEvent),
-		));
+		else
+		{
+			foreach($this->member()->client as $obClient)
+			{
+				if ($obClient->isActive())
+					$entry->appendToClient($obClient);
+			}
+		}
+		return $this->sendJson(array('state' => TRUE, 'message' => 'Your notification has been sent.'));
 	}
 }
