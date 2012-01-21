@@ -2414,13 +2414,16 @@ table.data thead th {
   padding: 0 5px 10px 5px;
 }
 table.data tr:nth-child(2n) th, table.data tr:nth-child(2n) td {
-  background-color: #f3f3f3;
+  background-color: #f9f9f9;
 }
-table.data a.title {
+table.data a.title, table.data span.title {
   font-size: 11px;
   text-transform: uppercase;
   display: block;
   margin-bottom: .5em;
+}
+table.data span.title {
+  color: #008eb0;
 }
 table.data .descr {
   font-size: 11px;
@@ -2431,6 +2434,19 @@ table.data .actions {
   width: 1%;
   white-space: nowrap;
   text-align: center;
+}
+table.data .state-inactive td {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAJElEQVQImWOYO3euFDJmgAFsgnPnzpViwCYIl8CnmwGrXdgEAbpNLpnJW+S5AAAAAElFTkSuQmCC);
+}
+table.data .active, table.data .inactive {
+  font-weight: 700;
+  font-size: 11px;
+}
+table.data .inactive {
+  color: #ff0000;
+}
+table.data .active {
+  color: #17c600;
 }
 /* Event Page
 *******************************/
@@ -2476,12 +2492,6 @@ table.data .actions {
   float: left;
   width: 74px;
   font-weight: bold;
-}
-#event .description dd.inactive, #album .description dd.inactive {
-  color: #ff0000;
-}
-#event .description dd.active, #album .description dd.active {
-  color: #17c600;
 }
 #event .main-box, #album .main-box {
   width: 77%;

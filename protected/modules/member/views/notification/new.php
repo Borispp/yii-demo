@@ -1,62 +1,27 @@
-<style type="text/css">
-		#notification-events,
-		#notification-clients
-		{
-			background: #ccc;
-			width: 100px;
-			height: 100px;
-		}
-		#events,
-		#clients
-		{
-			background: #0cc;
-			width: 100px;
-			height: 100px;
-		}
-	</style>
+<script type="text/javascript" src="<?php echo Yii::app()->baseUrl?>/resources/js/member/notification.js"></script>
 <div class="w">
-	<script type="text/javascript" src="<?php echo Yii::app()->baseUrl?>/resources/js/member/notification.js"></script>
-	<div class="form">
-	<?php $form=$this->beginWidget('YsaMemberForm', array(
-		'id'=>'notification-form',
-		'enableAjaxValidation'=>false,
-	)); ?>
-	<section>
-	</section>
-	<section>
-		<?php echo $form->labelEx($entry,'message'); ?>
-		<div>
-			<?php echo $form->textArea($entry,'message', array('cols' => 40, 'rows' => 4)); ?>
-			<?php echo $form->error($entry,'message'); ?>
+	<section class="box">
+		<div class="box-title">
+			<h3>Add Notification</h3>
+		</div>
+		<div class="box-content">
+			<div class="shadow-box">
+				<div class="form ajax-form">
+					<form method="post" action="<?php echo Yii::app()->createAbsoluteUrl('/member/notification/send')?>" id="new-notification-form">
+						<section class="cf">
+							<label for="message">Message</label>
+							<div>
+								<textarea name="message" id="message" class="required" cols="40" rows="4"></textarea>
+							</div>
+						</section>
+						<section class="button">
+							<?php echo YsaHtml::submitButton('Send', array('class' => 'blue')); ?>
+						</section>
+						<?php //@todo move style to some css, add green-ok style?>
+						<div id="response-message" style="display:none;clear:both;float: none;margin: 0 0 0 200px;width: 415px;" class="errorMessage"></div>
+					</form>
+				</div>
+			</div>
 		</div>
 	</section>
-	<?php echo $form->hiddenField($entry,'events');?>
-	<?php echo $form->hiddenField($entry,'clients');?>
-		
-	<section id="notification-events" rel="client-<?php echo $entry->id?>">
-	</section>
-
-	<section id="events">
-		<ul>
-			<?php foreach($events as $obEvent):?>
-			<li class="event" id="event-<?php echo $obEvent->id?>"><?php echo $obEvent->name?></li>
-			<?php endforeach?>
-		</ul>
-	</section>
-
-	<section id="notification-clients" rel="client-<?php echo $entry->id?>">
-	</section>
-
-	<section id="clients">
-		<ul>
-			<?php foreach($clients as $obClient):?>
-			<li class="client" id="client-<?php echo $obClient->id?>"><?php echo $obClient->name?></li>
-			<?php endforeach?>
-		</ul>
-	</section>
-	<section class="button">
-		<?php echo YsaHtml::submitButton($entry->isNewRecord ? 'Add' : 'Save'); ?>
-	</section>
-	<?php $this->endWidget(); ?>
-</div>
 </div>
