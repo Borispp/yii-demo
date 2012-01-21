@@ -23,15 +23,15 @@
 				<dl>
 					<dt>Unique ID</dt>
 					<dd><?php echo $entry->id; ?></dd>
-
+					
 					<dt>Photos</dt>
 					<dd><?php echo count($entry->photos); ?></dd>
 					
 					<dt>Created</dt>
-					<dd><?php echo Yii::app()->dateFormatter->format('MM/dd/yy', $entry->created); ?></dd>
+					<dd><?php echo $entry->created('medium', null); ?></dd>
 					
 					<dt>Last Update</dt>
-					<dd><?php echo Yii::app()->dateFormatter->format('MM/dd/yy', $entry->updated); ?></dd>
+					<dd><?php echo $entry->updated('medium', null); ?></dd>
 					
 					<?php if ($entry->place) : ?>
 						<dt>Place</dt>

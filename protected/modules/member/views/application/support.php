@@ -1,7 +1,7 @@
 <div class="w" id="application-support">
 	<section class="box">
 		<div class="box-title">
-			<h3>Ticket #<?php echo strtoupper($ticket->code); ?> <span class="date">from <?php echo Yii::app()->dateFormatter->formatDateTime($ticket->created, 'medium', 'short'); ?></span></h3>
+			<h3>Ticket #<?php echo strtoupper($ticket->code); ?> <span class="date">from <?php echo $ticket->created('medium', 'short'); ?></span></h3>
 		</div>
 		<div class="box-content">
 			<div class="shadow-box">
@@ -11,7 +11,7 @@
 						<?php foreach ($ticket->replies as $r) : ?>
 							<li class="<?php echo $r->replier->role == User::ROLE_ADMIN ? 'admin' : 'member'?>">
 								<div class="title">Reply from <?php echo $r->replier->name(); ?></div>
-								<span class="added"><?php echo Yii::app()->dateFormatter->formatDateTime($r->created, 'medium', 'short'); ?></span>
+								<span class="added"><?php echo $r->created('medium', 'short'); ?></span>
 								<p><?php echo $r->message; ?></p>
 							</li>
 						<?php endforeach; ?>

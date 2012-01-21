@@ -124,4 +124,15 @@ class YsaActiveRecord extends CActiveRecord
 	{
 		return YsaHelpers::encrypt($this->id);
 	}
+	
+	public function created($date = 'medium', $time = 'medium')
+	{
+		return Yii::app()->dateFormatter->formatDateTime($this->created, $date, $time);
+	}
+	
+	public function updated($date = 'medium', $time = 'medium')
+	{
+		return Yii::app()->dateFormatter->formatDateTime($this->updated, $date, $time);
+	}
+	
 }

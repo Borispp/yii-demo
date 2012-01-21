@@ -10,8 +10,8 @@
 
 	<?php echo $form->hiddenField($model, 'finish', array()); ?>
 	<div class="save">
-		<?php echo YsaHtml::link('Submit Later', array('application/'), array('class' => 'btn small')); ?>
+		<?php echo YsaHtml::link('I want to play more later', array('application/'), array('class' => 'btn small')); ?>
 		
-		<?php echo YsaHtml::submitButton('Finish & Submit', array('class' => 'blue'));?>
+		<?php echo YsaHtml::submitButton('I\'m done!', array('class' => 'blue'));?>
 	</div>
 <?php $this->endWidget(); ?>

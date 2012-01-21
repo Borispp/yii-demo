@@ -11,9 +11,14 @@
 		<div class="box-content">
 			<div class="description shadow-box">
 				<?php if ($entry->description) : ?>
-					<strong>Description</strong>
+					<div class="title">Description</div>
 					<p><?php echo $entry->description; ?></p>
 				<?php endif; ?>
+					
+				<div class="title">State</div>
+				<p><?php echo YsaHtml::dropDownList('state', $entry->state, $entry->getStates(), array('id' => 'description-state')); ?></p>
+				
+					
 					<dl>
 						<dt>ID</dt>
 						<dd><?php echo $entry->id; ?></dd>
@@ -21,14 +26,11 @@
 						<dt>Password</dt>
 						<dd><?php echo $entry->passwd; ?></dd>
 						
-						<dt>State</dt>
-						<dd class="<?php echo strtolower($entry->state()); ?>"><?php echo $entry->state(); ?></dd>
-						
 						<dt>Type</dt>
 						<dd><?php echo $entry->type(); ?></dd>
 						
 						<dt>Date</dt>
-						<dd><?php echo Yii::app()->dateFormatter->format('MM/dd/yyyy', $entry->date); ?></dd>
+						<dd><?php echo $entry->created('medium', null); ?></dd>
 					</dl>
 			</div>
 			
