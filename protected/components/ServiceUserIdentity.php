@@ -37,7 +37,7 @@ class ServiceUserIdentity extends YsaUserIdentity
 		if ( !$this->service->isAuthenticated )
 			return ! $this->setError( self::ERROR_OAUTH_NOT_AUTHENTICATED );
 
-		$user = User::model()->fetchByFacebookId( $this->service->getAttribute('id') );
+		$user = Member::model()->fetchByFacebookId( $this->service->getAttribute('id') );
 		if (null === $user) 
 			return ! $this->setError( self::ERROR_UNKNOWN_IDENTITY );
 		

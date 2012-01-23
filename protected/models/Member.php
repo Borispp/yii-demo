@@ -205,14 +205,23 @@ class Member extends User
 	}
 	
 	/**
+	 * @param integer $id
+	 * @return CActiveRecord the record found. Null if no record is found.
+	 */
+	public function fetchByFacebookId( $id )
+	{
+		$condition = "name='".UserOption::FACEBOOK_ID."' AND value='{$id}'";
+		return $this->with(array('options' => array('condition' => $condition)))
+					->find();
+	}
+	
+	/**
 	 * Link Facebook Account
 	 *
-	 * @param string $email
 	 * @param string $fb_id 
 	 */
-	public function linkFacebook( $email, $fb_id )
+	public function linkFacebook( $fb_id )
 	{
-		$this->editOption(UserOption::FACEBOOK_EMAIL, $email);
 		$this->editOption(UserOption::FACEBOOK_ID, $fb_id);
 	}
 	
@@ -223,7 +232,8 @@ class Member extends User
 	 */
 	public function unlinkFacebook()
 	{
-		return $this->deleteOptions( array( UserOption::FACEBOOK_EMAIL, UserOption::FACEBOOK_ID) );
+		$this->deleteOption( UserOption::FACEBOOK_ID );
+		return true;
 	}
 	
 	/**

@@ -142,22 +142,32 @@ class RegisterController extends YsaFrontController
 
 		$model->attributes = array_merge( $_POST['OauthRegistrationForm'], $safe_attr );
 
-		if ( $this->_register( $model, false ) )
+		$transaction = Yii::app()->getDb()->beginTransaction();
+		try
 		{
-			$model->linkFacebook( $attr['id'] );
-			$model->activate();
-
-			$identity = new ServiceUserIdentity( Yii::app()->session['oauth_user_identity'] );
-			if ($identity->authenticate()) 
+			if ( $this->_register( $model, false ) )
 			{
-				Yii::app()->user->login( $identity );
+				$model->linkFacebook( $attr['id'] );
+				$model->activate();
+				$transaction->commit();
+
+				$identity = new ServiceUserIdentity( Yii::app()->session['oauth_user_identity'] );
+				if ($identity->authenticate()) 
+				{
+					Yii::app()->user->login( $identity );
+					unset( Yii::app()->session['oauth_user_identity'] );
+					$this->redirect( $this->createAbsoluteUrl( 'auth/login' ) );
+				}
+
 				unset( Yii::app()->session['oauth_user_identity'] );
+				$this->setError( 'Unable to immediately authenticate, please log in' );
 				$this->redirect( $this->createAbsoluteUrl( 'auth/login' ) );
 			}
-
-			unset( Yii::app()->session['oauth_user_identity'] );
-			$this->setError( 'Unable to immediately authenticate, please log in' );
-			$this->redirect( $this->createAbsoluteUrl( 'auth/login' ) );
+		}
+		catch ( CException $e )
+		{
+			$transaction->rollback();
+			throw $e;
 		}
 
 		$this->render('oauth', array('model' => $model));
