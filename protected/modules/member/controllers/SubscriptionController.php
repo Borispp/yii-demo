@@ -1,6 +1,14 @@
 <?php
 class SubscriptionController extends YsaMemberController
 {
+	public function init()
+	{
+		parent::init();
+		
+		$this->crumb('Settings', array('settings/'))
+			 ->crumb('Subscriptions', array('subscription/'));
+	}
+	
 	protected function _addNewTransaction(UserSubscription $obUserSubscription)
 	{
 		$obTransaction = new UserTransaction();
@@ -26,8 +34,11 @@ class SubscriptionController extends YsaMemberController
 
 	public function actionList()
 	{
-		$this->renderVar('subscriptions', $this->member()->UserSubscription);
-		$this->render('list');
+		$this->setMemberPageTitle('Subscriptions');
+		
+		$this->render('list', array(
+			'subscriptions' => $this->member()->UserSubscription,
+		));
 	}
 
 	public function actionNew()
@@ -48,10 +59,15 @@ class SubscriptionController extends YsaMemberController
 //				$this->redirect(array('edit', 'id'=>$entry->id));
 			}
 		}
+		
+		$this->setMemberPageTitle('New Subscription');
+		
+		$this->crumb('Add Subscription');
+		
 		$this->render('new', array(
-				'membershipList'	=> Membership::model()->findAll(),
-				'entry'				=> $entry
-			));
+			'membershipList'	=> Membership::model()->findAll(),
+			'entry'				=> $entry
+		));
 	}
 
 	public function actionPaypal()

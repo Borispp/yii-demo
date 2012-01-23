@@ -801,30 +801,53 @@ table.data {
 	tr:nth-child(2n) {
 		th,
 		td {
-			background-color: #f3f3f3;
+			background-color: #f9f9f9;
 		}
+	}
+
+	a.title,
+	span.title {
+		font-size: 11px;
+		text-transform: uppercase;
+		display: block;
+		margin-bottom: .5em;
+	}
+	span.title {
+		color:@blue-alpha;
+	}
+	.descr {
+		font-size: 11px;
+		display: block;
+		color: @dark-gray-bravo;
+	}
+	.actions {
+		width:1%;
+		white-space: nowrap;
+		text-align: center;
+	}
+
+
+	.state-inactive td {
+		background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAJElEQVQImWOYO3euFDJmgAFsgnPnzpViwCYIl8CnmwGrXdgEAbpNLpnJW+S5AAAAAElFTkSuQmCC);
+	}
+
+
+	.active,
+	.inactive {
+		font-weight:700;
+		font-size:11px;
+	}
+
+	.inactive {
+		color:@red-alpha;
+	}
+	.active {
+		color:@green-alpha;
 	}
 }
 
 
 
-table.data a.title {
-	font-size: 11px;
-	text-transform: uppercase;
-	display: block;
-	margin-bottom: .5em;
-}
-table.data .descr {
-	font-size: 11px;
-	display: block;
-	color: @dark-gray-bravo;
-}
-
-table.data .actions {
-	width:1%;
-	white-space: nowrap;
-	text-align: center;
-}
 
 
 /* Event Page
@@ -871,13 +894,6 @@ table.data .actions {
 			float:left;
 			width:74px;
 			font-weight:bold;
-		}
-
-		dd.inactive {
-			color:@red-alpha;
-		}
-		dd.active {
-			color:@green-alpha;
 		}
 	}
 	

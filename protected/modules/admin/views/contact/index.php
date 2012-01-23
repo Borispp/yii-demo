@@ -19,7 +19,7 @@
                 <tr>
                     <td><input type="checkbox" class="del" value="<?php echo $entry->id; ?>" name="ids[]" /></td>
 					<td>
-						<?php echo Yii::app()->dateFormatter->formatDateTime($entry->created); ?>
+						<?php echo $entry->created('medium', 'short'); ?>
 					</td>
                     <td class="l">
 						<strong><?php echo $entry->name; ?></strong>

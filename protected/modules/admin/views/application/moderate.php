@@ -70,7 +70,7 @@
 						<ul>
 							<?php foreach ($entry->user->open_tickets as $ticket) : ?>
 								<li>
-									<?php echo YsaHtml::link($ticket->title . ' from ' . Yii::app()->dateFormatter->formatDateTime($ticket->created, 'medium', 'short'), array('ticket/view/id/' . $ticket->id)); ?>
+									<?php echo YsaHtml::link($ticket->title . ' from ' . $ticket->created('medium', 'short'), array('ticket/view/id/' . $ticket->id)); ?>
 								</li>
 							<?php endforeach; ?>
 						</ul>
@@ -103,7 +103,7 @@
 						<ul>
 							<?php foreach ($entry->user->open_tickets as $ticket) : ?>
 								<li>
-									<?php echo YsaHtml::link($ticket->title . ' from ' . Yii::app()->dateFormatter->formatDateTime($ticket->created, 'medium', 'short'), array('ticket/view/id/' . $ticket->id)); ?>
+									<?php echo YsaHtml::link($ticket->title . ' from ' . $ticket->created('medium', 'short'), array('ticket/view/id/' . $ticket->id)); ?>
 								</li>
 							<?php endforeach; ?>
 						</ul>

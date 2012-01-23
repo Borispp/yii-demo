@@ -1,33 +1,54 @@
-<?php echo YsaHtml::pageHeaderTitle('My subscriptions'); ?>
-<section class="body w">
-	<?php if (count($subscriptions) < 1):?>
-	<h3>You have no subscriptions.</h3>
-	<?php else:?>
-	<table>
-		<tr>
-			<th>Subscription</th>
-			<th>Start date</th>
-			<th>End date</th>
-			<th>State</th>
-			<th></th>
-		</tr>
-		<?php foreach($subscriptions as $obUserSubscription):?>
-		<tr>
-			<td><?php echo $obUserSubscription->Membership->name?></td>
-			<th><?php echo $obUserSubscription->start_date?></th>
-			<th><?php echo $obUserSubscription->expiry_date?></th>
-			<th><?php echo $obUserSubscription->labelState()?></th>
-			<th><?php if ($obUserSubscription->state == $obUserSubscription::STATE_INACTIVE):?>
-				<?php if ($obUserSubscription->Transaction):?>
-				<a href="<?php echo Yii::app()->createUrl('/member/subscription/paypal/', array(
-					'id'	=> $obUserSubscription->Transaction->id
-				))?>">Pay</a>
-				<?php endif?>
-				<?php endif?>
-			</th>
-		</tr>
-		<?php endforeach?>
-	</table>
-	<?php endif?>
-	<a href="<?php echo Yii::app()->createUrl('/member/subscription/new/')?>">Add new subscription</a>
-</section>
+<div class="w">
+	<section class="box">
+		<div class="box-title">
+			<h3>Your Subscriptions</h3>
+			<div class="box-title-button">
+				<?php echo YsaHtml::link('Add New Subscription', array('new'), array('class' => 'secondary')); ?>
+			</div>
+		</div>
+		<div class="box-content">
+			<div class="shadow-box">
+				<table class="data">
+					<thead>
+						<tr>
+							<th>Subscription</th>
+							<th class="w_10">Start date</th>
+							<th class="w_10">End date</th>
+							<th class="w_10">State</th>
+							<th class="w_10">Actions</th>
+						</tr>
+					</thead>
+					<?php if (count($subscriptions) < 1): ?>
+						<h3>You have no subscriptions.</h3>
+					<?php else: ?>
+						<tbody>
+							<?php foreach($subscriptions as $obUserSubscription):?>
+							<tr>
+								<td>
+									<span class="title">
+										<strong><?php echo $obUserSubscription->Membership->name?></strong>
+									</span>
+								</td>
+								<td>
+									<?php echo Yii::app()->dateFormatter->formatDateTime($obUserSubscription->start_date, 'medium', null); ?>
+								</td>
+								<td>
+									<?php echo Yii::app()->dateFormatter->formatDateTime($obUserSubscription->expiry_date, 'medium', null); ?>
+								</td>
+								<td><?php echo $obUserSubscription->labelState()?></td>
+								<td>
+									<?php if ($obUserSubscription->state == $obUserSubscription::STATE_INACTIVE):?>
+										<?php if ($obUserSubscription->Transaction):?>
+											<?php echo YsaHtml::link('Pay Now', array('subscription/paypal/id/' . $obUserSubscription->Transaction->id . '/'), array('class' => 'btn small')); ?>
+										<?php endif?>
+									<?php endif?>
+								</th>
+							</tr>
+							<?php endforeach;?>
+						</tbody>
+					<?php endif?>
+				</table>
+			</div>
+		</div>
+	</section>
+</div> 

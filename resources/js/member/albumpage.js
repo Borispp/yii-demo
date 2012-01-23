@@ -29,7 +29,7 @@ $(function(){
 						$._alert(data.msg)
 					}
 				},'json');
-			})
+			});
 			
 			album.find('a.del').live('click', function(e){
 				e.preventDefault();

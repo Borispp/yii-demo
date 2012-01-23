@@ -16,10 +16,10 @@
 			<dd><?php echo $entry->title; ?></dd>
 			
 			<dt>Created</dt>
-			<dd><?php echo Yii::app()->dateFormatter->formatDateTime($entry->created, 'medium', 'short'); ?></dd>
+			<dd><?php echo $entry->created('medium', 'short'); ?></dd>
 			
 			<dt>Last Update</dt>
-			<dd><?php echo Yii::app()->dateFormatter->formatDateTime($entry->updated, 'medium', 'short'); ?></dd>
+			<dd><?php echo $entry->updated('medium', 'short'); ?></dd>
 			
 			<dt>Member</dt>
 			<dd><?php echo YsaHtml::link($entry->user->name(), array('member/view/id/' . $entry->user->id . '/'), array('class' => 'btn small ysa')); ?></dd>
@@ -37,7 +37,7 @@
 				<li class="<?php echo $entry->user->role?>">
 					<div class="replier"><strong><?php echo $r->replier->name(); ?></strong></div>
 					<div class="info">
-						Reply time: <?php echo Yii::app()->dateFormatter->formatDateTime($r->created, 'medium', 'short'); ?>
+						Reply time: <?php echo $r->created('medium', 'short'); ?>
 					</div>
 					<p class="reply"><?php echo $r->message; ?></p>
 				</li>
