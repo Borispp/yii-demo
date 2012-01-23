@@ -127,7 +127,9 @@ $(function(){
 						href:$(this).data('src')
 					});
 				});
-				$.fancybox.open(images);
+				$.fancybox.open(images, {
+					type:'image'
+				});
 			});
 			
 			var smugmug_container = $('#photo-import-smugmug-container');
