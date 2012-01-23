@@ -243,7 +243,7 @@ class ClientController extends YsaApiController
 			));
 	}
 	
-	public function actionUnlink()
+	public function actionUnlinkFacebook()
 	{
 		$this->_validateFacebookVars();
 		$this->_validateFacebookAccessToken( $_POST['fb_id'], $_POST['fb_access_token'] );
