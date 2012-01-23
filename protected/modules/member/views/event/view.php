@@ -17,8 +17,6 @@
 					
 				<div class="title">State</div>
 				<p><?php echo YsaHtml::dropDownList('state', $entry->state, $entry->getStates(), array('id' => 'description-state')); ?></p>
-				
-					
 					<dl>
 						<dt>ID</dt>
 						<dd><?php echo $entry->id; ?></dd>

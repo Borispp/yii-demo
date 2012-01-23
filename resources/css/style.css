@@ -2168,6 +2168,9 @@ section.box .box-content {
   margin-bottom: 1em;
   text-transform: uppercase;
 }
+.form .button input {
+  position: relative;
+}
 .form section label, .form section > div strong {
   float: left;
   font-weight: bold;
@@ -2448,6 +2451,23 @@ table.data .inactive {
 table.data .active {
   color: #17c600;
 }
+table.data .member, table.data .ipad {
+  display: block;
+  display: inline-block;
+  background-image: url(../images/icons.png);
+  text-indent: -9999px;
+  position: relative;
+}
+table.data .member {
+  background-position: 0 -1054px;
+  width: 12px;
+  height: 12px;
+}
+table.data .ipad {
+  background-position: -62px -1240px;
+  width: 12px;
+  height: 12px;
+}
 /* Event Page
 *******************************/
 #event #uniform-description-state span, #album #uniform-description-state span {
@@ -2701,6 +2721,49 @@ section.smugmug-import .import li figure img {
 section.smugmug-import .import li span {
   display: block;
   text-align: center;
+}
+#photo figure {
+  float: left;
+}
+#photo figure img {
+  max-width: 550px;
+  height: auto;
+}
+#photo .description {
+  float: right;
+  width: 290px;
+  background: #f0f0f0;
+  padding: 20px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#photo .description .title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: .3em;
+}
+#photo .description .container {
+  margin-bottom: 1em;
+}
+#photo .description dl {
+  padding: 0;
+  margin: 0;
+  line-height: 2;
+}
+#photo .description dl dt {
+  float: left;
+  width: 100px;
+  clear: both;
+}
+#photo .description dl dd {
+  float: left;
+  width: 150px;
+  font-weight: bold;
 }
 #studio-specials .loading {
   display: none;

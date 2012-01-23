@@ -20,7 +20,7 @@
 							<th class="w_1">ID</th>
 							<th class="w_30">Name</th>
 							<th>Description</th>
-							<th class="w_20">Created</th>
+							<th class="w_10">Added By</th>
 							<th class="w_1">State</th>
 							<th class="actions">Actions</th>
 						</tr>
@@ -38,8 +38,12 @@
 										<?php endif; ?>
 									</td>
 									<td><?php echo $entry->description?></td>
-									<td><?php echo $entry->getAddedWith()?></td>
-									<td><?php echo $entry->state()?></td>
+									<td>
+										<span class="<?php echo $entry->added_with?>" title="<?php echo $entry->getAddedWith()?>"><?php echo $entry->getAddedWith()?></span>
+									</td>
+									<td>
+										<span class="<?php echo strtolower($entry->state()); ?>"><?php echo $entry->state(); ?></span>
+									</td>
 									<td class="actions">
 										<?php echo YsaHtml::link('View', array('client/view/' . $entry->id), array('class' => 'icon i_wrench', 'title' => 'View Client')); ?>
 										&nbsp;

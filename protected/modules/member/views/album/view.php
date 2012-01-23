@@ -112,11 +112,12 @@
 					<?php echo $avlForm->labelEx($availability,'order_link'); ?>
 					<div><?php echo $avlForm->textField($availability, 'order_link'); ?></div>
 				</section>
-
+				<?/*
 				<section class="cf">
 					<?php echo $avlForm->labelEx($availability,'can_order'); ?>
 					<div><?php echo $avlForm->checkBox($availability, 'can_order', array('checked' => $entry->canOrder())); ?></div>
 				</section>
+				 */?>
 				<section class="cf">
 					<?php echo $avlForm->labelEx($availability,'can_share'); ?>
 					<div><?php echo $avlForm->checkBox($availability, 'can_share', array('checked' => $entry->canShare())); ?></div>

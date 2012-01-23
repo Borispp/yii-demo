@@ -181,7 +181,7 @@ class EventPhoto extends YsaActiveRecord
 	 * Get EXIF Data information
 	 * @return array
 	 */
-	public function exif()
+	public function exif($key = null)
 	{
 		if (null === $this->_exif) {
 			if (YsaHelpers::isSerialized($this->exif_data)) {
@@ -191,7 +191,15 @@ class EventPhoto extends YsaActiveRecord
 			}			
 		}
 		
-		return $this->_exif;
+		if (null === $key) {
+			return $this->_exif;
+		} else {
+			if (isset($this->_exif[$key])) {
+				return $this->_exif[$key];
+			} else {
+				return false;
+			}
+		}
 	}
 	
 	/**
@@ -631,5 +639,20 @@ class EventPhoto extends YsaActiveRecord
 	public function shareLink($title = 'Share URL', $htmlOptions = array())
 	{
 		return YsaHtml::link($title, $this->shareUrl(), $htmlOptions);
+	}
+	
+	public function title()
+	{
+		return 'Photo #' . $this->id;
+	}
+	
+	public function size()
+	{
+		return YsaHelpers::readableFilesize($this->size);
+	}
+	
+	public function originalSize()
+	{
+		return YsaHelpers::readableFilesize($this->original_size);
 	}
 }

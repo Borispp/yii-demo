@@ -643,10 +643,10 @@ section.box {
 		margin-bottom: 1em;
 		text-transform: uppercase;
 	}
+	.button input {
+		position:relative;
+	}
 }
-
-
-
 
 .form section label,
 .form section > div strong {
@@ -844,6 +844,18 @@ table.data {
 	.active {
 		color:@green-alpha;
 	}
+
+	.member,
+	.ipad {
+		display:block;
+		.icon;
+	}
+	.member {
+		.i_camera;
+	}
+	.ipad {
+		.i_new_window;
+	}
 }
 
 
@@ -1003,8 +1015,6 @@ table.data {
 	}
 }
 
-
-
 section.smugmug-import {
 	display:none;
 	.box-content {
@@ -1069,6 +1079,48 @@ section.smugmug-import {
 			span {
 				display:block;
 				text-align:center;
+			}
+		}
+	}
+}
+
+
+#photo {
+	figure {
+		float:left;
+		img {
+			max-width:550px;
+			height:auto;
+		}
+	}
+	.description {
+		float:right;
+		width:290px;
+		background:@dark-gray-golf;
+		padding:20px;
+		.rounded(3px);
+		.title {
+			font-size:11px;
+			font-weight:700;
+			text-transform:uppercase;
+			margin-bottom:.3em;
+		}
+		.container {
+			margin-bottom:1em;
+		}
+		dl {
+			padding:0;
+			margin:0;
+			line-height:2;
+			dt {
+				float:left;
+				width:100px;
+				clear:both;
+			}
+			dd {
+				float:left;
+				width:150px;
+				font-weight:bold;
 			}
 		}
 	}

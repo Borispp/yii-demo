@@ -53,7 +53,7 @@ class PhotoController extends YsaMemberController
 			 ->crumb($entry->album->name, array('album/view/' . $entry->album->id))
 			 ->crumb('Photo #' . $entry->id);
 		
-		$this->setMemberPageTitle('Photo #' . $entry->id);
+		$this->setMemberPageTitle($entry->title());
 		
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/photopage.js', CClientScript::POS_HEAD);
 		
@@ -76,9 +76,9 @@ class PhotoController extends YsaMemberController
 		$entry = $this->_ensureValidPhotoId( $photoId );
 		$member = $this->member();
 		
-		if ( !Yii::app()->getRequest()->getIsPostRequest() or !isset($_POST['EventPhotoComment']) )
+		if ( !Yii::app()->request->isPostRequest or !isset($_POST['EventPhotoComment']) )
 			$this->redirect( array('photo/view/'.$entry->id) );
-	
+		
 		// Control access rights
 		if ( !$member->hasFacebook() or !$entry->canShareComments() )
 			$this->redirect( array('photo/view/'.$entry->id) );
@@ -334,5 +334,25 @@ class PhotoController extends YsaMemberController
 		}
 	}
 	
+	public function actionToggle($photoId = 0)
+	{
+		if (Yii::app()->getRequest()->isAjaxRequest) {
+			$entry = EventPhoto::model()->findByPk($photoId);
+			if ($entry && $entry->isOwner()) {
+				if (isset($_POST['state']) && in_array($_POST['state'], array_keys(EventPhoto::model()->getStates()))) {
+					$entry->state = intval($_POST['state']);
+					$entry->save();
+					$this->sendJsonSuccess();
+				} else {
+					$this->sendJsonError(array(
+						'msg' => 'Something went wrong. Please reload the page and try again',
+					));
+				}
+			}
+			
+		} else {
+			$this->redirect(Yii::app()->homeUrl);
+		}
+	}
 	
 }
