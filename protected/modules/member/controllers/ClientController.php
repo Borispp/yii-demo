@@ -42,26 +42,6 @@ class ClientController extends YsaMemberController
 		));
 	}
 
-//	protected function handleEvents(Client $obClient)
-//	{
-//		foreach($obClient->events as $obEvent)
-//		{
-//			$obClient->removePhotoEvent($obEvent);
-//		}
-//		if (!empty($_POST['events']))
-//		{
-//			foreach(explode(',', $_POST['events']) as $eventId)
-//			{
-//				$obEvent = Event::model()->findByPk($eventId);
-//				if (!$obEvent)
-//				{
-//					continue;
-//				}
-//				$obClient->addPhotoEvent($obEvent);
-//			}
-//		}
-//	}
-
 	public function actionIndex()
 	{
 		if (isset($_POST['Fields'])) {

@@ -487,13 +487,13 @@ class EventPhoto extends YsaActiveRecord
 	}
 
 	/**
-	 * Allow to share comments on Facebook
+	 * Allow to be commented
 	 *
 	 * @return boolean
 	 */
-	public function canShareComments()
+	public function canBeCommented()
 	{
-		return $this->canShare() && $this->album->event->isPublic();
+		return $this->album->event->isPublic() or $this->album->event->isProofing();
 	}
 	
 	public function canOrder()

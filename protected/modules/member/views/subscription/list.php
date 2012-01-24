@@ -41,11 +41,12 @@
 										<?php if ($obUserSubscription->Transaction):?>
 											<?php echo YsaHtml::link('Pay Now', array('subscription/paypal/id/' . $obUserSubscription->Transaction->id . '/'), array('class' => 'blue btn small')); ?>
 											<?php echo YsaHtml::link('Delete', array('subscription/delete/subscriptionId/' . $obUserSubscription->Transaction->id . '/'), array('class' => 'btn small red delete')); ?>
-										<?php elseif ($obUserSubscription->state == UserSubscription::STATE_ENABLED) :?>
-											-
-										<?php elseif ($obUserSubscription->state == UserSubscription::STATE_ACTIVE) :?>
-											-
-										<?php endif?>
+										<?php endif;?>
+									
+									<?php elseif ($obUserSubscription->state == UserSubscription::STATE_ENABLED) :?>
+									
+									<?php elseif ($obUserSubscription->state == UserSubscription::STATE_ACTIVE) :?>
+										<?php echo YsaHtml::link('Details', array('subscription/details/id/' . $obUserSubscription->Transaction->id . '/'), array('class' => 'btn small')); ?>
 									<?php endif?>
 								</th>
 							</tr>

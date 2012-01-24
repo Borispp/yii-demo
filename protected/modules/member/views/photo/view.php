@@ -148,6 +148,7 @@
 			</div>
 		</section>
 	
+		<?php if ( $entry->canBeCommented() ) : ?>
 		<section class="box">
 			<div class="box-title">
 				<h3>Add Comment</h3>
@@ -167,11 +168,6 @@
 							</div>
 						</section>
 						<div class="button">
-							<?php if ( $member->hasFacebook() && $entry->canShareComments() ) : ?>
-								<?php $checkbox_options = isset($_POST['EventPhotoComment']['forward2facebook']) && empty($_POST['EventPhotoComment']['forward2facebook']) ? null : array('checked'=>'checked') ?>
-								<?php echo $form->checkbox($entryComment,'forward2facebook', $checkbox_options); ?>
-								<?php echo $form->labelEx($entryComment,'forward2facebook'); ?>
-							<?php endif ?>
 							<?php echo YsaHtml::submitButton('Add Comment'); ?>
 						</div>
 						<?php $this->endWidget(); ?>
@@ -179,6 +175,7 @@
 				</div>
 			</div>
 		</section>
+		<?php endif ?>
 
 	<?php endif ?>
 	<?/*

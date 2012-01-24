@@ -65,7 +65,7 @@
 					<?php endforeach?>
 				</ul>
 				<div class="box-button">
-					<li><?php echo YsaHtml::link('Create New Event', array('client/add/'), array('class' => 'btn small')); ?></li>
+					<li><?php echo YsaHtml::link('Create New Event', array('event/add/'), array('class' => 'btn small')); ?></li>
 				</div>
 			</div>
 		</section>
