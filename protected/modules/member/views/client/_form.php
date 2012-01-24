@@ -1,17 +1,3 @@
-<style type="text/css">
-		#user-events
-		{
-			background: #ccc;
-			width: 100px;
-			height: 100px;
-		}
-		#events
-		{
-			background: #0cc;
-			width: 100px;
-			height: 100px;
-		}
-	</style>
 <div class="form standart-form">
 	<script type="text/javascript" src="<?php echo Yii::app()->baseUrl?>/resources/js/member/client.js"></script>
 	<?php $form=$this->beginWidget('YsaMemberForm', array(
@@ -65,21 +51,31 @@
 			<?php echo $form->error($entry,'description'); ?>
 		</div>
 	</section>
-
-	<section id="user-events" rel="client-<?php echo $entry->id?>" class="cf">
-		<ul>
-			<?php $ids = array();foreach($entry->events as $obEvent):$ids[] = $obEvent->id;?>
-			<li class="event" id="event-<?php echo $obEvent->id?>"><?php echo $obEvent->name?></li>
-			<?php endforeach?>
-		</ul>
-	</section>
-
-	<section id="events" class="cf">
-		<ul>
-			<?php foreach($events as $obEvent): if (in_array($obEvent->id, $ids)) continue;?>
-			<li class="event" id="event-<?php echo $obEvent->id?>"><?php echo $obEvent->name?></li>
-			<?php endforeach?>
-		</ul>
+	<section class="cf">
+		<label>Events</label>
+		<div>
+			<div class="events-block">
+				<div class="box-title">
+					<h3>Connected</h3>
+				</div>
+				<ul id="user-events" class="connectedSortable">
+					<?php $ids = array();foreach($entry->events as $obEvent):$ids[] = $obEvent->id;?>
+					<li class="ui-state-highlight event" id="event-<?php echo $obEvent->id?>"><?php echo $obEvent->name?></li>
+					<?php endforeach?>
+				</ul>
+			</div>
+			<div class="events-block">
+				<div class="box-title">
+					<h3>Available</h3>
+				</div>
+				<ul id="events" class="connectedSortable">
+					<?php foreach($events as $obEvent): if (in_array($obEvent->id, $ids)) continue;?>
+					<li class="ui-state-highlight event" id="event-<?php echo $obEvent->id?>"><?php echo $obEvent->name?></li>
+					<?php endforeach?>
+				</ul>
+			</div>
+		</div>
+		<input type="hidden" name="events" id="events-input" value="<?php echo implode(',', $ids)?>"/>
 	</section>
 
 	<div class="button">
