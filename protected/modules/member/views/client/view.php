@@ -1,54 +1,81 @@
-<script type="text/javascript" src="<?php echo Yii::app()->baseUrl?>/resources/js/member/client.js"></script>
-<div class="w">
+<div class="w" id="client" data-clientid="<?php echo $entry->id; ?>">
 	<section class="box">
 		<div class="box-title">
 			<h3><?php echo $entry->name; ?></h3>
 			<div class="box-title-button">
 				<?php echo YsaHtml::link('<span class="icon i_chat"></span>Send Push Notification', '/member/notification/new?type=client&recipient='.$entry->id, array('class' => 'secondary iconed', 'id' => 'send-push-link')); ?>
+				<?php echo YsaHtml::link('<span class="icon i_brush"></span>Edit Client', array('client/edit/' . $entry->id . '/'), array('class' => 'secondary iconed')); ?>
 			</div>
 		</div>
-		<div class="box-content">
-			<div class="shadow-box">
-				<table class="data">
-					<tr>
-						<th>Name</th>
-						<td><?php echo $entry->name?></td>
-					</tr>
-					<tr>
-						<th>Email</th>
-						<td><?php echo $entry->email?></td>
-					</tr>
-					<tr>
-						<th>Phone</th>
-						<td><?php echo $entry->phone?></td>
-					</tr>
-					<tr>
-						<th>Password</th>
-						<td><?php echo $entry->password?></td>
-					</tr>
-					<tr>
-						<th>State</th>
-						<td><?php echo $entry->state()?></td>
-					</tr>
-					<tr>
-						<th>Description</th>
-						<td><?php echo nl2br($entry->description)?></td>
-					</tr>
-					<tr>
-						<th>Added with</th>
-						<td><?php echo $entry->getAddedWith()?></td>
-					</tr>
-					<tr>
-						<th>Register Date</th>
-						<td><?php echo $entry->created()?></td>
-					</tr>
+		<div class="box-content cf">
+			
+			<div class="description shadow-box">
+				<?php if ($entry->description) : ?>
+					<div class="title">Description</div>
+					<p><?php echo $entry->description; ?></p>
+				<?php endif; ?>
+				
+				<div class="title">State</div>
+				<p><?php echo YsaHtml::dropDownList('state', $entry->state, $entry->getStates(), array('id' => 'description-state')); ?></p>
+				<dl>
+					<dt>Registered</dt>
+					<dd><?php echo $entry->created('medium', null); ?></dd>
+
 					<?php if ($entry->updated):?>
+						<dt>Updated</dt>
+						<dd><?php echo $entry->updated('medium', null); ?></dd>					
+					<?php endif;?>
+				</dl>
+			</div>
+			
+			
+			<div class="main-box">
+				<div class="main-box-title">
+					<h3>Client Information</h3>
+					<div class="cf"></div>
+				</div>
+				<div class="shadow-box">
+					<table class="data">
 						<tr>
-							<th>Update Date</th>
-							<td><?php echo $entry->updated()?></td>
+							<th>Name</th>
+							<td><?php echo $entry->name?></td>
 						</tr>
-					<?php endif?>
-				</table>
+						<tr>
+							<th>Email</th>
+							<td><?php echo YsaHtml::mailto($entry->email, $entry->email) ?></td>
+						</tr>
+						<tr>
+							<th>Phone</th>
+							<td><?php echo $entry->phone?></td>
+						</tr>
+						<tr>
+							<th>Password</th>
+							<td><?php echo $entry->password?></td>
+						</tr>
+						<tr>
+							<th>Added with</th>
+							<td><?php echo $entry->getAddedWith()?></td>
+						</tr>
+					</table>
+				</div>
+				<p>&nbsp;</p>
+				<div class="main-box-title">
+					<h3>Attached Events</h3>
+					<div class="cf"></div>
+				</div>
+				<div class="shadow-box">
+					<?php if (count($entry->events)) : ?>
+						<ul class="event-list">
+							<?php foreach ($entry->events as $event) : ?>
+								<li class="cf">
+									<?php echo YsaHtml::link($event->preview() . '<span>' . $event->name . '</span>', array('event/view/' . $event->id . '/')); ?>
+								</li>
+							<?php endforeach; ?>
+						</ul>
+					<?php else:?>
+						<div class="empty-list">Empty List</div>
+					<?php endif; ?>
+				</div>
 			</div>
 		</div>
 	</section>

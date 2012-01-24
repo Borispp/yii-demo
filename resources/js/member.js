@@ -19,8 +19,9 @@ $(function() {
 		timeFormat: 'hh:mm:ss',
 		showSecond: true
 	});
+	
 	// styling form elements
-	$("select, input:checkbox, input:radio, input:file").uniform();
+	$("select:not(.multiselect), input:checkbox, input:radio, input:file").uniform();
 	// init widgets in memeber area
 	$('#member-area').initWidgets();
 	// init tips for icons

@@ -49,7 +49,7 @@
 										&nbsp;
 										<?php echo YsaHtml::link('Edit', array('client/edit/' . $entry->id), array('class' => 'icon i_brush', 'title' => 'Edit Client')); ?>
 										&nbsp;
-										<?php echo YsaHtml::link('Delete', array('client/delete/' . $entry->id), array('class' => 'delete icon i_x_alt', 'title' => 'Delete Client')); ?>
+										<?php echo YsaHtml::link('Delete', array('client/delete/' . $entry->id), array('class' => 'del icon i_x_alt', 'title' => 'Delete Client')); ?>
 									</td>
 								</tr>
 							<?php endforeach; ?>

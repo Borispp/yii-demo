@@ -22,8 +22,13 @@
  */
 class Client extends YsaActiveRecord
 {
-	const STATE_ACTIVE = 1;
-	const STATE_INACTIVE = 0;
+	public $eventList;
+	
+	public $selectedEvents = array();
+	
+	const ADDED_MEMBER = 'member';
+	
+	const ADDED_APP = 'ipad';
 	
 	/**
 	 * Returns the static model of the specified AR class.
@@ -54,7 +59,7 @@ class Client extends YsaActiveRecord
 			array('email', 'unique'),
 			array('name, email, password', 'required'),
 			array('name, email, password, phone', 'length', 'max'=>100),
-			array('added_with, description, created, updated', 'safe'),
+			array('added_with, description, created, updated, eventList, selectedEvents', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, user_id, name, email, password, phone, description, state, created, updated', 'safe', 'on'=>'search'),
@@ -218,8 +223,8 @@ class Client extends YsaActiveRecord
 	public function getAddedWithList()
 	{
 		return array(
-			'member'	=> 'By Photographer',
-			'ipad'		=> 'Registered in Application'
+			self::ADDED_MEMBER	=> 'By Photographer',
+			self::ADDED_APP		=> 'Registered in Application'
 		);
 	}
 
@@ -303,5 +308,64 @@ class Client extends YsaActiveRecord
 			return TRUE;
 		}
 		return FALSE;
+	}
+	
+	/**
+	 * Selected events for Client
+	 * 
+	 * @return array 
+	 */
+	public function selectedEvents()
+	{
+		$eventsIds = Yii::app()->db->createCommand()
+			->select('event_id')
+			->from(ClientEvents::model()->tableName() . ' ce')
+			->where('client_id=:client_id', array(':client_id'=>$this->id))
+			->queryColumn();
+		
+		return $this->prepareSelectedEvents($eventsIds);
+	}
+	
+	/**
+	 * Prepare options for selected Events
+	 * 
+	 * @param array $ids 
+	 * @return array
+	 */
+	public function prepareSelectedEvents($eventsIds)
+	{
+		$events = array();
+		foreach ($eventsIds as $eventId) {
+			$events[$eventId] = array(
+				'selected' => 'selected',
+			);
+		}
+		
+		return $events;
+	}
+	
+	/**
+	 * Save Client Events
+	 * @param array $eventsIds
+	 * @return Client 
+	 */
+	public function setEvents($eventsIds)
+	{
+		ClientEvents::model()->deleteAll('client_id=:client_id', array(
+			':client_id' => $this->id,
+		));
+		foreach ($eventsIds as $eventId) {
+			$s = new ClientEvents();
+			$s->setAttributes(array(
+				'client_id'  => $this->id,
+				'event_id'   => (int) $eventId,
+				'added_by'	 => self::ADDED_MEMBER,
+			));
+			
+			$s->save();
+			unset($s);
+		}
+		
+		return $this;
 	}
 }
