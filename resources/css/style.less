@@ -878,7 +878,8 @@ table.data {
 /* Event Page
 *******************************/
 #event,
-#album {
+#album,
+#client {
 	#uniform-description-state {
 		span {
 			width:115px;
@@ -1765,7 +1766,6 @@ section.smugmug-import {
 }
 
 
-
 #client-list .search-bar,
 #notification-list .search-bar,
 #event-list .search-bar {
@@ -1822,7 +1822,144 @@ section.smugmug-import {
 }
 
 
+/* Client page
+*******************************/
 
+#client-form {
+	.events-block {
+		margin: 0 20px 0 0;
+		padding: 0;
+		float: left;
+		width: 195px;
+		background: @white-alpha;
+		color: @dark-gray-delta;
+
+		height:300px;
+		.box-content {
+			padding:10px;
+			position:relative;
+		}
+	}
+	.connectedSortable {
+		list-style-type: none;
+		margin: 0;
+	}
+	.connectedSortable li {
+		margin: 0 0 5px 0;
+
+	}
+
+	.multiselect {
+		display:none;
+	}
+
+	.ms-container {
+		.ms-selectable, 
+		.ms-selection {
+			background: @white-alpha;
+			background: #fff;
+			float: left;
+			.rounded(4px);
+			.bordered(#cccccc, #b0b0b0, #b0b0b0, #cccccc);	
+		}
+
+		h3 {
+			padding:0 20px;
+			margin: 0;
+			border-bottom: 1px solid @dark-gray-foxtrot;
+			background: @white-alpha;
+			height:44px;
+			.rounded-top(3px);
+			color:@dark-gray-alpha;
+			font:bold 11px/44px sans-serif;
+			text-transform: uppercase;
+		}
+		.ms-selectable{
+			margin-right: 40px;
+		}
+		ul.ms-list{
+			width: 185px;
+			height: 250px;
+			overflow-y: auto;
+		}
+		li.ms-elem-selectable,
+		li.ms-elem-selected {
+			padding: 0 10px;
+			background-color:@dark-gray-golf;
+			line-height:2;
+			border-top:1px solid @white-alpha;
+			border-bottom:1px solid @dark-gray-foxtrot;
+			&:first-child {
+				border-top:0;
+			}
+		}
+
+		li.disabled,
+		li.disabled{
+			background:@dark-gray-echo;
+			color: @dark-gray-foxtrot;
+			border-bottom-color:@white-alpha;
+		}
+
+		.ms-optgroup-label{
+			padding: 5px 0px 0px 20px;
+			cursor: pointer;
+			color: #999;
+		}
+		.ms-optgroup-label.collapse{}
+		li.ms-elem-selectable:not(.disabled):hover,
+		.ms-selection li:not(.disabled):hover{
+			cursor: pointer;
+			background-color: #eee;
+			color: #000;
+		}
+
+		.ms-container .ms-selection li:not(.disabled):hover{
+			background:#eee;
+		}
+
+		.ms-selected {
+			display:none;
+		}
+
+		&:after{
+			content: "."; display: block; height: 0; line-height: 0; font-size: 0; clear: both; min-height: 0; visibility: hidden;
+		}
+	}
+}
+#client {
+	.event-list {
+		li {
+			padding-bottom:1em;
+			border-bottom:1px solid #ddd;
+			margin-bottom:1em;
+			font-weight:bold;
+			font-size:11px;
+			text-transform:uppercase;
+			&:last-child {
+				padding-bottom:0;
+				border-bottom:none;
+				margin-bottom:0;
+			}
+			a {
+				display:block;
+				img {
+					float:left;
+					max-width:100px;
+					height:auto;
+				}
+				span {
+					padding-left:2em;
+					float:left;
+					line-height:67px;
+				}
+				&:hover img {
+					opacity:.8;
+				}
+			}
+		}
+	}
+}
 
 
 /* Uploader Styles

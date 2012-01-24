@@ -9,44 +9,58 @@ class ClientController extends YsaMemberController
 	}
 	public function actionAdd()
 	{
-		$this->crumb('New Client');
+		
 		$entry = new Client();
+		
 		if (isset($_POST['Client']))
 		{
 			$entry->attributes = $_POST['Client'];
+			
 			$entry->user_id = $this->member()->id;
-			if ($entry->validate())
-			{
+			
+			$eventList = isset($_POST['Client']['eventList']) && is_array($_POST['Client']['eventList']) ? $_POST['Client']['eventList'] : array();
+			
+			if ($entry->validate()) {
 				$entry->save();
-				$this->handleEvents($entry);
+				$entry->setEvents($eventList);
+				$this->setSuccess('Client has been added successfully.');
 				$this->redirect(array('client/'));
+			} else {
+				if (isset($_POST['Client']['eventList']) && is_array($_POST['Client']['eventList'])) {
+					$entry->selectedEvents = $entry->prepareSelectedEvents($_POST['Client']['eventList']);
+				}
 			}
 		}
 		$this->setMemberPageTitle('New Client');
+		
+		$this->crumb('New Client');
+		
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/clientedit.js', CClientScript::POS_HEAD);
+		
 		$this->render('add', array(
-				'entry' => $entry,
-			));
+			'entry'	=> $entry,
+		));
 	}
 
-	protected function handleEvents(Client $obClient)
-	{
-		foreach($obClient->events as $obEvent)
-		{
-			$obClient->removePhotoEvent($obEvent);
-		}
-		if (!empty($_POST['events']))
-		{
-			foreach(explode(',', $_POST['events']) as $eventId)
-			{
-				$obEvent = Event::model()->findByPk($eventId);
-				if (!$obEvent)
-				{
-					continue;
-				}
-				$obClient->addPhotoEvent($obEvent);
-			}
-		}
-	}
+//	protected function handleEvents(Client $obClient)
+//	{
+//		foreach($obClient->events as $obEvent)
+//		{
+//			$obClient->removePhotoEvent($obEvent);
+//		}
+//		if (!empty($_POST['events']))
+//		{
+//			foreach(explode(',', $_POST['events']) as $eventId)
+//			{
+//				$obEvent = Event::model()->findByPk($eventId);
+//				if (!$obEvent)
+//				{
+//					continue;
+//				}
+//				$obClient->addPhotoEvent($obEvent);
+//			}
+//		}
+//	}
 
 	public function actionIndex()
 	{
@@ -82,43 +96,60 @@ class ClientController extends YsaMemberController
 
 	public function actionView($clientId)
 	{
-		$this->crumb('View Client');
+		
 		$entry = Client::model()->findByPk($clientId);
-		if (!$entry || !$entry->isOwner())
-		{
+		if (!$entry || !$entry->isOwner()) {
 			$this->redirect(array('client/'));
 		}
+		
+		$this->crumb('View Client');
 		$this->setMemberPageTitle('View Client');
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/clientpage.js', CClientScript::POS_HEAD);
+		
 		$this->render('view', array(
-				'entry' => $entry,
-			));
+			'entry' => $entry,
+		));
 	}
 
 	public function actionEdit($clientId)
 	{
-		$this->crumb('Edit Client');
+		
 		$entry = Client::model()->findByPk($clientId);
 
 		if (!$entry || !$entry->isOwner())
 		{
 			$this->redirect(array('client/'));
 		}
+		
+		$entry->selectedEvents = $entry->selectedEvents();
+		
 		if (isset($_POST['Client']))
 		{
 			$entry->attributes = $_POST['Client'];
-			if ($entry->validate())
-			{
+			
+			$eventList = isset($_POST['Client']['eventList']) && is_array($_POST['Client']['eventList']) ? $_POST['Client']['eventList'] : array();
+			
+			if ($entry->validate()) {
 				$entry->save();
-				$this->handleEvents($entry);
+				$entry->setEvents($eventList);
+				$this->setSuccess('Client has been successfully modified.');
 				$this->redirect(array('client/'));
+			} else {
+				if (isset($_POST['Client']['eventList']) && is_array($_POST['Client']['eventList'])) {
+					$entry->selectedEvents = $entry->prepareSelectedEvents($_POST['Client']['eventList']);
+				}
 			}
 		}
 
+		$this->crumb('Edit Client');
 		$this->setMemberPageTitle('Edit Client');
+		
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/clientedit.js', CClientScript::POS_HEAD);
 
 		$this->render('edit', array(
-				'entry' => $entry,
-			));
+			'entry'		=> $entry,
+			'events'    => $this->member()->event,
+		));
 	}
 
 	public function actionDelete($clientId = 0)
@@ -141,6 +172,27 @@ class ClientController extends YsaMemberController
 			$this->sendJsonSuccess();
 		} else {
 			$this->redirect(array('client/'));
+		}
+	}
+	
+	public function actionToggle($clientId = 0)
+	{
+		if (Yii::app()->getRequest()->isAjaxRequest) {
+			$entry = Client::model()->findByPk($clientId);
+			if ($entry && $entry->isOwner()) {
+				if (isset($_POST['state']) && in_array($_POST['state'], array_keys(Client::model()->getStates()))) {
+					$entry->state = intval($_POST['state']);
+					$entry->save();
+					$this->sendJsonSuccess();
+				} else {
+					$this->sendJsonError(array(
+						'msg' => 'Something went wrong. Please reload the page and try again',
+					));
+				}
+			}
+			
+		} else {
+			$this->redirect(Yii::app()->homeUrl);
 		}
 	}
 }

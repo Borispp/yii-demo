@@ -33,7 +33,6 @@
 			</div>
 			
 			<div class="main-box">
-				
 				<div class="main-box-title">
 					<?php if ($entry->isProofing()) : ?>
 						<h3>Proofing Album</h3>
@@ -44,7 +43,7 @@
 						<?php echo YsaHtml::link('Create New Album', array('album/create/event/' . $entry->id), array('class' => 'btn blue')); ?>
 					<?php endif; ?>
 						
-						<div class="cf"></div>
+					<div class="cf"></div>
 				</div>
 				
 

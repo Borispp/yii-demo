@@ -29,7 +29,10 @@ class YsaCTimestampBehavior extends CTimestampBehavior
 	{
 		if (!$this->_hasCreateAttribute() && !$this->_hasUpdateAttribute())
 			return;
-		$obRecord = $this->getOwner()->findByPk($this->getOwner()->id);
+		
+		$obRecord = $this->getOwner()->findByPk($this->getOwner()->getPrimaryKey());
+		
+		
 		if ($this->_hasCreateAttribute())
 			$this->getOwner()->{$this->createAttribute} = $obRecord->{$this->createAttribute};
 		if ($this->_hasUpdateAttribute())

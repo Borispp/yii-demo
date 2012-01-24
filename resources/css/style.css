@@ -2478,18 +2478,18 @@ table.data .ipad {
 }
 /* Event Page
 *******************************/
-#event #uniform-description-state span, #album #uniform-description-state span {
+#event #uniform-description-state span, #album #uniform-description-state span, #client #uniform-description-state span {
   width: 115px;
 }
-#event #uniform-description-state #description-state, #album #uniform-description-state #description-state {
+#event #uniform-description-state #description-state, #album #uniform-description-state #description-state, #client #uniform-description-state #description-state {
   min-width: 150px;
 }
-#event .description, #album .description {
+#event .description, #album .description, #client .description {
   float: left;
   width: 16%;
   background: #fff;
 }
-#event .description .title, #album .description .title {
+#event .description .title, #album .description .title, #client .description .title {
   font-size: 11px;
   color: #5e646e;
   font-weight: 700;
@@ -2498,52 +2498,57 @@ table.data .ipad {
 }
 #event .description dl,
 #album .description dl,
+#client .description dl,
 #event .description dt,
 #album .description dt,
+#client .description dt,
 #event .description dd,
-#album .description dd {
+#album .description dd,
+#client .description dd {
   margin: 0;
   padding: 0;
 }
-#event .description dl, #album .description dl {
+#event .description dl, #album .description dl, #client .description dl {
   overflow: hidden;
   zoom: 1;
   line-height: 2;
 }
-#event .description dt, #album .description dt {
+#event .description dt, #album .description dt, #client .description dt {
   color: #008eb0;
   float: left;
   clear: both;
   width: 74px;
 }
-#event .description dd, #album .description dd {
+#event .description dd, #album .description dd, #client .description dd {
   float: left;
   width: 74px;
   font-weight: bold;
 }
-#event .main-box, #album .main-box {
+#event .main-box, #album .main-box, #client .main-box {
   width: 77%;
   float: right;
 }
-#event .main-box .main-box-title, #album .main-box .main-box-title {
+#event .main-box .main-box-title, #album .main-box .main-box-title, #client .main-box .main-box-title {
   margin-bottom: 1em;
   border-bottom: 1px solid #ddd;
   padding-bottom: 1em;
 }
-#event .main-box .main-box-title h3, #album .main-box .main-box-title h3 {
+#event .main-box .main-box-title h3, #album .main-box .main-box-title h3, #client .main-box .main-box-title h3 {
   float: left;
   padding-top: 12px;
   margin: 0;
   color: #5e646e;
 }
-#event .main-box .main-box-title a, #album .main-box .main-box-title a {
+#event .main-box .main-box-title a, #album .main-box .main-box-title a, #client .main-box .main-box-title a {
   float: right;
   margin: 0 0 0 1em;
 }
 #event .main-box .album-photos li,
 #album .main-box .album-photos li,
+#client .main-box .album-photos li,
 #event .main-box .albums li,
-#album .main-box .albums li {
+#album .main-box .albums li,
+#client .main-box .albums li {
   float: left;
   margin: 0 4px 8px;
   width: 210px;
@@ -2563,8 +2568,10 @@ table.data .ipad {
 }
 #event .main-box .album-photos li figure,
 #album .main-box .album-photos li figure,
+#client .main-box .album-photos li figure,
 #event .main-box .albums li figure,
-#album .main-box .albums li figure {
+#album .main-box .albums li figure,
+#client .main-box .albums li figure {
   width: 210px;
   height: 140px;
   overflow: hidden;
@@ -2572,8 +2579,10 @@ table.data .ipad {
 }
 #event .main-box .album-photos li figure figcaption,
 #album .main-box .album-photos li figure figcaption,
+#client .main-box .album-photos li figure figcaption,
 #event .main-box .albums li figure figcaption,
-#album .main-box .albums li figure figcaption {
+#album .main-box .albums li figure figcaption,
+#client .main-box .albums li figure figcaption {
   position: absolute;
   left: 0;
   top: 0;
@@ -2584,8 +2593,10 @@ table.data .ipad {
 }
 #event .main-box .album-photos li figure figcaption a,
 #album .main-box .album-photos li figure figcaption a,
+#client .main-box .album-photos li figure figcaption a,
 #event .main-box .albums li figure figcaption a,
-#album .main-box .albums li figure figcaption a {
+#album .main-box .albums li figure figcaption a,
+#client .main-box .albums li figure figcaption a {
   display: block;
   font-size: 16px;
   width: 180px;
@@ -2593,8 +2604,10 @@ table.data .ipad {
 }
 #event .main-box .album-photos li figure .menu,
 #album .main-box .album-photos li figure .menu,
+#client .main-box .album-photos li figure .menu,
 #event .main-box .albums li figure .menu,
-#album .main-box .albums li figure .menu {
+#album .main-box .albums li figure .menu,
+#client .main-box .albums li figure .menu {
   position: absolute;
   display: none;
   color: #999999;
@@ -2606,8 +2619,10 @@ table.data .ipad {
 }
 #event .main-box .album-photos li figure .move,
 #album .main-box .album-photos li figure .move,
+#client .main-box .album-photos li figure .move,
 #event .main-box .albums li figure .move,
-#album .main-box .albums li figure .move {
+#album .main-box .albums li figure .move,
+#client .main-box .albums li figure .move {
   display: block;
   position: absolute;
   z-index: 100;
@@ -2617,47 +2632,63 @@ table.data .ipad {
 }
 #event .main-box .album-photos li figure:hover figcaption,
 #album .main-box .album-photos li figure:hover figcaption,
+#client .main-box .album-photos li figure:hover figcaption,
 #event .main-box .albums li figure:hover figcaption,
 #album .main-box .albums li figure:hover figcaption,
+#client .main-box .albums li figure:hover figcaption,
 #event .main-box .album-photos li figure:hover .menu,
 #album .main-box .album-photos li figure:hover .menu,
+#client .main-box .album-photos li figure:hover .menu,
 #event .main-box .albums li figure:hover .menu,
 #album .main-box .albums li figure:hover .menu,
+#client .main-box .albums li figure:hover .menu,
 #event .main-box .album-photos li figure:hover .move,
 #album .main-box .album-photos li figure:hover .move,
+#client .main-box .album-photos li figure:hover .move,
 #event .main-box .albums li figure:hover .move,
-#album .main-box .albums li figure:hover .move {
+#album .main-box .albums li figure:hover .move,
+#client .main-box .albums li figure:hover .move {
   display: block;
 }
 #event .main-box .album-photos li.inactive,
 #album .main-box .album-photos li.inactive,
+#client .main-box .album-photos li.inactive,
 #event .main-box .albums li.inactive,
-#album .main-box .albums li.inactive {
+#album .main-box .albums li.inactive,
+#client .main-box .albums li.inactive {
   background-color: #f0f0f0;
   border: 1px solid #f0f0f0;
 }
 #event .main-box .album-photos li.inactive figcaption,
 #album .main-box .album-photos li.inactive figcaption,
+#client .main-box .album-photos li.inactive figcaption,
 #event .main-box .albums li.inactive figcaption,
-#album .main-box .albums li.inactive figcaption {
+#album .main-box .albums li.inactive figcaption,
+#client .main-box .albums li.inactive figcaption {
   background: #f0f0f0;
 }
 #event .main-box .album-photos li.place,
 #album .main-box .album-photos li.place,
+#client .main-box .album-photos li.place,
 #event .main-box .albums li.place,
-#album .main-box .albums li.place {
+#album .main-box .albums li.place,
+#client .main-box .albums li.place {
   background: #eeeeee;
 }
 #event .main-box .album-photos li.cover,
 #album .main-box .album-photos li.cover,
+#client .main-box .album-photos li.cover,
 #event .main-box .albums li.cover,
-#album .main-box .albums li.cover {
+#album .main-box .albums li.cover,
+#client .main-box .albums li.cover {
   background-color: #e1f3f9;
 }
 #event .main-box .album-photos li.cover figcaption,
 #album .main-box .album-photos li.cover figcaption,
+#client .main-box .album-photos li.cover figcaption,
 #event .main-box .albums li.cover figcaption,
-#album .main-box .albums li.cover figcaption {
+#album .main-box .albums li.cover figcaption,
+#client .main-box .albums li.cover figcaption {
   background-color: #e1f3f9;
 }
 section.smugmug-import {
@@ -3358,6 +3389,140 @@ section.smugmug-import .import li span {
 }
 #search-bar-reset-btn:hover {
   text-decoration: none;
+}
+/* Client page
+*******************************/
+#client-form .events-block {
+  margin: 0 20px 0 0;
+  padding: 0;
+  float: left;
+  width: 195px;
+  background: #ffffff;
+  color: #555555;
+  height: 300px;
+}
+#client-form .events-block .box-content {
+  padding: 10px;
+  position: relative;
+}
+#client-form .connectedSortable {
+  list-style-type: none;
+  margin: 0;
+}
+#client-form .connectedSortable li {
+  margin: 0 0 5px 0;
+}
+#client-form .multiselect {
+  display: none;
+}
+#client-form .ms-container .ms-selectable, #client-form .ms-container .ms-selection {
+  background: #ffffff;
+  background: #fff;
+  float: left;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border-top: solid 1px #cccccc;
+  border-left: solid 1px #cccccc;
+  border-right: solid 1px #b0b0b0;
+  border-bottom: solid 1px #b0b0b0;
+}
+#client-form .ms-container h3 {
+  padding: 0 20px;
+  margin: 0;
+  border-bottom: 1px solid #c9c9c9;
+  background: #ffffff;
+  height: 44px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-topright: 3px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  -webkit-border-radius: 3px 3px 0px 0px;
+  border-radius: 3px 3px 0px 0px;
+  color: #5e646e;
+  font: bold 11px/44px sans-serif;
+  text-transform: uppercase;
+}
+#client-form .ms-container .ms-selectable {
+  margin-right: 40px;
+}
+#client-form .ms-container ul.ms-list {
+  width: 185px;
+  height: 250px;
+  overflow-y: auto;
+}
+#client-form .ms-container li.ms-elem-selectable, #client-form .ms-container li.ms-elem-selected {
+  padding: 0 10px;
+  background-color: #f0f0f0;
+  line-height: 2;
+  border-top: 1px solid #ffffff;
+  border-bottom: 1px solid #c9c9c9;
+}
+#client-form .ms-container li.ms-elem-selectable:first-child, #client-form .ms-container li.ms-elem-selected:first-child {
+  border-top: 0;
+}
+#client-form .ms-container li.disabled, #client-form .ms-container li.disabled {
+  background: #eeeeee;
+  color: #c9c9c9;
+  border-bottom-color: #ffffff;
+}
+#client-form .ms-container .ms-optgroup-label {
+  padding: 5px 0px 0px 20px;
+  cursor: pointer;
+  color: #999;
+}
+#client-form .ms-container li.ms-elem-selectable:not(.disabled):hover, #client-form .ms-container .ms-selection li:not(.disabled):hover {
+  cursor: pointer;
+  background-color: #eee;
+  color: #000;
+}
+#client-form .ms-container .ms-container .ms-selection li:not(.disabled):hover {
+  background: #eee;
+}
+#client-form .ms-container .ms-selected {
+  display: none;
+}
+#client-form .ms-container:after {
+  content: ".";
+  display: block;
+  height: 0;
+  line-height: 0;
+  font-size: 0;
+  clear: both;
+  min-height: 0;
+  visibility: hidden;
+}
+#client .event-list li {
+  padding-bottom: 1em;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 1em;
+  font-weight: bold;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+#client .event-list li:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+  margin-bottom: 0;
+}
+#client .event-list li a {
+  display: block;
+}
+#client .event-list li a img {
+  float: left;
+  max-width: 100px;
+  height: auto;
+}
+#client .event-list li a span {
+  padding-left: 2em;
+  float: left;
+  line-height: 67px;
+}
+#client .event-list li a:hover img {
+  opacity: .8;
 }
 /* Uploader Styles
 *******************************/

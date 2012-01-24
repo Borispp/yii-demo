@@ -25,6 +25,20 @@ class Event extends YsaActiveRecord
 	const TYPE_PROOF  = 'proof';
 
 	const TYPE_PORTFOLIO = 'portfolio';
+	
+	/**
+	 * Preview image
+	 * 
+	 * @var string 
+	 */
+	protected $_preview;
+	
+	/**
+	 * Preview image url
+	 * 
+	 * @var string
+	 */
+	protected $_previewUrl;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -315,5 +329,29 @@ class Event extends YsaActiveRecord
 		);
 
 		return $options;
+	}
+	
+	public function previewUrl()
+	{
+		if (count($this->albums)) {
+			
+			$previewUrl = $this->albums[0]->previewUrl();
+			
+		} else {
+			$w = Yii::app()->params['member_area']['album']['preview']['width'];
+			$h = Yii::app()->params['member_area']['album']['preview']['height'];
+
+			$previewUrl = EventPhoto::model()->defaultPicUrl($w, $h);
+		}
+		
+		return $previewUrl;
+	}
+	
+	public function preview($htmlOptions = array())
+	{
+		if (null === $this->_preview) {
+			$this->_preview = YsaHtml::image($this->previewUrl(), 'Event Preview', $htmlOptions);
+		}
+		return $this->_preview;
 	}
 }
