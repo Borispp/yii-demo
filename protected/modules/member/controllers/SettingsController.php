@@ -225,7 +225,6 @@ class SettingsController extends YsaMemberController
 				->crumb('Facebook');
 		
 		$fb_form = new FacebookSettingsForm;
-		$fb_form->email = $this->member()->option(UserOption::FACEBOOK_EMAIL, false);
 		$fb_form->fb_id = $this->member()->option(UserOption::FACEBOOK_ID, false);
 		
 		$this->render('facebook', array( 'member' => $this->member(), 'fb' => $fb_form));
