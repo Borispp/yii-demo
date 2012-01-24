@@ -5,9 +5,8 @@
  */
 class ClientController extends YsaApiController
 {
-	public function init()
+	protected function beforeAction()
 	{
-		parent::init();
 		$this->_commonValidate();
 	}
 
