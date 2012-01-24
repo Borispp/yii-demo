@@ -1,6 +1,6 @@
 RewriteEngine On
-RewriteBase /yourstudioapp/
+RewriteBase /
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /yourstudioapp/index.php [L]
+RewriteRule . /index.php [L]
