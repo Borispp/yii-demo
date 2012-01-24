@@ -15,6 +15,12 @@
  * @property string $specials
  * @property string $order_link
  * @property string $video
+ *
+ * @property User $user
+ * @property array $links
+ * @property array $customLinks
+ * @property array $bookmarkLinks
+ * @property array $persons
  */
 class Studio extends YsaActiveRecord
 {
