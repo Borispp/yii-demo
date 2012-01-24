@@ -14,12 +14,15 @@ class StudioController extends YsaMemberController
     public function actionIndex()
     {
 		$entry = $this->member()->studio;
-
+		
 		$this->crumb('Studio');
 		$this->setMemberPageTitle('Studio Information');
 		
+		$videoForm = new VideoForm();
+		
 		$this->render('index', array(
 			'entry'		=> $entry,
+			'videoForm' => $videoForm,
 		));
     }
 	
@@ -48,7 +51,7 @@ class StudioController extends YsaMemberController
 					'msg' => 'No files uploaded. Please reload the page and try again.',
 				));
 			}
-
+			
 			$entry = $this->member()->studio;
 			$entry->saveSpecials($file);
 
@@ -94,5 +97,49 @@ class StudioController extends YsaMemberController
 			}
 		}
 		$this->redirect(array('studio/'));
+	}
+	
+	public function actionSaveVideo()
+	{
+		if (isset($_POST['VideoForm'])) {
+			$form = new VideoForm();
+			$form->attributes = $_POST['VideoForm'];
+			if ($form->validate()) {
+				$this->member()->studio->addVideo($form->video, $form->type, $form->code);
+				if (Yii::app()->request->isAjaxRequest) {
+					$this->sendJsonSuccess(array(
+						'html' => $this->renderPartial('_video', array(
+							'entry' => $this->member()->studio,
+						), true)
+					));
+				} else {
+					$this->setSuccess('Video has been successfully removed.');
+					$this->redirect(array('studio/'));								
+				}
+			}
+			if (Yii::app()->request->isAjaxRequest) {
+				$this->sendJsonError(array(
+					'msg' => $form->getError('video'),
+				));
+			}
+		}
+		$this->redirect(array('studio/'));
+	}
+	
+	public function actionDeleteVideo()
+	{
+		$this->member()->studio->deleteVideo();
+		
+		if (Yii::app()->request->isAjaxRequest) {
+			$form = new VideoForm();
+			$this->sendJsonSuccess(array(
+				'html' => $this->renderPartial('_videoForm', array(
+					'entry' => $form,
+				), true)
+			));
+		} else {
+			$this->setSuccess('Video has been successfully removed.');
+			$this->redirect(array('studio/'));
+		}
 	}
 }

@@ -159,12 +159,12 @@ class ClientController extends YsaApiController
 	 */
 	protected function _validateFacebookAccessToken( $fb_id, $fb_access_token )
 	{
-		Yii::import('ext.facebook-sdk.facebook');
+		Yii::import('ext.facebook-sdk.Facebook');
 		$facebook = new Facebook(array(
 			'appId'  => Yii::app()->params['oauth']['facebook_app_id'],
 			'secret' => Yii::app()->params['oauth']['facebook_app_secret'],
 		));
-
+		
 		try 
 		{
 			$facebook->setAccessToken( $fb_access_token );
@@ -190,7 +190,7 @@ class ClientController extends YsaApiController
 		{
 			$this->_validateFacebookVars();
 			
-			$client = Client::model()->findByAttributes( array('facebook_id' => $_POST['fb_id']) );
+			$client = Client::model()->findByAttributes( array('facebook_id' => $_POST['fb_id'], 'state' => Client::STATE_ACTIVE) );
 			if (null === $client) 
 			{
 				// client profile not exists, need registration

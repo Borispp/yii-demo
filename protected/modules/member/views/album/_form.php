@@ -13,7 +13,7 @@
 	<section class="cf">
 		<?php echo $form->labelEx($entry,'shooting_date'); ?>
 		<div>
-			<?php echo $form->textField($entry,'shooting_date', array('maxlength' => 100, 'class' => 'datetime', 'readonly' => true)); ?>
+			<?php echo $form->textField($entry,'shooting_date', array('maxlength' => 100, 'class' => 'date', 'readonly' => true)); ?>
 			<?php echo $form->error($entry,'shooting_date'); ?>
 		</div>
 	</section>

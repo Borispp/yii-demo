@@ -13,7 +13,6 @@
  * @property string $info
  * @property Member $user
  * @property ApplicationOption $application
- * @property Member $user
  */
 class Application extends YsaActiveRecord
 {

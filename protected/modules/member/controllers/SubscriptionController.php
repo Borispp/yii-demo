@@ -36,6 +36,8 @@ class SubscriptionController extends YsaMemberController
 	{
 		$this->setMemberPageTitle('Subscriptions');
 		
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/subscriptionlist.js', CClientScript::POS_HEAD);
+		
 		$this->render('list', array(
 			'subscriptions' => $this->member()->UserSubscription,
 		));
@@ -148,5 +150,29 @@ class SubscriptionController extends YsaMemberController
 		if ($this->member()->hasSubscription())
 			$this->redirect(array('subscription/list/'));
 		$this->redirect(array('subscription/new/'));
+	}
+	
+	public function actionDelete($subscriptionId)
+	{
+		$ids = array();
+		if (isset($_POST['ids']) && count($_POST['ids'])) {
+			$ids = $_POST['ids'];
+		} elseif ($subscriptionId) {
+			$ids = array(intval($subscriptionId));
+		}
+		
+		foreach ($ids as $id) {
+			$entry = UserSubscription::model()->findByPk($id);
+			
+			if ($entry && $entry->user_id == $this->member()->id && UserSubscription::STATE_INACTIVE == $entry->state) {
+				$entry->delete();
+			}
+		}
+
+		if (Yii::app()->getRequest()->isAjaxRequest) {
+			$this->sendJsonSuccess();
+		} else {
+			$this->redirect(array('subscription/'));
+		}
 	}
 }

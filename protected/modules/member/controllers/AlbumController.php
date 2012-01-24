@@ -21,8 +21,13 @@ class AlbumController extends YsaMemberController
 		
 		if (isset($_POST['EventAlbum'])) {
 			$entry->attributes = $_POST['EventAlbum'];
-			$entry->shooting_date = YsaHelpers::formatDate($entry->shooting_date, Event::FORMAT_DATETIME);
+			
 			if ($entry->validate()) {
+				
+				if ($entry->shooting_date) {
+					$entry->shooting_date = YsaHelpers::formatDate($entry->shooting_date, Event::FORMAT_DATE);
+				}
+				
 				$entry->save();
 				$this->redirect(array('album/view/' . $entry->id));
 			}

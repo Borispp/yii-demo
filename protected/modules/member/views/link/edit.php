@@ -7,6 +7,7 @@
 			<div class="shadow-box">
 				<?php $this->renderPartial('_form', array(
 					'entry' => $entry,
+					'type'	=> $type,
 				)); ?>
 			</div>
 		</div>

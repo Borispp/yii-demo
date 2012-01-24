@@ -73,12 +73,13 @@ class EventController extends YsaMemberController
 				$entry->generatePassword();
 			}
 
-			$entry->date = YsaHelpers::formatDate($entry->date, Event::FORMAT_DATE);
-
-			if ($entry->validate())
-			{
+			if ($entry->validate()) {
+				
+				if ($entry->date) {
+					$entry->date = YsaHelpers::formatDate($entry->date, Event::FORMAT_DATE);
+				}
+				
 				$entry->save();
-
 				// create default proofing album for proof event
 				if (Event::TYPE_PROOF === $entry->type) {
 					$album = new EventAlbum();

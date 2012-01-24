@@ -4,7 +4,8 @@
 			'action' => array('saveGeneralInfo')
 	)); ?>
 	<?php
-		$fields = array('name', 'blog_feed', 'twitter_feed', 'facebook_feed', 'order_link');
+		$fields = array('name', 'blog_feed', 'twitter_feed', 'facebook_feed',);
+		//'order_link'
 	?>
 	<?php foreach ($fields as $field) : ?>
 		<section class="cf">
@@ -16,7 +17,7 @@
 		</section>
 	<?php endforeach; ?>
 	<div class="button">
-		<?php echo YsaHtml::submitButton('Save', array('class' => 'blue')); ?>
+		<?php echo YsaHtml::submitButton('Save', array('class' => 'blue', 'data-loading' => 'Loading', 'data-value' => 'Save')); ?>
 	</div>
 	<?php $this->endWidget(); ?>
 </div>

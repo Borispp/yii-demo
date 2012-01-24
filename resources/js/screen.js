@@ -10,6 +10,15 @@ $(function(){
 		}
 	};
 	
+	$.ucfirst = function(str,force) {
+          str=force ? str.toLowerCase() : str;
+          return str.replace(/(\b)([a-zA-Z])/,
+                   function(firstLetter){
+                      return   firstLetter.toUpperCase();
+                   });
+
+	}
+	
 	$.fn.backgroundImageUrl = function(options) {
 		if (options){
 			return this.each(function(){
@@ -56,10 +65,9 @@ $(function(){
 		});
 	});
 	
-	
-	
-	
-//	preload
+	$("a[rel*=external]").each(function(){
+		$(this).attr('target', '_blank');
+	});
 	
 	// add ajax loader to page on any ajax call
 	var ajax_loader = $('#ajax-loader');

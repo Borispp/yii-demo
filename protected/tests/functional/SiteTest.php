@@ -1,5 +1,6 @@
 <?php
 
+/*
 class SiteTest extends WebTestCase
 {
 	public function testIndex()
@@ -45,3 +46,4 @@ class SiteTest extends WebTestCase
 		$this->assertTextPresent('Login');
 	}
 }
+*/

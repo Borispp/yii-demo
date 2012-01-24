@@ -1,0 +1,14 @@
+<phpunit bootstrap="./bootstrap.php" printsummary="false" 
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true">
+	<formatter type="plain" usefile="false"/>
+	<batchtest>
+		<fileset dir="protected/tests/">
+			<include name="unit/*Test.php"/>
+		</fileset>
+		<fileset dir="protected/modules/">
+			<include name="*/tests/unit/*Test.php"/>
+		</fileset>
+	</batchtest>
+</phpunit>
