@@ -65,6 +65,7 @@ class ClientController extends YsaMemberController
 		$entries = Client::model()->findAll($criteria);
 
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/clientlist.js', CClientScript::POS_HEAD);
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/notification_button.js', CClientScript::POS_HEAD);
 
 		$this->setMemberPageTitle('Clients');
 		$this->render('index',array(
