@@ -10,12 +10,11 @@ class EventController extends YsaApiController
 	 * Common method to check application key and authorisation
 	 * @return void
 	 */
-	public function init()
+	protected function beforeAction($action)
 	{
-		parent::init();
 		$this->_commonValidate();
 		$this->_validateAuth();
-
+		return parent::beforeAction($action);
 	}
 
 	/**
