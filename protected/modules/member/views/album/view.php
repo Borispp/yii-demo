@@ -129,6 +129,8 @@
 			</div>
 		</div>
 	</section>
+
+	<?php endif;?>
 	
     <div id="photo-upload-container" class="multi-uploader">
 		<p>You browser doesn't have HTML5 support.</p>
@@ -161,5 +163,5 @@
 	
 	
 
-	<?php endif;?>
+
 </section>
