@@ -218,8 +218,8 @@ class Client extends YsaActiveRecord
 	public function getAddedWithList()
 	{
 		return array(
-			'member'	=> 'by Photographer',
-			'ipad'		=> 'from ipad'
+			'member'	=> 'By Photographer',
+			'ipad'		=> 'Registered in Application'
 		);
 	}
 

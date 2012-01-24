@@ -52,6 +52,7 @@
 			<?php echo $form->error($entry,'can_share'); ?>
 		</div>
 	</section>
+	<?/*
 	<section class="cf">
 		<?php echo $form->labelEx($entry,'can_order'); ?>
 		<div>
@@ -59,6 +60,7 @@
 			<?php echo $form->error($entry,'can_order'); ?>
 		</div>
 	</section>
+	 */?>
 	<div class="button">
 		<?php echo YsaHtml::submitButton($entry->isNewRecord ? 'Create' : 'Save', array('class' => 'blue')); ?>
 	</div>

@@ -221,13 +221,25 @@ class YsaHelpers
         }
     }
 	
-	public function encode($string)
+	public static function encode($string)
 	{
 		return base64_encode(sha1($string, true));
 	}
 	
-	public function short($number, $frombase = 20, $tobase = 36)
+	public static function short($number, $frombase = 20, $tobase = 36)
 	{
 		return base_convert($number, $frombase, $tobase);
+	}
+	
+	public static function readableFilesize($size) 
+	{
+		$mod = 1024;
+
+		$units = explode(' ','B KB MB GB TB PB');
+		for ($i = 0; $size > $mod; $i++) {
+			$size /= $mod;
+		}
+
+		return round($size, 2) . ' ' . $units[$i];
 	}
 }
