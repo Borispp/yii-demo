@@ -20,27 +20,12 @@ class EventController extends YsaApiController
 
 	/**
 	 * Validates vars and checks token match
-	 * @return void
+	 * @return boolean
 	 */
 	protected function _validateAuth()
 	{
-		$this->_commonValidate();
-		$this->_validateVars(array(
-				'token'		=> array(
-					'message'	=> 'No token received',
-					'required'	=> TRUE,
-					'event_id'	=> array(
-						'code'		=> '111',
-						'message'	=> 'No event ID found',
-						'required'	=> TRUE
-					)
-				)));
-		if ($obClientAuth = ClientAuth::model()->authByToken($_POST['token'], $_POST['app_key'], $_POST['device_id']))
-		{
-			$this->_obClient = $obClientAuth->client;
-			return TRUE;
-		}
-		$this->_renderError('Authorization by token failed');
+		$this->_obClient = parent::_validateAuth();
+		return TRUE;
 	}
 
 	/**

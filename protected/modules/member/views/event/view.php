@@ -1,19 +1,22 @@
 <section id="event" data-eventid="<?php echo $entry->id; ?>" class="w">
-	
-	
 	<section class="box">
 		<div class="box-title">
 			<h3><?php echo $entry->name; ?></h3>
 			<div class="box-title-button">
+				<script type="text/javascript" src="<?php echo Yii::app()->baseUrl?>/resources/js/member/notification_button.js"></script>
+				<?php echo YsaHtml::link('<span class="icon i_chat"></span>Send Push Notification', '/member/notification/new?type=event&recipient='.$entry->id, array('class' => 'secondary iconed', 'id' => 'send-push-link')); ?>
 				<?php echo YsaHtml::link('<span class="icon i_brush"></span>Edit Event', array('event/edit/' . $entry->id), array('class' => 'secondary iconed')); ?>
 			</div>
 		</div>
 		<div class="box-content">
 			<div class="description shadow-box">
 				<?php if ($entry->description) : ?>
-					<strong>Description</strong>
+					<div class="title">Description</div>
 					<p><?php echo $entry->description; ?></p>
 				<?php endif; ?>
+					
+				<div class="title">State</div>
+				<p><?php echo YsaHtml::dropDownList('state', $entry->state, $entry->getStates(), array('id' => 'description-state')); ?></p>
 					<dl>
 						<dt>ID</dt>
 						<dd><?php echo $entry->id; ?></dd>
@@ -21,14 +24,11 @@
 						<dt>Password</dt>
 						<dd><?php echo $entry->passwd; ?></dd>
 						
-						<dt>State</dt>
-						<dd class="<?php echo strtolower($entry->state()); ?>"><?php echo $entry->state(); ?></dd>
-						
 						<dt>Type</dt>
 						<dd><?php echo $entry->type(); ?></dd>
 						
 						<dt>Date</dt>
-						<dd><?php echo Yii::app()->dateFormatter->format('MM/dd/yyyy', $entry->date); ?></dd>
+						<dd><?php echo $entry->created('medium', null); ?></dd>
 					</dl>
 			</div>
 			
@@ -77,22 +77,7 @@
 				<?php endif; ?>
 					
 			</div>
-			
-				
 			<div class="cf"></div>
-				
 		</div>
-		
-		
 	</section>
-	
-	
-
-
-
-
-
-
-
-
 </section>

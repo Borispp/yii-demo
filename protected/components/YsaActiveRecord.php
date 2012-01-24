@@ -10,7 +10,7 @@ class YsaActiveRecord extends CActiveRecord
 	const LEVEL = '—';
 
 	const SEARCH_SESSION_NAME = 'ar_search';
-
+	
 	protected $_searchFields;
 
 	public function getStates()
@@ -124,4 +124,15 @@ class YsaActiveRecord extends CActiveRecord
 	{
 		return YsaHelpers::encrypt($this->id);
 	}
+	
+	public function created($date = 'medium', $time = 'medium')
+	{
+		return Yii::app()->dateFormatter->formatDateTime($this->created, $date, $time);
+	}
+	
+	public function updated($date = 'medium', $time = 'medium')
+	{
+		return Yii::app()->dateFormatter->formatDateTime($this->updated, $date, $time);
+	}
+	
 }

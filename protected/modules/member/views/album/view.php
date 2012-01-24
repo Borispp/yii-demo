@@ -8,29 +8,30 @@
 			</div>
 		</div>
 		<div class="box-content">
-			<div class="description shadow-box">
-				
-				<div class="title">Album Information</div>
+			<div class="description shadow-box <?php echo strtolower($entry->state())?>">
 				
 				<?php if ($entry->description) : ?>
+					<div class="title">Description</div>
 					<p><?php echo $entry->description; ?></p>
 				<?php endif; ?>
+					
+				<div class="title">State</div>
+				<p><?php echo YsaHtml::dropDownList('state', $entry->state, $entry->getStates(), array('id' => 'description-state')); ?></p>
 				
+					
+				<div class="title">Album Information</div>
 				<dl>
 					<dt>Unique ID</dt>
 					<dd><?php echo $entry->id; ?></dd>
-
-					<dt>State</dt>
-					<dd class="<?php echo strtolower($entry->state()); ?>"><?php echo $entry->state(); ?></dd>
 					
 					<dt>Photos</dt>
 					<dd><?php echo count($entry->photos); ?></dd>
 					
 					<dt>Created</dt>
-					<dd><?php echo Yii::app()->dateFormatter->format('MM/dd/yy', $entry->created); ?></dd>
+					<dd><?php echo $entry->created('medium', null); ?></dd>
 					
 					<dt>Last Update</dt>
-					<dd><?php echo Yii::app()->dateFormatter->format('MM/dd/yy', $entry->updated); ?></dd>
+					<dd><?php echo $entry->updated('medium', null); ?></dd>
 					
 					<?php if ($entry->place) : ?>
 						<dt>Place</dt>
@@ -47,7 +48,7 @@
 					<?php echo YsaHtml::link('Upload Photos', '#photo-upload-container', array('class' => 'btn blue fancybox fancybox.inline', 'id' => 'album-upload-photos-button')); ?>
 					<?php if ($this->member()->smugmugAuthorized()) : ?>
 					
-						<?php echo YsaHtml::link('Import from SmugMug', '#photo-import-smugmug-container', array('class' => 'btn blue fancybox fancybox.inline', 'id' => 'album-smugmug-import-button')); ?>
+						<?php echo YsaHtml::link('Import from SmugMug', '#photo-import-smugmug-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-smugmug-import-button')); ?>
 					<?php endif;?>
 					
 					
@@ -111,11 +112,12 @@
 					<?php echo $avlForm->labelEx($availability,'order_link'); ?>
 					<div><?php echo $avlForm->textField($availability, 'order_link'); ?></div>
 				</section>
-
+				<?/*
 				<section class="cf">
 					<?php echo $avlForm->labelEx($availability,'can_order'); ?>
 					<div><?php echo $avlForm->checkBox($availability, 'can_order', array('checked' => $entry->canOrder())); ?></div>
 				</section>
+				 */?>
 				<section class="cf">
 					<?php echo $avlForm->labelEx($availability,'can_share'); ?>
 					<div><?php echo $avlForm->checkBox($availability, 'can_share', array('checked' => $entry->canShare())); ?></div>

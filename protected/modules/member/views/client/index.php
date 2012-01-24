@@ -1,16 +1,14 @@
 <div class="w" id="client-list">
-	<p><?php echo YsaHtml::link('Notifications', array('notification/')); ?></p>
-	
-	
 	<section class="box">
 		<div class="box-title">
 			<h3>Clients</h3>
 			<div class="box-title-button">
+				<script type="text/javascript" src="<?php echo Yii::app()->baseUrl?>/resources/js/member/notification_button.js"></script>
+				<?php echo YsaHtml::link('<span class="icon i_chat"></span>Send Push Notification To All', '/member/notification/new?type=all&recipient=0', array('class' => 'secondary iconed', 'id' => 'send-push-link')); ?>
 				<?php echo YsaHtml::link('<span class="icon i_plus_alt"></span>Register New Client', array('add'), array('class' => 'secondary iconed')); ?>
 			</div>
 		</div>
 		<div class="box-content">
-			
 			<?php $this->widget('YsaSearchBar', array(
 				'searchOptions' => $searchOptions,
 			));?>
@@ -22,7 +20,7 @@
 							<th class="w_1">ID</th>
 							<th class="w_30">Name</th>
 							<th>Description</th>
-							<th class="w_20">Created</th>
+							<th class="w_10">Added By</th>
 							<th class="w_1">State</th>
 							<th class="actions">Actions</th>
 						</tr>
@@ -40,8 +38,12 @@
 										<?php endif; ?>
 									</td>
 									<td><?php echo $entry->description?></td>
-									<td><?php echo $entry->getAddedWith()?></td>
-									<td><?php echo $entry->state()?></td>
+									<td>
+										<span class="<?php echo $entry->added_with?>" title="<?php echo $entry->getAddedWith()?>"><?php echo $entry->getAddedWith()?></span>
+									</td>
+									<td>
+										<span class="<?php echo strtolower($entry->state()); ?>"><?php echo $entry->state(); ?></span>
+									</td>
 									<td class="actions">
 										<?php echo YsaHtml::link('View', array('client/view/' . $entry->id), array('class' => 'icon i_wrench', 'title' => 'View Client')); ?>
 										&nbsp;

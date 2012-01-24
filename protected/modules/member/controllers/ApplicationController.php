@@ -99,7 +99,10 @@ class ApplicationController extends YsaMemberController
             $this->redirect(array('application/create'));
         }
 		
-		$this->setMemberPageTitle('Application Settings');
+		$this->crumb('Application', array('application/'))
+			 ->crumb('Preview');
+		
+		$this->setMemberPageTitle('Application Preview');
 		
         $this->render('settings', array(
             'app' => $app,
@@ -279,8 +282,52 @@ class ApplicationController extends YsaMemberController
 		
 		$this->setMemberPageTitle($page->title);
 		
+		$this->crumb('Application', array('application/'))
+			 ->crumb('Sucessfully Submitted');
+		
+		
 		$this->render('congratulations', array(
 			'page' => $page,
+		));
+	}
+	
+	public function actionSupport()
+	{
+		$app = $this->member()->application;
+		
+        if (null === $app) {
+            $this->redirect(array('application/create'));
+        }
+		
+		// there are no tickets
+		if (!$app->hasSupport() || !$app->ticket()) {
+			$this->redirect(array('application/'));
+		}
+		
+		$reply = new TicketReply();
+		
+		if (isset($_POST['TicketReply'])) {
+			$reply->attributes = $_POST['TicketReply'];
+			
+			$reply->ticket_id = $app->ticket()->id;
+			$reply->reply_by = $this->member()->id;
+			
+			if ($reply->validate()) {
+				$reply->save();
+				$this->setSuccess('Support Reply has been successfully added.');
+				$this->refresh();
+			}
+		}
+		
+		$this->setMemberPageTitle('Application Support');
+		
+		$this->crumb('Application', array('application/'))
+			 ->crumb('Support');
+		
+		$this->render('support', array(
+			'app'		=> $app,
+			'ticket'	=> $app->ticket(),
+			'reply'		=> $reply
 		));
 	}
 }

@@ -26,7 +26,6 @@ class UserOption extends YsaOptionActiveRecord
 	const FIVE00_SECRET = '500px_secret';	
 	const FIVE00_HASH = '500px_hash';
 	
-	const FACEBOOK_EMAIL = 'facebook_email';	
 	const FACEBOOK_ID = 'facebook_id';
 	
 	/**

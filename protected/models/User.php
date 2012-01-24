@@ -21,6 +21,7 @@
  * @property UserOption $option
  * @property Application $application
  * @property Event $event
+ * @property Client $client
  * @property Studio $studio
  * @property UserOrder $orders
  * @property Event $public_events
@@ -89,6 +90,7 @@ class User extends YsaActiveRecord
 			'orders'		=> array(self::HAS_MANY, 'UserOrder', 'user_id'),
 			
 			'events'			=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC'),
+			'client'			=> array(self::HAS_MANY, 'Client', 'user_id', 'order' => 'id DESC'),
 			'proof_events'		=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC', 'condition' => 'type=:type', 'params' => array('type' => Event::TYPE_PROOF)),
 			'portfolio_events'	=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC', 'condition' => 'type=:type', 'params' => array('type' => Event::TYPE_PORTFOLIO)),
 			'public_events'		=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC', 'condition' => 'type=:type', 'params' => array('type' => Event::TYPE_PUBLIC)),
@@ -139,16 +141,22 @@ class User extends YsaActiveRecord
 		$this->password = YsaHelpers::encrypt($this->password);
 	}
 
+	/**
+	 * @return boolean whether the saving succeeds
+	 */
 	public function activate()
 	{
 		$this->state = self::STATE_ACTIVE;
-		$this->save();
+		return $this->save( false );
 	}
 
+	/**
+	 * @return boolean whether the saving succeeds
+	 */
 	public function ban()
 	{
 		$this->state = self::STATE_BANNED;
-		$this->save();
+		return $this->save( false );
 	}
 
 	public function name()
@@ -291,7 +299,6 @@ class User extends YsaActiveRecord
 
 
 	}
-
 
 	//function flotheme_shootq_send($data)
 	//{

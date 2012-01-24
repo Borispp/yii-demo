@@ -53,7 +53,7 @@ class PhotoController extends YsaMemberController
 			 ->crumb($entry->album->name, array('album/view/' . $entry->album->id))
 			 ->crumb('Photo #' . $entry->id);
 		
-		$this->setMemberPageTitle('Photo #' . $entry->id);
+		$this->setMemberPageTitle($entry->title());
 		
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/photopage.js', CClientScript::POS_HEAD);
 		
@@ -76,9 +76,9 @@ class PhotoController extends YsaMemberController
 		$entry = $this->_ensureValidPhotoId( $photoId );
 		$member = $this->member();
 		
-		if ( !Yii::app()->getRequest()->getIsPostRequest() or !isset($_POST['EventPhotoComment']) )
+		if ( !Yii::app()->request->isPostRequest or !isset($_POST['EventPhotoComment']) )
 			$this->redirect( array('photo/view/'.$entry->id) );
-	
+		
 		// Control access rights
 		if ( !$member->hasFacebook() or !$entry->canShareComments() )
 			$this->redirect( array('photo/view/'.$entry->id) );
@@ -97,13 +97,30 @@ class PhotoController extends YsaMemberController
 				$authIdentity = Yii::app()->eauth->getIdentity( 'facebook', array('scope' => 'email,publish_stream'));
 				if ($authIdentity->authenticate())
 				{
-					$data = array(
-						'from' => Yii::app()->params['paramName']['facebook_app_id'],
-						'message' => $entryComment->comment,
-						'link' => $entry->shareUrl(),
-						'picture' => $entry->fullUrl(),
-					);
-					$authIdentity->makeSignedRequest( 'https://graph.facebook.com/me/feed', array('data' => $data) );
+					try
+					{
+						$data = array(
+							'from' => Yii::app()->params['paramName']['facebook_app_id'],
+							'message' => $entryComment->comment,
+							'link' => $entry->shareUrl(),
+							'picture' => $entry->fullUrl(),
+						);
+						$authIdentity->makeSignedRequest( 'https://graph.facebook.com/me/feed', array('data' => $data) );
+					}
+					catch( EAuthException $e )
+					{
+						switch ($e->getCode())
+						{
+							// access forbidden
+							case 403: 
+								$this->setError( 'No enought access rights to post on your Facebook wall. Please, <a href="/logout/">log in</a> again via Facebook and provide necessary access rights' ); 
+								break;
+							// token expired
+							case 400:
+							default:
+								$this->setError( 'Unknown error while posting on your Facebook wall. You must <a href="/logout/">log out</a> and log in again with Facebook' );
+						}
+					}
 				}
 			}
 			
@@ -317,5 +334,25 @@ class PhotoController extends YsaMemberController
 		}
 	}
 	
+	public function actionToggle($photoId = 0)
+	{
+		if (Yii::app()->getRequest()->isAjaxRequest) {
+			$entry = EventPhoto::model()->findByPk($photoId);
+			if ($entry && $entry->isOwner()) {
+				if (isset($_POST['state']) && in_array($_POST['state'], array_keys(EventPhoto::model()->getStates()))) {
+					$entry->state = intval($_POST['state']);
+					$entry->save();
+					$this->sendJsonSuccess();
+				} else {
+					$this->sendJsonError(array(
+						'msg' => 'Something went wrong. Please reload the page and try again',
+					));
+				}
+			}
+			
+		} else {
+			$this->redirect(Yii::app()->homeUrl);
+		}
+	}
 	
 }

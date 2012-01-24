@@ -13,6 +13,7 @@
  * @property string $info
  * @property Member $user
  * @property ApplicationOption $application
+ * @property Member $user
  */
 class Application extends YsaActiveRecord
 {
@@ -25,7 +26,7 @@ class Application extends YsaActiveRecord
 	 * Filled with information
 	 */
 	const STATE_FILLED = 2;
-
+	
 	/**
 	 * Approved by website moderator
 	 */
@@ -44,12 +45,14 @@ class Application extends YsaActiveRecord
 	/**
 	 * Unapproved by website moderator
 	 */
-	const STATE_UNAPROVVED = -3;
+	const STATE_UNAPROVED = -3;
 
 	/**
 	 * Rejected by AppStore
 	 */
 	const STATE_REJECTED = -5;
+	
+	protected $_ticket;
 	
 	protected $_steps = array(
 		'logo' => array(
@@ -177,9 +180,28 @@ class Application extends YsaActiveRecord
 			self::STATE_APPROVED			=> 'Approved',
 			self::STATE_WAITING_APPROVAL	=> 'Waiting approval',
 			self::STATE_READY				=> 'Ready',
-			self::STATE_UNAPROVVED			=> 'Unapproved',
+			self::STATE_UNAPROVED			=> 'Unapproved',
 			self::STATE_REJECTED			=> 'Rejected by Apple',
 		);
+	}
+	
+	public function getMemberStates()
+	{
+		return array(
+			self::STATE_CREATED				=> 'Created and Waiting for Information',
+			self::STATE_FILLED				=> 'Filled & Waiting for Administrator Approval',
+			self::STATE_APPROVED			=> 'Approved and Sent to Apple',
+			self::STATE_WAITING_APPROVAL	=> 'Waiting for Apple Approval',
+			self::STATE_READY				=> 'Ready',
+			self::STATE_UNAPROVED			=> 'Unapproved',
+			self::STATE_REJECTED			=> 'Rejected by Apple',
+		);
+	}
+	
+	public function memberState()
+	{
+		$states = $this->getMemberStates();
+		return $states[$this->state];
 	}
 
 	/**
@@ -201,6 +223,22 @@ class Application extends YsaActiveRecord
 
 		return $filled;
 	}
+	
+	public function hasSupport()
+	{
+		$hasSupport = false;
+		switch ($this->state) {
+			case self::STATE_UNAPROVED:
+				$hasSupport = true;
+				break;
+			default:
+				$hasSupport = false;
+				break;
+		}
+
+		return $hasSupport;
+	}
+
 
 	public function getUploadDir()
 	{
@@ -241,10 +279,11 @@ class Application extends YsaActiveRecord
 			$option->name = $name;
 			$option->app_id = $this->id;
 		}
-
+		
 		if ($value instanceof CUploadedFile) {
 			// remove old image if exists
 			$val = $option->value();
+			
 			if (isset($val['path'])) {
 				if (is_file($val['path'])) {
 					unlink($val['path']);
@@ -256,28 +295,32 @@ class Application extends YsaActiveRecord
 				$ext = 'png';
 			}
 			
-			$width = Yii::app()->params['application'][$name]['width'];
-			$height = Yii::app()->params['application'][$name]['height'];
-
 			$imageName = YsaHelpers::encrypt(microtime() . $value->tempName) . '.' . $ext;
 
 			$imageSaveDir = $this->getUploadDir() . DIRECTORY_SEPARATOR . $imageName;
 			$imageSaveUrl = $this->getUploadUrl() . '/' . $imageName;
 
-			$image = new Image($value->tempName);
-
-			if ($width && $height) {
-				$image->resize($width, $height);
+			$image = new YsaImage($value->tempName);
+			
+			// resize
+			if (isset(Yii::app()->params['application'][$name]['width']) && isset(Yii::app()->params['application'][$name]['height'])) {
+				$width = Yii::app()->params['application'][$name]['width'];
+				$height = Yii::app()->params['application'][$name]['height'];
+				
+				$image->auto_crop($width, $height);
+			} else {
+				$width = $image->width;
+				$height = $image->height;
 			}
-
+			
 			$image->save($imageSaveDir);
 
 			$value = array(
 				'width'     => $width,
 				'height'    => $height,
-				'type'      => $image->__get('type'),
+				'type'      => $image->type,
 				'ext'       => $ext,
-				'mime'      => $image->__get('mime'),
+				'mime'      => $image->mime,
 				'path'      => $imageSaveDir,
 				'url'       => $imageSaveUrl,
 			);
@@ -358,5 +401,21 @@ class Application extends YsaActiveRecord
 	public function filterWizardStep($step)
 	{
 		return in_array($step, array_keys($this->wizardSteps()));
+	}
+	
+	public function ticket()
+	{
+		if (!$this->hasSupport()) {
+			return null;
+		}
+		
+		if (null === $this->_ticket) {
+			$this->_ticket = Ticket::model()->find('user_id=:user_id AND state=:state', array(
+				'user_id' => $this->user->id,
+				'state'   => Ticket::STATE_ACTIVE
+			));
+		}
+		
+		return $this->_ticket;
 	}
 }

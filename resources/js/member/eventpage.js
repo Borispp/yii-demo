@@ -31,6 +31,21 @@ $(function(){
 					}
 				});
 			});
+			
+			$('#description-state').change(function(){
+				var select = $(this);
+				$.post(_member_url + '/event/toggle/eventId/' + event_id, {state:select.val()}, function(data){
+					if (data.success) {
+
+						select.parents('.description').effect("highlight", {}, 500);
+
+
+					} else {
+						$._alert(data.msg)
+					}
+				},'json');
+			});
+			
 		});
 	};
 	

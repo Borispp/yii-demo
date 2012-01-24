@@ -20,15 +20,15 @@ class ClientController extends YsaApiController
 	public function actionLogout()
 	{
 		$this->_validateVars(array(
-			'token'		=> array(
-				'message'	=> 'No token received',
-				'required'	=> TRUE,
-				'event_id'	=> array(
-					'code'		=> '111',
-					'message'	=> 'No event ID found',
-					'required'	=> TRUE
-				)
-		)));
+				'token'		=> array(
+					'message'	=> 'No token received',
+					'required'	=> TRUE,
+					'event_id'	=> array(
+						'code'		=> '111',
+						'message'	=> 'No event ID found',
+						'required'	=> TRUE
+					)
+				)));
 		$obClientAuthList = ClientAuth::model()->findAllByAttributes(array(
 				'device_id'	=> $_POST['device_id'],
 				'token'		=> $_POST['token'],
@@ -49,7 +49,6 @@ class ClientController extends YsaApiController
 	 */
 	public function actionRegister()
 	{
-		$this->_commonValidate();
 		$this->_validateVars(array(
 				'name' => array(
 					'message'	=> 'Name is required',
@@ -106,7 +105,6 @@ class ClientController extends YsaApiController
 	 */
 	public function actionLogin()
 	{
-		$this->_commonValidate();
 		$this->_validateVars(array(
 				'password'	=> array(
 					'message'	=> 'No password received',
@@ -117,16 +115,153 @@ class ClientController extends YsaApiController
 					'required'	=> TRUE
 				)
 			));
-		if (!$token = ClientAuth::model()->authByPassword($_POST['email'], $_POST['password'], $_POST['app_key'], $_POST['device_id']))
+		try
+		{
 			$this->_render(array(
-					'state'		=> 0,
-					'message'	=> 'Login failed',
-					'token'		=> NULL,
-				));
-		$this->_render(array(
 				'state'		=> 1,
 				'message'	=> '',
-				'token'		=> $token
+				'token'		=> ClientAuth::model()->authByPassword($_POST['email'], $_POST['password'], $_POST['app_key'], $_POST['device_id'])
+			));
+		}
+		catch(YsaAuthException $e)
+		{
+			$this->_render(array(
+				'state'		=> 0,
+				'message'	=> $e->getMessage(),
+				'token'		=> NULL,
+			));
+		}
+	}
+	
+	protected function _validateFacebookVars()
+	{
+		$this->_validateVars(
+			array(
+				'fb_access_token'	=> array(
+					'message'	=> 'No Facebook Access Token received',
+					'required'	=> TRUE,
+				),
+				'fb_id'	=> array(
+					'message'	=> 'No Facebook ID received',
+					'required'	=> TRUE,
+				)
+			));
+	}
+	
+	/**
+	 * Validate access token: 
+	 * 1. Request, made with token must give valid response
+	 * 2. Facebook Account ID in response must match against requested ID
+	 * 
+	 * @param integer $fb_id
+	 * @param string $fb_access_token
+	 * @return void 
+	 */
+	protected function _validateFacebookAccessToken( $fb_id, $fb_access_token )
+	{
+		Yii::import('ext.facebook-sdk.facebook');
+		$facebook = new Facebook(array(
+			'appId'  => Yii::app()->params['oauth']['facebook_app_id'],
+			'secret' => Yii::app()->params['oauth']['facebook_app_secret'],
+		));
+
+		try 
+		{
+			$facebook->setAccessToken( $fb_access_token );
+			$user_profile = $facebook->api('/me');
+
+			if ( $user_profile['id'] != $fb_id )
+				return $this->_renderError('Access token is invalid: Facebook ID is not matches requested with Acess Token');
+		} 
+		catch (FacebookApiException $e) 
+		{
+			return $this->_renderError('Access token is invalid, Facebook raised exception: '.$e->getMessage());
+		}
+	}
+	
+	/**
+	 * Try to auth with Facebook ID and Access Token
+	 * 1. Facebook account must be linked to any local user account
+	 * 2. Access token must be valid @see _validateFacebookAccessToken
+	 */
+	public function actionFacebookLogin()
+	{
+		try
+		{
+			$this->_validateFacebookVars();
+			
+			$client = Client::model()->findByAttributes( array('facebook_id' => $_POST['fb_id']) );
+			if (null === $client) 
+			{
+				// client profile not exists, need registration
+				return $this->_render(array(
+					'state'		=> false,
+					'message'	=> 'Not found any linked Facebook account',
+					'token'		=> null,
+				));
+			}
+			
+			$this->_validateFacebookAccessToken( $_POST['fb_id'], $_POST['fb_access_token'] );
+			
+			$access_token = ClientAuth::model()->authByPassword($client->email, $client->password, $_POST['app_key'], $_POST['device_id']);
+			
+			return $this->_render(array(
+				'state'		=> true,
+				'message'	=> '',
+				'token'		=> $access_token
+			));
+		}
+		catch(YsaAuthException $e)
+		{
+			$this->_render(array(
+				'state'		=> false,
+				'message'	=> $e->getMessage(),
+				'token'		=> null,
+			));
+		}
+	}
+	
+	public function actionLinkFacebook()
+	{
+		$this->_validateFacebookVars();
+		$this->_validateFacebookAccessToken( $_POST['fb_id'], $_POST['fb_access_token'] );
+		$client = $this->_validateAuth();
+		
+		$client->facebook_id = $_POST['fb_id'];
+		if ( !$client->save() )
+		{
+			$this->_render(array(
+				'state'		=> false,
+				'message'	=> 'Unable to link Facebook account',
+			));
+		}
+		
+		return $this->_render(
+			array(
+				'state'		=> true,
+				'message'	=> ''
+			));
+	}
+	
+	public function actionUnlinkFacebook()
+	{
+		$this->_validateFacebookVars();
+		$this->_validateFacebookAccessToken( $_POST['fb_id'], $_POST['fb_access_token'] );
+		$client = $this->_validateAuth();
+		
+		$client->facebook_id = null;
+		if ( !$client->save() )
+		{
+			$this->_render(array(
+				'state'		=> false,
+				'message'	=> 'Unable to unlink Facebook account',
+			));
+		}
+		
+		return $this->_render(
+			array(
+				'state'		=> true,
+				'message'	=> ''
 			));
 	}
 }

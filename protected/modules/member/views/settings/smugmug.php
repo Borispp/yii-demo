@@ -1,55 +1,86 @@
 <div class="w">
-	<h3>SmugMug Settings</h3>
-
-	<?php if ($entry->smugmugAuthorized()) : ?>
 	
-		<?php $smugInfo = $entry->smugmug()->auth_checkAccessToken(); ?>
-	
-		<p>Api Key: <?php echo $this->member()->option('smug_api'); ?></p>
-		<p>Secret Key: <?php echo $this->member()->option('smug_secret'); ?></p>
-	
-		<p>Account Owner: <?php echo $smugInfo['User']['Name']; ?></p>
-		<p>URL: <?php echo YsaHtml::link($smugInfo['User']['URL'], $smugInfo['User']['URL'], array('target' => '_blank')); ?></p>
-		<p>Account Status: <?php echo $smugInfo['User']['AccountStatus']; ?></p>
-		<p>Account Type: <?php echo $smugInfo['User']['AccountType']; ?></p>
-		<p>&nbsp;</p>
-		<p><?php echo YsaHtml::link('Unlink SmugMug', array('settings/smugmugUnlink/')); ?></p>
-	
-	<?php else: ?>
-		
-		<?php $form = $this->beginWidget('YsaForm', array(
-			'id'=>'smugmug-form',
-			'enableAjaxValidation'=>false,
-		)); ?>
-
-		<section>
-			<?php echo $form->labelEx($smug,'smug_api'); ?>
-			<div>
-				<?php echo $form->textField($smug,'smug_api', array('size'=>50,'maxlength'=>50)); ?>
-				<?php echo $form->error($smug,'smug_api'); ?>
-			</div>
-		</section>
-
-		<section>
-			<?php echo $form->labelEx($smug,'smug_secret'); ?>
-			<div>
-				<?php echo $form->textField($smug,'smug_secret',array('size'=>50,'maxlength'=>50)); ?>
-				<?php echo $form->error($smug,'smug_secret'); ?>
-			</div>
-		</section>
-
-		<div class="row buttons">
-			<?php echo CHtml::submitButton('Save & Authorize'); ?>
+	<section class="box">
+		<div class="box-title">
+			<h3>SmugMug Settings</h3>
 		</div>
+		<div class="box-content">
+			<div class="shadow-box">
+				<?php if ($entry->smugmugAuthorized()) : ?>
+				
+					<?php $smugInfo = $entry->smugmug()->auth_checkAccessToken(); ?>
+					<div class="info-box">
+						<dl class="cf">
+							<dt>Api Key</dt>
+							<dd><?php echo $this->member()->option('smug_api'); ?></dd>
 
-		<?php $this->endWidget();?>
-		
-		<?php if (isset(Yii::app()->session['smugmugRequestToken'])) : ?>
-			<p>Please click <?php echo YsaHtml::link('this link', $entry->smugmug()->authorize(), array('target' => '_blank', 'id' => 'settings-smugmug-authorize')); ?> to authorize to SmugMug.<br/>
-			After authorization please click <?php echo YsaHtml::link('this link', array('settings/smugmug/authorize/')); ?> to complete authentication.</p>
-		<?php endif; ?>
-			
-	<?php endif; ?>
+							<dt>Secret Key</dt>
+							<dd><?php echo $this->member()->option('smug_secret'); ?></dd>
+
+							<dt>Account Owner</dt>
+							<dd><?php echo $smugInfo['User']['Name']; ?></dd>
+
+							<dt>URL</dt>
+							<dd><?php echo YsaHtml::link($smugInfo['User']['URL'], $smugInfo['User']['URL'], array('target' => '_blank')); ?></dd>
+
+							<dt>Account Status</dt>
+							<dd><?php echo $smugInfo['User']['AccountStatus']; ?></dd>
+							
+							<dt>Account Type</dt>
+							<dd><?php echo $smugInfo['User']['AccountType']; ?></dd>
+							
+							<dt>&nbsp</dt>
+							<dd>&nbsp;</dd>
+							
+							<dt>&nbsp</dt>
+							<dd><?php echo YsaHtml::link('Unlink SmugMug', array('settings/smugmugUnlink/'), array('class' => 'btn small')); ?></dd>
+						</dl>
+					</div>
+
+				<?php else: ?>
+
+					<?php $form = $this->beginWidget('YsaForm', array(
+						'id'=>'smugmug-form',
+						'enableAjaxValidation'=>false,
+					)); ?>
+
+					<section>
+						<?php echo $form->labelEx($smug,'smug_api'); ?>
+						<div>
+							<?php echo $form->textField($smug,'smug_api', array('size'=>50,'maxlength'=>50)); ?>
+							<?php echo $form->error($smug,'smug_api'); ?>
+						</div>
+					</section>
+
+					<section>
+						<?php echo $form->labelEx($smug,'smug_secret'); ?>
+						<div>
+							<?php echo $form->textField($smug,'smug_secret',array('size'=>50,'maxlength'=>50)); ?>
+							<?php echo $form->error($smug,'smug_secret'); ?>
+						</div>
+					</section>
+
+					<div class="row buttons">
+						<?php echo CHtml::submitButton('Save & Authorize'); ?>
+					</div>
+
+					<?php $this->endWidget();?>
+
+					<?php if (isset(Yii::app()->session['smugmugRequestToken'])) : ?>
+						<p>Please click <?php echo YsaHtml::link('this link', $entry->smugmug()->authorize(), array('target' => '_blank', 'id' => 'settings-smugmug-authorize')); ?> to authorize to SmugMug.<br/>
+						After authorization please click <?php echo YsaHtml::link('this link', array('settings/smugmug/authorize/')); ?> to complete authentication.</p>
+					<?php endif; ?>
+
+				<?php endif; ?>
+			</div>
+		</div>
+	</section>
+	
+	
+	
+	
+
+
 	
 </div>
 

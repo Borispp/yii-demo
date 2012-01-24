@@ -57,47 +57,60 @@ $(function(){
 	}
 	
 	$.fn.initAppWizardPage = function() {
+		
+		function _init_uploader(img) {
+			var container = $('#wzd-' + img + '-upload-container');
+			var browse = $('#wzd-' + img + '-upload-browse')
+			var loading = container.find('.loading');
+
+			var uploader = new plupload.Uploader($.extend(_plupload_settings, {
+				url:_member_url + '/application/upload/image/' + img,
+				container:'wzd-' + img + '-upload-container',
+				browse_button:'wzd-' + img + '-upload-browse',
+				multi_selection:false
+			}));
+			uploader.init();
+			uploader.bind('Error', function(up, err) {
+				loading.hide();
+				browse.show();
+				$._alert(err.message + ' Please reload the page and try again.');
+				up.refresh();
+			});
+			uploader.bind('FilesAdded', function(up){
+				loading.show();
+				browse.hide();
+				up.start();
+			});
+
+			uploader.bind('FileUploaded', function(up, file, response) {
+				loading.hide();
+				browse.show();
+				var data = $.parseJSON(response.response);
+				if (data.success) {
+					var part = $('#' + up.settings.container).parents('section.part');
+					part.find('.value-image').html(data.html);
+					part.find('a.fancybox').fancybox();
+					browse.text('Change');
+					
+					var imageRadio = part.find('ul.switcher input[value=image]');
+					
+					if (imageRadio.length) {
+						imageRadio.attr('checked', true);
+						$.uniform.update(); 
+					}
+					
+				} else {
+					$._alert(data.msg);
+				}
+			});
+
+			return uploader;
+		}
+		
+		
 		$(this).each(function(){
 			var page = $(this);
-			function _init_uploader(img) {
-				var container = $('#wzd-' + img + '-upload-container');
-				var browse = $('#wzd-' + img + '-upload-browse')
-				var loading = container.find('.loading');
-				
-				var uploader = new plupload.Uploader($.extend(_plupload_settings, {
-					url:_member_url + '/application/upload/image/' + img,
-					container:'wzd-' + img + '-upload-container',
-					browse_button:'wzd-' + img + '-upload-browse',
-					multi_selection:false
-				}));
-				uploader.init();
-				uploader.bind('Error', function(up, err) {
-					loading.hide();
-					browse.show();
-					$._alert(err.message + ' Please reload the page and try again.');
-					up.refresh();
-				});
-				uploader.bind('FilesAdded', function(up){
-					loading.show();
-					browse.hide();
-					up.start();
-				});
-				
-				uploader.bind('FileUploaded', function(up, file, response) {
-					loading.hide();
-					browse.show();
-					var data = $.parseJSON(response.response);
-					if (data.success) {
-						var part = $('#' + up.settings.container).parents('section.part');
-						part.find('.value-image').html(data.html);
-						browse.text('Change');
-					} else {
-						$._alert(data.msg);
-					}
-				});
-				
-				return uploader;
-			}
+
 			
 			page.find('.upload .container a').each(function(){
 				_init_uploader($(this).attr('rel'));
@@ -128,7 +141,6 @@ $(function(){
 				opened:function(){
 					var cl = $(this).attr('id').replace('wizard-content-', '');
 					breadcrumbs.find('li.' + cl).addClass('active').siblings('.active').removeClass('active');
-					
 				},
 				closed:function(){}
 			});
@@ -150,9 +162,7 @@ $(function(){
 				dateType:'json',
 				clearForm:false,
 				resetForm:false,
-				beforeSubmit:function(){
-					
-				},
+				beforeSubmit:function(){},
 				success:function(data){
 					data = $.parseJSON(data);
 					if (data.success) {
@@ -175,6 +185,8 @@ $(function(){
 				input.val(link.data('style'));
 				link.addClass('selected').siblings('a').removeClass('selected');
 			});
+			
+			page.find('a.fancybox').fancybox();
 			
 		});
 	}

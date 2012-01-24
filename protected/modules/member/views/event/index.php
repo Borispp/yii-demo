@@ -5,13 +5,10 @@
 			<?php echo YsaHtml::link('<span class="icon i_plus_alt"></span>Create New Event', array('create'), array('class' => 'secondary iconed')); ?>
 		</div>
 	</div>
-	
 	<div class="box-content">
-
 		<?php $this->widget('YsaSearchBar', array(
 			'searchOptions' => $searchOptions,
 		));?>
-		
 		<div class="data-box shadow-box">
 			<table class="data">
 				<thead>
@@ -27,7 +24,7 @@
 				<tbody>
 					<?php if (count($entries)) : ?>
 						<?php foreach ($entries as $entry) : ?>
-								<tr>
+								<tr class="state-<?php echo strtolower($entry->state()); ?>">
 									<td><?php echo $entry->id; ?></td>
 									<td>
 										<?php echo YsaHtml::link('<strong>' . $entry->name . '</strong>', array('event/view/' . $entry->id), array('class' => 'title')); ?>

@@ -162,12 +162,26 @@ class EventPhoto extends YsaActiveRecord
 		
 		return true;
 	}
+
+	protected function _getKey()
+	{
+		return md5(md5($this->size).$this->basename.Yii::app()->params['salt']);
+	}
+
+	public function findByKey($imageId)
+	{
+		$criteria = new CDbCriteria;
+		$criteria->alias = 'event_photo';
+		$criteria->params = array(':salt' => Yii::app()->params['salt'], ':imageKey' => $imageId);
+		$criteria->condition = 'MD5(CONCAT(MD5(event_photo.size),event_photo.basename,:salt)) = :imageKey';
+		return $this->find($criteria);
+	}
 	
 	/**
 	 * Get EXIF Data information
 	 * @return array
 	 */
-	public function exif()
+	public function exif($key = null)
 	{
 		if (null === $this->_exif) {
 			if (YsaHelpers::isSerialized($this->exif_data)) {
@@ -177,7 +191,15 @@ class EventPhoto extends YsaActiveRecord
 			}			
 		}
 		
-		return $this->_exif;
+		if (null === $key) {
+			return $this->_exif;
+		} else {
+			if (isset($this->_exif[$key])) {
+				return $this->_exif[$key];
+			} else {
+				return false;
+			}
+		}
 	}
 	
 	/**
@@ -208,7 +230,7 @@ class EventPhoto extends YsaActiveRecord
 	 */
 	public function url()
 	{
-		return $this->album->albumUrl() . '/' .  $this->basename . '.' . $this->extention;
+		return Yii::app()->createAbsoluteUrl('image/get/'.$this->_getKey());
 	}
 	
 	/**
@@ -248,7 +270,8 @@ class EventPhoto extends YsaActiveRecord
 	public function previewUrl($width = 300, $height = 200)
 	{
 		if (is_file($this->path())) {
-			return ImageHelper::thumb($width, $height, $this->path());
+			return Yii::app()->createAbsoluteUrl('image/thumb/'.$this->_getKey()).'?width='.$width.'&height='.$height;
+//			return ImageHelper::thumb($width, $height, $this->path());
 		} else {
 			return $this->defaultPicUrl($width, $height);
 		}
@@ -290,7 +313,7 @@ class EventPhoto extends YsaActiveRecord
 			throw new CException('Please fill photo Album ID');
 		}
 		
-		$image = new Image($instance->getTempName());
+		$image = new YsaImage($instance->getTempName());
 		
 		$this->name = $instance->getName();
 		$this->meta_type = $image->mime;
@@ -455,14 +478,14 @@ class EventPhoto extends YsaActiveRecord
 	
 	/**
 	 * Allow to FB like on iPad
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public function canShare()
 	{
 		return $this->album->can_share ? $this->can_share : false;
 	}
-	
+
 	/**
 	 * Allow to share comments on Facebook
 	 *
@@ -514,7 +537,7 @@ class EventPhoto extends YsaActiveRecord
 			throw new Exception('SmugMug image file can\'t be read. Please try again later.');
 		}
 		
-		$image = new Image($target);
+		$image = new YsaImage($target);
 		
 		$this->name = $data['FileName'];
 		$this->meta_type = $image->mime;
@@ -616,5 +639,20 @@ class EventPhoto extends YsaActiveRecord
 	public function shareLink($title = 'Share URL', $htmlOptions = array())
 	{
 		return YsaHtml::link($title, $this->shareUrl(), $htmlOptions);
+	}
+	
+	public function title()
+	{
+		return 'Photo #' . $this->id;
+	}
+	
+	public function size()
+	{
+		return YsaHelpers::readableFilesize($this->size);
+	}
+	
+	public function originalSize()
+	{
+		return YsaHelpers::readableFilesize($this->original_size);
 	}
 }

@@ -3,6 +3,9 @@ form div.errorMessage {
     padding-top: 5px;
     color: #c00;
 }
+.error {
+	color: #c00;
+}
 
 .state1,
 .bg_green {
@@ -182,3 +185,87 @@ dd {
 	float:left;	
 	font-weight: bold;
 }
+
+
+
+
+
+#application-form {
+	
+}
+#application-form table tr td.state {
+	font-size:13px;
+	font-weight: bold;
+}
+#application-form table tr td.ready {
+	color: #090;
+}
+#application-form table tr td.filled {
+	color: #339;
+}
+
+#application-form table tr td.unapproved,
+#application-form table tr td.rejected {
+	color: #c00;
+}
+
+#application-moderate-form {
+	
+}
+#application-moderate-form fieldset a.image {
+	
+}
+
+#application-moderate-form fieldset span.lbl,
+#application-moderate-form fieldset span.color {
+	line-height: 40px;
+	display:inline-block;
+	vertical-align: middle;
+	margin-right:5px;
+	font-size:13px;
+}
+#application-moderate-form fieldset span.color {
+	width:38px;
+	height:38px;
+	border:2px solid #777;
+	line-height: 1;
+}
+
+#application-moderate-form fieldset a.image img {
+	max-width:150px;
+	width:auto;
+}
+#application-moderate-toolbar-form .msg {
+	padding:1em 0;
+	margin:0;
+	text-align: center;
+	font-size:13px;
+}
+
+
+
+ul.replies,
+ul.replies li {
+	margin:0;
+	padding:0;
+	list-style: none;
+}
+ul.replies li {
+	padding-bottom: 1em;
+	margin-bottom: 1em;
+	border-bottom: 1px solid #ddd;
+}
+
+
+ul.replies li .replier {
+	font-size:13px;
+}
+ul.replies li .info {
+	font-style: italic;
+	padding:2px 0;
+}
+ul.replies li p {
+	margin:0;
+	padding:0;
+}
+

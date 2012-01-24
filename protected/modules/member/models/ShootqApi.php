@@ -20,7 +20,7 @@ class ShootqApi extends YsaFormModel
         return array(
             'shootq_key' => 'ShootQ API Key',
             'shootq_abbr' => 'ShootQ Brand Abbreviation',
-			'shootq_enabled' => 'Send contact messages to ShootQ',
+			'shootq_enabled' => 'Send Messages to ShootQ',
         );
     }
 }

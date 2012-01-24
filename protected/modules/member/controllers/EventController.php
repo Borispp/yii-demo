@@ -155,4 +155,25 @@ class EventController extends YsaMemberController
 			$this->redirect(array('event/'));
 		}
 	}
+	
+	public function actionToggle($eventId = 0)
+	{
+		if (Yii::app()->getRequest()->isAjaxRequest) {
+			$entry = Event::model()->findByPk($eventId);
+			if ($entry && $entry->isOwner()) {
+				if (isset($_POST['state']) && in_array($_POST['state'], array_keys(Event::model()->getStates()))) {
+					$entry->state = intval($_POST['state']);
+					$entry->save();
+					$this->sendJsonSuccess();
+				} else {
+					$this->sendJsonError(array(
+						'msg' => 'Something went wrong. Please reload the page and try again',
+					));
+				}
+			}
+			
+		} else {
+			$this->redirect(Yii::app()->homeUrl);
+		}
+	}
 }

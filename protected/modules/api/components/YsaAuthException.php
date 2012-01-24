@@ -1,0 +1,5 @@
+<?
+class YsaAuthException extends Exception
+{
+
+}
