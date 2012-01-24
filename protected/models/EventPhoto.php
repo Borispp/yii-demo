@@ -417,7 +417,7 @@ class EventPhoto extends YsaActiveRecord
 	 */
 	public function defaultPicUrl($width = 300, $height = 200)
 	{	
-		return ImageHelper::thumb($width, $height, rtrim(Yii::getPathOfAlias('webroot.resources.images'), '/') . DIRECTORY_SEPARATOR . 'no-image.png');
+		return ImageHelper::thumb($width, $height, ImageHelper::defaultImagePath());
 	}
 
 	/**

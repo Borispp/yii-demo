@@ -628,7 +628,20 @@ section.box {
 	.box-title {
 		cursor: pointer;
 	}
+	
+	.list {
+		padding-bottom:10px;
+		border-bottom:1px solid @dark-gray-foxtrot;
+		margin-bottom:10px;
+	}
+
+	.box-button {
+		text-align:right;
+	}
 }
+
+
+
 
 /* Standart Form
 *******************************/
@@ -1128,20 +1141,62 @@ section.smugmug-import {
 
 
 #studio-specials-container {}
-#studio-specials .loading {
-	display: none;
-}
-#studio-specials figure img {
-	max-width: 900px;
-	height: auto;
+#studio-specials {
+	.loading {
+		display: none;
+	}
+	figure img {
+		max-width: 900px;
+		height: auto;
+	}
+	.box-description {
+		float: right;
+		margin-bottom: 0;
+		width:780px;
+		margin:2px;
+	}
+
+	.image-wrapper {
+		a.image {
+			float:left;
+			margin-right:3em;
+			img {
+				height:64px;
+				width:auto;
+			}
+		}
+		a.delete {
+			float:left;
+			margin-top:20px;
+		}
+	}
+	.pdf-wrapper {
+		a.pdf {
+			width:64px;
+			height:63px;
+			text-indent:-9999px;
+			float:left;
+			margin-right:3em;
+			background:url("../images/pdf.png") 0 0 no-repeat;
+		}
+		a.delete {
+			float:left;
+			margin-top:20px;
+		}
+	}
 }
 
-#studio-specials .box-description {
-	float: right;
-	margin-bottom: 0;
-	width:780px;
-	margin:2px;
+#studio-video {
+	.video {
+		float:left;
+		margin-right:3em;
+	}
+	a.delete {
+		margin-top:160px;
+		float:left;
+	}
 }
+
 
 #studio .list {
 	position:relative;

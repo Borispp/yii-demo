@@ -40,13 +40,13 @@
 					</tr>
 					<tr>
 						<th>Register Date</th>
-						<td><?php echo date('m.d.Y H:i', strtotime($entry->created))?></td>
+						<td><?php echo $entry->created()?></td>
 					</tr>
 					<?php if ($entry->updated):?>
-					<tr>
-						<th>Update Date</th>
-						<td><?php echo date('m.d.Y H:i', strtotime($entry->updated))?></td>
-					</tr>
+						<tr>
+							<th>Update Date</th>
+							<td><?php echo $entry->updated()?></td>
+						</tr>
 					<?php endif?>
 				</table>
 			</div>

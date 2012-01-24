@@ -2156,6 +2156,14 @@ section.box .box-content {
 .widget .box-title {
   cursor: pointer;
 }
+.widget .list {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #c9c9c9;
+  margin-bottom: 10px;
+}
+.widget .box-button {
+  text-align: right;
+}
 /* Standart Form
 *******************************/
 .form section {
@@ -2777,6 +2785,38 @@ section.smugmug-import .import li span {
   margin-bottom: 0;
   width: 780px;
   margin: 2px;
+}
+#studio-specials .image-wrapper a.image {
+  float: left;
+  margin-right: 3em;
+}
+#studio-specials .image-wrapper a.image img {
+  height: 64px;
+  width: auto;
+}
+#studio-specials .image-wrapper a.delete {
+  float: left;
+  margin-top: 20px;
+}
+#studio-specials .pdf-wrapper a.pdf {
+  width: 64px;
+  height: 63px;
+  text-indent: -9999px;
+  float: left;
+  margin-right: 3em;
+  background: url("../images/pdf.png") 0 0 no-repeat;
+}
+#studio-specials .pdf-wrapper a.delete {
+  float: left;
+  margin-top: 20px;
+}
+#studio-video .video {
+  float: left;
+  margin-right: 3em;
+}
+#studio-video a.delete {
+  margin-top: 160px;
+  float: left;
 }
 #studio .list {
   position: relative;

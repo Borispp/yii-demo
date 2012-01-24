@@ -14,12 +14,17 @@
  * @property string $updated
  * @property string $specials
  * @property string $order_link
+ * @property string $video
  */
 class Studio extends YsaActiveRecord
 {
 	protected $_uploadPath;
 	
 	protected $_uploadUrl;
+	
+	const VIDEO_YOUTUBE = 'youtube';
+	
+	const VIDEO_VIMEO = 'vimeo';
 	
     public function init() {
         parent::init();
@@ -47,14 +52,12 @@ class Studio extends YsaActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('user_id', 'required'),
 			array('user_id', 'numerical', 'integerOnly'=>true),
 			array('name, facebook_feed, twitter_feed, blog_feed', 'length', 'max'=>100),
 			array('facebook_feed, twitter_feed, blog_feed, order_link', 'url'),
-			array('name, facebook_feed, twitter_feed, blog_feed, order_link, created, updated, specials', 'safe'),
+			array('name, facebook_feed, twitter_feed, blog_feed, order_link, created, updated, specials, video', 'safe'),
 		);
 	}
 
@@ -64,9 +67,11 @@ class Studio extends YsaActiveRecord
 	public function relations()
 	{
 		return array(
-			'user'		=> array(self::BELONGS_TO, 'User', 'user_id'),
-			'links'		=> array(self::HAS_MANY, 'StudioLink', 'studio_id', 'order' => 'rank ASC'),
-			'persons'	=> array(self::HAS_MANY, 'StudioPerson', 'studio_id', 'order' => 'rank ASC'),
+			'user'			=> array(self::BELONGS_TO, 'User', 'user_id'),
+			'links'			=> array(self::HAS_MANY, 'StudioLink', 'studio_id', 'order' => 'rank ASC'),
+			'customLinks'	=> array(self::HAS_MANY, 'StudioLink', 'studio_id', 'order' => 'rank ASC', 'condition' => 'type=:type', 'params' => array('type' => StudioLink::TYPE_CUSTOM)),
+			'bookmarkLinks'	=> array(self::HAS_MANY, 'StudioLink', 'studio_id', 'order' => 'rank ASC', 'condition' => 'type=:type', 'params' => array('type' => StudioLink::TYPE_BOOKMARK)),
+			'persons'		=> array(self::HAS_MANY, 'StudioPerson', 'studio_id', 'order' => 'rank ASC'),
 		);
 	}
 
@@ -117,6 +122,17 @@ class Studio extends YsaActiveRecord
 		}
 	}
 	
+	public function specialsExtention()
+	{
+		$path = $this->_uploadPath . DIRECTORY_SEPARATOR . $this->specials;
+		if (is_file($path)) {
+			return YsaHelpers::mimeToExtention(mime_content_type($path));
+		} else {
+			return false;
+		}
+		
+	}
+	
 	public function specialsUrl()
 	{
 		return $this->_uploadUrl . '/' . $this->specials;
@@ -157,6 +173,62 @@ class Studio extends YsaActiveRecord
 		
 		$this->specials = null;
 		
+		$this->save();
+		
+		return $this;
+	}
+	
+	public function addVideo($url, $type, $code, $options = array())
+	{
+		if (!isset($url) || !isset($type) || !isset($code)) {
+			return false;
+		}
+		
+		$data = array(
+			'url'		=> $url,
+			'type'		=> $type,
+			'code'		=> $code,
+			'options'	=> $options,
+		);
+		
+		$this->video = serialize($data);
+		$this->save();
+		
+		return $this;
+	}
+	
+	public function video($size = 'standart')
+	{
+		if (!$this->video) {
+			return false;
+		}
+		
+		$video = unserialize($this->video);
+		
+		$size = Yii::app()->params['studio']['video'][$size];
+		
+		if (!$size) {
+			$size = Yii::app()->params['studio']['video']['standart'];
+		}
+		
+		$html = '';
+		switch ($video['type']) {
+			case Studio::VIDEO_VIMEO:
+				$html = '<iframe src="http://player.vimeo.com/video/' . $video['code'] . '?title=0&amp;byline=0&amp;portrait=0" width="' . $size['width'] . '" height="' . $size['height'] . '" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+				break;
+			case Studio::VIDEO_YOUTUBE:
+				$html = '<iframe width="' . $size['width'] . '" height="' . $size['height'] . '" src="http://www.youtube.com/embed/' . $video['code'] . '" frameborder="0" allowfullscreen></iframe>';
+				break;
+			default:
+				break;
+		}
+		
+		return $html;
+	}
+	
+	public function deleteVideo()
+	{
+		$this->video = '';
 		$this->save();
 		
 		return $this;

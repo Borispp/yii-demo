@@ -82,4 +82,9 @@ class ImageHelper {
 		}
 		return $thumb_path.$thumb_name;
 	}
+	
+	public static function defaultImagePath()
+	{
+		return rtrim(Yii::getPathOfAlias('webroot.resources.images'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'no-image.png';
+	}
 }

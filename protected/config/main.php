@@ -269,7 +269,6 @@ return array(
 			),
 		),
 		'member_area' => array(
-			'default_image_path' => rtrim(Yii::getPathOfAlias('webroot.resources.images'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'no-image.png',
 			'album' => array(
 				'preview' => array(
 					'width'  => 210,
@@ -294,6 +293,18 @@ return array(
 					'height' => 100,
 				),
 			),
+			'video' => array(
+				'standart' => array(
+					'width'	 => 800,
+					'height' => 600,
+				),
+				'preview' => array(
+					'width'	 => 480,
+					'height' => 320,
+				),				
+			),
+			
+			
 		),
 		'studio_options'	=> array(
 			'logo'		=> array(

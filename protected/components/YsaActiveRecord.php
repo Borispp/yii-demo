@@ -12,7 +12,9 @@ class YsaActiveRecord extends CActiveRecord
 	const SEARCH_SESSION_NAME = 'ar_search';
 	
 	protected $_searchFields;
-
+	
+	protected $_defaultImagePath;
+	
 	public function getStates()
 	{
 		return array(

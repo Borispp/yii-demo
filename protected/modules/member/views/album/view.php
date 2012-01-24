@@ -132,9 +132,7 @@
 	
     <div id="photo-upload-container" class="multi-uploader">
 		<p>You browser doesn't have HTML5 support.</p>
-	</div>	
-	
-	
+	</div>
 	
 	<?php if ($this->member()->smugmugAuthorized()) : ?>
 		<section id="photo-import-smugmug-container" class="smugmug-import box">

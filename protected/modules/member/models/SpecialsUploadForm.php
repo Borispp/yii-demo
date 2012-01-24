@@ -6,7 +6,7 @@ class SpecialsUploadForm extends YsaFormModel
     public function rules() 
     {
         return array(
-            array('specials', 'file', 'types'=>'jpg, gif, png, pdf', 'maxSize'=> Yii::app()->params['max_image_size'], 'tooLarge'=>'The file was larger than 5MB Please upload a smaller file.'),
+            array('specials', 'file', 'types'=>'jpg, jpeg, gif, png, pdf', 'maxSize'=> Yii::app()->params['max_image_size'], 'tooLarge'=>'The file was larger than 5MB Please upload a smaller file.'),
 			array('specials', 'required'),
         );
     }

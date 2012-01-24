@@ -1,4 +1,4 @@
-<div class="w">
+<div class="w" id="subscription-list">
 	<section class="box">
 		<div class="box-title">
 			<h3>Your Subscriptions</h3>
@@ -15,7 +15,7 @@
 							<th class="w_10">Start date</th>
 							<th class="w_10">End date</th>
 							<th class="w_10">State</th>
-							<th class="w_10">Actions</th>
+							<th class="w_15">Actions</th>
 						</tr>
 					</thead>
 					<?php if (count($subscriptions) < 1): ?>
@@ -35,11 +35,16 @@
 								<td>
 									<?php echo Yii::app()->dateFormatter->formatDateTime($obUserSubscription->expiry_date, 'medium', null); ?>
 								</td>
-								<td><?php echo $obUserSubscription->labelState()?></td>
-								<td>
-									<?php if ($obUserSubscription->state == $obUserSubscription::STATE_INACTIVE):?>
+								<td><span class="<?php echo strtolower($obUserSubscription->labelState()); ?>"><?php echo $obUserSubscription->labelState()?></span></td>
+								<td class="actions">
+									<?php if ($obUserSubscription->state == UserSubscription::STATE_INACTIVE):?>
 										<?php if ($obUserSubscription->Transaction):?>
-											<?php echo YsaHtml::link('Pay Now', array('subscription/paypal/id/' . $obUserSubscription->Transaction->id . '/'), array('class' => 'btn small')); ?>
+											<?php echo YsaHtml::link('Pay Now', array('subscription/paypal/id/' . $obUserSubscription->Transaction->id . '/'), array('class' => 'blue btn small')); ?>
+											<?php echo YsaHtml::link('Delete', array('subscription/delete/subscriptionId/' . $obUserSubscription->Transaction->id . '/'), array('class' => 'btn small red delete')); ?>
+										<?php elseif ($obUserSubscription->state == UserSubscription::STATE_ENABLED) :?>
+											-
+										<?php elseif ($obUserSubscription->state == UserSubscription::STATE_ACTIVE) :?>
+											-
 										<?php endif?>
 									<?php endif?>
 								</th>

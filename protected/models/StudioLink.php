@@ -13,6 +13,7 @@
  * @property string $updated
  * @property string $friendly_url
  * @property string $icon
+ * @property string $type
  * 
  * @property Studio $studio
  */
@@ -25,6 +26,10 @@ class StudioLink extends YsaActiveRecord
 	protected $_iconsPath;
 	
 	protected $_icons;
+	
+	const TYPE_BOOKMARK = 'bookmark';
+	
+	const TYPE_CUSTOM = 'custom';
 	
 	public function init()
 	{
@@ -60,7 +65,7 @@ class StudioLink extends YsaActiveRecord
 		// will receive user inputs.
 		return array(
 			array('studio_id, name, url', 'required'),
-			array('icon', 'safe'),
+			array('icon, type', 'safe'),
 			array('studio_id, rank', 'numerical', 'integerOnly'=>true),
 			array('name, url', 'length', 'max'=>100),
 			array('created, updated', 'safe'),
@@ -123,7 +128,7 @@ class StudioLink extends YsaActiveRecord
 			$img = ImageHelper::thumb(
 				Yii::app()->params['studio_options']['icon']['width'], 
 				Yii::app()->params['studio_options']['icon']['height'], 
-				Yii::app()->params['default_image_path']
+				ImageHelper::defaultImagePath()
 			);
 		}
 		
@@ -163,5 +168,20 @@ class StudioLink extends YsaActiveRecord
 		}
 		
 		return $this->_icons;
+	}
+	
+	public function getTypes()
+	{
+		return array(
+			self::TYPE_BOOKMARK => 'Bookmark Link',
+			self::TYPE_CUSTOM => 'Custom Link',
+		);
+	}
+	
+	public function type($type)
+	{
+		$types = $this->getTypes();
+		
+		return $types[$type];
 	}
 }
