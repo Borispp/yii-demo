@@ -39,7 +39,7 @@ class YsaApiController extends YsaController
 		if (empty($_POST['device_id']))
 			$this->_renderError('No device_id received');
 		if (!$this->_validateApp())
-			$this->_renderError('No app with received app_id');
+			$this->_renderError('No app with received app_key');
 	}
 
 	/**
@@ -103,7 +103,7 @@ class YsaApiController extends YsaController
 	protected function _getApplication()
 	{
 		if (!$this->_obApplication)
-			$this->_obApplication = Application::model()->findByKey($_POST['app_key']);
+			$this->_obApplication = Application::model()->findByKey(trim($_POST['app_key']));
 		return $this->_obApplication;
 	}
 

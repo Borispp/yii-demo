@@ -16,7 +16,7 @@ class ClientAuth extends YsaActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return OptionGroup the static model class
+	 * @return ClientAuth the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -107,13 +107,16 @@ class ClientAuth extends YsaActiveRecord
 			throw new YsaAuthException('Client is blocked');
 		if ($this->authByToken($token = $this->_generateToken($obClient, $obApplication, $deviceId), $appKey, $deviceId))
 			return $token;
+		
 		$model = new ClientAuth();
 		$model->token = $token;
 		$model->app_id = $obApplication->id;
 		$model->client_id = $obClient->id;
 		$model->device_id = $deviceId;
 		$model->state = 1;
-		$model->save();
+		if ( !$model->save() )
+			throw new YsaAuthException('Unable to save ClientAuth');
+		
 		return $token;
 	}
 

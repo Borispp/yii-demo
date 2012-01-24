@@ -5,10 +5,10 @@
  */
 class ClientController extends YsaApiController
 {
-	public function init()
+	protected function beforeAction($action)
 	{
-		parent::init();
 		$this->_commonValidate();
+		return parent::beforeAction($action);
 	}
 
 	/**
@@ -249,8 +249,8 @@ class ClientController extends YsaApiController
 		$this->_validateFacebookAccessToken( $_POST['fb_id'], $_POST['fb_access_token'] );
 		$client = $this->_validateAuth();
 		
-		$client->facebook_id = null;
-		if ( !$client->save() )
+		$client->facebook_id = '';
+		if ( !$client->save( false ) )
 		{
 			$this->_render(array(
 				'state'		=> false,
