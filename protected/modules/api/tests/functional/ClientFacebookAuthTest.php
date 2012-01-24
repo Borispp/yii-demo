@@ -174,7 +174,7 @@ class ClientFacebookAuthTest extends CTestCase
 		$this->assertTrue( !empty($response->response->token), 'No access token' );
 	}
 	
-	public function testUnableToLinkFacebookAccountWithoutValidYSAAccessToken()
+	public function testLinkFacebookAccountFlow()
 	{
 		$this->_setupNotLinkedFBEnvironment();
 		
@@ -254,5 +254,70 @@ class ClientFacebookAuthTest extends CTestCase
 		
 		// access token means successfully auth by Facebook
 		$this->assertNotNull( $response->response->token );
+	}
+	
+	public function testUnlinkFacebookAccountFlow()
+	{
+		$this->_setupLinkedFBEnvironment();
+		$device_id = md5(microtime(true));
+		
+		// try to login
+		$response = $this->open( 
+				'POST', 
+				'api/client/facebooklogin', 
+				array( 
+					'app_key' => $this->app_key,
+					'device_id' => $device_id,
+					'fb_access_token' => $this->fb_user->access_token,
+					'fb_id' => $this->fb_user->id
+				)
+		);
+		
+		$this->assertNotNull( $response->response->token );
+		
+		// try to unlink
+		$link_response = $this->open( 
+				'POST', 
+				'api/client/unlinkFacebook', 
+				array( 
+					'app_key' => $this->app_key,
+					'device_id' => $device_id,
+					'fb_access_token' => $this->fb_user->access_token,
+					'fb_id' => $this->fb_user->id,
+					'token' => $response->response->token
+				)
+		);
+		
+		$this->assertEquals( 'ok', $link_response->state, var_export( $link_response, true ) );
+		$this->assertTrue( $link_response->response->state, var_export( $link_response, true ) );
+		
+		// logout
+		$logout_response = $this->open( 
+				'POST', 
+				'api/client/logout', 
+				array( 
+					'app_key' => $this->app_key,
+					'device_id' => $device_id,
+					'token' => $response->response->token
+				)
+		);
+		
+		$this->assertEquals( 'ok', $logout_response->state, var_export( $logout_response, true ) );
+		$this->assertTrue( $logout_response->response->state );
+		
+		// try to login again
+		$response = $this->open( 
+				'POST', 
+				'api/client/facebooklogin', 
+				array( 
+					'app_key' => $this->app_key,
+					'device_id' => $device_id,
+					'fb_access_token' => $this->fb_user->access_token,
+					'fb_id' => $this->fb_user->id
+				)
+		);
+		
+		// not logged in
+		$this->assertNull( $response->response->token );
 	}
 }
