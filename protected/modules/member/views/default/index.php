@@ -21,17 +21,24 @@
 			</div>
 		</section>
 	</div>
-	
+
 	<div class="widgets g4">
 		<section class="box widget" id="widget_application">
 			<div class="box-title">
 				<h3>Application Quick Access</h3>
 			</div>
 			<div class="box-content">
+				
+				<?php if ($this->member()->application) : ?>
 					<p class="c"><?php echo YsaHtml::link('Application Wizard', array('application/wizard/'), array('class' => 'btn')); ?></p>
 					<?php if ($this->member()->application->hasSupport()) : ?>
 						<p class="c"><?php echo YsaHtml::link('Support Ticket', array('support'), array('class' => 'btn red small')); ?></p>
 					<?php endif; ?>
+				<?php else:?>
+					<p class="c"><?php echo YsaHtml::link('Create Application', array('application/create/'), array('class' => 'btn')); ?></p>	
+				<?php endif; ?>
+				
+
 			</div>
 		</section>
 		<section class="box widget" id="widget_latest_comments">
