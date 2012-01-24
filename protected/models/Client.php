@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'client':
  * @property integer $id
- * @property integer $user_id
+ * @property integer $user_id Member ID
  * @property string $name
  * @property string $email
  * @property string $password
@@ -15,12 +15,16 @@
  * @property string $created
  * @property string $updated
  * @property string $added_with
+ * @property integer $facebook_id Unsigned Bigint
  *
  * The followings are the available model relations:
  * @property Application $application
  */
 class Client extends YsaActiveRecord
 {
+	const STATE_ACTIVE = 1;
+	const STATE_INACTIVE = 0;
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Client the static model class
