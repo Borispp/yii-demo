@@ -251,7 +251,8 @@ header .login a:hover {
 .breadcrumb{
 	display:block;
 	background: #f7f7f7;
-	
+	.gradient(#f7f7f7, #efefef, #f7f7f7);
+	.box-shadow(1px 1px 1px 0px rgba(200, 200, 200, .3));
 	.rounded(5px);
 	
 	margin-top: -21px;
@@ -545,16 +546,15 @@ section.box {
 		padding:0 20px;
 		margin: 0;
 		border-bottom: 1px solid @dark-gray-foxtrot;
-		background: @white-alpha;
 		height:44px;
 		.rounded-top(3px);
 		
+		.gradient(#fff, #f6f6f6, #fff);
+		.text-shadow(#fff);
+
 		.box-title-button {
 			float: right;
 			padding:10px 0;
-
-
-
 		}
 		h3 {
 			color:@dark-gray-alpha;
@@ -622,11 +622,16 @@ section.box {
 *******************************/
 .widgets {
 	min-height: 400px;
+
+	.place {
+		background-color:@yellow-alpha;
+		.margin-bottom-alpha;
+	}
 }
 .widget {
 	.box-shadow(1px 1px 1px 0px rgba(200, 200, 200, 1));
 	.box-title {
-		cursor: pointer;
+		cursor: move;
 	}
 	
 	.list {
@@ -639,9 +644,6 @@ section.box {
 		text-align:right;
 	}
 }
-
-
-
 
 /* Standart Form
 *******************************/
@@ -1210,7 +1212,7 @@ section.smugmug-import {
 
 		&.place {
 			height:40px;
-			background-color:#fffef0;
+			background-color:@yellow-alpha;
 		}
 		
 		figure {

@@ -53,6 +53,7 @@ class EventController extends YsaMemberController
 		$this->setMemberPageTitle($entry->name);
 
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/eventpage.js', CClientScript::POS_HEAD);
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/notification_button.js', CClientScript::POS_HEAD);
 
 		$this->render('view', array(
 				'entry' => $entry,
@@ -128,6 +129,8 @@ class EventController extends YsaMemberController
 		$this->crumb($entry->name);
 
 		$this->setMemberPageTitle($entry->name);
+		
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/notification_button.js', CClientScript::POS_HEAD);
 
 		$this->render('edit', array(
 				'entry' => $entry,

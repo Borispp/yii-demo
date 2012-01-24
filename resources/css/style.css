@@ -1494,6 +1494,13 @@ header .login a:hover {
 .breadcrumb {
   display: block;
   background: #f7f7f7;
+  background: #f7f7f7;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #efefef), color-stop(1, #f7f7f7));
+  background: -ms-linear-gradient(bottom, #efefef, #f7f7f7);
+  background: -moz-linear-gradient(center bottom, #efefef 0%, #f7f7f7 100%);
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(200, 200, 200, 0.3);
+  -moz-box-shadow: 1px 1px 1px 0px rgba(200, 200, 200, 0.3);
+  box-shadow: 1px 1px 1px 0px rgba(200, 200, 200, 0.3);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -2070,7 +2077,6 @@ section.box .box-title {
   padding: 0 20px;
   margin: 0;
   border-bottom: 1px solid #c9c9c9;
-  background: #ffffff;
   height: 44px;
   -moz-border-radius-topleft: 3px;
   -moz-border-radius-topright: 3px;
@@ -2078,6 +2084,11 @@ section.box .box-title {
   -moz-border-radius-bottomleft: 0px;
   -webkit-border-radius: 3px 3px 0px 0px;
   border-radius: 3px 3px 0px 0px;
+  background: #ffffff;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #f6f6f6), color-stop(1, #ffffff));
+  background: -ms-linear-gradient(bottom, #f6f6f6, #ffffff);
+  background: -moz-linear-gradient(center bottom, #f6f6f6 0%, #ffffff 100%);
+  text-shadow: 1px 1px 0px #ffffff;
 }
 section.box .box-title .box-title-button {
   float: right;
@@ -2148,13 +2159,17 @@ section.box .box-content {
 .widgets {
   min-height: 400px;
 }
+.widgets .place {
+  background-color: #fffef0;
+  margin-bottom: 24px;
+}
 .widget {
   -webkit-box-shadow: 1px 1px 1px 0px #c8c8c8;
   -moz-box-shadow: 1px 1px 1px 0px #c8c8c8;
   box-shadow: 1px 1px 1px 0px #c8c8c8;
 }
 .widget .box-title {
-  cursor: pointer;
+  cursor: move;
 }
 .widget .list {
   padding-bottom: 10px;

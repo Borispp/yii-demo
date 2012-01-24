@@ -4,7 +4,7 @@ $(function(){
 		var settings = $.extend({
 			namespace : 'ysawdgt_',
 			handle : 'div.box-title',
-			placeholder : 'sortable-placeholder',
+			placeholder : 'place',
 			opacity : .8,
 			distance : 5
 		}, _settings);

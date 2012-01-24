@@ -105,6 +105,7 @@ class ClientController extends YsaMemberController
 		$this->crumb('View Client');
 		$this->setMemberPageTitle('View Client');
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/clientpage.js', CClientScript::POS_HEAD);
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/notification_button.js', CClientScript::POS_HEAD);
 		
 		$this->render('view', array(
 			'entry' => $entry,

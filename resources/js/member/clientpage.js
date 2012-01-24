@@ -9,10 +9,7 @@ $(function(){
 				var select = $(this);
 				$.post(_member_url + '/client/toggle/clientId/' + client_id, {state:select.val()}, function(data){
 					if (data.success) {
-
 						select.parents('.description').effect("highlight", {}, 500);
-
-
 					} else {
 						$._alert(data.msg)
 					}

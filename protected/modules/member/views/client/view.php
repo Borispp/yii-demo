@@ -38,7 +38,7 @@
 					<table class="data">
 						<tr>
 							<th>Name</th>
-							<td><?php echo $entry->name?></td>
+							<td><strong><?php echo $entry->name?></strong></td>
 						</tr>
 						<tr>
 							<th>Email</th>

@@ -3,7 +3,6 @@
 		<div class="box-title">
 			<h3>Clients</h3>
 			<div class="box-title-button">
-				<script type="text/javascript" src="<?php echo Yii::app()->baseUrl?>/resources/js/member/notification_button.js"></script>
 				<?php echo YsaHtml::link('<span class="icon i_chat"></span>Send Push Notification To All', '/member/notification/new?type=all&recipient=0', array('class' => 'secondary iconed', 'id' => 'send-push-link')); ?>
 				<?php echo YsaHtml::link('<span class="icon i_plus_alt"></span>Register New Client', array('add'), array('class' => 'secondary iconed')); ?>
 			</div>
