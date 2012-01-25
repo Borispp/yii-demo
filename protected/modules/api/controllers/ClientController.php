@@ -227,12 +227,21 @@ class ClientController extends YsaApiController
 		$this->_validateFacebookAccessToken( $_POST['fb_id'], $_POST['fb_access_token'] );
 		$client = $this->_validateAuth();
 		
-		$client->facebook_id = $_POST['fb_id'];
-		if ( !$client->save() )
+		try
+		{
+			if ( !$client->linkFacebook( $_POST['fb_id'] ) )
+			{
+				$this->_render(array(
+					'state'		=> false,
+					'message'	=> 'Unable to link Facebook account',
+				));
+			}
+		}
+		catch( LogicException $e )
 		{
 			$this->_render(array(
 				'state'		=> false,
-				'message'	=> 'Unable to link Facebook account',
+				'message'	=> $e->getMessage(),
 			));
 		}
 		
@@ -243,14 +252,18 @@ class ClientController extends YsaApiController
 			));
 	}
 	
+	/**
+	 * Unlink Facebook acc and send email with local login/password info
+	 *
+	 * @return boolean true on success
+	 */
 	public function actionUnlinkFacebook()
 	{
 		$this->_validateFacebookVars();
 		$this->_validateFacebookAccessToken( $_POST['fb_id'], $_POST['fb_access_token'] );
 		$client = $this->_validateAuth();
 		
-		$client->facebook_id = '';
-		if ( !$client->save( false ) )
+		if ( !$client->unlinkFacebook() )
 		{
 			$this->_render(array(
 				'state'		=> false,

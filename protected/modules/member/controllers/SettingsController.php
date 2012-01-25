@@ -232,7 +232,12 @@ class SettingsController extends YsaMemberController
 	
 	public function actionFacebookConnect()
 	{
-		$authIdentity = Yii::app()->eauth->getIdentity( 'facebook', array('scope' => 'email,publish_stream,offline_access'));
+		$options = array(
+			'scope' => 'email,publish_stream,offline_access',
+			'client_id' => Yii::app()->settings->get('facebook_app_id'),
+			'client_secret' => Yii::app()->settings->get('facebook_app_secret')
+		);
+		$authIdentity = Yii::app()->eauth->getIdentity( 'facebook', $options );
 
 		if ( $authIdentity->authenticate() ) 
 		{
@@ -255,8 +260,9 @@ class SettingsController extends YsaMemberController
 	{
 		if ( ! $this->member()->unlinkFacebook() )
 			$this->setError( 'Unable to unlink Facebook account' );
+		else
+			$this->setSuccess( 'Facebook account was successfully unlinked' );
 		
-		$this->setSuccess( 'Facebook account was successfully unlinked' );
 		$this->redirect(array('settings/'));
 	}
 }
