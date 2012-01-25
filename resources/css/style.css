@@ -2944,8 +2944,14 @@ section.smugmug-import .import li span {
   float: left;
   margin: 0 2em 1em 0;
 }
+#wizard-templates div {
+  margin-bottom: 1em;
+  text-align: right;
+}
 #wizard-accordion .step {
   margin-bottom: 18px;
+  /****  color selector****/
+
 }
 #wizard-accordion .step h3 {
   background: url(../images/wizard-toggle.png) 100% 16px no-repeat;
@@ -2964,13 +2970,15 @@ section.smugmug-import .import li span {
   -webkit-border-radius: 3px 3px 0px 0px;
   border-radius: 3px 3px 0px 0px;
 }
+#wizard-accordion .step h3.error {
+  color: #ff0000;
+}
 #wizard-accordion .step .box-title:hover {
-  color: #999;
+  color: #999999;
   background-color: #f9f9f9;
 }
 #wizard-accordion .step.active h3 {
-  color: #01B1F0;
-  background-color: #fff;
+  color: #02b5f5;
   background-position: 100% -25px;
   cursor: default;
 }
@@ -2995,6 +3003,17 @@ section.smugmug-import .import li span {
   float: left;
   margin-bottom: 20px;
   height: 120px;
+}
+#wizard-accordion .step section.error {
+  background-color: #fff5f5;
+  background-image: url(../images/alert-triangle.png);
+  background-position: 100% 0;
+  background-repeat: no-repeat;
+}
+#wizard-accordion .step section.locked {
+  background-image: url(../images/lock.png);
+  background-position: 100% 0;
+  background-repeat: no-repeat;
 }
 #wizard-accordion .step section.style {
   width: 180px;
@@ -3036,7 +3055,10 @@ section.smugmug-import .import li span {
   float: none;
   height: auto;
 }
-/****  top label ****/
+#wizard-accordion .step section {
+  /****  top label ****/
+
+}
 #wizard-accordion .step section label .required {
   display: none;
 }
@@ -3047,12 +3069,10 @@ section.smugmug-import .import li span {
   text-transform: uppercase;
   display: block;
 }
-/****  save ****/
 #wizard-accordion .step .save {
   clear: both;
   text-align: right;
 }
-/****  color selector****/
 #wizard-accordion .step .color-selector {
   position: relative;
   float: left;
@@ -3173,7 +3193,7 @@ section.smugmug-import .import li span {
   width: 980px;
   height: 60px;
   overflow: hidden;
-  margin-bottom: 2em;
+  margin-bottom: 1em;
   margin-left: -1px;
   background: #fafafa;
   -webkit-border-radius: 4px;
@@ -3208,6 +3228,9 @@ section.smugmug-import .import li span {
 #wizard-breadcrumbs li {
   display: inline;
 }
+#wizard-breadcrumbs li:first-child {
+  margin-left: 0;
+}
 #wizard-breadcrumbs li a {
   float: left;
   font-size: 12px;
@@ -3220,14 +3243,11 @@ section.smugmug-import .import li span {
   text-decoration: none;
   background: url(../images/wizard-breadcrumb.png) 0 -60px no-repeat;
 }
-#wizard-breadcrumbs li:first-child {
-  margin-left: 0;
+#wizard-breadcrumbs li a:hover {
+  background-position: 0 -120px;
 }
 #wizard-breadcrumbs li:last-child a {
   width: 160px;
-}
-#wizard-breadcrumbs li a:hover {
-  background-position: 0 -120px;
 }
 #wizard-breadcrumbs li a:active, #wizard-breadcrumbs li.active a {
   background-position: 0 0;
@@ -3292,8 +3312,29 @@ section.smugmug-import .import li span {
 #application .shadow-box {
   min-height: 400px;
 }
-#application-preview .box-preview {
-  padding-bottom: 24px;
+#application-preview .buttons {
+  margin-bottom: 24px;
+  text-align: center;
+}
+#ipad {
+  position: relative;
+}
+#ipad .case {
+  width: 980px;
+  height: 766px;
+  background: url(../images/ipad.png) 0 0 no-repeat;
+  position: relative;
+  z-index: 999;
+  margin-bottom: 24px;
+}
+#ipad .bg {
+  position: absolute;
+  top: 20px;
+  left: 33px;
+  background: #ffffff;
+  z-index: 1;
+  width: 940px;
+  height: 700px;
 }
 #application-support h3 .date {
   color: #999999;
@@ -3344,25 +3385,6 @@ section.smugmug-import .import li span {
 #application-support .replies li p {
   line-height: 1.3;
   margin-bottom: 0;
-}
-#ipad {
-  position: relative;
-}
-#ipad .case {
-  width: 980px;
-  height: 766px;
-  background: url(../images/ipad.png) 0 0 no-repeat;
-  position: relative;
-  z-index: 999;
-}
-#ipad .bg {
-  position: absolute;
-  top: 20px;
-  left: 33px;
-  background: #ffffff;
-  z-index: 1;
-  width: 940px;
-  height: 700px;
 }
 #client-list .search-bar, #notification-list .search-bar, #event-list .search-bar {
   float: left;

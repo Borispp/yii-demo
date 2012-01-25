@@ -61,7 +61,13 @@ $(function(){
 				success:function(data, success, response, frm){
 					var submit = frm.find('input:submit');
 					submit.val(submit.data('value')).removeClass('disabled');
-				}
+					
+					$._flash(data.msg, {
+						'type':data.success ? 'success' : 'error',
+						'clear_notifications':true
+					});
+				},
+				dataType:'json'
 			});
 			
 			specials.find('a.image').fancybox();

@@ -48,15 +48,23 @@ $(function(){
 	
 	$._flash = function(msg, _settings) {
 		var settings = $.extend({
-			'type':'notice'
+			'type':'notice',
+			'clear_notifications':false
 		}, _settings);
 		
 		var flash = $('<div class="flash ' + settings.type + '">' + msg + '</div>');
 		flash.hide();
-		$('#notifications').append(flash);
 		
+		var notifications = $('#notifications');
+		
+		if (settings.clear_notifications) {
+			notifications.html('');
+		}
+		
+		notifications.append(flash);
 		flash.slideDown('fast');
 	}
+	
 	
 	// flashing notices, errors & success messages
 	$('div.flash').live('click', function(){
