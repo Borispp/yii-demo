@@ -219,10 +219,15 @@ class Member extends User
 	 * Link Facebook Account
 	 *
 	 * @param string $fb_id 
+	 * @return Member
+	 * @throws CDbException
 	 */
 	public function linkFacebook( $fb_id )
 	{
-		$this->editOption(UserOption::FACEBOOK_ID, $fb_id);
+		if ( $this->option( UserOption::FACEBOOK_ID, false) )
+			throw new CDbException( 'Facebook account in alredy linked' );
+		
+		return $this->editOption(UserOption::FACEBOOK_ID, $fb_id);
 	}
 	
 	/**
