@@ -178,4 +178,14 @@ class SubscriptionController extends YsaMemberController
 			$this->redirect(array('subscription/'));
 		}
 	}
+
+	public function actionDetails($id)
+	{
+		$this->setMemberPageTitle('Subscription details');
+		if (!($obUserSubscription = UserSubscription::model()->findByPk($id)) || $obUserSubscription->user_id != $this->member()->id || UserSubscription::STATE_INACTIVE == $obUserSubscription->state)
+		{
+			$this->redirect(array('subscription/'));
+		}
+		return $this->render('details', array('obUserSubscription' => $obUserSubscription));
+	}
 }
