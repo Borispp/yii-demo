@@ -2176,6 +2176,12 @@ section.box .box-content {
   border-bottom: 1px solid #c9c9c9;
   margin-bottom: 10px;
 }
+.widget .list li {
+  text-transform: uppercase;
+  font-size: 11px;
+  line-height: 2;
+  font-weight: 700;
+}
 .widget .box-button {
   text-align: right;
 }

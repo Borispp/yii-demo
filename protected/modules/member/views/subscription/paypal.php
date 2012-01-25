@@ -1,4 +1,3 @@
-<?php echo YsaHtml::pageHeaderTitle('New Subscription'); ?>
 <section class="body w">
 	<h3>Going to paypal...</h3>
 	<div class="form">

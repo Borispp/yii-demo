@@ -97,6 +97,9 @@ class SubscriptionController extends YsaMemberController
 				'message'	=> 'You\'ve already paid this transaction.',
 			));
 		}
+		
+		$this->setMemberPageTitle('New Subscription');
+		
 		$obUserTransaction->state = UserTransaction::STATE_SENT;
 		$this->renderVar('currency', $this->_getPayment()->getCurrency());
 		$this->renderVar('email', $this->_getPayment()->getEmail());
