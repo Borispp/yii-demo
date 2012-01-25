@@ -29,6 +29,7 @@ class NotificationController extends YsaMemberController
 		{
 			return $this->sendJson(array('state' => FALSE, 'message' => 'Message is empty. Please fill it up and try again.'));
 		}
+		
 		$entry = new ApplicationNotification();
 		$entry->application_id = $this->member()->application->id;
 		$entry->message = $_POST['message'];
@@ -37,7 +38,8 @@ class NotificationController extends YsaMemberController
 			return $this->sendJson(array('state' => FALSE, 'message' => $commonError));
 		}
 		$entry->save();
-		if ($_POST['type'] == 'event')
+		
+		if (isset($_POST['type']) && $_POST['type'] == 'event')
 		{
 			$obEvent = Event::model()->findByPk($_POST['recipient']);
 			if (!$obEvent->isActive() || $obEvent->user_id != $this->member()->id)
@@ -47,7 +49,7 @@ class NotificationController extends YsaMemberController
 			}
 			$entry->appendToEvent($obEvent);
 		}
-		elseif ($_POST['type'] == 'client')
+		elseif (isset($_POST['type']) && $_POST['type'] == 'client')
 		{
 			$obClient = Client::model()->findByPk($_POST['recipient']);
 			if (!$obClient->isActive() || $obClient->user_id != $this->member()->id)
