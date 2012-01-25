@@ -11,12 +11,9 @@
 						<dl class="cf">
 							<dt>Facebook ID</dt>
 							<dd><?php echo $fb->fb_id; ?></dd>
-							
-							<dt>Email</dt>
-							<dd><?php echo $fb->email; ?></dd>
 						</dl>
 					</div>
-					<?php echo YsaHtml::link('Unlink Facebook', array('settings/facebook/unlink/'), array('class' => 'btn small')); ?>
+					<?php echo YsaHtml::link('Unlink Account', array('settings/facebook/unlink/'), array('class' => 'btn small')); ?>
 
 				<?php else: ?>
 

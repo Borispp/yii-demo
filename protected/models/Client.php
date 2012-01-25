@@ -57,6 +57,7 @@ class Client extends YsaActiveRecord
 		return array(
 			array('state,user_id', 'numerical', 'integerOnly'=>true),
 			array('email', 'unique'),
+			array('email', 'email'),
 			array('name, email, password', 'required'),
 			array('name, email, password, phone', 'length', 'max'=>100),
 			array('added_with, description, created, updated, eventList, selectedEvents', 'safe'),

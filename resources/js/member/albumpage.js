@@ -120,8 +120,6 @@ $(function(){
 				e.preventDefault();
 				var images = [];
 				
-				console.log(images);
-				
 				$('#album-photos').find('figure').each(function(){
 					images.push({
 						href:$(this).data('src')
