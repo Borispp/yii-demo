@@ -3,7 +3,7 @@
 		<div class="box-title">
 			<h3>Clients</h3>
 			<div class="box-title-button">
-				<?php echo YsaHtml::link('<span class="icon i_chat"></span>Send Push Notification To All', '/member/notification/new?type=all&recipient=0', array('class' => 'secondary iconed', 'id' => 'send-push-link')); ?>
+				<?php echo YsaHtml::link('<span class="icon i_chat"></span>Send Push Notification To All', '/member/notification/new/recipient/0/', array('class' => 'secondary iconed', 'id' => 'send-push-link')); ?>
 				<?php echo YsaHtml::link('<span class="icon i_plus_alt"></span>Register New Client', array('add'), array('class' => 'secondary iconed')); ?>
 			</div>
 		</div>

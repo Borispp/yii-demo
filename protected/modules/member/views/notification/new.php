@@ -12,13 +12,14 @@
 							<label for="message">Message</label>
 							<div>
 								<textarea name="message" id="message" class="required" cols="40" rows="4"></textarea>
+								<div id="response-message" class="errorMessage"></div>
+								<input type="hidden" name="recipient" value="<?php echo $recipient?>"/>
+								<input type="hidden" name="type" value="<?php echo $type?>"/>
 							</div>
 						</section>
 						<section class="button">
 							<?php echo YsaHtml::submitButton('Send', array('class' => 'blue')); ?>
 						</section>
-						<?php //@todo move style to some css, add green-ok style?>
-						<div id="response-message" style="display:none;clear:both;float: none;margin: 0 0 0 200px;width: 415px;" class="errorMessage"></div>
 					</form>
 				</div>
 			</div>
