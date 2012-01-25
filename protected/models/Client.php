@@ -369,4 +369,40 @@ class Client extends YsaActiveRecord
 		
 		return $this;
 	}
+	
+	/**
+	 *
+	 * @param integer $fb_id
+	 * @return boolean true on success
+	 * @throws LogicException
+	 */
+	public function linkFacebook( $fb_id )
+	{
+		if ( !empty($this->facebook_id) )
+			throw new LogicException( 'Cant rewrite existing Facebook account' );
+		
+		$this->facebook_id = $fb_id;
+		return $this->save( false );
+	}
+	
+	public function unlinkFacebook()
+	{
+		$this->facebook_id = '';
+		$result = $this->save( false );
+		
+		if ( !$result )
+			return $result;
+		
+		Email::model()->send(
+			array($this->email, $this->name), 
+			'unlink_facebook_acc', 
+			array(
+				'name' => $this->name,
+				'login'	=> $this->email,
+				'password' => $this->password,
+			)
+		);
+		
+		return true;
+	}
 }
