@@ -3,7 +3,7 @@
 		'action' => array('application/saveStep/step/logo/'),
 	)); ?>
 
-	<section class="part style shadow-box">
+	<section class="part style shadow-box" id="wizard-box-style">
 		<?php if (!$model->style) {
 			$model->style = $model->defaultStyle();
 		 }?>
@@ -13,20 +13,21 @@
 		<?php endforeach; ?>
 		<?php echo $form->hiddenField($model, 'style'); ?>
 	</section>
-	<section class="part icons shadow-box">
+	<section class="part icons shadow-box <?php echo $locked ? 'locked' : ''?>" id="wizard-box-icon">
 		<?php echo $form->labelEx($model, 'icon', array('class' => 'title')); ?>
 		<?php
-			$this->renderPartial('/wizard/_uploader', array(
+			$this->renderPartial($locked ? '/wizard/_imagelock' : '/wizard/_uploader', array(
 				'name'	=> 'icon',
 				'model' => $model,
 				'info'  => 'You should use some iOS icon generator like <a href="http://wizardtoolkit.com/shooter/iPhone-Icon-Generator" target="_blank">this</a> to make you icon shiny and professional',
 			));
 		?>
 	</section>
-	<section class="part itunes-logo shadow-box">
+	<section class="part itunes-logo shadow-box <?php echo $locked ? 'locked' : ''?>" id="wizard-box-itunes_logo">
 		<?php echo $form->labelEx($model, 'itunes_logo', array('class' => 'title')); ?>
+		
 		<?php
-			$this->renderPartial('/wizard/_uploader', array(
+			$this->renderPartial($locked ? '/wizard/_imagelock' : '/wizard/_uploader', array(
 				'name'	=> 'itunes_logo',
 				'model' => $model,
 				'info'  => 'You should use some iOS icon generator like <a href="http://wizardtoolkit.com/shooter/iPhone-Icon-Generator" target="_blank">this</a> to make you icon shiny and professional',
@@ -34,7 +35,7 @@
 		?>
 	</section>
 
-	<section class="part group splash-bg shadow-box">
+	<section class="part group splash-bg shadow-box" id="wizard-box-background">
 		<label class="title">Background</label>
 		<?php
 			$this->renderPartial('/wizard/_selector', array(
@@ -49,10 +50,10 @@
 		?>
 	</section>
 
-	<section class="part logo shadow-box">
+	<section class="part logo shadow-box <?php echo $locked ? 'locked' : ''?>" id="wizard-box-logo">
 		<?php echo $form->labelEx($model, 'logo', array('class' => 'title')); ?>
 		<?php
-			$this->renderPartial('/wizard/_uploader', array(
+			$this->renderPartial($locked ? '/wizard/_imagelock' : '/wizard/_uploader', array(
 				'name'	=> 'logo',
 				'model' => $model,
 				'info'  => 'You should use some iOS icon generator like <a href="http://wizardtoolkit.com/shooter/iPhone-Icon-Generator" target="_blank">this</a> to make you icon shiny and professional',

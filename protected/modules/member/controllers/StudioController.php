@@ -85,7 +85,17 @@ class StudioController extends YsaMemberController
 					$this->redirect(array('studio/'));
 				}
 			} else {
-				$msg = 'Something went wrong. Please reload the page and try again.';
+				
+				$errors = $entry->getErrors();
+				$errorKeys = array_keys($errors);
+				
+				
+				if (isset($errors[$errorKeys[0]]) && isset($errors[$errorKeys[0]][0])) {
+					$msg = $errors[$errorKeys[0]][0];
+				} else {
+					$msg = 'Something went wrong. Please reload the page and try again.';
+				}
+				
 				if (Yii::app()->request->isAjaxRequest) {
 					$this->sendJsonError(array(
 						'msg' => $msg,

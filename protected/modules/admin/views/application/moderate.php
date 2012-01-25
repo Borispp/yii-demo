@@ -46,6 +46,72 @@
 			<label>Moderator Toolbar</label>
 			
 			
+			<?php if ($entry->submitted()) : ?>
+				
+				<?php if ($entry->approved()) : ?>
+					
+					application aproved
+			
+				<?php elseif ($entry->unapproved()): ?>
+					
+					application unapproved
+			
+				<?php else:?>
+					
+					
+					
+					<div class="g2">
+						<?php if (count($entry->user->open_tickets)) : ?>
+							<p class="error">You cannot approve application with open tickets.</p>
+						<?php else:?>
+							<?php echo YsaHtml::link('Approve', array('application/setState/id/' . $entry->id . '/mark/approved/'), array('class' => 'btn green', 'id' => 'application-approve-button')); ?>
+						<?php endif; ?>
+					</div>
+					<div class="g4">
+						<?php if (!count($entry->user->open_tickets)) : ?>
+							<p><textarea id="application-moderate-block-textarea" name="message" cols="30" rows="5" required></textarea></p>
+							<p><button id="application-moderate-block-button" class="red">Block &amp; Write Review</button></p>
+						<?php endif;?>
+					</div>
+					<div class="g4">
+						<h3>Active Tickets</h3>
+						<?php if (count($entry->user->open_tickets)) : ?>
+							<ul>
+								<?php foreach ($entry->user->open_tickets as $ticket) : ?>
+									<li>
+										<?php echo YsaHtml::link($ticket->title . ' from ' . $ticket->created('medium', 'short'), array('ticket/view/id/' . $ticket->id)); ?>
+									</li>
+								<?php endforeach; ?>
+							</ul>
+						<?php else:?>	
+							<p><strong>No Active Tickets</strong></p>
+						<?php endif; ?>
+					</div>
+					
+					
+					
+				<?php endif; ?>
+			
+			<?php else:?>
+				<p class="msg">Application is not submitted yet.</p>
+			<?php endif; ?>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+<?/*
+			
+			
+			
 			<?php if (Application::STATE_CREATED == $entry->state) : ?>
 				
 				<p class="msg">Application is not filled.</p>
@@ -135,7 +201,7 @@
 				</div>
 				
 			<?php endif; ?>
-
+*/?>
 		</fieldset>
 		<?php $this->endWidget(); ?>
 	</div>

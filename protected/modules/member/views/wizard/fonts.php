@@ -3,7 +3,7 @@
 		'action' => array('application/saveStep/step/fonts/'),
 )); ?>
 
-	<section class="group part main-font shadow-box">
+	<section class="group part main-font shadow-box" id="wizard-box-main_font">
 		
 		<label class="title">Main Font</label>
 		<p>Please select the main font for your application. Font is used in headers, comments, etc.</p>
@@ -23,7 +23,7 @@
 		</div>
 	</section>
 
-	<section class="group part second-font shadow-box">
+	<section class="group part second-font shadow-box" id="wizard-box-second_font">
 		
 		<label class="title">Secondary Font</label>
 		

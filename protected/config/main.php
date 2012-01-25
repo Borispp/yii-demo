@@ -303,8 +303,6 @@ return array(
 					'height' => 320,
 				),				
 			),
-			
-			
 		),
 		'studio_options'	=> array(
 			'logo'		=> array(
@@ -334,10 +332,6 @@ return array(
 					),
 					'label'		=> 'Splash Background Type'
 				)
-			),
-			'styles' => array(
-				'dark'	=> 'Dark',
-				'light' => 'Light',
 			),
 			'colors'	=> array(
 				'studio_bg'	=> array(
@@ -394,11 +388,42 @@ return array(
 					'label'		=> 'Copyright text'
 				)
 			),
-			
+			'styles' => array(
+				'dark'	=> 'Dark',
+				'light' => 'Light',
+			),
 			'icon' => array(
 				'width'  => 24,
 				'height' => 24,
 			),
 		),
+		
+		'default_styles' => array(
+			'dark' => array(
+				'splash_bg_color'	=> '#000000',
+				'splash_bg'			=> 'color',
+				'studio_bg_color'	=> '#000000',
+				'studio_bg'			=> 'color',
+				'generic_bg_color'	=> '#000000',
+				'generic_bg'		=> 'color',
+				'main_font'			=> 'arial',
+				'second_font'		=> 'arial',
+				'main_font_color'	=> '#ffffff',
+				'second_font_color'	=> '#ffffff',
+			),
+			'light' => array(
+				'splash_bg_color'	=> '#ffffff',
+				'splash_bg'			=> 'color',
+				'studio_bg_color'	=> '#ffffff',
+				'studio_bg'			=> 'color',
+				'generic_bg_color'	=> '#ffffff',
+				'generic_bg'		=> 'color',
+				'main_font'			=> 'arial',
+				'second_font'		=> 'arial',
+				'main_font_color'	=> '#000000',
+				'second_font_color'	=> '#000000',
+			),
+		)
+		
 	),
 );
