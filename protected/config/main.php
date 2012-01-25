@@ -206,8 +206,6 @@ return array(
                 'facebook' => array(
                     // register your app here: https://developers.facebook.com/apps/
                     'class' => 'FacebookOAuthService',
-                    'client_id' => FACEBOOK_APP_ID,
-                    'client_secret' => FACEBOOK_APP_SECRET,
                 ),
             ),
         ),
