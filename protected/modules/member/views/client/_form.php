@@ -54,44 +54,8 @@
 		<label>Events</label>
 		<div>
 			<?php echo $form->listBox($entry, 'eventList', YsaHtml::listData($events, 'id', 'name'), array('class' => 'multiselect', 'multiple' => 'multiple', 'options' => $entry->selectedEvents)); ?>
-			
-
-			<?/*
-			<select multiple='multiple' class="multiselect">
-					<?php $ids = array();foreach($entry->events as $obEvent):$ids[] = $obEvent->id;?>
-					<li class="ui-state-highlight event" id="event-<?php echo $obEvent->id?>"><?php echo $obEvent->name?></li>
-					<?php endforeach?>
-			</select>
-			<div class="events-block">
-				<div class="box-title">
-					<h3>Connected</h3>
-				</div>
-				<div class="box-content">
-					<ul id="user-events" class="connectedSortable">
-						<?php $ids = array();foreach($entry->events as $obEvent):$ids[] = $obEvent->id;?>
-						<li class="ui-state-highlight event" id="event-<?php echo $obEvent->id?>"><?php echo $obEvent->name?></li>
-						<?php endforeach?>
-					</ul>
-				</div>
-			</div>
-			<div class="events-block">
-				<div class="box-title">
-					<h3>Available</h3>
-				</div>
-				<div class="box-content">
-					<ul id="events" class="connectedSortable">
-						<?php foreach($events as $obEvent): if (in_array($obEvent->id, $ids)) continue;?>
-						<li class="ui-state-highlight event" id="event-<?php echo $obEvent->id?>"><?php echo $obEvent->name?></li>
-						<?php endforeach?>
-					</ul>
-				</div>
-			</div>
-			 * <input type="hidden" name="events" id="events-input" value="<?php echo implode(',', $ids)?>"/>
-			 */?>
 		</div>
-		
 	</section>
-
 	<div class="button">
 		<?php echo YsaHtml::submitButton($entry->isNewRecord ? 'Add' : 'Save', array('class' => 'blue')); ?>
 	</div>
