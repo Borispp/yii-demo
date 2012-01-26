@@ -101,4 +101,9 @@ class TicketReply extends YsaActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	public function message()
+	{
+		return nl2br($this->message);
+	}
 }

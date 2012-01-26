@@ -17,43 +17,44 @@
  * @property integer $ready
  * @property Member $user
  * @property ApplicationOption $application
+ * @property ApplicationHistoryLog $history_log
  */
 class Application extends YsaActiveRecord
 {
-	/**
-	 * Created by member
-	 */
-	const STATE_CREATED = 1;
-
-	/**
-	 * Approved by website moderator
-	 */
-	const STATE_SUBMITTED = 2;
-	
-	/**
-	 * Approved by website moderator
-	 */
-	const STATE_MODERATOR_APPROVED = 3;
-
-	/**
-	 * Waiting AppStore Approval
-	 */
-	const STATE_APPSTORE_WAITING_APPROVAL = 4;
-
-	/**
-	 * Application is ready to work
-	 */
-	const STATE_READY = 5;
-
-	/**
-	 * Unapproved by website moderator
-	 */
-	const STATE_MODERATOR_UNAPROVED = -3;
-
-	/**
-	 * Rejected by AppStore
-	 */
-	const STATE_APPSTORE_REJECTED = -4;
+//	/**
+//	 * Created by member
+//	 */
+//	const STATE_CREATED = 1;
+//
+//	/**
+//	 * Approved by website moderator
+//	 */
+//	const STATE_SUBMITTED = 2;
+//	
+//	/**
+//	 * Approved by website moderator
+//	 */
+//	const STATE_MODERATOR_APPROVED = 3;
+//
+//	/**
+//	 * Waiting AppStore Approval
+//	 */
+//	const STATE_APPSTORE_WAITING_APPROVAL = 4;
+//
+//	/**
+//	 * Application is ready to work
+//	 */
+//	const STATE_READY = 5;
+//
+//	/**
+//	 * Unapproved by website moderator
+//	 */
+//	const STATE_MODERATOR_UNAPROVED = -3;
+//
+//	/**
+//	 * Rejected by AppStore
+//	 */
+//	const STATE_APPSTORE_REJECTED = -4;
 	
 	protected $_ticket;
 	
@@ -123,11 +124,9 @@ class Application extends YsaActiveRecord
 		return array(
 			array('user_id, appkey, passwd, name', 'required'),
 			array('user_id, appkey, name', 'unique'),
-			array('user_id, state, locked', 'numerical', 'integerOnly'=>true),
+			array('user_id, state, locked, filled, submitted, ready', 'numerical', 'integerOnly'=>true),
 			array('appkey, passwd, name', 'length', 'max'=>100),
-			array('info, locked, default_style', 'safe'),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
+			array('info, locked, filled, submitted, ready, default_style', 'safe'),
 			array('id, user_id, state, name', 'safe', 'on'=>'search'),
 		);
 	}
@@ -135,8 +134,9 @@ class Application extends YsaActiveRecord
 	public function relations()
 	{
 		return array(
-			'user'        => array(self::BELONGS_TO, 'Member', 'user_id'),
-			'options'	  => array(self::HAS_MANY, 'ApplicationOption', 'app_id'),
+			'user'			=> array(self::BELONGS_TO, 'Member', 'user_id'),
+			'options'		=> array(self::HAS_MANY, 'ApplicationOption', 'app_id'),
+			'history_log'	=> array(self::HAS_MANY, 'ApplicationHistoryLog', 'app_id'),
 		);
 	}
 
@@ -191,38 +191,19 @@ class Application extends YsaActiveRecord
 			));
 	}
 
-	public function getStates()
-	{
-		return array(
-			self::STATE_CREATED						=> 'Created',
-			self::STATE_SUBMITTED					=> 'Submitted',
-			self::STATE_MODERATOR_APPROVED			=> 'Approved by moderator',
-			self::STATE_APPSTORE_WAITING_APPROVAL	=> 'Waiting approval',
-			self::STATE_READY						=> 'Ready',
-			self::STATE_MODERATOR_UNAPROVED			=> 'Unapproved',
-			self::STATE_APPSTORE_REJECTED			=> 'Rejected by Apple',
-		);
-	}
+//	public function getStates()
+//	{
+//		return array(
+//			self::STATE_CREATED						=> 'Created',
+//			self::STATE_SUBMITTED					=> 'Submitted',
+//			self::STATE_MODERATOR_APPROVED			=> 'Approved by moderator',
+//			self::STATE_APPSTORE_WAITING_APPROVAL	=> 'Waiting approval',
+//			self::STATE_READY						=> 'Ready',
+//			self::STATE_MODERATOR_UNAPROVED			=> 'Unapproved',
+//			self::STATE_APPSTORE_REJECTED			=> 'Rejected by Apple',
+//		);
+//	}
 	
-	public function getMemberStates()
-	{
-		return array(
-			self::STATE_CREATED						=> 'Created and waiting for information',
-			self::STATE_SUBMITTED					=> 'Submitted for moderator approval',
-			self::STATE_MODERATOR_APPROVED			=> 'Approved by moderator',
-			self::STATE_APPSTORE_WAITING_APPROVAL	=> 'Sent to AppStore',
-			self::STATE_READY						=> 'Ready',
-			self::STATE_MODERATOR_UNAPROVED			=> 'Unapproved by moderator',
-			self::STATE_APPSTORE_REJECTED			=> 'Rejected by AppStore',
-		);
-	}
-	
-	public function memberState()
-	{
-		$states = $this->getMemberStates();
-		return $states[$this->state];
-	}
-
 	/**
 	 * Check if application needs an application wizard
 	 */
@@ -236,11 +217,13 @@ class Application extends YsaActiveRecord
 	 * 
 	 * @return Application 
 	 */
-	public function fill()
+	public function fill($log = true)
 	{
 		$this->filled = 1;
 		$this->save();
-		
+		if ($log) {
+			$this->log('fill');
+		}
 		return $this;
 	}
 	
@@ -257,10 +240,28 @@ class Application extends YsaActiveRecord
 	 * 
 	 * @return Application 
 	 */
-	public function lock()
+	public function lock($log = true)
 	{
 		$this->locked = 1;
 		$this->save();
+		if ($log) {
+			$this->log('lock');
+		}
+		return $this;
+	}
+	
+	/**
+	 * Unlock application
+	 * 
+	 * @return Application 
+	 */
+	public function unlock($log = true)
+	{
+		$this->locked = 0;
+		$this->save();
+		if ($log) {
+			$this->log('unlock');
+		}
 		return $this;
 	}
 	
@@ -277,10 +278,13 @@ class Application extends YsaActiveRecord
 	 * 
 	 * @return Application 
 	 */
-	public function approve()
+	public function approve($log = true)
 	{
 		$this->approved = 1;
 		$this->save();
+		if ($log) {
+			$this->log('approve');
+		}
 		return $this;
 	}
 	
@@ -297,10 +301,13 @@ class Application extends YsaActiveRecord
 	 * 
 	 * @return Application 
 	 */
-	public function unapprove()
+	public function unapprove($log = true)
 	{
 		$this->approved = -1;
 		$this->save();
+		if ($log) {
+			$this->log('unapprove');
+		}
 		return $this;
 	}
 	
@@ -309,10 +316,13 @@ class Application extends YsaActiveRecord
 	 * 
 	 * @return Application 
 	 */
-	public function submit()
+	public function submit($log = true)
 	{
 		$this->submitted = 1;
 		$this->save();
+		if ($log) {
+			$this->log('submit');
+		}
 		return $this;
 	}
 	
@@ -323,6 +333,189 @@ class Application extends YsaActiveRecord
 	{
 		return $this->submitted;
 	}
+	
+	
+	/**
+	 * Mark application as ready and submit to AppStore
+	 * 
+	 * @return Application 
+	 */
+	public function ready($log = true)
+	{
+		$this->ready = 1;
+		$this->save();
+		if ($log) {
+			$this->log('ready');
+		}
+		return $this;
+	}
+	
+	/**
+	 * Check if application is ready 
+	 */
+	public function isReady()
+	{
+		return $this->ready == 1;
+	}
+	
+	/**
+	 * Application was rejected by AppStore
+	 * 
+	 * @return Application 
+	 */
+	public function reject($log = true)
+	{
+		$this->ready = -1;
+		$this->save();
+		if ($log) {
+			$this->log('reject');
+		}
+		return $this;
+	}
+	
+	/**
+	 * Check if application was rejected by AppStore
+	 */
+	public function rejected()
+	{
+		return $this->ready == -1;
+	}
+	
+	/**
+	 * Application was approved by AppStore
+	 * 
+	 * @return Application 
+	 */
+	public function run($log = true)
+	{
+		$this->ready = 2;
+		$this->save();
+		if ($log) {
+			$this->log('run');
+		}
+		return $this;
+	}
+	
+	/**
+	 * Check if application is running 
+	 */
+	public function running()
+	{
+		return $this->ready == 2;
+	}
+	
+	/**
+	 * Restart application submit process and start from the scratch.
+	 * @return Application 
+	 */
+	public function restart($log = true)
+	{
+		$this->approved = 0;
+		$this->locked = 0;
+		$this->ready = 0;
+		$this->save();
+		
+		if ($log) {
+			$this->log('restart');
+		}
+		
+		return $this;
+	}
+	
+	public function log($action = '')
+	{
+		$userId = isset($this->user->id) ? $this->user->id : 0;
+		
+		ApplicationHistoryLog::model()->insert(array(
+			'app_id' => $this->id,
+			'type'	 => $this->numStatus(),
+			'created'=> date(self::FORMAT_DATETIME),
+			'user_id'=> $userId,
+			'action' => $action,
+		));
+		
+		return $this;
+	}
+	
+	
+	public function numStatus()
+	{
+		return $this->filled . $this->submitted . $this->locked . $this->approved . $this->ready;
+	}
+	
+	public function status()
+	{
+		$s = '';
+		switch ($this->numStatus()) {
+			case '00000':
+				$s = 'newly-created';
+				break;
+			case '10000':
+				$s = 'filled';
+				break;
+			case '11000':
+				$s = 'submitted';
+				break;
+			case '11100':
+				$s = 'locked';
+				break;
+			case '11110':
+				$s = 'approved';
+				break;
+			case '11111':
+				$s = 'appstore';
+				break;
+			case '11112':
+				$s = 'running';
+				break;
+			case '1111-1':
+				$s = 'rejected';
+				break;
+			case '111-10':
+			case '110-10':
+				$s = 'unapproved';
+				break;
+		}
+		
+		return $s;
+		
+	}
+	
+	public function statusLabel()
+	{
+		$label = '';
+		switch ($this->status()) {
+			case 'newly-created':
+				$label = 'Application is up.';
+				break;
+			case 'filled':
+				$label = 'Application is filled up.';
+				break;
+			case 'submitted':
+				$label = 'Application has been successfully submitted.';
+				break;
+			case 'locked':
+				$label = 'Application has been locked to pervert requred fields changes.';
+				break;
+			case 'approved':
+				$label = 'Application has been successfully approved by moderators.';
+				break;
+			case 'appstore':
+				$label = 'Application has been successfully sent to AppStore.';
+				break;
+			case 'appstore':
+				$label = 'Application is running properly.';
+				break;
+			case 'rejected':
+				$label = 'Application has been rejected by AppStore. Don\'t panic! We are working on that.';
+				break;
+			default:
+				break;
+		}
+		
+		return $label;
+	}
+	
 	
 	/**
 	 * Check if application options are properly filled.
@@ -375,19 +568,8 @@ class Application extends YsaActiveRecord
 	 */
 	public function hasSupport()
 	{
-		$hasSupport = false;
-		switch ($this->state) {
-			case self::STATE_MODERATOR_UNAPROVED:
-				$hasSupport = true;
-				break;
-			default:
-				$hasSupport = false;
-				break;
-		}
-
-		return $hasSupport;
+		return $this->ticket() ? true : false;
 	}
-
 
 	public function getUploadDir()
 	{
@@ -557,10 +739,6 @@ class Application extends YsaActiveRecord
 	 */
 	public function ticket()
 	{
-		if (!$this->hasSupport()) {
-			return null;
-		}
-		
 		if (null === $this->_ticket) {
 			$this->_ticket = Ticket::model()->find('user_id=:user_id AND state=:state', array(
 				'user_id' => $this->user->id,

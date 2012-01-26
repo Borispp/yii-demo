@@ -5,14 +5,13 @@
 		</div>
 		<div class="box-content">
 			<div class="shadow-box">
-				
 				<div class="replies">
 					<ul class="cf">
 						<?php foreach ($ticket->replies as $r) : ?>
 							<li class="<?php echo $r->replier->role == User::ROLE_ADMIN ? 'admin' : 'member'?>">
 								<div class="title">Reply from <?php echo $r->replier->name(); ?></div>
 								<span class="added"><?php echo $r->created('medium', 'short'); ?></span>
-								<p><?php echo $r->message; ?></p>
+								<p><?php echo $r->message(); ?></p>
 							</li>
 						<?php endforeach; ?>
 					</ul>
