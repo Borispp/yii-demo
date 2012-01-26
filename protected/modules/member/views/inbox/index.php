@@ -11,8 +11,8 @@
 				<table class="data">
 					<thead>
 					<tr>
-						<th>From</th>
 						<th>Subject</th>
+						<th>From</th>
 						<th class="w_20">Date</th>
 						<th>State</th>
 						<th class="actions">Action</th>

@@ -6,11 +6,11 @@ class NotificationController extends YsaMemberController
 		parent::init();
 	}
 	
-	public function actionNew()
+	public function actionNew($recipient, $type = NULL)
 	{
 		return $this->renderPartial('new', array(
-			'type'		=> empty($_GET['type']) || !in_array($_GET['type'], array('event', 'client', 'all')) ? 'all' : $_GET['type'],
-			'recipient'	=> $_GET['recipient']
+			'type'		=> empty($type) || !in_array($type, array('event', 'client', 'all')) ? 'all' : $type,
+			'recipient'	=> $recipient
 		));
 	}
 

@@ -2671,12 +2671,12 @@ table.data .ipad {
 #event .main-box .albums li figure .move,
 #album .main-box .albums li figure .move,
 #client .main-box .albums li figure .move {
-  display: block;
   position: absolute;
   z-index: 100;
   right: 2px;
   top: 10px;
   display: none;
+  cursor: move;
 }
 #event .main-box .album-photos li figure:hover figcaption,
 #album .main-box .album-photos li figure:hover figcaption,
@@ -3413,12 +3413,18 @@ section.smugmug-import .import li span {
   line-height: 1.3;
   margin-bottom: 0;
 }
-#client-list .search-bar, #notification-list .search-bar, #event-list .search-bar {
+#client-list .search-bar,
+#inbox-list .search-bar,
+#notification-list .search-bar,
+#event-list .search-bar {
   float: left;
   width: 16%;
   background: #fff;
 }
-#client-list .data-box, #notification-list .data-box, #event-list .data-box {
+#client-list .data-box,
+#inbox-list .data-box,
+#notification-list .data-box,
+#event-list .data-box {
   width: 73%;
   float: right;
 }

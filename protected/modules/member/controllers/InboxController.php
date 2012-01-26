@@ -5,13 +5,12 @@ class InboxController extends YsaMemberController
 	{
 		parent::init();
 		$this->crumb('Settings', array('settings/'))
-			 ->crumb('Inbox');
-		
-		$this->setMemberPageTitle('Inbox');
+			 ->crumb('Inbox', array('inbox/'));
 	}
 
 	public function actionIndex()
 	{
+		$this->setMemberPageTitle('Inbox');
 		if (isset($_POST['Fields'])) {
 			if (isset($_POST['SearchBarReset']) && $_POST['SearchBarReset']) {
 				StudioMessage::model()->resetSearchFields();
@@ -51,6 +50,9 @@ class InboxController extends YsaMemberController
 			$obStudioMessage->unread = 0;
 			$obStudioMessage->save();
 		}
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/notification_button.js', CClientScript::POS_HEAD);
+		$this->setMemberPageTitle($obStudioMessage->subject);
+		$this->crumb($obStudioMessage->subject);
 		$this->renderVar('entry', $obStudioMessage);
 		$this->render('view');
 	}

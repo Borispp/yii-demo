@@ -5,7 +5,7 @@ class ClientController extends YsaMemberController
 	{
 		parent::init();
 		$this->crumb('Clients', array('client/'));
-		$this->renderVar('events', $this->member()->event);
+		$this->renderVar('events', $this->member()->client_events);
 	}
 	public function actionAdd()
 	{
