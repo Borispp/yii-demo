@@ -58,9 +58,8 @@ $(function(){
 		if (settings.clear_notifications) {
 			notifications.html('');
 		}
-		
 		notifications.append(flash);
-		flash.fadeIn(400, function(){
+		flash.fadeInSlide(400, function(){
 			setTimeout(function(){
 				flash.trigger('click');
 			}, settings.hide_timeout)
