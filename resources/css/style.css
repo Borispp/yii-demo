@@ -2644,12 +2644,12 @@ table.data .ipad {
 #event .main-box .albums li figure .move,
 #album .main-box .albums li figure .move,
 #client .main-box .albums li figure .move {
-  display: block;
   position: absolute;
   z-index: 100;
   right: 2px;
   top: 10px;
   display: none;
+  cursor: move;
 }
 #event .main-box .album-photos li figure:hover figcaption,
 #album .main-box .album-photos li figure:hover figcaption,
