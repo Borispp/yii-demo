@@ -15,7 +15,8 @@
  * @property string $specials
  * @property string $order_link
  * @property string $video
- *
+ * @property string $contact
+ * 
  * @property User $user
  * @property array $links
  * @property array $customLinks
@@ -27,6 +28,8 @@ class Studio extends YsaActiveRecord
 	protected $_uploadPath;
 	
 	protected $_uploadUrl;
+	
+	protected $_contact;
 	
 	const VIDEO_YOUTUBE = 'youtube';
 	
@@ -63,7 +66,7 @@ class Studio extends YsaActiveRecord
 			array('user_id', 'numerical', 'integerOnly'=>true),
 			array('name, facebook_feed, twitter_feed, blog_feed', 'length', 'max'=>100),
 			array('facebook_feed, twitter_feed, blog_feed, order_link', 'url'),
-			array('name, facebook_feed, twitter_feed, blog_feed, order_link, created, updated, specials, video', 'safe'),
+			array('name, facebook_feed, twitter_feed, blog_feed, order_link, created, updated, specials, video, contact', 'safe'),
 		);
 	}
 
@@ -238,5 +241,23 @@ class Studio extends YsaActiveRecord
 		$this->save();
 		
 		return $this;
+	}
+	
+	public function saveContact($info)
+	{
+		$this->contact = serialize($info);
+		$this->save();
+		return $this;
+	}
+	
+	public function deleteContact()
+	{
+		$this->contact = '';
+		return $this;
+	}
+	
+	public function contact()
+	{
+		return YsaHelpers::isSerialized($this->contact) ? unserialize($this->contact) : $this->contact;
 	}
 }

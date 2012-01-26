@@ -46,29 +46,30 @@ $(function(){
 		apprise(msg, {animate:true}, callback);
 	}
 	
+	// flash types: info, notice, error, success
 	$._flash = function(msg, _settings) {
 		var settings = $.extend({
 			'type':'notice',
-			'clear_notifications':false
+			'clear_notifications':true,
+			'hide_timeout':5000
 		}, _settings);
-		
-		var flash = $('<div class="flash ' + settings.type + '">' + msg + '</div>');
-		flash.hide();
-		
+		var flash = $('<div class="flash ' + settings.type + '">' + msg + '</div>').hide();
 		var notifications = $('#notifications');
-		
 		if (settings.clear_notifications) {
 			notifications.html('');
 		}
 		
 		notifications.append(flash);
-		flash.slideDown('fast');
+		flash.fadeIn(400, function(){
+			setTimeout(function(){
+				flash.trigger('click');
+			}, settings.hide_timeout)
+		});
 	}
 	
-	
 	// flashing notices, errors & success messages
-	$('div.flash').live('click', function(){
-		$(this).slideUp('fast', function(){
+	$('#notifications div.flash').live('click', function(){
+		$(this).fadeOutSlide(400, function(){
 			$(this).remove();
 		});
 	});
@@ -85,4 +86,31 @@ $(function(){
 	}).ajaxComplete(function(){
 		ajax_loader.hide();
 	});
+	
+	$.fn.fadeInSlide = function (speed, callback) {
+		if ($.isFunction(speed)) callback = speed;
+		if (!speed) speed = 200;
+		if (!callback) callback = function () {};
+		this.each(function () {
+			var $this = $(this);
+			$this.fadeTo(speed / 2, 1).slideDown(speed / 2, function () {
+				callback();
+			});
+		});
+		return this;
+	};
+	
+	$.fn.fadeOutSlide = function (speed, callback) {
+		if ($.isFunction(speed)) callback = speed;
+		if (!speed) speed = 200;
+		if (!callback) callback = function () {};
+		this.each(function () {
+			var $this = $(this);
+			$this.fadeTo(speed / 2, 0).slideUp(speed / 2, function () {
+				$this.remove();
+				callback();
+			});
+		});
+		return this;
+	};
 });

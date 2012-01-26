@@ -1,5 +1,6 @@
 <?php $this->beginContent('//layouts/main'); ?>
 
+<?php $this->widget('YsaNotificationBar'); ?>
 <?php if ($this->memberPageTitle) : ?>
 	<?php echo YsaHtml::pageHeaderTitle($this->memberPageTitle); ?>
 <?php endif; ?>
@@ -8,11 +9,6 @@
 	<?php $this->widget('YsaMemberBreadcrumbs', array(
 		'links' => $this->breadcrumbs,
 	)); ?>
-
-	<div id="notifications">
-		<?php $this->widget('YsaNotificationBar'); ?>
-	</div>
-	
 </div>
 
 <?php echo $content; ?>
