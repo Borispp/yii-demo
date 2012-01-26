@@ -11,6 +11,10 @@
 	)); ?>
 </div>
 
+<div class="w">
+	<?php $this->widget('YsaMemberAnnouncementBar'); ?>
+</div>
+
 <?php echo $content; ?>
 
 <?php $this->endContent(); ?>

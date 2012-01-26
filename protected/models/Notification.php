@@ -97,7 +97,7 @@ class Notification extends YsaActiveRecord
 	 * @param Member $obMember
 	 * @return NotificationUser
 	 */
-	public function getMemberNotifications(Member $obMember)
+	public function getMemberNotifications(User $obMember)
 	{
 		return $this->with(array(
 				'notification_user'=>array(
@@ -111,6 +111,20 @@ class Notification extends YsaActiveRecord
 					)
 				)
 			))->findAll();
+	}
+
+	/**
+	 * Append notification to member
+	 * @param $obMember
+	 * @return void
+	 */
+	public function notifyMember(User $obMember)
+	{
+		$obNotificationUser = new NotificationUser();
+		$obNotificationUser->user_id = $obMember->id;
+		$obNotificationUser->notification_id = $this->id;
+		if ($obNotificationUser->validate())
+			$obNotificationUser->save();
 	}
 
 	/**
@@ -130,10 +144,10 @@ class Notification extends YsaActiveRecord
 			return;
 		}
 		$obNotificationUser = NotificationUser::model()->findByAttributes(array(
-			'read'				=> 0,
-			'notification_id'	=> $this->id,
-			'user_id'			=> $obMember->id,
-		));
+				'read'				=> 0,
+				'notification_id'	=> $this->id,
+				'user_id'			=> $obMember->id,
+			));
 		$obNotificationUser->read = 1;
 		$obNotificationUser->save();
 	}

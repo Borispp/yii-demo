@@ -47,11 +47,7 @@ class NotificationController extends YsaAdminController
 		}
 		foreach($memberList as $memberId)
 		{
-			$obNotificationUser = new NotificationUser();
-			$obNotificationUser->user_id = $memberId;
-			$obNotificationUser->notification_id = $obNotification->id;
-			if ($obNotificationUser->validate())
-				$obNotificationUser->save();
+			$obNotification->notifyMember(Member::model()->findByPk($memberId));
 		}
 	}
 
