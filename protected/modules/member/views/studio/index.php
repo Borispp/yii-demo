@@ -12,6 +12,19 @@
 	
 	<section class="box">
 		<div class="box-title">
+			<h3>Contact Information</h3>
+		</div>
+		<div class="box-content">
+			<div class="shadow-box" id="studio-contacts">
+				<?php $this->renderPartial('_contactForm', array(
+					'entry' => $contactForm,
+				)); ?>
+			</div>
+		</div>
+	</section>
+	
+	<section class="box">
+		<div class="box-title">
 			<h3>Specials</h3>
 		</div>
 		<div class="box-content">
