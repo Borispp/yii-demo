@@ -2880,6 +2880,31 @@ section.smugmug-import .import li span {
   width: 150px;
   font-weight: bold;
 }
+#photo .description ul.edit {
+  border-top: 1px solid #c9c9c9;
+  margin-top: .5em;
+}
+#photo .description ul.edit li {
+  border-bottom: 1px solid #c9c9c9;
+}
+#photo .description ul.edit li a {
+  display: block;
+  padding: .5em .5em;
+  line-height: 1;
+}
+#photo .description ul.edit li a span {
+  display: inline-block;
+  background-image: url(../images/icons.png);
+  text-indent: -9999px;
+  position: relative;
+  background-position: -124px 0;
+  width: 12px;
+  height: 12px;
+  margin-right: 5px;
+}
+#photo .description ul.edit li a:hover {
+  background: #ffffff;
+}
 #studio-specials .loading {
   display: none;
 }

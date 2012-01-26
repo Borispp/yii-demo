@@ -12,7 +12,13 @@ class PhotoController extends YsaMemberController
 		$entry = EventPhoto::model()->findByPk($photoId);
 		
 		if (!$entry || !$entry->album->event->isOwner()) {
-			$this->redirect(array('event/'));
+			if (Yii::app()->request->isAjaxRequest) {
+				$this->sendJsonError(array(
+					'msg' => 'Something went wrong. Please reload the page and try again.',
+				));
+			} else {
+				$this->redirect(array('event/'));
+			}
 		}
 		
 		return $entry;
@@ -264,7 +270,6 @@ class PhotoController extends YsaMemberController
 	public function actionSaveSizes($photoId)
 	{
 		if (isset($_POST['PhotoSizes']) && count($_POST['PhotoSizes']) && is_array($_POST['PhotoSizes'])) {
-			
 			$entry = $this->_ensureValidPhotoId( $photoId );
 			
 			// set order sizes
@@ -283,7 +288,6 @@ class PhotoController extends YsaMemberController
 	public function actionSaveAvailability($photoId)
 	{
 		if (isset($_POST['AlbumPhotoAvailability'])) {
-			
 			$entry = $this->_ensureValidPhotoId( $photoId );
 			$availability = new AlbumPhotoAvailability();
 			$availability->attributes = $_POST['AlbumPhotoAvailability'];
@@ -322,4 +326,60 @@ class PhotoController extends YsaMemberController
 		}
 	}
 	
+	public function actionRedact($photoId, $act, $v = '')
+	{
+		$photo = $this->_ensureValidPhotoId($photoId);
+		
+		switch ($act) {
+			case 'rotate':
+				$success = $photo->rotate($v == 'left' ? 90 : -90);
+				break;
+			case 'flip':
+				$success = $photo->flip($v == 'horiz' ? YsaImage::HORIZONTAL : YsaImage::VERTICAL);
+				break;
+			default:
+				break;
+		}
+		if (Yii::app()->request->isAjaxRequest) {
+			if ($success) {
+				$this->sendJsonSuccess(array(
+					'url' => $photo->url() . '?' . microtime(),
+				));
+			} else {
+				$this->setError('Something went wrong. Please reload the page and try again.');
+			}
+		} else {
+			if ($success) {
+				$this->setSuccess('Image has been successfully edited.');
+			} else {
+				$this->setError('Something went wrong. Please reload the page and try again.');
+			}
+		}
+		$this->redirect(array('photo/view/' . $photo->id));
+	}
+	
+	public function actionRestore($photoId)
+	{
+		$photo = $this->_ensureValidPhotoId($photoId);
+		
+		$success = $photo->restore();
+		
+		if (Yii::app()->request->isAjaxRequest) {
+			if ($success) {
+				$this->sendJsonSuccess(array(
+					'url' => $photo->url() . '?' . microtime(),
+				));
+			} else {
+				$this->setError('Something went wrong. Please reload the page and try again.');
+			}
+		} else {
+			if ($success) {
+				$this->setSuccess('Image has been successfully edited.');
+			} else {
+				$this->setError('Something went wrong. Please reload the page and try again.');
+			}
+		}
+		
+		$this->redirect(array('photo/view/' . $photo->id));
+	}
 }

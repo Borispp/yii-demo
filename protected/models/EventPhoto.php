@@ -224,6 +224,22 @@ class EventPhoto extends YsaActiveRecord
 		$this->basename = YsaHelpers::encrypt(microtime() . $this->name . $this->album_id);
 	}
 	
+	public function getBaseName()
+	{
+		if (!$this->basename) {
+			$this->generateBaseName();
+		}
+		return $this->basename;
+	}
+	
+	public function getEditedBaseName()
+	{
+		if (!$this->basename) {
+			$this->generateBaseName();
+		}
+		return $this->basename . '_edited';
+	}
+	
 	/**
 	 * Image URL
 	 * @return string
@@ -239,7 +255,7 @@ class EventPhoto extends YsaActiveRecord
 	 */
 	public function path()
 	{
-		return $this->album->albumPath() . DIRECTORY_SEPARATOR .  $this->basename . '.' . $this->extention;
+		return $this->album->albumPath() . DIRECTORY_SEPARATOR .  $this->getBaseName() . '.' . $this->extention;
 	}
 	
 	/**
@@ -248,7 +264,16 @@ class EventPhoto extends YsaActiveRecord
 	 */
 	public function originPath()
 	{
-		return $this->album->originPath() . DIRECTORY_SEPARATOR .  $this->basename . '.' . $this->extention;
+		return $this->album->originPath() . DIRECTORY_SEPARATOR .  $this->getBaseName() . '.' . $this->extention;
+	}
+	
+	/**
+	 * Original image path
+	 * @return string
+	 */
+	public function originEditedPath()
+	{
+		return $this->album->originPath() . DIRECTORY_SEPARATOR .  $this->getEditedBaseName() . '.' . $this->extention;
 	}
 	
 	/**
@@ -493,7 +518,7 @@ class EventPhoto extends YsaActiveRecord
 	 */
 	public function canBeCommented()
 	{
-		return $this->album->event->isPublic() or $this->album->event->isProofing();
+		return $this->album->event->canBeCommented();
 	}
 	
 	public function canOrder()
@@ -654,5 +679,98 @@ class EventPhoto extends YsaActiveRecord
 	public function originalSize()
 	{
 		return YsaHelpers::readableFilesize($this->original_size);
+	}
+	
+	/**
+	 * Rotate photo
+	 * @param int $degrees
+	 * @return boolean 
+	 */
+	public function rotate($degrees)
+	{
+		try {
+			// check if edited original file exists
+			$path = is_file($this->originEditedPath()) ? $this->originEditedPath() : $this->originPath();
+			$image = new YsaImage($path);	
+			
+			$image->rotate($degrees);
+			$image->quality(100);
+			
+			// save origin edited file before resize
+			$image->save($this->originEditedPath());
+			$image->resize(
+				Yii::app()->params['member_area']['photo']['full']['width'], 
+				Yii::app()->params['member_area']['photo']['full']['height']
+			);
+			
+			$savePath = $this->path();
+			$image->save($this->path());
+			$this->size = filesize($savePath);
+			$this->save();
+			
+		} catch (Exception $e) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Rotate photo
+	 * @param int $degrees
+	 * @return boolean 
+	 */
+	public function flip($direction)
+	{
+		try {
+			// check if edited original file exists
+			$path = is_file($this->originEditedPath()) ? $this->originEditedPath() : $this->originPath();
+			$image = new YsaImage($path);	
+			
+			$image->flip($direction);
+			$image->quality(100);
+			
+			// save origin edited file before resize
+			$image->save($this->originEditedPath());
+			
+			$image->resize(
+				Yii::app()->params['member_area']['photo']['full']['width'], 
+				Yii::app()->params['member_area']['photo']['full']['height']
+			);
+			
+			$savePath = $this->path();
+			$image->save($this->path());
+			$this->size = filesize($savePath);
+			$this->save();
+			
+		} catch (Exception $e) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Restore photo from original
+	 * 
+	 * @return boolean
+	 */
+	public function restore()
+	{
+		try {
+			$image = new YsaImage($this->originPath());	
+			$image->quality(100);
+			$image->resize(
+				Yii::app()->params['member_area']['photo']['full']['width'], 
+				Yii::app()->params['member_area']['photo']['full']['height']
+			);
+			$savePath = $this->path();
+			$image->save($savePath);
+			$this->size = filesize($savePath);
+			$this->save();
+		} catch (Exception $e) {
+			return false;
+		}
+		
+		return true;
 	}
 }
