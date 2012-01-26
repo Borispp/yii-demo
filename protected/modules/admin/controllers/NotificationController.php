@@ -42,12 +42,12 @@ class NotificationController extends YsaAdminController
 			$memberList = array();
 			foreach(Member::model()->findAllByAttributes(array('state' => 1,'role' => 'member')) as $obMember)
 			{
-				$memberList[$obMember->id] = $obMember;
+				$memberList[] = $obMember->id;
 			}
 		}
-		foreach($memberList as $memberId => $obMember)
+		foreach($memberList as $memberId)
 		{
-			$obNotification->notifyMember($obMember);
+			$obNotification->notifyMember(Member::model()->findByPk($memberId));
 		}
 	}
 

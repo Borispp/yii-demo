@@ -258,15 +258,12 @@ class Member extends User
 		Yii::app()->mailer->From = Yii::app()->settings->get('send_mail_from_email');
 		Yii::app()->mailer->FromName = Yii::app()->settings->get('send_mail_from_name');
 		Yii::app()->mailer->AddAddress($this->email, $this->first_name.' '.$this->last_name);
-		Yii::app()->mailer->AddAddress('rassols@gmail.com');
-		Yii::app()->mailer->Subject = 'Mail from iOS application contact form';
-		Yii::app()->mailer->AltBody = $body;
+		Yii::app()->mailer->Subject = $obNotificationMessage->getNotificationTitle();
+		Yii::app()->mailer->AltBody = $obNotificationMessage->getNotificationMessage();
 		Yii::app()->mailer->getView('standart', array(
-				'body'  => $body,
+				'body'  => $obNotificationMessage->getNotificationMessage(),
 			));
-		$this->_render(array(
-				'state' => Yii::app()->mailer->Send()
-			));
+		Yii::app()->mailer->Send();
 	}
 
 	protected function _addAnnouncement(YsaNotificationMessage $obNotificationMessage)

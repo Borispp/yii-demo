@@ -10,13 +10,15 @@
  * @property string $message
  * @property string $created
  * @property string $updated
- * @property integer $notify
- * 
+ *
  * @property Ticket $ticket
  * @property User $replier
  */
 class TicketReply extends YsaActiveRecord implements YsaNotificationMessage
 {
+	/**
+	 * @var integer
+	 */
 	public $notify;
 	
 	/**
@@ -111,6 +113,11 @@ class TicketReply extends YsaActiveRecord implements YsaNotificationMessage
 	public function getNotificationMessage()
 	{
 		return $this->message;
+	}
+
+	public function getNotificationTitle()
+	{
+		return $this->title;
 	}
 
 }
