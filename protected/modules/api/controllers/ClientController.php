@@ -24,7 +24,6 @@ class ClientController extends YsaApiController
 					'message'	=> 'No token received',
 					'required'	=> TRUE,
 					'event_id'	=> array(
-						'code'		=> '111',
 						'message'	=> 'No event ID found',
 						'required'	=> TRUE
 					)
