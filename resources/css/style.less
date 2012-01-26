@@ -290,33 +290,52 @@ header .login a:hover {
 }
 /* Message Boxes
 *******************************/
+
 div.flash {
-	border:1px solid;
-	border-color: #C7C7C7 #B2B2B2 #B2B2B2 #C7C7C7;
+	z-index:999;
+    position:fixed;
+    z-index: 101;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    overflow: hidden;
 	background:@white-alpha;
+	color:@gray-juliet;
+	.font-shorthand(700, 13px, 2.5);
+	.shadow-black-alpha;
 	cursor:pointer;
-	padding:10px 10px 10px 35px;
-	font-size:14px;
-	line-height: 1;
-	font-weight:700;
-	
-	.margin-bottom-alpha;
-	.rounded(4px);
-	
-	a {
-		font-size:14px;
-		font-weight:700;
-	}
+	.text-shadow;
 	&.success {
-		background: #A2E8A2;
+		background: rgba(162, 232, 162, .9);
 	}
 	&.error {
-		background: #F0CCCC;
+		background: rgba(240, 204, 204, .9);
 	}
 	&.notice {
-		background: #E8E8A2;
+		background: rgba(232, 232, 162, .9);
+	}
+	&.info {
+		background: rgba(115, 208, 239, .9);
+	}
+
+	&.app {
+		@-webkit-keyframes slideDown {
+			0%, 100% { -webkit-transform: translateY(-50px); }
+			10%, 90% { -webkit-transform: translateY(0px); }
+		}
+		@-moz-keyframes slideDown {
+			0%, 100% { -moz-transform: translateY(-50px); }
+			10%, 90% { -moz-transform: translateY(0px); }
+		}
+		-webkit-transform: translateY(-50px);
+		-webkit-animation: slideDown 6s 1s 1 ease forwards;
+		-moz-transform:    translateY(-50px);
+		-moz-animation:    slideDown 6s 1s 1 ease forwards;
 	}
 }
+
+
 
 
 figure {
@@ -407,7 +426,6 @@ input[type="button"] {
 	vertical-align:baseline;
 	border:0;
 	.font-sans-serif(700, 11px, 1);
-	.transition(all linear .4s);
 	.rounded(4px);
 	.button-gray;
 	
@@ -693,6 +711,9 @@ section.box {
 
 .form div.selector select {
 	min-width:415px;
+}
+.form .status {
+	font-size:11px;
 }
 
 

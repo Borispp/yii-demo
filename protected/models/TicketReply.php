@@ -15,7 +15,7 @@
  * @property Ticket $ticket
  * @property User $replier
  */
-class TicketReply extends YsaActiveRecord
+class TicketReply extends YsaActiveRecord implements YsaNotificationMessage
 {
 	public $notify;
 	
@@ -36,6 +36,7 @@ class TicketReply extends YsaActiveRecord
 		return 'ticket_reply';
 	}
 
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -46,7 +47,7 @@ class TicketReply extends YsaActiveRecord
 		return array(
 			array('ticket_id, reply_by', 'numerical', 'integerOnly'=>true),
 			array('ticket_id, reply_by, message', 'required'),
-			array('notify, created, updated', 'safe'),
+			array('notify, created, notify, updated', 'safe'),
 			array('id, ticket_id, reply_by, message, created, updated', 'safe', 'on'=>'search'),
 		);
 	}
@@ -106,4 +107,10 @@ class TicketReply extends YsaActiveRecord
 	{
 		return nl2br($this->message);
 	}
+
+	public function getNotificationMessage()
+	{
+		return $this->message;
+	}
+
 }

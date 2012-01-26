@@ -5,7 +5,7 @@ class YsaNotificationBar extends CWidget
 	{
 		$msg = '';
 		$app = Yii::app();
-		
+
 		if($app->user->hasFlash('success'))
 			$msg = $this->_render($app, 'success');
 

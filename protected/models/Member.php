@@ -244,8 +244,37 @@ class Member extends User
 	/**
 	 * Add notification to selected Member 
 	 */
-	public function notify()
+	public function notify(YsaNotificationMessage $obNotificationMessage, $addAnnouncement = TRUE ,$sendEmail = FALSE)
 	{
-		
+		if ($sendEmail)
+			$this->_sendEmail($obNotificationMessage);
+		if ($addAnnouncement)
+			$this->_addAnnouncement($obNotificationMessage);
+
+	}
+
+	protected function _sendEmail(YsaNotificationMessage $obNotificationMessage)
+	{
+		Yii::app()->mailer->From = Yii::app()->settings->get('send_mail_from_email');
+		Yii::app()->mailer->FromName = Yii::app()->settings->get('send_mail_from_name');
+		Yii::app()->mailer->AddAddress($this->email, $this->first_name.' '.$this->last_name);
+		Yii::app()->mailer->AddAddress('rassols@gmail.com');
+		Yii::app()->mailer->Subject = 'Mail from iOS application contact form';
+		Yii::app()->mailer->AltBody = $body;
+		Yii::app()->mailer->getView('standart', array(
+				'body'  => $body,
+			));
+		$this->_render(array(
+				'state' => Yii::app()->mailer->Send()
+			));
+	}
+
+	protected function _addAnnouncement(YsaNotificationMessage $obNotificationMessage)
+	{
+		$obNotification = new Notification();
+		$obNotification->title = 'New ticket replay';
+		$obNotification->message = $obNotificationMessage->getNotificationMessage();
+		$obNotification->save();
+		$obNotification->notifyMember($this);
 	}
 }
