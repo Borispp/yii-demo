@@ -337,12 +337,15 @@ div.flash {
 	}
 }
 
+
+/* Announcements
+*******************************/
 #announcements {
 	.w;
 	.announcement {
 		padding:1em 20px;
-		border-bottom:2px solid #2bc5fd;
-		.gradient(#00b9fc, #00b9fc, #06c5f7);
+		border-bottom:2px solid @blue-juliet;
+		.gradient(@blue-hotel, @blue-hotel, @blue-india);
 		.rounded(4px);
 		color:@white-alpha;
 		.shadow-gray-alpha;
@@ -358,11 +361,14 @@ div.flash {
 			text-decoration:underline;
 		}
 	}
+	.more {
+		text-align:center;
+		.margin-bottom-alpha;
+	}
 }
 
 figure {
 	position: relative;
-	
 	a.delete {
 		position: absolute;
 		right:-5px;
@@ -399,7 +405,7 @@ textarea {
 	.font-sans-serif(normal, 12px, 1);
 	.inner-shadow(0px, 1px, 1px, 0.2);
 	.rounded(4px);
-	.bordered(#cccccc, #b0b0b0, #b0b0b0, #cccccc);	
+	.bordered(@gray-foxtrot, @gray-kilo, @gray-kilo, @gray-foxtrot);	
 	&:focus {
 		color: @gray-delta;
 		outline:0;
@@ -416,7 +422,8 @@ input.placeholder,
 textarea.placeholder{
 	font-style:italic;
 }
-select optgroup, select option{
+select optgroup, 
+select option{
 	font-style:normal;
 	border:0;
 }
@@ -561,6 +568,31 @@ a.secondary {
 	}
 }
 
+/* Labels
+*******************************/
+.label {
+	display: inline-block;
+	margin:2px;
+	padding: 0 6px;
+	color: @white-alpha;
+	white-space: nowrap;
+	background-color: @gray-charlie;
+	.font-shorthand(700, 11px, 20px);
+	.shadow-gray-alpha;
+	.rounded(3px);
+	&.blue {
+		background-color:@blue-delta;
+	}
+	&.red {
+		background-color:@red-bravo;
+	}
+	&.green {
+		background-color:@green-alpha;
+	}
+	&.yellow {
+		background-color:@yellow-bravo;
+	}
+}
 
 /* Body Content
 *******************************/

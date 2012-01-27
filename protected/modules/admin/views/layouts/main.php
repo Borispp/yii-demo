@@ -98,6 +98,10 @@
 	</div>
 	<div id="header">
 		
+		
+		<p><?php echo Yii::t('error', 'standart-error'); ?></p>
+
+		<?/*
 		<?php if (0) : ?>
 			<ul id="headernav">
 				<li><ul>
@@ -105,8 +109,6 @@
 				</ul></li>
 			</ul>
 		<?php endif; ?>
-
-		<?/*
                 <ul id="headernav">
                         <li><ul>
                                 <li><a href="icons.html">Icons</a><span>300+</span></li>
