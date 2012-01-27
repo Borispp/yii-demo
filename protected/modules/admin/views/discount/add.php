@@ -1,6 +1,6 @@
 <div class="g12">
 	<div class="form">
-		<?php $form=$this->beginWidget('YsaAdminForm', array(
+		<?php $form=$this->beginWidget('YsaDiscountForm', array(
 			'id'=>'option-group-form',
 			'enableAjaxValidation'=>false,
 		)); ?>
@@ -39,6 +39,14 @@
 					)); ?>
 					<?php echo $form->error($entry,'state'); ?>
 				</div>
+			</section>
+			<section id="membership-section">
+				<label>Related Memberships</label>
+
+				<?php echo $form->membershipCheckboxList($memberships, $entry) ?>
+				
+				<div>First input defines total count of discount uses. Symbol "∞" means that discount have infinite number of uses.</div>
+				
 			</section>
 		</fieldset>
 		<?php echo YsaHtml::adminSaveSection();?>

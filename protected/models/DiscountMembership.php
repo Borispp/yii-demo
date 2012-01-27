@@ -127,4 +127,35 @@ class DiscountMembership extends CActiveRecord
 		$this->amount--;
 		$this->save();
 	}
+	
+	/**
+	 * Human representation of amount
+	 * Infinite count has own symbol
+	 *
+	 * @return string 
+	 */
+	public function amount()
+	{
+		if ( $this->amount == -1)
+			return '∞';
+		
+		return $this->amount;
+	}
+	
+	protected function _filterAmount()
+	{
+		$this->amount = ($this->amount == '∞' or $this->amount == '&#x221E;') ? -1 : $this->amount;
+	}
+	
+	public function beforeValidate() 
+	{
+		$this->_filterAmount();
+		return parent::beforeValidate();
+	}
+	
+	public function beforeSave()
+	{
+		$this->_filterAmount();
+		return parent::beforeSave();
+	}
 }

@@ -85,4 +85,9 @@ class Membership extends YsaActiveRecord
 	{
 		return Yii::app()->numberFormatter->formatCurrency($this->price, Yii::app()->params['currency']);
 	}
+	
+	public function findAllActive()
+	{
+		return self::model()->findAll( 'active=1' );
+	}
 }

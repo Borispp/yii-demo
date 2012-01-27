@@ -9,6 +9,7 @@
  * @property integer $state
  * @property double $summ
  * @property string $description
+ * @property DiscountMembership $DiscountMembership
  */
 class Discount extends CActiveRecord
 {
@@ -32,13 +33,13 @@ class Discount extends CActiveRecord
 		foreach($this->DiscountMembership as $obDiscountMembership)
 			$obDiscountMembership->delete();
 	}
-
-	public function beforeSave()
+	
+	public function afterSave()
 	{
 		$this->_clearMembershipRelations();
 		if (empty($this->membership_ids))
-			return parent::beforeSave();
-
+			return parent::afterSave();
+		
 		foreach($this->membership_ids as $id => $amount)
 		{
 			$obDiscountMembership = new DiscountMembership();
@@ -47,7 +48,7 @@ class Discount extends CActiveRecord
 			$obDiscountMembership->membership_id = $id;
 			$obDiscountMembership->save();
 		}
-		return parent::beforeSave();
+		return parent::afterSave();
 	}
 
 	/**
@@ -124,6 +125,12 @@ class Discount extends CActiveRecord
 			));
 	}
 
+	public function loadMemebershipIds()
+	{
+		foreach($this->DiscountMembership as $discount_memebership)
+			$this->membership_ids[] = $discount_memebership->membership_id;
+	}
+	
 	public function findByCode($code)
 	{
 		return $this->model()->findByAttributes(array(
@@ -147,5 +154,19 @@ class Discount extends CActiveRecord
 		if (!$obDiscountMembership || !$obDiscountMembership->canBeUsed())
 			return FALSE;
 		return TRUE;
+	}
+	
+	/**
+	 * Recalculate membership price, applying discount on it
+	 * 
+	 * @param Membership $membership
+	 * @return float
+	 */
+	public function recalc( Membership $membership )
+	{
+		if ($this->canBeUsed( $membership ))
+			return floatval( $membership->price - $membership->price / 100 * $this->summ );
+
+		return floatval( $membership->price );
 	}
 }
