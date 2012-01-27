@@ -2239,3 +2239,7 @@ body#error #content h2{
 	border-radius:4px !important;
 }
 
+input[disabled]{
+	color:#CCC;
+	border: 1px solid #DDD;
+}

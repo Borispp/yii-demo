@@ -137,4 +137,8 @@ class YsaActiveRecord extends CActiveRecord
 		return Yii::app()->dateFormatter->formatDateTime($this->updated, $date, $time);
 	}
 	
+	public function findBy($attribute, $value)
+	{
+		return $this->model()->findByAttributes(array($attribute => $value));
+	}
 }

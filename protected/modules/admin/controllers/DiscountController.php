@@ -4,9 +4,11 @@ class DiscountController extends YsaAdminController
 	public function actionAdd()
 	{
 		$entry = new Discount();
-		if(isset($_POST['Discount'])) {
-			$entry->membership_ids = empty($_POST['Discount']['membership_ids']) ? array() : $_POST['Discount']['membership_ids'];
+		if(isset($_POST['Discount'])) 
+		{
 			$entry->attributes=$_POST['Discount'];
+			$this->_importMembershipData($entry);
+			
 			if ($entry->validate())
 			{
 				$entry->save();
@@ -17,32 +19,54 @@ class DiscountController extends YsaAdminController
 		$this->setContentTitle('Add Discount');
 		$this->render('add', array(
 				'entry' => $entry,
+				'memberships' => Membership::model()->findAllActive()
 			));
 	}
 
 	public function actionEdit($id)
 	{
 		$id = (int) $id;
-
 		$entry = Discount::model()->findByPk($id);
+		$entry->loadMemebershipIds();
 
 		if (!$entry) {
 			$this->redirect('/admin/' . $this->getId());
 		}
-		if(Yii::app()->request->isPostRequest && isset($_POST['Discount'])) {
-			$entry->membership_ids = empty($_POST['Discount']['membership_ids']) ? array() : $_POST['Discount']['membership_ids'];
+		
+		if(Yii::app()->request->isPostRequest && isset($_POST['Discount'])) 
+		{
 			$entry->attributes=$_POST['Discount'];
-			if($entry->save()) {
+			$this->_importMembershipData($entry);
+			
+			if($entry->validate()) 
+			{
+				$entry->save(true);
 				$this->setSuccessFlash("Entry successfully updated. " . CHtml::link('Back to listing.', array('index')));
 				$this->refresh();
 			}
 		}
+
 		$this->setContentTitle('Edit Discount');
 		$this->render('edit',array(
-				'entry'     => $entry,
-			));
+			'entry'     => $entry,
+			'memberships' => Membership::model()->findAllActive()
+		));
 	}
 
+	protected function _importMembershipData(Discount $discount)
+	{
+		$discount->membership_ids = array();
+		if (!isset($_POST['Discount']['membership_ids']))
+			return;
+		
+		foreach($_POST['Discount']['membership_ids'] as $membership_id)
+		{
+			$amount = empty($_POST['Discount']['membership_amounts'][$membership_id]) ? -1 
+						: trim($_POST['Discount']['membership_amounts'][$membership_id]);
+			$discount->membership_ids[$membership_id] = $amount;
+		}
+	}
+	
 	public function actionIndex()
 	{
 		$entries = Discount::model()->findAll();
