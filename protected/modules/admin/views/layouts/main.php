@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+	<title><?php echo YsaHtml::encode($this->pageTitle); ?></title>
 
 	<meta name="description" content="" />
 
@@ -82,9 +82,9 @@
 <body>
 <div id="pageoptions">
 	<ul>
-		<li><?php echo CHtml::link('Logout', array('/logout'))?></li>
-		<li><?php echo CHtml::link('Configuration', '#', array('id' => 'wl_config'))?></li>
-		<li><?php echo CHtml::link('Website', Yii::app()->homeUrl)?></li>
+		<li><?php echo YsaHtml::link('Logout', array('/logout'))?></li>
+		<li><?php echo YsaHtml::link('Configuration', '#', array('id' => 'wl_config'))?></li>
+		<li><?php echo YsaHtml::link('Website', Yii::app()->homeUrl)?></li>
 	</ul>
 	<div>
 		<h3>Place for some configs</h3>
@@ -94,13 +94,10 @@
 
 <header>
 	<div id="logo">
-		<?php echo CHtml::link('YourStudioApp', array('/admin')); ?>
+		<?php echo YsaHtml::link('YourStudioApp', array('/admin')); ?>
 	</div>
 	<div id="header">
 		
-		
-		<p><?php echo Yii::t('error', 'standart-error'); ?></p>
-
 		<?/*
 		<?php if (0) : ?>
 			<ul id="headernav">
@@ -184,6 +181,14 @@
 		'url' => array('/admin/subscription/'),
 		'linkOptions' => array('class' => $this->getNavigationClass('subscription')),
 	);
+	
+	
+	$translationItems = TranslationCategory::model()->getNavigationList();
+	$translationItems[] = array(
+		'label' => 'Categories',
+		'url' => array('/admin/translationCategory/'),
+		'linkOptions' => array('class' => $this->getNavigationClass('translationCategory')),
+	);
 
 
 	$this->widget('YsaAdminMenu',array(
@@ -194,14 +199,6 @@
 					'url'=>array('/admin'),
 					'itemOptions' => array('class' => 'i_house'),
 					'linkOptions' => array('class' => $this->getNavigationClass('default')),
-				),
-				array(
-					'label' =>'Settings',
-					'url'   => '',
-					'active' => $this->getNavigationClass('settings,optionGroup,membership,discount,photoSize'),
-					'itemOptions' => array('class' => 'i_cog_4'),
-					'linkOptions' => array('class' => $this->getNavigationClass('settings,optionGroup,membership,discount,photoSize')),
-					'items' => $settingsItems,
 				),
 				array(
 					'label'=>'Administrators',
@@ -266,6 +263,23 @@
 					'url'=>array('mailchimp/'),
 					'itemOptions' => array('class' => 'i_speech_bubbles'),
 					'linkOptions' => array('class' => $this->getNavigationClass('mailchimp')),
+				),
+				
+				array(
+					'label'=>'Translations',
+					'url'=>'',
+					'itemOptions' => array('class' => ''),
+					'linkOptions' => array('class' => $this->getNavigationClass('translation,translationCategory')),
+					'active' => $this->getNavigationClass('translation,translationCategory'),
+					'items'	=> $translationItems,
+				),
+				array(
+					'label' =>'Settings',
+					'url'   => '',
+					'active' => $this->getNavigationClass('settings,optionGroup,membership,discount,photoSize'),
+					'itemOptions' => array('class' => 'i_cog_4'),
+					'linkOptions' => array('class' => $this->getNavigationClass('settings,optionGroup,membership,discount,photoSize')),
+					'items' => $settingsItems,
 				),
 			),
 		)); ?>
