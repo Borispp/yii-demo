@@ -15,6 +15,8 @@ class Discount extends CActiveRecord
 {
 	/**
 	 * List of related memberships
+	 * ! Keys are membership ids, values are discount amounts
+	 * 
 	 * @var array
 	 */
 	public $membership_ids = array();
