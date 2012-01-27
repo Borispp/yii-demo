@@ -3,8 +3,8 @@
 		<div class="box-title">
 			<h3><?php echo $entry->name; ?></h3>
 			<div class="box-title-button">
-				<?php echo YsaHtml::link('<span class="icon i_chat"></span>Send Push Notification', '/member/notification/new/recipient/'.$entry->id.'/type/event', array('class' => 'secondary iconed', 'id' => 'send-push-link')); ?>
-				<?php echo YsaHtml::link('<span class="icon i_brush"></span>Edit Event', array('event/edit/' . $entry->id), array('class' => 'secondary iconed')); ?>
+				<?php echo YsaHtml::link('<span class="icon i_bell"></span>Send Push Notification', '/member/notification/new/recipient/'.$entry->id.'/type/event', array('class' => 'secondary iconed', 'id' => 'send-push-link')); ?>
+				<?php echo YsaHtml::link('<span class="icon i_pencil"></span>Edit Event', array('event/edit/' . $entry->id), array('class' => 'secondary iconed')); ?>
 			</div>
 		</div>
 		<div class="box-content">
@@ -44,8 +44,6 @@
 						
 					<div class="cf"></div>
 				</div>
-				
-
 					
 				<div class="cf"></div>
 				<?php if (count($entry->albums)) : ?>
@@ -56,12 +54,12 @@
 									<?php echo $album->preview(); ?>
 									<figcaption><?php echo YsaHtml::link(YsaHelpers::truncate($album->name, 25), array('album/view/' . $album->id), array('title' => $album->name)); ?></figcaption>
 									<span class="menu">
-										<?php echo YsaHtml::link('View', array('album/view/' . $album->id), array('class' => 'view icon i_aperture', 'title' => 'View Album')); ?>
+										<?php echo YsaHtml::link('View', array('album/view/' . $album->id), array('class' => 'view icon i_eye', 'title' => 'View Album')); ?>
 										&nbsp;|&nbsp;
-										<?php echo YsaHtml::link('Edit', array('album/edit/' . $album->id), array('class' => 'edit icon i_brush', 'title' => 'Edit Album Details')); ?>
+										<?php echo YsaHtml::link('Edit', array('album/edit/' . $album->id), array('class' => 'edit icon i_pencil', 'title' => 'Edit Album Details')); ?>
 										<?php if (!$entry->isProofing()) : ?>
 											&nbsp;|&nbsp;
-											<?php echo YsaHtml::link('Delete', array('album/delete/' . $album->id), array('class' => 'del icon i_x_alt', 'rel' => $album->id, 'title' => 'Delete Album')); ?>
+											<?php echo YsaHtml::link('Delete', array('album/delete/' . $album->id), array('class' => 'del icon i_delete', 'rel' => $album->id, 'title' => 'Delete Album')); ?>
 										<?php endif; ?>
 									</span>
 									<?php echo YsaHtml::link('Sort', '#', array('class' => 'move icon i_move')); ?>

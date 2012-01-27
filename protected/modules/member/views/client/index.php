@@ -3,8 +3,8 @@
 		<div class="box-title">
 			<h3>Clients</h3>
 			<div class="box-title-button">
-				<?php echo YsaHtml::link('<span class="icon i_chat"></span>Send Push Notification To All', '/member/notification/new/recipient/0/', array('class' => 'secondary iconed', 'id' => 'send-push-link')); ?>
-				<?php echo YsaHtml::link('<span class="icon i_plus_alt"></span>Register New Client', array('add'), array('class' => 'secondary iconed')); ?>
+				<?php echo YsaHtml::link('<span class="icon i_bell"></span>Send Push Notification To All', '/member/notification/new/recipient/0/', array('class' => 'secondary iconed', 'id' => 'send-push-link')); ?>
+				<?php echo YsaHtml::link('<span class="icon i_round_plus"></span>Register New Client', array('add'), array('class' => 'secondary iconed')); ?>
 			</div>
 		</div>
 		<div class="box-content">
@@ -44,11 +44,11 @@
 										<span class="<?php echo strtolower($entry->state()); ?>"><?php echo $entry->state(); ?></span>
 									</td>
 									<td class="actions">
-										<?php echo YsaHtml::link('View', array('client/view/' . $entry->id), array('class' => 'icon i_wrench', 'title' => 'View Client')); ?>
+										<?php echo YsaHtml::link('View', array('client/view/' . $entry->id), array('class' => 'icon i_eye', 'title' => 'View Client')); ?>
 										&nbsp;
-										<?php echo YsaHtml::link('Edit', array('client/edit/' . $entry->id), array('class' => 'icon i_brush', 'title' => 'Edit Client')); ?>
+										<?php echo YsaHtml::link('Edit', array('client/edit/' . $entry->id), array('class' => 'icon i_pencil', 'title' => 'Edit Client')); ?>
 										&nbsp;
-										<?php echo YsaHtml::link('Delete', array('client/delete/' . $entry->id), array('class' => 'del icon i_x_alt', 'title' => 'Delete Client')); ?>
+										<?php echo YsaHtml::link('Delete', array('client/delete/' . $entry->id), array('class' => 'del icon i_delete', 'title' => 'Delete Client')); ?>
 									</td>
 								</tr>
 							<?php endforeach; ?>

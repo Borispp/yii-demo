@@ -4,7 +4,7 @@
 		<div class="box-title">
 			<h3><?php echo $entry->name; ?></h3>
 			<div class="box-title-button">
-				<?php echo YsaHtml::link('<span class="icon i_brush"></span>Edit Album Info', array('album/edit/' . $entry->id), array('class' => 'secondary iconed'))?>
+				<?php echo YsaHtml::link('<span class="icon i_pencil"></span>Edit Album Info', array('album/edit/' . $entry->id), array('class' => 'secondary iconed'))?>
 			</div>
 		</div>
 		<div class="box-content">
@@ -17,8 +17,7 @@
 					
 				<div class="title">State</div>
 				<p><?php echo YsaHtml::dropDownList('state', $entry->state, $entry->getStates(), array('id' => 'description-state')); ?></p>
-				
-					
+
 				<div class="title">Album Information</div>
 				<dl>
 					<dt>Unique ID</dt>
@@ -158,10 +157,5 @@
 			</div>
 		</section>
 	<?php endif; ?>
-	
-	
-	
-	
-
 
 </section>

@@ -3,14 +3,14 @@
 		<div class="box-title">
 			<h3>Your Application</h3>
 			<div class="box-title-button">
-				<?php echo YsaHtml::link('<span class="icon i_brush"></span>Edit General Settings', array('application/edit/' . $app->id), array('class' => 'secondary iconed')); ?>
+				<?php echo YsaHtml::link('<span class="icon i_pencil"></span>Edit General Settings', array('application/edit/' . $app->id), array('class' => 'secondary iconed')); ?>
 			</div>
 		</div>
 		<div class="box-content">
 			<div class="shadow-box">
 				
 				<?php if ($app->hasSupport()) : ?>
-					<?php echo YsaHtml::link('Support Ticket', array('support'), array('class' => 'btn red fr')); ?>
+					<?php echo YsaHtml::link('Support Ticket', array('support'), array('class' => 'btn red-txt fr')); ?>
 				<?php endif; ?>
 				
 				<div class="g6">
