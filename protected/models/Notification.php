@@ -127,6 +127,14 @@ class Notification extends YsaActiveRecord
 			$obNotificationUser->save();
 	}
 
+	public function findAllByMember(Member $member, $unreadOnly = FALSE)
+	{
+		$params = array('user_id' => $member->id);
+		if ($unreadOnly)
+			$params['read'] = 0;
+		return NotificationUser::model()->findAllByAttributes($params);
+	}
+
 	/**
 	 * Set state read = 1 to member-specific userNotification or to all userNotifications
 	 * @param Member|null $obMember
@@ -148,7 +156,19 @@ class Notification extends YsaActiveRecord
 				'notification_id'	=> $this->id,
 				'user_id'			=> $obMember->id,
 			));
-		$obNotificationUser->read = 1;
-		$obNotificationUser->save();
+		if ($obNotificationUser)
+		{
+			$obNotificationUser->read = 1;
+			$obNotificationUser->save();
+		}
+	}
+
+	public function getRead(Member $member)
+	{
+		$obNotificationUser = NotificationUser::model()->findByAttributes(array(
+				'notification_id'	=> $this->id,
+				'user_id'			=> $member->id,
+			));
+		return (bool)$obNotificationUser->read;
 	}
 }

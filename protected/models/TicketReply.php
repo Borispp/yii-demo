@@ -117,7 +117,7 @@ class TicketReply extends YsaActiveRecord implements YsaNotificationMessage
 
 	public function getNotificationTitle()
 	{
-		return $this->title;
+		return 'New replay from moderator';
 	}
 
 }

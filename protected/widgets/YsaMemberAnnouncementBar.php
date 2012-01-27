@@ -3,15 +3,24 @@ class YsaMemberAnnouncementBar extends CWidget
 {
 	public function run()
 	{
-		$msg = YsaHtml::tag('div', array('id' => 'announcements'));
-		foreach(Notification::model()->getMemberNotifications(Member::model()->findByPk(Yii::app()->user->getId())) as $obNotification)
+		if (Yii::app()->controller->id == 'announcement')
+			return;
+		$notifications = Notification::model()->getMemberNotifications(Member::model()->findByPk(Yii::app()->user->getId()));
+		if (count($notifications) < 1)
 		{
-			$msg .= YsaHtml::tag('div', array('class' => 'announcement'));
-			$msg .= $this->_renderTitle($obNotification->title);
-			$msg .= $this->_render($obNotification->message);
-			$msg .= YsaHtml::closeTag('div');
-			break;
+			return;
 		}
+		$msg = YsaHtml::tag('div', array('id' => 'announcements'));
+		list($notification) = $notifications;
+		$msg .= YsaHtml::tag('div', array('class' => 'announcement'));
+		$msg .= $this->_renderTitle($notification->title);
+		$msg .= $this->_render($notification->message);
+		if (count($notifications) > 1)
+		{
+			$msg .= YsaHtml::link('view all '.count($notifications), array('announcement/'), array('class' => 'announcement-all', 'target' => '_blank'));
+		}
+		$msg .= YsaHtml::link('close', array('announcement/MarkRead/id/'.$notification->id), array('class' => 'announcement-close', 'target' => '_blank'));
+		$msg .= YsaHtml::closeTag('div');
 		$msg .= YsaHtml::closeTag('div');
 		echo $msg;
 	}

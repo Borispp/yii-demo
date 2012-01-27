@@ -57,7 +57,7 @@ class NotificationUser extends YsaActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'notification' => array(self::HAS_ONE, 'Notification', 'id'),
+			'notification' => array(self::BELONGS_TO, 'Notification', 'notification_id'),
 			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
 		);
 	}
