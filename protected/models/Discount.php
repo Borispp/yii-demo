@@ -27,18 +27,27 @@ class Discount extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-
-	protected function _clearMembershipRelations()
+	
+	public function beforeSave() 
 	{
+		if ($this->getIsNewRecord())
+		{
+			$this->attachEventHandler('onAfterSave', array($this, 'saveMembershipRelations'));
+			return true;
+		}
+
+		$this->saveMembershipRelations();
+		return parent::beforeSave();
+	}
+
+	public function saveMembershipRelations()
+	{
+		// clearMembershipRelations
 		foreach($this->DiscountMembership as $obDiscountMembership)
 			$obDiscountMembership->delete();
-	}
-	
-	public function afterSave()
-	{
-		$this->_clearMembershipRelations();
+		
 		if (empty($this->membership_ids))
-			return parent::afterSave();
+			return;
 		
 		foreach($this->membership_ids as $id => $amount)
 		{
@@ -48,9 +57,8 @@ class Discount extends CActiveRecord
 			$obDiscountMembership->membership_id = $id;
 			$obDiscountMembership->save();
 		}
-		return parent::afterSave();
 	}
-
+	
 	/**
 	 * @return string the associated database table name
 	 */
@@ -68,13 +76,20 @@ class Discount extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('state', 'numerical', 'integerOnly'=>true),
-			array('summ', 'numerical'),
+			array('summ', 'numerical', 'min'=>1, 'max'=>99),
 			array('code', 'length', 'max'=>20),
+			array('membership_ids', 'validateMemebershipIds'),
 			array('description', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, code, state, summ, description', 'safe', 'on'=>'search'),
 		);
+	}
+
+	public function validateMemebershipIds()
+	{
+		if (empty($this->membership_ids))
+			$this->addError('membership_ids', 'Discount must be related at least with one Memebership');
 	}
 
 	/**

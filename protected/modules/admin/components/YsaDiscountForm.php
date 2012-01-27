@@ -18,7 +18,7 @@ class YsaDiscountForm extends YsaAdminForm
 			);
 			$output .= CHtml::checkBox(
 					"Discount[membership_ids][]",
-					in_array($membership->id, $discount->membership_ids), 
+					array_key_exists($membership->id, $discount->membership_ids), 
 					array( 
 						'value' => $membership->id, 
 						'id' => $chbox_id = 'membeshipid_'.$membership->id,
@@ -29,6 +29,9 @@ class YsaDiscountForm extends YsaAdminForm
 			$output .= CHtml::label($membership->name, $chbox_id);
 			$output .= '</div>';
 		}
+		
+		$output .= CHtml::error($discount, 'membership_ids');
+		
 		return $output;
 	}
 }

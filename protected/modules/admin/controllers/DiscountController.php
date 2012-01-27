@@ -38,8 +38,9 @@ class DiscountController extends YsaAdminController
 			$entry->attributes=$_POST['Discount'];
 			$this->_importMembershipData($entry);
 			
-			if($entry->save()) 
+			if($entry->validate()) 
 			{
+				$entry->save(true);
 				$this->setSuccessFlash("Entry successfully updated. " . CHtml::link('Back to listing.', array('index')));
 				$this->refresh();
 			}
