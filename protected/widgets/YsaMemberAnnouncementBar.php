@@ -3,7 +3,7 @@ class YsaMemberAnnouncementBar extends CWidget
 {
 	public function run()
 	{
-		$msg = YsaHtml::tag('div', array('id' => 'announcement'));
+		$msg = YsaHtml::tag('div', array('id' => 'announcements'));
 		foreach(Notification::model()->getMemberNotifications(Member::model()->findByPk(Yii::app()->user->getId())) as $obNotification)
 		{
 			$msg .= $this->_renderTitle($obNotification->title);

@@ -1234,6 +1234,9 @@ tango, uniform, victor, whiskey, x-ray, yankee, zulu.
   -moz-box-shadow: 0 0 5px black;
   box-shadow: 0 0 5px black;
 }
+.no-text-shadow {
+  text-shadow: none;
+}
 /** other **/
 .margin-bottom-alpha {
   margin-bottom: 24px;
@@ -1633,7 +1636,7 @@ figure:hover a.delete {
 *******************************/
 input[type=text], input[type=password], textarea {
   background: #ffffff;
-  color: #555555;
+  color: #777777;
   margin: 0;
   -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
   -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
@@ -1677,6 +1680,7 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 }
 textarea {
   resize: none;
+  line-height: 1.3;
 }
 input.placeholder, textarea.placeholder {
   font-style: italic;
@@ -1750,6 +1754,7 @@ input[type="button"] {
   filter: progid:dximagetransform.microsoft.gradient(startColorstr='#fafafa', endColorstr='#efefef', GradientType=0);
   /* IE6-9 */
 
+  text-shadow: 1px 1px 0px #ffffff;
 }
 button:hover,
 a.btn:hover,
@@ -1850,6 +1855,7 @@ input[type="button"].blue {
   -webkit-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.5);
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3);
 }
 button.blue:hover,
 a.btn.blue:hover,
@@ -1922,6 +1928,7 @@ input[type="button"].red {
   background: -ms-linear-gradient(top, #ff3019 0%, #cf0404 100%);
   background: linear-gradient(top, #ff3019 0%, #cf0404 100%);
   filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff3019', endColorstr='#cf0404', GradientType=0);
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3);
 }
 button.red:hover,
 a.btn.red:hover,
@@ -1948,6 +1955,44 @@ input[type="button"].red:active {
   background: -ms-linear-gradient(top, #cc0000 0%, #cc0000 100%);
   background: linear-gradient(top, #cc0000 0%, #cc0000 100%);
   filter: progid:dximagetransform.microsoft.gradient(startColorstr='#cc0000', endColorstr='#cc0000', GradientType=0);
+}
+button.red-txt,
+a.btn.red-txt,
+input[type="submit"].red-txt,
+input[type="button"].red-txt {
+  color: #df1414;
+  text-shadow: 1px 1px 0px #ffffff;
+}
+button.red-txt:hover,
+a.btn.red-txt:hover,
+input[type="submit"].red-txt:hover,
+input[type="button"].red-txt:hover {
+  color: #ef2424;
+}
+button.red-txt:active,
+a.btn.red-txt:active,
+input[type="submit"].red-txt:active,
+input[type="button"].red-txt:active {
+  color: #cf0404;
+}
+button.gray-txt,
+a.btn.gray-txt,
+input[type="submit"].gray-txt,
+input[type="button"].gray-txt {
+  color: #5e646e;
+  text-shadow: 1px 1px 0px #ffffff;
+}
+button.gray-txt:hover,
+a.btn.gray-txt:hover,
+input[type="submit"].gray-txt:hover,
+input[type="button"].gray-txt:hover {
+  color: #777777;
+}
+button.gray-txt:active,
+a.btn.gray-txt:active,
+input[type="submit"].gray-txt:active,
+input[type="button"].gray-txt:active {
+  color: #555555;
 }
 button.small,
 a.btn.small,
