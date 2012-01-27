@@ -38,7 +38,6 @@ class StudioController extends YsaApiController
 
 				'studio_name'			=> $this->_getApplication()->name,
 				'copyright'				=> $this->_getApplication()->option('copyright'),
-				'contact'				=> $this->_getApplication()->user->studio->contact()
 			));
 	}
 
@@ -53,46 +52,47 @@ class StudioController extends YsaApiController
 		$this->_commonValidate();
 		$obStudio = $this->_getApplication()->user->studio;
 		$params = array(
-			'splash'		=> $obStudio->splash,
-			'specials'		=> $obStudio->specialsUrl(),
-			'video'			=> $obStudio->video(),
-			'feeds'	=> array(
+			'splash'   => $obStudio->splash,
+			'contact'  => $obStudio->contact(),
+			'specials' => $obStudio->specialsUrl(),
+			'video'    => $obStudio->video(),
+			'feeds'    => array(
 				array(
-					'type'		=> 'twitter',
-					'link'	=> $obStudio->twitter_feed,
+					'type' => 'twitter',
+					'link' => $obStudio->twitter_feed,
 				),
 				array(
-					'type'		=> 'facebook',
-					'link'	=> $obStudio->facebook_feed,
+					'type' => 'facebook',
+					'link' => $obStudio->facebook_feed,
 				),
 				array(
-					'type'		=> 'blog',
-					'link'	=> $obStudio->blog_feed
+					'type' => 'blog',
+					'link' => $obStudio->blog_feed
 				),
 			));
 		foreach($this->_getApplication()->user->studio->persons() as $obPerson)
 		{
 			$params['persons'][] = array(
-				'name'		=> $obPerson->name,
-				'photo'		=> $obPerson->photoUrl(),
-				'text'		=> $obPerson->description
+				'name'  => $obPerson->name,
+				'photo' => $obPerson->photoUrl(),
+				'text'  => $obPerson->description
 			);
 		}
 
 		foreach($this->_getApplication()->user->studio->customLinks() as $obLink)
 		{
 			$params['links'][] = array(
-				'name'		=> $obLink->name,
-				'url'		=> $obLink->url,
-				'icon'		=> $obLink->icon
+				'name' => $obLink->name,
+				'url'  => $obLink->url,
+				'icon' => $obLink->icon
 			);
 		}
 
 		foreach($this->_getApplication()->user->studio->bookmarkLinks() as $obLink)
 		{
 			$params['bookmarks'][] = array(
-				'name'		=> $obLink->name,
-				'url'		=> $obLink->url,
+				'name' => $obLink->name,
+				'url'  => $obLink->url,
 			);
 		}
 		$this->_render($params);
