@@ -40,7 +40,7 @@
 									<?php if ($obUserSubscription->state == UserSubscription::STATE_INACTIVE):?>
 										<?php if ($obUserSubscription->Transaction):?>
 											<?php echo YsaHtml::link('Pay Now', array('subscription/paypal/id/' . $obUserSubscription->Transaction->id . '/'), array('class' => 'blue btn small')); ?>
-											<?php echo YsaHtml::link('Delete', array('subscription/delete/subscriptionId/' . $obUserSubscription->Transaction->id . '/'), array('class' => 'btn small red delete')); ?>
+											<?php echo YsaHtml::link('Delete', array('subscription/delete/subscriptionId/' . $obUserSubscription->Transaction->id . '/'), array('class' => 'btn small red-txt delete')); ?>
 										<?php endif;?>
 									
 									<?php elseif ($obUserSubscription->state == UserSubscription::STATE_ENABLED) :?>

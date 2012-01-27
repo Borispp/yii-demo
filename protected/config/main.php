@@ -12,6 +12,10 @@ return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'YourStudioApp',
 
+    'language'=>'en',
+	'sourceLanguage'=>'en',
+	'charset'=>'utf-8',
+	
 	// preloading 'log' component
 	'preload'=>array('log', 'maintenance'),
 
@@ -50,6 +54,17 @@ return array(
 
 	// application components
 	'components'=>array(
+
+		'messages' => array(
+			'class' => 'YsaMessageSource',
+			'forceTranslation' => true,
+			'sourceMessageTable' => 'translation_source',
+			'translatedMessageTable' => 'translation',
+			'language' => 'en',
+			// config for db message source here, see http://www.yiiframework.com/doc/api/CDbMessageSource
+		),
+
+		
 		'request'=>array(
 			//            'enableCsrfValidation'=>true,
 			'class' => 'application.components.YsaHttpRequest',

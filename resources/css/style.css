@@ -2060,6 +2060,8 @@ div.flash a {
   color: #333333;
   text-decoration: underline;
 }
+/* Announcements
+*******************************/
 #announcements {
   width: 980px;
   margin: 0 auto;
@@ -2096,6 +2098,10 @@ div.flash a {
 #announcements .announcement a {
   color: #ffffff;
   text-decoration: underline;
+}
+#announcements .more {
+  text-align: center;
+  margin-bottom: 24px;
 }
 figure {
   position: relative;
@@ -2152,8 +2158,8 @@ input[type=text], input[type=password], textarea {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  border-top: solid 1px #cccccc;
-  border-left: solid 1px #cccccc;
+  border-top: solid 1px #c9c9c9;
+  border-left: solid 1px #c9c9c9;
   border-right: solid 1px #b0b0b0;
   border-bottom: solid 1px #b0b0b0;
 }
@@ -2625,6 +2631,40 @@ a.secondary:active {
   filter: progid:dximagetransform.microsoft.gradient(startColorstr='#eeeeee', endColorstr='#eeeeee', GradientType=0);
   /* IE6-9 */
 
+}
+/* Labels
+*******************************/
+.label {
+  display: inline-block;
+  margin: 2px;
+  padding: 0 6px;
+  color: #ffffff;
+  white-space: nowrap;
+  background-color: #999999;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 20px;
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.label.blue {
+  background-color: #05ade9;
+}
+.label.red {
+  background-color: #df1414;
+}
+.label.green {
+  background-color: #17c600;
+}
+.label.yellow {
+  background-color: #e2b61e;
 }
 /* Body Content
 *******************************/

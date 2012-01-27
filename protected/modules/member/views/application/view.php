@@ -8,7 +8,6 @@
 		</div>
 		<div class="box-content">
 			<div class="shadow-box">
-				
 				<?php if ($app->hasSupport()) : ?>
 					<?php echo YsaHtml::link('Support Ticket', array('support'), array('class' => 'btn red-txt fr')); ?>
 				<?php endif; ?>
@@ -26,17 +25,6 @@
 						<?php endif; ?>
 					</div>
 				</div>
-				
-				<?/*
-				<?php if (count($this->member()->tickets)) : ?>
-					<h3>Support History</h3>
-					<ul>
-						<?php foreach ($this->member()->tickets as $ticket) : ?>
-							<li><?php echo YsaHtml::link('Ticket #' . $ticket->code . ' from ' . $ticket->created('medium', 'short'), array('ticket/view/id/' . $ticket->id)); ?></li>
-						<?php endforeach; ?>
-					</ul>
-				<?php endif; ?>
-				*/?>
 			</div>
 		</div>
 	</section>
