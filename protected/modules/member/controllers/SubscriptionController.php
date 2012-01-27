@@ -45,33 +45,81 @@ class SubscriptionController extends YsaMemberController
 
 	public function actionNew()
 	{
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/subscription.js', CClientScript::POS_HEAD);
+		
 		$state = TRUE;
 		$entry = new UserSubscription();
 		$entry->user_id = $this->member()->id;
 		$entry->state = UserSubscription::STATE_INACTIVE;
+		
+		if (Yii::app()->getRequest()->getPost('remove_discount', false))
+		{
+			unset( Yii::app()->session['discount'] );
+			Yii::app()->end();
+		}
+		
+		if ( Yii::app()->session->contains('discount') )
+		{
+			$entry->discount = Yii::app()->session['discount'];
+			$entry->Discount = Discount::model()->findByCode( $entry->discount );
+		}
+		
 		if(isset($_POST['UserSubscription']))
 		{
 			$entry->attributes=$_POST['UserSubscription'];
-			$entry->discount = empty($_POST['UserSubscription']['discount']) ? '' : $_POST['UserSubscription']['discount'];
-			if ($entry->validate() && $state) {
+			if ($entry->validate() && $state) 
+			{
 				$entry->save();
 				$obTransaction = $this->_addNewTransaction($entry);
+				unset( Yii::app()->session['discount'] );
 				$this->redirect(array('paypal', 'id' => $obTransaction->id));
 //				$this->setSuccessFlash("New entry successfully added. " . CHtml::link('Back to listing.', array('index')));
 //				$this->redirect(array('edit', 'id'=>$entry->id));
 			}
 		}
 		
-		$this->setMemberPageTitle('New Subscription');
-		
+		$this->setMemberPageTitle('New Subscription');		
 		$this->crumb('Add Subscription');
+		$this->setNotice( null ); // do not show default subscription notification
 		
 		$this->render('new', array(
-			'membershipList'	=> Membership::model()->findAll(),
+			'membershipList'	=> Membership::model()->findAllActive(),
 			'entry'				=> $entry
 		));
 	}
 
+	/**
+	 * Validate and set discount code to session
+	 * 
+	 * @throws CHttpException 
+	 */
+	public function actionDiscount()
+	{
+		if ( !Yii::app()->getRequest()->isPostRequest )
+			throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.' );
+		
+		if ( !empty($_POST['UserSubscription']['discount']))
+		{
+			unset( Yii::app()->session['discount'] );
+			$entry = new UserSubscription();
+			$entry->discount = $_POST['UserSubscription']['discount'];
+			$entry->validateDiscount();
+			
+			if ( $entry->hasErrors() )
+			{
+				$errors = array_shift( $entry->getErrors() );
+				$this->setError( array_shift( $errors ) );
+			}
+			else
+			{
+				$this->setSuccess( 'Discount applied successfully!' );
+				Yii::app()->session['discount'] = $_POST['UserSubscription']['discount'];
+			}
+		}
+		
+		$this->redirect( array('new') );
+	}
+	
 	public function actionPaypal()
 	{
 		if (empty($_GET['id']) || !($obUserTransaction = UserTransaction::model()->findByPk($_GET['id'])) || !$obUserTransaction->UserSubscription)

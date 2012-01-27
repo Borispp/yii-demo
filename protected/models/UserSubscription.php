@@ -12,6 +12,10 @@
  * @property string $expiry_date
  * @property integer $discount_id
  * @property integer $state
+ * @property Discount $Discount
+ * @property Membership $Membership
+ * @property Member $Member
+ * @property Transaction $UserTransaction
  */
 class UserSubscription extends YsaActiveRecord
 {
@@ -86,7 +90,7 @@ class UserSubscription extends YsaActiveRecord
 				$obDiscount = Discount::model()->findByCode($this->discount);
 				if (!$obDiscount)
 					return $this->addError("discount", "No discount code found");
-				if (!$obDiscount->canBeUsed($this->Membership))
+				if ( !is_null($this->Membership) && !$obDiscount->canBeUsed($this->Membership))
 					return $this->addError("discount", 'This discount code can\'t affect price of selected membership');
 				$this->discount_id = $obDiscount->id;
 			}
@@ -224,7 +228,8 @@ class UserSubscription extends YsaActiveRecord
 	public function getSumm()
 	{
 		if (is_object($this->Discount))
-			return floatval($this->Membership->price - $this->Membership->price/100*$this->Discount->summ);
+			return $this->Discount->recalc( $this->Membership );
+
 		return floatval($this->Membership->price);
 	}
 

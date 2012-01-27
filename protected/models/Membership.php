@@ -81,8 +81,24 @@ class Membership extends YsaActiveRecord
 		);
 	}
 
+	/**
+	 * @return string in currency format
+	 */
 	public function price()
 	{
 		return Yii::app()->numberFormatter->formatCurrency($this->price, Yii::app()->params['currency']);
+	}
+	
+	/**
+	 * @return string in currency format
+	 */
+	public function discountedPrice(Discount $discount)
+	{
+		return Yii::app()->numberFormatter->formatCurrency($discount->recalc($this), Yii::app()->params['currency']);
+	}
+	
+	public function findAllActive()
+	{
+		return self::model()->findAll('active=1');
 	}
 }

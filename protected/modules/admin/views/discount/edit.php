@@ -2,7 +2,7 @@
 	<?php echo $this->renderPartial('/_messages/save');?>
 	<script type="text/javascript" src="<?php echo Yii::app()->baseUrl?>/adm/js/discount.js"></script>
 	<div class="form">
-		<?php $form=$this->beginWidget('YsaAdminForm', array(
+		<?php $form=$this->beginWidget('YsaDiscountForm', array(
 			'id'=>'option-group-form',
 			'enableAjaxValidation'=>false,
 		)); ?>
@@ -30,7 +30,7 @@
 			<section>
 				<?php echo $form->labelEx($entry,'summ*'); ?>
 				<div>
-					<?php echo $form->textField($entry,'summ', array('size'=>12,'maxlength'=>12, 'class' => 'w_20')); ?>%
+					<?php echo $form->textField($entry,'summ', array('maxlength'=>2, 'class' => 'integer')); ?>%
 					<?php echo $form->error($entry,'summ'); ?>
 				</div>
 			</section>
@@ -47,16 +47,11 @@
 
 			<section id="membership-section">
 				<label>Related Memberships</label>
-				<div class="membership">
-					<a href="javascript:void(0)" id="add-to-membership">Add to membership</a>
-					<?php foreach($entry->DiscountMembership as $obDiscountMembership):?>
-					<div class="item">
-						<div class="item-name"><?php echo $obDiscountMembership->getMembership()->name?></div>
-						<input type="text" class="w_20" name="Discount[membership_ids][<?php echo $obDiscountMembership->membership_id?>]" value="<?php echo $obDiscountMembership->amount?>"/>
-						<a href="javascript:void(0)" class="item-delete-link">Delete</a>
-					</div>
-					<?php endforeach?>
-				</div>
+
+				<?php echo $form->membershipCheckboxList($memberships, $entry) ?>
+				
+				<div>First input defines total count of discount uses. Symbol "∞" means that discount have infinite number of uses.</div>
+				
 			</section>
 
 		</fieldset>
