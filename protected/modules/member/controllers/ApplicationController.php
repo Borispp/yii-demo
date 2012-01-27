@@ -23,6 +23,7 @@ class ApplicationController extends YsaMemberController
     {
         $app = $this->member()->application;
 		
+		//$this->member()->simpleNotify("Here's my message. I would like to add some rows.<br/>Here's another one.<br/>And another one. A <a href='link'>link here</a>.", "Test member notification");
         // new member -> redirect to application creation
         if (null === $app) {
             $this->redirect(array('application/create'));

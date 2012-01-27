@@ -2,7 +2,7 @@
 	<div class="box-title">
 		<h3>Events</h3>
 		<div class="box-title-button">
-			<?php echo YsaHtml::link('<span class="icon i_plus_alt"></span>Create New Event', array('create'), array('class' => 'secondary iconed')); ?>
+			<?php echo YsaHtml::link('<span class="icon i_round_plus"></span>Create New Event', array('create'), array('class' => 'secondary iconed')); ?>
 		</div>
 	</div>
 	<div class="box-content">
@@ -41,11 +41,11 @@
 										<span class="<?php echo strtolower($entry->state()); ?>"><?php echo $entry->state(); ?></span>
 									</td>
 									<td class="actions">
-										<?php echo YsaHtml::link('View', array('event/view/' . $entry->id), array('class' => 'icon i_wrench', 'title' => 'View Event')); ?>
+										<?php echo YsaHtml::link('View', array('event/view/' . $entry->id), array('class' => 'icon i_eye', 'title' => 'View Event')); ?>
 										&nbsp;
-										<?php echo YsaHtml::link('Edit', array('event/edit/' . $entry->id), array('class' => 'icon i_brush', 'title' => 'Edit Event')); ?>
+										<?php echo YsaHtml::link('Edit', array('event/edit/' . $entry->id), array('class' => 'icon i_pencil', 'title' => 'Edit Event')); ?>
 										&nbsp;
-										<?php echo YsaHtml::link('Delete', array('event/delete/' . $entry->id), array('class' => 'delete icon i_x_alt', 'title' => 'Delete Event')); ?>
+										<?php echo YsaHtml::link('Delete', array('event/delete/' . $entry->id), array('class' => 'delete icon i_delete', 'title' => 'Delete Event')); ?>
 									</td>
 								</tr>
 							<?php endforeach; ?>

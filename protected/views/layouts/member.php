@@ -11,9 +11,7 @@
 	)); ?>
 </div>
 
-<div class="w">
-	<?php $this->widget('YsaMemberAnnouncementBar'); ?>
-</div>
+<?php $this->widget('YsaMemberAnnouncementBar'); ?>
 
 <?php echo $content; ?>
 

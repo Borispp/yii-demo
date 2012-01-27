@@ -5,7 +5,7 @@
 			<h3><?php echo $entry->title(); ?></h3>
 			<?php if (!$entry->album->event->isPublic()) : ?>
 				<div class="box-title-button">
-					<?php echo $entry->shareLink('Share URL', array('class' => 'secondary', 'rel' => 'external')); ?>
+					<?php echo $entry->shareLink('<span class="icon i_link"></span>Share URL', array('class' => 'secondary iconed', 'rel' => 'external')); ?>
 				</div>
 			<?php endif; ?>
 		</div>

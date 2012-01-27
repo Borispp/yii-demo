@@ -8,7 +8,6 @@
 				<ul>
 					<li><span><?php echo count($this->member()->events); ?></span> Events</li>
 					<li><span><?php echo count($this->member()->clients)?></span> Clients</li>
-					
 				</ul>
 			</div>
 		</section>
@@ -21,7 +20,6 @@
 			</div>
 		</section>
 	</div>
-
 	<div class="widgets g4">
 		<section class="box widget" id="widget_application">
 			<div class="box-title">
@@ -29,9 +27,9 @@
 			</div>
 			<div class="box-content">
 				<?php if ($this->member()->application) : ?>
-					<p class="c"><?php echo YsaHtml::link('Application Wizard', array('application/wizard/'), array('class' => 'btn')); ?></p>
+					<p class="c"><?php echo YsaHtml::link('Details', array('application/'), array('class' => 'btn')); ?> <?php echo YsaHtml::link('Change', array('application/wizard/'), array('class' => 'btn')); ?></p>
 					<?php if ($this->member()->application->hasSupport()) : ?>
-						<p class="c"><?php echo YsaHtml::link('Support Ticket', array('application/support/'), array('class' => 'btn red small')); ?></p>
+						<p class="c"><?php echo YsaHtml::link('Support Ticket', array('application/support/'), array('class' => 'btn red-txt small')); ?></p>
 					<?php endif; ?>
 				<?php else:?>
 					<p class="c"><?php echo YsaHtml::link('Create Application', array('application/create/'), array('class' => 'btn')); ?></p>	
@@ -49,7 +47,6 @@
 			</div>
 		</section>
 	</div>
-	
 	<div class="widgets g4">
 		<section class="box widget number-widget" id="widget_latest_events">
 			<div class="box-title">
@@ -62,7 +59,8 @@
 					<?php endforeach?>
 				</ul>
 				<div class="box-button">
-					<li><?php echo YsaHtml::link('Create New Event', array('event/add/'), array('class' => 'btn small')); ?></li>
+					<?php echo YsaHtml::link('View All', array('event/'), array('class' => 'btn small')); ?>
+					<?php echo YsaHtml::link('Create New Event', array('event/add/'), array('class' => 'btn small')); ?>
 				</div>
 			</div>
 		</section>
@@ -78,7 +76,8 @@
 					<?php endforeach?>
 				</ul>
 				<div class="box-button">
-					<li><?php echo YsaHtml::link('Add New Client', array('client/add/'), array('class' => 'btn small')); ?></li>
+					<?php echo YsaHtml::link('View All', array('client/'), array('class' => 'btn small')); ?>
+					<?php echo YsaHtml::link('Add New Client', array('client/add/'), array('class' => 'btn small')); ?>
 				</div>
 			</div>
 		</section>

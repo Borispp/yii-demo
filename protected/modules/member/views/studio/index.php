@@ -40,7 +40,7 @@
 		<div class="box-title">
 			<h3>Studio Photographers</h3>
 			<div class="box-title-button">
-				<?php echo YsaHtml::link('<span class="icon i_plus_alt"></span>Add Photographer', array('person/add'), array('class' => 'secondary iconed fancybox.ajax', 'id' => 'studio-person-add-button')); ?>
+				<?php echo YsaHtml::link('<span class="icon i_round_plus"></span>Add Photographer', array('person/add'), array('class' => 'secondary iconed fancybox.ajax', 'id' => 'studio-person-add-button')); ?>
 			</div>
 		</div>
 		<div class="box-content">
@@ -65,7 +65,7 @@
 			<h3>Custom Links</h3>
 			<?php if (count($entry->customLinks) < 2) : ?>
 				<div class="box-title-button">
-					<?php echo YsaHtml::link('<span class="icon i_plus_alt"></span>Add Custom Link', array('link/addCustom'), array('class' => 'secondary iconed fancybox.ajax', 'id' => 'studio-link-custom-add-button')); ?>
+					<?php echo YsaHtml::link('<span class="icon i_round_plus"></span>Add Custom Link', array('link/addCustom'), array('class' => 'secondary iconed fancybox.ajax', 'id' => 'studio-link-custom-add-button')); ?>
 				</div>
 			<?php endif; ?>
 		</div>
@@ -91,7 +91,7 @@
 		<div class="box-title">
 			<h3>Bookmarks</h3>
 			<div class="box-title-button">
-				<?php echo YsaHtml::link('<span class="icon i_plus_alt"></span>Add Bookmark', array('link/addBookmark'), array('class' => 'secondary iconed fancybox.ajax', 'id' => 'studio-link-bookmark-add-button')); ?>
+				<?php echo YsaHtml::link('<span class="icon i_round_plus"></span>Add Bookmark', array('link/addBookmark'), array('class' => 'secondary iconed fancybox.ajax', 'id' => 'studio-link-bookmark-add-button')); ?>
 			</div>			
 		</div>
 		<div class="box-content">
