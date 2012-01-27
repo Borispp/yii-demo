@@ -3,27 +3,25 @@ class YsaNotificationBar extends CWidget
 {
 	public function run()
 	{
-		$msg = '';
+		$msg = YsaHtml::tag('div', array('id' => 'notifications'));
+		
 		$app = Yii::app();
-
-		if($app->user->hasFlash('success'))
-			$msg = $this->_render($app, 'success');
-
-		if ($app->user->hasFlash('notice'))
-			$msg .= $this->_render($app, 'notice');
 		
-		if ($app->user->hasFlash('error'))
-			$msg .= $this->_render($app, 'error');
+		$types = array('success', 'notice', 'error', 'info');
 		
+		foreach ($types as $type) {
+			if($app->user->hasFlash($type)) {
+				$msg .= $this->_render($app->user->getFlash($type), $type);
+				break;
+			}
+		}
+		
+		$msg .= YsaHtml::closeTag('div');
 		echo $msg;
 	}
 	
-	protected function _render( $app, $msg_type )
+	protected function _render($msg, $type)
 	{
-		return <<<"MSG"
-			<div class="flash {$msg_type}">
-				{$app->user->getFlash($msg_type)}
-			</div>
-MSG;
+		return YsaHtml::tag('div', array('class' => 'app flash ' . $type)). $msg .YsaHtml::closeTag('div');
 	}
 }
