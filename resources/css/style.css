@@ -1379,6 +1379,9 @@ a.icon:hover, .icon-blue {
   text-indent: -9999px;
   display: none;
 }
+.hidden {
+  display: none;
+}
 /*
 alpha, bravo, charlie, delta, echo, foxtrot, 
 golf, hotel, india, juliet, kilo, lima, mike, 
@@ -4522,4 +4525,13 @@ li.plupload_droptext {
 }
 .plupload_button.plupload_disabled:active {
   top: 0;
+}
+#subscription-add .subscription-list section.part {
+  float: left;
+  width: 410px;
+  margin-right: 20px;
+  margin-bottom: 15px;
+}
+#subscription-add .subscription-list section.part:hover {
+  background-color: #e1f3f9;
 }

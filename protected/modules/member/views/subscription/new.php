@@ -52,7 +52,7 @@
 			
 			<div class="shadow-box">
 				<?php if ( $entry->discount ) : ?>
-				<h5><?php echo $entry->discount ?> <a class="icon delete i_x_alt" id="discount-delete" >X</a></h5>
+				<h5><?php echo $entry->discount ?> <a class="icon delete i_round_delete" id="discount-delete" title="Cancel discount" >X</a></h5>
 				<?php endif ?>
 				<section id="discount-input" class="cf <?php echo $entry->discount ? 'hidden' : '' ?>">
 					<?php echo $form->labelEx($entry, 'Discount Code', array('class'=>'title')); ?>
