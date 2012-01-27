@@ -38,6 +38,7 @@ class StudioController extends YsaApiController
 
 				'studio_name'			=> $this->_getApplication()->name,
 				'copyright'				=> $this->_getApplication()->option('copyright'),
+				'contact'				=> $this->_getApplication()->user->studio->contact()
 			));
 	}
 
