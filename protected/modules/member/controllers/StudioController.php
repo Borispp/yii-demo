@@ -25,9 +25,6 @@ class StudioController extends YsaMemberController
 			$contactForm->setAttributes($entry->contact());
 		}
 		
-		$this->setInfo('I am an info note');
-		
-		
 		$this->render('index', array(
 			'entry'			=> $entry,
 			'videoForm'		=> $videoForm,

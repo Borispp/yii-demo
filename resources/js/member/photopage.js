@@ -4,10 +4,12 @@ $(function(){
 			var photo = $(this);
 			
 			var photo_id = photo.data('id');
+			var photo_url = photo.find('figure a');
+			var photo_image = photo_url.find('img');
 			
-			$('#photo-availability-form, #photo-size-form').ajaxForm();
+//			$('#photo-availability-form, #photo-size-form').ajaxForm();
 			
-			photo.find('figure a').fancybox({
+			photo_url.fancybox({
 				type:'image'
 			});
 			
@@ -21,6 +23,28 @@ $(function(){
 					}
 				},'json');
 			});
+			
+			photo.find('ul.edit li a').click(function(e){
+				e.preventDefault();
+				var link = $(this);
+				
+				photo_image.fadeTo(200, .5);
+				
+				$.post(link.attr('href'), function(data){
+					if (data.success) {
+						photo_url.attr('href', data.url);
+						photo_image.fadeOut(200, function(){
+							$(this).attr('src', data.url)
+								.fadeTo(400, 1);
+						});
+						
+
+					} else {
+						$._alert(data.msg)
+					}
+				},'json');
+			})
+			
 		});
 	};
 	

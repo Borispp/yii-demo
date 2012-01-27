@@ -20,7 +20,7 @@
 					<td class="l">
 						<?php echo YsaHtml::link($entry->name, array('edit', 'id' => $entry->id)); ?>
 					</td>
-					<td class="state <?php echo strtolower($entry->state())?>"><?php echo $entry->state(); ?></td>
+					<td class="state <?php echo strtolower($entry->status())?>"><?php echo $entry->status(); ?></td>
 					<td>
 						<?php echo YsaHtml::link('Moderate', array('moderate', 'id' => $entry->id), array('class' => 'btn small green')); ?>
 						<?php echo YsaHtml::link('Edit', array('edit', 'id' => $entry->id), array('class' => 'btn small blue')); ?>

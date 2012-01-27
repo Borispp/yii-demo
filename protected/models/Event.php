@@ -262,6 +262,11 @@ class Event extends YsaActiveRecord
 		return self::TYPE_PORTFOLIO == $this->type;
 	}
 
+	public function canBeCommented()
+	{
+		return !$this->isPortfolio();
+	}
+	
 	/**
 	 * @param Client $obClient
 	 * @param null $passwd
