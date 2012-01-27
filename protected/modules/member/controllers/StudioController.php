@@ -19,10 +19,16 @@ class StudioController extends YsaMemberController
 		$this->setMemberPageTitle('Studio Information');
 		
 		$videoForm = new VideoForm();
+		$contactForm = new ContactForm();
+		
+		if ($entry->contact()) {
+			$contactForm->setAttributes($entry->contact());
+		}
 		
 		$this->render('index', array(
-			'entry'		=> $entry,
-			'videoForm' => $videoForm,
+			'entry'			=> $entry,
+			'videoForm'		=> $videoForm,
+			'contactForm'	=> $contactForm,
 		));
     }
 	
@@ -85,7 +91,17 @@ class StudioController extends YsaMemberController
 					$this->redirect(array('studio/'));
 				}
 			} else {
-				$msg = 'Something went wrong. Please reload the page and try again.';
+				
+				$errors = $entry->getErrors();
+				$errorKeys = array_keys($errors);
+				
+				
+				if (isset($errors[$errorKeys[0]]) && isset($errors[$errorKeys[0]][0])) {
+					$msg = $errors[$errorKeys[0]][0];
+				} else {
+					$msg = 'Something went wrong. Please reload the page and try again.';
+				}
+				
 				if (Yii::app()->request->isAjaxRequest) {
 					$this->sendJsonError(array(
 						'msg' => $msg,
@@ -113,7 +129,7 @@ class StudioController extends YsaMemberController
 						), true)
 					));
 				} else {
-					$this->setSuccess('Video has been successfully removed.');
+					$this->setSuccess('Video has been successfully added.');
 					$this->redirect(array('studio/'));								
 				}
 			}
@@ -141,5 +157,34 @@ class StudioController extends YsaMemberController
 			$this->setSuccess('Video has been successfully removed.');
 			$this->redirect(array('studio/'));
 		}
+	}
+	
+	public function actionSaveContact()
+	{
+		if (isset($_POST['ContactForm'])) {
+			$form = new ContactForm();
+			$form->attributes = $_POST['ContactForm'];
+			
+			if ($form->validate()) {
+				
+				$this->member()->studio->saveContact($form->attributes);
+				
+				$msg = 'Contact form has been successfully saved.';
+				if (Yii::app()->request->isAjaxRequest) {
+					$this->sendJsonSuccess(array(
+						'msg' => $msg,
+					));
+				} else {
+					$this->setSuccess($msg);
+					$this->redirect(array('studio/'));								
+				}
+			}
+			if (Yii::app()->request->isAjaxRequest) {
+				$this->sendJsonError(array(
+					'msg' => 'Something went wrong. Please reload the page and try again.',
+				));
+			}
+		}
+		$this->redirect(array('studio/'));
 	}
 }

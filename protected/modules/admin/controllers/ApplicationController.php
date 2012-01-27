@@ -108,8 +108,7 @@ class ApplicationController extends YsaAdminController
 			
 			$member->notify('We cannot approve your application right now.');
 			
-			$entry->state = Application::STATE_UNAPROVED;
-			$entry->save();
+			$entry->unapproved();
 			
 			$this->redirect(array('ticket/view/id/' . $ticket->id . '/'));
 			
@@ -125,9 +124,7 @@ class ApplicationController extends YsaAdminController
 			}
 			
 			$this->setSuccessFlash('AppStore Link has been successfully updated.');
-			
 			$this->redirect(array($this->getId() . '/moderate/id/' . $id . '/'));
-			
 		} else {
 			$this->redirect(array($this->getId() . '/moderate/id/' . $id . '/'));
 		}
@@ -189,21 +186,83 @@ class ApplicationController extends YsaAdminController
 		return $result;
 	}
 	
-	public function actionSetState($id, $state)
+	public function actionSetState($id, $mark)
 	{
 		$id = (int) $id;
-
+		
 		$entry = Application::model()->findByPk($id);
 
 		if (!$entry) {
 			$this->redirect(array($this->getId() . '/'));
 		}
 		
-		$entry->state = $state;
+		switch ($mark) {
+			case 'approve':
+				$entry->approve();
+				$entry->lock();
+				break;
+			case 'lock':
+				$entry->lock();
+				break;
+			case 'submit':
+				$entry->submit();
+				$entry->lock();
+				break;
+			case 'unapprove':
+				$entry->unlock();
+				$entry->unapprove();
+				break;
+			case 'ready':
+				$entry->ready();
+				break;
+			case 'rejected':
+				$entry->reject();
+				break;
+			case 'run':
+				$entry->run();
+				break;
+			case 'restart':
+				$entry->restart();
+				$entry->deleteOption('appstore_link');
+				break;
+			default:
+				break;
+		}
+		$msg = "Application status successfully updated.";
+		if (Yii::app()->request->isAjaxRequest) {
+			$this->sendJsonSuccess(array(
+				'msg' => $msg,
+			));
+		} else {
+			$this->setSuccessFlash($msg);
+			$this->redirect(array('application/moderate/id/' . $entry->id . '/'));			
+		}
+	}
+	
+	public function actionToggleLock($id)
+	{
+		$id = (int) $id;
 		
-		$entry->save();
+		$entry = Application::model()->findByPk($id);
+
+		if (!$entry) {
+			$this->redirect(array($this->getId() . '/'));
+		}
 		
-		$this->setSuccessFlash("Application status successfully updated.");
-		$this->redirect(array('application/moderate/id/' . $entry->id . '/'));
+		if ($entry->locked()) {
+			$entry->unlock();
+		} else {
+			$entry->lock();
+		}
+		
+		$msg = "Application was " . ($entry->locked() ? 'Locked' : 'Unlocked');
+		if (Yii::app()->request->isAjaxRequest) {
+			$this->sendJsonSuccess(array(
+				'msg' => $msg,
+			));
+		} else {
+			$this->setSuccessFlash($msg);
+			$this->redirect(array('application/moderate/id/' . $entry->id . '/'));			
+		}
 	}
 }

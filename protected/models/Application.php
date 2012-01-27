@@ -11,47 +11,54 @@
  * @property integer $state
  * @property string $name
  * @property string $info
+ * @property integer $locked
+ * @property integer $filled
+ * @property integer $submitted
+ * @property integer $ready
  * @property Member $user
  * @property ApplicationOption $application
+ * @property ApplicationHistoryLog $history_log
  */
 class Application extends YsaActiveRecord
 {
-	/**
-	 * Created by member
-	 */
-	const STATE_CREATED = 1;
-
-	/**
-	 * Filled with information
-	 */
-	const STATE_FILLED = 2;
-	
-	/**
-	 * Approved by website moderator
-	 */
-	const STATE_APPROVED = 3;
-
-	/**
-	 * Waiting AppStore Approval
-	 */
-	const STATE_WAITING_APPROVAL = 4;
-
-	/**
-	 * Application is ready to work
-	 */
-	const STATE_READY = 5;
-
-	/**
-	 * Unapproved by website moderator
-	 */
-	const STATE_UNAPROVED = -3;
-
-	/**
-	 * Rejected by AppStore
-	 */
-	const STATE_REJECTED = -5;
+//	/**
+//	 * Created by member
+//	 */
+//	const STATE_CREATED = 1;
+//
+//	/**
+//	 * Approved by website moderator
+//	 */
+//	const STATE_SUBMITTED = 2;
+//	
+//	/**
+//	 * Approved by website moderator
+//	 */
+//	const STATE_MODERATOR_APPROVED = 3;
+//
+//	/**
+//	 * Waiting AppStore Approval
+//	 */
+//	const STATE_APPSTORE_WAITING_APPROVAL = 4;
+//
+//	/**
+//	 * Application is ready to work
+//	 */
+//	const STATE_READY = 5;
+//
+//	/**
+//	 * Unapproved by website moderator
+//	 */
+//	const STATE_MODERATOR_UNAPROVED = -3;
+//
+//	/**
+//	 * Rejected by AppStore
+//	 */
+//	const STATE_APPSTORE_REJECTED = -4;
 	
 	protected $_ticket;
+	
+	public $default_style;
 	
 	protected $_steps = array(
 		'logo' => array(
@@ -83,9 +90,22 @@ class Application extends YsaActiveRecord
 			'title' => 'Submit',
 			'title_annotation' => 'It\'s all done!',
 			'header' => 'Submit Your Application',
-		),
-		
+		),	
 	);
+	
+	protected $_requiredOptions = array(
+		'icon',
+		'logo',
+		'itunes_logo',
+		'copyright',
+	);
+	
+	protected $_staticOptions = array(
+		'icon',
+		'logo',
+		'itunes_logo',
+	);
+	
 
 	public static function model($className=__CLASS__)
 	{
@@ -104,11 +124,9 @@ class Application extends YsaActiveRecord
 		return array(
 			array('user_id, appkey, passwd, name', 'required'),
 			array('user_id, appkey, name', 'unique'),
-			array('user_id, state', 'numerical', 'integerOnly'=>true),
+			array('user_id, state, locked, filled, submitted, ready', 'numerical', 'integerOnly'=>true),
 			array('appkey, passwd, name', 'length', 'max'=>100),
-			array('info', 'safe'),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
+			array('info, locked, filled, submitted, ready, default_style', 'safe'),
 			array('id, user_id, state, name', 'safe', 'on'=>'search'),
 		);
 	}
@@ -116,8 +134,9 @@ class Application extends YsaActiveRecord
 	public function relations()
 	{
 		return array(
-			'user'        => array(self::BELONGS_TO, 'Member', 'user_id'),
-			'options'	  => array(self::HAS_MANY, 'ApplicationOption', 'app_id'),
+			'user'			=> array(self::BELONGS_TO, 'Member', 'user_id'),
+			'options'		=> array(self::HAS_MANY, 'ApplicationOption', 'app_id'),
+			'history_log'	=> array(self::HAS_MANY, 'ApplicationHistoryLog', 'app_id'),
 		);
 	}
 
@@ -130,6 +149,7 @@ class Application extends YsaActiveRecord
 			'passwd' => 'Password',
 			'state' => 'State',
 			'name' => 'Name',
+			'default_style' => 'Default Style',
 		);
 	}
 
@@ -171,73 +191,385 @@ class Application extends YsaActiveRecord
 			));
 	}
 
-	public function getStates()
-	{
-		return array(
-			self::STATE_CREATED				=> 'Created',
-			self::STATE_FILLED				=> 'Filled',
-			self::STATE_APPROVED			=> 'Approved',
-			self::STATE_WAITING_APPROVAL	=> 'Waiting approval',
-			self::STATE_READY				=> 'Ready',
-			self::STATE_UNAPROVED			=> 'Unapproved',
-			self::STATE_REJECTED			=> 'Rejected by Apple',
-		);
-	}
+//	public function getStates()
+//	{
+//		return array(
+//			self::STATE_CREATED						=> 'Created',
+//			self::STATE_SUBMITTED					=> 'Submitted',
+//			self::STATE_MODERATOR_APPROVED			=> 'Approved by moderator',
+//			self::STATE_APPSTORE_WAITING_APPROVAL	=> 'Waiting approval',
+//			self::STATE_READY						=> 'Ready',
+//			self::STATE_MODERATOR_UNAPROVED			=> 'Unapproved',
+//			self::STATE_APPSTORE_REJECTED			=> 'Rejected by Apple',
+//		);
+//	}
 	
-	public function getMemberStates()
-	{
-		return array(
-			self::STATE_CREATED				=> 'Created and Waiting for Information',
-			self::STATE_FILLED				=> 'Filled & Waiting for Administrator Approval',
-			self::STATE_APPROVED			=> 'Approved and Sent to Apple',
-			self::STATE_WAITING_APPROVAL	=> 'Waiting for Apple Approval',
-			self::STATE_READY				=> 'Ready',
-			self::STATE_UNAPROVED			=> 'Unapproved',
-			self::STATE_REJECTED			=> 'Rejected by Apple',
-		);
-	}
-	
-	public function memberState()
-	{
-		$states = $this->getMemberStates();
-		return $states[$this->state];
-	}
-
 	/**
-	 * TODO
-	 *
 	 * Check if application needs an application wizard
 	 */
 	public function filled()
 	{
-		$filled = false;
-		switch ($this->state) {
-			case self::STATE_CREATED:
-				$filled = false;
-				break;
-			default:
-				$filled = true;
-				break;
-		}
-
-		return $filled;
+		return $this->filled;
 	}
 	
-	public function hasSupport()
+	/**
+	 * Mark Application as filled
+	 * 
+	 * @return Application 
+	 */
+	public function fill($log = true)
 	{
-		$hasSupport = false;
-		switch ($this->state) {
-			case self::STATE_UNAPROVED:
-				$hasSupport = true;
+		$this->filled = 1;
+		$this->save();
+		if ($log) {
+			$this->log('fill');
+		}
+		return $this;
+	}
+	
+	/**
+	 * Check if current application is locked from changing static options
+	 */
+	public function locked()
+	{
+		return $this->locked;
+	}
+	
+	/**
+	 * Lock application to pervert changing static options 
+	 * 
+	 * @return Application 
+	 */
+	public function lock($log = true)
+	{
+		$this->locked = 1;
+		$this->save();
+		if ($log) {
+			$this->log('lock');
+		}
+		return $this;
+	}
+	
+	/**
+	 * Unlock application
+	 * 
+	 * @return Application 
+	 */
+	public function unlock($log = true)
+	{
+		$this->locked = 0;
+		$this->save();
+		if ($log) {
+			$this->log('unlock');
+		}
+		return $this;
+	}
+	
+	/**
+	 * Check if current application is approved by moderator
+	 */
+	public function approved()
+	{
+		return $this->approved == 1;
+	}
+	
+	/**
+	 * Approve application by moderator
+	 * 
+	 * @return Application 
+	 */
+	public function approve($log = true)
+	{
+		$this->approved = 1;
+		$this->save();
+		if ($log) {
+			$this->log('approve');
+		}
+		return $this;
+	}
+	
+	/**
+	 * Check if current application is approved by moderator
+	 */
+	public function unapproved()
+	{
+		return $this->approved == -1;
+	}	
+	
+	/**
+	 * Unapprove application by moderator
+	 * 
+	 * @return Application 
+	 */
+	public function unapprove($log = true)
+	{
+		$this->approved = -1;
+		$this->save();
+		if ($log) {
+			$this->log('unapprove');
+		}
+		return $this;
+	}
+	
+	/**
+	 * Submit application for review
+	 * 
+	 * @return Application 
+	 */
+	public function submit($log = true)
+	{
+		$this->submitted = 1;
+		$this->save();
+		if ($log) {
+			$this->log('submit');
+		}
+		return $this;
+	}
+	
+	/**
+	 * Check if application is submitted 
+	 */
+	public function submitted()
+	{
+		return $this->submitted;
+	}
+	
+	
+	/**
+	 * Mark application as ready and submit to AppStore
+	 * 
+	 * @return Application 
+	 */
+	public function ready($log = true)
+	{
+		$this->ready = 1;
+		$this->save();
+		if ($log) {
+			$this->log('ready');
+		}
+		return $this;
+	}
+	
+	/**
+	 * Check if application is ready 
+	 */
+	public function isReady()
+	{
+		return $this->ready == 1;
+	}
+	
+	/**
+	 * Application was rejected by AppStore
+	 * 
+	 * @return Application 
+	 */
+	public function reject($log = true)
+	{
+		$this->ready = -1;
+		$this->save();
+		if ($log) {
+			$this->log('reject');
+		}
+		return $this;
+	}
+	
+	/**
+	 * Check if application was rejected by AppStore
+	 */
+	public function rejected()
+	{
+		return $this->ready == -1;
+	}
+	
+	/**
+	 * Application was approved by AppStore
+	 * 
+	 * @return Application 
+	 */
+	public function run($log = true)
+	{
+		$this->ready = 2;
+		$this->save();
+		if ($log) {
+			$this->log('run');
+		}
+		return $this;
+	}
+	
+	/**
+	 * Check if application is running 
+	 */
+	public function running()
+	{
+		return $this->ready == 2;
+	}
+	
+	/**
+	 * Restart application submit process and start from the scratch.
+	 * @return Application 
+	 */
+	public function restart($log = true)
+	{
+		$this->approved = 0;
+		$this->locked = 0;
+		$this->ready = 0;
+		$this->save();
+		
+		if ($log) {
+			$this->log('restart');
+		}
+		
+		return $this;
+	}
+	
+	public function log($action = '')
+	{
+		$userId = isset($this->user->id) ? $this->user->id : 0;
+		
+		ApplicationHistoryLog::model()->insert(array(
+			'app_id' => $this->id,
+			'type'	 => $this->numStatus(),
+			'created'=> date(self::FORMAT_DATETIME),
+			'user_id'=> $userId,
+			'action' => $action,
+		));
+		
+		return $this;
+	}
+	
+	
+	public function numStatus()
+	{
+		return $this->filled . $this->submitted . $this->locked . $this->approved . $this->ready;
+	}
+	
+	public function status()
+	{
+		$s = '';
+		switch ($this->numStatus()) {
+			case '00000':
+				$s = 'newly-created';
 				break;
-			default:
-				$hasSupport = false;
+			case '10000':
+				$s = 'filled';
+				break;
+			case '11000':
+				$s = 'submitted';
+				break;
+			case '11100':
+				$s = 'locked';
+				break;
+			case '11110':
+				$s = 'approved';
+				break;
+			case '11111':
+				$s = 'appstore';
+				break;
+			case '11112':
+				$s = 'running';
+				break;
+			case '1111-1':
+				$s = 'rejected';
+				break;
+			case '111-10':
+			case '110-10':
+				$s = 'unapproved';
 				break;
 		}
-
-		return $hasSupport;
+		
+		return $s;
+		
 	}
-
+	
+	public function statusLabel()
+	{
+		$label = '';
+		switch ($this->status()) {
+			case 'newly-created':
+				$label = 'Application is up.';
+				break;
+			case 'filled':
+				$label = 'Application is filled up.';
+				break;
+			case 'submitted':
+				$label = 'Application has been successfully submitted.';
+				break;
+			case 'locked':
+				$label = 'Application has been locked to pervert requred fields changes.';
+				break;
+			case 'approved':
+				$label = 'Application has been successfully approved by moderators.';
+				break;
+			case 'appstore':
+				$label = 'Application has been successfully sent to AppStore.';
+				break;
+			case 'appstore':
+				$label = 'Application is running properly.';
+				break;
+			case 'rejected':
+				$label = 'Application has been rejected by AppStore. Don\'t panic! We are working on that.';
+				break;
+			default:
+				break;
+		}
+		
+		return $label;
+	}
+	
+	
+	/**
+	 * Check if application options are properly filled.
+	 * Returns true on success
+	 * Retures array with required options on failure
+	 *  
+	 * @return mixed
+	 */
+	public function isProperlyFilled()
+	{
+		$notExists = array();
+		foreach ($this->_requiredOptions as $opt) {
+			$option = $this->option($opt);
+			if (!$option) {
+				$notExists[$opt] = $opt;
+			}
+		}
+		return count($notExists) ? $notExists : true; 
+	}
+	
+	/**
+	 * Generates error message for Application Wizard
+	 * 
+	 * @param array $fields
+	 * @return string 
+	 */
+	public function generateFillErrorMsg($fields)
+	{
+		$msg = 'Please fill these fields correctly to preview and submit application for approval: ';
+		
+		$_fields = array();
+		foreach ($fields as $field) {
+			foreach (Yii::app()->params['studio_options'] as $group) {
+				foreach ($group as $opt => $values) {
+					if ($opt == $field) {
+						$_fields[] = $values['label'];
+						break;
+					}
+				}
+			}
+		}
+		
+		return $msg . implode(', ', $_fields);
+	}
+	
+	/**
+	 * Checks if application has support tickets
+	 * 
+	 * @return bool
+	 */
+	public function hasSupport()
+	{
+		return $this->ticket() ? true : false;
+	}
 
 	public function getUploadDir()
 	{
@@ -259,8 +591,6 @@ class Application extends YsaActiveRecord
 
 		return $url;
 	}
-
-
 
 	public function editOption($name, $value, $type = null)
 	{
@@ -402,12 +732,13 @@ class Application extends YsaActiveRecord
 		return in_array($step, array_keys($this->wizardSteps()));
 	}
 	
+	/**
+	 * Get opened ticket for application
+	 * 
+	 * @return Ticket
+	 */
 	public function ticket()
 	{
-		if (!$this->hasSupport()) {
-			return null;
-		}
-		
 		if (null === $this->_ticket) {
 			$this->_ticket = Ticket::model()->find('user_id=:user_id AND state=:state', array(
 				'user_id' => $this->user->id,
@@ -416,5 +747,54 @@ class Application extends YsaActiveRecord
 		}
 		
 		return $this->_ticket;
+	}
+	
+	/**
+	 * Get required options list to check before submitting application for approval.
+	 * 
+	 * @return array 
+	 */
+	public function getRequiredOptions()
+	{
+		return $this->_requiredOptions;
+	}
+	
+	/**
+	 * Get options that are unavailable to change after approval in Locked mode
+	 * 
+	 * @return array 
+	 */
+	public function getStaticOptions()
+	{
+		return $this->_staticOptions;
+	}
+	
+	/**
+	 * Get styles list
+	 * @return array
+	 */
+	public function getStyles()
+	{
+		return Yii::app()->params['studio_options']['styles'];
+	}
+	
+	/**
+	 * Fill new application with default styles
+	 * 
+	 * @return Application 
+	 */
+	public function fillWithStyle()
+	{
+		if (!in_array($this->default_style, array_keys($this->getStyles()))) {
+			$this->default_style = 'dark';
+		}
+		
+		foreach (Yii::app()->params['default_styles'][$this->default_style] as $key => $value) {
+			$this->editOption($key, $value);
+		}
+		
+		$this->editOption('style', $this->default_style);
+		
+		return $this;
 	}
 }

@@ -240,12 +240,53 @@ class Member extends User
 		$this->deleteOption( UserOption::FACEBOOK_ID );
 		return true;
 	}
+
+	/**
+	 * @param $message
+	 * @param string $title
+	 * @param bool $addAnnouncement
+	 * @param bool $sendEmail
+	 * @return void
+	 */
+	public function simpleNotify($message, $title = "New notification", $addAnnouncement = TRUE ,$sendEmail = FALSE)
+	{
+		if ($sendEmail)
+			$this->_sendEmail($title, $message);
+		if ($addAnnouncement)
+			$this->_addAnnouncement($title, $message);
+	}
 	
 	/**
 	 * Add notification to selected Member 
 	 */
-	public function notify()
+	public function notify(YsaNotificationMessage $obNotificationMessage, $addAnnouncement = TRUE ,$sendEmail = FALSE)
 	{
-		
+		if ($sendEmail)
+			$this->_sendEmail($obNotificationMessage->getNotificationTitle(), $obNotificationMessage->getNotificationMessage());
+		if ($addAnnouncement)
+			$this->_addAnnouncement($obNotificationMessage->getNotificationTitle(), $obNotificationMessage->getNotificationMessage());
+
+	}
+
+	protected function _sendEmail($title, $message)
+	{
+		Yii::app()->mailer->From = Yii::app()->settings->get('send_mail_from_email');
+		Yii::app()->mailer->FromName = Yii::app()->settings->get('send_mail_from_name');
+		Yii::app()->mailer->AddAddress($this->email, $this->first_name.' '.$this->last_name);
+		Yii::app()->mailer->Subject = $title;
+		Yii::app()->mailer->AltBody = $message;
+		Yii::app()->mailer->getView('standart', array(
+				'body'  => $message,
+			));
+		Yii::app()->mailer->Send();
+	}
+
+	protected function _addAnnouncement($title, $message)
+	{
+		$obNotification = new Notification();
+		$obNotification->title = $title;
+		$obNotification->message = $message;
+		$obNotification->save();
+		$obNotification->notifyMember($this);
 	}
 }

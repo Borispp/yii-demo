@@ -5,7 +5,7 @@
 			<h3><?php echo $entry->title(); ?></h3>
 			<?php if (!$entry->album->event->isPublic()) : ?>
 				<div class="box-title-button">
-					<?php echo $entry->shareLink('Share URL', array('class' => 'secondary', 'rel' => 'external')); ?>
+					<?php echo $entry->shareLink('<span class="icon i_link"></span>Share URL', array('class' => 'secondary iconed', 'rel' => 'external')); ?>
 				</div>
 			<?php endif; ?>
 		</div>
@@ -50,7 +50,6 @@
 						<div class="title">Meta Data</div>
 						<div class="content cf">
 							<?php if ($entry->exif()) : ?>
-							
 							<dl>
 								<dt>ISO</dt>
 								<dd><?php echo $entry->exif('iso'); ?></dd>
@@ -67,8 +66,20 @@
 								<dt>Focal Length</dt>
 								<dd><?php echo $entry->exif('focal_length'); ?></dd>
 							</dl>
-							
 							<?php endif; ?>
+						</div>
+					</div>
+					
+					<div class="container">
+						<div class="title">Edit</div>
+						<div class="content cf">
+							<ul class="edit">
+								<li><?php echo YsaHtml::link('<span></span>Rotate Left', array('photo/redact/photoId/' . $entry->id . '/act/rotate/p/left/')); ?></li>
+								<li><?php echo YsaHtml::link('<span></span>Rotate Right', array('photo/redact/photoId/' . $entry->id . '/act/rotate/p/left/')); ?></li>
+								<li><?php echo YsaHtml::link('<span></span>Flip Vertically', array('photo/redact/photoId/' . $entry->id . '/act/flip/p/vert/')); ?></li>
+								<li><?php echo YsaHtml::link('<span></span>Flip Horizontally', array('photo/redact/photoId/' . $entry->id . '/act/flip/p/horiz/')); ?></li>
+								<li><?php echo YsaHtml::link('<span></span>Restore from Original', array('photo/restore/photoId/' . $entry->id . '/')); ?></li>
+							</ul>
 						</div>
 					</div>
 				</div>
@@ -117,14 +128,7 @@
 	</section>
 	*/?>
 	
-	
-	
-	
-
-
-	<?php if ( !$entry->album->event->isPortfolio() ) : ?>
-	
-	
+	<?php if ($entry->canBeCommented()) : ?>
 		<section class="box">
 			<div class="box-title">
 				<h3>Photo Comments</h3>
@@ -147,8 +151,6 @@
 				</div>
 			</div>
 		</section>
-	
-		<?php if ( $entry->canBeCommented() ) : ?>
 		<section class="box">
 			<div class="box-title">
 				<h3>Add Comment</h3>
@@ -175,8 +177,6 @@
 				</div>
 			</div>
 		</section>
-		<?php endif ?>
-
 	<?php endif ?>
 	<?/*
 	<h3>Order sizes for photo</h3>

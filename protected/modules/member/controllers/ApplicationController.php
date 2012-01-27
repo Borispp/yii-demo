@@ -23,6 +23,7 @@ class ApplicationController extends YsaMemberController
     {
         $app = $this->member()->application;
 		
+		//$this->member()->simpleNotify("Here's my message. I would like to add some rows.<br/>Here's another one.<br/>And another one. A <a href='link'>link here</a>.", "Test member notification");
         // new member -> redirect to application creation
         if (null === $app) {
             $this->redirect(array('application/create'));
@@ -56,18 +57,18 @@ class ApplicationController extends YsaMemberController
                 'user_id'    => $this->member()->id,
                 'state'      => Application::STATE_CREATED,
             ));
-            
+			
             $app->generateAppKey();
             $app->generatePasswd();
             
             if ($app->validate()) {
                 $app->save();
+				$app->fillWithStyle();
                 $this->redirect(array('application/wizard/'));
             }
         }
 		
 		$this->crumb('Application');
-		
 		$this->setMemberPageTitle('Create Application');
         
         $this->render('create', array(
@@ -83,6 +84,16 @@ class ApplicationController extends YsaMemberController
             $this->redirect(array('application/create'));
         }
 		
+		if (isset($_POST['Application'])) {
+			$app->attributes = $_POST['Application'];
+			
+			if ($app->validate()) {
+				$app->save();
+				$this->setSuccess('Application has been successfully saved');
+				$this->redirect(array('application/'));
+			}
+		}
+		
 		$this->crumb('Application', array('application/'))
 			 ->crumb('Edit');
         
@@ -91,7 +102,7 @@ class ApplicationController extends YsaMemberController
         ));
     }
 	
-	public function actionSettings()
+	public function actionPreview()
 	{
         $app = $this->member()->application;
         
@@ -104,9 +115,29 @@ class ApplicationController extends YsaMemberController
 		
 		$this->setMemberPageTitle('Application Preview');
 		
-        $this->render('settings', array(
+        $this->render('preview', array(
             'app' => $app,
         ));
+	}
+	
+	public function actionSubmit()
+	{
+		$app = $this->member()->application;
+        
+        if (!$app) {
+            $this->redirect(array('application/create'));
+        }
+		
+		if ($app->filled()) {
+			$app->submit();
+			$app->lock();
+			Yii::app()->user->setFlash('congrats', 'congrats');
+			$this->redirect(array('congratulations'));
+		} else {
+			$this->redirect(array('view'));
+		}
+		
+		
 	}
 	
 	public function actionUpload($image)
@@ -197,7 +228,6 @@ class ApplicationController extends YsaMemberController
 		
 		$this->render('wizard', array(
 			'app' => $app,
-			
 			'models' => $models,
 		));
 	}
@@ -253,24 +283,43 @@ class ApplicationController extends YsaMemberController
 			}
 			
 			$modelName = 'Wizard' . ucfirst($step);
-	        
 			if (!class_exists($modelName)) {
 				$this->sendJsonError(array(
 					'msg' => 'Some errors occured. Please reload the page and try again.',
 				));
 			}
 			
-			$model = new $modelName();
-			$model->setApplication($app)
-				->loadDefaultValues();
-			$model->prepare()->save();
-			
-			$data = array();
 			if ('submit' == $step) {
-				$data['redirectUrl'] = $this->createAbsoluteUrl('application/congratulations/');
+				$data = array();
+				$filled = $app->isProperlyFilled();
+				
+				if (is_array($filled)) {
+					$data['fields'] = $filled;
+					$data['error'] = 1;
+					$data['msg'] = $app->generateFillErrorMsg($filled);
+				} else {
+					if (!$app->filled()) {
+						$app->fill();					
+					}
+					
+					if ($app->submitted()) {
+						$data['redirectUrl'] = $this->createAbsoluteUrl('application/');
+					} else {
+						$data['redirectUrl'] = $this->createAbsoluteUrl('application/preview/');
+					}
+					
+					
+					$data['success'] = 1;
+				}
+				$this->sendJson($data);
+				
+			} else {
+				$model = new $modelName();
+				$model->setApplication($app)
+					->loadDefaultValues();
+				$model->prepare()->save();
+				$this->sendJsonSuccess();
 			}
-			$this->sendJsonSuccess($data);
-			
 		} else {
 			$this->redirect('application/');
 		}
@@ -278,13 +327,17 @@ class ApplicationController extends YsaMemberController
 	
 	public function actionCongratulations()
 	{
+		
+		if (!Yii::app()->user->hasFlash('congrats')) {
+			$this->redirect(array('application/'));
+		}
+		
 		$page = Page::model()->findBySlug('wizard-congratulations');
 		
 		$this->setMemberPageTitle($page->title);
 		
 		$this->crumb('Application', array('application/'))
 			 ->crumb('Sucessfully Submitted');
-		
 		
 		$this->render('congratulations', array(
 			'page' => $page,
@@ -329,5 +382,25 @@ class ApplicationController extends YsaMemberController
 			'ticket'	=> $app->ticket(),
 			'reply'		=> $reply
 		));
+	}
+	
+	public function actionLoadTemplate($template = 'dark')
+	{
+		$app = $this->member()->application;
+		
+        if (null === $app) {
+            $this->redirect(array('application/create'));
+        }
+		
+		$styles = $app->getStyles();
+		
+		if (in_array($template, array_keys($styles))) {
+			$app->default_style = $template;
+			$app->fillWithStyle();
+			
+			$this->setSuccess($styles[$template] . ' style is successfully loaded.');
+		}
+		
+		$this->redirect(array('application/wizard/'));
 	}
 }

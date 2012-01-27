@@ -25,7 +25,10 @@
 			<dd><?php echo YsaHtml::link($entry->user->name(), array('member/view/id/' . $entry->user->id . '/'), array('class' => 'btn small ysa')); ?></dd>
 			
 			<dt>Application</dt>
-			<dd><?php echo YsaHtml::link('Moderate', array('application/moderate/id/' . $entry->user->application->id . '/'), array('class' => 'btn small')); ?></dd>
+			<dd>
+				<?php echo YsaHtml::link('Moderate', array('application/moderate/id/' . $entry->user->application->id . '/'), array('class' => 'btn small green')); ?>
+				<?php echo YsaHtml::link($entry->user->application->locked() ? 'Unlock' : 'Lock', array('application/toggleLock/id/' . $entry->user->application->id . '/'), array('class' => 'btn small yellow')); ?>
+			</dd>
 		</dl>
 	</div>
 	
@@ -39,7 +42,7 @@
 					<div class="info">
 						Reply time: <?php echo $r->created('medium', 'short'); ?>
 					</div>
-					<p class="reply"><?php echo $r->message; ?></p>
+					<p class="reply"><?php echo $r->message(); ?></p>
 				</li>
 			<?php endforeach; ?>
 		</ul>

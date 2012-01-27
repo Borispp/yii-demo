@@ -39,6 +39,11 @@ class YsaController extends CController
 	{
 		return Yii::app()->user->setFlash('notice', $message);
 	}
+	
+	public function setInfo($message)
+	{
+		return Yii::app()->user->setFlash('info', $message);
+	}
 
 	public function setError($message)
 	{
@@ -258,6 +263,7 @@ class YsaController extends CController
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/json.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jstorage.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/widgets.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/maxlength.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member.js', CClientScript::POS_HEAD);
 			// register css
 			$this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/ui/jquery-ui.css')

@@ -8,7 +8,8 @@ jQuery(function($){
 				return $('#response-message').fadeIn().html(data.message);
 			}
 			form.fadeOut('fast', function(){
-				$('#response-message').fadeIn().html(data.message);
+				$.fancybox.close();
+				$._flash(data.message, {type:'success'});
 			});
 		});
 		return false;

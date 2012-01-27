@@ -23,9 +23,8 @@ class TicketController extends YsaAdminController
 					$entry->state = Ticket::STATE_CLOSED;
 					$entry->save();
 				}
-				
 				if ($reply->notify) {
-					$entry->user->notify();
+					$entry->user->notify($reply);
 				}
 				
 				$this->setSuccessFlash('New Reply has been successfully added.');

@@ -61,7 +61,12 @@ $(function(){
 				success:function(data, success, response, frm){
 					var submit = frm.find('input:submit');
 					submit.val(submit.data('value')).removeClass('disabled');
-				}
+					
+					$._flash(data.msg, {
+						'type':data.success ? 'success' : 'error'
+					});
+				},
+				dataType:'json'
 			});
 			
 			specials.find('a.image').fancybox();
@@ -135,8 +140,6 @@ $(function(){
 							submit.val(submit.data('value')).removeClass('disabled');
 							$._alert(data.msg);
 						}
-						
-
 					},
 					dataType:'json'
 				});
@@ -157,22 +160,38 @@ $(function(){
 					}
 				})
 			});
-			
 			_init_video_form();
-
 			
+			var contact_form = $('#studio-contact-form');
+			contact_form.find('textarea').maxlength({
+				maxCharacters: 100
+			}).maxrows();
+			contact_form.ajaxForm({
+				beforeSubmit:function(items, frm){
+					var submit = frm.find('input:submit');
+					submit.val(submit.data('loading')).addClass('disabled');
+				},
+				success:function(data, success, response, frm){
+					var submit = frm.find('input:submit');
+					submit.val(submit.data('value')).removeClass('disabled');
+					$._flash(data.msg, {
+						'type':data.success ? 'success' : 'error'
+					});
+				},
+				dataType:'json'
+			});
 			
 			
 			var persons_container = studio.find('.persons');
 			var links_container = studio.find('.links');
 			
+			studio.find('a.move').click(function(e){
+				e.preventDefault();
+			});
+			
 			persons_container.find('li a.view').fancybox({
 				type:'ajax'
 			});
-			
-			studio.find('a.move').click(function(e){
-				e.preventDefault();
-			})
 			
 			persons_container.sortable({
 				placeholder: "place",
@@ -203,7 +222,6 @@ $(function(){
 				});
 			});
 			links_container.disableSelection();
-			
 		});
 	}
 	$('#studio').initStudioPage();

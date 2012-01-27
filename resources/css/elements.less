@@ -86,11 +86,14 @@ tango, uniform, victor, whiskey, x-ray, yankee, zulu.
   -moz-transform:scale(@ratio);
   transform:scale(@ratio);
 }
-.transition(@duration:0.2s, @ease:ease-out) {
-  -webkit-transition: all @duration @ease;
-  -moz-transition: all @duration @ease;
-  transition: all @duration @ease;
+.transition(@transition) {
+	-webkit-transition: @transition;
+	-moz-transition: @transition;
+	-ms-transition: @transition;
+	-o-transition: @transition;
+	transition: @transition;
 }
+
 .inner-shadow(@horizontal:0, @vertical:1px, @blur:2px, @alpha: 0.4) {
   -webkit-box-shadow: inset @horizontal @vertical @blur rgba(0, 0, 0, @alpha);
   -moz-box-shadow: inset @horizontal @vertical @blur rgba(0, 0, 0, @alpha);
@@ -132,36 +135,71 @@ tango, uniform, victor, whiskey, x-ray, yankee, zulu.
 
 
 /** colors **/
-
 @black-alpha: #000;
 
 @white-alpha: #fff;
+
+@green-alpha:#17C600;
+
+@red-alpha:#f00;
+@red-bravo : #dF1414;
+@red-charlie : #ef2424;
+@red-delta : #CF0404;
+
 
 @blue-alpha : #008eb0; 
 @blue-bravo : #03b6f2;
 @blue-charlie : #02b5f5;
 @blue-delta : #05ade9;
 @blue-echo : #e1f3f9;
+@blue-foxtrot : #009CEA;
+@blue-golf : #00A7DD;
 
-@dark-gray-alpha: #5E646E;
-@dark-gray-bravo: #777;
-@dark-gray-charlie: #999;
-@dark-gray-delta: #555;
-@dark-gray-echo: #eee;
-@dark-gray-foxtrot: #c9c9c9;
-@dark-gray-golf: #f0f0f0;
-@dark-gray-hotel: #e0e0e0;
-
-@green-alpha:#17C600;
-
-@red-alpha:#f00;
+@gray-alpha: #5E646E;
+@gray-bravo: #777;
+@gray-charlie: #999;
+@gray-delta: #555;
+@gray-echo: #eee;
+@gray-foxtrot: #c9c9c9;
+@gray-golf: #f0f0f0;
+@gray-hotel: #e0e0e0;
+@gray-india: #f9f9f9;
+@gray-juliet: #333;
 
 @yellow-alpha:#fffef0;
 
+@pink-alpha:#FFF5F5;
+
 /** fonts **/
 .main-font {
-	font-style:Arial, Helvetica, sans-serif;
+	font-family:"Helvetica Neue", sans-serif;
 }
+.font-shorthand(@weight: normal, @size: 12px, @lineHeight: 1.2) {
+	font-size: @size;
+	font-weight: @weight;
+	line-height: @lineHeight;
+}
+.font-sans-serif(@weight: normal, @size: 12px, @lineHeight: 1.2) {
+	.main-font;
+	font-size: @size;
+	font-weight: @weight;
+	line-height: @lineHeight;
+}
+.font-serif(@weight: normal, @size: 12px, @lineHeight: 1.2) {
+	font-family: "Georgia", Times New Roman, Times, serif;
+	font-size: @size;
+	font-weight: @weight;
+	line-height: @lineHeight;
+}
+.font-monospace(@weight: normal, @size: 12px, @lineHeight: 20px) {
+	font-family: "Monaco", Courier New, monospace;
+	font-size: @size;
+	font-weight: @weight;
+	line-height: @lineHeight;
+}
+
+
+
 
 /** buttons **/
 .button-gray {
@@ -363,8 +401,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cc0000', end
 	box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, .3); 
 }
 
+/** shadows **/
+.shadow-black-alpha {
+    -webkit-box-shadow: 0 0 5px black;
+    -moz-box-shadow: 0 0 5px black;
+    box-shadow: 0 0 5px black;
+}
+
 .text-shadow(@color: #fff) {
 	text-shadow: 1px 1px 0px @color;
+}
+.no-text-shadow {
+	text-shadow: none;
 }
 
 /** other **/
