@@ -55,7 +55,7 @@ class ApplicationController extends YsaMemberController
             
             $app->setAttributes(array(
                 'user_id'    => $this->member()->id,
-                'state'      => Application::STATE_CREATED,
+                'state'      => Application::STATE_ACTIVE,
             ));
 			
             $app->generateAppKey();
@@ -305,7 +305,7 @@ class ApplicationController extends YsaMemberController
 					if ($app->submitted()) {
 						$data['redirectUrl'] = $this->createAbsoluteUrl('application/');
 					} else {
-						$data['redirectUrl'] = $this->createAbsoluteUrl('application/preview/');
+						$data['redirectUrl'] = $this->createAbsoluteUrl('application/');
 					}
 					
 					

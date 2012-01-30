@@ -13,7 +13,7 @@ $(function(){
 		var widgets_container = main_container.find('div.widgets');
 		var widgets = widgets_container.find('section.widget');
 		
-		main_container.disableSelection();
+//		main_container.disableSelection();
 
 		widgets.each(function(){
 			var widget = $(this);

@@ -48,23 +48,22 @@ class RecoveryController extends YsaFrontController
             }
         } else { // show password recovery form with email
             
-            $entry = new RecoveryForm();
+            $form = new RecoveryForm();
             
             if(isset($_POST['RecoveryForm'])) {
+				
                 $form->attributes = $_POST['RecoveryForm'];
-                
-                if($entry->validate()) {
+				
+                if($form->validate()) {
                     // find user
-                    $entry = User::model()->findbyPk($entry->user_id);
-                    
-                    $activation_url = 'http://' . $_SERVER['HTTP_HOST'] . $this->createUrl('/recovery', array("k" => $entry->activation_key));
+                    $entry = User::model()->findbyPk($form->user_id);
                     
                     Email::model()->send(
                         array($entry->email, $entry->name()), 
                         'member_recovery', 
                         array(
                             'name'  => $entry->name(),
-                            'email' => $entry->email,
+                            'email' => $form->email,
                             'link'  => $entry->getRecoveryLink(),
                         )
                     );
@@ -74,7 +73,7 @@ class RecoveryController extends YsaFrontController
                 }
             }
             
-            $this->render('recover', array('entry' => $entry));
+            $this->render('recover', array('entry' => $form));
         }
     }
 }

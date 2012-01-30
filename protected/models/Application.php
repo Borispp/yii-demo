@@ -426,7 +426,8 @@ class Application extends YsaActiveRecord
 	{
 		$userId = isset($this->user->id) ? $this->user->id : 0;
 		
-		ApplicationHistoryLog::model()->insert(array(
+		$logger = new ApplicationHistoryLog();
+		$logger->setAttributes(array(
 			'app_id' => $this->id,
 			'type'	 => $this->numStatus(),
 			'created'=> date(self::FORMAT_DATETIME),
@@ -796,5 +797,27 @@ class Application extends YsaActiveRecord
 		$this->editOption('style', $this->default_style);
 		
 		return $this;
+	}
+	
+	public function icon($htmlOptions = array())
+	{
+		return YsaHtml::image($this->iconUrl(), 'iPad Icon', $htmlOptions);
+	}
+	
+	public function iconUrl()
+	{
+		$option = $this->option('icon');
+		
+		if ($option) {
+			$url = $option['url'];
+		} else {
+			$url = ImageHelper::thumb(
+				Yii::app()->params['application']['icon']['width'], 
+				Yii::app()->params['application']['icon']['height'],
+				ImageHelper::defaultImagePath()
+			);
+		}
+		
+		return $url;
 	}
 }
