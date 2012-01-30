@@ -1,11 +1,8 @@
 <div class="w" id="client" data-clientid="<?php echo $obUserSubscription->id; ?>">
 	<section class="box">
 		<div class="box-title">
-			<h3><?php echo $obUserSubscription->Membership->name; ?></h3>
-			<div class="box-title-button">
-				<?php echo YsaHtml::link('<span class="icon i_chat"></span>Send Push Notification', '/member/notification/new/recipient/'.$obUserSubscription->id.'/type/client', array('class' => 'secondary iconed', 'id' => 'send-push-link')); ?>
-				<?php echo YsaHtml::link('<span class="icon i_brush"></span>Edit Client', array('client/edit/' . $obUserSubscription->id . '/'), array('class' => 'secondary iconed')); ?>
-			</div>
+			<h3><?php echo $obUserSubscription->Membership->name?></h3>
+			<div class="box-title-button"></div>
 		</div>
 		<div class="box-content cf">
 
