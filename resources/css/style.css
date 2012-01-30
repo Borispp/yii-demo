@@ -2076,9 +2076,9 @@ div.flash a {
   background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #00b9fc), color-stop(1, #06c5f7));
   background: -ms-linear-gradient(bottom, #00b9fc, #06c5f7);
   background: -moz-linear-gradient(center bottom, #00b9fc 0%, #06c5f7 100%);
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
+  -webkit-border-radius: 0 0 4px 4px;
+  -moz-border-radius: 0 0 4px 4px;
+  border-radius: 0 0 4px 4px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
@@ -2101,6 +2101,9 @@ div.flash a {
 #announcements .announcement a {
   color: #ffffff;
   text-decoration: underline;
+}
+#announcements .announcement .announcement-all {
+  display: block;
 }
 #announcements .more {
   text-align: center;

@@ -15,7 +15,7 @@ return array(
     'language'=>'en',
 	'sourceLanguage'=>'en',
 	'charset'=>'utf-8',
-	
+
 	// preloading 'log' component
 	'preload'=>array('log', 'maintenance'),
 
@@ -235,8 +235,12 @@ return array(
 		'salt'          => 'wel0veyourstud1oapp',
 		'date_format'   => 'Y-m-d H:i:s',
 		'currency'      => 'USD',
+		
+		'languages'	=> array(
+			'en' => "English",
+		),
 
-		'max_image_size' => 1024 * 1024 * 5,
+		'max_image_size' => 1024 * 1024 * 5, // 5MB
 
 		'oauth' => array(
 			'facebook_app_id' => FACEBOOK_APP_ID,
