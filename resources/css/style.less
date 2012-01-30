@@ -1891,10 +1891,6 @@ section.smugmug-import {
 .ipad {
 	@ipad-width:940px;
 
-	&.ipad900 {
-		@ipad-width:900px;
-	}
-
 	@ipad-height:round(@ipad-width/1.284); // 732
 	@ipad-round:(@ipad-width/30); // 31
 
@@ -1953,6 +1949,9 @@ section.smugmug-import {
 		border:1px solid @ipad-color; 
 		.content {
 			position:relative;
+			width: @wrap-width;
+			height: @wrap-height;
+			background:url(../images/application-ipad-test-image.jpg) 0 0 no-repeat;
 		}
 	}
 }

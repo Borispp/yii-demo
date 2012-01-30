@@ -65,7 +65,6 @@ class LinkController extends YsaMemberController
 		
 		if (!in_array($this->_type, array_keys(StudioLink::model()->getTypes()))) {
 			$this->redirect(array('studio/'));
-//			$this->setError('Cannot find the right type.');
 		}
 		
 		if (isset($_POST['StudioLink'])) {
@@ -82,7 +81,7 @@ class LinkController extends YsaMemberController
 			
 			if ($entry->validate()) {
 				$entry->save();
-				$this->setSuccess('Link was successfully added.');
+				$this->setSuccess(Yii::t('save', 'link_added'));
 				
 				$this->redirect(array('studio/'));
 			}
@@ -96,7 +95,7 @@ class LinkController extends YsaMemberController
 			Yii::app()->end();
 		}
 		
-		$this->setMemberPageTitle('Add Link');
+		$this->setMemberPageTitle(Yii::t('title', 'link_new'));
 		
 		$this->crumb('Studio', array('studio/'))
 			 ->crumb('Add Link');
@@ -130,7 +129,7 @@ class LinkController extends YsaMemberController
 			}
 		}
 		
-		$this->setMemberPageTitle('Edit Link');
+		$this->setMemberPageTitle(Yii::t('title', 'link_edit'));
 		
 		$this->render('edit', array(
 			'entry' => $entry,
@@ -165,7 +164,7 @@ class LinkController extends YsaMemberController
 	{
 		if (Yii::app()->getRequest()->isAjaxRequest) {
 			if (!in_array($this->_type, array_keys(StudioLink::model()->getTypes()))) {	
-				$this->sendJsonError(array('msg' => 'Something went wrong. Please reload the page and try again.'));
+				$this->sendJsonError(array('msg' => Yii::t('error', 'standart_error')));
 			}
 			
 			if (isset($_POST['studio-link'])) {

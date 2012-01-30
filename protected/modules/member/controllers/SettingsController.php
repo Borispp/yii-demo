@@ -10,7 +10,7 @@ class SettingsController extends YsaMemberController
 			if ($this->member()->validate()) {
 				$this->member()->save();
 
-				$this->setSuccess('Settings successfully changed.');
+				$this->setSuccess(Yii::t('save', 'settings_changed'));
 				$this->refresh();
 			}
 		}
@@ -23,7 +23,7 @@ class SettingsController extends YsaMemberController
 				$this->member()->password = $changePasswordForm->newPassword;
 				$this->member()->encryptPassword();
 				$this->member()->save();
-				$this->setSuccess('Password successfully changed.');
+				$this->setSuccess(Yii::t('save', 'settings_password_changed'));
 				$this->refresh();
 			}
 			$changePasswordForm->currentPassword = '';
@@ -31,7 +31,7 @@ class SettingsController extends YsaMemberController
 			$changePasswordForm->repeatPassword = '';
 		}
 
-		$this->setMemberPageTitle('Settings');
+		$this->setMemberPageTitle(Yii::t('title', 'settings'));
 
 		$this->crumb('Settings');
 
@@ -56,12 +56,12 @@ class SettingsController extends YsaMemberController
 				foreach ($shootqForm->attributes as $name => $value) {
 					$this->member()->editOption($name, $value);
 				}
-				$this->setSuccess('ShootQ settings successfully saved.');
+				$this->setSuccess(Yii::t('save', 'settings_shootq_saved'));
 				$this->refresh();
 			}
 		}
 
-		$this->setMemberPageTitle('ShootQ Settings');
+		$this->setMemberPageTitle(Yii::t('title', 'settings_shootq'));
 
 		$this->crumb('Settings', array('settings/'))
 				->crumb('ShootQ');
@@ -91,7 +91,7 @@ class SettingsController extends YsaMemberController
 
 				Yii::app()->session['smugmugRequestToken'] = $requestToken;
 
-				$this->setSuccess('SmugMug settings successfully saved.');
+				$this->setSuccess(Yii::t('save', 'settings_smugmug_saved'));
 				$this->refresh();
 			}
 		}
@@ -116,7 +116,7 @@ class SettingsController extends YsaMemberController
 			}
 		}
 
-		$this->setMemberPageTitle('SmugMug Authentification');
+		$this->setMemberPageTitle(Yii::t('title', 'smugmug_settings'));
 
 		$this->crumb('Settings', array('settings/'))
 				->crumb('SmugMug');
@@ -133,7 +133,7 @@ class SettingsController extends YsaMemberController
 		$this->member()->deleteOption(UserOption::SMUGMUG_HASH);
 		$this->member()->deleteOption(UserOption::SMUGMUG_AUTHORIZED);
 
-		$this->setSuccess('SmugMug was successfully unlinked.');
+		$this->setSuccess(Yii::t('save', 'settings_smugmug_unlinked'));
 
 		$this->redirect(array('settings/smugmug/'));
 	}
@@ -151,7 +151,7 @@ class SettingsController extends YsaMemberController
 					try {
 						$this->member()->zenfolio()->login("Username=" . $loginForm->username, "Password=" . $loginForm->password); // "Plaintext=TRUE"
 						$this->member()->editOption(UserOption::ZENFOLIO_HASH, $this->member()->zenfolio()->getAuthToken());
-						$this->setSuccess('ZenFolio was successfully authorized.');
+						$this->setSuccess(Yii::t('save', 'settings_zenfolio_authorized'));
 						$this->refresh();
 					} catch (Exception $e) {
 						$loginForm->addError('username', 'Invalid credentials. Please try again.');
@@ -160,7 +160,7 @@ class SettingsController extends YsaMemberController
 			}
 		}
 
-		$this->setMemberPageTitle('ZenFolio Authentification');
+		$this->setMemberPageTitle(Yii::t('title', 'settings_zenfolio'));
 
 		$this->crumb('Settings', array('settings/'))
 				->crumb('ZenFolio');
@@ -185,7 +185,7 @@ class SettingsController extends YsaMemberController
 				unset(Yii::app()->session['500pxRequestToken']);
 			}
 			
-			$this->setSuccess('Successfully authorized to 500px API.');
+			$this->setSuccess(Yii::t('save', 'settings_500px_authorized'));
 			$this->redirect(array('settings/500px/'));
 		}
 		
@@ -199,7 +199,7 @@ class SettingsController extends YsaMemberController
 			}
 		}
 		
-		$this->setMemberPageTitle('500px Authentification');
+		$this->setMemberPageTitle(Yii::t('title', 'settings_500px'));
 		
 		$this->render('500px');
 	}
@@ -212,14 +212,14 @@ class SettingsController extends YsaMemberController
 			unset(Yii::app()->session['500pxRequestToken']);
 		}
 		
-		$this->setSuccess('500px was successfully unlinked.');
+		$this->setSuccess(Yii::t('save', 'settings_500px_unlinked'));
 
 		$this->redirect(array('settings/500px/'));
 	}
 	
 	public function actionFacebook()
 	{
-		$this->setMemberPageTitle('Facebook Account');
+		$this->setMemberPageTitle(Yii::t('title', 'settings_facebook'));
 		
 		$this->crumb('Settings', array('settings/'))
 				->crumb('Facebook');
@@ -244,7 +244,7 @@ class SettingsController extends YsaMemberController
 			try
 			{
 				$this->member()->linkFacebook( $authIdentity->getAttribute('id') );
-				$this->setSuccess( 'Facebook account was successfully linked' );
+				$this->setSuccess(Yii::t('save', 'settings_facebook_linked'));
 			}
 			catch ( CDbException $e )
 			{
@@ -261,7 +261,7 @@ class SettingsController extends YsaMemberController
 		if ( ! $this->member()->unlinkFacebook() )
 			$this->setError( 'Unable to unlink Facebook account' );
 		else
-			$this->setSuccess( 'Facebook account was successfully unlinked' );
+			$this->setSuccess(Yii::t('save', 'settings_facebook_unlinked'));
 		
 		$this->redirect(array('settings/'));
 	}

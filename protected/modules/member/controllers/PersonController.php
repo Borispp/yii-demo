@@ -17,7 +17,7 @@ class PersonController extends YsaMemberController
 				$entry->uploadPhoto();
 				$entry->save();
 				
-				$this->setSuccess('Shooter was successfully added.');
+				$this->setSuccess(Yii::t('save', 'photographer_added'));
 				
 				$this->redirect(array('studio/'));
 			}
@@ -32,7 +32,7 @@ class PersonController extends YsaMemberController
 		}
 		
 		
-		$this->setMemberPageTitle('Add Shooter');
+		$this->setMemberPageTitle(Yii::t('title', 'photographer_new'));
 		
 		$this->crumb('Studio', array('studio/'))
 			 ->crumb('Add Shooter');
@@ -57,7 +57,7 @@ class PersonController extends YsaMemberController
 			Yii::app()->end();
 		}
 		
-		$this->setMemberPageTitle('View Shooter');
+		$this->setMemberPageTitle(Yii::t('title', 'photographer_view'));
 		
 		$this->crumb('Studio', array('studio/'))
 			 ->crumb('View Shooter');
@@ -91,7 +91,7 @@ class PersonController extends YsaMemberController
 			}
 		}
 		
-		$this->setMemberPageTitle('Edit Shooter');
+		$this->setMemberPageTitle(Yii::t('title', 'photographer_edit'));
 		
 		$this->render('edit', array(
 			'entry' => $entry,

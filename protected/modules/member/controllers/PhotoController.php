@@ -14,7 +14,7 @@ class PhotoController extends YsaMemberController
 		if (!$entry || !$entry->album->event->isOwner()) {
 			if (Yii::app()->request->isAjaxRequest) {
 				$this->sendJsonError(array(
-					'msg' => 'Something went wrong. Please reload the page and try again.',
+					'msg' => Yii::t('error', 'standart_error'),
 				));
 			} else {
 				$this->redirect(array('event/'));
@@ -172,13 +172,13 @@ class PhotoController extends YsaMemberController
 				
 			} else {
 				$this->sendJsonError(array(
-					'msg' => 'Upload could not be completed. Please try again.',
+					'msg' => Yii::t('error', 'upload_couldnt_be_completed'),
 				));
 			}
 			
 		} else {
 			$this->sendJsonError(array(
-				'msg' => 'Something went wrong. Please try to reload the page and try again',
+				'msg' => Yii::t('error', 'standart_error'),
 			));
 		}
 	}
@@ -221,7 +221,7 @@ class PhotoController extends YsaMemberController
 			}
 		} else {
 			$this->sendJsonError(array(
-				'msg' => 'Something went wrong. Please try to reload the page and try again',
+				'msg' => Yii::t('error', 'standart_error'),
 			));
 		}
 	}
@@ -316,7 +316,7 @@ class PhotoController extends YsaMemberController
 					$this->sendJsonSuccess();
 				} else {
 					$this->sendJsonError(array(
-						'msg' => 'Something went wrong. Please reload the page and try again',
+						'msg' => Yii::t('error', 'standart_error'),
 					));
 				}
 			}
@@ -346,13 +346,13 @@ class PhotoController extends YsaMemberController
 					'url' => $photo->url() . '?' . microtime(),
 				));
 			} else {
-				$this->setError('Something went wrong. Please reload the page and try again.');
+				$this->setError(Yii::t('error', 'standart_error'));
 			}
 		} else {
 			if ($success) {
-				$this->setSuccess('Image has been successfully edited.');
+				$this->setSuccess(Yii::t('save', 'photo_edited'));
 			} else {
-				$this->setError('Something went wrong. Please reload the page and try again.');
+				$this->setError(Yii::t('error', 'standart_error'));
 			}
 		}
 		$this->redirect(array('photo/view/' . $photo->id));
@@ -370,13 +370,13 @@ class PhotoController extends YsaMemberController
 					'url' => $photo->url() . '?' . microtime(),
 				));
 			} else {
-				$this->setError('Something went wrong. Please reload the page and try again.');
+				$this->setError(Yii::t('error', 'standart_error'));
 			}
 		} else {
 			if ($success) {
-				$this->setSuccess('Image has been successfully edited.');
+				$this->setSuccess(Yii::t('save', 'photo_edited'));
 			} else {
-				$this->setError('Something went wrong. Please reload the page and try again.');
+				$this->setError(Yii::t('error', 'standart_error'));
 			}
 		}
 		

@@ -4109,6 +4109,9 @@ section.smugmug-import .import li span {
 }
 .ipad .wrap .content {
   position: relative;
+  width: 783px;
+  height: 584px;
+  background: url(../images/application-ipad-test-image.jpg) 0 0 no-repeat;
 }
 #application-preview .buttons {
   margin-bottom: 24px;

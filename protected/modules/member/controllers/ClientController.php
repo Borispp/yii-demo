@@ -23,7 +23,7 @@ class ClientController extends YsaMemberController
 			if ($entry->validate()) {
 				$entry->save();
 				$entry->setEvents($eventList);
-				$this->setSuccess('Client has been added successfully.');
+				$this->setSuccess(Yii::t('save', 'client_added'));
 				$this->redirect(array('client/'));
 			} else {
 				if (isset($_POST['Client']['eventList']) && is_array($_POST['Client']['eventList'])) {
@@ -31,7 +31,7 @@ class ClientController extends YsaMemberController
 				}
 			}
 		}
-		$this->setMemberPageTitle('New Client');
+		$this->setMemberPageTitle(Yii::t('title', 'client_new'));
 		
 		$this->crumb('New Client');
 		
@@ -67,7 +67,7 @@ class ClientController extends YsaMemberController
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/clientlist.js', CClientScript::POS_HEAD);
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/notification_button.js', CClientScript::POS_HEAD);
 
-		$this->setMemberPageTitle('Clients');
+		$this->setMemberPageTitle(Yii::t('title', 'clients'));
 		$this->render('index',array(
 				'entries'       => $entries,
 				'pagination'    => $pagination,
@@ -84,7 +84,7 @@ class ClientController extends YsaMemberController
 		}
 		
 		$this->crumb('View Client');
-		$this->setMemberPageTitle('View Client');
+		$this->setMemberPageTitle(Yii::t('title', 'client_view'));
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/clientpage.js', CClientScript::POS_HEAD);
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/notification_button.js', CClientScript::POS_HEAD);
 		
@@ -114,7 +114,7 @@ class ClientController extends YsaMemberController
 			if ($entry->validate()) {
 				$entry->save();
 				$entry->setEvents($eventList);
-				$this->setSuccess('Client has been successfully modified.');
+				$this->setSuccess(Yii::t('save', 'client_edited'));
 				$this->redirect(array('client/'));
 			} else {
 				if (isset($_POST['Client']['eventList']) && is_array($_POST['Client']['eventList'])) {
@@ -124,7 +124,7 @@ class ClientController extends YsaMemberController
 		}
 
 		$this->crumb('Edit Client');
-		$this->setMemberPageTitle('Edit Client');
+		$this->setMemberPageTitle(Yii::t('title', 'client_edit'));
 		
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/clientedit.js', CClientScript::POS_HEAD);
 
@@ -168,7 +168,7 @@ class ClientController extends YsaMemberController
 					$this->sendJsonSuccess();
 				} else {
 					$this->sendJsonError(array(
-						'msg' => 'Something went wrong. Please reload the page and try again',
+						'msg' => Yii::t('error', 'standart_error'),
 					));
 				}
 			}

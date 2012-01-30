@@ -19,6 +19,10 @@ class TranslationController extends YsaAdminController
 				
 				$message = trim($message);
 				
+				if (!$message) {
+					continue;
+				}
+				
 				$source = TranslationSource::model()->findBy('message', $message);
 				
 				// add new source
@@ -52,6 +56,10 @@ class TranslationController extends YsaAdminController
 		
 		$sources = TranslationSource::model()->findAll(array(
 			'order' => 'message ASC',
+			'condition' => 'category=:category',
+			'params' => array(
+				'category' => $category->name,
+			)
 		));
 		
 		foreach ($sources as &$s) {

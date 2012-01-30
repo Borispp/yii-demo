@@ -40,7 +40,6 @@
 				<div class="ipad ipad900">
 					<div class="wrap">
 						<div class="content">
-							content goes here
 						</div>
 					</div>
 					<div class="home">

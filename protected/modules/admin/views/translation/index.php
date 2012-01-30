@@ -6,13 +6,6 @@
 			'id'=>'translation-form',
         ));
 		?>
-		
-		<p><?php echo Yii::t('delete', 'test'); ?></p>
-		
-		<p><?php echo Yii::t('delete', 'test2'); ?></p>
-		
-		<p><?php echo Yii::t('delete', 'test3'); ?></p>
-		
 		<table class="data">
 			<thead>
 				<tr>

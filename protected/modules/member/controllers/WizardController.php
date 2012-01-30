@@ -6,7 +6,7 @@ class WizardController extends YsaMemberController
 	public function init() {
 		parent::init();
 		
-		$this->setMemberPageTitle('Application Wizard');
+		$this->setMemberPageTitle(Yii::t('title', 'app_wizard'));
 	}
 	
 	public function beforeRender($view) {
