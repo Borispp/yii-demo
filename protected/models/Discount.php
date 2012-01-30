@@ -9,7 +9,7 @@
  * @property integer $state
  * @property double $summ
  * @property string $description
- * @property DiscountMembership $DiscountMembership
+ * @property DiscountMembership $DiscountMembership relation
  */
 class Discount extends CActiveRecord
 {
