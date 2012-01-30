@@ -9,6 +9,6 @@
 			&nbsp;|&nbsp;
 			<?php echo YsaHtml::link('Delete', array('photo/delete/' . $entry->id), array('class' => 'del icon i_delete', 'title' => 'Delete Photo')); ?>
 		</span>
-		<?php echo YsaHtml::link('Sort', '#', array('class' => 'move icon i_move')); ?>
+		<?php echo YsaHtml::link('Sort', '#', array('class' => 'move icon i_cursor_drag_arrow')); ?>
 	</figure>
 </li>

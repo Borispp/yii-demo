@@ -62,7 +62,7 @@
 											<?php echo YsaHtml::link('Delete', array('album/delete/' . $album->id), array('class' => 'del icon i_delete', 'rel' => $album->id, 'title' => 'Delete Album')); ?>
 										<?php endif; ?>
 									</span>
-									<?php echo YsaHtml::link('Sort', '#', array('class' => 'move icon i_move')); ?>
+									<?php echo YsaHtml::link('Sort', '#', array('class' => 'move icon i_cursor_drag_arrow')); ?>
 								</figure>
 							</li>
 						<?php endforeach; ?>

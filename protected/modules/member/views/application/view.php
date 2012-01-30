@@ -1,7 +1,7 @@
 <div class="w" id="application">
 	<section class="box">
 		<div class="box-title">
-			<h3>Your Application</h3>
+			<h3><?php echo $app->name; ?></h3>
 			<div class="box-title-button">
 				<?php echo YsaHtml::link('<span class="icon i_pencil"></span>Edit General Settings', array('application/edit/' . $app->id), array('class' => 'secondary iconed')); ?>
 			</div>
