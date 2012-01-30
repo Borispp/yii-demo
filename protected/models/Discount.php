@@ -32,6 +32,20 @@ class Discount extends CActiveRecord
 	
 	public function beforeSave() 
 	{
+		$this->bindSaveMembershipRelations();
+		
+		// restrict modification of summ
+		if (!$this->getIsNewRecord() && isset($this->summ))
+		{
+			$current = $this->findByPk($this->getPrimaryKey());
+			$this->summ = $current->summ;
+		}
+		
+		return parent::beforeSave();
+	}
+
+	protected function bindSaveMembershipRelations()
+	{
 		if ($this->getIsNewRecord())
 		{
 			$this->attachEventHandler('onAfterSave', array($this, 'saveMembershipRelations'));
@@ -39,9 +53,8 @@ class Discount extends CActiveRecord
 		}
 
 		$this->saveMembershipRelations();
-		return parent::beforeSave();
 	}
-
+	
 	public function saveMembershipRelations()
 	{
 		// clearMembershipRelations

@@ -233,6 +233,9 @@ class UserSubscription extends YsaActiveRecord
 		return floatval($this->Membership->price);
 	}
 
+	/**
+	 * @return string in currency format
+	 */
 	public function summ()
 	{
 		return Yii::app()->numberFormatter->formatCurrency($this->getSumm(), Yii::app()->params['currency']);
