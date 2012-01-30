@@ -28,10 +28,9 @@
 			</section>
 
 			<section>
-				<?php echo $form->labelEx($entry,'summ*'); ?>
+				<?php echo $form->labelEx($entry,'summ'); ?>
 				<div>
-					<?php echo $form->textField($entry,'summ', array('maxlength'=>2, 'class' => 'integer')); ?>%
-					<?php echo $form->error($entry,'summ'); ?>
+					<?php echo $entry->summ ?>%
 				</div>
 			</section>
 

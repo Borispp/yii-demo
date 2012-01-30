@@ -44,12 +44,14 @@ class DiscountController extends YsaAdminController
 				$this->setSuccessFlash("Entry successfully updated. " . CHtml::link('Back to listing.', array('index')));
 				$this->refresh();
 			}
+			
+			$entry->saveMembershipRelations();
 		}
 
 		$this->setContentTitle('Edit Discount');
 		$this->render('edit',array(
 			'entry'     => $entry,
-			'memberships' => Membership::model()->findAllActive()
+			'memberships' => Membership::model()->findAll()
 		));
 	}
 

@@ -4,6 +4,7 @@ class YsaDiscountForm extends YsaAdminForm
 {
 	public function membershipCheckboxList(array $memberships, Discount $discount)
 	{
+		$discount_memeberships = array();
 		foreach($discount->DiscountMembership as $discount_memebership)
 			$discount_memeberships[$discount_memebership->membership_id] = $discount_memebership->amount();
 		
@@ -18,7 +19,7 @@ class YsaDiscountForm extends YsaAdminForm
 			);
 			$output .= CHtml::checkBox(
 					"Discount[membership_ids][]",
-					array_key_exists($membership->id, $discount->membership_ids), 
+					array_key_exists($membership->id, $discount_memeberships), 
 					array( 
 						'value' => $membership->id, 
 						'id' => $chbox_id = 'membeshipid_'.$membership->id,

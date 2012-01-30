@@ -42,6 +42,8 @@ class Membership extends YsaActiveRecord
 			array('active', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>50),
 			array('price', 'length', 'max'=>10),
+			array('duration', 'numerical', 'min'=>1),
+			array('price', 'numerical', 'numberPattern'=>'~^\d{1,10}(\.\d{1,2})?$~', 'message'=>'Price must be an unsigned number.'),
 			array('description', 'safe'),
 		);
 	}
