@@ -242,51 +242,47 @@ class Member extends User
 	}
 
 	/**
-	 * @param $message
-	 * @param string $title
-	 * @param bool $addAnnouncement
-	 * @param bool $sendEmail
+	 * @param YsaNotificationMessage $obNotificationMessage
 	 * @return void
 	 */
-	public function simpleNotify($message, $title = "New notification", $addAnnouncement = TRUE ,$sendEmail = FALSE)
+	public function notifyByObject(YsaNotificationMessage $obNotificationMessage)
 	{
-		if ($sendEmail)
-			$this->_sendEmail($title, $message);
-		if ($addAnnouncement)
-			$this->_addAnnouncement($title, $message);
+		$this->_addAnnouncement($obNotificationMessage->getNotificationMessage());
 	}
 	
 	/**
-	 * Add notification to selected Member 
+	 * @param $message
+	 * @return void
 	 */
-	public function notify(YsaNotificationMessage $obNotificationMessage, $addAnnouncement = TRUE ,$sendEmail = FALSE)
+	public function notify($message)
 	{
-		if ($sendEmail)
-			$this->_sendEmail($obNotificationMessage->getNotificationTitle(), $obNotificationMessage->getNotificationMessage());
-		if ($addAnnouncement)
-			$this->_addAnnouncement($obNotificationMessage->getNotificationTitle(), $obNotificationMessage->getNotificationMessage());
+		$this->_addAnnouncement($message);
 
 	}
 
-	protected function _sendEmail($title, $message)
+	protected function _addAnnouncement($message)
 	{
+		$announcement = new Announcement();
+		$announcement->message = $message;
+		if ($announcement->validate())
+		{
+			$announcement->save();
+			$announcement->notifyMember($this);
+			$this->_sendEmail($message);
+		}
+	}
+	protected function _sendEmail($message)
+	{
+		if (!$this->option('notify_by_email', FALSE))
+			return;
 		Yii::app()->mailer->From = Yii::app()->settings->get('send_mail_from_email');
 		Yii::app()->mailer->FromName = Yii::app()->settings->get('send_mail_from_name');
 		Yii::app()->mailer->AddAddress($this->email, $this->first_name.' '.$this->last_name);
-		Yii::app()->mailer->Subject = $title;
+		Yii::app()->mailer->Subject = 'You have new announcement';
 		Yii::app()->mailer->AltBody = $message;
 		Yii::app()->mailer->getView('standart', array(
 				'body'  => $message,
 			));
 		Yii::app()->mailer->Send();
-	}
-
-	protected function _addAnnouncement($title, $message)
-	{
-		$obNotification = new Notification();
-		$obNotification->title = $title;
-		$obNotification->message = $message;
-		$obNotification->save();
-		$obNotification->notifyMember($this);
 	}
 }

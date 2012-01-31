@@ -1,21 +1,20 @@
 <?php
 
 /**
- * This is the model class for table "notification".
+ * This is the model class for table "Announcement".
  *
- * The followings are the available columns in table 'notification':
+ * The followings are the available columns in table 'Announcement':
  * @property string $id
- * @property string $title
  * @property integer $message
  *
  * The followings are the available model relations:
- * @property NotificationUser $notification_user
+ * @property AnnouncementUser $Announcement_user
  */
-class Notification extends YsaActiveRecord
+class Announcement extends YsaActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return Notification the static model class
+	 * @return Announcement the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -27,7 +26,7 @@ class Notification extends YsaActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'notification';
+		return 'announcement';
 	}
 
 	/**
@@ -39,12 +38,11 @@ class Notification extends YsaActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id', 'numerical', 'integerOnly'=>true),
-			array('title, message', 'required'),
-			array('title', 'length', 'max'=>100),
+			array('message', 'required'),
 			array('message', 'length', 'max'=>500),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, title, message', 'safe', 'on'=>'search'),
+			array('id, message', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,7 +54,7 @@ class Notification extends YsaActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'notification_user' => array(self::HAS_MANY, 'NotificationUser', 'notification_id'),
+			'announcement_user' => array(self::HAS_MANY, 'AnnouncementUser', 'announcement_id'),
 		);
 	}
 
@@ -67,7 +65,6 @@ class Notification extends YsaActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'title' => 'Title',
 			'message' => 'Message',
 		);
 	}
@@ -84,7 +81,6 @@ class Notification extends YsaActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('title',$this->title,true);
 		$criteria->compare('message',$this->message);
 
 		return new CActiveDataProvider($this, array(
@@ -93,19 +89,19 @@ class Notification extends YsaActiveRecord
 	}
 
 	/**
-	 * Return all notifications to member
+	 * Return all Announcements to member
 	 * @param Member $obMember
-	 * @return NotificationUser
+	 * @return AnnouncementUser
 	 */
-	public function getMemberNotifications(User $obMember)
+	public function getMemberAnnouncements(User $obMember)
 	{
 		return $this->with(array(
-				'notification_user'=>array(
+				'announcement_user'=>array(
 					// we don't want to select posts
 					'select'=>false,
 					// but want to get only users with published posts
 					'joinType'=>'INNER JOIN',
-					'condition'=>'notification_user.read=0 and notification_user.user_id=:user_id',
+					'condition'=>'announcement_user.read IS NULL and announcement_user.user_id=:user_id',
 					'params'	=> array(
 						':user_id' => $obMember->id
 					)
@@ -114,29 +110,29 @@ class Notification extends YsaActiveRecord
 	}
 
 	/**
-	 * Append notification to member
+	 * Append Announcement to member
 	 * @param $obMember
 	 * @return void
 	 */
 	public function notifyMember(User $obMember)
 	{
-		$obNotificationUser = new NotificationUser();
-		$obNotificationUser->user_id = $obMember->id;
-		$obNotificationUser->notification_id = $this->id;
-		if ($obNotificationUser->validate())
-			$obNotificationUser->save();
+		$obAnnouncementUser = new AnnouncementUser();
+		$obAnnouncementUser->user_id = $obMember->id;
+		$obAnnouncementUser->announcement_id = $this->id;
+		if ($obAnnouncementUser->validate())
+			$obAnnouncementUser->save();
 	}
 
 	public function findAllByMember(Member $member, $unreadOnly = FALSE)
 	{
 		$params = array('user_id' => $member->id);
 		if ($unreadOnly)
-			$params['read'] = 0;
-		return NotificationUser::model()->findAllByAttributes($params);
+			$params['read'] = NULL;
+		return AnnouncementUser::model()->findAllByAttributes($params);
 	}
 
 	/**
-	 * Set state read = 1 to member-specific userNotification or to all userNotifications
+	 * Set state read = 1 to member-specific userAnnouncement or to all userAnnouncements
 	 * @param Member|null $obMember
 	 * @return void
 	 */
@@ -144,31 +140,31 @@ class Notification extends YsaActiveRecord
 	{
 		if (is_null($obMember))
 		{
-			foreach($this->notification_user as $obNotificationUser)
+			foreach($this->announcement_user as $obAnnouncementUser)
 			{
-				$obNotificationUser->read = 1;
-				$obNotificationUser->save();
+				$obAnnouncementUser->read = date('Y-m-d H:i:s');
+				$obAnnouncementUser->save();
 			}
 			return;
 		}
-		$obNotificationUser = NotificationUser::model()->findByAttributes(array(
-				'read'				=> 0,
-				'notification_id'	=> $this->id,
+		$announcementUser = AnnouncementUser::model()->findByAttributes(array(
+				'read'				=> NULL,
+				'announcement_id'	=> $this->id,
 				'user_id'			=> $obMember->id,
 			));
-		if ($obNotificationUser)
+		if ($announcementUser)
 		{
-			$obNotificationUser->read = 1;
-			$obNotificationUser->save();
+			$announcementUser->read = date('Y-m-d H:i:s');
+			$announcementUser->save();
 		}
 	}
 
 	public function getRead(Member $member)
 	{
-		$obNotificationUser = NotificationUser::model()->findByAttributes(array(
-				'notification_id'	=> $this->id,
+		$obAnnouncementUser = AnnouncementUser::model()->findByAttributes(array(
+				'announcement_id'	=> $this->id,
 				'user_id'			=> $member->id,
 			));
-		return (bool)$obNotificationUser->read;
+		return is_null($obAnnouncementUser->read);
 	}
 }

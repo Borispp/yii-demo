@@ -1,23 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "notification_user".
+ * This is the model class for table "announcement_user".
  *
- * The followings are the available columns in table 'notification_user':
+ * The followings are the available columns in table 'announcement_user':
  * @property string $id
  * @property string $user_id
- * @property string $notification_id
+ * @property string $announcement_id
  * @property integer $read
  *
  * The followings are the available model relations:
- * @property Notification $notification
+ * @property Announcement $announcement
  * @property User $user
  */
-class NotificationUser extends YsaActiveRecord
+class AnnouncementUser extends YsaActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return NotificationUser the static model class
+	 * @return AnnouncementUser the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -29,7 +29,7 @@ class NotificationUser extends YsaActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'notification_user';
+		return 'announcement_user';
 	}
 
 	/**
@@ -40,12 +40,11 @@ class NotificationUser extends YsaActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, notification_id', 'required'),
-			array('read', 'numerical', 'integerOnly'=>true),
-			array('user_id, notification_id', 'length', 'max'=>11),
+			array('user_id, announcement_id', 'required'),
+			array('user_id, announcement_id', 'length', 'max'=>11),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, user_id, notification_id, read', 'safe', 'on'=>'search'),
+			array('id, user_id, announcement_id, read', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,7 +56,7 @@ class NotificationUser extends YsaActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'notification' => array(self::BELONGS_TO, 'Notification', 'notification_id'),
+			'announcement' => array(self::BELONGS_TO, 'Announcement', 'announcement_id'),
 			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
 		);
 	}
@@ -70,7 +69,7 @@ class NotificationUser extends YsaActiveRecord
 		return array(
 			'id' => 'ID',
 			'user_id' => 'User',
-			'notification_id' => 'Notification',
+			'announcement_id' => 'Announcement',
 			'read' => 'Read',
 		);
 	}
@@ -88,7 +87,7 @@ class NotificationUser extends YsaActiveRecord
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('user_id',$this->user_id,true);
-		$criteria->compare('notification_id',$this->notification_id,true);
+		$criteria->compare('announcement_id',$this->announcement_id,true);
 		$criteria->compare('read',$this->read);
 
 		return new CActiveDataProvider($this, array(

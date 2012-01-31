@@ -14,7 +14,7 @@
  * @property Ticket $ticket
  * @property User $replier
  */
-class TicketReply extends YsaActiveRecord implements YsaNotificationMessage
+class TicketReply extends YsaActiveRecord implements YsaAnnouncementMessage
 {
 	/**
 	 * @var integer
@@ -110,14 +110,8 @@ class TicketReply extends YsaActiveRecord implements YsaNotificationMessage
 		return nl2br($this->message);
 	}
 
-	public function getNotificationMessage()
+	public function getAnnouncementMessage()
 	{
 		return $this->message;
 	}
-
-	public function getNotificationTitle()
-	{
-		return 'New replay from moderator';
-	}
-
 }
