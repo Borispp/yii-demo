@@ -46,6 +46,7 @@ class ApplicationNotification extends YsaActiveRecord
 			array('application_id', 'required'),
 			array('application_id', 'numerical', 'integerOnly'=>true),
 			array('message', 'length', 'max'=>300),
+			array('message', 'required'),
 			array('created', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -196,7 +197,9 @@ class ApplicationNotification extends YsaActiveRecord
 		$obApplicationNotificationEvent = new ApplicationNotificationEvent();
 		$obApplicationNotificationEvent->app_notification_id = $this->id;
 		$obApplicationNotificationEvent->event_id = $obEvent->id;
-		$obApplicationNotificationEvent->save();
+		if (!$obApplicationNotificationEvent->validate())
+			return $obApplicationNotificationEvent->getErrors();
+		return $obApplicationNotificationEvent->save();
 	}
 
 	/**
@@ -208,6 +211,8 @@ class ApplicationNotification extends YsaActiveRecord
 		$obApplicationNotificationClient = new ApplicationNotificationClient();
 		$obApplicationNotificationClient->app_notification_id = $this->id;
 		$obApplicationNotificationClient->client_id = $obClient->id;
+		if (!$obApplicationNotificationClient->validate())
+			return $obApplicationNotificationClient->getErrors();
 		$obApplicationNotificationClient->save();
 	}
 

@@ -40,10 +40,27 @@ class ApplicationNotificationClient extends YsaActiveRecord
 		// will receive user inputs.
 		return array(
 			array('client_id, app_notification_id', 'length', 'max'=>11),
+			array('client_id', 'validateClient'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, client_id, app_notification_id', 'safe', 'on'=>'search'),
 		);
+	}
+
+	public function validateClient()
+	{
+		$client = Client::model()->findByPk($this->client_id);
+		if ($client->user_id != Yii::app()->user->getId())
+		{
+			$this->addError('client_id', 'You can send notification to your clients only');
+			return FALSE;
+		}
+		if (!$client->isActive())
+		{
+			$this->addError('client_id', 'Client is inactive');
+			return FALSE;
+		}
+		return TRUE;
 	}
 
 	/**
