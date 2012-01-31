@@ -105,14 +105,14 @@ class SubscriptionController extends YsaMemberController
 			$entry->discount = $_POST['UserSubscription']['discount'];
 			$entry->validateDiscount();
 			
-			if ( $entry->hasErrors() )
+			if ($entry->hasErrors())
 			{
 				$errors = array_shift( $entry->getErrors() );
 				$this->setError( array_shift( $errors ) );
 			}
 			else
 			{
-				$this->setSuccess( 'Discount applied successfully!' );
+				$this->setSuccess(Yii::t('save', 'subscription_discount_applied'));
 				Yii::app()->session['discount'] = $_POST['UserSubscription']['discount'];
 			}
 		}

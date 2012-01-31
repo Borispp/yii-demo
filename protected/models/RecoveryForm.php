@@ -3,7 +3,7 @@ class RecoveryForm extends YsaFormModel
 {
 	public $email;
         
-        public $user_id;
+	public $user_id;
 	
 	public function rules()
 	{
@@ -18,9 +18,9 @@ class RecoveryForm extends YsaFormModel
 	 */
 	public function attributeLabels()
 	{
-            return array(
-            'email' => 'Email',
-            );
+		return array(
+			'email' => 'Email',
+		);
 	}
 	
 	public function checkexists($attribute, $params) {

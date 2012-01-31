@@ -36,7 +36,7 @@ class AlbumController extends YsaMemberController
 		$this->crumb($event->name, array('event/view/' . $event->id))
 			 ->crumb('Create Album');
 		
-		$this->setMemberPageTitle('Create Album');
+		$this->setMemberPageTitle(Yii::t('title', 'album_save'));
 		
 		$this->render('create', array(
 			'event' => $event,
@@ -65,7 +65,7 @@ class AlbumController extends YsaMemberController
 			 ->crumb($entry->name, array('album/view/' . $entry->id))
 			 ->crumb('Edit Album');
 		
-		$this->setMemberPageTitle('Edit Album');
+		$this->setMemberPageTitle(Yii::t('title', 'album_edit'));
 		
 		$this->render('edit', array(
 			'entry' => $entry,
@@ -193,7 +193,7 @@ class AlbumController extends YsaMemberController
 					$this->sendJsonSuccess();
 				} else {
 					$this->sendJsonError(array(
-						'msg' => 'Something went wrong. Please reload the page and try again',
+						'msg' => Yii::t('error', 'standart_error'),
 					));
 				}
 			}

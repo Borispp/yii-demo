@@ -6,7 +6,7 @@ class ApplicationController extends YsaMemberController
 	public function init() {
 		parent::init();
 		
-		$this->setMemberPageTitle('Application Wizard');
+		$this->setMemberPageTitle(Yii::t('title', 'application_wizard'));
 	}
 	
 	public function beforeRender($view) {
@@ -35,7 +35,7 @@ class ApplicationController extends YsaMemberController
 		
 		$this->crumb('Application');
 		
-		$this->setMemberPageTitle('Application');
+		$this->setMemberPageTitle(Yii::t('title', 'application'));
         
         $this->render('view', array(
             'app' => $app,
@@ -55,7 +55,7 @@ class ApplicationController extends YsaMemberController
             
             $app->setAttributes(array(
                 'user_id'    => $this->member()->id,
-                'state'      => Application::STATE_CREATED,
+                'state'      => Application::STATE_ACTIVE,
             ));
 			
             $app->generateAppKey();
@@ -69,7 +69,7 @@ class ApplicationController extends YsaMemberController
         }
 		
 		$this->crumb('Application');
-		$this->setMemberPageTitle('Create Application');
+		$this->setMemberPageTitle(Yii::t('title', 'application_create'));
         
         $this->render('create', array(
             'app'   => $app,
@@ -89,7 +89,7 @@ class ApplicationController extends YsaMemberController
 			
 			if ($app->validate()) {
 				$app->save();
-				$this->setSuccess('Application has been successfully saved');
+				$this->setSuccess(Yii::t('save', 'application_saved'));
 				$this->redirect(array('application/'));
 			}
 		}
@@ -113,7 +113,7 @@ class ApplicationController extends YsaMemberController
 		$this->crumb('Application', array('application/'))
 			 ->crumb('Preview');
 		
-		$this->setMemberPageTitle('Application Preview');
+		$this->setMemberPageTitle(Yii::t('title', 'application_preview'));
 		
         $this->render('preview', array(
             'app' => $app,
@@ -146,13 +146,13 @@ class ApplicationController extends YsaMemberController
 		
 		if (!$app) {
 			$this->sendJsonError(array(
-				'msg' => 'No application found. Please reload the page and try again.',
+				'msg' => Yii::t('error', 'application_not_found'),
 			));
 		}
 		
 		if (!in_array($image, $app->getAvailableImages())) {
 			$this->sendJsonError(array(
-				'msg' => 'No available images found for this field. Please reload the page and try again.',
+				'msg' => Yii::t('error', 'files_no_available_images'),
 			));
 		}
 		
@@ -160,7 +160,7 @@ class ApplicationController extends YsaMemberController
 		
 		if (null === $file) {
 			$this->sendJsonError(array(
-				'msg' => 'No files uploaded. Please reload the page and try again.',
+				'msg' => Yii::t('error', 'files_empty'),
 			));
 		}
 		
@@ -173,7 +173,7 @@ class ApplicationController extends YsaMemberController
 			));
 		} else {
 			$this->sendJsonError(array(
-				'msg' => 'Something went wrong. Please reload the page and try again.',
+				'msg' => Yii::t('error', 'standart_error'),
 			));
 		}
 	}
@@ -184,13 +184,13 @@ class ApplicationController extends YsaMemberController
 		
 		if (!$app) {
 			$this->sendJsonError(array(
-				'msg' => 'No application found. Please reload the page and try again.',
+				'msg' => Yii::t('error', 'application_not_found'),
 			));
 		}
 		
 		if (!in_array($image, $app->getAvailableImages())) {
 			$this->sendJsonError(array(
-				'msg' => 'No available images found for this field. Please reload the page and try again.',
+				'msg' => Yii::t('error', 'files_no_available_images'),
 			));
 		}
 		
@@ -240,13 +240,13 @@ class ApplicationController extends YsaMemberController
 			
 			if (!$app) {
 				$this->sendJsonError(array(
-					'msg' => 'No application found.',
+					'msg' => Yii::t('error', 'application_not_found'),
 				));
 			}
 			
 			if (!$app->filterWizardStep($step)) {
 				$this->sendJsonError(array(
-					'msg' => 'Invalid step. Please reload the page and try again.',
+					'msg' => Yii::t('error', 'invalid_step'),
 				));
 			}
 			
@@ -256,7 +256,7 @@ class ApplicationController extends YsaMemberController
 			
 			if (!class_exists($model)) {
 				$this->sendJsonError(array(
-					'msg' => 'Some errors occured. Please reload the page and try again.',
+					'msg' => Yii::t('error', 'standart_error'),
 				));
 			}
 			
@@ -278,14 +278,14 @@ class ApplicationController extends YsaMemberController
 			
 			if (!$app->filterWizardStep($step)) {
 				$this->sendJsonError(array(
-					'msg' => 'Invalid step. Please reload the page and try again.',
+					'msg' => Yii::t('error', 'invalid_step'),
 				));
 			}
 			
 			$modelName = 'Wizard' . ucfirst($step);
 			if (!class_exists($modelName)) {
 				$this->sendJsonError(array(
-					'msg' => 'Some errors occured. Please reload the page and try again.',
+					'msg' => Yii::t('error', 'standart_error'),
 				));
 			}
 			
@@ -301,14 +301,13 @@ class ApplicationController extends YsaMemberController
 					if (!$app->filled()) {
 						$app->fill();					
 					}
+//					if ($app->submitted()) {
+//						$data['redirectUrl'] = $this->createAbsoluteUrl('application/');
+//					} else {
+//						$data['redirectUrl'] = $this->createAbsoluteUrl('application/');
+//					}
 					
-					if ($app->submitted()) {
-						$data['redirectUrl'] = $this->createAbsoluteUrl('application/');
-					} else {
-						$data['redirectUrl'] = $this->createAbsoluteUrl('application/preview/');
-					}
-					
-					
+					$data['redirectUrl'] = $this->createAbsoluteUrl('application/');
 					$data['success'] = 1;
 				}
 				$this->sendJson($data);
@@ -316,8 +315,9 @@ class ApplicationController extends YsaMemberController
 			} else {
 				$model = new $modelName();
 				$model->setApplication($app)
-					->loadDefaultValues();
-				$model->prepare()->save();
+					->loadDefaultValues()
+					->prepare()
+					->save();
 				$this->sendJsonSuccess();
 			}
 		} else {
@@ -367,12 +367,12 @@ class ApplicationController extends YsaMemberController
 			
 			if ($reply->validate()) {
 				$reply->save();
-				$this->setSuccess('Support Reply has been successfully added.');
+				$this->setSuccess(Yii::t('save', 'application_support_reply_added'));
 				$this->refresh();
 			}
 		}
 		
-		$this->setMemberPageTitle('Application Support');
+		$this->setMemberPageTitle(Yii::t('title', 'application_support'));
 		
 		$this->crumb('Application', array('application/'))
 			 ->crumb('Support');
@@ -398,7 +398,7 @@ class ApplicationController extends YsaMemberController
 			$app->default_style = $template;
 			$app->fillWithStyle();
 			
-			$this->setSuccess($styles[$template] . ' style is successfully loaded.');
+			$this->setSuccess(Yii::t('save', 'application_style_loaded', array('{template}' => $styles[$template])));
 		}
 		
 		$this->redirect(array('application/wizard/'));

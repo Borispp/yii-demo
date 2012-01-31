@@ -29,7 +29,7 @@ class EventController extends YsaMemberController
 
 		$entries = Event::model()->findAll($criteria);
 
-		$this->setMemberPageTitle('Events');
+		$this->setMemberPageTitle(Yii::t('title', 'events'));
 		
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/eventlist.js', CClientScript::POS_HEAD);
 
@@ -97,7 +97,7 @@ class EventController extends YsaMemberController
 
 		$this->crumb('Create New Event');
 
-		$this->setMemberPageTitle('Create New Event');
+		$this->setMemberPageTitle(Yii::t('title', 'event_new'));
 
 		$this->render('create', array(
 			'entry' => $entry,
@@ -171,7 +171,7 @@ class EventController extends YsaMemberController
 					$this->sendJsonSuccess();
 				} else {
 					$this->sendJsonError(array(
-						'msg' => 'Something went wrong. Please reload the page and try again',
+						'msg' => Yii::t('error', 'standart_error'),
 					));
 				}
 			}

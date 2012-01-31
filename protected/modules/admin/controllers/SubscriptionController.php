@@ -16,7 +16,7 @@ class SubscriptionController extends YsaAdminController
 				$this->redirect(array('edit', 'id'=>$entry->id));
 			}
 		}
-		$this->setContentTitle('Add Discount');
+		$this->setContentTitle('Add Member Subscription');
 		$this->render('add', array(
 				'entry' => $entry,
 			));

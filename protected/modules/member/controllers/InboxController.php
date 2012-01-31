@@ -10,7 +10,7 @@ class InboxController extends YsaMemberController
 
 	public function actionIndex()
 	{
-		$this->setMemberPageTitle('Inbox');
+		$this->setMemberPageTitle(Yii::t('title', 'inbox'));
 		if (isset($_POST['Fields'])) {
 			if (isset($_POST['SearchBarReset']) && $_POST['SearchBarReset']) {
 				StudioMessage::model()->resetSearchFields();

@@ -71,7 +71,7 @@
 		</div>
 		<div class="box-content">
 			<div class="shadow-box">
-				<div class="box-description">These links are shown under "more" tab in your Application</div>
+				<div class="box-description">These links are shown under "More" tab in your Application</div>
 				<?php if (count($entry->customLinks)) : ?>
 					<ul class="list links cf" data-type="<?php echo StudioLink::TYPE_BOOKMARK?>">
 						<?php foreach ($entry->customLinks as $link) : ?>

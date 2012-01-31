@@ -3,7 +3,7 @@ class DefaultController extends YsaMemberController
 {
 	public function actionIndex()
 	{
-		$this->setMemberPageTitle('Member Area');
+		$this->setMemberPageTitle(Yii::t('title', 'member_area'));
 		$this->render('index');
 	}
 }

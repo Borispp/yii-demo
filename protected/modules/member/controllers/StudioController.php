@@ -16,7 +16,7 @@ class StudioController extends YsaMemberController
 		$entry = $this->member()->studio;
 		
 		$this->crumb('Studio');
-		$this->setMemberPageTitle('Studio Information');
+		$this->setMemberPageTitle(Yii::t('title', 'studio_info'));
 		
 		$videoForm = new VideoForm();
 		$contactForm = new ContactForm();
@@ -54,7 +54,7 @@ class StudioController extends YsaMemberController
 
 			if (null === $file) {
 				$this->sendJsonError(array(
-					'msg' => 'No files uploaded. Please reload the page and try again.',
+					'msg' => Yii::t('error', 'files_empty'),
 				));
 			}
 			
@@ -68,7 +68,7 @@ class StudioController extends YsaMemberController
 			));
 		} else {
 			$this->sendJsonError(array(
-				'msg' => 'No files uploaded. Please reload the page and try again.',
+				'msg' => Yii::t('error', 'files_empty'),
 			));
 		}
 	}
@@ -81,7 +81,7 @@ class StudioController extends YsaMemberController
 			$entry->attributes = $_POST['Studio'];
 			if ($entry->validate()) {
 				$entry->save();
-				$msg = 'General information has been successfully saved.';
+				$msg = Yii::t('save', 'studio_general_save');
 				if (Yii::app()->request->isAjaxRequest) {
 					$this->sendJsonSuccess(array(
 						'msg' => $msg,
@@ -99,7 +99,7 @@ class StudioController extends YsaMemberController
 				if (isset($errors[$errorKeys[0]]) && isset($errors[$errorKeys[0]][0])) {
 					$msg = $errors[$errorKeys[0]][0];
 				} else {
-					$msg = 'Something went wrong. Please reload the page and try again.';
+					$msg = Yii::t('error', 'standart_error');
 				}
 				
 				if (Yii::app()->request->isAjaxRequest) {
@@ -129,7 +129,7 @@ class StudioController extends YsaMemberController
 						), true)
 					));
 				} else {
-					$this->setSuccess('Video has been successfully added.');
+					$this->setSuccess(Yii::t('save', 'studio_video_added'));
 					$this->redirect(array('studio/'));								
 				}
 			}
@@ -154,7 +154,7 @@ class StudioController extends YsaMemberController
 				), true)
 			));
 		} else {
-			$this->setSuccess('Video has been successfully removed.');
+			$this->setSuccess(Yii::t('save', 'studio_video_delete'));
 			$this->redirect(array('studio/'));
 		}
 	}
@@ -169,7 +169,7 @@ class StudioController extends YsaMemberController
 				
 				$this->member()->studio->saveContact($form->attributes);
 				
-				$msg = 'Contact form has been successfully saved.';
+				$msg = Yii::t('save', 'studio_contact_saved');
 				if (Yii::app()->request->isAjaxRequest) {
 					$this->sendJsonSuccess(array(
 						'msg' => $msg,
@@ -181,7 +181,7 @@ class StudioController extends YsaMemberController
 			}
 			if (Yii::app()->request->isAjaxRequest) {
 				$this->sendJsonError(array(
-					'msg' => 'Something went wrong. Please reload the page and try again.',
+					'msg' => Yii::t('error', 'standart_error'),
 				));
 			}
 		}
