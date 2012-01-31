@@ -16,7 +16,6 @@
 		</div>
 	</section>
 
-
 	<section class="box">
 		<div class="box-title">
 			<h3>Change Details</h3>
@@ -48,6 +47,12 @@
 					<div>
 						<?php echo $form->textField($entry,'last_name',array('size'=>50,'maxlength'=>50)); ?>
 						<?php echo $form->error($entry,'last_name'); ?>
+					</div>
+				</section>
+				<section class="cf">
+					<?php echo YsaHtml::label('Email important notifications','notify_by_email'); ?>
+					<div>
+						<?php echo YsaHtml::checkbox('notify_by_email', $notify_by_email, array('id'=>'notify_by_email')); ?>
 					</div>
 				</section>
 

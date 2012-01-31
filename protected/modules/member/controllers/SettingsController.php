@@ -4,12 +4,11 @@ class SettingsController extends YsaMemberController
 	public function actionIndex()
 	{
 		if (isset($_POST['Member'])) {
-
 			$this->member()->attributes = $_POST['Member'];
 
 			if ($this->member()->validate()) {
 				$this->member()->save();
-
+				$this->member()->editOption('notify_by_email', isset($_POST['notify_by_email']));
 				$this->setSuccess(Yii::t('save', 'settings_changed'));
 				$this->refresh();
 			}
@@ -36,8 +35,9 @@ class SettingsController extends YsaMemberController
 		$this->crumb('Settings');
 
 		$this->render('index', array(
-				'entry'     => $this->member(),
-				'password'  => $changePasswordForm,
+				'entry'           => $this->member(),
+				'password'        => $changePasswordForm,
+				'notify_by_email' => $this->member()->option('notify_by_email', FALSE)
 			));
 	}
 
