@@ -8,6 +8,22 @@
 		</div>
 		<div class="box-content">
 			
+			
+			<p>
+				
+				<a href="" class="btn">Button</a>
+				
+				<a href="" class="btn blue">Button</a>
+				
+				<a href="" class="btn red">Button</a>
+				
+				<a href="" class="btn gray-txt">Button</a>
+				
+				<a href="" class="btn red-txt">Button</a>
+				
+				<a href="" class="btn disabled">Button</a>
+			</p>
+			
 			<div class="cf info">
 				<div class="shadow-box status">
 					<h4>Current Application Status</h4>

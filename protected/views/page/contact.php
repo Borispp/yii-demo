@@ -1,5 +1,3 @@
-<?php echo YsaHtml::pageHeaderTitle($page->title); ?>
-
 <div class="w body">
 	<?php echo $page->content; ?>
 	

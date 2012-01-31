@@ -1,11 +1,22 @@
-<?php echo YsaHtml::pageHeaderTitle('FAQ'); ?>
-<div class="body w" id="faq">
-	<ul class="list">
-		<?php foreach($faq as $obFaq):?>
-			<li>
-				<h3><?php echo $obFaq->question?></h3>
-				<div class="answer"><?php echo $obFaq->answer?></div>
-			</li>
+<div id="faq" class="cf">
+	<div class="questions">
+		<ul>
+			<?php foreach($faq as $entry):?>
+				<li>
+					<?php echo YsaHtml::link($entry->question, '#', array('data-id' => $entry->id)); ?>
+				</li>
+			<?php endforeach?>
+		</ul>
+	</div>
+	
+	<div class="answers">
+		<?php foreach($faq as $entry):?>
+			<div class="answer" id="faq-answer-<?php echo $entry->id;?>">
+				<h3><?php echo $entry->question; ?></h3>
+				<div class="page">
+					<?php echo $entry->answer?>
+				</div>
+			</div>
 		<?php endforeach?>
-	</ul>
+	</div>
 </div>

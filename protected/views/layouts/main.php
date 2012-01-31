@@ -19,26 +19,13 @@
     <div id="header-wrapper">
         <header class="w cf">
             <h1><a href="<?php echo Yii::app()->homeUrl; ?>">YourStudioApp</a></h1>
-            <section class="login">
-                <?php if (Yii::app()->user->isGuest) : ?>
-                    <?php echo YsaHtml::link('Login', array('/login')); ?>
-                <?php else:?>
-                    <?php echo YsaHtml::link('Logout', array('/logout')); ?>
-                <?php endif; ?>
-            </section>
-            <?php if ($this->isWebsite()) : ?>
-                <section class="social">
-                    <a href="" class="fb">Facebook</a>
-                    <span></span>
-                    <a href="" class="twi">Twitter</a>
-                </section>
-            <?php endif; ?>
             <nav>
-                <?php $this->widget('zii.widgets.CMenu',array(
+                <?php $this->widget('YsaMenu',array(
                     'htmlOptions' => array(
-                        'class' => 'cf'
+                        'class' => 'cf',
+						'id'	=> 'header-nav',
                     ),
-                    'items'=> $this->getWebsiteNavigationMenu()
+                    'items'=> $this->getWebsiteNavigationMenu(),
                 )); ?>
             </nav>
         </header>

@@ -3,21 +3,15 @@
 			'id'=>'newsletter-subscribe-form',
 	)); ?>
 	<section>
-		<?php echo $form->labelEx($newsletterForm,'name'); ?>
-		<div>
-			<?php echo $form->textField($newsletterForm,'name'); ?>
-			<?php echo $form->error($newsletterForm,'name'); ?>
-		</div>
+		<div><?php echo $form->textField($newsletterForm,'name', array('placeholder' => 'NAME')); ?></div>
+		<?php echo $form->error($newsletterForm,'name'); ?>
 	</section>
 	<section>
-		<?php echo $form->labelEx($newsletterForm,'email'); ?>
-		<div>
-			<?php echo $form->textField($newsletterForm,'email'); ?>
-			<?php echo $form->error($newsletterForm,'email'); ?>
-		</div>
+		<div><?php echo $form->textField($newsletterForm,'email', array('placeholder' => 'EMAIL')); ?></div>
+		<?php echo $form->error($newsletterForm,'email'); ?>
 	</section>
-	<section class="button">
-		<?php echo CHtml::submitButton('Subscribe'); ?>
-	</section>
+	<p class="r">
+		<?php echo CHtml::submitButton('Subscribe', array('class' => 'blue')); ?>
+	</p>
 	<?php $this->endWidget(); ?>
 </div>
