@@ -1,15 +1,21 @@
 <?php
 class PageController extends YsaFrontController
 {
+	protected $_slug;
+	
 	public function actionView($slug)
 	{
 		$page = Page::model()->findBySlug($slug);
-
+		
 		if (!$page) {
 			throw new CHttpException(404, 'Page not found.');
 		}
+		
+		$this->_slug = $slug;
 
 		$this->setMeta($page->meta());
+		
+		$this->setFrontPageTitle($page->title);
 
 		$this->render('view', array(
 			'page' => $page,
@@ -32,6 +38,8 @@ class PageController extends YsaFrontController
 				$this->refresh();
 			}
 		}
+		
+		$this->setFrontPageTitle($page->title);
 		
 		$this->render('contact', array(
 			'page' => $page,

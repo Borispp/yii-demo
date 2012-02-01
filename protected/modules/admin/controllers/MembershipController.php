@@ -5,12 +5,14 @@ class MembershipController extends YsaAdminController
 	{
 		$entry = new Membership();
 
-		if(isset($_POST['Membership'])) {
+		if(isset($_POST['Membership'])) 
+		{
 			$entry->attributes=$_POST['Membership'];
 
-			if ($entry->validate()) {
+			if ($entry->validate()) 
+			{
 				$entry->save();
-				$this->setSuccessFlash("Entry successfully added. " . CHtml::link('Back to listing.', array('index')));
+				$this->setSuccessFlash("Entry successfully added. " . CHtml::link('Back to listing.', array('index')).' Don\'t forget to check it in '.CHtml::link('discounts', array('discount/')));
 				$this->redirect(array('edit', 'id'=>$entry->id));
 			}
 		}
@@ -25,7 +27,6 @@ class MembershipController extends YsaAdminController
 	public function actionEdit($id)
 	{
 		$id = (int) $id;
-
 		$entry = Membership::model()->findByPk($id);
 
 		if (!$entry) {

@@ -24,6 +24,6 @@ class YsaHtml extends CHtml
     
     public static function pageHeaderTitle($name)
     {
-        return '<div class="darker-w"><section class="w page-header"><h2>' . $name . '</h2></section></div>';
+        return '<div class="page-header-wrapper"><section class="page-header"><h2>' . $name . '</h2></section></div>';
     }
 }

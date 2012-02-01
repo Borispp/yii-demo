@@ -239,12 +239,6 @@
 					'linkOptions' => array('class' => $this->getNavigationClass('faq')),
 				),
 				array(
-					'label'=>'Notifications',
-					'url'=>array('/admin/notification'),
-					'itemOptions' => array('class' => 'i_speech_bubbles_2'),
-					'linkOptions' => array('class' => $this->getNavigationClass('notification')),
-				),
-				array(
 					'label'=>'Newsletters',
 					'url'=>array('/admin/email'),
 					'itemOptions' => array('class' => 'i_mail'),

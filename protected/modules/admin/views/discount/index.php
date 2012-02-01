@@ -24,7 +24,7 @@
 		<tr>
 			<td><input type="checkbox" class="del" value="<?php echo $entry->id; ?>" name="ids[]" /></td>
 			<td class="l">
-				<?php echo CHtml::link($entry->code, array('edit', 'id' => $entry->id)); ?>
+				<?php echo CHtml::link($entry->code, array('edit', 'id' => $entry->id), array('title'=>$entry->description)); ?>
 			</td>
 			<td><?php echo $entry->summ ?>%</td>
 			<td>

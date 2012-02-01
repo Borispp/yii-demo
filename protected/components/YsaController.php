@@ -163,28 +163,33 @@ class YsaController extends CController
 
 	public function getWebsiteNavigationMenu()
 	{
+		$c = $this->getId();
+		$a = $this->getAction()->getId();
+		
 		if ($this->isWebsite()) {
 			$nav = array(
 				array('label'=>'Home', 'url'=>Yii::app()->homeUrl),
-				array('label'=>'About', 'url'=> array('about/')),
-				array('label'=>'Contact', 'url'=>array('contact/')),
+				array('label'=>'About', 'url'=> array('about/'), 'active' => $c == 'page' && $this->_slug == 'about'),
+				array('label'=>'Contact', 'url'=>array('contact/'), 'active' => $c == 'page' && $a == 'contact'),
 				array('label'=>'Blog', 'url'=>array('blog/')),
-				array('label'=>'Faq', 'url'=>array('faq/')),
-				array('label'=>'Tour', 'url'=>array('tour/')),
+				array('label'=>'Faq', 'url'=>array('faq/'), 'active' => $c == 'faq'),
+				array('label'=>'Tour', 'url'=>array('tour/'), 'active' => $c == 'tour'),
 				array('label'=>'Panel', 'url'=>array('member/'), 'visible' => !Yii::app()->user->isGuest),
+				array('label'=>'Login', 'url'=>array('/login'), 'visible' => Yii::app()->user->isGuest),
+				array('label'=>'Logout', 'url'=>array('/logout'), 'visible' => !Yii::app()->user->isGuest),
 			);
 		} else {
 			$nav = array(
-				array('label'=>'Home', 'url'=>Yii::app()->homeUrl),
-				array('label'=>'Application', 'url'=>array('application/')),
-				array('label'=>'Studio', 'url'=>array('studio/')),
-				array('label'=>'Events', 'url'=>array('event/')),
+				array('label'=>'Home', 'url'=>Yii::app()->homeUrl, 'active' => $c == 'default'),
+				array('label'=>'Application', 'url'=>array('application/'), 'active' => $c == 'application'),
+				array('label'=>'Studio', 'url'=>array('studio/'), 'active' => in_array($c, array('studio', 'link', 'person'))),
+				array('label'=>'Events', 'url'=>array('event/'), 'active' => in_array($c, array('event', 'album', 'photo'))),
 //				array('label'=>'Orders', 'url'=>array('order/')),
-				array('label'=>'Clients', 'url'=>array('client/')),
-				array('label'=>'Settings', 'url'=>array('settings/')),
+				array('label'=>'Clients', 'url'=>array('client/'), 'active' => $c == 'client'),
+				array('label'=>'Settings', 'url'=>array('settings/'), 'active' => $c == 'settings'),
+				array('label'=>'Logout', 'url'=>array('/logout'), 'visible' => !Yii::app()->user->isGuest),
 			);
 		}
-
 		return $nav;
 	}
 
@@ -210,15 +215,11 @@ class YsaController extends CController
 		$this->_renderVars[$name] = $value;
 	}
 	
-	public function loadPlupload($loadCss = false)
+	public function loadPlupload()
 	{
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/plupload/plupload.full.js', CClientScript::POS_END)
 				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/plupload/jquery.plupload.queue/jquery.plupload.queue.js', CClientScript::POS_END)
 				  ->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/plupload/jquery.ui.plupload/jquery.ui.plupload.js', CClientScript::POS_END);
-		
-//		  if ($loadCss) {
-//			  $this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/plupload/plupload.css');
-//		  }
 	}
 	
     /**
@@ -238,8 +239,7 @@ class YsaController extends CController
 					->registerMetaTag($this->getMetaKeywords(), 'keywords')
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/modernizr-2.0.6.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD)
-					->registerCssFile('http://fonts.googleapis.com/css?family=Candal')
-					->registerCssFile(Yii::app()->baseUrl . '/resources/css/style.css');
+					->registerCssFile('http://fonts.googleapis.com/css?family=Candal');
 
 		}
 		
