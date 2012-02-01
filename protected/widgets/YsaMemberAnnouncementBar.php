@@ -1,4 +1,8 @@
 <?php
+/**
+ * Widget is used to show notifications counter link, which will lead to announcement controller of member module.
+ * Will be shown only in member except announcement controller.
+ */
 class YsaMemberAnnouncementBar extends CWidget
 {
 	public function run()
