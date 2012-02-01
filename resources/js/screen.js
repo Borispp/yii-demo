@@ -112,4 +112,52 @@ $(function(){
 		});
 		return this;
 	};
+	
+	$.fn.equalHeights = function(px) {
+		$(this).each(function(){
+			var currentTallest = 0;
+			$(this).children().each(function(i){
+				if ($(this).height() > currentTallest) {currentTallest = $(this).height();}
+			});
+			if ($.browser.msie && $.browser.version == 6.0) {$(this).children().css({'height': currentTallest});}
+			$(this).children().css({'min-height': currentTallest}); 
+		});
+		return this;
+	};
+
+	// just in case you need it...
+	$.fn.equalWidths = function(px) {
+		$(this).each(function(){
+			var currentWidest = 0;
+			$(this).children().each(function(i){
+					if($(this).width() > currentWidest) {currentWidest = $(this).width();}
+			});
+			if ($.browser.msie && $.browser.version == 6.0) {$(this).children().css({'width': currentWidest});}
+			$(this).children().css({'min-width': currentWidest}); 
+		});
+		return this;
+	};
+	
+	$.fn.toEm = function(settings){
+		settings = jQuery.extend({
+			scope: 'body'
+		}, settings);
+		var that = parseInt(this[0],10),
+			scopeTest = jQuery('<div style="display: none; font-size: 1em; margin: 0; padding:0; height: auto; line-height: 1; border:0;">&nbsp;</div>').appendTo(settings.scope),
+			scopeVal = scopeTest.height();
+		scopeTest.remove();
+		return (that / scopeVal).toFixed(8) + 'em';
+	};
+
+
+	$.fn.toPx = function(settings){
+		settings = jQuery.extend({
+			scope: 'body'
+		}, settings);
+		var that = parseFloat(this[0]),
+			scopeTest = jQuery('<div style="display: none; font-size: 1em; margin: 0; padding:0; height: auto; line-height: 1; border:0;">&nbsp;</div>').appendTo(settings.scope),
+			scopeVal = scopeTest.height();
+		scopeTest.remove();
+		return Math.round(that * scopeVal) + 'px';
+	};
 });

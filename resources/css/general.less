@@ -32,6 +32,7 @@ a {
 /* Form elements
 *******************************/
 input[type=text],
+input[type=email],
 input[type=password],
 textarea {
     background: @white-alpha;
@@ -74,6 +75,34 @@ input[type=radio],
 input[type=button],
 button{
 	width:auto !important;
+}
+
+/* form error messages */
+div.error {
+	/* supply height to ensure consistent positioning for every browser */
+	height:15px;
+	font-size:11px;
+	color:@white-alpha;
+	padding:3px 10px;
+	margin-left:-2px;
+	background:@pink-bravo;
+	width:190px;
+
+	.rounded(4px);
+
+	.box-shadow(0px 0px 4px 0px rgba(0,0,0,.5));
+
+	em {
+		width: 0;
+		height: 0;
+		display:block;
+		border-top: 5px solid transparent;
+		border-left: 10px solid @pink-bravo;
+		border-bottom: 5px solid transparent;
+		right:-10px;
+		top:6px;
+		position:absolute;
+	}
 }
 
 /* Headers
@@ -243,3 +272,6 @@ footer {
 		}
 	}
 }
+
+
+

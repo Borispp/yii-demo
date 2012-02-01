@@ -56,7 +56,7 @@
 					</li>
 				</ul>
 			</div>
-			<div class="subscribe">
+			<div class="subscribe" id="newsletter-subscribe">
 				<h3>Subscribe to newsletter</h3>
 				<?php if (Yii::app()->user->hasFlash('newsletterSubscribed')) : ?>
 					<p><?php echo Yii::app()->user->getFlash('newsletterSubscribed'); ?></p>

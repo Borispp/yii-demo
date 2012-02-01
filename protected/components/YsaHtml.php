@@ -26,4 +26,11 @@ class YsaHtml extends CHtml
     {
         return '<div class="page-header-wrapper"><section class="page-header"><h2>' . $name . '</h2></section></div>';
     }
+	
+	public static function activeEmailField($model,$attribute,$htmlOptions=array())
+	{
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		self::clientChange('change',$htmlOptions);
+		return self::activeInputField('email',$model,$attribute,$htmlOptions);
+	}
 }

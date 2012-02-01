@@ -238,6 +238,10 @@ class YsaController extends CController
 					->registerMetaTag($this->getMetaDescription(), 'description')
 					->registerMetaTag($this->getMetaKeywords(), 'keywords')
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/modernizr-2.0.6.js', CClientScript::POS_HEAD)
+//					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jquery.html5form-1.5.js', CClientScript::POS_HEAD)
+//					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jquery.tools.min.js', CClientScript::POS_HEAD)
+					->registerScriptFile('http://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js', CClientScript::POS_HEAD)
+					
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD)
 					->registerCssFile('http://fonts.googleapis.com/css?family=Candal');
 
