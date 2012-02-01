@@ -128,6 +128,7 @@ class Announcement extends YsaActiveRecord
 		$params = array('user_id' => $member->id);
 		if ($unreadOnly)
 			$params['read'] = NULL;
+		
 		return AnnouncementUser::model()->findAllByAttributes($params);
 	}
 

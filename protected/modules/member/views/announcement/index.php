@@ -9,22 +9,18 @@
 					<thead>
 					<tr>
 						<th>Message</th>
-						<th class="actions">Mark as read</th>
 					</tr>
 					</thead>
 					<tbody>
 					<?php if (count($announcements)) : ?>
 						<?php foreach ($announcements as $announcement) : ?>
 						<tr>
-							<td><?php echo nl2br($announcement->announcement->message)?></td>
-							<td class="actions">
-								<?php echo YsaHtml::link('Mark as read', array('announcement/MarkRead/id/' . $announcement->announcement->id), array('class' => '', 'title' => 'Read Message')); ?>
-							</td>
+							<td><?php echo nl2br($announcement->message)?></td>
 						</tr>
-							<?php endforeach; ?>
+						<?php endforeach; ?>
 						<?php else:?>
 					<tr>
-						<td colspan="3" class="empty-list">
+						<td class="empty-list">
 							No unread announcements
 						</td>
 					</tr>
