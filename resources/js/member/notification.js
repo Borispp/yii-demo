@@ -7,10 +7,8 @@ jQuery(function($){
 			{
 				return $('#response-message').fadeIn().html(data.message);
 			}
-			form.fadeOut('fast', function(){
-				$.fancybox.close();
-				$._flash(data.message, {type:'success'});
-			});
+			$.fancybox.close();
+			$._flash(data.message, {type:'success'});
 		});
 		return false;
 	});

@@ -21,8 +21,8 @@ class AnnouncementController extends YsaMemberController
 			}
 			$this->sendJsonError();
 		}
-		$notification = Notification::model()->findByPk($id);
-		if ($notification->read($this->member()) && $this->_isAjax)
+		$announcement = Announcement::model()->findByPk($id);
+		if ($announcement->read($this->member()) && $this->_isAjax)
 			$this->sendJsonSuccess();
 		$this->redirect(array('announcement/'));
 	}
@@ -31,7 +31,7 @@ class AnnouncementController extends YsaMemberController
 	{
 		$this->setMemberPageTitle('Announcements');
 		$this->render('index', array(
-			'announcements' => Notification::model()->findAllByMember($this->member(), TRUE)
+			'announcements' => Announcement::model()->findAllByMember($this->member(), TRUE)
 		));
 	}
 }

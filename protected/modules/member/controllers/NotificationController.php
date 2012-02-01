@@ -5,68 +5,134 @@ class NotificationController extends YsaMemberController
 	{
 		parent::init();
 	}
-	
+
 	public function actionNew($recipient, $type = NULL)
 	{
-		return $this->renderPartial('new', array(
-			'type'		=> empty($type) || !in_array($type, array('event', 'client', 'all')) ? 'all' : $type,
-			'recipient'	=> $recipient
-		));
+		$type = (empty($type) || !in_array($type, array('event', 'client', 'all'))) ? 'all' : $type;
+		$title = 'Send Push Notification to ';
+		switch ($type)
+		{
+			case 'event':
+				$event = Event::model()->findByPk($recipient);
+				$title .= $event->name;
+				break;
+			case 'client':
+				$client = Client::model()->findByPk($recipient);
+				$title .= $client->name;
+				break;
+			default:
+				$title .= 'all';
+		}
+		if (Yii::app()->request->isAjaxRequest || isset($_GET['iframe'])) {
+			$this->renderPartial('new', array(
+				'formAction' => Yii::app()->createAbsoluteUrl('/member/notification/sendto'.$type),
+				'recipient'  => $recipient,
+				'title'      => $title
+			));
+			Yii::app()->end();
+		}
+
+		$this->setMemberPageTitle('Send Push Notification');
+		if ($type == 'event')
+			$this->crumb('Events', array('event/'));
+		else
+			$this->crumb('Clients', array('client/'));
+		$this->crumb('Send Push Notification');
+
+		$this->render('new', array(
+				'title'      => $title,
+				'formAction' => Yii::app()->createAbsoluteUrl('/member/notification/sendto'.$type),
+				'recipient'  => $recipient
+			));
 	}
 
 	/**
-	 * @todo make three methods to send notification with
-	 * @return void
+	 * @return ApplicationNotification|void
 	 */
-	public function actionSend()
+	protected function _createNotification()
 	{
-		$commonError = 'Notification send failed. Please refresh window and try again. If you see this message several times fill free to contact us.';
-		if (!empty($_POST['type']) && in_array($_POST['type'], array('event', 'client')) && empty($_POST['recipient']))
-		{
-			return $this->sendJson(array('state' => FALSE, 'message' => $commonError));
-		}
-		if (empty($_POST['message']))
-		{
-			return $this->sendJson(array('state' => FALSE, 'message' => 'Message is empty. Please fill it up and try again.'));
-		}
-		
 		$entry = new ApplicationNotification();
 		$entry->application_id = $this->member()->application->id;
-		$entry->message = $_POST['message'];
+		$entry->message = @$_POST['message'];
 		if (!$entry->validate())
 		{
-			return $this->sendJson(array('state' => FALSE, 'message' => $commonError));
+			$this->_sendError($entry->getError('message'));
 		}
 		$entry->save();
-		
-		if (isset($_POST['type']) && $_POST['type'] == 'event')
-		{
-			$obEvent = Event::model()->findByPk($_POST['recipient']);
-			if (!$obEvent->isActive() || $obEvent->user_id != $this->member()->id)
-			{
-				$entry->delete();
-				return $this->sendJson(array('state' => FALSE, 'message' => 'You can\'t send notification to this event viewers.'));
-			}
-			$entry->appendToEvent($obEvent);
-		}
-		elseif (isset($_POST['type']) && $_POST['type'] == 'client')
-		{
-			$obClient = Client::model()->findByPk($_POST['recipient']);
-			if (!$obClient->isActive() || $obClient->user_id != $this->member()->id)
-			{
-				$entry->delete();
-				return $this->sendJson(array('state' => FALSE, 'message' => 'You can\'t send notification to this client.'));
-			}
-			$entry->appendToClient($obClient);
-		}
-		else
-		{
-			foreach($this->member()->client as $obClient)
-			{
-				if ($obClient->isActive())
-					$entry->appendToClient($obClient);
-			}
-		}
+		return $entry;
+	}
+
+	protected function _sendSuccess()
+	{
 		return $this->sendJson(array('state' => TRUE, 'message' => 'Your notification has been sent.'));
+	}
+
+	protected function _sendError($message = 'Notification send failed. Please refresh window and try again. If you see this message several times fill free to contact us.')
+	{
+		return $this->sendJson(array('state' => FALSE, 'message' => $message));
+	}
+
+	public function actionSendToClient()
+	{
+		$notification = $this->_createNotification();
+		if (empty($_POST['recipient']) || !($client = Client::model()->findByPk($_POST['recipient'])))
+		{
+			$notification->delete();
+			return $this->_sendError('Client not found.');
+		}
+		if (($result = $notification->appendToClient($client)) !== TRUE)
+		{
+			$errorText = '';
+			foreach($result as $errors)
+			{
+				foreach($errors as $error)
+				{
+					$errorText .= ($errorText ? ' and ' : '').$error;
+				}
+			}
+			$notification->delete();
+			$this->_sendError($errorText);
+		}
+		$this->_sendSuccess();
+	}
+
+	public function actionSendToEvent()
+	{
+		$notification = $this->_createNotification();
+		if (empty($_POST['recipient']) || !($event = Event::model()->findByPk($_POST['recipient'])))
+		{
+			$notification->delete();
+			return $this->_sendError('Event not found.');
+		}
+		//@todo Make better errors handling
+		if (($result = $notification->appendToEvent($event)) !== TRUE)
+		{
+			$errorText = '';
+			foreach($result as $errors)
+			{
+				foreach($errors as $error)
+				{
+					$errorText .= ($errorText ? ' and ' : '').$error;
+				}
+			}
+			$notification->delete();
+			$this->_sendError($errorText);
+		}
+		return $this->_sendSuccess();
+	}
+
+	/**
+	 * Send to all clients (create one-by-one relation)
+	 * @return void
+	 */
+	public function actionSendToAll()
+	{
+		$entry = $this->_createNotification();
+		foreach($this->member()->client as $obClient)
+		{
+			if ($obClient->isActive())
+				$entry->appendToClient($obClient);
+		}
+		$this->_sendSuccess();
 	}
 }

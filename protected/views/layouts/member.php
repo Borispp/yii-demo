@@ -10,7 +10,6 @@
 		'links' => $this->breadcrumbs,
 	)); ?>
 </div>
-<?php $this->widget('YsaMemberAnnouncementBar'); ?>
 
 <?php echo $content; ?>
 

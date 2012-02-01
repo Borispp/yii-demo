@@ -48,7 +48,7 @@
 									<?php elseif ($obUserSubscription->state == UserSubscription::STATE_ACTIVE) :?>
 										<?php echo YsaHtml::link('Details', array('subscription/details/id/' . $obUserSubscription->Transaction->id . '/'), array('class' => 'btn small')); ?>
 									<?php endif?>
-								</th>
+								</td>
 							</tr>
 							<?php endforeach;?>
 						</tbody>

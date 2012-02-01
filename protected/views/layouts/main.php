@@ -18,6 +18,7 @@
 <body>
     <div id="header-wrapper">
         <header class="w cf">
+			<?php $this->widget('YsaMemberAnnouncementBar')?>
             <h1><a href="<?php echo Yii::app()->homeUrl; ?>">YourStudioApp</a></h1>
             <nav>
                 <?php $this->widget('YsaMenu',array(

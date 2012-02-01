@@ -43,7 +43,29 @@ class ApplicationNotificationEvent extends YsaActiveRecord
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, app_notification_id, event_id', 'safe', 'on'=>'search'),
+			array('event_id', 'eventValidation')
 		);
+	}
+
+	public function eventValidation()
+	{
+		$event = Event::model()->findByPk($this->event_id);
+		if ($event->user_id != Yii::app()->user->getId())
+		{
+			$this->addError('event_id', 'Restricted access to selected event');
+			return FALSE;
+		}
+		if (!$event->isActive())
+		{
+			$this->addError('event_id', 'Event is inactive');
+			return FALSE;
+		}
+		if (!$event->isPortfolio())
+		{
+			$this->addError('event_id', 'You can\'t send notification to portfolio event');
+			return FALSE;
+		}
+		return TRUE;
 	}
 
 	/**
