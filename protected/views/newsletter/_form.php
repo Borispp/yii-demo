@@ -13,7 +13,7 @@
 	</section>
 	<div id="newsletter-subscribe-form-errors"></div>
 	<p class="fr">	
-		<?php echo CHtml::submitButton('Subscribe', array('class' => 'blue')); ?>
+		<?php echo YsaHtml::submitButton('Subscribe', array('class' => 'blue')); ?>
 	</p>
 	<?php $this->endWidget(); ?>
 </div>
