@@ -24,7 +24,7 @@
 	</div>
 	
 	<div class="links cf">
-		<?php echo YsaHtml::link('Register', array('register/'), array('class' => 'reg')); ?><span>|</span><?php echo YsaHtml::link("Lost Password?", array('recovery/'), array('class' => 'lost')); ?>
+		<?php echo YsaHtml::link('Register', array('login/'), array('class' => 'reg')); ?><span>|</span><?php echo YsaHtml::link("Lost Password?", array('recovery/'), array('class' => 'lost')); ?>
 	</div>
 <?php $this->endWidget(); ?>
 </div><!-- form -->

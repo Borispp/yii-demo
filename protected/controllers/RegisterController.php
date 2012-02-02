@@ -40,8 +40,7 @@ class RegisterController extends YsaFrontController
 		if(isset($_POST['RegistrationForm'])) 
 		{
 			$model->attributes = $_POST['RegistrationForm'];
-			if ( $this->_register($model) )
-			{
+			if ($model->register()) {
 				$this->setSuccess( 'Thank you for your registration. Please check your email' );
 				$this->redirect(array('login/'));
 			}

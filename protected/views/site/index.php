@@ -2,7 +2,7 @@
 	<div class="homepage-header-wrapper">
 		<section id="homepage-header">
 			<h2>YourStudioApp</h2>
-			<a href="<?php echo Yii::app()->createUrl('/register')?>" class="signup">
+			<a href="<?php echo Yii::app()->createUrl('/login')?>" class="signup">
 				<span class="sign">Sign Up Now</span>
 				<span class="arr">&gt;</span>
 				<span class="click">click here</span>
@@ -23,7 +23,7 @@
 				<div class="buttons">
 					<?php echo YsaHtml::link('Tour', array('/tour'), array('class' => 'btn black')); ?>
 					<span></span>
-					<?php echo YsaHtml::link('Get Started', array('/register'), array('class' => 'btn blue')); ?>
+					<?php echo YsaHtml::link('Get Started', array('/login'), array('class' => 'btn blue')); ?>
 				</div>
 			</div>
 			<div class="video">
