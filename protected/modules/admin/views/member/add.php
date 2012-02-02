@@ -1,8 +1,8 @@
 <div class="g12">
     <div class="form">
         <?php $form=$this->beginWidget('YsaAdminForm', array(
-                'id'=>'member-form',
-                'enableAjaxValidation'=>false,
+                'id'                   => 'member-form',
+                'enableAjaxValidation' => false,
         )); ?>
         <fieldset>
             <label>General Information</label>
