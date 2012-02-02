@@ -126,14 +126,14 @@ class StudioController extends YsaApiController
 	{
 		$this->_validateVars(array(
 			'event_id'	=> array(
-				'message'	=> 'No event ID found',
+				'message'	=> Yii::t('api', 'event_no_id'),
 				'required'	=> TRUE
 			),
 		));
 		if (!$this->_getEvent()->isPortfolio())
-			$this->_renderError('Requested event should be portfolio');
+			$this->_renderError(Yii::t('api', 'event_album_is_not_portfolio'));
 		if (!$this->_getEvent()->isActive())
-			$this->_renderError('Requested event is blocked');
+			$this->_renderError(Yii::t('api', 'event_is_blocked'));
 		$this->_render($this->_getEventInformation($this->_getEvent()));
 	}
 
@@ -187,11 +187,11 @@ class StudioController extends YsaApiController
 	{
 		$this->_validateVars(array(
 				'album_id' => array(
-					'message'	=> 'Album id must not be empty',
+					'message'	=> Yii::t('api', 'event_album_no_id'),
 					'required'	=> TRUE,
 				),
 				'checksum' => array(
-					'message'	=> 'Checksum id must not be empty',
+					'message'	=> Yii::t('api', 'event_album_no_id'),
 					'required'	=> TRUE,
 				),
 			));
@@ -212,12 +212,12 @@ class StudioController extends YsaApiController
 	{
 		$this->_validateVars(array(
 				'album_id' => array(
-					'message'	=> 'Gallery id must not be empty',
+					'message'	=> Yii::t('api', 'event_album_no_id'),
 					'required'	=> TRUE,
 				),
 			));
 		if (!$this->_getEventAlbum(TRUE)->photos)
-			$this->_renderError('Album has no photos');
+			$this->_renderError(Yii::t('api', 'event_album_no_photos'));
 		$params = array();
 		foreach($this->_getEventAlbum(TRUE)->photos as $obPhoto)
 			$params['images'][] = $this->_getPhotoInfo($obPhoto);
@@ -234,17 +234,17 @@ class StudioController extends YsaApiController
 	{
 		$this->_validateVars(array(
 				'album_id' => array(
-					'message'	=> 'Album id must not be empty',
+					'message'	=> Yii::t('api', 'event_album_no_id'),
 					'required'	=> TRUE,
 				),
 				'photo_id' => array(
-					'message'	=> 'Photo id must not be empty',
+					'message'	=> Yii::t('api', 'event_album_photo_no_id'),
 					'required'	=> TRUE,
 				),
 			));
 		$this->_getEventAlbum(TRUE);
 		if (!$this->_getEventPhoto())
-			$this->_renderError('Album has no such photo');
+			$this->_renderError(Yii::t('api', 'event_album_photo_is_wrong'));
 		$this->_render($this->_getPhotoInfo($this->_getEventPhoto()));
 	}
 }
