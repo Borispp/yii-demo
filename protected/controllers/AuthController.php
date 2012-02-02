@@ -44,7 +44,7 @@ class AuthController extends YsaFrontController
 			$register->attributes = $_POST['RegistrationForm'];
 			if ($register->register()) {
 				$this->setSuccess( 'Thank you for your registration. Please check your email' );
-				$this->redirect('login/');
+				$this->redirect(array('login/'));
 			}
 			
 			$register->password = '';
