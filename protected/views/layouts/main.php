@@ -30,7 +30,7 @@
                 )); ?>
             </nav>
 			<div id="login-window">
-				<?php $this->renderPartial('/auth/_form', array(
+				<?php $this->renderPartial('//auth/_form', array(
 					'model' => new LoginForm(),
 				))?>
 			</div>
