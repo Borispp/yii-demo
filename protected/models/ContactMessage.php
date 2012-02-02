@@ -41,11 +41,10 @@ class ContactMessage extends YsaActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, email', 'length', 'max'=>100),
-			array('subject', 'length', 'max'=>200),
+			array('name, email, studio_name, studio_website, phone_number', 'length', 'max'=>100),
 			array('email', 'email'),
-			array('message, name, email, subject', 'required'),
-			array('created, updated, captcha', 'safe'),
+			array('message, name, email', 'required'),
+			array('created, updated, captcha, studio_website, phone_number, studio_name', 'safe'),
 //			array('captcha', 'captcha', 'allowEmpty'=>!CCaptcha::checkRequirements()),
 		);
 	}

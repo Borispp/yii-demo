@@ -23,10 +23,26 @@
 		</section>
 
 		<section>
-			<?php echo $form->labelEx($entry,'subject'); ?>
+			<?php echo $form->labelEx($entry,'studio_name'); ?>
 			<div>
-				<?php echo $form->textField($entry,'subject'); ?>
-				<?php echo $form->error($entry,'subject'); ?>
+				<?php echo $form->textField($entry,'studio_name'); ?>
+				<?php echo $form->error($entry,'studio_name'); ?>
+			</div>
+		</section>
+		
+		<section>
+			<?php echo $form->labelEx($entry,'studio_website'); ?>
+			<div>
+				<?php echo $form->textField($entry,'studio_website'); ?>
+				<?php echo $form->error($entry,'studio_website'); ?>
+			</div>
+		</section>
+		
+		<section>
+			<?php echo $form->labelEx($entry,'phone_number'); ?>
+			<div>
+				<?php echo $form->textField($entry,'phone_number'); ?>
+				<?php echo $form->error($entry,'phone_number'); ?>
 			</div>
 		</section>
 		

@@ -29,6 +29,11 @@
                     'items'=> $this->getWebsiteNavigationMenu(),
                 )); ?>
             </nav>
+			<div id="login-window">
+				<?php $this->renderPartial('//auth/_form', array(
+					'model' => new LoginForm(),
+				))?>
+			</div>
         </header>
     </div>
     <section id="content" class="cf">

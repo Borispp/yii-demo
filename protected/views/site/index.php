@@ -2,20 +2,16 @@
 	<div class="homepage-header-wrapper">
 		<section id="homepage-header">
 			<h2>YourStudioApp</h2>
-			
 			<a href="<?php echo Yii::app()->createUrl('/register')?>" class="signup">
 				<span class="sign">Sign Up Now</span>
 				<span class="arr">&gt;</span>
 				<span class="click">click here</span>
 			</a>
-			
-			
 			<div class="slider">
 				<ul>
 					<li><span class="slide1"></span></li>
 				</ul>
 			</div>
-			
 		</section>
 	</div>
 
@@ -67,18 +63,6 @@
 					)); ?>
 				<?php endif; ?>
 			</div>
-		</div>
-	</div>
-	
-	<div class="homepage-idea-wrapper">
-		<div id="homepage-idea">
-			<h2>The Idea</h2>
-			<ul>
-				<li class="step1">
-					<h4>Set Up <span>Account</span></h4>
-					<p>Small step for a big and great productuser interface</p>
-				</li>
-			</ul>
 		</div>
 	</div>
 </div>
