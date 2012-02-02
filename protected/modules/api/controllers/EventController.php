@@ -37,11 +37,11 @@ class EventController extends YsaApiController
 	{
 		$this->_validateVars(array(
 				'password'	=> array(
-					'message'	=> 'No password received',
+					'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'password')),
 					'required'	=> TRUE,
 				),
 				'event_id'	=> array(
-					'message'	=> 'No event ID found',
+					'message'	=> Yii::t('api', 'event_no_id'),
 					'required'	=> TRUE
 				),
 			));
@@ -49,14 +49,14 @@ class EventController extends YsaApiController
 		{
 			$this->_render(array(
 				'state'		=> 0,
-				'message'	=> 'Access Denied',
+				'message'	=> Yii::t('api', 'event_add_wrong_client'),
 			));
 		}
 		if (!$this->_obClient->addPhotoEvent($this->_getEvent(), 'client'))
 		{
 			$this->_render(array(
 				'state'		=> 0,
-				'message'	=> 'Operation Failed',
+				'message'	=> Yii::t('api', 'event_add_failed'),
 			));
 		}
 		$this->_render(array(
@@ -76,7 +76,7 @@ class EventController extends YsaApiController
 		$this->_render(($this->_obClient->removePhotoEvent($this->_getEvent(), 'client')) ?
 				array('state' => 1, 'message' => NULL)
 			:
-				array('state' => 0, 'message' => 'Operation failed')
+				array('state' => 0, Yii::t('api', 'event_remove_failed'))
 		);
 	}
 
@@ -109,7 +109,7 @@ class EventController extends YsaApiController
 	{
 		$this->_validateVars(array(
 			'event_id'	=> array(
-				'message'	=> 'No event ID found',
+				'message'	=> Yii::t('api', 'event_no_id'),
 				'required'	=> TRUE
 			),
 		));
@@ -117,7 +117,7 @@ class EventController extends YsaApiController
 		{
 			$this->_render($this->_getEventInformation($this->_getEvent()));
 		}
-		$this->_renderError('Access denied');
+		$this->_renderError(Yii::t('api', 'event_get_info_failed'));
 	}
 
 	/**
@@ -168,11 +168,11 @@ class EventController extends YsaApiController
 	{
 		$this->_validateVars(array(
 				'album_id' => array(
-					'message'	=> 'Album id must not be empty',
+					'message'	=> Yii::t('api', 'event_album_no_id'),
 					'required'	=> TRUE,
 				),
 				'checksum' => array(
-					'message'	=> 'Checksum id must not be empty',
+					'message'	=> Yii::t('api', 'common_no_checksumm'),
 					'required'	=> TRUE,
 				),
 			));
@@ -193,12 +193,12 @@ class EventController extends YsaApiController
 	{
 		$this->_validateVars(array(
 				'album_id' => array(
-					'message'	=> 'Gallery id must not be empty',
+					'message'	=> Yii::t('api', 'event_album_no_id'),
 					'required'	=> TRUE,
 				),
 			));
 		if (!$this->_getEventAlbum()->photos)
-			$this->_renderError('Album has no photos');
+			$this->_renderError(Yii::t('api', 'event_album_no_photos'));
 		$params = array();
 		foreach($this->_getEventAlbum()->photos as $obPhoto)
 			$params['images'][] = $this->_getPhotoInfo($obPhoto);
@@ -215,17 +215,17 @@ class EventController extends YsaApiController
 	{
 		$this->_validateVars(array(
 				'album_id' => array(
-					'message'	=> 'Album id must not be empty',
+					'message'	=> Yii::t('api', 'event_album_no_id'),
 					'required'	=> TRUE,
 				),
 				'photo_id' => array(
-					'message'	=> 'Photo id must not be empty',
+					'message'	=> Yii::t('api', 'event_album_photo_no_id'),
 					'required'	=> TRUE,
 				),
 			));
 		$this->_getEventAlbum();
 		if (!$this->_getEventPhoto())
-			$this->_renderError('Album has no such photo');
+			$this->_renderError(Yii::t('api', 'event_album_photo_is_wrong'));
 		$this->_render($this->_getPhotoInfo($this->_getEventPhoto()));
 	}
 
@@ -241,27 +241,27 @@ class EventController extends YsaApiController
 	{
 		$this->_validateVars(array(
 				'album_id' => array(
-					'message'	=> 'Album id must not be empty',
+					'message'	=> Yii::t('api', 'event_album_no_id'),
 					'required'	=> TRUE,
 				),
 				'photo_id' => array(
-					'message'	=> 'Photo id must not be empty',
+					'message'	=> Yii::t('api', 'event_album_photo_no_id'),
 					'required'	=> TRUE,
 				),
 				'rate'		=> array(
-					'message'	=> 'Photo rate 0 or 1 is required',
+					'message'	=> Yii::t('api', 'event_no_rate'),
 					'required'	=> TRUE,
 				)
 			));
 		$this->_getEventAlbum();
 		if (!$this->_getEventPhoto())
-			$this->_renderError('Album has no such photo');
+			$this->_renderError(Yii::t('api', 'event_album_photo_is_wrong'));
 		$obEventPhotoRate = EventPhotoRate::model()->findByAttributes(array(
 				'device_id'		=> $_POST['device_id'],
 				'photo_id'		=> $_POST['photo_id']
 			));
 		if ($obEventPhotoRate)
-			$this->_renderError('Photo\'d been already rated');
+			$this->_renderError(Yii::t('api', 'event_already_rated'));
 		$obEventPhotoRate = new EventPhotoRate();
 		$obEventPhotoRate->photo_id = $_POST['photo_id'];
 		$obEventPhotoRate->device_id = $_POST['device_id'];
@@ -269,7 +269,7 @@ class EventController extends YsaApiController
 		if (!$obEventPhotoRate->validate())
 			$this->_render(array(
 					'state'		=> FALSE,
-					'message'	=> 'Photo rate validation failed',
+					'message'	=> Yii::t('api', 'event_rate_failed'),
 					'rank'		=> $this->_getEventPhoto()->rating()
 				));
 		$obEventPhotoRate->save();
@@ -291,29 +291,29 @@ class EventController extends YsaApiController
 		$this->_validateAuth();
 		$this->_validateVars(array(
 				'album_id' => array(
-					'message'	=> 'Album id must not be empty',
+					'message'	=> Yii::t('api', 'event_album_no_id'),
 					'required'	=> TRUE,
 				),
 				'photo_id' => array(
-					'message'	=> 'Photo id must not be empty',
+					'message'	=> Yii::t('api', 'event_album_photo_no_id'),
 					'required'	=> TRUE,
 				),
 				'comment' => array(
-					'message'	=> 'Comment must not be empty',
+					'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'comment')),
 					'required'	=> TRUE,
 				),
 
 			));
 		$this->_getEventAlbum();
 		if (!$this->_getEventPhoto())
-			$this->_renderError('Album has no such photo');
+			$this->_renderError(Yii::t('api', 'event_album_photo_is_wrong'));
 		$obComment = new EventPhotoComment();
 		$obComment->comment = $_POST['comment'];
 		$obComment->photo_id = $this->_getEventPhoto()->id;
 		if (!$obComment->validate())
 			$this->_render(array(
 					'state'				=> FALSE,
-					'message'			=> 'Comment validation failed',
+					'message'			=> Yii::t('api', 'event_comment_validation_failed'),
 					'comments_number'	=> count($this->_getEventPhoto()->comments)
 				));
 		$obComment->save();
@@ -357,11 +357,11 @@ class EventController extends YsaApiController
 	{
 		$this->_validateVars(array(
 			'subject' => array(
-				'message'	=> 'Subject must be not empty',
+				'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'subject')),
 				'required'	=> TRUE,
 			),
 			'message' => array(
-				'message'	=> 'Message must be not empty',
+				'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'message')),
 				'required'	=> TRUE,
 			))
 		);
