@@ -1550,10 +1550,10 @@ tango, uniform, victor, whiskey, x-ray, yankee, zulu.
   text-shadow: none;
 }
 ::-webkit-input-placeholder {
-  color: #ffffff;
+  color: #777777;
 }
 input:-moz-placeholder {
-  color: #ffffff;
+  color: #777777;
 }
 html,
 body,
