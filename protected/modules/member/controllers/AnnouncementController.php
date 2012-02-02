@@ -1,19 +1,10 @@
 <?php
 class AnnouncementController extends YsaMemberController
 {
-	protected $_isAjax = FALSE;
-
-	public function init()
-	{
-		parent::init();
-		$this->renderVar('hideAnnouncementBar', TRUE);
-		$this->crumb('Announcements', array('announcement/'));
-		$this->_isAjax = Yii::app()->request->isAjaxRequest || isset($_GET['iframe']);
-	}
-
 	public function actionIndex()
 	{
-		$this->setMemberPageTitle('Announcements');
+		$this->crumb(Yii::t('title', 'announcement'), array('announcement/'));
+		$this->setMemberPageTitle(Yii::t('title', 'announcement'));
 		$announcementList = Announcement::model()->getMemberAnnouncements($this->member(), TRUE);
 		foreach($announcementList as $announcement)
 		{

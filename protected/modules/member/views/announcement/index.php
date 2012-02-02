@@ -1,14 +1,14 @@
 <div class="w" id="announcement-list">
 	<section class="box">
 		<div class="box-title">
-			<h3>Announcements</h3>
+			<h3><?php echo Yii::t('title', 'announcement')?></h3>
 		</div>
 		<div class="box-content">
 			<div class="data-box shadow-box">
 				<table class="data">
 					<thead>
 					<tr>
-						<th>Message</th>
+						<th><?php echo Announcement::model()->getAttributeLabel('message')?></th>
 					</tr>
 					</thead>
 					<tbody>
@@ -21,7 +21,7 @@
 						<?php else:?>
 					<tr>
 						<td class="empty-list">
-							No unread announcements
+							<?php echo Yii::t('notice', 'no_unread_announcements')?>
 						</td>
 					</tr>
 						<?php endif; ?>
