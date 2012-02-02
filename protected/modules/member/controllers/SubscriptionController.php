@@ -209,6 +209,7 @@ class SubscriptionController extends YsaMemberController
 		if (isset($_POST['ids']) && count($_POST['ids'])) {
 			$ids = $_POST['ids'];
 		} elseif ($subscriptionId) {
+			
 			$ids = array(intval($subscriptionId));
 		}
 		
