@@ -30,12 +30,23 @@ class PageController extends YsaFrontController
 		
 		if (isset($_POST['ContactMessage'])) {
 			$entry->attributes = $_POST['ContactMessage'];
-			
 			if ($entry->validate()) {
 				$entry->save();
 				$entry->sendEmail();
-				$this->setSuccess('Thank you for your message!');
-				$this->refresh();
+				
+				if (Yii::app()->request->isAjaxRequest) {
+					$this->sendJsonSuccess(array(
+						'msg' => Yii::t('notice', 'contact_thank_you'),
+					));
+				} else {				
+					$this->setSuccess('Thank you for your message!');
+					$this->refresh();					
+				}
+			}
+			if (Yii::app()->request->isAjaxRequest) {
+				$this->sendJsonError(array(
+					'msg' => Yii::t('error', 'standart_error'),
+				));
 			}
 		}
 		

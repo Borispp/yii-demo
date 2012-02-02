@@ -87,11 +87,13 @@ div.error {
 	margin-left:-2px;
 	background:@pink-bravo;
 	width:190px;
-
 	.rounded(4px);
-
 	.box-shadow(0px 0px 4px 0px rgba(0,0,0,.5));
-
+	p {
+		margin:0;
+		text-align:center;
+		line-height:15px;
+	}
 	em {
 		width: 0;
 		height: 0;
@@ -104,6 +106,25 @@ div.error {
 		position:absolute;
 	}
 }
+
+div.error-top {
+	/* supply height to ensure consistent positioning for every browser */
+	height:15px;
+	font-size:11px;
+	color:@white-alpha;
+	padding:3px 10px;
+	margin-left:-2px;
+	background:@pink-bravo;
+	width:190px;
+	.rounded(4px);
+	.box-shadow(0px 0px 4px 0px rgba(0,0,0,.5));
+	p {
+		margin:0;
+		line-height:15px;
+		text-align:center;
+	}
+}
+
 
 /* Headers
 *******************************/
@@ -294,14 +315,16 @@ header {
 	input[type="text"],
 	input[type="email"],
 	input[type="password"] {
-		font-size:11px;
+		font-size:13px;
+		padding:10px;
+		width:192px;
 	}
 
 	.ico-name,
 	.ico-pass {
 		position:absolute;
-		right:8px;
-		top:8px;
+		right:12px;
+		top:12px;
 		width:17px;
 		height:14px;
 		background-repeat:no-repeat;
@@ -316,8 +339,8 @@ header {
 
 	.remember {
 		float:left;
-		font-size:11px;
-		line-height:30px;
+		font-style:italic;
+		line-height:34px;
 	}
 	input[type=submit] {
 		float:right;
@@ -336,6 +359,8 @@ header {
 		margin:0;
 		padding:48px 24px;
 		font-weight: normal;
+		text-transform:none;
+		font-size: 22px;
 	}
 }
 

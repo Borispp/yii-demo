@@ -1,11 +1,51 @@
-<div class="homepage-idea-wrapper">
-	<div id="homepage-idea">
-		<h2>The Idea</h2>
-		<ul>
-			<li class="step1">
-				<h4>Set Up <span>Account</span></h4>
-				<p>Small step for a big and great productuser interface</p>
-			</li>
-		</ul>
+<div class="general-page" id="pricing">
+	<div class="content">
+		<div class="idea">
+			<h2><?php echo Yii::t('general', 'The Idea'); ?></h2>
+			<span class="image"></span>
+		</div>
+		
+		<div class="cf">
+			<div class="sign">
+				<h1><?php echo $signupnow->title; ?></h1>
+				<?php echo $signupnow->content; ?>
+			</div>
+			<div class="price">
+				<div class="image cf">
+					<div class="app">
+						<h2>Application Creation</h2>
+						<span class="p"><del>$1000</del><ins>$500</ins></span>
+						<ul>
+							<li>Nunc semper risus ac felis lacinia </li>
+							<li>Nunc semper risus ac felis lacinia </li>
+							<li>Nunc semper risus ac felis lacinia </li>
+						</ul>
+					</div>
+					<span class="separator"></span>
+					<span class="and">and</span>
+					<div class="host">
+						<h2>Hosting</h2>
+						<span class="p"><del>$20</del><ins>free</ins></span>
+						<ul>
+							<li>Nunc semper risus ac felis lacinia </li>
+							<li>Nunc semper risus ac felis lacinia </li>
+							<li>Nunc semper risus ac felis lacinia </li>
+						</ul>
+					</div>
+					
+					
+				</div>
+				
+				
+				
+				
+				<div class="get-started">
+					<?php echo YsaHtml::link('Get Started', array('/login'), array('class' => 'btn')); ?>
+				</div>
+				<p>
+					Introductory pricing is for a very limited time, <br/>be one of the first and get started on creating your application!
+				</p>
+			</div>
+		</div>
 	</div>
 </div>

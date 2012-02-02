@@ -1,7 +1,7 @@
-<div class="form">
+<div class="large-form form">
 	<?php $form=$this->beginWidget('YsaForm', array(
 		'id'=>'login-window-form',
-		'action' => array('auth/login/')
+		'action' => array('login/')
 	)); ?>
 	<div class="rows">
 		<div class="row">

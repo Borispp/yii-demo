@@ -83,6 +83,8 @@ class AlbumController extends YsaMemberController
 		$photoSizes = PhotoSize::model()->findActive();
 		$availability = new AlbumPhotoAvailability();
 		
+		$availability->can_save =$entry->canSave();
+		$availability->can_order = $entry->canOrder();
 		$availability->order_link = $entry->order_link;
 		
 		
