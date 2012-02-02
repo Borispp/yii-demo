@@ -242,12 +242,12 @@ class Member extends User
 	}
 
 	/**
-	 * @param YsaNotificationMessage $obNotificationMessage
+	 * @param YsaAnnouncementMessage $announcementMessage
 	 * @return void
 	 */
-	public function notifyByObject(YsaNotificationMessage $obNotificationMessage)
+	public function notifyByObject(YsaAnnouncementMessage $announcementMessage)
 	{
-		$this->_addAnnouncement($obNotificationMessage->getNotificationMessage());
+		$this->_addAnnouncement($announcementMessage->getAnnouncementMessage());
 	}
 	
 	/**

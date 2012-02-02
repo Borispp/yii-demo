@@ -14,7 +14,14 @@ class YsaMemberController extends YsaController
 	public function accessRules()
 	{
 		return array(
-			array('allow', 'roles' => array('member')),
+			
+			//TODO: deny submit app for member
+			
+			array('allow', 'roles' => array('customer','member')),
+			
+			array('allow', 'actions' => array('delete','view','index','list'), 'roles' => array('expired_customer')),
+			array('deny', 'roles' => array('expired_customer')),
+			
 			array('deny',  'users' => array('*')),
 		);
 	}

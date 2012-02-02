@@ -33,13 +33,13 @@ class YsaApiController extends YsaController
 	protected function _commonValidate()
 	{
 		if ($_SERVER['REQUEST_METHOD'] != 'POST')
-			$this->_renderError('No post data received');
+			$this->_renderError(Yii::t('api', 'common_no_post'));
 		if (empty($_POST['app_key']))
-			$this->_renderError('No app_key received');
+			$this->_renderError(Yii::t('api', 'common_no_app_key'));
 		if (empty($_POST['device_id']))
-			$this->_renderError('No device_id received');
+			$this->_renderError(Yii::t('api', 'common_no_device_id'));
 		if (!$this->_validateApp())
-			$this->_renderError('No app with received app_key');
+			$this->_renderError(Yii::t('api', 'common_no_app'));
 	}
 
 	/**
@@ -204,15 +204,15 @@ class YsaApiController extends YsaController
 		{
 			$obEventAlbum = EventAlbum::model()->findByPk($_POST['album_id']);
 			if (!$obEventAlbum)
-				return $this->_renderError('Event album not found');
+				return $this->_renderError(Yii::t('api', 'event_album_not_found'));
 			if (!$obEventAlbum->isActive())
-				return $this->_renderError('Event album is blocked');
+				return $this->_renderError(Yii::t('api', 'event_album_is_blocked'));
 			if ($obEventAlbum->event_id != $_POST['event_id'])
-				return $this->_renderError('Event ID is wrong');
+				return $this->_renderError(Yii::t('api', 'event_wrong_event_id'));
 			if ($isPortfolio)
 			{
 				if (!$obEventAlbum->event->isPortfolio())
-					return $this->_renderError('Requested event should be portfolio');
+					return $this->_renderError(Yii::t('api', 'event_album_is_portfolio'));
 			}
 			$this->_obEventAlbum = $obEventAlbum;
 		}
@@ -228,9 +228,9 @@ class YsaApiController extends YsaController
 		{
 			$obEventPhoto = EventPhoto::model()->findByPk($_POST['photo_id']);
 			if (!$obEventPhoto)
-				return $this->_renderError('Event album not found');
+				return $this->_renderError(Yii::t('api', 'event_album_not_found'));
 			if ($obEventPhoto->album_id != $_POST['album_id'] || !$obEventPhoto->isActive())
-				return $this->_renderError('Access to event album restricted');
+				return $this->_renderError(Yii::t('api', 'event_album_access_denied'));
 			$this->_obEventPhoto = $obEventPhoto;
 		}
 		return $this->_obEventPhoto;
@@ -293,7 +293,7 @@ class YsaApiController extends YsaController
 		$this->_validateVars(
 			array(
 				'token'		=> array(
-					'message'	=> 'No token received',
+					'message'	=> Yii::t('api', 'client_no_token'),
 					'required'	=> TRUE,
 					'event_id'	=> array(
 						'code'		=> '111',
@@ -307,6 +307,6 @@ class YsaApiController extends YsaController
 		if ($obClientAuth = ClientAuth::model()->authByToken($_POST['token'], $_POST['app_key'], $_POST['device_id']))
 			return $obClientAuth->client;
 		
-		$this->_renderError('Authorization by token failed');
+		$this->_renderError(Yii::t('api', 'client_token_auth_failed'));
 	}
 }
