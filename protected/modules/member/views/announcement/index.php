@@ -9,6 +9,7 @@
 					<thead>
 					<tr>
 						<th><?php echo Announcement::model()->getAttributeLabel('message')?></th>
+						<th><?php echo Announcement::model()->getAttributeLabel('created')?></th>
 					</tr>
 					</thead>
 					<tbody>
@@ -16,11 +17,12 @@
 						<?php foreach ($announcements as $announcement) : ?>
 						<tr>
 							<td><?php echo nl2br($announcement->message)?></td>
+							<td><?php echo date('m.d.Y H:i', strtotime($announcement->created)) ?></td>
 						</tr>
 						<?php endforeach; ?>
 						<?php else:?>
 					<tr>
-						<td class="empty-list">
+						<td class="empty-list" colspan="2">
 							<?php echo Yii::t('notice', 'no_unread_announcements')?>
 						</td>
 					</tr>
