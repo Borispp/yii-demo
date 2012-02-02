@@ -21,10 +21,10 @@ class ClientController extends YsaApiController
 	{
 		$this->_validateVars(array(
 				'token'		=> array(
-					'message'	=> 'No token received',
+					'message'	=> Yii::t('api', 'client_no_token'),
 					'required'	=> TRUE,
 					'event_id'	=> array(
-						'message'	=> 'No event ID found',
+						'message'	=> Yii::t('api', 'event_no_id'),
 						'required'	=> TRUE
 					)
 				)));
@@ -50,19 +50,16 @@ class ClientController extends YsaApiController
 	{
 		$this->_validateVars(array(
 				'name' => array(
-					'message'	=> 'Name is required',
+					'message'	=> Yii::t('api', 'client_error_required', array('{field}' => 'name')),
 					'required'	=> TRUE,
 				),
 				'email' => array(
-					'message'	=> 'Email is required',
+					'message'	=> Yii::t('api', 'client_error_required', array('{field}' => 'email')),
 					'required'	=> TRUE,
 				),
 				'password' => array(
-					'message'	=> 'Password is required',
+					'message'	=> Yii::t('api', 'client_error_required', array('{field}' => 'password')),
 					'required'	=> TRUE,
-				),
-				'phone' => array(
-					'message'	=> 'Phone is optional',
 				),
 			));
 
@@ -83,7 +80,7 @@ class ClientController extends YsaApiController
 			$this->_render(array(
 					'state'		=> FALSE,
 					'errors'	=> $entry->getErrors(),
-					'message'	=> 'User registration failed',
+					'message'	=> Yii::t('api', 'client_registration_failed'),
 					'token'		=> NULL
 				));
 		}
@@ -106,11 +103,11 @@ class ClientController extends YsaApiController
 	{
 		$this->_validateVars(array(
 				'password'	=> array(
-					'message'	=> 'No password received',
+					'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'password')),
 					'required'	=> TRUE,
 				),
 				'email'	=> array(
-					'message'	=> 'No email received',
+					'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'email')),
 					'required'	=> TRUE
 				)
 			));
@@ -136,7 +133,7 @@ class ClientController extends YsaApiController
 	{
 		$this->_validateVars(array(
 			'email'	=> array(
-				'message'  => 'No email received',
+				'message'  => Yii::t('api', 'common_no_field', array('{field}' => 'email')),
 				'required' => TRUE
 			)
 		));
@@ -162,7 +159,7 @@ class ClientController extends YsaApiController
 		if (!$sent)
 			$this->_render(array(
 				'state' => FALSE,
-				'message' => 'Sending message failed',
+				'message' => Yii::t('api', 'client_remind_password_mail_failed'),
 			));
 		$this->_render(array(
 			'state' => TRUE,
@@ -175,11 +172,11 @@ class ClientController extends YsaApiController
 		$this->_validateVars(
 			array(
 				'fb_access_token'	=> array(
-					'message'	=> 'No Facebook Access Token received',
+					'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'Facebook Access Token')),
 					'required'	=> TRUE,
 				),
 				'fb_id'	=> array(
-					'message'	=> 'No Facebook ID received',
+					'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'Facebook ID')),
 					'required'	=> TRUE,
 				)
 			));
@@ -208,11 +205,11 @@ class ClientController extends YsaApiController
 			$user_profile = $facebook->api('/me');
 
 			if ( $user_profile['id'] != $fb_id )
-				return $this->_renderError('Access token is invalid: Facebook ID is not matches requested with Acess Token');
+				return $this->_renderError(Yii::t('api', 'client_facebook_token_invalid'));
 		}
 		catch (FacebookApiException $e)
 		{
-			return $this->_renderError('Access token is invalid, Facebook raised exception: '.$e->getMessage());
+			return $this->_renderError(Yii::t('api', 'client_facebook_exception', array('{exception}' => $e->getMessage())));
 		}
 	}
 
@@ -233,7 +230,7 @@ class ClientController extends YsaApiController
 				// client profile not exists, need registration
 				return $this->_render(array(
 						'state'		=> false,
-						'message'	=> 'Not found any linked Facebook account',
+						'message'	=> Yii::t('api', 'client_facebook_no_account'),
 						'token'		=> null,
 					));
 			}
@@ -270,7 +267,7 @@ class ClientController extends YsaApiController
 			{
 				$this->_render(array(
 						'state'		=> false,
-						'message'	=> 'Unable to link Facebook account',
+						'message'	=> Yii::t('api', 'client_facebook_link_failed'),
 					));
 			}
 		}
@@ -304,7 +301,7 @@ class ClientController extends YsaApiController
 		{
 			$this->_render(array(
 					'state'		=> false,
-					'message'	=> 'Unable to unlink Facebook account',
+					'message'	=> Yii::t('api', 'client_facebook_unlink_failed'),
 				));
 		}
 
