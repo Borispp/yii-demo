@@ -21,10 +21,10 @@ class ClientController extends YsaApiController
 	{
 		$this->_validateVars(array(
 				'token'		=> array(
-					'message'	=> 'No token received',
+					'message'	=> Yii::t('api', 'client_no_token'),
 					'required'	=> TRUE,
 					'event_id'	=> array(
-						'message'	=> 'No event ID found',
+						'message'	=> Yii::t('api', 'event_no_id'),
 						'required'	=> TRUE
 					)
 				)));
@@ -50,19 +50,16 @@ class ClientController extends YsaApiController
 	{
 		$this->_validateVars(array(
 				'name' => array(
-					'message'	=> 'Name is required',
+					'message'	=> Yii::t('api', 'client_error_required', array('{field}' => 'name')),
 					'required'	=> TRUE,
 				),
 				'email' => array(
-					'message'	=> 'Email is required',
+					'message'	=> Yii::t('api', 'client_error_required', array('{field}' => 'email')),
 					'required'	=> TRUE,
 				),
 				'password' => array(
-					'message'	=> 'Password is required',
+					'message'	=> Yii::t('api', 'client_error_required', array('{field}' => 'password')),
 					'required'	=> TRUE,
-				),
-				'phone' => array(
-					'message'	=> 'Phone is optional',
 				),
 			));
 
@@ -83,7 +80,7 @@ class ClientController extends YsaApiController
 			$this->_render(array(
 					'state'		=> FALSE,
 					'errors'	=> $entry->getErrors(),
-					'message'	=> 'User registration failed',
+					'message'	=> Yii::t('api', 'client_registration_failed'),
 					'token'		=> NULL
 				));
 		}
@@ -106,78 +103,116 @@ class ClientController extends YsaApiController
 	{
 		$this->_validateVars(array(
 				'password'	=> array(
-					'message'	=> 'No password received',
+					'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'password')),
 					'required'	=> TRUE,
 				),
 				'email'	=> array(
-					'message'	=> 'No email received',
+					'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'email')),
 					'required'	=> TRUE
 				)
 			));
 		try
 		{
 			$this->_render(array(
-				'state'		=> 1,
-				'message'	=> '',
-				'token'		=> ClientAuth::model()->authByPassword($_POST['email'], $_POST['password'], $_POST['app_key'], $_POST['device_id'])
-			));
+					'state'		=> 1,
+					'message'	=> '',
+					'token'		=> ClientAuth::model()->authByPassword($_POST['email'], $_POST['password'], $_POST['app_key'], $_POST['device_id'])
+				));
 		}
 		catch(YsaAuthException $e)
 		{
 			$this->_render(array(
-				'state'		=> 0,
-				'message'	=> $e->getMessage(),
-				'token'		=> NULL,
-			));
+					'state'		=> 0,
+					'message'	=> $e->getMessage(),
+					'token'		=> NULL,
+				));
 		}
 	}
-	
+
+	public function actionRemindPassword()
+	{
+		$this->_validateVars(array(
+			'email'	=> array(
+				'message'  => Yii::t('api', 'common_no_field', array('{field}' => 'email')),
+				'required' => TRUE
+			)
+		));
+		$form = new RecoveryForm();
+		$form->email = $_POST['email'];
+		if (!$form->validate())
+		{
+			$this->_render(array(
+					'state' => FALSE,
+					'message' => $form->getError('email'),
+				));
+		}
+		$entry = User::model()->findbyPk($form->user_id);
+		$sent = Email::model()->send(
+			array($entry->email, $entry->name()),
+			'member_recovery',
+			array(
+				'name'  => $entry->name(),
+				'email' => $form->email,
+				'link'  => $entry->getRecoveryLink(),
+			)
+		);
+		if (!$sent)
+			$this->_render(array(
+				'state' => FALSE,
+				'message' => Yii::t('api', 'client_remind_password_mail_failed'),
+			));
+		$this->_render(array(
+			'state' => TRUE,
+			'message' => 'Email was send',
+		));
+	}
+
 	protected function _validateFacebookVars()
 	{
 		$this->_validateVars(
 			array(
 				'fb_access_token'	=> array(
-					'message'	=> 'No Facebook Access Token received',
+					'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'Facebook Access Token')),
 					'required'	=> TRUE,
 				),
 				'fb_id'	=> array(
-					'message'	=> 'No Facebook ID received',
+					'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'Facebook ID')),
 					'required'	=> TRUE,
 				)
 			));
 	}
-	
+
 	/**
-	 * Validate access token: 
+	 * Validate access token:
 	 * 1. Request, made with token must give valid response
 	 * 2. Facebook Account ID in response must match against requested ID
-	 * 
+	 *
 	 * @param integer $fb_id
 	 * @param string $fb_access_token
-	 * @return void 
+	 * @return void
 	 */
 	protected function _validateFacebookAccessToken( $fb_id, $fb_access_token )
 	{
 		Yii::import('ext.facebook-sdk.Facebook');
 		$facebook = new Facebook(array(
-			'appId'  => Yii::app()->params['oauth']['facebook_app_id'],
-			'secret' => Yii::app()->params['oauth']['facebook_app_secret'],
-		));
-		
-		try 
+				'appId'  => Yii::app()->params['oauth']['facebook_app_id'],
+				'secret' => Yii::app()->params['oauth']['facebook_app_secret'],
+			));
+
+		try
 		{
 			$facebook->setAccessToken( $fb_access_token );
 			$user_profile = $facebook->api('/me');
 
 			if ( $user_profile['id'] != $fb_id )
-				return $this->_renderError('Access token is invalid: Facebook ID is not matches requested with Acess Token');
-		} 
-		catch (FacebookApiException $e) 
+				return $this->_renderError(Yii::t('api', 'client_facebook_token_invalid'));
+		}
+		catch (FacebookApiException $e)
 		{
-			return $this->_renderError('Access token is invalid, Facebook raised exception: '.$e->getMessage());
+			return $this->_renderError(Yii::t('api', 'client_facebook_exception', array('{exception}' => $e->getMessage())));
 		}
 	}
-	
+
 	/**
 	 * Try to auth with Facebook ID and Access Token
 	 * 1. Facebook account must be linked to any local user account
@@ -188,69 +223,69 @@ class ClientController extends YsaApiController
 		try
 		{
 			$this->_validateFacebookVars();
-			
+
 			$client = Client::model()->findByAttributes( array('facebook_id' => $_POST['fb_id'], 'state' => Client::STATE_ACTIVE) );
-			if (null === $client) 
+			if (null === $client)
 			{
 				// client profile not exists, need registration
 				return $this->_render(array(
-					'state'		=> false,
-					'message'	=> 'Not found any linked Facebook account',
-					'token'		=> null,
-				));
+						'state'		=> false,
+						'message'	=> Yii::t('api', 'client_facebook_no_account'),
+						'token'		=> null,
+					));
 			}
-			
+
 			$this->_validateFacebookAccessToken( $_POST['fb_id'], $_POST['fb_access_token'] );
-			
+
 			$access_token = ClientAuth::model()->authByPassword($client->email, $client->password, $_POST['app_key'], $_POST['device_id']);
-			
+
 			return $this->_render(array(
-				'state'		=> true,
-				'message'	=> '',
-				'token'		=> $access_token
-			));
+					'state'		=> true,
+					'message'	=> '',
+					'token'		=> $access_token
+				));
 		}
 		catch(YsaAuthException $e)
 		{
 			$this->_render(array(
-				'state'		=> false,
-				'message'	=> $e->getMessage(),
-				'token'		=> null,
-			));
+					'state'		=> false,
+					'message'	=> $e->getMessage(),
+					'token'		=> null,
+				));
 		}
 	}
-	
+
 	public function actionLinkFacebook()
 	{
 		$this->_validateFacebookVars();
 		$this->_validateFacebookAccessToken( $_POST['fb_id'], $_POST['fb_access_token'] );
 		$client = $this->_validateAuth();
-		
+
 		try
 		{
 			if ( !$client->linkFacebook( $_POST['fb_id'] ) )
 			{
 				$this->_render(array(
-					'state'		=> false,
-					'message'	=> 'Unable to link Facebook account',
-				));
+						'state'		=> false,
+						'message'	=> Yii::t('api', 'client_facebook_link_failed'),
+					));
 			}
 		}
 		catch( LogicException $e )
 		{
 			$this->_render(array(
-				'state'		=> false,
-				'message'	=> $e->getMessage(),
-			));
+					'state'		=> false,
+					'message'	=> $e->getMessage(),
+				));
 		}
-		
+
 		return $this->_render(
 			array(
 				'state'		=> true,
 				'message'	=> ''
 			));
 	}
-	
+
 	/**
 	 * Unlink Facebook acc and send email with local login/password info
 	 *
@@ -261,15 +296,15 @@ class ClientController extends YsaApiController
 		$this->_validateFacebookVars();
 		$this->_validateFacebookAccessToken( $_POST['fb_id'], $_POST['fb_access_token'] );
 		$client = $this->_validateAuth();
-		
+
 		if ( !$client->unlinkFacebook() )
 		{
 			$this->_render(array(
-				'state'		=> false,
-				'message'	=> 'Unable to unlink Facebook account',
-			));
+					'state'		=> false,
+					'message'	=> Yii::t('api', 'client_facebook_unlink_failed'),
+				));
 		}
-		
+
 		return $this->_render(
 			array(
 				'state'		=> true,
