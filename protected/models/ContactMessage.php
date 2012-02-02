@@ -16,6 +16,8 @@ class ContactMessage extends YsaActiveRecord
 {
 	public $captcha;
 	
+	public $subscribe;
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return ContactMessage the static model class
@@ -44,7 +46,8 @@ class ContactMessage extends YsaActiveRecord
 			array('name, email, studio_name, studio_website, phone_number', 'length', 'max'=>100),
 			array('email', 'email'),
 			array('message, name, email', 'required'),
-			array('created, updated, captcha, studio_website, phone_number, studio_name', 'safe'),
+			array('subscribe', 'boolean'),
+			array('created, updated, captcha, studio_website, phone_number, studio_name, subscribe', 'safe'),
 //			array('captcha', 'captcha', 'allowEmpty'=>!CCaptcha::checkRequirements()),
 		);
 	}
@@ -71,6 +74,7 @@ class ContactMessage extends YsaActiveRecord
 			'created' => 'Created',
 			'updated' => 'Updated',
 			'captcha' => 'Verification Code',
+			'subscribe' => 'Subscribe to the YSA Newsletter',
 		);
 	}
 	

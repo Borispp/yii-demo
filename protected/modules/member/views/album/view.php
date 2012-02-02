@@ -119,7 +119,12 @@
 				 */?>
 				<section class="cf">
 					<?php echo $avlForm->labelEx($availability,'can_share'); ?>
-					<div><?php echo $avlForm->checkBox($availability, 'can_share', array('checked' => $entry->canShare())); ?></div>
+					<div><?php echo $avlForm->checkBox($availability, 'can_share', array('checked' => $availability->can_share)); ?></div>
+				</section>
+				
+				<section class="cf">
+					<?php echo $avlForm->labelEx($availability,'can_save'); ?>
+					<div><?php echo $avlForm->checkBox($availability, 'can_save', array('checked' => $availability->can_save)); ?></div>
 				</section>
 				<div class="button">
 					<?php echo YsaHtml::submitButton('Save', array('class' => 'blue', 'data-loading' => 'Loading', 'data-value' => 'Save')); ?>

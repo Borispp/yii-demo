@@ -2,6 +2,19 @@
 class AuthController extends YsaFrontController
 {
 	/**
+	* Declares class-based actions.
+	*/
+	public function actions()
+	{
+		return array(
+			'captcha'=>array(
+			 'class'=>'CCaptchaAction',
+			 'backColor'=>0xFFFFFF,
+			),
+		);
+	}
+	
+	/**
 	 * Displays the login page
 	 */
 	public function actionLogin()
@@ -10,24 +23,45 @@ class AuthController extends YsaFrontController
 			$this->redirect(Yii::app()->user->returnUrl);
 		}
 
-		$model = new LoginForm;
-
-		// if it is ajax validation request
-		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form') {
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
+		$login = new LoginForm;
+		
+		$register = new RegistrationForm;
 
 		// collect user input data
 		if(isset($_POST['LoginForm'])) {
-			$model->attributes=$_POST['LoginForm'];
+			$login->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
-			if($model->validate() && $model->login()) {
+			if($login->validate() && $login->login()) {
 				$this->redirect( $this->_urlToRedirectAuthenticated() );
 			}
+			
+			// reset password
+			$login->password = '';
 		}
+		
+		if(isset($_POST['RegistrationForm'])) 
+		{
+			$register->attributes = $_POST['RegistrationForm'];
+			if ($register->register()) {
+				$this->setSuccess( 'Thank you for your registration. Please check your email' );
+				$this->redirect('login/');
+			}
+			
+			$register->password = '';
+			$register->verifyPassword = '';
+		}
+		
+		
+		$page = Page::model()->findBySlug('login');
+		
+		$this->setFrontPageTitle(Yii::t('general', 'Login'));
+		
 		// display the login form
-		$this->render('login',array('model'=>$model));
+		$this->render('login', array(
+			'login'		=> $login,
+			'register'	=> $register,
+			'page'		=> $page,
+		));
 	}
 
 	public function actionLoginOauth()

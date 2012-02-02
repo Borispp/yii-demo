@@ -1,4 +1,15 @@
 $(function(){
+	$.tools.validator.addEffect("wall", function(errors, event) {
+			var wall = $(this.getConf().container).fadeIn();
+			wall.find("p").remove();
+			$.each(errors, function(index, error) {
+				wall.append(
+					"<p><strong>" +error.input.attr("name")+ "</strong> " +error.messages[0]+ "</p>"
+				);		
+			});
+		}, function(inputs)  {}
+	);
+
 
 	$.fn.initFaq = function() {
 		$(this).each(function(){
@@ -27,7 +38,6 @@ $(function(){
 		$(this).each(function(){
 			var newsletter = $(this);
 			var form = newsletter.find('form');
-			
 			
 			form.validator({
 				position: 'center right', 
@@ -107,4 +117,42 @@ $(function(){
 		});
 	}
 	$('#login-window').initLoginWindow();
+	
+	$.fn.initContact = function()
+	{
+		$(this).each(function(){
+			var contact = $(this);
+			
+			var form = contact.find('form');
+			form.validator({
+				position: 'top center', 
+				offset: [10, 0],
+				messageClass:'error-top',
+				errorClass:'error',
+				grouped:true,
+				onSuccess:function(e){
+					e.preventDefault();
+					$.post(form.attr('action'), form.serialize(), function(data){
+						if (data.success) {
+							var success = $('<div id="contact-success"></div>').hide().html(data.msg);
+							contact.find('.form').append(success);
+							form.fadeOut('fast', function(){
+								$(this).remove();
+								success.fadeIn('fast');
+							})
+						} else {
+							$('#newsletter-subscribe-form-errors').html(data.msg);
+						}
+					}, 'json');
+				}
+			})
+//			.submit(function(e){
+//				if (!e.isDefaultPrevented()) {
+//
+//				}
+//			});
+		});
+	}
+	$('#contact').initContact();
+		
 })
