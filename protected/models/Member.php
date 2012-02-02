@@ -295,7 +295,7 @@ class Member extends User
 		if( !$this->validate() ) 
 			return false;
 		
-		$this->state = User::STATE_INACTIVE;
+		$this->state = User::STATE_ACTIVE;
 		$this->role = User::ROLE_MEMBER;
 		$this->encryptPassword();
 		$this->generateActivationKey();
