@@ -288,7 +288,11 @@ class Member extends User
 	
 	/**
 	 * Register new member 
-	 * Use this method instead of save  
+	 * Use this method instead of save
+	 * 
+	 * @param boolean $confirm_email
+	 * @param boolean $login perform immediate login
+	 * @return boolean state of registration
 	 */
 	public function register($confirm_email = true, $login = true)
 	{

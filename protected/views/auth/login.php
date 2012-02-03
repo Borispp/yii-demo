@@ -28,6 +28,9 @@
 					<div class="remember"><?php echo $form->labelEx($login,'rememberMe'); ?><?php echo $form->checkBox($login,'rememberMe'); ?></div>
 				</section>
 			<?php $this->endWidget(); ?>
+				
+			<?php $this->widget('ext.eauth.EAuthWidget', array('action' => 'auth/loginOauth', 'options' => array('class' => 'fb-login'))) ?>
+				
 			</div>
 		</div>
 

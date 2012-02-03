@@ -41,6 +41,6 @@
 	<?php $this->endWidget(); ?>
 
 	
-	<?php $this->widget('ext.eauth.EAuthWidget', array('action' => 'register/oauth')) ?>
+	<?php $this->widget('ext.eauth.EAuthWidget', array('action' => 'auth/oauthRegistration')) ?>
 	
 </div><!-- form -->
