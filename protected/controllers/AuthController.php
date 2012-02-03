@@ -43,14 +43,13 @@ class AuthController extends YsaFrontController
 		{
 			$register->attributes = $_POST['RegistrationForm'];
 			if ($register->register()) {
-				$this->setSuccess( 'Thank you for your registration. Please check your email' );
-				$this->redirect(array('login/'));
+				$this->setSuccess(Yii::t('register', 'first_login_welcome'));
+				$this->redirect($this->_urlToRedirectAuthenticated());
 			}
 			
 			$register->password = '';
 			$register->verifyPassword = '';
 		}
-		
 		
 		$page = Page::model()->findBySlug('login');
 		
@@ -110,10 +109,12 @@ class AuthController extends YsaFrontController
 	protected function _urlToRedirectAuthenticated()
 	{
 		if (Yii::app()->user->isAdmin()) {
-			return $this->createUrl('//admin', array());
-		} else {
+			return array('//admin');
+		} elseif (Yii::app()->user->isMember()) {
 			// $this->redirect(Yii::app()->user->returnUrl);
-			return $this->createUrl('//member', array());
+			return array('//member');
+		} else {
+			return array('//login');
 		}
 	}
 	
@@ -133,26 +134,27 @@ class AuthController extends YsaFrontController
 		if (!$k) {
 			$request = Yii::app()->getRequest();
 			$this->setError( 'Incorrect activation URL: '.$request->getHostInfo().$request->getUrl() );
-			$this->redirect( $this->createAbsoluteUrl('login') );
+			$this->redirect($this->_urlToRedirectAuthenticated());
 		}
 		
 		$user = User::model()->findByAttributes(array('activation_key' => $k));
 		
-		if ($user && $user->state) 
+		if ($user && $user->activated) 
 		{
 			$this->setNotice( 'You account is already activated' );
-			$this->redirect( $this->createAbsoluteUrl('login') );
+			
 		} 
 		elseif(isset($user->activation_key) && ($user->activation_key==$k)) 
 		{
-			$user->activate();			
+			$user->activate();
+
 			$this->setSuccess( 'Your account was successfully activated' );
-			$this->redirect( $this->createAbsoluteUrl('login') );
 		} 
 		else 
 		{
 			$this->setError( 'Unable to activate account, maybe key is invalid' );
-			$this->redirect( $this->createAbsoluteUrl('login') );
 		}
+		
+		$this->redirect($this->_urlToRedirectAuthenticated());
 	}
 }

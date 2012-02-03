@@ -290,10 +290,12 @@ class Member extends User
 	 * Register new member 
 	 * Use this method instead of save  
 	 */
-	public function register($confirm_email = true)
+	public function register($confirm_email = true, $login = true)
 	{
 		if( !$this->validate() ) 
 			return false;
+		
+		$storePassword = $this->password;
 		
 		$this->state = User::STATE_ACTIVE;
 		$this->role = User::ROLE_MEMBER;
@@ -302,7 +304,7 @@ class Member extends User
 
 		if ( !$this->save(false) )
 			return false;
-
+		
 		// send confirmation email
 		if ( $confirm_email )
 		{
@@ -321,6 +323,13 @@ class Member extends User
 		$studio = new Studio();
 		$studio->user_id = $this->id;
 		$studio->save();
+		
+		if ($login) {
+			$form = new LoginForm;
+			$form->email = $this->email;
+			$form->password = $storePassword;
+			$form->login();
+		}
 
 		return true;
 	}

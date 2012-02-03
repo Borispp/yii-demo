@@ -16,6 +16,7 @@
  * @property string $updated
  * @property string $last_login
  * @property string $last_login_ip
+ * @property integer $activated
  *
  * Relations
  * @property UserOption $option
@@ -148,7 +149,8 @@ class User extends YsaActiveRecord
 	public function activate()
 	{
 		$this->state = self::STATE_ACTIVE;
-		return $this->save( false );
+		$this->activated = true;
+		return $this->save(false);
 	}
 
 	/**

@@ -24,29 +24,29 @@ class RegisterController extends YsaFrontController
 		}
 	}
 
-	public function actionRegistration()
-	{
-		$model = new RegistrationForm('register');
-
-		// uncomment the following code to enable ajax-based validation
-		/*
-		if(isset($_POST['ajax']) && $_POST['ajax']==='registration-form-registration-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-		*/
-
-		if(isset($_POST['RegistrationForm'])) 
-		{
-			$model->attributes = $_POST['RegistrationForm'];
-			if ($model->register()) {
-				$this->setSuccess( 'Thank you for your registration. Please check your email' );
-				$this->redirect(array('login/'));
-			}
-		}
-		$this->render('registration',array('model' => $model));
-	}
+//	public function actionRegistration()
+//	{
+//		$model = new RegistrationForm('register');
+//
+//		// uncomment the following code to enable ajax-based validation
+//		/*
+//		if(isset($_POST['ajax']) && $_POST['ajax']==='registration-form-registration-form')
+//		{
+//			echo CActiveForm::validate($model);
+//			Yii::app()->end();
+//		}
+//		*/
+//
+//		if(isset($_POST['RegistrationForm'])) 
+//		{
+//			$model->attributes = $_POST['RegistrationForm'];
+//			if ($model->register()) {
+//				$this->setSuccess( 'Thank you for your registration. Please check your email' );
+//				$this->redirect(array('login/'));
+//			}
+//		}
+//		$this->render('registration',array('model' => $model));
+//	}
 	
 	/**
 	 *

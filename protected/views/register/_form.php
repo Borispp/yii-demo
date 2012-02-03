@@ -33,11 +33,14 @@
 		<?php echo $form->error($model,'verifyCode'); ?>
 	</div>
  */?>
-	<section class="buttons">
+	<section class="buttons cf">
 		<div class="subscribe"><?php echo $form->checkBox($model,'subscribe'); ?><?php echo $form->labelEx($model,'subscribe'); ?></div>
 		<?php echo YsaHtml::submitButton('Register', array('class' => 'blue')); ?>
 	</section>
 
 	<?php $this->endWidget(); ?>
 
+	
+	<?php $this->widget('ext.eauth.EAuthWidget', array('action' => 'register/oauth')) ?>
+	
 </div><!-- form -->
