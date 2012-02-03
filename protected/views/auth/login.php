@@ -29,7 +29,7 @@
 				</section>
 			<?php $this->endWidget(); ?>
 				
-			<?php $this->widget('ext.eauth.EAuthWidget', array('action' => 'register/oauth', 'options' => array('class' => 'fb-login'))) ?>
+			<?php $this->widget('ext.eauth.EAuthWidget', array('action' => 'auth/loginOauth', 'options' => array('class' => 'fb-login'))) ?>
 				
 			</div>
 		</div>

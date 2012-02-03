@@ -91,16 +91,118 @@ class AuthController extends YsaFrontController
 				}
 				else 
 				{
-					$this->setError( 'Unable to authenticate: '.$identity->errorMessage );
+					Yii::app()->session['oauth_user_identity'] = $authIdentity;
+					$this->setError(Yii::t('authentication', 'fb_unable_to_auth_with_reason') . $identity->errorMessage );
 					// close popup window and redirect to cancelUrl
-					$authIdentity->cancel( null, true );
+					$authIdentity->cancel($this->createAbsoluteUrl('/auth/completeOauthRegistration'), true);
 				}
 			}
 			
-			$this->setError( 'Unable to authenticate' );
+			$this->setError(Yii::t('authentication', 'fb_unable_to_auth'));
 			// Something went wrong, redirect to login page
 			$this->redirect(array('/login/'));
 		}
+	}
+	
+	/**
+	 * Runing in popup window
+	 */
+	public function actionOauthRegistration()
+	{
+		$service = Yii::app()->request->getQuery('service');
+		if (isset($service)) 
+		{
+			$options = array(
+				'scope' => 'email,publish_stream,offline_access',
+				'client_id' => Yii::app()->settings->get('facebook_app_id'),
+				'client_secret' => Yii::app()->settings->get('facebook_app_secret')
+			);
+			$authIdentity = Yii::app()->eauth->getIdentity( $service, $options );
+			$authIdentity->redirectUrl = $this->createAbsoluteUrl('/auth/completeOauthRegistration');
+			$authIdentity->cancelUrl = $this->createAbsoluteUrl('/login');
+
+			if ($authIdentity->authenticate())
+			{
+				$identity = new ServiceUserIdentity($authIdentity);
+
+				// try to authentificate with existing user
+				if ( $identity->authenticate() ) 
+				{
+					Yii::app()->user->login( $identity );
+					$authIdentity->redirect($this->_urlToRedirectAuthenticated());
+				}
+				else 
+				{
+					Yii::app()->session['oauth_user_identity'] = $authIdentity;
+					
+					// special redirect with closing popup window
+					$authIdentity->redirect();
+				}
+			}
+			$authIdentity->cancel();
+		}
+		
+		//TODO: close popup
+	}
+	
+	public function actionCompleteOauthRegistration()
+	{
+		if ( !isset(Yii::app()->session['oauth_user_identity']) )
+			$this->redirect( $this->createAbsoluteUrl('/register') );
+
+		$this->setFrontPageTitle(Yii::t('general', 'Login'));
+		
+		$reg_form = new RegistrationForm;
+		$attr = Yii::app()->session['oauth_user_identity']->getItemAttributes();
+		$reg_form->attributes = $safe_attr = array( 'first_name' => $attr['first_name'], 'last_name' => $attr['last_name'], 'email' => $attr['email'] );
+
+		if ( !Yii::app()->request->isPostRequest )
+		{
+			// display the login form
+			$this->render('login', array(
+				'login'		=> new LoginForm,
+				'register'	=> $reg_form,
+				'page'		=> Page::model()->findBySlug('login'),
+			));
+			Yii::app()->end();
+		}
+
+		$reg_form->attributes = array_merge( $_POST['RegistrationForm'], $safe_attr );
+
+		$transaction = Yii::app()->getDb()->beginTransaction();
+		try
+		{
+			if ($reg_form->register(true, true))
+			{
+				$reg_form->linkFacebook($attr['id']);
+				$reg_form->activate();
+				$transaction->commit();
+
+				$identity = new ServiceUserIdentity( Yii::app()->session['oauth_user_identity'] );
+				if ($identity->authenticate()) 
+				{
+					Yii::app()->user->login( $identity );
+					unset( Yii::app()->session['oauth_user_identity'] );
+					$this->redirect($this->_urlToRedirectAuthenticated());
+				}
+				
+				unset( Yii::app()->session['oauth_user_identity'] );
+				$this->setError(App::t('autentication', 'fb_registered_but_not_logged_in'));
+				$this->redirect(array('login/'));
+			}
+		}
+		catch ( CException $e )
+		{
+			$transaction->rollback();
+			throw $e;
+		}
+		
+		// display the login form
+		$this->render('login', array(
+			'login'		=> new LoginForm,
+			'register'	=> $reg_form,
+			'page'		=> Page::model()->findBySlug('login'),
+		));
 	}
 	
 	/**
