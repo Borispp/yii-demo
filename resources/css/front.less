@@ -288,10 +288,284 @@
 	}
 }
 
-#faq {
+
+/* General Page Wrapper
+*******************************/
+.general-page {
 	position:relative;
 	top:-24px;
 	.w;
+	background:@white-alpha;
+	.rounded(8px);
+	.content {
+		padding:36px;
+	}
+}
+
+
+/* Page Large Forms
+*******************************/
+.large-form {
+	.errorSummary {
+		color:@pink-charlie;
+		margin-bottom:20px;
+		min-height:30px;
+		line-height:1.4;
+		background:url(../images/form-errors.png) 100% 0 no-repeat;
+	}
+	section {
+		.margin-bottom-alpha;
+		position:relative;
+		&.buttons {
+			input[type=submit] {
+				float:right;
+			}
+			p {
+				margin:0;
+				line-height:34px;
+				float:left;
+			}
+			.remember {
+				float:right;
+				line-height:34px;
+				padding-right:5px;
+				font-style:italic;
+			}
+			.subscribe {
+				float:left;
+				line-height:34px;
+				font-style:italic;
+			}
+		}
+		input[type=text],
+		input[type=password],
+		input[type=email],
+		textarea {
+			padding:12px;
+			width:390px;
+			font-size:16px;
+			color:@gray-bravo;
+			&:focus {
+				color:@gray-bravo - 50%;
+			}
+			&.invalid,
+			&.error {
+				border-color:@pink-bravo;
+				.box-shadow(inset 0 1px 3px rgba(100,0,0,.1));
+				&:focus {
+					border-color:@pink-bravo;
+					@shadow: inset 0 1px 3px rgba(100,0,0,.1), 0 0 5px rgba(250, 75, 75, .5);
+					.box-shadow(@shadow);
+				}
+			}
+		}
+		textarea {
+			height:100px;
+		}
+	}
+}
+
+
+/* Register / Login Page
+*******************************/
+#login-register {
+	.login {
+		float:left;
+		width:420px;
+		margin-right:32px;
+	}
+	.register {
+		float:left;
+		background:url(../images/separator-dark-vertical.gif) 0 0 repeat-y;
+		width:420px;
+		padding-left:33px;
+	}
+	h2 {
+		text-transform:none;
+	}
+}
+
+/* Contact
+*******************************/
+#contact {
+	.info {
+		float:left;
+		width:420px;
+		margin-right:32px;
+
+		p,
+		dl {
+			background:url(../images/separator-dark-horizontal.gif) 0 100% repeat-x;
+			padding-bottom:31px;
+			margin-bottom:30px;
+		}
+		dl {
+			line-height:2.2;
+			dd {
+				float:left;
+				margin:0;
+				padding:0;
+			}
+			dt {
+				float:left;
+				clear:both;
+				width:150px;
+				margin:0;
+				padding:0;
+			}
+		}
+		a.twi,
+		a.fb {
+			float:left;
+			padding-left:34px;
+			width:140px;
+			text-transform:uppercase;
+			color:@gray-delta;
+			.font-shorthand(normal, 11px, 12px);
+			margin-bottom:20px;
+			height:24px;
+			background:url(../images/homepage-social-icons.png) 0 0 no-repeat;
+			&.fb {
+				background-position:0 -200px;
+				&:hover {
+					background-position:0 -100px;
+				}
+			}
+			&.twi {
+				background-position:0 -250px;
+				margin-bottom:0;
+				&:hover {
+					background-position:0 -150px;
+				}
+			}
+			&:hover {
+				color:@blue-bravo;
+			}
+			span {
+				font-weight:700;
+			}
+		}
+		a.twi {
+			float:right;
+		}
+	}
+	.form {
+		float:left;
+		background:url(../images/separator-dark-vertical.gif) 0 0 repeat-y;
+		width:420px;
+		padding-left:33px;
+		min-height:550px;
+	}
+}
+/* Pricing
+*******************************/
+#pricing {
+	.idea {
+		background:url(../images/separator-dark-horizontal.gif) 0 100% repeat-x;
+		padding-bottom:41px;
+		margin-bottom:40px;
+		.image {
+			display:block;
+			height:110px;
+			background:url(../images/pricing-the-idea.png) 0 0 no-repeat;
+		}
+	}
+	.sign {
+		float:left;
+		width:320px;
+		h1 {
+			font-size:36px;
+			margin-bottom:24px;
+			text-transform:none;
+		}
+	}
+	.price {
+		float:right;
+		width:470px;
+		padding:20px;
+		background:@gray-india - 5%;
+		border:1px solid @gray-india - 10%;
+		.rounded(8px);
+
+		.image {
+			min-height:194px;
+			position:relative;
+			//display:block;
+			//background:url(../images/pricing-price.png) 0 0 no-repeat;
+			.margin-bottom-alpha;
+			h2 {
+				text-transform:none;
+				.text-shadow;
+			}
+			.app {
+				float:left;
+				width:215px;
+				.p {
+					display:block;
+					text-indent:-9999px;
+					height:83px;
+					background:url(../images/pricing-price-app.png) 100% 0 no-repeat;
+					margin-bottom:1em;
+				}
+			}
+			.host {
+				float:right;
+				width:190px;
+				.p {
+					display:block;
+					text-indent:-9999px;
+					height:83px;
+					background:url(../images/pricing-price-host.png) 100% 0 no-repeat;
+					margin-bottom:1em;
+				}
+			}
+			ul {
+				line-height:1.5;
+				font-size:11px;
+				font-style:italic;
+			}
+			.separator {
+				width:1px;
+				height:194px;
+				position:absolute;
+				top:0;
+				left:235px;
+				display:block;
+				background:url(../images/pricing-separator.png) 0 0 no-repeat;
+			}
+			.and {
+				text-transform:uppercase;
+				position:absolute;
+				top:109px;
+				left:216px;
+				width:40px;
+				text-align:center;
+				color:@gray-lima;
+				.text-shadow;
+			}
+		}
+		.get-started {
+			text-align:center;
+			.margin-bottom-alpha;
+			a {
+				padding-left:40px;
+				padding-right:40px;
+				.shadow-gray-alpha;
+			}
+		}
+		p {
+			text-align:center;
+			margin-bottom:0;
+			font-style:italic;
+			font-size:11px;
+		}
+	}
+}
+
+/* FAQ
+*******************************/
+#faq {
+	padding:0;
 	.questions {
 		.rounded-left(8px);
 		float:left;

@@ -1548,10 +1548,10 @@ tango, uniform, victor, whiskey, x-ray, yankee, zulu.
   text-shadow: none;
 }
 ::-webkit-input-placeholder {
-  color: #ffffff;
+  color: #777777;
 }
 input:-moz-placeholder {
-  color: #ffffff;
+  color: #777777;
 }
 html,
 body,
@@ -1670,6 +1670,11 @@ div.error {
   -moz-box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
 }
+div.error p {
+  margin: 0;
+  text-align: center;
+  line-height: 15px;
+}
 div.error em {
   width: 0;
   height: 0;
@@ -1680,6 +1685,31 @@ div.error em {
   right: -10px;
   top: 6px;
   position: absolute;
+}
+div.error-top {
+  /* supply height to ensure consistent positioning for every browser */
+
+  height: 15px;
+  font-size: 11px;
+  color: #ffffff;
+  padding: 3px 10px;
+  margin-left: -2px;
+  background: #ff7e7e;
+  width: 190px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
+}
+div.error-top p {
+  margin: 0;
+  line-height: 15px;
+  text-align: center;
 }
 /* Headers
 *******************************/
@@ -1893,12 +1923,14 @@ header nav li.login-visible a {
   position: relative;
 }
 #login-window input[type="text"], #login-window input[type="email"], #login-window input[type="password"] {
-  font-size: 11px;
+  font-size: 13px;
+  padding: 10px;
+  width: 192px;
 }
 #login-window .ico-name, #login-window .ico-pass {
   position: absolute;
-  right: 8px;
-  top: 8px;
+  right: 12px;
+  top: 12px;
   width: 17px;
   height: 14px;
   background-repeat: no-repeat;
@@ -1912,8 +1944,8 @@ header nav li.login-visible a {
 }
 #login-window .remember {
   float: left;
-  font-size: 11px;
-  line-height: 30px;
+  font-style: italic;
+  line-height: 34px;
 }
 #login-window input[type=submit] {
   float: right;
@@ -1932,6 +1964,8 @@ header nav li.login-visible a {
   margin: 0;
   padding: 48px 24px;
   font-weight: normal;
+  text-transform: none;
+  font-size: 22px;
 }
 /* Body Content
 *******************************/
@@ -2248,11 +2282,295 @@ footer a:hover {
   line-height: 1.3;
   font-style: italic;
 }
-#faq {
+/* General Page Wrapper
+*******************************/
+.general-page {
   position: relative;
   top: -24px;
   width: 980px;
   margin: 0 auto;
+  background: #ffffff;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.general-page .content {
+  padding: 36px;
+}
+/* Page Large Forms
+*******************************/
+.large-form .errorSummary {
+  color: #fa4b4c;
+  margin-bottom: 20px;
+  min-height: 30px;
+  line-height: 1.4;
+  background: url(../images/form-errors.png) 100% 0 no-repeat;
+}
+.large-form section {
+  margin-bottom: 24px;
+  position: relative;
+}
+.large-form section.buttons input[type=submit] {
+  float: right;
+}
+.large-form section.buttons p {
+  margin: 0;
+  line-height: 34px;
+  float: left;
+}
+.large-form section.buttons .remember {
+  float: right;
+  line-height: 34px;
+  padding-right: 5px;
+  font-style: italic;
+}
+.large-form section.buttons .subscribe {
+  float: left;
+  line-height: 34px;
+  font-style: italic;
+}
+.large-form section input[type=text],
+.large-form section input[type=password],
+.large-form section input[type=email],
+.large-form section textarea {
+  padding: 12px;
+  width: 390px;
+  font-size: 16px;
+  color: #777777;
+}
+.large-form section input[type=text]:focus,
+.large-form section input[type=password]:focus,
+.large-form section input[type=email]:focus,
+.large-form section textarea:focus {
+  color: #454545;
+}
+.large-form section input[type=text].invalid,
+.large-form section input[type=password].invalid,
+.large-form section input[type=email].invalid,
+.large-form section textarea.invalid,
+.large-form section input[type=text].error,
+.large-form section input[type=password].error,
+.large-form section input[type=email].error,
+.large-form section textarea.error {
+  border-color: #ff7e7e;
+  -webkit-box-shadow: inset 0 1px 3px rgba(100, 0, 0, 0.1);
+  -moz-box-shadow: inset 0 1px 3px rgba(100, 0, 0, 0.1);
+  box-shadow: inset 0 1px 3px rgba(100, 0, 0, 0.1);
+}
+.large-form section input[type=text].invalid:focus,
+.large-form section input[type=password].invalid:focus,
+.large-form section input[type=email].invalid:focus,
+.large-form section textarea.invalid:focus,
+.large-form section input[type=text].error:focus,
+.large-form section input[type=password].error:focus,
+.large-form section input[type=email].error:focus,
+.large-form section textarea.error:focus {
+  border-color: #ff7e7e;
+  -webkit-box-shadow: inset 0 1px 3px rgba(100, 0, 0, 0.1), 0 0 5px rgba(250, 75, 75, 0.5);
+  -moz-box-shadow: inset 0 1px 3px rgba(100, 0, 0, 0.1), 0 0 5px rgba(250, 75, 75, 0.5);
+  box-shadow: inset 0 1px 3px rgba(100, 0, 0, 0.1), 0 0 5px rgba(250, 75, 75, 0.5);
+}
+.large-form section textarea {
+  height: 100px;
+}
+/* Register / Login Page
+*******************************/
+#login-register .login {
+  float: left;
+  width: 420px;
+  margin-right: 32px;
+}
+#login-register .register {
+  float: left;
+  background: url(../images/separator-dark-vertical.gif) 0 0 repeat-y;
+  width: 420px;
+  padding-left: 33px;
+}
+#login-register h2 {
+  text-transform: none;
+}
+/* Contact
+*******************************/
+#contact .info {
+  float: left;
+  width: 420px;
+  margin-right: 32px;
+}
+#contact .info p, #contact .info dl {
+  background: url(../images/separator-dark-horizontal.gif) 0 100% repeat-x;
+  padding-bottom: 31px;
+  margin-bottom: 30px;
+}
+#contact .info dl {
+  line-height: 2.2;
+}
+#contact .info dl dd {
+  float: left;
+  margin: 0;
+  padding: 0;
+}
+#contact .info dl dt {
+  float: left;
+  clear: both;
+  width: 150px;
+  margin: 0;
+  padding: 0;
+}
+#contact .info a.twi, #contact .info a.fb {
+  float: left;
+  padding-left: 34px;
+  width: 140px;
+  text-transform: uppercase;
+  color: #555555;
+  font-size: 11px;
+  font-weight: normal;
+  line-height: 12px;
+  margin-bottom: 20px;
+  height: 24px;
+  background: url(../images/homepage-social-icons.png) 0 0 no-repeat;
+}
+#contact .info a.twi.fb, #contact .info a.fb.fb {
+  background-position: 0 -200px;
+}
+#contact .info a.twi.fb:hover, #contact .info a.fb.fb:hover {
+  background-position: 0 -100px;
+}
+#contact .info a.twi.twi, #contact .info a.fb.twi {
+  background-position: 0 -250px;
+  margin-bottom: 0;
+}
+#contact .info a.twi.twi:hover, #contact .info a.fb.twi:hover {
+  background-position: 0 -150px;
+}
+#contact .info a.twi:hover, #contact .info a.fb:hover {
+  color: #03b6f2;
+}
+#contact .info a.twi span, #contact .info a.fb span {
+  font-weight: 700;
+}
+#contact .info a.twi {
+  float: right;
+}
+#contact .form {
+  float: left;
+  background: url(../images/separator-dark-vertical.gif) 0 0 repeat-y;
+  width: 420px;
+  padding-left: 33px;
+  min-height: 550px;
+}
+/* Pricing
+*******************************/
+#pricing .idea {
+  background: url(../images/separator-dark-horizontal.gif) 0 100% repeat-x;
+  padding-bottom: 41px;
+  margin-bottom: 40px;
+}
+#pricing .idea .image {
+  display: block;
+  height: 110px;
+  background: url(../images/pricing-the-idea.png) 0 0 no-repeat;
+}
+#pricing .sign {
+  float: left;
+  width: 320px;
+}
+#pricing .sign h1 {
+  font-size: 36px;
+  margin-bottom: 24px;
+  text-transform: none;
+}
+#pricing .price {
+  float: right;
+  width: 470px;
+  padding: 20px;
+  background: #f4f4f4;
+  border: 1px solid #efefef;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#pricing .price .image {
+  min-height: 194px;
+  position: relative;
+  margin-bottom: 24px;
+}
+#pricing .price .image h2 {
+  text-transform: none;
+  text-shadow: 1px 1px 0px #ffffff;
+}
+#pricing .price .image .app {
+  float: left;
+  width: 215px;
+}
+#pricing .price .image .app .p {
+  display: block;
+  text-indent: -9999px;
+  height: 83px;
+  background: url(../images/pricing-price-app.png) 100% 0 no-repeat;
+  margin-bottom: 1em;
+}
+#pricing .price .image .host {
+  float: right;
+  width: 190px;
+}
+#pricing .price .image .host .p {
+  display: block;
+  text-indent: -9999px;
+  height: 83px;
+  background: url(../images/pricing-price-host.png) 100% 0 no-repeat;
+  margin-bottom: 1em;
+}
+#pricing .price .image ul {
+  line-height: 1.5;
+  font-size: 11px;
+  font-style: italic;
+}
+#pricing .price .image .separator {
+  width: 1px;
+  height: 194px;
+  position: absolute;
+  top: 0;
+  left: 235px;
+  display: block;
+  background: url(../images/pricing-separator.png) 0 0 no-repeat;
+}
+#pricing .price .image .and {
+  text-transform: uppercase;
+  position: absolute;
+  top: 109px;
+  left: 216px;
+  width: 40px;
+  text-align: center;
+  color: #3a3a3a;
+  text-shadow: 1px 1px 0px #ffffff;
+}
+#pricing .price .get-started {
+  text-align: center;
+  margin-bottom: 24px;
+}
+#pricing .price .get-started a {
+  padding-left: 40px;
+  padding-right: 40px;
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+}
+#pricing .price p {
+  text-align: center;
+  margin-bottom: 0;
+  font-style: italic;
+  font-size: 11px;
+}
+/* FAQ
+*******************************/
+#faq {
+  padding: 0;
 }
 #faq .questions {
   -moz-border-radius-topleft: 8px;

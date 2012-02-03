@@ -2,6 +2,19 @@
 class AuthController extends YsaFrontController
 {
 	/**
+	* Declares class-based actions.
+	*/
+	public function actions()
+	{
+		return array(
+			'captcha'=>array(
+			 'class'=>'CCaptchaAction',
+			 'backColor'=>0xFFFFFF,
+			),
+		);
+	}
+	
+	/**
 	 * Displays the login page
 	 */
 	public function actionLogin()
@@ -10,24 +23,44 @@ class AuthController extends YsaFrontController
 			$this->redirect(Yii::app()->user->returnUrl);
 		}
 
-		$model = new LoginForm;
-
-		// if it is ajax validation request
-		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form') {
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
+		$login = new LoginForm;
+		
+		$register = new RegistrationForm;
 
 		// collect user input data
 		if(isset($_POST['LoginForm'])) {
-			$model->attributes=$_POST['LoginForm'];
+			$login->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
-			if($model->validate() && $model->login()) {
+			if($login->validate() && $login->login()) {
 				$this->redirect( $this->_urlToRedirectAuthenticated() );
 			}
+			
+			// reset password
+			$login->password = '';
 		}
+		
+		if(isset($_POST['RegistrationForm'])) 
+		{
+			$register->attributes = $_POST['RegistrationForm'];
+			if ($register->register()) {
+				$this->setSuccess(Yii::t('register', 'first_login_welcome'));
+				$this->redirect($this->_urlToRedirectAuthenticated());
+			}
+			
+			$register->password = '';
+			$register->verifyPassword = '';
+		}
+		
+		$page = Page::model()->findBySlug('login');
+		
+		$this->setFrontPageTitle(Yii::t('general', 'Login'));
+		
 		// display the login form
-		$this->render('login',array('model'=>$model));
+		$this->render('login', array(
+			'login'		=> $login,
+			'register'	=> $register,
+			'page'		=> $page,
+		));
 	}
 
 	public function actionLoginOauth()
@@ -76,10 +109,12 @@ class AuthController extends YsaFrontController
 	protected function _urlToRedirectAuthenticated()
 	{
 		if (Yii::app()->user->isAdmin()) {
-			return $this->createUrl('//admin', array());
-		} else {
+			return array('//admin');
+		} elseif (Yii::app()->user->isMember()) {
 			// $this->redirect(Yii::app()->user->returnUrl);
-			return $this->createUrl('//member', array());
+			return array('//member');
+		} else {
+			return array('//login');
 		}
 	}
 	
@@ -99,26 +134,27 @@ class AuthController extends YsaFrontController
 		if (!$k) {
 			$request = Yii::app()->getRequest();
 			$this->setError( 'Incorrect activation URL: '.$request->getHostInfo().$request->getUrl() );
-			$this->redirect( $this->createAbsoluteUrl('login') );
+			$this->redirect($this->_urlToRedirectAuthenticated());
 		}
 		
 		$user = User::model()->findByAttributes(array('activation_key' => $k));
 		
-		if ($user && $user->state) 
+		if ($user && $user->activated) 
 		{
 			$this->setNotice( 'You account is already activated' );
-			$this->redirect( $this->createAbsoluteUrl('login') );
+			
 		} 
 		elseif(isset($user->activation_key) && ($user->activation_key==$k)) 
 		{
-			$user->activate();			
+			$user->activate();
+
 			$this->setSuccess( 'Your account was successfully activated' );
-			$this->redirect( $this->createAbsoluteUrl('login') );
 		} 
 		else 
 		{
 			$this->setError( 'Unable to activate account, maybe key is invalid' );
-			$this->redirect( $this->createAbsoluteUrl('login') );
 		}
+		
+		$this->redirect($this->_urlToRedirectAuthenticated());
 	}
 }

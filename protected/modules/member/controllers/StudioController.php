@@ -1,6 +1,16 @@
 <?php
 class StudioController extends YsaMemberController
 {
+	public function accessRules()
+	{
+		return array_merge(
+			array(
+				array('allow', 'actions' => array('DeleteSpecials'), 'roles' => 'expired_customer')
+			),
+			parent::accessRules()
+		);
+	}
+	
 	public function beforeRender($view) {
 		parent::beforeRender($view);
 		

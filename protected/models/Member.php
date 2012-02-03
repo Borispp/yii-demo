@@ -285,4 +285,52 @@ class Member extends User
 			));
 		Yii::app()->mailer->Send();
 	}
+	
+	/**
+	 * Register new member 
+	 * Use this method instead of save  
+	 */
+	public function register($confirm_email = true, $login = true)
+	{
+		if( !$this->validate() ) 
+			return false;
+		
+		$storePassword = $this->password;
+		
+		$this->state = User::STATE_ACTIVE;
+		$this->role = User::ROLE_MEMBER;
+		$this->encryptPassword();
+		$this->generateActivationKey();
+
+		if ( !$this->save(false) )
+			return false;
+		
+		// send confirmation email
+		if ( $confirm_email )
+		{
+			Email::model()->send(
+				array($this->email, $this->name()), 
+				'member_confirmation', 
+				array(
+					'name'	=> $this->name(),
+					'email' => $this->email,
+					'link'	=> $this->getActivationLink(),
+				)
+			);
+		}
+
+		// create new Studio
+		$studio = new Studio();
+		$studio->user_id = $this->id;
+		$studio->save();
+		
+		if ($login) {
+			$form = new LoginForm;
+			$form->email = $this->email;
+			$form->password = $storePassword;
+			$form->login();
+		}
+
+		return true;
+	}
 }

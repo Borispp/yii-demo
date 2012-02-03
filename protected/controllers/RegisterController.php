@@ -24,70 +24,69 @@ class RegisterController extends YsaFrontController
 		}
 	}
 
-	public function actionRegistration()
-	{
-		$model = new RegistrationForm('register');
-
-		// uncomment the following code to enable ajax-based validation
-		/*
-		if(isset($_POST['ajax']) && $_POST['ajax']==='registration-form-registration-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-		*/
-
-		if(isset($_POST['RegistrationForm'])) 
-		{
-			$model->attributes = $_POST['RegistrationForm'];
-			if ( $this->_register($model) )
-			{
-				$this->setSuccess( 'Thank you for your registration. Please check your email' );
-				$this->redirect( $this->createAbsoluteUrl( 'auth/login' ) );
-			}
-		}
-		$this->render('registration',array('model' => $model));
-	}
+//	public function actionRegistration()
+//	{
+//		$model = new RegistrationForm('register');
+//
+//		// uncomment the following code to enable ajax-based validation
+//		/*
+//		if(isset($_POST['ajax']) && $_POST['ajax']==='registration-form-registration-form')
+//		{
+//			echo CActiveForm::validate($model);
+//			Yii::app()->end();
+//		}
+//		*/
+//
+//		if(isset($_POST['RegistrationForm'])) 
+//		{
+//			$model->attributes = $_POST['RegistrationForm'];
+//			if ($model->register()) {
+//				$this->setSuccess( 'Thank you for your registration. Please check your email' );
+//				$this->redirect(array('login/'));
+//			}
+//		}
+//		$this->render('registration',array('model' => $model));
+//	}
 	
 	/**
 	 *
 	 * @param RegistrationForm $model
 	 * @return boolean 
 	 */
-	protected function _register( RegistrationForm $model, $confirm_email = true )
-	{
-		if( !$model->validate() ) 
-			return false;
-		
-		$model->state = User::STATE_INACTIVE;
-		$model->role = User::ROLE_MEMBER;
-		$model->encryptPassword();
-		$model->generateActivationKey();
-
-		if ( !$model->save(false) )
-			return false;
-
-		// send confirmation email
-		if ( $confirm_email )
-		{
-			Email::model()->send(
-				array($model->email, $model->name()), 
-				'member_confirmation', 
-				array(
-					'name'	=> $model->name(),
-					'email' => $model->email,
-					'link'	=> $model->getActivationLink(),
-				)
-			);
-		}
-
-		// create new Studio
-		$studio = new Studio();
-		$studio->user_id = $model->id;
-		$studio->save();
-
-		return true;
-	}
+//	protected function _register( RegistrationForm $model, $confirm_email = true )
+//	{
+//		if( !$model->validate() ) 
+//			return false;
+//		
+//		$model->state = User::STATE_INACTIVE;
+//		$model->role = User::ROLE_MEMBER;
+//		$model->encryptPassword();
+//		$model->generateActivationKey();
+//
+//		if ( !$model->save(false) )
+//			return false;
+//
+//		// send confirmation email
+//		if ( $confirm_email )
+//		{
+//			Email::model()->send(
+//				array($model->email, $model->name()), 
+//				'member_confirmation', 
+//				array(
+//					'name'	=> $model->name(),
+//					'email' => $model->email,
+//					'link'	=> $model->getActivationLink(),
+//				)
+//			);
+//		}
+//
+//		// create new Studio
+//		$studio = new Studio();
+//		$studio->user_id = $model->id;
+//		$studio->save();
+//
+//		return true;
+//	}
 
 	/**
 	 * Runing in popup window
@@ -114,7 +113,7 @@ class RegisterController extends YsaFrontController
 				if ( $identity->authenticate() ) 
 				{
 					Yii::app()->user->login( $identity );
-					$authIdentity->redirect( $this->createAbsoluteUrl( 'auth/login' ) );
+					$authIdentity->redirect(array('login/'));
 				}
 				else 
 				{
@@ -161,12 +160,12 @@ class RegisterController extends YsaFrontController
 				{
 					Yii::app()->user->login( $identity );
 					unset( Yii::app()->session['oauth_user_identity'] );
-					$this->redirect( $this->createAbsoluteUrl( 'auth/login' ) );
+					$this->redirect(array('login/'));
 				}
 
 				unset( Yii::app()->session['oauth_user_identity'] );
 				$this->setError( 'Unable to immediately authenticate, please log in' );
-				$this->redirect( $this->createAbsoluteUrl( 'auth/login' ) );
+				$this->redirect(array('login/'));
 			}
 		}
 		catch ( CException $e )
