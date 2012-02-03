@@ -411,6 +411,10 @@ a.btn{
 			height:100px;
 		}
 	}
+	.services {
+		background:url(../images/separator-dark-horizontal.gif) 0 0 repeat-x;
+		padding-top:25px;
+	}
 }
 
 
@@ -659,6 +663,9 @@ a.btn{
 		background:@white-alpha url(../images/faq-answers-shadow.gif) 0 0 repeat-y;
 		.rounded-right(8px);
 		.answer {
+			> h3 {
+				line-height:1.3;
+			}
 			display:none;
 			padding:60px 50px;
 		}
@@ -855,3 +862,76 @@ a.btn{
 
 
 
+/* Tour
+*******************************/
+#tour {
+	.tour-box {
+		position:relative;
+		height:399px;
+		h2 {
+			font-size:26px;
+			margin:0;
+			position:absolute;
+			span {
+				color:@gray-lima + #505050;
+				display:block;
+				line-height:1;
+			}
+		}
+		.image {
+			position:absolute;
+			display:block;
+		}
+		.story {
+			font-style:italic;
+			font-size:14px;
+			position:absolute;
+			p {
+				line-height:1.4;
+			}
+		}
+		.shadow {
+			position:absolute;
+			left:0;
+			right:0;
+			bottom:0;
+			height:9px;
+			background:url(../images/tour-box-shadow.jpg) 50% 0 no-repeat;
+		}
+	}
+
+	.tour-box-app {
+		height:390px;
+		background:url(../images/tour-bg-app.jpg) 66px 66px no-repeat;
+		h2 {
+			left:74px;
+			top:104px;
+		}
+		.story {
+			left:74px;
+			top:230px;
+			width:360px;
+		}
+		.image {
+			width:512px;
+			height:399px;
+			background:url(../images/tour-image-app.png) 0 0 no-repeat;
+			right:10px;
+			top:-52px;
+		}
+	}
+	.tour-box-events {
+		height:432px;
+		background:url(../images/tour-bg-events.jpg) 100% 0 no-repeat;
+		h2 {
+			position:absolute;
+			right:80px;
+			top:125px;
+			text-align:right;
+			span {
+				text-align:right;
+			}
+		}
+	}
+	
+}

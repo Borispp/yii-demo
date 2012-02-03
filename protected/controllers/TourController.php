@@ -3,10 +3,14 @@ class TourController extends YsaFrontController
 {
 	public function actionIndex()
 	{
-		$this->setFrontPageTitle(Yii::t('title', 'Tour'));
+		$page = Page::model()->findBySlug('tour');
+		
+		$this->setMeta($page->meta());
+		
+		$this->setFrontPageTitle(Yii::t('title', $page->title));
 		
 		$this->render('index', array(
-			
+			'page' => $page,
 		));
 	}
 }

@@ -81,6 +81,7 @@ $(function(){
 					login_link.removeClass('login-visible');
 				} else {
 					login.show();
+					login.find('input:first').focus();
 					login_visible = 1;
 					login_link.addClass('login-visible');
 				}
