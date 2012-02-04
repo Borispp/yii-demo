@@ -259,4 +259,22 @@ class AuthController extends YsaFrontController
 		
 		$this->redirect($this->_urlToRedirectAuthenticated());
 	}
+	
+	public function actionCheckRegistration()
+	{
+		if(isset($_POST['RegistrationForm']) && Yii::app()->request->isAjaxRequest)  {
+			$register = new RegistrationForm();
+			
+			$register->attributes = $_POST['RegistrationForm'];
+			
+			if ($register->validate()) {
+				$this->sendJsonSuccess();
+			} else {
+				$this->sendJsonError(array(
+					'errors' => $register->prepareAjaxErrors(),
+				));
+			}
+		}
+		$this->redirect(array('/login'));
+	}
 }

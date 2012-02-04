@@ -42,6 +42,18 @@ input[type="button"] {
 			.gradient(@blue-kilo + 10%, @blue-kilo + 10%, @blue-lima + 10%);
 		}
 	}
+	&.disabled {
+		cursor:default;
+		.gradient(@gray-echo, @gray-echo, @gray-golf);
+		color:@gray-charlie;
+		.text-shadow(rgba(255,255,255,.8));
+		&:hover,
+		&:active {
+			top:0;
+			.gradient(@gray-echo, @gray-echo, @gray-golf);
+			color:@gray-charlie;
+		}
+	}
 }
 a.btn{
 	line-height:18px;
@@ -434,6 +446,26 @@ a.btn{
 	}
 	h2 {
 		text-transform:none;
+	}
+}
+
+/* Recovery page
+*******************************/
+#recover {
+	.content {
+		
+	}
+	.form {
+		float:left;
+		width:420px;
+		margin-right:32px;
+	}
+	.info {
+		float:left;
+		background:url(../images/separator-dark-vertical.gif) 0 0 repeat-y;
+		width:420px;
+		min-height:300px;
+		padding-left:33px;
 	}
 }
 
@@ -924,7 +956,6 @@ a.btn{
 		height:432px;
 		background:url(../images/tour-bg-events.jpg) 100% 0 no-repeat;
 		h2 {
-			position:absolute;
 			right:80px;
 			top:125px;
 			text-align:right;
@@ -932,6 +963,84 @@ a.btn{
 				text-align:right;
 			}
 		}
+		.story {
+			right:80px;
+			top:245px;
+			width:365px;
+			p {
+				text-align:right;
+			}
+		}
 	}
-	
+
+	.tour-box-custom {
+		height:412px;
+		background:url(../images/tour-bg-custom.jpg) 66px 66px no-repeat;
+		h2 {
+			left:74px;
+			top:104px;
+		}
+		.story {
+			left:74px;
+			top:230px;
+			width:360px;
+		}
+		.image {
+			width:559px;
+			height:370px;
+			background:url(../images/tour-image-custom.png) 0 0 no-repeat;
+			right:0;
+			top:40px;
+		}
+	}
+
+
+	.tour-box-push {
+		height:462px;
+		background:url(../images/tour-bg-push.jpg) 440px 68px no-repeat;
+		h2 {
+			right:80px;
+			top:125px;
+			text-align:right;
+			span {
+				text-align:right;
+			}
+		}
+		.story {
+			right:80px;
+			top:245px;
+			width:365px;
+			p {
+				text-align:right;
+			}
+		}
+		.image {
+			width:461px;
+			height:462px;
+			background:url(../images/tour-image-push.png) 0 0 no-repeat;
+			left:-15px;
+			bottom:9px;
+		}
+	}	
+
+	.tour-box-workflow {
+		height:446px;
+		background:url(../images/tour-bg-workflow.jpg) 66px 66px no-repeat;
+		h2 {
+			left:74px;
+			top:104px;
+		}
+		.story {
+			left:74px;
+			top:230px;
+			width:360px;
+		}
+		.image {
+			width:559px;
+			height:370px;
+			background:url(../images/tour-image-workflow.png) 0 0 no-repeat;
+			right:0;
+			top:40px;
+		}
+	}
 }

@@ -24,14 +24,13 @@ class RecoveryForm extends YsaFormModel
 	}
 	
 	public function checkexists($attribute, $params) {
-            if(!$this->hasErrors()) {
-                $user=User::model()->findByAttributes(array('email' => $this->email));
-                if ($user) {
-                    $this->user_id = $user->id;
-                } else {
-                    $this->addError("email", 'Email is incorrect');
-                }
-            }
+		if(!$this->hasErrors()) {
+			$user=User::model()->findByAttributes(array('email' => $this->email));
+			if ($user) {
+				$this->user_id = $user->id;
+			} else {
+				$this->addError("email", 'The email you entered is not correct');
+			}
+		}
 	}
-	
 }

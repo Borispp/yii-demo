@@ -162,4 +162,13 @@ $(function(){
 		scopeTest.remove();
 		return Math.round(that * scopeVal) + 'px';
 	};
+	
+	$.fn.btnLoading = function()
+	{
+		this.val(this.data('loading')).addClass('disabled');
+	}
+	$.fn.btnLoaded = function()
+	{
+		this.val(this.data('value')).removeClass('disabled');
+	}
 });
