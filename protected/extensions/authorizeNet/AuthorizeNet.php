@@ -27,3 +27,10 @@ if (class_exists("SoapClient")) {
 class AuthorizeNetException extends Exception
 {
 }
+
+/**
+ * Facade Class To Include AuthorizeNet library
+ */
+class AuthorizeNet
+{
+}

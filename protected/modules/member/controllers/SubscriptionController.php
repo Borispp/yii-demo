@@ -4,7 +4,7 @@ class SubscriptionController extends YsaMemberController
 	public function init()
 	{
 		parent::init();
-		
+
 		$this->crumb('Settings', array('settings/'))
 			 ->crumb('Subscriptions', array('subscription/'));
 	}
@@ -210,7 +210,6 @@ class SubscriptionController extends YsaMemberController
 		if (isset($_POST['ids']) && count($_POST['ids'])) {
 			$ids = $_POST['ids'];
 		} elseif ($subscriptionId) {
-			
 			$ids = array(intval($subscriptionId));
 		}
 		
@@ -232,7 +231,6 @@ class SubscriptionController extends YsaMemberController
 	public function actionDetails($id)
 	{
 		$this->setMemberPageTitle('Subscription details');
-		
 		if (!($obUserSubscription = UserSubscription::model()->findByPk($id)) || $obUserSubscription->user_id != $this->member()->id || UserSubscription::STATE_INACTIVE == $obUserSubscription->state)
 		{
 			$this->redirect(array('subscription/'));

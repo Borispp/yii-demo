@@ -11,7 +11,7 @@
  * @property integer $duration
  * @property integer $active
  */
-class Membership extends YsaActiveRecord
+class Membership extends YsaActiveRecord implements YsaPayable
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -102,5 +102,25 @@ class Membership extends YsaActiveRecord
 	public function findAllActive()
 	{
 		return self::model()->findAll('active=1');
+	}
+
+	public function getPayableId()
+	{
+		return $this->id;
+	}
+
+	public function getPayableName()
+	{
+		return $this->name;
+	}
+
+	public function getPayableDescription()
+	{
+		return $this->description;
+	}
+
+	public function getPayablePrice()
+	{
+		return $this->description;
 	}
 }

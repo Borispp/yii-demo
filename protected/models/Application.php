@@ -13,6 +13,7 @@
  * @property string $info
  * @property integer $locked
  * @property integer $filled
+ * @property integer $paid
  * @property integer $submitted
  * @property integer $ready
  * @property Member $user
@@ -124,9 +125,9 @@ class Application extends YsaActiveRecord
 		return array(
 			array('user_id, appkey, passwd, name', 'required'),
 			array('user_id, appkey, name', 'unique'),
-			array('user_id, state, locked, filled, submitted, ready', 'numerical', 'integerOnly'=>true),
+			array('user_id, state, locked, filled, submitted, ready, paid', 'numerical', 'integerOnly'=>true),
 			array('appkey, passwd, name', 'length', 'max'=>100),
-			array('info, locked, filled, submitted, ready, default_style', 'safe'),
+			array('info, locked, filled, submitted, ready, default_style, paid', 'safe'),
 			array('id, user_id, state, name', 'safe', 'on'=>'search'),
 		);
 	}
@@ -137,6 +138,7 @@ class Application extends YsaActiveRecord
 			'user'			=> array(self::BELONGS_TO, 'Member', 'user_id'),
 			'options'		=> array(self::HAS_MANY, 'ApplicationOption', 'app_id'),
 			'history_log'	=> array(self::HAS_MANY, 'ApplicationHistoryLog', 'app_id'),
+			'transaction'	=> array(self::MANY_MANY, 'PaymentTransaction', 'payment_transaction_application(application_id, transaction_id)'),
 		);
 	}
 
@@ -819,5 +821,26 @@ class Application extends YsaActiveRecord
 		}
 		
 		return $url;
+	}
+
+	public function isPaid()
+	{
+		return $this->paid;
+	}
+
+	public function createTransaction()
+	{
+		$transaction = new PaymentTransaction();
+		$transaction->state = $transaction::STATE_CREATED;
+		$transaction->name = 'Application Initial Payment';
+		$transaction->description = 'Initial payment for the creation of YSApplication.';
+		$transaction->summ = (float)Yii::app()->settings->get('application_summ');
+		$transaction->created = date('Y.m.d H:i:s');
+		$transaction->save();
+		$transactionApplication = new PaymentTransactionApplication();
+		$transactionApplication->application_id = $this->id;
+		$transactionApplication->transaction_id = $transaction->id;
+		$transactionApplication->save();
+		return $transaction;
 	}
 }
