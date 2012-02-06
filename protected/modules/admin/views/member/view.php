@@ -39,6 +39,7 @@
 	<div id="tab-clients" class="g12">
 		
 		<?php if ($member->clients) : ?>
+
 		<table class="data">
 		<thead>
 			<tr>
@@ -79,6 +80,7 @@
 	<div id="tab-events">
 		
 		<?php if ($member->events) : ?>
+
 		<table class="data">
 		<thead>
 			<tr>
@@ -91,6 +93,7 @@
 				<th class="w_5">Created</th>
 				<th class="w_5">Updated</th>
 				<th class="w_5">Albums</th>
+
 			</tr>
 		</thead>
 		<tbody>
@@ -111,6 +114,14 @@
 					<?php endforeach; ?>
 					</ul>
 				</td>
+				<td><?php echo $event->type; ?></td>
+				<td><?php echo $event->name; ?></td>
+				<td><?php echo $event->description; ?></td>
+				<td><?php echo $event->date; ?></td>
+				<td><?php echo $event->state; ?></td>
+				<td><?php echo $event->created; ?></td>
+				<td><?php echo $event->updated; ?></td>
+
 			</tr>
 		<?php endforeach ?>
 		</tbody>
@@ -156,6 +167,5 @@
 		<?php endif ?>
 		
 	</div>
-	
     
 </div>
