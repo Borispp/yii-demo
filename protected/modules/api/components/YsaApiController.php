@@ -169,12 +169,13 @@ class YsaApiController extends YsaController
 	protected function _getEventInformation(Event $obEvent)
 	{
 		return array(
-			'id'			=> $obEvent->id,
-			'name'			=> $obEvent->name,
-			'type'			=> $obEvent->type(),
-			'description'	=> $obEvent->description,
-			'date'			=> $obEvent->date,
-			'creation_date'	=> $obEvent->created
+			'id'            => $obEvent->id,
+			'name'          => $obEvent->name,
+			'type'          => $obEvent->type(),
+			'description'   => $obEvent->description,
+			'date'          => $obEvent->date,
+			'creation_date' => $obEvent->created,
+			'preview'       => $obEvent->previewUrl(),
 		);
 	}
 

@@ -43,14 +43,23 @@ class AuthController extends YsaFrontController
 		{
 			$register->attributes = $_POST['RegistrationForm'];
 			if ($register->register()) {
+<<<<<<< HEAD
+				$this->setSuccess( 'Thank you for your registration. Please check your email' );
+				$this->redirect('login/');
+=======
 				$this->setSuccess(Yii::t('register', 'first_login_welcome'));
 				$this->redirect($this->_urlToRedirectAuthenticated());
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 			}
 			
 			$register->password = '';
 			$register->verifyPassword = '';
 		}
 		
+<<<<<<< HEAD
+		
+=======
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 		$page = Page::model()->findBySlug('login');
 		
 		$this->setFrontPageTitle(Yii::t('general', 'Login'));
