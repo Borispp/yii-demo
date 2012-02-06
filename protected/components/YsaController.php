@@ -49,6 +49,11 @@ class YsaController extends CController
 	{
 		return Yii::app()->user->setFlash('error', $message);
 	}
+	
+	public function setStatic($message)
+	{
+		return Yii::app()->user->setFlash('static', $message);
+	}
 
 	public function sendJson($data)
 	{

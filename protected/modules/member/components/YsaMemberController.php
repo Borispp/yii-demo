@@ -59,11 +59,11 @@ class YsaMemberController extends YsaController
 		if (!$this->_member->isActivated())
 		{
 			$mail_host = substr($this->_member->email, stripos($this->_member->email, '@')+1);
-			$this->setNotice('<div class="need-to-subscribe">You have not activated your account. Please, <a href="http://'.$mail_host.'/">check your mail</a> for activation link</div>');
+			$this->setStatic('<div class="need-to-subscribe">You have not activated your account. Please, <a href="http://'.$mail_host.'/" rel="external">check your mail</a> for activation link</div>');
 		}
 		elseif (!$this->_member->hasSubscription())
 		{
-			$this->setNotice('<div class="need-to-subscribe">You have no subscription. <a href="'.Yii::app()->createUrl('/member/subscription/').'">Subscribe now</a></div>');
+			$this->setStatic('<div class="need-to-subscribe">You have no subscription. <a href="'.Yii::app()->createUrl('/member/subscription/').'">Subscribe now</a></div>');
 		}
 	}
 

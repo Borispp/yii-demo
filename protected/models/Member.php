@@ -100,9 +100,12 @@ class Member extends User
 		if (null === $token) {
 			$token = $this->option(UserOption::SMUGMUG_REQUEST, '', $this->id);
 		}
-		$this->smugmug()->setToken("id={$token['Token']['id']}", "Secret={$token['Token']['Secret']}");
-		
-		return $this;
+		try {
+			$a = $this->smugmug()->setToken("id={$token['Token']['id']}", "Secret={$token['Token']['Secret']}");
+		} catch (PhpSmugException $e) {
+			return false;
+		}
+		return true;
 	}
 	
 	public function smugmugSetAccessToken($token = null)

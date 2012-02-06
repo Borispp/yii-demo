@@ -97,12 +97,28 @@ class SettingsController extends YsaMemberController
 		}
 
 		if (isset(Yii::app()->session['smugmugRequestToken'])) {
-			$this->member()->smugmugSetRequestToken(Yii::app()->session['smugmugRequestToken']);
+			if (!$this->member()->smugmugSetRequestToken(Yii::app()->session['smugmugRequestToken'])) {
+				unset(Yii::app()->session['smugmugRequestToken']);
+				$this->refresh();
+			}
 		}
-
+		
 		if (isset($authorize)) {
-			$token = $this->member()->smugmug()->auth_getAccessToken();
-			unset(Yii::app()->session['smugmugRequestToken']);
+			try {
+				$token = $this->member()->smugmug()->auth_getAccessToken();
+			} catch (Exception $e) {
+				
+				unset(Yii::app()->session['smugmugRequestToken']);
+				$this->member()->deleteOption(UserOption::SMUGMUG_HASH);
+				$this->member()->deleteOption(UserOption::SMUGMUG_AUTHORIZED);
+				$this->member()->deleteOption(UserOption::SMUGMUG_REQUEST);
+				$this->setError($e->getMessage());
+				$this->redirect(array('settings/smugmug/'));
+			}
+			
+			
+			
+			
 			$this->member()->editOption(UserOption::SMUGMUG_HASH, $token);
 			$this->redirect(array('settings/smugmug/'));
 		}

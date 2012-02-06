@@ -29,17 +29,18 @@
                     'items'=> $this->getWebsiteNavigationMenu(),
                 )); ?>
             </nav>
-			<div id="login-window">
-				<?php $this->renderPartial('//auth/_form', array(
-					'model' => new LoginForm(),
-				))?>
-			</div>
+			<?php if (Yii::app()->user->isGuest) : ?>
+				<div id="login-window">
+					<?php $this->renderPartial('//auth/_form', array(
+						'model' => new LoginForm(),
+					))?>
+				</div>
+			<?php endif; ?>
         </header>
     </div>
     <section id="content" class="cf">
         <?php echo $content; ?>
     </section>
-    
     <div class="lighter-w footer-w">
         <footer class="w">
             <p><?php echo Yii::app()->settings->get('copyright'); ?>&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;site by <a href="http://flosites.com" rel="external">Flosites</a></p>

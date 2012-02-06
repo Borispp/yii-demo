@@ -54,12 +54,18 @@
 			</div>
 			<div class="box-content">
 				<ul class="list">
-					<?php foreach($this->member()->events as $entry):?>
-						<li><?php echo YsaHtml::link($entry->name, array('event/view/' . $entry->id), array()); ?></li>
-					<?php endforeach?>
+					<?php if (count($this->member()->events)) : ?>
+						<?php foreach($this->member()->events as $entry):?>
+							<li><?php echo YsaHtml::link($entry->name, array('event/view/' . $entry->id), array()); ?></li>
+						<?php endforeach?>
+					<?php else:?>
+						<li class="empty-list">No Events</li>
+					<?php endif;?>
 				</ul>
 				<div class="box-button">
-					<?php echo YsaHtml::link('View All', array('event/'), array('class' => 'btn small')); ?>
+					<?php if (count($this->member()->events)) : ?>
+						<?php echo YsaHtml::link('View All', array('event/'), array('class' => 'btn small')); ?>
+					<?php endif;?>
 					<?php echo YsaHtml::link('Create New Event', array('event/add/'), array('class' => 'btn small')); ?>
 				</div>
 			</div>
@@ -71,12 +77,18 @@
 			</div>
 			<div class="box-content">
 				<ul class="list">
-					<?php foreach(Client::model()->findAllByMember($this->member()) as $obClient):?>
-						<li><?php echo YsaHtml::link($obClient->name, array('client/view/' . $obClient->id), array()); ?></li>
-					<?php endforeach?>
+					<?php if (count($this->member()->clients)) : ?>
+						<?php foreach($this->member()->clients as $entry):?>
+							<li><?php echo YsaHtml::link($entry->name, array('client/view/' . $entry->id), array()); ?></li>
+						<?php endforeach?>
+					<?php else:?>
+						<li class="empty-list">No Clients</li>
+					<?php endif;?>
 				</ul>
 				<div class="box-button">
-					<?php echo YsaHtml::link('View All', array('client/'), array('class' => 'btn small')); ?>
+					<?php if (count($this->member()->clients)) : ?>
+						<?php echo YsaHtml::link('View All', array('client/'), array('class' => 'btn small')); ?>
+					<?php endif;?>
 					<?php echo YsaHtml::link('Add New Client', array('client/add/'), array('class' => 'btn small')); ?>
 				</div>
 			</div>

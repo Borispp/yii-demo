@@ -10,7 +10,7 @@
 					<li><?php echo YsaHtml::link('My Subscriptions', array('subscription/list/')); ?></li>
 					<li><?php echo YsaHtml::link('SmugMug Settings', array('settings/smugmug/')); ?></li>
 					<li><?php echo YsaHtml::link('ShootQ Settings', array('settings/shootq/')); ?></li>
-					<li><?php echo YsaHtml::link('Facebok Account', array('settings/facebook/')); ?></li>
+					<li><?php echo YsaHtml::link('Facebook Account', array('settings/facebook/')); ?></li>
 				</ul>
 			</div>
 		</div>

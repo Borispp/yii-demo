@@ -1,6 +1,12 @@
 <div class="general-page" id="login-register">
 	<div class="content cf">
 		
+		<?php if(Yii::app()->user->hasFlash('recoveryMessage')): ?>
+			<div class="success">
+				<?php echo Yii::app()->user->getFlash('recoveryMessage'); ?>
+			</div>
+		<?php endif;?>
+		
 		<?php if ($page) : ?>
 			<div class="page">
 				<?php echo $page->body; ?>

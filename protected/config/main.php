@@ -408,6 +408,7 @@ return array(
 			'styles' => array(
 				'dark'	=> 'Dark',
 				'light' => 'Light',
+				'biege' => 'Biege'
 			),
 			'icon' => array(
 				'width'  => 24,
@@ -439,6 +440,18 @@ return array(
 				'second_font'		=> 'arial',
 				'main_font_color'	=> '#000000',
 				'second_font_color'	=> '#000000',
+			),
+			'biege' => array(
+				'splash_bg_color'	=> '#e5d9c7',
+				'splash_bg'			=> 'color',
+				'studio_bg_color'	=> '#e5d9c7',
+				'studio_bg'			=> 'color',
+				'generic_bg_color'	=> '#e5d9c7',
+				'generic_bg'		=> 'color',
+				'main_font'			=> 'arial',
+				'second_font'		=> 'arial',
+				'main_font_color'	=> '#6a645c',
+				'second_font_color'	=> '#6a645c',
 			),
 		)
 		

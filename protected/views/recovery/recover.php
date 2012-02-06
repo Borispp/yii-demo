@@ -1,5 +1,4 @@
 <div class="general-page" id="recover">
-	
 	<div class="content cf">
 		<?php if(Yii::app()->user->hasFlash('recoveryMessage')): ?>
 			<div class="success">
@@ -7,12 +6,9 @@
 			</div>
 		<?php else: ?>
 			<div class="form large-form">
-				
 				<?php echo YsaHtml::errorSummary($entry, false, false); ?>
-				
 				<?php $form=$this->beginWidget('YsaForm', array(
 						'id'=>'recovery-change-password-form',
-						'enableAjaxValidation'=>false,
 				)); ?>
 				<section class="cf">
 					<div>

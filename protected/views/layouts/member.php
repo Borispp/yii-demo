@@ -11,6 +11,12 @@
 	)); ?>
 </div>
 
+<?php if (Yii::app()->user->hasFlash('static')) : ?>
+	<div class="static-flash">
+			<?php echo Yii::app()->user->getFlash('static'); ?>
+	</div>
+<?php endif; ?>
+
 <?php echo $content; ?>
 
 <?php $this->endContent(); ?>
