@@ -6,23 +6,23 @@
 	)); ?>
 	<?php echo $form->errorSummary($model, false); ?>
 	<section>
-		<?php echo $form->emailField($model,'email', array('placeholder' => 'Email')); ?>
+		<?php echo $form->emailField($model,'email', array('placeholder' => 'Email', 'required' => 'required')); ?>
 	</section>
 
 	<section>
-		<?php echo $form->passwordField($model,'password', array('placeholder' => 'Password')); ?>
+		<?php echo $form->passwordField($model,'password', array('placeholder' => 'Password', 'required' => 'required')); ?>
 	</section>
 
 	<section>
-		<?php echo $form->passwordField($model,'verifyPassword', array('placeholder' => 'Verify Password')); ?>
+		<?php echo $form->passwordField($model,'verifyPassword', array('placeholder' => 'Verify Password', 'required' => 'required')); ?>
 	</section>
 
 	<section>
-		<?php echo $form->textField($model,'first_name', array('placeholder' => 'First Name')); ?>
+		<?php echo $form->textField($model,'first_name', array('placeholder' => 'First Name', 'required' => 'required')); ?>
 	</section>
 
 	<section>
-		<?php echo $form->textField($model,'last_name', array('placeholder' => 'Last Name')); ?>
+		<?php echo $form->textField($model,'last_name', array('placeholder' => 'Last Name', 'required' => 'required')); ?>
 	</section>
 	
 <?/*
@@ -35,12 +35,12 @@
  */?>
 	<section class="buttons cf">
 		<div class="subscribe"><?php echo $form->checkBox($model,'subscribe'); ?><?php echo $form->labelEx($model,'subscribe'); ?></div>
-		<?php echo YsaHtml::submitButton('Register', array('class' => 'blue')); ?>
+		<?php echo YsaHtml::submitLoadingButton('Register', array('class' => 'blue')); ?>
 	</section>
 
 	<?php $this->endWidget(); ?>
 
 	
-	<?php $this->widget('ext.eauth.EAuthWidget', array('action' => 'register/oauth')) ?>
+	<?php $this->widget('ext.eauth.EAuthWidget', array('action' => 'auth/oauthRegistration')) ?>
 	
 </div><!-- form -->

@@ -1,0 +1,159 @@
+/* 
+Theme Name: YourStudioApp Blog
+Description: This blog theme is fully integrated with YSA website.
+Author: Flosites | Eugen F.
+Author URI: http://flothemes.com
+Version: 0.0.1
+*/
+
+/* Typo
+*******************************/
+.story {
+	line-height:1.5;
+}
+.story ul,
+.story ul li {
+    list-style: square;
+}
+.story ol,
+.story ol li {
+    list-style: decimal;
+}
+.story ul,
+.story ol {
+    margin: 0 0 1em 1.5em;
+    line-height: 1.5;
+}
+.story ol ol {
+    list-style: upper-alpha;
+}
+.story ol ol ol {
+    list-style: lower-roman;
+}
+.story ol ol ol ol {
+    list-style: lower-alpha;
+}
+.story ul ul,
+.story ol ol,
+.story ul ol,
+.story ol ul {
+    margin-bottom: 0;
+}
+.story h1,
+.story h2,
+.story h3,
+.story h4,
+.story h5,
+.story h6 {
+	text-transform:none;
+    margin-bottom: .5em;
+}
+
+.story a:link,
+.story a:visited,
+.story a:hover,
+.story a:active{
+    text-decoration: underline;
+}
+dl {
+    margin: 0 0 1.5em 0;
+}
+dt {
+    font-weight: bold;
+}
+dd {
+    margin-bottom: 1em;
+}
+pre {
+    background: #f7f7f7;
+    color: #222;
+    line-height: 1em;
+    margin-bottom: 1em;
+    padding: 1.5em;
+	font-family: "Monaco", Courier New, monospace;
+}
+abbr,
+acronym {
+    border-bottom: 1px dotted #666;
+    cursor: help;
+}
+sup,
+sub {
+    height: 0;
+    line-height: 1;
+    position: relative;
+    vertical-align: baseline;
+}
+sup {
+    bottom: 1ex;
+}
+sub {
+    top: .5ex;
+}
+
+table {
+    margin-bottom: 1.5em;
+    border-collapse: collapse;
+}
+table td,
+table th {
+    padding:5px;
+	text-align:left;
+}
+table th {
+    font-weight: bold;
+}
+
+
+/* Wordpress Typo
+*******************************/
+img.size-auto,
+img.size-full,
+img.size-large,
+img.size-medium,
+.attachment img {
+    max-width: 100%; /* When images are too wide for containing element, force them to fit. */
+    height: auto; /* Override height to match resized width for correct aspect ratio. */
+}
+.alignleft,
+img.alignleft {
+    display: inline;
+    float: left;
+    margin-right: 1em;
+}
+.alignright,
+img.alignright {
+    display: inline;
+    float: right;
+    margin-left: 1em;
+}
+.aligncenter,
+img.aligncenter {
+    clear: both;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+img.alignleft,
+img.alignright,
+img.aligncenter {
+    margin-bottom: 1em;
+}
+.wp-caption {
+    background: #f1f1f1;
+    line-height: 18px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.wp-caption img {
+    margin: 5px 5px 0;
+}
+.wp-caption p.wp-caption-text {
+    color: #888;
+    font-size: 11px;
+    margin:0;
+	padding:5px;
+}
+.wp-smiley {
+    margin: 0;
+}

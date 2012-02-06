@@ -1,6 +1,9 @@
 <?php
 class YsaMemberController extends YsaController
 {
+	/**
+	 * @var Member 
+	 */
 	protected $_member;
 
 	protected $_uploadImagePath;
@@ -46,7 +49,19 @@ class YsaMemberController extends YsaController
 		 * Load member
 		 */
 		$this->_member = Member::model()->findByPk(Yii::app()->user->getId());
-		if (!$this->_member || !$this->_member->hasSubscription())
+		
+		if (!$this->_member)
+		{
+			Yii::app()->user->logout();
+			$this->redirect(Yii::app()->homeUrl);
+		}
+		
+		if (!$this->_member->isActivated())
+		{
+			$mail_host = substr($this->_member->email, stripos($this->_member->email, '@')+1);
+			$this->setNotice('<div class="need-to-subscribe">You have not activated your account. Please, <a href="http://'.$mail_host.'/">check your mail</a> for activation link</div>');
+		}
+		elseif (!$this->_member->hasSubscription())
 		{
 			$this->setNotice('<div class="need-to-subscribe">You have no subscription. <a href="'.Yii::app()->createUrl('/member/subscription/').'">Subscribe now</a></div>');
 		}

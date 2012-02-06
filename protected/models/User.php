@@ -154,6 +154,16 @@ class User extends YsaActiveRecord
 	}
 
 	/**
+	 * Checks only activation state without ban
+	 *
+	 * @return boolean 
+	 */
+	public function isActivated()
+	{
+		return $this->state == self::STATE_INACTIVE;
+	}
+	
+	/**
 	 * @return boolean whether the saving succeeds
 	 */
 	public function ban()
