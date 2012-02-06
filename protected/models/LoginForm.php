@@ -3,7 +3,7 @@
 /**
  * LoginForm class.
  * LoginForm is the data structure for keeping
- * user login form data. It is used by the 'login' action of 'SiteController'.
+ * user login form data. It is used by the 'login' action of 'AuthController'.
  */
 class LoginForm extends YsaFormModel
 {
@@ -20,14 +20,12 @@ class LoginForm extends YsaFormModel
 	 */
 	public function rules()
 	{
-            return array(
-                // username and password are required
-                array('email, password', 'required'),
-                // rememberMe needs to be a boolean
-                array('rememberMe', 'boolean'),
-                // password needs to be authenticated
-                array('password', 'authenticate'),
-            );
+		return array(
+			array('email', 'email'),
+			array('email, password', 'required'),
+			array('rememberMe', 'boolean'),
+			array('password', 'authenticate'),
+		);
 	}
 
 	/**

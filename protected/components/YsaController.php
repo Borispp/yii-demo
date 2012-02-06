@@ -169,12 +169,13 @@ class YsaController extends CController
 		if ($this->isWebsite()) {
 			$nav = array(
 				array('label'=>'Home', 'url'=>Yii::app()->homeUrl),
-				array('label'=>'About', 'url'=> array('about/'), 'active' => $c == 'page' && $this->_slug == 'about'),
-				array('label'=>'Contact', 'url'=>array('contact/'), 'active' => $c == 'page' && $a == 'contact'),
+				array('label'=>'Tour', 'url'=>array('tour/'), 'active' => $c == 'tour'),
+				array('label'=>'Pricing', 'url'=>array('pricing/'), 'active' => $c == 'pricing'),
 				array('label'=>'Blog', 'url'=>array('blog/')),
 				array('label'=>'Faq', 'url'=>array('faq/'), 'active' => $c == 'faq'),
-				array('label'=>'Pricing', 'url'=>array('pricing/'), 'active' => $c == 'tour'),
-				array('label'=>'Panel', 'url'=>array('member/'), 'visible' => !Yii::app()->user->isGuest),
+				array('label'=>'Contact', 'url'=>array('contact/'), 'active' => $c == 'page' && $a == 'contact'),
+				array('label'=>'Panel', 'url'=>array('member/'), 'visible' => !Yii::app()->user->isGuest && Yii::app()->user->isMember()),
+				array('label'=>'Admin', 'url'=>array('admin/'), 'visible' => !Yii::app()->user->isGuest && Yii::app()->user->isAdmin()),
 				array('label'=>'Login', 'url'=>array('/login'), 'visible' => Yii::app()->user->isGuest, 'itemOptions' => array('id' => 'navigation-login-link')),
 				array('label'=>'Logout', 'url'=>array('/logout'), 'visible' => !Yii::app()->user->isGuest),
 			);
@@ -184,7 +185,6 @@ class YsaController extends CController
 				array('label'=>'Application', 'url'=>array('application/'), 'active' => $c == 'application'),
 				array('label'=>'Studio', 'url'=>array('studio/'), 'active' => in_array($c, array('studio', 'link', 'person'))),
 				array('label'=>'Events', 'url'=>array('event/'), 'active' => in_array($c, array('event', 'album', 'photo'))),
-//				array('label'=>'Orders', 'url'=>array('order/')),
 				array('label'=>'Clients', 'url'=>array('client/'), 'active' => $c == 'client'),
 				array('label'=>'Settings', 'url'=>array('settings/'), 'active' => $c == 'settings'),
 				array('label'=>'Logout', 'url'=>array('/logout'), 'visible' => !Yii::app()->user->isGuest),

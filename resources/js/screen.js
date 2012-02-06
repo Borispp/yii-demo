@@ -79,13 +79,15 @@ $(function(){
 	
 	// add ajax loader to page on any ajax call
 	var ajax_loader = $('#ajax-loader');
-	$.preload(ajax_loader.backgroundImageUrl());
-	$(document).ajaxStart(function(){
-		ajax_loader.show();
-	}).ajaxComplete(function(){
-		ajax_loader.hide();
-	});
-	
+	if (ajax_loader.length) {
+		$.preload(ajax_loader.backgroundImageUrl());
+		$(document).ajaxStart(function(){
+			ajax_loader.show();
+		}).ajaxComplete(function(){
+			ajax_loader.hide();
+		});
+	}
+
 	$.fn.fadeInSlide = function (speed, callback) {
 		if ($.isFunction(speed)) callback = speed;
 		if (!speed) speed = 200;
@@ -160,4 +162,13 @@ $(function(){
 		scopeTest.remove();
 		return Math.round(that * scopeVal) + 'px';
 	};
+	
+	$.fn.btnLoading = function()
+	{
+		this.val(this.data('loading')).addClass('disabled');
+	}
+	$.fn.btnLoaded = function()
+	{
+		this.val(this.data('value')).removeClass('disabled');
+	}
 });

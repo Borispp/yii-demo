@@ -74,7 +74,7 @@ return array(
 		),
 		'user'=>array(
 			'allowAutoLogin'=>true,
-			'loginUrl' => array('/auth/login'),
+			'loginUrl' => array('/login'),
 			'class' => 'YsaWebUser',
 		),
 		'authManager' => array(

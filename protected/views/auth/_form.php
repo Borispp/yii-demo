@@ -1,7 +1,7 @@
-<div class="form">
+<div class="large-form form">
 	<?php $form=$this->beginWidget('YsaForm', array(
 		'id'=>'login-window-form',
-		'action' => array('auth/login/')
+		'action' => array('login/')
 	)); ?>
 	<div class="rows">
 		<div class="row">
@@ -16,15 +16,15 @@
 
 		<div class="row cf">
 			<div class="remember">
-				<?php echo $form->checkBox($model,'rememberMe'); ?>
-				<?php echo $form->label($model,'rememberMe'); ?>
+				<?php echo $form->checkBox($model,'rememberMe', array('id' => 'login-window-remember')); ?>
+				<?php echo $form->label($model,'rememberMe', array('for' => 'login-window-remember')); ?>
 			</div>
-			<?php echo YsaHtml::submitButton('Login', array('class' => 'blue')); ?>
+			<?php echo YsaHtml::submitLoadingButton('Login', array('class' => 'blue')); ?>
 		</div>
 	</div>
 	
 	<div class="links cf">
-		<?php echo YsaHtml::link('Register', array('register/'), array('class' => 'reg')); ?><span>|</span><?php echo YsaHtml::link("Lost Password?", array('recovery/'), array('class' => 'lost')); ?>
+		<?php echo YsaHtml::link('Register', array('login/'), array('class' => 'reg')); ?><span>|</span><?php echo YsaHtml::link("Lost Password?", array('recovery/'), array('class' => 'lost')); ?>
 	</div>
 <?php $this->endWidget(); ?>
 </div><!-- form -->

@@ -71,6 +71,7 @@ class SubscriptionController extends YsaMemberController
 			{
 				$entry->save();
 				$obTransaction = $this->_addNewTransaction($entry);
+				$this->member()->activate();
 				unset( Yii::app()->session['discount'] );
 				$this->redirect(array('paypal', 'id' => $obTransaction->id));
 //				$this->setSuccessFlash("New entry successfully added. " . CHtml::link('Back to listing.', array('index')));

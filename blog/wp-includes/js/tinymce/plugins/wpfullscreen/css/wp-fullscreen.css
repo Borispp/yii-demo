@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
 Distraction Free Writing mode TinyMCE Styles
 */
@@ -9,3 +10,16 @@ html, body {
 	margin: 0;
 	padding: 0;
 }
+=======
+/*
+Distraction Free Writing mode TinyMCE Styles
+*/
+
+html, body {
+	background: transparent;
+	width: auto !important;
+	max-width: none !important;
+	margin: 0;
+	padding: 0;
+}
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940

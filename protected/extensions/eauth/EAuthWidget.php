@@ -35,6 +35,13 @@ class EAuthWidget extends CWidget {
 	public $action = null;
 
 	/**
+	 * Widget custom options
+	 *
+	 * @var array
+	 */
+	public $options = array();
+	
+	/**
 	 * Initializes the widget.
 	 * This method is called by {@link CBaseController::createWidget}
 	 * and {@link CBaseController::beginWidget} after the widget's
@@ -69,6 +76,7 @@ class EAuthWidget extends CWidget {
 			'id' => $this->getId(),
 			'services' => $this->services,
 			'action' => $this->action,
+			'options' => $this->options
 		));
     }
 	

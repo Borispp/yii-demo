@@ -1,4 +1,4 @@
-<div id="faq" class="cf">
+<div id="faq" class="general-page cf">
 	<div class="questions">
 		<ul>
 			<?php foreach($faq as $entry):?>

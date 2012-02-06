@@ -2,7 +2,7 @@
 	<div class="homepage-header-wrapper">
 		<section id="homepage-header">
 			<h2>YourStudioApp</h2>
-			<a href="<?php echo Yii::app()->createUrl('/register')?>" class="signup">
+			<a href="<?php echo Yii::app()->createUrl('/login')?>" class="signup">
 				<span class="sign">Sign Up Now</span>
 				<span class="arr">&gt;</span>
 				<span class="click">click here</span>
@@ -23,7 +23,7 @@
 				<div class="buttons">
 					<?php echo YsaHtml::link('Tour', array('/tour'), array('class' => 'btn black')); ?>
 					<span></span>
-					<?php echo YsaHtml::link('Get Started', array('/register'), array('class' => 'btn blue')); ?>
+					<?php echo YsaHtml::link('Get Started', array('/login'), array('class' => 'btn blue')); ?>
 				</div>
 			</div>
 			<div class="video">
@@ -39,10 +39,10 @@
 				<h3>Get connected to our <span>social life</span></h3>
 				<ul>
 					<li>
-						<a href="" class="fb">Become a fan of YSA on <span>Facebook</span></a>
+						<a href="<?php echo Yii::app()->settings->get('facebook'); ?>" class="fb" rel="external">Become a fan of YSA on <span>Facebook</span></a>
 					</li>
 					<li>
-						<a href="" class="twi">Recent <span>Twitter</span> feed</a>
+						<a href="<?php echo Yii::app()->settings->get('twitter'); ?>" class="twi" rel="external">Recent <span>Twitter</span> feed</a>
 						<div class="feed">
 							<?php foreach (YsaTwitterReader::getTweets(Yii::app()->settings->get('twitter')) as $tweet) : ?>
 								<?php echo $tweet['tweet']; ?>

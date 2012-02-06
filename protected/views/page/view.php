@@ -1,4 +1,6 @@
-<div class="w body">
-    <h1><?php echo $page->title; ?></h1>
-    <?php echo $page->content; ?>
+<div class="general-page">
+    <div class="content">
+		<h2><?php echo $page->title; ?></h2>
+		<?php echo $page->content; ?>
+	</div>
 </div>

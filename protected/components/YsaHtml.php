@@ -33,4 +33,16 @@ class YsaHtml extends CHtml
 		self::clientChange('change',$htmlOptions);
 		return self::activeInputField('email',$model,$attribute,$htmlOptions);
 	}
+	
+	public static function submitLoadingButton($label='submit',$htmlOptions=array())
+	{
+		if (!isset($htmlOptions['data-loading'])) {
+			$htmlOptions['data-loading'] = 'Loading';
+		}
+		if (!isset($htmlOptions['data-value'])) {
+			$htmlOptions['data-value'] = $label;
+		}
+		
+		return self::submitButton($label, $htmlOptions);
+	}
 }
