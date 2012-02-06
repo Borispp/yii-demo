@@ -175,6 +175,20 @@ class Event extends YsaActiveRecord
 	}
 
 	/**
+	 * Human representation of state
+	 *
+	 * @return string 
+	 */
+	public function state()
+	{
+		switch ($this->state) {
+			case 1: return 'Active';
+			case 0: return 'Inactive';
+			default: return 'Unknown';
+		}
+	}
+	
+	/**
 	 * Generate unique Event password
 	 */
 	public function generatePassword()

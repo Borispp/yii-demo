@@ -20,13 +20,12 @@
 .auth-icon.moikrug		 { background-position: 0 -238px; }
 .auth-icon.odnoklassniki { background-position: 0 -272px; }
 
-
 .auth-link:hover .auth-icon i,
 .auth-link:focus .auth-icon i {
     display: block;
     width: 32px;
     height: 32px;
-    background: url("../images/auth.png") 0 0 no-repeat;
+    /* background: url("../images/auth.png") 0 0 no-repeat; */
 }
 
 .auth-services {
@@ -55,4 +54,19 @@
     display: block;
     margin-top: 0.4em;
     text-align: center;
+}
+
+/* Facebook */
+.auth-icon.facebook {
+    width: 172px;
+    height: 32px;
+    background: url("../images/facebook-connect-button.png") no-repeat;
+}
+.auth-icon.facebook.fb-login {
+    width: 92px;
+    height: 32px;
+    background: url("../images/facebook-login-button.png") no-repeat;
+}
+.auth-icon.facebook:hover {
+    opacity: 0.8;
 }

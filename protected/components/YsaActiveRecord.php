@@ -141,4 +141,15 @@ class YsaActiveRecord extends CActiveRecord
 	{
 		return $this->model()->findByAttributes(array($attribute => $value));
 	}
+	
+	public function prepareAjaxErrors()
+	{
+		$errors = array();
+		foreach ($this->getErrors() as $field => $err) {
+			if (isset($err[0])) {
+				$errors[get_called_class() . '[' . $field . ']'] = $err[0];
+			}
+		}
+		return $errors;
+	}
 }

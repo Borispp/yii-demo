@@ -72,8 +72,12 @@ class RecoveryController extends YsaFrontController
                     $this->refresh();
                 }
             }
-
-            $this->render('recover', array('entry' => $form));
+			
+			$page = Page::model()->findBySlug('restore');
+			
+			$this->setFrontPageTitle($page->title);
+			
+            $this->render('recover', array('entry' => $form, 'page' => $page));
         }
     }
 }

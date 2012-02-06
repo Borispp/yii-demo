@@ -288,21 +288,41 @@ class Member extends User
 	
 	/**
 	 * Register new member 
+<<<<<<< HEAD
 	 * Use this method instead of save  
 	 */
 	public function register($confirm_email = true)
+=======
+	 * Use this method instead of save
+	 * 
+	 * @param boolean $confirm_email
+	 * @param boolean $login perform immediate login
+	 * @return boolean state of registration
+	 */
+	public function register($confirm_email = true, $login = true)
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 	{
 		if( !$this->validate() ) 
 			return false;
 		
+<<<<<<< HEAD
 		$this->state = User::STATE_INACTIVE;
+=======
+		$storePassword = $this->password;
+		
+		$this->state = User::STATE_ACTIVE;
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 		$this->role = User::ROLE_MEMBER;
 		$this->encryptPassword();
 		$this->generateActivationKey();
 
 		if ( !$this->save(false) )
 			return false;
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 		// send confirmation email
 		if ( $confirm_email )
 		{
@@ -321,6 +341,16 @@ class Member extends User
 		$studio = new Studio();
 		$studio->user_id = $this->id;
 		$studio->save();
+<<<<<<< HEAD
+=======
+		
+		if ($login) {
+			$form = new LoginForm;
+			$form->email = $this->email;
+			$form->password = $storePassword;
+			$form->login();
+		}
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 
 		return true;
 	}

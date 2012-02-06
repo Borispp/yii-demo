@@ -39,12 +39,13 @@
 
 				<?php else: ?>
 
+				<div class="form standart-form">
 					<?php $form = $this->beginWidget('YsaForm', array(
 						'id'=>'smugmug-form',
 						'enableAjaxValidation'=>false,
 					)); ?>
 
-					<section>
+					<section class="cf">
 						<?php echo $form->labelEx($smug,'smug_api'); ?>
 						<div>
 							<?php echo $form->textField($smug,'smug_api', array('size'=>50,'maxlength'=>50)); ?>
@@ -52,7 +53,7 @@
 						</div>
 					</section>
 
-					<section>
+					<section class="cf">
 						<?php echo $form->labelEx($smug,'smug_secret'); ?>
 						<div>
 							<?php echo $form->textField($smug,'smug_secret',array('size'=>50,'maxlength'=>50)); ?>
@@ -70,6 +71,7 @@
 						<p>Please click <?php echo YsaHtml::link('this link', $entry->smugmug()->authorize(), array('target' => '_blank', 'id' => 'settings-smugmug-authorize')); ?> to authorize to SmugMug.<br/>
 						After authorization please click <?php echo YsaHtml::link('this link', array('settings/smugmug/authorize/')); ?> to complete authentication.</p>
 					<?php endif; ?>
+				</div>
 
 				<?php endif; ?>
 			</div>
