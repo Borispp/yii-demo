@@ -173,8 +173,15 @@ class YsaController extends CController
 				array('label'=>'Pricing', 'url'=>array('pricing/'), 'active' => $c == 'pricing'),
 				array('label'=>'Blog', 'url'=>array('blog/')),
 				array('label'=>'Faq', 'url'=>array('faq/'), 'active' => $c == 'faq'),
-				array('label'=>'Contact', 'url'=>array('contact/'), 'active' => $c == 'page' && $a == 'contact'),
+<<<<<<< HEAD
+				array('label'=>'Tour', 'url'=>array('tour/'), 'active' => $c == 'tour'),
+				array('label'=>'Pricing', 'url'=>array('pricing/'), 'active' => $c == 'pricing'),
 				array('label'=>'Panel', 'url'=>array('member/'), 'visible' => !Yii::app()->user->isGuest),
+=======
+				array('label'=>'Contact', 'url'=>array('contact/'), 'active' => $c == 'page' && $a == 'contact'),
+				array('label'=>'Panel', 'url'=>array('member/'), 'visible' => !Yii::app()->user->isGuest && Yii::app()->user->isMember()),
+				array('label'=>'Admin', 'url'=>array('admin/'), 'visible' => !Yii::app()->user->isGuest && Yii::app()->user->isAdmin()),
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 				array('label'=>'Login', 'url'=>array('/login'), 'visible' => Yii::app()->user->isGuest, 'itemOptions' => array('id' => 'navigation-login-link')),
 				array('label'=>'Logout', 'url'=>array('/logout'), 'visible' => !Yii::app()->user->isGuest),
 			);

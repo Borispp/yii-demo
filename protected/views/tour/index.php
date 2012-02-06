@@ -3,9 +3,7 @@
 		<span class="shadow"></span>
 		<h2>Your Own <span>Application</span></h2>
 		<div class="story">
-			<p>
-				This is your own application for your photography studio in the app store. Free for anyone to download and use on their iPad or iPhone. This is your mobile connection and experience for your new and current clients!
-			</p>
+			<p>This is your own application for your photography studio in the app store. Free for anyone to download and use on their iPad or iPhone. This is your mobile connection and experience for your new and current clients!</p>
 		</div>
 		<span class="image"></span>
 	</div>
@@ -14,9 +12,7 @@
 		<span class="shadow"></span>
 		<h2>Event <span>Galleries</span></h2>
 		<div class="story">
-			<p>
-				These are interactive galleries at your existing clients can privately access, order, comment, as well as view and share via AirPlay or social media.
-			</p>
+			<p>These are interactive galleries at your existing clients can privately access, order, comment, as well as view and share via AirPlay or social media.</p>
 		</div>
 		<span class="image"></span>
 	</div>
@@ -25,9 +21,7 @@
 		<span class="shadow"></span>
 		<h2>Custom <span>Featured Pages</span></h2>
 		<div class="story">
-			<p>
-				This is your own application for your photography studio in the app store. Free for anyone to download and use on their iPad or iPhone. This is your mobile connection and experience for your new and current clients!
-			</p>
+			<p>This is your own application for your photography studio in the app store. Free for anyone to download and use on their iPad or iPhone. This is your mobile connection and experience for your new and current clients!</p>
 		</div>
 		<span class="image"></span>
 	</div>

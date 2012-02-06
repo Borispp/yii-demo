@@ -84,6 +84,7 @@
 	<ul>
 		<li><?php echo YsaHtml::link('Logout', array('/logout'))?></li>
 		<li><?php echo YsaHtml::link('Configuration', '#', array('id' => 'wl_config'))?></li>
+		<li><?php echo YsaHtml::link('Blog Admin', Yii::app()->homeUrl . '/blog/')?></li>
 		<li><?php echo YsaHtml::link('Website', Yii::app()->homeUrl)?></li>
 	</ul>
 	<div>
@@ -170,11 +171,6 @@
 		'label' => 'Member',
 		'url' => array('/admin/member/'),
 		'linkOptions' => array('class' => $this->getNavigationClass('member')),
-	);
-	$membersItems[] = array(
-		'label' => 'Studio',
-		'url' => array('/admin/studio/'),
-		'linkOptions' => array('class' => $this->getNavigationClass('studio')),
 	);
 	$membersItems[] = array(
 		'label' => 'Subscription',

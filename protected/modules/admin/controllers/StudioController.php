@@ -1,6 +1,7 @@
 <?php
 class StudioController extends YsaAdminController
 {
+	/*
 	public function actionIndex()
 	{
 		$criteria = new CDbCriteria;
@@ -22,9 +23,7 @@ class StudioController extends YsaAdminController
 
 	public function actionView($id)
 	{
-		$id = (int) $id;
-
-		$entry = Studio::model()->findByPk($id);
+		$entry = Studio::model()->findByPk((int) $id);
 
 		if (!$entry) {
 			$this->redirect('/admin/' . $this->getId());
@@ -34,8 +33,24 @@ class StudioController extends YsaAdminController
 
 		$this->render('view',array(
 			'entry'		=> $entry,
-			'links'		=> $entry->link,
-			'persons'	=> $entry->person
+			'links'		=> $entry->links,
+			'persons'	=> $entry->persons
+		));
+	}
+	*/
+	
+	public function actionPartialView($id)
+	{
+		$entry = Studio::model()->findByPk((int) $id);
+
+		if (!$entry) {
+			$this->redirect('/admin/' . $this->getId());
+		}
+
+		$this->renderPartial('view',array(
+			'entry'		=> $entry,
+			'links'		=> $entry->links,
+			'persons'	=> $entry->persons
 		));
 	}
 }

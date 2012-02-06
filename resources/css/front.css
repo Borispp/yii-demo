@@ -1695,7 +1695,11 @@ div.error-top {
   padding: 3px 10px;
   margin-left: -2px;
   background: #ff7e7e;
+<<<<<<< HEAD
   width: 190px;
+=======
+  width: 300px;
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -2078,6 +2082,33 @@ input[type="button"].blue:active {
   background: -ms-linear-gradient(bottom, #0d9ccf, #13deff);
   background: -moz-linear-gradient(center bottom, #0d9ccf 0%, #13deff 100%);
 }
+button.disabled,
+a.btn.disabled,
+input[type="submit"].disabled,
+input[type="button"].disabled {
+  cursor: default;
+  background: #eeeeee;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #eeeeee), color-stop(1, #f0f0f0));
+  background: -ms-linear-gradient(bottom, #eeeeee, #f0f0f0);
+  background: -moz-linear-gradient(center bottom, #eeeeee 0%, #f0f0f0 100%);
+  color: #999999;
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
+}
+button.disabled:hover,
+a.btn.disabled:hover,
+input[type="submit"].disabled:hover,
+input[type="button"].disabled:hover,
+button.disabled:active,
+a.btn.disabled:active,
+input[type="submit"].disabled:active,
+input[type="button"].disabled:active {
+  top: 0;
+  background: #eeeeee;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #eeeeee), color-stop(1, #f0f0f0));
+  background: -ms-linear-gradient(bottom, #eeeeee, #f0f0f0);
+  background: -moz-linear-gradient(center bottom, #eeeeee 0%, #f0f0f0 100%);
+  color: #999999;
+}
 a.btn {
   line-height: 18px;
   min-height: 18px;
@@ -2410,7 +2441,10 @@ a.btn {
   float: right;
   line-height: 34px;
   padding-right: 5px;
+<<<<<<< HEAD
+=======
   font-style: italic;
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 }
 .large-form section.buttons .subscribe {
   float: left;
@@ -2461,10 +2495,13 @@ a.btn {
 .large-form section textarea {
   height: 100px;
 }
+<<<<<<< HEAD
+=======
 .large-form .services {
   background: url(../images/separator-dark-horizontal.gif) 0 0 repeat-x;
   padding-top: 25px;
 }
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 /* Register / Login Page
 *******************************/
 #login-register .login {
@@ -2481,6 +2518,23 @@ a.btn {
 #login-register h2 {
   text-transform: none;
 }
+<<<<<<< HEAD
+=======
+/* Recovery page
+*******************************/
+#recover .form {
+  float: left;
+  width: 420px;
+  margin-right: 32px;
+}
+#recover .info {
+  float: left;
+  background: url(../images/separator-dark-vertical.gif) 0 0 repeat-y;
+  width: 420px;
+  min-height: 300px;
+  padding-left: 33px;
+}
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 /* Contact
 *******************************/
 #contact .info {
@@ -2997,11 +3051,85 @@ a.btn {
   background: url(../images/tour-bg-events.jpg) 100% 0 no-repeat;
 }
 #tour .tour-box-events h2 {
-  position: absolute;
   right: 80px;
   top: 125px;
   text-align: right;
 }
 #tour .tour-box-events h2 span {
   text-align: right;
+}
+#tour .tour-box-events .story {
+  right: 80px;
+  top: 245px;
+  width: 365px;
+}
+#tour .tour-box-events .story p {
+  text-align: right;
+}
+#tour .tour-box-custom {
+  height: 412px;
+  background: url(../images/tour-bg-custom.jpg) 66px 66px no-repeat;
+}
+#tour .tour-box-custom h2 {
+  left: 74px;
+  top: 104px;
+}
+#tour .tour-box-custom .story {
+  left: 74px;
+  top: 230px;
+  width: 360px;
+}
+#tour .tour-box-custom .image {
+  width: 559px;
+  height: 370px;
+  background: url(../images/tour-image-custom.png) 0 0 no-repeat;
+  right: 0;
+  top: 40px;
+}
+#tour .tour-box-push {
+  height: 462px;
+  background: url(../images/tour-bg-push.jpg) 440px 68px no-repeat;
+}
+#tour .tour-box-push h2 {
+  right: 80px;
+  top: 125px;
+  text-align: right;
+}
+#tour .tour-box-push h2 span {
+  text-align: right;
+}
+#tour .tour-box-push .story {
+  right: 80px;
+  top: 245px;
+  width: 365px;
+}
+#tour .tour-box-push .story p {
+  text-align: right;
+}
+#tour .tour-box-push .image {
+  width: 461px;
+  height: 462px;
+  background: url(../images/tour-image-push.png) 0 0 no-repeat;
+  left: -15px;
+  bottom: 9px;
+}
+#tour .tour-box-workflow {
+  height: 446px;
+  background: url(../images/tour-bg-workflow.jpg) 66px 66px no-repeat;
+}
+#tour .tour-box-workflow h2 {
+  left: 74px;
+  top: 104px;
+}
+#tour .tour-box-workflow .story {
+  left: 74px;
+  top: 230px;
+  width: 360px;
+}
+#tour .tour-box-workflow .image {
+  width: 559px;
+  height: 370px;
+  background: url(../images/tour-image-workflow.png) 0 0 no-repeat;
+  right: 0;
+  top: 40px;
 }
