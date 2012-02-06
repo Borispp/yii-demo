@@ -1997,6 +1997,97 @@ footer a:hover {
   color: #777777;
   text-decoration: none;
 }
+/* Message Boxes
+*******************************/
+div.flash {
+  z-index: 999;
+  position: fixed;
+  z-index: 101;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  overflow: hidden;
+  background: #ffffff;
+  color: #333333;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 2.5;
+  -webkit-box-shadow: 0 0 5px black;
+  -moz-box-shadow: 0 0 5px black;
+  box-shadow: 0 0 5px black;
+  cursor: pointer;
+  text-shadow: 1px 1px 0px #ffffff;
+}
+div.flash.success {
+  background: rgba(162, 232, 162, 0.9);
+}
+div.flash.error {
+  background: rgba(240, 204, 204, 0.9);
+}
+div.flash.notice {
+  background: rgba(232, 232, 162, 0.9);
+}
+div.flash.info {
+  background: rgba(115, 208, 239, 0.9);
+}
+div.flash.app {
+  -webkit-transform: translatey(-50px);
+  -webkit-animation: slideDown 6s 1s 1 ease forwards;
+  -moz-transform: translatey(-50px);
+  -moz-animation: slideDown 6s 1s 1 ease forwards;
+}
+@-webkit-keyframes slideDown {
+  0%, 100% {
+    -webkit-transform: translatey(-50px);
+  }
+  10%, 90% {
+    -webkit-transform: translatey(0px);
+  }
+}
+@-moz-keyframes slideDown {
+  0%, 100% {
+    -moz-transform: translatey(-50px);
+  }
+  10%, 90% {
+    -moz-transform: translatey(0px);
+  }
+}
+div.flash a {
+  color: #333333;
+  text-decoration: underline;
+}
+div.static-flash {
+  margin-bottom: 24px;
+  color: #3a3a3a;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 12px 20px;
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
+}
+div.static-flash.success {
+  background: rgba(162, 232, 162, 0.9);
+}
+div.static-flash.error {
+  background: rgba(240, 204, 204, 0.9);
+}
+div.static-flash.notice {
+  background: rgba(232, 232, 162, 0.9);
+}
+div.static-flash.info {
+  background: rgba(115, 208, 239, 0.9);
+}
+div.static-flash a {
+  color: #3a3a3a;
+  text-decoration: underline;
+}
 button,
 a.btn,
 input[type="submit"],

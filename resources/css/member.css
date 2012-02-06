@@ -1999,57 +1999,6 @@ footer a:hover {
   color: #777777;
   text-decoration: none;
 }
-/* Breadcrumb
-*******************************/
-.breadcrumb {
-  display: block;
-  background: #f7f7f7;
-  background: #f7f7f7;
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #efefef), color-stop(1, #f7f7f7));
-  background: -ms-linear-gradient(bottom, #efefef, #f7f7f7);
-  background: -moz-linear-gradient(center bottom, #efefef 0%, #f7f7f7 100%);
-  -webkit-box-shadow: 1px 1px 1px 0px rgba(200, 200, 200, 0.3);
-  -moz-box-shadow: 1px 1px 1px 0px rgba(200, 200, 200, 0.3);
-  box-shadow: 1px 1px 1px 0px rgba(200, 200, 200, 0.3);
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  margin-top: -21px;
-  margin-bottom: 24px;
-}
-.breadcrumb ul {
-  padding: 15px 20px;
-  height: 12px;
-}
-.breadcrumb ul li {
-  display: inline;
-  list-style: none;
-  max-width: 280px;
-  color: #5e646c;
-}
-.breadcrumb ul li a, .breadcrumb ul li span {
-  font-size: 12px;
-  line-height: 1;
-  color: #05ade9;
-  text-decoration: none;
-  text-shadow: 1px 1px 0px #ffffff;
-}
-.breadcrumb ul li a:hover {
-  color: #008eb0;
-}
-.breadcrumb ul li span {
-  color: #5e646e;
-}
-.breadcrumb ul li.separator {
-  padding: 0 20px;
-}
-.breadcrumb.disabled {
-  opacity: 0.8;
-  filter: alpha(opacity=80);
-}
 /* Message Boxes
 *******************************/
 div.flash {
@@ -2111,9 +2060,6 @@ div.flash a {
   text-decoration: underline;
 }
 div.static-flash {
-  width: 980px;
-  margin: 0 auto;
-  width: 940px;
   margin-bottom: 24px;
   color: #3a3a3a;
   -webkit-border-radius: 3px;
@@ -2143,6 +2089,64 @@ div.static-flash.info {
 div.static-flash a {
   color: #3a3a3a;
   text-decoration: underline;
+}
+/* Breadcrumb
+*******************************/
+.breadcrumb {
+  display: block;
+  background: #f7f7f7;
+  background: #f7f7f7;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #efefef), color-stop(1, #f7f7f7));
+  background: -ms-linear-gradient(bottom, #efefef, #f7f7f7);
+  background: -moz-linear-gradient(center bottom, #efefef 0%, #f7f7f7 100%);
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(200, 200, 200, 0.3);
+  -moz-box-shadow: 1px 1px 1px 0px rgba(200, 200, 200, 0.3);
+  box-shadow: 1px 1px 1px 0px rgba(200, 200, 200, 0.3);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  margin-top: -21px;
+  margin-bottom: 24px;
+}
+.breadcrumb ul {
+  padding: 15px 20px;
+  height: 12px;
+}
+.breadcrumb ul li {
+  display: inline;
+  list-style: none;
+  max-width: 280px;
+  color: #5e646c;
+}
+.breadcrumb ul li a, .breadcrumb ul li span {
+  font-size: 12px;
+  line-height: 1;
+  color: #05ade9;
+  text-decoration: none;
+  text-shadow: 1px 1px 0px #ffffff;
+}
+.breadcrumb ul li a:hover {
+  color: #008eb0;
+}
+.breadcrumb ul li span {
+  color: #5e646e;
+}
+.breadcrumb ul li.separator {
+  padding: 0 20px;
+}
+.breadcrumb.disabled {
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+}
+/* Static Flash Member Styles
+*******************************/
+div.static-flash {
+  width: 980px;
+  margin: 0 auto;
+  width: 940px;
 }
 /* Announcements
 *******************************/
