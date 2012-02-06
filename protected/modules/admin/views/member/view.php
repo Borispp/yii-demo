@@ -85,13 +85,12 @@
 		<thead>
 			<tr>
 				<th class="w_1">ID</th>
-				<th class="w_5">Type</th>
+				<th class="w_1">Type</th>
 				<th class="w_5">Name</th>
 				<th class="w_5">Description</th>
 				<th class="w_5">Date</th>
 				<th class="w_1">State</th>
-				<th class="w_5">Created</th>
-				<th class="w_5">Updated</th>
+				<th class="w_5">Modification dates</th>
 				<th class="w_5">Albums</th>
 
 			</tr>
@@ -105,22 +104,12 @@
 				<td><?php echo $event->description; ?></td>
 				<td><?php echo $event->date; ?></td>
 				<td><?php echo $event->state(); ?></td>
-				<td><?php echo $event->created; ?></td>
-				<td><?php echo $event->updated; ?></td>
+				<td><span title="Created"><?php echo $event->created; ?></span><br<span title="Updated"><?php echo $event->updated; ?></span></td>
 				<td>
-					<ul>
 					<?php foreach($event->albums as $album) : ?>
-						<li><?php echo $album->name ?> (<span title="Count of photos"><?php echo count($album->photos) ?></span>)</li>
+						<?php echo $album->name ?> (<span title="Count of photos"><?php echo count($album->photos) ?></span>)
 					<?php endforeach; ?>
-					</ul>
 				</td>
-				<td><?php echo $event->type; ?></td>
-				<td><?php echo $event->name; ?></td>
-				<td><?php echo $event->description; ?></td>
-				<td><?php echo $event->date; ?></td>
-				<td><?php echo $event->state; ?></td>
-				<td><?php echo $event->created; ?></td>
-				<td><?php echo $event->updated; ?></td>
 
 			</tr>
 		<?php endforeach ?>
