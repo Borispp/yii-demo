@@ -75,10 +75,10 @@ $(function(){
 			var login = $(this);
 			var login_visible = 0;
 			var login_link = $('#navigation-login-link');
-			$('html').click(function(){
-				if (login_visible) {
-					login_link.find('a').trigger('click');
-				}
+			$('html').click(function(e){
+                if ('object' == typeof(e.originalEvent) && login_visible) {
+                    login_link.find('a').trigger('click');
+                }
 			});
 			login.click(function(e){
 				e.stopPropagation();
@@ -189,4 +189,69 @@ $(function(){
 		});
 	}
 	$('#login-register').initLoginRegister();
+	
+	
+	
+	
+	$.fn.initHomepageSlider = function(){
+		$(this).each(function(){
+			var slider = $(this);
+			var slides = slider.find('li');
+			var buttons_container = $('<span class="buttons"></span>');
+			slides.each(function(k){
+				buttons_container.append('<a href="#" data-slide="' + k + '"></a>');
+			});
+			slider.append(buttons_container);
+			var buttons = buttons_container.find('a');
+			var scroll_interval;
+			var animated = false;
+			
+			buttons.click(function(e){
+				e.preventDefault();
+				var link = $(this);
+				if (link.hasClass('active')) {
+					return;
+				}
+				if (animated) {
+					return;
+				}
+                if ('object' == typeof(e.originalEvent)) {
+                    clearInterval(scroll_interval);
+                }
+				var current = slides.filter(':visible');
+				var show = slides.filter('.slide' + link.data('slide'));
+				animated = true;
+				
+				link.addClass('active').siblings('.active').removeClass('active');
+				if (current.length) {
+					current.fadeOut(400);
+				}
+				
+				show.css({
+					opacity:0,
+					display:'block',
+					visibility:'visible',
+					right:'500px'
+				}).animate({
+                    opacity:1,
+                    right:0
+                }, 'swing', function() {
+					animated = false;
+				});
+			}).filter(':first').trigger('click');
+			
+			
+            scroll_interval = setInterval(function(){
+                var current = buttons.filter('.active');
+                var show = current.next();
+                if (!show.length) {
+                    show = buttons.filter(':first');
+                }
+                show.trigger('click');
+            }, 5000);
+			
+			
+		});
+	}
+	$('#homepage-slider').initHomepageSlider();
 });

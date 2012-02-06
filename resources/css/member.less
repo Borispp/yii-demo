@@ -66,16 +66,16 @@ div.flash {
 	cursor:pointer;
 	.text-shadow;
 	&.success {
-		background: rgba(162, 232, 162, .9);
+		background: @green-charlie;
 	}
 	&.error {
-		background: rgba(240, 204, 204, .9);
+		background: @red-foxtrot;
 	}
 	&.notice {
-		background: rgba(232, 232, 162, .9);
+		background: @yellow-charlie;
 	}
 	&.info {
-		background: rgba(115, 208, 239, .9);
+		background: @blue-november;
 	}
 	&.app {
 		@-webkit-keyframes slideDown {
@@ -99,6 +99,29 @@ div.flash {
 
 div.static-flash {
 	.w;
+	width:940px;
+	.margin-bottom-alpha;
+	color:@gray-lima;
+	.rounded(3px);
+	padding:12px 20px;
+	.shadow-gray-alpha;
+	.text-shadow(rgba(255, 255, 255, .5));
+	&.success {
+		background: @green-charlie;
+	}
+	&.error {
+		background: @red-foxtrot;
+	}
+	&.notice {
+		background: @yellow-charlie;
+	}
+	&.info {
+		background: @blue-november;
+	}
+	a {
+		color:@gray-lima;
+		text-decoration:underline;
+	}
 }
 
 

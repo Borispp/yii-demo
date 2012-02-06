@@ -28,16 +28,16 @@ class SiteController extends YsaFrontController
 				} else {
 					$newsletterForm->addError('name', 'Cannot subscribe to list. Please refresh page and try again.');
 				}
-				
-//				$mailchimp->
-				
-				
 			}
 		}
 
         $this->render('index', array(
             'page' => $page,
 			'newsletterForm' => $newsletterForm,
+			'slides' => array(
+				Yii::app()->getBaseUrl(true) . '/resources/images/homepage/slide1.png',
+				Yii::app()->getBaseUrl(true) . '/resources/images/homepage/slide1.png',
+			)
         ));
     }
 
@@ -47,6 +47,8 @@ class SiteController extends YsaFrontController
     public function actionError()
     {
         $error=Yii::app()->errorHandler->error;
+		
+		$this->setFrontPageTitle('Oops! Something went wrong...');
 		
         if($error) {
             if(Yii::app()->request->isAjaxRequest) {

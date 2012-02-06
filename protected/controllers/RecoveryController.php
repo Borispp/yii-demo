@@ -34,12 +34,14 @@ class RecoveryController extends YsaFrontController
                         if ($user->state == User::STATE_INACTIVE) {
                             $user->status = User::STATE_ACTIVE;
                         }
-
+						
                         // save new password and regenerated activation key
                         $user->save();
 
-                        Yii::app()->user->setFlash('recoveryMessage', $page->short);
-                        $this->redirect(array('login/'));
+                        Yii::app()->user->setFlash('recoveryStatus', 'changed');
+						Yii::app()->user->setFlash('recoveryMessage', $page->short);
+//                        $this->redirect(array('login/'));
+						$this->redirect(array('recovery/'));
                     }
                 }
 
@@ -48,13 +50,11 @@ class RecoveryController extends YsaFrontController
                 $this->render('changepassword', array('entry' => $entry, 'page' => $page));
 
             } else { // invalid recovery key
-                Yii::app()->user->setFlash('recoveryMessage', "Incorrect recovery link.");
-                $this->redirect($this->createUrl('/recovery'));
+                Yii::app()->user->setFlash('recoveryMessage', "<p>Incorrect recovery link.</p>");
+                $this->redirect(array('recovery/'));
             }
         } else { // show password recovery form with email
-
             $form = new RecoveryForm();
-			
 			$page = Page::model()->findBySlug('restore');
 
             if(isset($_POST['RecoveryForm'])) {
@@ -75,7 +75,8 @@ class RecoveryController extends YsaFrontController
                         )
                     );
 
-                    Yii::app()->user->setFlash('recoveryMessage', $page->short);
+                    Yii::app()->user->setFlash('recoveryStatus', 'requested');
+					Yii::app()->user->setFlash('recoveryMessage', $page->short);
                     $this->refresh();
                 }
             }

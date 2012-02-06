@@ -2169,18 +2169,39 @@ a.btn {
 #homepage-header a.signup:active {
   bottom: -26px;
 }
-#homepage-header .slider ul {
+#homepage-slider .buttons {
+  position: absolute;
+  left: 8px;
+  height: 10px;
+  bottom: -72px;
+  width: 282px;
+  text-align: center;
+}
+#homepage-slider .buttons a {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 0 3px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  background: #b0b0b0;
+}
+#homepage-slider .buttons a:hover {
+  background: #616161;
+}
+#homepage-slider .buttons a.active {
+  background: #3a3a3a;
+}
+#homepage-slider .slide {
   position: absolute;
   right: 0;
-  top: 0;
-  width: 610px;
-  height: 588px;
-}
-#homepage-header .slider ul li .slide1 {
-  display: block;
-  width: 610px;
-  height: 588px;
-  background: url(../images/homepage-slide1.png) 100% 100% no-repeat;
+  right: 500px;
+  top: 90px;
+  display: none;
 }
 .homepage-video-wrapper {
   background: #ffffff;
@@ -2227,12 +2248,12 @@ a.btn {
 }
 #homepage-video .video {
   float: right;
-  padding: 5px 10px;
+  padding: 16px 10px 0 0;
 }
 #homepage-video .video .preview {
   display: block;
-  height: 324px;
-  width: 483px;
+  height: 317px;
+  width: 524px;
   background: url(../images/homepage-video-preview.jpg) 0 0 no-repeat;
   -webkit-transition: all linear 0.5s;
   -moz-transition: all linear 0.5s;
@@ -2242,9 +2263,9 @@ a.btn {
 }
 #homepage-video .video .preview span {
   display: block;
-  height: 324px;
-  width: 483px;
-  background: url(../images/homepage-video-preview-link.png) 215px 105px no-repeat;
+  height: 317px;
+  width: 524px;
+  background: url(../images/homepage-video-preview-link.png) 240px 70px no-repeat;
   text-indent: -9999px;
 }
 #homepage-video .video .preview:hover span {
@@ -2262,10 +2283,10 @@ a.btn {
 }
 #homepage-social .image {
   position: absolute;
-  left: -3px;
-  bottom: 0;
-  width: 211px;
-  height: 294px;
+  left: 0px;
+  bottom: 15px;
+  width: 197px;
+  height: 280px;
   display: block;
   background: url(../images/homepage-social-image.png) 0 0 no-repeat;
 }
@@ -2519,11 +2540,43 @@ a.btn {
   margin-right: 32px;
 }
 #recover .info, #recovery-change-password .info {
+  margin-bottom: 24px;
+}
+#recover .info p, #recovery-change-password .info p {
+  margin-bottom: 0;
+}
+#recover .image, #recovery-change-password .image {
   float: left;
   background: url(../images/separator-dark-vertical.gif) 0 0 repeat-y;
   width: 420px;
   min-height: 300px;
   padding-left: 33px;
+}
+#recover-success {
+  height: 500px;
+  background: url(../images/recover-success.jpg) 0 20px no-repeat;
+}
+#recover-success .icon {
+  display: block;
+  height: 285px;
+  margin-bottom: 60px;
+  background-position: 50% 100%;
+  background-repeat: no-repeat;
+}
+#recover-success .mail {
+  background-image: url(../images/recover-icon-mail.png);
+}
+#recover-success .lock {
+  background-image: url(../images/recover-icon-lock.png);
+}
+#recover-success .message p {
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.5;
+  font-style: italic;
+  text-align: center;
+  margin-bottom: 0;
+  color: #777777;
 }
 /* Contact
 *******************************/
@@ -2991,6 +3044,7 @@ a.btn {
   font-size: 26px;
   margin: 0;
   position: absolute;
+  text-shadow: 1px 1px 0px #ffffff;
 }
 #tour .tour-box h2 span {
   color: #8a8a8a;
@@ -3018,8 +3072,8 @@ a.btn {
   background: url(../images/tour-box-shadow.jpg) 50% 0 no-repeat;
 }
 #tour .tour-box-app {
-  height: 390px;
-  background: url(../images/tour-bg-app.jpg) 66px 66px no-repeat;
+  height: 405px;
+  background: url(../images/tour/bg-app.jpg) 66px 66px no-repeat;
 }
 #tour .tour-box-app h2 {
   left: 74px;
@@ -3031,15 +3085,15 @@ a.btn {
   width: 360px;
 }
 #tour .tour-box-app .image {
-  width: 512px;
-  height: 399px;
-  background: url(../images/tour-image-app.png) 0 0 no-repeat;
-  right: 10px;
-  top: -52px;
+  width: 479px;
+  height: 359px;
+  background: url(../images/tour/image-app.png) 0 0 no-repeat;
+  right: 40px;
+  top: 40px;
 }
 #tour .tour-box-events {
   height: 432px;
-  background: url(../images/tour-bg-events.jpg) 100% 0 no-repeat;
+  background: url(../images/tour/bg-events.jpg) 100% 0 no-repeat;
 }
 #tour .tour-box-events h2 {
   right: 80px;
@@ -3057,9 +3111,16 @@ a.btn {
 #tour .tour-box-events .story p {
   text-align: right;
 }
+#tour .tour-box-events .image {
+  background: url(../images/tour/image-events.png) 0 0 no-repeat;
+  width: 436px;
+  height: 379px;
+  top: 40px;
+  left: 40px;
+}
 #tour .tour-box-custom {
   height: 412px;
-  background: url(../images/tour-bg-custom.jpg) 66px 66px no-repeat;
+  background: url(../images/tour/bg-custom.jpg) 66px 66px no-repeat;
 }
 #tour .tour-box-custom h2 {
   left: 74px;
@@ -3073,13 +3134,13 @@ a.btn {
 #tour .tour-box-custom .image {
   width: 559px;
   height: 370px;
-  background: url(../images/tour-image-custom.png) 0 0 no-repeat;
+  background: url(../images/tour/image-custom.png) 0 0 no-repeat;
   right: 0;
-  top: 40px;
+  bottom: 9px;
 }
 #tour .tour-box-push {
   height: 462px;
-  background: url(../images/tour-bg-push.jpg) 440px 68px no-repeat;
+  background: url(../images/tour/bg-push.jpg) 440px 68px no-repeat;
 }
 #tour .tour-box-push h2 {
   right: 80px;
@@ -3098,29 +3159,120 @@ a.btn {
   text-align: right;
 }
 #tour .tour-box-push .image {
-  width: 461px;
-  height: 462px;
-  background: url(../images/tour-image-push.png) 0 0 no-repeat;
-  left: -15px;
+  width: 504px;
+  height: 460px;
+  background: url(../images/tour/image-push.png) 0 0 no-repeat;
+  left: 40px;
+  bottom: 9px;
+}
+#tour .tour-box-web {
+  height: 429px;
+}
+#tour .tour-box-web h2 {
+  left: 74px;
+  top: 104px;
+}
+#tour .tour-box-web .story {
+  left: 74px;
+  top: 205px;
+  width: 360px;
+}
+#tour .tour-box-web .image {
+  width: 535px;
+  height: 382px;
+  background: url(../images/tour/image-web.png) 0 0 no-repeat;
+  right: 0;
   bottom: 9px;
 }
 #tour .tour-box-workflow {
   height: 446px;
-  background: url(../images/tour-bg-workflow.jpg) 66px 66px no-repeat;
+  background: url(../images/tour/bg-workflow.jpg) 66px 66px no-repeat;
 }
 #tour .tour-box-workflow h2 {
-  left: 74px;
-  top: 104px;
+  right: 80px;
+  top: 125px;
+  text-align: right;
+}
+#tour .tour-box-workflow h2 span {
+  text-align: right;
 }
 #tour .tour-box-workflow .story {
-  left: 74px;
-  top: 230px;
-  width: 360px;
+  right: 80px;
+  top: 245px;
+  width: 365px;
+}
+#tour .tour-box-workflow .story p {
+  text-align: right;
 }
 #tour .tour-box-workflow .image {
-  width: 559px;
-  height: 370px;
-  background: url(../images/tour-image-workflow.png) 0 0 no-repeat;
-  right: 0;
-  top: 40px;
+  width: 469px;
+  height: 391px;
+  background: url(../images/tour/image-workflow.png) 0 0 no-repeat;
+  left: 40px;
+  bottom: 9px;
+}
+#tour .tour-box-create {
+  height: 215px;
+  background: url(../images/tour/bg-create.png) 80px 0 no-repeat;
+}
+#tour .tour-box-create h2 {
+  left: 80px;
+  top: 75px;
+}
+#tour .tour-box-create h2 span {
+  color: #00b9fc;
+}
+#tour .tour-box-create a.btn {
+  position: absolute;
+  right: 80px;
+  top: 84px;
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  width: 140px;
+}
+#tour .tour-box-create a.btn:active {
+  top: 85px;
+}
+/* 404 Page
+*******************************/
+#page404 .content {
+  min-height: 500px;
+  background: url(../images/404.jpg) 225px 190px no-repeat;
+  position: relative;
+}
+#page404 .content p {
+  position: absolute;
+  left: 300px;
+  top: 345px;
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 1.4;
+  font-style: italic;
+  text-shadow: 1px 1px 0px #ffffff;
+  color: #616161;
+}
+/* Share image
+*******************************/
+#share-photo-header-wrapper {
+  background: #3a3a3a url(../images/homepage-header.jpg) 50% 0 no-repeat;
+}
+#share-photo-header-wrapper header {
+  width: 980px;
+  margin: 0 auto;
+  position: relative;
+  height: 160px;
+}
+#share-photo-header-wrapper header h1 a {
+  position: absolute;
+  left: 0;
+  top: 20px;
+}
+#share-image {
+  margin-top: -40px;
+}
+#share-image figure img {
+  height: auto;
+  max-width: 910px;
 }

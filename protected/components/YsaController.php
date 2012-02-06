@@ -50,10 +50,32 @@ class YsaController extends CController
 		return Yii::app()->user->setFlash('error', $message);
 	}
 	
-	public function setStatic($message)
+
+	public function setStaticSuccess($message)
 	{
-		return Yii::app()->user->setFlash('static', $message);
+		return Yii::app()->user->setFlash('staticSuccess', $message);
 	}
+
+	public function setStaticNotice($message)
+	{
+		return Yii::app()->user->setFlash('staticNotice', $message);
+	}
+	
+	public function setStaticInfo($message)
+	{
+		return Yii::app()->user->setFlash('staticInfo', $message);
+	}
+
+	public function setStaticError($message)
+	{
+		return Yii::app()->user->setFlash('staticError', $message);
+	}
+	
+	
+	
+	
+	
+	
 
 	public function sendJson($data)
 	{

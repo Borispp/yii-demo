@@ -2113,6 +2113,36 @@ div.flash a {
 div.static-flash {
   width: 980px;
   margin: 0 auto;
+  width: 940px;
+  margin-bottom: 24px;
+  color: #3a3a3a;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 12px 20px;
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
+}
+div.static-flash.success {
+  background: rgba(162, 232, 162, 0.9);
+}
+div.static-flash.error {
+  background: rgba(240, 204, 204, 0.9);
+}
+div.static-flash.notice {
+  background: rgba(232, 232, 162, 0.9);
+}
+div.static-flash.info {
+  background: rgba(115, 208, 239, 0.9);
+}
+div.static-flash a {
+  color: #3a3a3a;
+  text-decoration: underline;
 }
 /* Announcements
 *******************************/
