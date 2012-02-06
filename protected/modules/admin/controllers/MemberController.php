@@ -90,6 +90,7 @@ class MemberController extends YsaAdminController
 
 		$this->render('view',array(
 				'member'     => $entry,
+				'comments'   => EventPhotoComment::findAllByMemberId($entry->id)
 			));
 	}
 

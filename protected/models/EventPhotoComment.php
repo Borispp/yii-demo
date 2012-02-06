@@ -122,4 +122,9 @@ class EventPhotoComment extends YsaActiveRecord
 		$obPhotoCommentClient->clien_id = $obClient->id;
 		$obPhotoCommentClient->save();
 	}
+	
+	public static function findAllByMemberId($id)
+	{
+		return self::model()->with('member')->findAll('user_id=:user_id', array('user_id' => $id));
+	}
 }

@@ -1,9 +1,12 @@
 $(function(){
+<<<<<<< HEAD
+=======
 	$('a.btn.disabled,button.disabled,input:submit.disabled,input:button.disabled').live('click', function(e){
 		e.preventDefault();
 		return false;
 	});
 	
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 	$.tools.validator.addEffect("wall", function(errors, event) {
 			var wall = $(this.getConf().container).fadeIn();
 			wall.find("p").remove();
@@ -14,6 +17,10 @@ $(function(){
 			});
 		}, function(inputs)  {}
 	);
+<<<<<<< HEAD
+
+=======
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 
 	$.fn.initFaq = function() {
 		$(this).each(function(){
@@ -110,6 +117,10 @@ $(function(){
 	{
 		$(this).each(function(){
 			var contact = $(this);
+<<<<<<< HEAD
+			
+=======
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 			var form = contact.find('form');
 			form.validator({
 				position: 'top center', 
@@ -132,6 +143,19 @@ $(function(){
 						}
 					}, 'json');
 				}
+<<<<<<< HEAD
+			})
+//			.submit(function(e){
+//				if (!e.isDefaultPrevented()) {
+//
+//				}
+//			});
+		});
+	}
+	$('#contact').initContact();
+		
+})
+=======
 			});
 		});
 	}
@@ -190,3 +214,4 @@ $(function(){
 	}
 	$('#login-register').initLoginRegister();
 });
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940

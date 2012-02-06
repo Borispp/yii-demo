@@ -173,11 +173,6 @@
 		'linkOptions' => array('class' => $this->getNavigationClass('member')),
 	);
 	$membersItems[] = array(
-		'label' => 'Studio',
-		'url' => array('/admin/studio/'),
-		'linkOptions' => array('class' => $this->getNavigationClass('studio')),
-	);
-	$membersItems[] = array(
 		'label' => 'Subscription',
 		'url' => array('/admin/subscription/'),
 		'linkOptions' => array('class' => $this->getNavigationClass('subscription')),

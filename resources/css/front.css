@@ -1695,7 +1695,11 @@ div.error-top {
   padding: 3px 10px;
   margin-left: -2px;
   background: #ff7e7e;
+<<<<<<< HEAD
+  width: 190px;
+=======
   width: 300px;
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -2437,7 +2441,10 @@ a.btn {
   float: right;
   line-height: 34px;
   padding-right: 5px;
+<<<<<<< HEAD
+=======
   font-style: italic;
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 }
 .large-form section.buttons .subscribe {
   float: left;
@@ -2488,10 +2495,13 @@ a.btn {
 .large-form section textarea {
   height: 100px;
 }
+<<<<<<< HEAD
+=======
 .large-form .services {
   background: url(../images/separator-dark-horizontal.gif) 0 0 repeat-x;
   padding-top: 25px;
 }
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 /* Register / Login Page
 *******************************/
 #login-register .login {
@@ -2508,6 +2518,8 @@ a.btn {
 #login-register h2 {
   text-transform: none;
 }
+<<<<<<< HEAD
+=======
 /* Recovery page
 *******************************/
 #recover .form {
@@ -2522,6 +2534,7 @@ a.btn {
   min-height: 300px;
   padding-left: 33px;
 }
+>>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 /* Contact
 *******************************/
 #contact .info {
