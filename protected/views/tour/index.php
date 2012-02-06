@@ -62,6 +62,6 @@
 	<div class="tour-box tour-box-create">
 		<h2>Create your own <span>Application</span></h2>
 		
-		<?php echo YsaHtml::link('Get Started', array('pricing/'), array('class' => 'btn')); ?>
+		<?php echo YsaHtml::link('Get Started', array('login/'), array('class' => 'btn')); ?>
 	</div>
 </div> 
