@@ -4,9 +4,10 @@
 	
 	<ul>
 		<li><a href="#tab-general">General</a></li>
-		<li><a href="#tab-clients">Clients</a></li>
-		<li><a href="#tab-events">Events</a></li>
-		<li><a href="#tab-comments">Comments</a></li>
+		<li><a href="<?php echo !empty($member->clients) ? '#tab-clients' : '' ?>">Clients</a></li>
+		<li><a href="<?php echo !empty($member->events) ? '#tab-events' : '' ?>">Events</a></li>
+		<li><a href="<?php echo !empty($member->comments) ? '#tab-comments' : '' ?>">Comments</a></li>
+		<li><a href="<?php echo is_object($member->application) ? Chtml::normalizeUrl(array('studio/partialView', 'id'=> $member->application->id)) : '' ?>">Studio</a></li>
 	</ul>
         
 	<div id="tab-general">
@@ -37,9 +38,9 @@
 	</div>
 	
 	<div id="tab-clients" class="g12">
-		
-		<?php if ($member->clients) : ?>
 
+		<?php if (!empty($member->clients)) : ?>
+		
 		<table class="data">
 		<thead>
 			<tr>
@@ -69,11 +70,7 @@
 		</tbody>
 		</table>
 		
-		<?php else: ?>
-		
-		<p>Clients list is empty</p>
-		
-		<?php endif ?>
+		<?php endif; ?>
 		
 	</div>
 	
@@ -107,7 +104,7 @@
 				<td><span title="Created"><?php echo $event->created; ?></span><br<span title="Updated"><?php echo $event->updated; ?></span></td>
 				<td>
 					<?php foreach($event->albums as $album) : ?>
-						<?php echo $album->name ?> (<span title="Count of photos"><?php echo count($album->photos) ?></span>)
+						<?php echo $album->name ?>&nbsp;(<span title="Count of photos"><?php echo count($album->photos) ?></span>)
 					<?php endforeach; ?>
 				</td>
 
@@ -115,11 +112,6 @@
 		<?php endforeach ?>
 		</tbody>
 		</table>
-		
-		
-		<?php else: ?>
-		
-		<p>Event list is empty</p>
 		
 		<?php endif ?>
 		
@@ -149,12 +141,13 @@
 			</tbody>
 			</table>
 		
-		<?php else: ?>
-		
-			<p>Comments list is empty</p>
-		
 		<?php endif ?>
 		
 	</div>
     
+	<div id="tab-studio">
+		
+		
+	</div>	
+	
 </div>
