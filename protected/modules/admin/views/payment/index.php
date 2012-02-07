@@ -4,7 +4,7 @@
 		<tr>
 			<th class="w_1">ID</th>
 			<th class="l">Member</th>
-			<th class="l">Subscription</th>
+			<th class="l">Type</th>
 			<th class="w_5">State</th>
 			<th class="w_5">Summ</th>
 			<th class="w_5">Creation Date</th>
@@ -16,10 +16,10 @@
 		<tr>
 			<td><?php echo $entry->id; ?></td>
 			<td class="l">
-				<?php echo CHtml::link($entry->UserSubscription->Member->name(), array('view', 'id' => $entry->id)); ?>
+				<?php echo CHtml::link($entry->getMember()->name(), array('view', 'id' => $entry->id)); ?>
 			</td>
 			<td class="l">
-				<?php echo CHtml::link($entry->UserSubscription->Membership->name, array('view', 'id' => $entry->id)); ?>
+				<?php echo CHtml::link($entry->type, array('view', 'id' => $entry->id)); ?>
 			</td>
 			<td><?php echo $entry->state()?></td>
 			<td><?php echo $entry->summ?> <?php echo Yii::app()->settings->get('paypal_currency')?></td>
