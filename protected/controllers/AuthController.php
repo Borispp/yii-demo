@@ -42,14 +42,26 @@ class AuthController extends YsaFrontController
 		if(isset($_POST['RegistrationForm'])) 
 		{
 			$register->attributes = $_POST['RegistrationForm'];
+			$pass = $register->password;
+			
 			if ($register->register()) {
+				
+				$login->email = $register->email;
+				$login->password = $pass;
+				
+				if($login->validate() && $login->login()) {
+					
+				}
+				
 				$this->setSuccess(Yii::t('register', 'first_login_welcome'));
 				$this->redirect($this->_urlToRedirectAuthenticated());
 			}
-			
-			$register->password = '';
-			$register->verifyPassword = '';
 		}
+		
+		// always reset password fields
+		$register->password = '';
+		$register->verifyPassword = '';
+		
 		$page = Page::model()->findBySlug('login');
 		
 		$this->setFrontPageTitle(Yii::t('general', 'Login'));
@@ -238,17 +250,15 @@ class AuthController extends YsaFrontController
 			$this->redirect($this->_urlToRedirectAuthenticated());
 		}
 		
-		$user = User::model()->findByAttributes(array('activation_key' => $k));
+		$user = Member::model()->findByAttributes(array('activation_key' => $k));
 		
-		if ($user && $user->activated) 
+		if ($user && $user->isActivated()) 
 		{
 			$this->setNotice( 'You account is already activated' );
-			
 		} 
 		elseif(isset($user->activation_key) && ($user->activation_key==$k)) 
 		{
 			$user->activate();
-
 			$this->setSuccess( 'Your account was successfully activated' );
 		} 
 		else 

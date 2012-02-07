@@ -160,7 +160,7 @@ class User extends YsaActiveRecord
 	 */
 	public function isActivated()
 	{
-		return $this->state == self::STATE_INACTIVE;
+		return $this->activated;
 	}
 	
 	/**

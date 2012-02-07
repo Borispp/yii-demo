@@ -106,8 +106,8 @@ class phpZenfolio {
 			throw new PhpZenfolioException( 'Application name missing.', -10001 );
 		}
 		$this->AppName = $args['AppName'];
-        // All calls to the API are done via POST using my own constructed httpRequest class
-		$this->req = new httpRequest();
+        // All calls to the API are done via POST using my own constructed zenfolioHttpRequest class
+		$this->req = new zenfolioHttpRequest();
 		$this->req->setConfig( array( 'adapter' => $this->adapter, 'follow_redirects' => TRUE, 'max_redirects' => 3, 'ssl_verify_peer' => FALSE, 'ssl_verify_host' => FALSE, 'connect_timeout' => 5 ) );
 		$this->req->setHeader( array( 'User-Agent' => "{$this->AppName} using phpZenfolio/{$this->version}",
 									  'X-Zenfolio-User-Agent' => "{$this->AppName} using phpZenfolio/{$this->version}",
@@ -496,7 +496,7 @@ class phpZenfolio {
 		}
 
 		// Create a new object as we still need the other request object
-		$upload_req = new httpRequest();
+		$upload_req = new zenfolioHttpRequest();
 		$upload_req->setConfig( array( 'adapter' => $this->adapter, 'follow_redirects' => TRUE, 'max_redirects' => 3, 'ssl_verify_peer' => FALSE, 'ssl_verify_host' => FALSE, 'connect_timeout' => 60 ) );
 		$upload_req->setMethod( 'post' );
 		$upload_req->setHeader( array( 'User-Agent' => "{$this->AppName} using phpZenfolio/{$this->version}",
@@ -718,7 +718,7 @@ class phpZenfolio {
  * The original source is distributed under the Apache License Version 2.0
  */
 
-class HttpRequestException extends Exception {}
+class PhpZenfolioHttpRequestException extends Exception {}
 
 interface PhpZenfolioRequestProcessor
 {
@@ -727,7 +727,7 @@ interface PhpZenfolioRequestProcessor
 	public function getHeaders();
 }
 
-class httpRequest
+class zenfolioHttpRequest
 {
 	private $method = 'POST';
 	private $url;
@@ -801,7 +801,7 @@ class httpRequest
 	 * @param mixed			$config An array of options or a string name with a
 	 *						corresponding $value
 	 * @param mixed			$value
-	 * @return httpRequest
+	 * @return zenfolioHttpRequest
 	 */
 	public function setConfig( $config, $value = null )
     {
@@ -1126,7 +1126,7 @@ class PhpZenfolioCurlRequestProcessor implements PhpZenfolioRequestProcessor
 		// set proxy, if needed
         if ( $host = $config['proxy_host'] ) {
             if ( ! ( $port = $config['proxy_port'] ) ) {
-                throw new HttpRequestException( 'Proxy port not provided' );
+                throw new PhpZenfolioHttpRequestException( 'Proxy port not provided' );
             }
             curl_setopt( $ch, CURLOPT_PROXY, $host . ':' . $port );
             if ( $user = $config['proxy_user'] ) {
@@ -1145,11 +1145,11 @@ class PhpZenfolioCurlRequestProcessor implements PhpZenfolioRequestProcessor
 		$body = curl_exec( $ch );
 
 		if ( curl_errno( $ch ) !== 0 ) {
-			throw new HttpRequestException( sprintf( '%s: CURL Error %d: %s', __CLASS__, curl_errno( $ch ), curl_error( $ch ) ), curl_errno( $ch ) );
+			throw new PhpZenfolioHttpRequestException( sprintf( '%s: CURL Error %d: %s', __CLASS__, curl_errno( $ch ), curl_error( $ch ) ), curl_errno( $ch ) );
 		}
 
 		if ( substr( curl_getinfo( $ch, CURLINFO_HTTP_CODE ), 0, 1 ) != 2 ) {
-			throw new HttpRequestException( sprintf( 'Bad return code (%1$d) for: %2$s', curl_getinfo( $ch, CURLINFO_HTTP_CODE ), $url ), curl_errno( $ch ) );
+			throw new PhpZenfolioHttpRequestException( sprintf( 'Bad return code (%1$d) for: %2$s', curl_getinfo( $ch, CURLINFO_HTTP_CODE ), $url ), curl_errno( $ch ) );
 		}
 
 		curl_close( $ch );
@@ -1234,14 +1234,14 @@ class PhpZenfolioSocketRequestProcessor implements PhpZenfolioRequestProcessor
 
 		if ( $config['proxy_host'] != '' ) {
 			// TODO: Finish the implementation of proxy support for socket connections. Until then, only curl has proxy support.
-			throw new HttpRequestException( 'The "socket" adapter type does NOT currently support connecting via a proxy. Please use the "curl" adapter type.', -1 );
+			throw new PhpZenfolioHttpRequestException( 'The "socket" adapter type does NOT currently support connecting via a proxy. Please use the "curl" adapter type.', -1 );
 			$fp = @fsockopen( $transport . '://' . $config['proxy_host'], $config['proxy_port'], $_errno, $_errstr, $config['connect_timeout'] );
 		} else {
 			$fp = @fsockopen( $transport . '://' . $urlbits['host'], $urlbits['port'], $_errno, $_errstr, $config['connect_timeout'] );
 		}
 
 		if ( $fp === FALSE ) {
-			throw new HttpRequestException( sprintf( '%s: Error %d: %s while connecting to %s:%d', __CLASS__, $_errno, $_errstr, $urlbits['host'], $urlbits['port'] ), $_errno );
+			throw new PhpZenfolioHttpRequestException( sprintf( '%s: Error %d: %s while connecting to %s:%d', __CLASS__, $_errno, $_errstr, $urlbits['host'], $urlbits['port'] ), $_errno );
 		}
 
 		stream_set_timeout( $fp, $config['timeout'] );
@@ -1276,7 +1276,7 @@ class PhpZenfolioSocketRequestProcessor implements PhpZenfolioRequestProcessor
 		$out = implode( "\r\n", $request );
 
 		if ( ! fwrite( $fp, $out, strlen( $out ) ) ) {
-			throw new HttpRequestException( 'Error writing to socket.' );
+			throw new PhpZenfolioHttpRequestException( 'Error writing to socket.' );
 		}
 
 		$in = stream_get_contents( $fp );
@@ -1295,12 +1295,12 @@ class PhpZenfolioSocketRequestProcessor implements PhpZenfolioRequestProcessor
 				$redirect_url = $location_matches[1];
 				$this->redir_count++;
 				if ( $this->redir_count > $this->config['max_redirects'] ) {
-					throw new HttpRequestException( 'Maximum number of redirections exceeded.' );
+					throw new PhpZenfolioHttpRequestException( 'Maximum number of redirections exceeded.' );
 				}
 				return $this->_request( $method, $redirect_url, $headers, $body, $config );
 			}
 			else {
-				throw new HttpRequestException( 'Redirection response without Location: header.' );
+				throw new PhpZenfolioHttpRequestException( 'Redirection response without Location: header.' );
 			}
 		}
 

@@ -32,7 +32,7 @@ class TranslationController extends YsaAdminController
 					$source = new TranslationSource();
 					$source->setAttributes(array(
 						'category'	=> $category->name,
-						'message'	=> $message,
+						'message'	=> html_entity_decode($message),
 					));
 					$source->save();
 				}

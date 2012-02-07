@@ -23,7 +23,7 @@
 						<td><input type="text" value="<?php echo $src->message; ?>" name="source[]" class="w_95" /></td>
 						<?php foreach (Yii::app()->params['languages'] as $lang => $title) : ?>
 							<td class="l">
-								<input type="text" value="<?php echo $src->translate($lang); ?>" name="translation[<?php echo $lang?>][]" class="w_95" />
+								<input type="text" value="<?php echo htmlentities($src->translate($lang)); ?>" name="translation[<?php echo $lang?>][]" class="w_95" />
 							</td>
 						<?php endforeach; ?>
 					</tr>

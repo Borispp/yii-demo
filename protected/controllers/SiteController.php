@@ -9,28 +9,15 @@ class SiteController extends YsaFrontController
     {	
         $page = Page::model()->findBySlug('homepage');
         $this->setMeta($page->meta());
+
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/fancybox.js', CClientScript::POS_END)
+				  ->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/fancybox.css');
+//				  ->registerScriptFile('http://vjs.zencdn.net/c/video.js', CClientScript::POS_HEAD)
+//				  ->registerCssFile('http://vjs.zencdn.net/c/video-js.css');
+		
 		
 		$newsletterForm = new NewsletterForm();
 		
-		if (isset($_POST['NewsletterForm'])) {
-			$newsletterForm->attributes = $_POST['NewsletterForm'];
-			if ($newsletterForm->validate()) {
-				
-//				$key = Yii::app()->settings->get('mailchimp_key');
-//				$listId = Yii::app()->settings->get('mailchimp_list_id');
-//				$mailchimp = new MCAPI($key);
-//				$subscribed = $mailchimp->listSubscribe($listId, $newsletterForm->email, array('NAME' => $newsletterForm->name));
-				$subscribed = 1;
-				if ($subscribed) {
-					Yii::app()->user->setFlash('newsletterSubscribed', 'Thank you for subscribing our newsletter!');
-					
-					$this->refresh();
-				} else {
-					$newsletterForm->addError('name', 'Cannot subscribe to list. Please refresh page and try again.');
-				}
-			}
-		}
-
         $this->render('index', array(
             'page' => $page,
 			'newsletterForm' => $newsletterForm,
@@ -40,6 +27,20 @@ class SiteController extends YsaFrontController
 			)
         ));
     }
+	
+	public function actionLoadVideo()
+	{
+		if (!Yii::app()->request->isAjaxRequest) {
+			$this->redirect(Yii::app()->homeUrl);
+		}
+		
+		$this->renderPartial('_video');
+		Yii::app()->end();
+
+//		$this->sendJsonSuccess(array(
+//			'html' => $this->renderPartial('_video', array(), true)
+//		));
+	}
 
     /**
      * This is the action to handle external exceptions.

@@ -102,7 +102,6 @@
 		</div>
 		<div class="box-content">
 			<div id="album-order-availability" class="form standart-form">
-
 				<?php $avlForm = $this->beginWidget('YsaMemberForm', array(
 						'id'=>'album-availability-form',
 						'action' => array('album/saveAvailability/' . $entry->id)
@@ -111,23 +110,16 @@
 					<?php echo $avlForm->labelEx($availability,'order_link'); ?>
 					<div><?php echo $avlForm->textField($availability, 'order_link'); ?></div>
 				</section>
-				<?/*
-				<section class="cf">
-					<?php echo $avlForm->labelEx($availability,'can_order'); ?>
-					<div><?php echo $avlForm->checkBox($availability, 'can_order', array('checked' => $entry->canOrder())); ?></div>
-				</section>
-				 */?>
 				<section class="cf">
 					<?php echo $avlForm->labelEx($availability,'can_share'); ?>
 					<div><?php echo $avlForm->checkBox($availability, 'can_share', array('checked' => $availability->can_share)); ?></div>
 				</section>
-				
 				<section class="cf">
 					<?php echo $avlForm->labelEx($availability,'can_save'); ?>
 					<div><?php echo $avlForm->checkBox($availability, 'can_save', array('checked' => $availability->can_save)); ?></div>
 				</section>
 				<div class="button">
-					<?php echo YsaHtml::submitButton('Save', array('class' => 'blue', 'data-loading' => 'Loading', 'data-value' => 'Save')); ?>
+					<?php echo YsaHtml::submitLoadingButton('Save'); ?>
 				</div>
 				<?php $this->endWidget();?>
 			</div>
