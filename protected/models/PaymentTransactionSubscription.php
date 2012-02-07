@@ -101,4 +101,12 @@ class PaymentTransactionSubscription extends YsaActiveRecord implements YsaPayme
 	{
 		return array('subscription/list/');
 	}
+
+	/**
+	 * @return Member
+	 */
+	public function getMember()
+	{
+		return $this->subscription->Member;
+	}
 }
