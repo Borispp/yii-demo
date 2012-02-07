@@ -1,6 +1,6 @@
 <div class="search-bar shadow-box">
 
-<?php $form = $this->beginWidget('YsaMemberForm'); ?>
+<?php $form = $this->beginWidget('member.components.YsaMemberForm'); ?>
 
 
     <?php foreach ($searchOptions as $optName => $optValue) : ?>
