@@ -32,15 +32,37 @@ class PaymentController extends YsaMemberController
 		}
 		return $this->_transaction;
 	}
-
+	
 	public function init()
 	{
 		parent::init();
 		$this->crumb('Payment', array('payment/'));
 	}
 
+	protected function _checkTransaction($transactionId = NULL)
+	{
+		$errorMessage = NULL;
+		$transaction = $this->_getTransaction($transactionId);
+		if ($transaction->getMember()->id != $this->member()->id)
+		{
+			$errorMessage = 'You can\'t proceed to payment for not yours transaction';
+		}
+		if ($transaction->isPaid())
+		{
+			$errorMessage = 'Your transaction is already paid';
+		}
+
+		if ($errorMessage)
+		{
+			$this->setMemberPageTitle('Error');
+			$this->render('error', array('message' => $errorMessage));
+			die;
+		}
+	}
+
 	public function actionChoosePayway($transactionId)
 	{
+		$this->_checkTransaction($transactionId);
 		$this->setMemberPageTitle('Select Pay System');
 		$this->render('choose_payway', array(
 			'transaction'	=> $this->_getTransaction($transactionId)
@@ -54,29 +76,7 @@ class PaymentController extends YsaMemberController
 	 */
 	public function actionPay($payway)
 	{
-//		if (empty($_GET['id']) || !($obUserTransaction = UserTransaction::model()->findByPk($_GET['id'])) || !$obUserTransaction->UserSubscription)
-//		{
-//			if (!empty($_GET['id']) && $obUserTransaction && !$obUserTransaction->UserSubscription)
-//				$obUserTransaction->delete();
-//			return $this->render('error', array(
-//				'title'		=> 'Not found',
-//				'message'	=> 'No Transaction with such ID found'
-//			));
-//		}
-//		if ($obUserTransaction->UserSubscription->user_id != $this->member()->id)
-//		{
-//			return $this->render('error', array(
-//				'title'		=> 'Access denied',
-//				'message'	=> 'You are not allowed to access this tranaction.',
-//			));
-//		}
-//		if ($obUserTransaction->state == UserTransaction::STATE_PAID || $obUserTransaction->UserSubscription->isActive())
-//		{
-//			return $this->render('error', array(
-//				'title'		=> 'Already paid',
-//				'message'	=> 'You\'ve already paid this transaction.',
-//			));
-//		}
+		$this->_checkTransaction();
 		$backUrl = 'http://'.Yii::app()->request->getServerName().
 			Yii::app()->createUrl('/member/payment/return/payway/'.$payway.'/transaction_id/'.$this->_getTransaction()->id);
 

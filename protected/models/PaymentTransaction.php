@@ -208,4 +208,9 @@ class PaymentTransaction extends YsaActiveRecord
 			return array('subscription/list/');
 		return array('application/');
 	}
+	
+	public function isPaid()
+	{
+		return $this->paid;
+	}
 }
