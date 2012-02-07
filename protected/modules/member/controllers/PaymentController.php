@@ -36,7 +36,7 @@ class PaymentController extends YsaMemberController
 	public function init()
 	{
 		parent::init();
-		$this->crumb('Payment', array('payment/'));
+		$this->crumb(Yii::t('payment','payment_title'), array('payment/'));
 	}
 
 	protected function _checkTransaction($transactionId = NULL)
@@ -45,16 +45,16 @@ class PaymentController extends YsaMemberController
 		$transaction = $this->_getTransaction($transactionId);
 		if ($transaction->getMember()->id != $this->member()->id)
 		{
-			$errorMessage = 'You can\'t proceed to payment for not yours transaction';
+			$errorMessage = Yii::t('payment', 'wrong_transaction_id');
 		}
 		if ($transaction->isPaid())
 		{
-			$errorMessage = 'Your transaction is already paid';
+			$errorMessage = Yii::t('payment', 'transaction_is_paid');
 		}
 
 		if ($errorMessage)
 		{
-			$this->setMemberPageTitle('Error');
+			$this->setMemberPageTitle(Yii::t('payment','payment_error_title'));
 			$this->render('error', array('message' => $errorMessage));
 			die;
 		}
@@ -63,7 +63,7 @@ class PaymentController extends YsaMemberController
 	public function actionChoosePayway($transactionId)
 	{
 		$this->_checkTransaction($transactionId);
-		$this->setMemberPageTitle('Select Pay System');
+		$this->setMemberPageTitle(Yii::t('payment', 'select_pay_system_title'));
 		$this->render('choose_payway', array(
 			'transaction'	=> $this->_getTransaction($transactionId)
 		));
@@ -89,7 +89,7 @@ class PaymentController extends YsaMemberController
 		);
 		$this->renderVar('formAction', $this->_getPayment($payway)->getFormUrl());
 
-		$this->setMemberPageTitle('New Payment');
+		$this->setMemberPageTitle(Yii::t('payment', 'new_title'));
 
 		$this->_getTransaction()->state = PaymentTransaction::STATE_SENT;
 		$this->_getTransaction()->save();
@@ -108,12 +108,12 @@ class PaymentController extends YsaMemberController
 
 		if ($this->_getPayment($payway)->verify())
 		{
-			$this->setSuccess("Payment processed successfully");
+			$this->setSuccess(Yii::t('payment','payment_done'));
 			$this->_getTransaction()->setPaid();
 		}
 		else
 		{
-			$this->setError("Payment failed.");
+			$this->setError(Yii::t('payment','payment_failed'));
 		}
 		$this->redirect($this->_getTransaction()->getRedirectUrl());
 	}
