@@ -3,7 +3,6 @@ class NewsletterController extends YsaFrontController
 {
 	public function actionSubscribe()
 	{
-		
 		if (!Yii::app()->request->isAjaxRequest) {
 			$this->redirect(Yii::app()->homeUrl);
 		}
@@ -14,20 +13,18 @@ class NewsletterController extends YsaFrontController
 			$newsletterForm->attributes = $_POST['NewsletterForm'];
 			if ($newsletterForm->validate()) {
 				
-//				$key = Yii::app()->settings->get('mailchimp_key');
-//				$listId = Yii::app()->settings->get('mailchimp_list_id');
-//				$mailchimp = new MCAPI($key);
-//				$subscribed = $mailchimp->listSubscribe($listId, $newsletterForm->email, array('NAME' => $newsletterForm->name));
-				$subscribed = 1;
+				$key = Yii::app()->settings->get('mailchimp_key');
+				$listId = Yii::app()->settings->get('mailchimp_list_id');
+				$mailchimp = new MCAPI($key);
+				$subscribed = $mailchimp->listSubscribe($listId, $newsletterForm->email, array('NAME' => $newsletterForm->name));
 				if ($subscribed) {
 					$this->sendJsonSuccess(array(
-						'msg' => Yii::t('success', 'newsletter_subscribed'),
+						'msg' => Yii::t('newsletter', 'newsletter_subscribed'),
 					));
-					
-//					Yii::app()->user->setFlash('newsletterSubscribed', 'Thank you for subscribing our newsletter!');
-//					$this->refresh();
 				} else {
-					$newsletterForm->addError('name', 'Cannot subscribe to list. Please refresh page and try again.');
+					$this->sendJsonError(array(
+						'msg' => Yii::t('newsletter', 'newsletter_not_subscribed'),
+					));
 				}
 			} else {
 				$this->sendJsonError();

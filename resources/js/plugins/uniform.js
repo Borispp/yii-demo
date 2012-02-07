@@ -214,7 +214,7 @@ Enjoy!
       });
       
       //handle disabled state
-      if($(elem).attr("disabled")){
+      if($(elem).prop("disabled")){
         //box is checked by default, check our box
         divTag.addClass(options.disabledClass);
       }
@@ -260,7 +260,7 @@ Enjoy!
           divTag.removeClass(options.focusClass);
         },
         "click.uniform touchend.uniform": function(){
-          if(!$(elem).attr("checked")){
+          if(!$(elem).prop("checked")){
             //box was just unchecked, uncheck span
             spanTag.removeClass(options.checkedClass);
           }else{
@@ -284,13 +284,13 @@ Enjoy!
       });
       
       //handle defaults
-      if($(elem).attr("checked")){
+      if($(elem).prop("checked")){
         //box is checked by default, check our box
         spanTag.addClass(options.checkedClass);
       }
 
       //handle disabled state
-      if($(elem).attr("disabled")){
+      if($(elem).prop("disabled")){
         //box is checked by default, check our box
         divTag.addClass(options.disabledClass);
       }
@@ -333,7 +333,7 @@ Enjoy!
           divTag.removeClass(options.focusClass);
         },
         "click.uniform touchend.uniform": function(){
-          if(!$(elem).attr("checked")){
+          if(!$(elem).prop("checked")){
             //box was just unchecked, uncheck span
             spanTag.removeClass(options.checkedClass);
           }else{
@@ -361,12 +361,12 @@ Enjoy!
       });
 
       //handle defaults
-      if($(elem).attr("checked")){
+      if($(elem).prop("checked")){
         //box is checked by default, check span
         spanTag.addClass(options.checkedClass);
       }
       //handle disabled state
-      if($(elem).attr("disabled")){
+      if($(elem).prop("disabled")){
         //box is checked by default, check our box
         divTag.addClass(options.disabledClass);
       }
@@ -470,7 +470,7 @@ Enjoy!
       }
 
       //handle defaults
-      if($el.attr("disabled")){
+      if($el.prop("disabled")){
         //box is checked by default, check our box
         divTag.addClass(options.disabledClass);
       }

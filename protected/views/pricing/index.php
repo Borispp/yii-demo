@@ -16,9 +16,9 @@
 						<h2>Application Creation</h2>
 						<span class="p"><del>$1000</del><ins>$500</ins></span>
 						<ul>
-							<li>Nunc semper risus ac felis lacinia </li>
-							<li>Nunc semper risus ac felis lacinia </li>
-							<li>Nunc semper risus ac felis lacinia </li>
+							<li>Development of your Application by YSA</li>
+							<li>Review and Submission to the App Store</li>
+							<li>1-on-1 Direct Support at any Time During the Creation Process</li>
 						</ul>
 					</div>
 					<span class="separator"></span>
@@ -27,18 +27,12 @@
 						<h2>Hosting</h2>
 						<span class="p"><del>$20</del><ins>free</ins></span>
 						<ul>
-							<li>Nunc semper risus ac felis lacinia </li>
-							<li>Nunc semper risus ac felis lacinia </li>
-							<li>Nunc semper risus ac felis lacinia </li>
+							<li>Maintains and Allows your Application to Remain Free to Download by Anyone in the App Store</li>
+							<li>Web Back End Hosting and Instant Access to Your Application</li>
+							<li>Eligible for all YSA Software and Feature Updates</li>
 						</ul>
 					</div>
-					
-					
 				</div>
-				
-				
-				
-				
 				<div class="get-started">
 					<?php echo YsaHtml::link('Get Started', array('/login'), array('class' => 'btn')); ?>
 				</div>

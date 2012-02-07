@@ -125,8 +125,8 @@ class phpSmug {
 		// Set the Application Name
 		$this->AppName = ( array_key_exists( 'AppName', $args ) ) ?  $args['AppName'] : 'Unknown Application';
 
-		// All calls to the API are done via POST using my own constructed httpRequest class
-		$this->req = new httpRequest();
+		// All calls to the API are done via POST using my own constructed smugmugHttpRequest class
+		$this->req = new smugmugHttpRequest();
 		$this->req->setConfig( array( 'adapter' => $this->adapter, 'follow_redirects' => TRUE, 'max_redirects' => 3, 'ssl_verify_peer' => FALSE, 'ssl_verify_host' => FALSE, 'connect_timeout' => 60 ) );
 		$this->req->setHeader( array( 'User-Agent' => "{$this->AppName} using phpSmug/" . phpSmug::$version, 'Content-Type' => 'application/x-www-form-urlencoded' ) );
     }
@@ -636,7 +636,7 @@ class phpSmug {
 		}
 
 		// Create a new object as we still need the other request object
-		$upload_req = new httpRequest();
+		$upload_req = new smugmugHttpRequest();
         $upload_req->setMethod( 'PUT' );
 		$upload_req->setConfig( array( 'follow_redirects' => TRUE, 'max_redirects' => 3, 'ssl_verify_peer' => FALSE, 'ssl_verify_host' => FALSE, 'connect_timeout' => 60 ) );
 		$upload_req->setAdapter( $this->adapter );
@@ -901,7 +901,7 @@ class phpSmug {
  * The original source is distributed under the Apache License Version 2.0
  */
 
-class HttpRequestException extends Exception {}
+class PhpSmugHttpRequestException extends Exception {}
 
 interface PhpSmugRequestProcessor
 {
@@ -910,7 +910,7 @@ interface PhpSmugRequestProcessor
 	public function getHeaders();
 }
 
-class httpRequest
+class smugmugHttpRequest
 {
 	private $method = 'POST';
 	private $url;
@@ -982,7 +982,7 @@ class httpRequest
 	 * @param mixed			$config An array of options or a string name with a
 	 *						corresponding $value
 	 * @param mixed			$value
-	 * @return httpRequest
+	 * @return smugmugHttpRequest
 	 */
 	public function setConfig( $config, $value = null )
     {
@@ -1330,7 +1330,7 @@ class PhpSmugCurlRequestProcessor implements PhpSmugRequestProcessor
 		// set proxy, if needed
         if ( $config['proxy_host'] ) {
             if ( ! $config['proxy_port'] ) {
-                throw new HttpRequestException( 'Proxy port not provided' );
+                throw new PhpSmugHttpRequestException( 'Proxy port not provided' );
             }
             $options[CURLOPT_PROXY] = $config['proxy_host'] . ':' . $config['proxy_port'];
             if ( $config['proxy_user'] ) {
@@ -1349,11 +1349,11 @@ class PhpSmugCurlRequestProcessor implements PhpSmugRequestProcessor
 		$body = curl_exec( $ch );
 
 		if ( curl_errno( $ch ) !== 0 ) {
-			throw new HttpRequestException( sprintf( '%s: CURL Error %d: %s', __CLASS__, curl_errno( $ch ), curl_error( $ch ) ), curl_errno( $ch ) );
+			throw new PhpSmugHttpRequestException( sprintf( '%s: CURL Error %d: %s', __CLASS__, curl_errno( $ch ), curl_error( $ch ) ), curl_errno( $ch ) );
 		}
 
 		if ( substr( curl_getinfo( $ch, CURLINFO_HTTP_CODE ), 0, 1 ) != 2 ) {
-			throw new HttpRequestException( sprintf( 'Bad return code (%1$d) for: %2$s', curl_getinfo( $ch, CURLINFO_HTTP_CODE ), $url ), curl_errno( $ch ) );
+			throw new PhpSmugHttpRequestException( sprintf( 'Bad return code (%1$d) for: %2$s', curl_getinfo( $ch, CURLINFO_HTTP_CODE ), $url ), curl_errno( $ch ) );
 		}
 
 		curl_close( $ch );

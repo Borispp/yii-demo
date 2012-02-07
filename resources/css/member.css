@@ -1853,6 +1853,9 @@ header nav li a:hover {
 header nav li.active a {
   color: #03b6f2;
 }
+header nav li.logout a:hover {
+  color: #999999;
+}
 header nav li.login-visible a {
   background: #ffffff;
   -moz-border-radius-topleft: 4px;

@@ -1851,6 +1851,9 @@ header nav li a:hover {
 header nav li.active a {
   color: #03b6f2;
 }
+header nav li.logout a:hover {
+  color: #999999;
+}
 header nav li.login-visible a {
   background: #ffffff;
   -moz-border-radius-topleft: 4px;
@@ -2460,6 +2463,10 @@ a.btn {
   line-height: 1.2;
   font-size: 11px;
 }
+#homepage-social .subscribe a {
+  color: #f0f0f0;
+  text-decoration: underline;
+}
 #homepage-social .subscribe #newsletter-subscribe-form-errors {
   float: left;
   width: 160px;
@@ -2771,6 +2778,7 @@ a.btn {
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3);
 }
 #pricing .price .image {
   min-height: 194px;
@@ -2780,7 +2788,7 @@ a.btn {
 #pricing .price .image h2 {
   text-transform: none;
   text-shadow: 1px 1px 0px #ffffff;
-  margin-bottom: 40px;
+  margin-bottom: 35px;
 }
 #pricing .price .image .app {
   float: left;
@@ -2789,29 +2797,33 @@ a.btn {
 #pricing .price .image .app .p {
   display: block;
   text-indent: -9999px;
-  height: 36px;
+  height: 71px;
   background: url(../images/pricing-price-app.png) 0 0 no-repeat;
-  margin-bottom: 40px;
 }
 #pricing .price .image .host {
   float: right;
-  width: 190px;
+  width: 200px;
 }
 #pricing .price .image .host .p {
   display: block;
   text-indent: -9999px;
-  height: 36px;
+  height: 71px;
   background: url(../images/pricing-price-host.png) 0 0 no-repeat;
-  margin-bottom: 40px;
 }
 #pricing .price .image ul {
   line-height: 1.5;
   font-size: 11px;
   font-style: italic;
 }
+#pricing .price .image ul li {
+  margin-bottom: .5em;
+}
+#pricing .price .image ul li:last-child {
+  margin-bottom: 0;
+}
 #pricing .price .image .separator {
   width: 1px;
-  height: 194px;
+  height: 260px;
   position: absolute;
   top: 0;
   left: 235px;
@@ -2844,10 +2856,12 @@ a.btn {
   margin-bottom: 0;
   font-style: italic;
   font-size: 11px;
+  color: #05ade9;
 }
 /* FAQ
 *******************************/
 #faq {
+  position: relative;
   /*
 	.questions {
 		.rounded-left(8px);
@@ -2905,15 +2919,14 @@ a.btn {
 
 }
 #faq .questions {
-  padding: 20px 40px;
-  background: #f0f0f0;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  margin-bottom: 40px;
+  padding: 44px 36px;
+  background: #f0f0f0 url(../images/faq-questions.png) 100% 100% no-repeat;
+  -moz-border-radius-topleft: 8px;
+  -moz-border-radius-topright: 8px;
+  -moz-border-radius-bottomright: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  -webkit-border-radius: 8px 8px 0px 0px;
+  border-radius: 8px 8px 0px 0px;
 }
 #faq .questions ul li {
   font-size: 13px;
@@ -2925,6 +2938,10 @@ a.btn {
 }
 #faq .questions ul li a {
   text-decoration: underline;
+}
+#faq .answers {
+  padding: 44px 36px;
+  position: relative;
 }
 #faq .answers .answer {
   position: relative;
@@ -2942,6 +2959,16 @@ a.btn {
 }
 #faq .answers .answer p:last-child {
   margin-bottom: 0;
+}
+#faq a.top {
+  width: 46px;
+  height: 46px;
+  background: url(../images/top.png) 0 0 no-repeat;
+  text-indent: -9999px;
+  display: block;
+  position: absolute;
+  right: -23px;
+  top: 400px;
 }
 /* Blog
 *******************************/

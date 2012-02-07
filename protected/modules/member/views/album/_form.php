@@ -52,6 +52,14 @@
 			<?php echo $form->error($entry,'can_share'); ?>
 		</div>
 	</section>
+	
+	<section class="cf">
+		<?php echo $form->labelEx($entry,'can_save'); ?>
+		<div>
+			<?php echo $form->checkBox($entry, 'can_save', array('checked' => $entry->can_save)); ?>
+			<?php echo $form->error($entry,'can_save'); ?>
+		</div>
+	</section>
 	<?/*
 	<section class="cf">
 		<?php echo $form->labelEx($entry,'can_order'); ?>
