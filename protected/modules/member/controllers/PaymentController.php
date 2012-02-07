@@ -20,7 +20,7 @@ class PaymentController extends YsaMemberController
 	}
 
 	/**
-	 * @param null $transactionId
+	 * @param null|int $transactionId
 	 * @return PaymentTransaction
 	 */
 	protected function _getTransaction($transactionId = NULL)
