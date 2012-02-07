@@ -26,6 +26,21 @@ class YsaWebUser extends CWebUser
         return 'member' == $user->role;
     }
     
+	/**
+	 * Interesant is not activated Memeber
+	 *
+	 * @return boolean 
+	 */
+	public function isInteresant()
+	{
+		$user = $this->loadUser(Yii::app()->user->id);
+		if (null === $user) {
+			return false;
+		}
+		
+        return !$user->isActivated();
+	}
+	
     public function isLoggedIn()
     {
         return Yii::app()->user->id ? true : false;
@@ -54,7 +69,7 @@ class YsaWebUser extends CWebUser
     private function getModel()
     {
         if (!$this->isGuest && $this->_model === null) {
-            $this->_model = User::model()->findByPk($this->id, array('select' => 'role'));
+            $this->_model = User::model()->findByPk($this->id, array('select' => array('role','activated')));
         }
         return $this->_model;
     }
