@@ -3,7 +3,7 @@ class FaqController extends YsaFrontController
 {
 	public function actionIndex()
 	{
-		$this->setFrontPageTitle(Yii::t('title', 'Faq'));
+		$this->setFrontPageTitle(Yii::t('title', 'FAQ'));
 		
 		$this->render('index',array(
 			'faq'	=> Faq::model()->findAll(array(
