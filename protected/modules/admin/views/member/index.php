@@ -46,8 +46,6 @@
 			</div>
 		</fieldset>
 		
-		
-		
 		<?php $this->endWidget(); ?>
 	</div>
 	

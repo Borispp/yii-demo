@@ -21,7 +21,7 @@ class MemberController extends YsaAdminController
 		$this->setContentTitle('Member Management');
 		$this->setContentDescription('view all members.');
 
-		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/adm/js/member.js', CClientScript::POS_HEAD);
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/adm/js/search-form.js', CClientScript::POS_HEAD);
 		$this->render('index',array(
 				'entries'   => $entries,
 				'pagination'=> $pagination,
