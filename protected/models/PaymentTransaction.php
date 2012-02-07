@@ -205,7 +205,7 @@ class PaymentTransaction extends YsaActiveRecord
 	public function getRedirectUrl()
 	{
 		if ($this->type == 'subscription')
-			return array('member/subscription/list/');
-		return array('member/application/');
+			return array('subscription/list/');
+		return array('application/');
 	}
 }
