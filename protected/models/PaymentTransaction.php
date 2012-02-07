@@ -194,4 +194,12 @@ class PaymentTransaction extends YsaActiveRecord
 		$subscription->subscription->activate();
 		return;
 	}
+
+	public function getMember()
+	{
+		if ($this->type == 'application')
+			return $this->paymentTransactionApplications[0]->application->user;
+		return $this->paymentTransactionSubscriptions[0]->subscription->Member;
+	}
+
 }
