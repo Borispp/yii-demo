@@ -135,6 +135,15 @@ class Member extends User
 		return $this->_zenfolio;
 	}
 	
+	public function zenfolioProfile()
+	{
+		if ($this->zenfolioAuthorized()) {
+			return $this->zenfolio()->LoadPrivateProfile();
+		} else {
+			return false;
+		}
+	}
+	
 	public function zenfolioAuthorize()
 	{
 		$this->zenfolio()->setAuthToken($this->option(UserOption::ZENFOLIO_HASH));

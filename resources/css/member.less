@@ -4,6 +4,9 @@
 
 /* Breadcrumb
 *******************************/
+.empty-breadcrumb {
+	.margin-bottom-alpha;
+}
 .breadcrumb{
 	display:block;
 	background: #f7f7f7;
@@ -54,11 +57,30 @@
 div.static-flash {
 	.w;
 	width:940px;
+	.margin-bottom-alpha;
 }
 
 
 /* Announcements
 *******************************/
+#announcements-label {
+	display:block;
+	background:@red-alpha;
+	color:@white-alpha;
+	position:absolute;
+	padding:0 5px;
+	line-height:16px;
+	.rounded(3px);
+	top:23px;
+	left:165px;
+	.shadow-gray-alpha;
+	&:hover {
+		opacity:.5;
+	}
+	&:active {
+		top:24px;
+	}
+}
 #announcements {
 	.w;
 	.announcement {
@@ -743,7 +765,8 @@ table.data {
 	}
 }
 
-section.smugmug-import {
+section.smugmug-import,
+section.zenfolio-import {
 	display:none;
 	.box-content {
 		background-color:transparent;
@@ -1176,13 +1199,14 @@ section.smugmug-import {
 
 /****  style selector****/
 #wizard-accordion .step section.style a {
-	width:80px;
-	height:80px;
-	text-indent: -9999px;
+	height:24px;
+	.font-shorthand(700, 10px, 24px);
+	text-transform:uppercase;
+	margin-bottom:8px;
+	display:block;
+	padding:0 10px;
 	border:2px solid #fff;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px; 
+	.rounded(4px);
 }
 #wizard-accordion .step section.style a:hover {
 	border-color: #d0d0d0;
@@ -1191,15 +1215,17 @@ section.smugmug-import {
 	border-color: #02b7f2;
 }
 
-
-
 #wizard-accordion .step section.style a.dark {
-	float:left;
-	background: url(../images/wizard-style-dark.png) 0 0 no-repeat;
+	.gradient(#222222, #222222, #646565);
+	color:@white-alpha;
 }
 #wizard-accordion .step section.style a.light {
-	float: right;
-	background: url(../images/wizard-style-light.png) 0 0 no-repeat;
+	.gradient(#c1c1c1, #c1c1c1, #f5f5f5);
+	color:@gray-lima;
+}
+#wizard-accordion .step section.style a.biege {
+	.gradient(#d9b265, #d9b265, #e8d2a9);
+	color:#6a645c;
 }
 
 /****  uploader ****/

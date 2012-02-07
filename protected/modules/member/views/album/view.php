@@ -46,11 +46,11 @@
 					</h3>
 					<?php echo YsaHtml::link('Upload Photos', '#photo-upload-container', array('class' => 'btn blue fancybox fancybox.inline', 'id' => 'album-upload-photos-button')); ?>
 					<?php if ($this->member()->smugmugAuthorized()) : ?>
-					
 						<?php echo YsaHtml::link('Import from SmugMug', '#photo-import-smugmug-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-smugmug-import-button')); ?>
 					<?php endif;?>
-					
-					
+					<?php if ($this->member()->zenfolioAuthorized()) : ?>
+						<?php echo YsaHtml::link('Import from ZenFolio', '#photo-import-zenfolio-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-zenfolio-import-button')); ?>
+					<?php endif;?>
 					<div class="cf"></div>
 				</div>
 				<ul id="album-photos" class="album-photos cf">
@@ -163,4 +163,24 @@
 		</section>
 	<?php endif; ?>
 
+	<?php if ($this->member()->zenfolioAuthorized()) : ?>
+		<section id="photo-import-zenfolio-container" class="zenfolio-import box">
+			<div class="box-title">
+				<h3>Import from ZenFolio Album</h3>
+			</div>
+			<div class="box-content">
+				<div class="data">
+					<select name="album">
+						<option value="">&ndash;&ndash;&ndash;</option>
+						<?php foreach ($zenfolioHierarchy['Elements'] as $element) : ?>
+							<option value="<?php echo $element['Id']; ?>"><?php echo $element['Title']; ?></option>
+						<?php endforeach; ?>
+					</select>
+					<input type="button" value="Show Photos" />
+				</div>
+				<div class="import cf"></div>
+				<div class="loading">Loading album images. Please be patient &mdash; it takes a while...</div>
+			</div>
+		</section>
+	<?php endif; ?>
 </section>

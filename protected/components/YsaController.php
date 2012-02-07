@@ -190,7 +190,6 @@ class YsaController extends CController
 		if ($this->isWebsite()) {
 			$nav = array(
 				array('label'=>'Home', 'url'=>Yii::app()->homeUrl),
-				array('label'=>'About', 'url'=> array('about/'), 'active' => $c == 'page' && $this->_slug == 'about'),
 				array('label'=>'Contact', 'url'=>array('contact/'), 'active' => $c == 'page' && $a == 'contact'),
 				array('label'=>'Blog', 'url'=>array('blog/')),
 				array('label'=>'Faq', 'url'=>array('faq/'), 'active' => $c == 'faq'),

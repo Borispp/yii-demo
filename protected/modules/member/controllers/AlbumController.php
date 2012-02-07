@@ -119,6 +119,14 @@ class AlbumController extends YsaMemberController
 			$this->member()->smugmugSetAccessToken();
 		}
 		
+		if ($this->member()->zenfolioAuthorized()) {
+			$this->member()->zenfolioAuthorize();
+			$profile = $this->member()->zenfolio()->LoadPrivateProfile();
+			$hierarchy = $this->member()->zenfolio()->LoadGroupHierarchy($profile['LoginName']);
+			
+			$this->renderVar('zenfolioHierarchy', $hierarchy);
+		}
+		
 		$this->loadPlupload(true);
 		
 		$this->crumb($entry->event->name, array('event/view/' . $entry->event->id))

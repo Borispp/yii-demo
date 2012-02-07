@@ -116,6 +116,15 @@ $(function(){
 				padding:0
 			});
 			
+			$('#album-zenfolio-import-button').fancybox({
+				fitToView:true,
+				autoSize:false,
+				minWidth:720,
+				minHeight:400,
+				margin:40,
+				padding:0
+			});
+			
 			$('#album-slideshow-button').click(function(e){
 				e.preventDefault();
 				var images = [];
@@ -205,6 +214,89 @@ $(function(){
 					}
 				}, 'json');
 			});
+			
+			
+			var zenfolio_container = $('#photo-import-zenfolio-container');
+			
+			var zenfolio_data = zenfolio_container.find('.data');
+			var zenfolio_loading = zenfolio_container.find('.loading');
+			var zenfolio_import = zenfolio_container.find('.import');
+			
+			zenfolio_container.find('input:button').click(function(e){
+				e.preventDefault();
+				var album_id = zenfolio_container.find('select').val();
+				if (!album_id) {
+					return;
+				}
+				zenfolio_data.hide();
+				zenfolio_loading.show();
+				zenfolio_import.html('');
+				$.post(_member_url + '/zenfolio/album/', {id:album_id}, function(data){
+					zenfolio_loading.hide();
+					zenfolio_data.show();
+					if (data.success) {
+						zenfolio_import.html(data.html);
+						zenfolio_import.find('input:checkbox').uniform();
+					} else {
+						$._alert(data.msg);
+					}
+				}, 'json');
+			});
+			
+			zenfolio_container.find('.zenfolio-check-all, .zenfolio-check-none, .zenfolio-check-invert').live('click', function(e){
+				e.preventDefault();
+				var link = $(this);
+				var checkboxes = link.parents('form').find('input:checkbox');
+				if (link.hasClass('zenfolio-check-all') || link.hasClass('zenfolio-check-none')) {
+					checkboxes.attr('checked', link.hasClass('zenfolio-check-all'));
+				} else if (link.hasClass('zenfolio-check-invert')) {
+					checkboxes.each(function(){
+						$(this).attr('checked', !$(this).attr('checked'));
+					})
+				}
+				$.uniform.update(); 
+			});
+			
+			zenfolio_container.find('.zenfolio-import-selected').live('click', function(e){
+				e.preventDefault();
+				var link = $(this);
+				var chain = new Array;
+				
+				var buttons = zenfolio_container.find('.buttons');
+				var importing = zenfolio_container.find('.importing');
+				
+				buttons.hide();
+				importing.show();
+				
+				link.parents('form').find('input[type=checkbox]:checked').each(function(){
+					var checkbox = $(this);
+					chain.push($.post(_member_url + '/photo/zenfolioImportPhoto', {
+						id:checkbox.val(),
+						album_id:album_id
+					}, function(data){
+						checkbox.attr('checked', false);
+						if (data.success) {
+							album_photos_container.append(data.html);
+						}
+					}, 'json'));
+				});
+				
+				$.when.apply(this, chain).done(function(){
+					$.fancybox.close();
+					buttons.show();
+					importing.hide();
+					smugmug_import.html('');
+					smugmug_container.find('select').val('');
+					$.uniform.update(); 
+					$._flash('Photos were successfully imported.', {type:'success'});
+				});
+			});
+			
+			
+			
+			
+			
+			
 			
 			$('#album-order-availability form').ajaxForm({
 				beforeSubmit:function(items, frm){
