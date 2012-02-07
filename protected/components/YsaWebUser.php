@@ -11,12 +11,18 @@ class YsaWebUser extends CWebUser
     public function isAdmin() 
     {
         $user = $this->loadUser(Yii::app()->user->id);
+		if (null === $user) {
+			return false;
+		}
         return 'admin' == $user->role;
     }
     
     public function isMember() 
     {
         $user = $this->loadUser(Yii::app()->user->id);
+		if (null === $user) {
+			return false;
+		}
         return 'member' == $user->role;
     }
     

@@ -11,6 +11,8 @@
 	)); ?>
 </div>
 
+<?php $this->widget('YsaStaticNotificationBar')?>
+
 <?php echo $content; ?>
 
 <?php $this->endContent(); ?>

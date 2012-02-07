@@ -1,5 +1,5 @@
 <?php
-define('YOURSTUDIOAPP_WEBSITE', 'http://yourstudio.dev');
+define('YOURSTUDIOAPP_WEBSITE', 'http://office.flosites.com/yourstudioapp');
 
 if ( ! isset( $content_width ) )
 	$content_width = 655;

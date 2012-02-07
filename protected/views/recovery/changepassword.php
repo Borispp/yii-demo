@@ -1,35 +1,44 @@
-<div class="w">
-	<?php if(Yii::app()->user->hasFlash('recoveryMessage')): ?>
-		<div class="success">
-			<?php echo Yii::app()->user->getFlash('recoveryMessage'); ?>
-		</div>
-	<?php else: ?>
-		<div class="form">
-			<?php $form=$this->beginWidget('YsaForm', array(
-					'id'=>'recovery-change-password-form',
-					'enableAjaxValidation'=>false,
-			)); ?>
-
-			<section class="cf">
-				<?php echo $form->labelEx($entry,'password'); ?>
-				<div>
-					<?php echo $form->passwordField($entry,'password'); ?>
-					<?php echo $form->error($entry,'password'); ?>
+<div class="general-page" id="recovery-change-password">
+	<div class="content cf">
+		<?php if(Yii::app()->user->hasFlash('recoveryMessage')): ?>
+			<div id="recover-success">
+				<span class="icon lock"></span>
+				<div class="message">
+					<?php echo Yii::app()->user->getFlash('recoveryMessage'); ?>
+					<div class="buttons c"><?php echo YsaHtml::link('Login Now', array('login/'), array('class' => 'btn blue')); ?></div>
 				</div>
-			</section>
-
-			<section class="cf">
-				<?php echo $form->labelEx($entry,'verifyPassword'); ?>
-				<div>
-					<?php echo $form->passwordField($entry,'verifyPassword'); ?>
-					<?php echo $form->error($entry,'verifyPassword'); ?>
-				</div>
-			</section>
-
-			<div class="button">
-				<?php echo YsaHtml::submitButton('Restore'); ?>
 			</div>
-			<?php $this->endWidget(); ?>
-		</div>
-	<?php endif; ?>
-</div> 
+		<?php else: ?>
+			<div class="form large-form">
+				
+				<div class="info">
+					<?php echo $page->content; ?>
+				</div>
+
+				<?php echo YsaHtml::errorSummary($entry, false, false); ?>
+				<?php $form=$this->beginWidget('YsaForm', array(
+						'id'=>'recovery-change-password-form',
+				)); ?>
+				<section>
+					<div>
+						<?php echo $form->passwordField($entry,'password', array('placeholder' => 'Password')); ?>
+					</div>
+				</section>
+				<section>
+					<div>
+						<?php echo $form->passwordField($entry,'verifyPassword', array('placeholder' => 'Retype Password')); ?>
+					</div>
+				</section>
+
+				<section class="buttons">
+					<?php echo YsaHtml::submitLoadingButton('Save', array('class' => 'blue')); ?>
+				</section>
+				<?php $this->endWidget(); ?>
+			</div>
+			<div class="image">
+				
+			</div>
+		<?php endif; ?>
+	</div>
+</div>
+

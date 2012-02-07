@@ -18,11 +18,6 @@ class RegistrationForm extends Member
 			// compare password to repeated password
 			array('verifyPassword', 'compare', 'compareAttribute'=>'password', 'message' => 'Please repeat your password correctly'),
 			// make sure username and email are unique
-<<<<<<< HEAD
-			array('email', 'unique'),
-=======
-			
->>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 			array('email, password, first_name, last_name, verifyPassword', 'required'),
 			array('subscribe', 'boolean'),
 			array('subscribe', 'safe'),

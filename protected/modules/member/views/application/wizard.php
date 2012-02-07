@@ -13,6 +13,7 @@
 		<div>
 			<?php echo YsaHtml::link('Load Dark Template', array('application/loadTemplate/template/dark/'), array('class' => 'btn small')); ?>
 			<?php echo YsaHtml::link('Load Light Template', array('application/loadTemplate/template/light/'), array('class' => 'btn small')); ?>
+			<?php echo YsaHtml::link('Load Biege Template', array('application/loadTemplate/template/biege/'), array('class' => 'btn small')); ?>
 		</div>
 	</section>
 	

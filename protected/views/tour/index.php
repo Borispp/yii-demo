@@ -37,6 +37,17 @@
 		<span class="image"></span>
 	</div>
 
+	<div class="tour-box tour-box-web">
+		<span class="shadow"></span>
+		<h2>Web-based <span>Control</span></h2>
+		<div class="story">
+			<p>
+				You will have access to monitor and update your application through a web back end. You will constantly be adding client galleries, sending push notifications, and changing your custom featured pages... this will be your mobile command center!
+			</p>
+		</div>
+		<span class="image"></span>
+	</div>
+	
 	<div class="tour-box tour-box-workflow">
 		<span class="shadow"></span>
 		<h2>Workflow <span>Integration</span></h2>
@@ -46,5 +57,11 @@
 			</p>
 		</div>
 		<span class="image"></span>
+	</div>
+	
+	<div class="tour-box tour-box-create">
+		<h2>Create your own <span>Application</span></h2>
+		
+		<?php echo YsaHtml::link('Get Started', array('login/'), array('class' => 'btn')); ?>
 	</div>
 </div> 

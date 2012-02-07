@@ -49,6 +49,27 @@ class YsaController extends CController
 	{
 		return Yii::app()->user->setFlash('error', $message);
 	}
+	
+
+	public function setStaticSuccess($message)
+	{
+		return Yii::app()->user->setFlash('staticSuccess', $message);
+	}
+
+	public function setStaticNotice($message)
+	{
+		return Yii::app()->user->setFlash('staticNotice', $message);
+	}
+	
+	public function setStaticInfo($message)
+	{
+		return Yii::app()->user->setFlash('staticInfo', $message);
+	}
+
+	public function setStaticError($message)
+	{
+		return Yii::app()->user->setFlash('staticError', $message);
+	}
 
 	public function sendJson($data)
 	{
@@ -241,7 +262,7 @@ class YsaController extends CController
 //					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jquery.html5form-1.5.js', CClientScript::POS_HEAD)
 //					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jquery.tools.min.js', CClientScript::POS_HEAD)
 					->registerScriptFile('http://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js', CClientScript::POS_HEAD)
-					
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/scrollto.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD)
 					->registerCssFile('http://fonts.googleapis.com/css?family=Candal');
 
@@ -255,7 +276,6 @@ class YsaController extends CController
 			// register js
 			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jquery-ui.min.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/minicolors.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/scrollto.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/quicksearch.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/multi-select.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/uniform.js', CClientScript::POS_HEAD)

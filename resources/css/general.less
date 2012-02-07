@@ -115,11 +115,7 @@ div.error-top {
 	padding:3px 10px;
 	margin-left:-2px;
 	background:@pink-bravo;
-<<<<<<< HEAD
-	width:190px;
-=======
 	width:300px;
->>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 	.rounded(4px);
 	.box-shadow(0px 0px 4px 0px rgba(0,0,0,.5));
 	p {
@@ -400,3 +396,76 @@ footer {
 
 
 
+/* Message Boxes
+*******************************/
+div.flash {
+	z-index:999;
+    position:fixed;
+    z-index: 101;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    overflow: hidden;
+	background:@white-alpha;
+	color:@gray-juliet;
+	.font-shorthand(700, 13px, 2.5);
+	.shadow-black-alpha;
+	cursor:pointer;
+	.text-shadow;
+	&.success {
+		background: @green-charlie;
+	}
+	&.error {
+		background: @red-foxtrot;
+	}
+	&.notice {
+		background: @yellow-charlie;
+	}
+	&.info {
+		background: @blue-november;
+	}
+	&.app {
+		@-webkit-keyframes slideDown {
+			0%, 100% { -webkit-transform: translateY(-50px); }
+			10%, 90% { -webkit-transform: translateY(0px); }
+		}
+		@-moz-keyframes slideDown {
+			0%, 100% { -moz-transform: translateY(-50px); }
+			10%, 90% { -moz-transform: translateY(0px); }
+		}
+		-webkit-transform: translateY(-50px);
+		-webkit-animation: slideDown 6s 1s 1 ease forwards;
+		-moz-transform:    translateY(-50px);
+		-moz-animation:    slideDown 6s 1s 1 ease forwards;
+	}
+	a {
+		color:@gray-juliet;
+		text-decoration:underline;
+	}
+}
+
+div.static-flash {
+	.margin-bottom-alpha;
+	color:@gray-lima;
+	.rounded(3px);
+	padding:12px 20px;
+	.shadow-gray-alpha;
+	.text-shadow(rgba(255, 255, 255, .5));
+	&.success {
+		background: @green-charlie;
+	}
+	&.error {
+		background: @red-foxtrot;
+	}
+	&.notice {
+		background: @yellow-charlie;
+	}
+	&.info {
+		background: @blue-november;
+	}
+	a {
+		color:@gray-lima;
+		text-decoration:underline;
+	}
+}

@@ -20,35 +20,42 @@ class RecoveryController extends YsaFrontController
         if ($k) {
             $user = User::model()->findByAttributes(array('activation_key' => $k));
 
+			$page = Page::model()->findBySlug('change-password');
+			
             if ($user) {
                 $entry = new ChangePasswordForm();
 
                 if(isset($_POST['ChangePasswordForm'])) {
                     $entry->attributes = $_POST['ChangePasswordForm'];
+					
                     if($entry->validate()) {
                         $user->password = YsaHelpers::encrypt($entry->password);
                         $user->generateActivationKey();
                         if ($user->state == User::STATE_INACTIVE) {
                             $user->status = User::STATE_ACTIVE;
                         }
-
+						
                         // save new password and regenerated activation key
                         $user->save();
 
-                        Yii::app()->user->setFlash('recoveryMessage', "New password is saved. Now you can log in with your credentials.");
-                        $this->redirect($this->createUrl('/recovery'));
+                        Yii::app()->user->setFlash('recoveryStatus', 'changed');
+						Yii::app()->user->setFlash('recoveryMessage', $page->short);
+//                        $this->redirect(array('login/'));
+						$this->redirect(array('recovery/'));
                     }
                 }
 
-                $this->render('changepassword', array('entry' => $entry));
+				$this->setFrontPageTitle($page->title);
+				
+                $this->render('changepassword', array('entry' => $entry, 'page' => $page));
 
             } else { // invalid recovery key
-                Yii::app()->user->setFlash('recoveryMessage', "Incorrect recovery link.");
-                $this->redirect($this->createUrl('/recovery'));
+                Yii::app()->user->setFlash('recoveryMessage', "<p>Incorrect recovery link.</p>");
+                $this->redirect(array('recovery/'));
             }
         } else { // show password recovery form with email
-
             $form = new RecoveryForm();
+			$page = Page::model()->findBySlug('restore');
 
             if(isset($_POST['RecoveryForm'])) {
 
@@ -68,12 +75,11 @@ class RecoveryController extends YsaFrontController
                         )
                     );
 
-                    Yii::app()->user->setFlash('recoveryMessage', "Please check your email. An instructions was sent to your email address.");
+                    Yii::app()->user->setFlash('recoveryStatus', 'requested');
+					Yii::app()->user->setFlash('recoveryMessage', $page->short);
                     $this->refresh();
                 }
             }
-			
-			$page = Page::model()->findBySlug('restore');
 			
 			$this->setFrontPageTitle($page->title);
 			
