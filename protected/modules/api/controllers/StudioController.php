@@ -1,6 +1,12 @@
 <?php
 class StudioController extends YsaApiController
 {
+	protected function beforeAction($action)
+	{
+		$this->_commonValidate();
+		return parent::beforeAction($action);
+	}
+	
 	protected function _getUrlFromImage(array $image = NULL)
 	{
 		return $image['url'];
