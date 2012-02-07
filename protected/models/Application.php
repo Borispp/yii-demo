@@ -443,39 +443,42 @@ class Application extends YsaActiveRecord
 	
 	public function numStatus()
 	{
-		return $this->filled . $this->submitted . $this->locked . $this->approved . $this->ready;
+		return $this->filled . $this->paid . $this->submitted . $this->locked . $this->approved . $this->ready;
 	}
 	
 	public function status()
 	{
 		$s = '';
 		switch ($this->numStatus()) {
-			case '00000':
+			case '000000':
 				$s = 'newly-created';
 				break;
-			case '10000':
+			case '100000':
 				$s = 'filled';
 				break;
-			case '11000':
+			case '110000':
+				$s = 'paid';
+				break;
+			case '111000':
 				$s = 'submitted';
 				break;
-			case '11100':
+			case '111100':
 				$s = 'locked';
 				break;
-			case '11110':
+			case '111110':
 				$s = 'approved';
 				break;
-			case '11111':
+			case '111111':
 				$s = 'appstore';
 				break;
-			case '11112':
+			case '111112':
 				$s = 'running';
 				break;
-			case '1111-1':
+			case '11111-1':
 				$s = 'rejected';
 				break;
-			case '111-10':
-			case '110-10':
+			case '1111-10':
+			case '1110-10':
 				$s = 'unapproved';
 				break;
 		}
@@ -490,6 +493,9 @@ class Application extends YsaActiveRecord
 		switch ($this->status()) {
 			case 'newly-created':
 				$label = 'Application is up.';
+				break;
+			case 'paid':
+				$label = 'Application is paid.';
 				break;
 			case 'filled':
 				$label = 'Application is filled up.';

@@ -18,6 +18,12 @@
 		</div>
 	</section>
 	<section>
+		<label>Paid</label>
+		<div>
+			<strong><?php echo $entry->isPaid() ? 'Yes' : 'No'; ?></strong>
+		</div>
+	</section>
+	<section>
 		<label>Submitted</label>
 		<div>
 			<strong><?php echo $entry->submitted() ? 'Yes' : 'No'; ?></strong>
