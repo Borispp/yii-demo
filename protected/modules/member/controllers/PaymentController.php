@@ -108,13 +108,13 @@ class PaymentController extends YsaMemberController
 
 		if ($this->_getPayment($payway)->verify())
 		{
-			$this->setSuccess("Your application was successfully paid");
+			$this->setSuccess("Payment processed successfully");
 			$this->_getTransaction()->setPaid();
 		}
 		else
 		{
 			$this->setError("Payment failed.");
 		}
-		$this->redirect(array('application/'));
+		$this->redirect($this->_getTransaction()->getRedirectUrl());
 	}
 }
