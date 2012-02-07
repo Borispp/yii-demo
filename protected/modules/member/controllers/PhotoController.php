@@ -267,6 +267,38 @@ class PhotoController extends YsaMemberController
 		Yii::app()->end();
 	}
 	
+	public function actionZenfolioImportPhoto()
+	{
+		if (Yii::app()->getRequest()->isAjaxRequest && isset($_POST['id']) && isset($_POST['album_id'])) {
+			try {
+				$album = EventAlbum::model()->findByPk($_POST['album_id']);
+				
+				if (!$album || !$album->isOwner()) {
+					throw new Exception('No Album ID provided.');
+				}
+				
+				$this->member()->zenfolioAuthorize();
+				$zenfolioPhotoId = (int) $_POST['id'];
+								
+				$image = $this->member()->zenfolio()->LoadPhoto($zenfolioPhotoId, 'Full');
+
+				$entry = new EventPhoto();
+				$entry->album_id = $album->id;
+				$entry->import($image, 'zenfolio');
+				
+				$this->sendJsonSuccess(array(
+					'html' => $this->renderPartial('_listphoto', array('entry' => $entry), true),
+				));
+				
+			} catch (Exception $e) {
+				$this->sendJsonError(array(
+					'msg' => $e->getMessage(),
+				));
+			}
+		}
+		Yii::app()->end();
+	}
+	
 	public function actionSaveSizes($photoId)
 	{
 		if (isset($_POST['PhotoSizes']) && count($_POST['PhotoSizes']) && is_array($_POST['PhotoSizes'])) {

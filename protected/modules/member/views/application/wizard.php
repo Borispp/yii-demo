@@ -1,4 +1,4 @@
-<div id="app-wizard" class="w body">	
+<div id="app-wizard" class="w">	
 	<section id="wizard-breadcrumbs">
 		<ul>
 			<?php foreach ($app->wizardSteps() as $step => $stepOptions) : ?>

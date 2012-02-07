@@ -1,5 +1,4 @@
 <div class="w">
-	
 	<section class="box">
 		<div class="box-title">
 			<h3>SmugMug Settings</h3>

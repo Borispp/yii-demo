@@ -1,5 +1,6 @@
 <?php
-define('YOURSTUDIOAPP_WEBSITE', 'http://office.flosites.com/yourstudioapp');
+
+require_once ABSPATH . '../protected/config/wordpress.php';
 
 if ( ! isset( $content_width ) )
 	$content_width = 655;

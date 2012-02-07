@@ -16,6 +16,6 @@ class YsaMemberAnnouncementBar extends CWidget
 		{
 			return;
 		}
-		echo YsaHtml::link(count($announcements), array('/member/announcement/'),  array('id' => 'announcements','title' => 'You have '.count($announcements).' new announcement'.(count($announcements) > 1 ? 's' : '')));
+		echo YsaHtml::link(count($announcements), array('/member/announcement/'),  array('id' => 'announcements-label','title' => 'You have '.count($announcements).' new announcement'.(count($announcements) > 1 ? 's' : '')));
 	}
 }
