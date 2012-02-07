@@ -26,6 +26,7 @@ class YsaMemberBreadcrumbs extends CWidget
 	public function run()
 	{
 		if(empty($this->links)) {
+			echo '<div class="empty-breadcrumb"></div>';
 			return;
 		}
 		

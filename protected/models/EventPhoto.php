@@ -541,6 +541,8 @@ class EventPhoto extends YsaActiveRecord
 		
 		if ($from == 'smugmug') {
 			$this->_importSmugmug($data);
+		} elseif ($from == 'zenfolio') {
+			$this->_importZenfolio($data);
 		}
 		
 		if ($save) {
@@ -654,6 +656,60 @@ class EventPhoto extends YsaActiveRecord
 		}
 		
 		return $exif;
+	}
+	
+	// no exif data at the moment
+	protected function _formatZenfolioExif($data)
+	{
+		$exif = array();
+		
+		return $exif;
+	}
+	
+	protected function _importZenfolio($data)
+	{
+		
+		$target = tempnam(sys_get_temp_dir(), 'img');
+		
+		$fh = fopen($target,'w');
+		$check = fwrite($fh,file_get_contents(phpZenfolio::imageUrl($data, 5)));
+		fclose($fh);
+		
+		if (!$check) {
+			throw new Exception('ZenFolio image file can\'t be read. Please try again later.');
+		}
+		
+		$image = new YsaImage($target);
+		
+		$this->name = $data['FileName'];
+		$this->meta_type = $image->mime;
+		$this->extention = YsaHelpers::mimeToExtention($this->meta_type);
+		$this->alt = $data['Title'];
+		$this->state = self::STATE_ACTIVE;
+		
+		$data['from'] = 'zenfolio';
+		$this->imported_data = serialize($data);
+		
+		$this->exif_data = $this->_formatZenfolioExif($data);
+		
+		$this->generateBaseName();
+
+		$image->quality(100);
+		
+		$original_image = clone $image;
+		
+		$image->resize(
+			Yii::app()->params['member_area']['photo']['full']['width'], 
+			Yii::app()->params['member_area']['photo']['full']['height']
+		);
+                
+		$savePath = $this->path();
+		$image->save($savePath);
+		$this->size = filesize($savePath);
+		
+		$original_save_path = $this->originPath();
+		$original_image->save( $original_save_path );
+		$this->original_size = filesize($original_save_path);
 	}
 	
 	public function shareUrl()

@@ -6,7 +6,9 @@ class ApplicationController extends YsaAdminController
 	 */
 	public function actionIndex()
 	{
-		$criteria = new CDbCriteria;
+		$app_search = new YsaApplicationSearchForm;
+		$app_search->setAttributes(!empty($_GET['YsaApplicationSearchForm']) ? $_GET['YsaApplicationSearchForm'] : array(),false);
+		$criteria = $app_search->searchCriteria();
 
 		$pagination = new CPagination(Application::model()->count($criteria));
 		$pagination->pageSize = Yii::app()->params['admin_per_page'];
@@ -17,9 +19,11 @@ class ApplicationController extends YsaAdminController
 		$this->setContentTitle('Applications');
 		$this->setContentDescription('view all applications.');
 
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/adm/js/search-form.js', CClientScript::POS_HEAD);
 		$this->render('index',array(
 			'entries'   => $entries,
 			'pagination'=> $pagination,
+			'app_search' => $app_search,
 		));
 	}
 	

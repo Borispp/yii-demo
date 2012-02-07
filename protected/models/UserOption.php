@@ -21,6 +21,7 @@ class UserOption extends YsaOptionActiveRecord
 	const SMUGMUG_AUTHORIZED = 'smug_authorized';
 	
 	const ZENFOLIO_HASH = 'zenf_hash';
+	const ZENFOLIO_LOGIN = 'zenf_login';
 	
 	const FIVE00_API = '500px_api';	
 	const FIVE00_SECRET = '500px_secret';	

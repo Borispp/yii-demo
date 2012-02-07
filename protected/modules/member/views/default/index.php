@@ -1,4 +1,4 @@
-<div class="w body" id="member-area">
+<div class="w" id="member-area">
 	<div class="widgets g4">
 		<section class="box widget" id="widget_quick_info">
 			<div class="box-title">

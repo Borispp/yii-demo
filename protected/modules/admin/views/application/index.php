@@ -1,4 +1,55 @@
 <div class="g12">
+	
+	
+	<div>
+		
+		<?php $form=$this->beginWidget('CActiveForm', array(
+			'action'=>Yii::app()->createUrl($this->route),
+			'method' => 'get',
+		)); ?>
+		
+		<fieldset>
+			<div class="g12"><h3 id="search_toggler">Search</h3></div>
+			<div id="search_form" class="<?php echo !isset($_GET['YsaApplicationSearchForm']) ? 'hidden' : '' ?>">
+			<fieldset>
+			<section class="search-form">
+				<?php echo $form->label($app_search,'keywords'); ?>
+				<div>
+					<?php echo $form->textField($app_search,'keywords'); ?>
+				</div>
+			</section>
+			<section class="search-form">
+				<?php echo $form->label($app_search,'order_by'); ?>
+				<div>
+					<?php echo $form->dropDownList($app_search, 'order_by', $app_search->orderByOptions()); ?>
+				</div>
+			</section>
+			<section class="search-form">
+				<?php echo $form->label($app_search,'order_sort'); ?>
+				<div>
+					<?php echo $form->dropDownList($app_search, 'order_sort', $app_search->orderSortOptions()); ?>
+				</div>
+			</section>
+			<section class="search-form">
+				<?php echo $form->label($app_search,'state'); ?>
+				<div>
+					<?php echo $form->dropDownList($app_search, 'state', $app_search->stateOptions()); ?>
+				</div>
+			</section>
+			<section class="search-form">
+				<div>
+					<button class="submit blue">Search</button>
+					<button class="submit red" id="reset">Reset</button>
+				</div>
+			</section>
+			</fieldset>
+			</div>
+		</fieldset>
+		
+		<?php $this->endWidget(); ?>
+	</div>
+	
+	
 	<?php $this->beginWidget('YsaAdminForm', array(
 		'id'=>'application-form',
 		'action'=>Yii::app()->createUrl('/admin/application/delete'),

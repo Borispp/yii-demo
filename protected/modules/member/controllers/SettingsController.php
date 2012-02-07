@@ -166,7 +166,10 @@ class SettingsController extends YsaMemberController
 				if ($loginForm->validate()) {
 					try {
 						$this->member()->zenfolio()->login("Username=" . $loginForm->username, "Password=" . $loginForm->password); // "Plaintext=TRUE"
+						
 						$this->member()->editOption(UserOption::ZENFOLIO_HASH, $this->member()->zenfolio()->getAuthToken());
+						$this->member()->editOption(UserOption::ZENFOLIO_LOGIN, $loginForm->username);
+						
 						$this->setSuccess(Yii::t('save', 'settings_zenfolio_authorized'));
 						$this->refresh();
 					} catch (Exception $e) {
@@ -181,10 +184,24 @@ class SettingsController extends YsaMemberController
 		$this->crumb('Settings', array('settings/'))
 				->crumb('ZenFolio');
 
+		if ($this->member()->zenfolioAuthorized()) {
+			
+		}
+		
 		$this->render('zenfolio', array(
 			'zenlogin'	=> $loginForm,
 			'entry'		=> $this->member(),
 		));
+	}
+	
+	public function actionZenfolioUnlink()
+	{
+		$this->member()->deleteOption(UserOption::ZENFOLIO_HASH);
+		$this->member()->deleteOption(UserOption::ZENFOLIO_LOGIN);
+
+		$this->setSuccess(Yii::t('save', 'settings_zenfolio_unlinked'));
+
+		$this->redirect(array('settings/zenfolio/'));
 	}
 
 	public function action500px()

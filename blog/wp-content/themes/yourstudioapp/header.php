@@ -34,7 +34,6 @@
 			<nav>
 				<ul id="yw0" class="cf">
 					<li><a href="<?php echo YOURSTUDIOAPP_WEBSITE . '/' ?>">Home</a></li>
-					<li><a href="<?php echo YOURSTUDIOAPP_WEBSITE . '/' ?>about/">About</a></li>
 					<li><a href="<?php echo YOURSTUDIOAPP_WEBSITE . '/' ?>contact/">Contact</a></li>
 					<li class="active"><a href="<?php echo YOURSTUDIOAPP_WEBSITE . '/' ?>blog/">Blog</a></li>
 					<li><a href="<?php echo YOURSTUDIOAPP_WEBSITE . '/' ?>faq/">Faq</a></li>

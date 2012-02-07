@@ -9,6 +9,7 @@
 					<li><?php echo YsaHtml::link('Inbox', array('inbox/')); ?></li>
 					<li><?php echo YsaHtml::link('My Subscriptions', array('subscription/list/')); ?></li>
 					<li><?php echo YsaHtml::link('SmugMug Settings', array('settings/smugmug/')); ?></li>
+					<li><?php echo YsaHtml::link('ZenFolio Settings', array('settings/zenfolio/')); ?></li>
 					<li><?php echo YsaHtml::link('ShootQ Settings', array('settings/shootq/')); ?></li>
 					<li><?php echo YsaHtml::link('Facebook Account', array('settings/facebook/')); ?></li>
 				</ul>

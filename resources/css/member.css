@@ -2092,6 +2092,9 @@ div.static-flash a {
 }
 /* Breadcrumb
 *******************************/
+.empty-breadcrumb {
+  margin-bottom: 24px;
+}
 .breadcrumb {
   display: block;
   background: #f7f7f7;
@@ -2147,9 +2150,35 @@ div.static-flash {
   width: 980px;
   margin: 0 auto;
   width: 940px;
+  margin-bottom: 24px;
 }
 /* Announcements
 *******************************/
+#announcements-label {
+  display: block;
+  background: #ff0000;
+  color: #ffffff;
+  position: absolute;
+  padding: 0 5px;
+  line-height: 16px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  top: 23px;
+  left: 165px;
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+}
+#announcements-label:hover {
+  opacity: .5;
+}
+#announcements-label:active {
+  top: 24px;
+}
 #announcements {
   width: 980px;
   margin: 0 auto;
@@ -3064,41 +3093,41 @@ table.data .ipad {
 #client .main-box .albums li.cover figcaption {
   background-color: #e1f3f9;
 }
-section.smugmug-import {
+section.smugmug-import, section.zenfolio-import {
   display: none;
 }
-section.smugmug-import .box-content {
+section.smugmug-import .box-content, section.zenfolio-import .box-content {
   background-color: transparent;
   background-image: none;
 }
-section.smugmug-import .loading {
+section.smugmug-import .loading, section.zenfolio-import .loading {
   padding: 20px;
   text-align: center;
   font-style: italic;
   display: none;
 }
-section.smugmug-import .importing {
+section.smugmug-import .importing, section.zenfolio-import .importing {
   display: none;
   text-align: left;
   font-style: italic;
   line-height: 24px;
 }
-section.smugmug-import .data {
+section.smugmug-import .data, section.zenfolio-import .data {
   margin-bottom: 2em;
 }
-section.smugmug-import .import ul {
+section.smugmug-import .import ul, section.zenfolio-import .import ul {
   padding-bottom: 1em;
   border-bottom: 1px solid #eeeeee;
   margin-bottom: 1em;
 }
-section.smugmug-import .import h3 {
+section.smugmug-import .import h3, section.zenfolio-import .import h3 {
   font-size: 11px;
   text-transform: uppercase;
   font-weight: bold;
   display: block;
   margin-bottom: 1em;
 }
-section.smugmug-import .import li {
+section.smugmug-import .import li, section.zenfolio-import .import li {
   float: left;
   margin: 0 1em 1em 0;
   padding: 10px;
@@ -3114,15 +3143,15 @@ section.smugmug-import .import li {
   -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
   box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
 }
-section.smugmug-import .import li label {
+section.smugmug-import .import li label, section.zenfolio-import .import li label {
   display: block;
 }
-section.smugmug-import .import li figure {
+section.smugmug-import .import li figure, section.zenfolio-import .import li figure {
   cursor: pointer;
   display: block;
   margin-bottom: 5px;
 }
-section.smugmug-import .import li figure img {
+section.smugmug-import .import li figure img, section.zenfolio-import .import li figure img {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -3130,7 +3159,7 @@ section.smugmug-import .import li figure img {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-section.smugmug-import .import li span {
+section.smugmug-import .import li span, section.zenfolio-import .import li span {
   display: block;
   text-align: center;
 }
@@ -3463,13 +3492,21 @@ section.smugmug-import .import li span {
 }
 /****  style selector****/
 #wizard-accordion .step section.style a {
-  width: 80px;
-  height: 80px;
-  text-indent: -9999px;
+  height: 24px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 24px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: block;
+  padding: 0 10px;
   border: 2px solid #fff;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
 }
 #wizard-accordion .step section.style a:hover {
   border-color: #d0d0d0;
@@ -3478,12 +3515,25 @@ section.smugmug-import .import li span {
   border-color: #02b7f2;
 }
 #wizard-accordion .step section.style a.dark {
-  float: left;
-  background: url(../images/wizard-style-dark.png) 0 0 no-repeat;
+  background: #222222;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #222222), color-stop(1, #646565));
+  background: -ms-linear-gradient(bottom, #222222, #646565);
+  background: -moz-linear-gradient(center bottom, #222222 0%, #646565 100%);
+  color: #ffffff;
 }
 #wizard-accordion .step section.style a.light {
-  float: right;
-  background: url(../images/wizard-style-light.png) 0 0 no-repeat;
+  background: #c1c1c1;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #c1c1c1), color-stop(1, #f5f5f5));
+  background: -ms-linear-gradient(bottom, #c1c1c1, #f5f5f5);
+  background: -moz-linear-gradient(center bottom, #c1c1c1 0%, #f5f5f5 100%);
+  color: #3a3a3a;
+}
+#wizard-accordion .step section.style a.biege {
+  background: #d9b265;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #d9b265), color-stop(1, #e8d2a9));
+  background: -ms-linear-gradient(bottom, #d9b265, #e8d2a9);
+  background: -moz-linear-gradient(center bottom, #d9b265 0%, #e8d2a9 100%);
+  color: #6a645c;
 }
 /****  uploader ****/
 #wizard-accordion .step .upload {
