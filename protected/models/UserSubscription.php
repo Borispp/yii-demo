@@ -255,7 +255,7 @@ class UserSubscription extends YsaActiveRecord
 	{
 		$labels = array(
 			self::STATE_ACTIVE		=> 'Active',
-			self::STATE_ENABLED		=> 'Payed',
+			self::STATE_ENABLED		=> 'Paid',
 			self::STATE_INACTIVE	=> 'Inactive',
 
 		);

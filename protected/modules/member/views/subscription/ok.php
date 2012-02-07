@@ -1,4 +1,4 @@
-<?php echo YsaHtml::pageHeaderTitle('Subscription payed'); ?>
+<?php echo YsaHtml::pageHeaderTitle('Subscription paid'); ?>
 <section class="body w">
 	<h3>Congratulations!</h3>
 	<p class="desc">
