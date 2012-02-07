@@ -6,8 +6,11 @@ class MemberController extends YsaAdminController
 	 */
 	public function actionIndex()
 	{
-		$criteria = new CDbCriteria;
-		$criteria->condition = 'role="member"';
+		$member_search = new YsaMemeberSearchForm;
+		$member_search->setAttributes(!empty($_GET['YsaMemeberSearchForm']) ? $_GET['YsaMemeberSearchForm'] : array(),false);
+		$criteria = $member_search->searchCriteria();
+		
+		$criteria->addCondition('role="member"');
 
 		$pagination = new CPagination(Member::model()->count($criteria));
 		$pagination->pageSize = Yii::app()->params['admin_per_page'];
@@ -18,9 +21,11 @@ class MemberController extends YsaAdminController
 		$this->setContentTitle('Member Management');
 		$this->setContentDescription('view all members.');
 
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/adm/js/search-form.js', CClientScript::POS_HEAD);
 		$this->render('index',array(
 				'entries'   => $entries,
 				'pagination'=> $pagination,
+				'member_search' => $member_search,
 			));
 	}
 

@@ -1,4 +1,55 @@
 <div class="g12">
+	
+	
+	<div>
+		
+		<?php $form=$this->beginWidget('CActiveForm', array(
+			'action'=>Yii::app()->createUrl($this->route),
+			'method' => 'get',
+		)); ?>
+		
+		<fieldset>
+			<div class="g12"><h3 id="search_toggler">Search</h3></div>
+			<div id="search_form" class="<?php echo !isset($_GET['YsaMemeberSearchForm']) ? 'hidden' : '' ?>">
+			<fieldset>
+			<section class="search-form">
+				<?php echo $form->label($member_search,'keywords'); ?>
+				<div>
+					<?php echo $form->textField($member_search,'keywords'); ?>
+				</div>
+			</section>
+			<section class="search-form">
+				<?php echo $form->label($member_search,'order_by'); ?>
+				<div>
+					<?php echo $form->dropDownList($member_search, 'order_by', $member_search->orderByOptions()); ?>
+				</div>
+			</section>
+			<section class="search-form">
+				<?php echo $form->label($member_search,'order_sort'); ?>
+				<div>
+					<?php echo $form->dropDownList($member_search, 'order_sort', $member_search->orderSortOptions()); ?>
+				</div>
+			</section>
+			<section class="search-form">
+				<?php echo $form->label($member_search,'state'); ?>
+				<div>
+					<?php echo $form->dropDownList($member_search, 'state', $member_search->stateOptions()); ?>
+				</div>
+			</section>
+			<section class="search-form">
+				<div>
+					<button class="submit blue">Search</button>
+					<button class="submit red" id="reset">Reset</button>
+				</div>
+			</section>
+			</fieldset>
+			</div>
+		</fieldset>
+		
+		<?php $this->endWidget(); ?>
+	</div>
+	
+	
 	<?php $this->beginWidget('YsaAdminForm', array(
 		'id'=>'member-form',
 		'action'=>Yii::app()->createUrl('/admin/member/delete'),
@@ -11,7 +62,7 @@
 		<?php echo CHtml::link('Send announcement', array('announcement/addtoall'), array('class' => 'btn i_mail icon ysa fr')); ?>
 		<span class="clearfix"></span>
 	</p>
-
+	
 	<table class="data">
 		<thead>
 		<tr>
