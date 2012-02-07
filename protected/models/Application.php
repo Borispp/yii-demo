@@ -823,6 +823,10 @@ class Application extends YsaActiveRecord
 		return $url;
 	}
 
+	/**
+	 * Check if current application is paid by member
+	 * @return int
+	 */
 	public function isPaid()
 	{
 		return $this->paid;
