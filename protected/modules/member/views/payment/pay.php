@@ -5,7 +5,7 @@
 			<?php foreach($formFields as $field => $value):?>
 				<input type="hidden" name="<?php echo $field?>" value="<?php echo $value?>"/>
 			<?php endforeach?>
-			<input type="submit" value="Pay by paypal">
+			<input type="submit" value="Proceed to Payment"/>
 		</form>
 	</div>
 </section>
