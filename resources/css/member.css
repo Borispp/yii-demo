@@ -1697,11 +1697,7 @@ div.error-top {
   padding: 3px 10px;
   margin-left: -2px;
   background: #ff7e7e;
-<<<<<<< HEAD
-  width: 190px;
-=======
   width: 300px;
->>>>>>> d827d60c5729572833ecbe8a13231818268a1940
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -2003,57 +1999,6 @@ footer a:hover {
   color: #777777;
   text-decoration: none;
 }
-/* Breadcrumb
-*******************************/
-.breadcrumb {
-  display: block;
-  background: #f7f7f7;
-  background: #f7f7f7;
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #efefef), color-stop(1, #f7f7f7));
-  background: -ms-linear-gradient(bottom, #efefef, #f7f7f7);
-  background: -moz-linear-gradient(center bottom, #efefef 0%, #f7f7f7 100%);
-  -webkit-box-shadow: 1px 1px 1px 0px rgba(200, 200, 200, 0.3);
-  -moz-box-shadow: 1px 1px 1px 0px rgba(200, 200, 200, 0.3);
-  box-shadow: 1px 1px 1px 0px rgba(200, 200, 200, 0.3);
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  margin-top: -21px;
-  margin-bottom: 24px;
-}
-.breadcrumb ul {
-  padding: 15px 20px;
-  height: 12px;
-}
-.breadcrumb ul li {
-  display: inline;
-  list-style: none;
-  max-width: 280px;
-  color: #5e646c;
-}
-.breadcrumb ul li a, .breadcrumb ul li span {
-  font-size: 12px;
-  line-height: 1;
-  color: #05ade9;
-  text-decoration: none;
-  text-shadow: 1px 1px 0px #ffffff;
-}
-.breadcrumb ul li a:hover {
-  color: #008eb0;
-}
-.breadcrumb ul li span {
-  color: #5e646e;
-}
-.breadcrumb ul li.separator {
-  padding: 0 20px;
-}
-.breadcrumb.disabled {
-  opacity: 0.8;
-  filter: alpha(opacity=80);
-}
 /* Message Boxes
 *******************************/
 div.flash {
@@ -2113,6 +2058,95 @@ div.flash.app {
 div.flash a {
   color: #333333;
   text-decoration: underline;
+}
+div.static-flash {
+  margin-bottom: 24px;
+  color: #3a3a3a;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 12px 20px;
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
+}
+div.static-flash.success {
+  background: rgba(162, 232, 162, 0.9);
+}
+div.static-flash.error {
+  background: rgba(240, 204, 204, 0.9);
+}
+div.static-flash.notice {
+  background: rgba(232, 232, 162, 0.9);
+}
+div.static-flash.info {
+  background: rgba(115, 208, 239, 0.9);
+}
+div.static-flash a {
+  color: #3a3a3a;
+  text-decoration: underline;
+}
+/* Breadcrumb
+*******************************/
+.breadcrumb {
+  display: block;
+  background: #f7f7f7;
+  background: #f7f7f7;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #efefef), color-stop(1, #f7f7f7));
+  background: -ms-linear-gradient(bottom, #efefef, #f7f7f7);
+  background: -moz-linear-gradient(center bottom, #efefef 0%, #f7f7f7 100%);
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(200, 200, 200, 0.3);
+  -moz-box-shadow: 1px 1px 1px 0px rgba(200, 200, 200, 0.3);
+  box-shadow: 1px 1px 1px 0px rgba(200, 200, 200, 0.3);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  margin-top: -21px;
+  margin-bottom: 24px;
+}
+.breadcrumb ul {
+  padding: 15px 20px;
+  height: 12px;
+}
+.breadcrumb ul li {
+  display: inline;
+  list-style: none;
+  max-width: 280px;
+  color: #5e646c;
+}
+.breadcrumb ul li a, .breadcrumb ul li span {
+  font-size: 12px;
+  line-height: 1;
+  color: #05ade9;
+  text-decoration: none;
+  text-shadow: 1px 1px 0px #ffffff;
+}
+.breadcrumb ul li a:hover {
+  color: #008eb0;
+}
+.breadcrumb ul li span {
+  color: #5e646e;
+}
+.breadcrumb ul li.separator {
+  padding: 0 20px;
+}
+.breadcrumb.disabled {
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+}
+/* Static Flash Member Styles
+*******************************/
+div.static-flash {
+  width: 980px;
+  margin: 0 auto;
+  width: 940px;
 }
 /* Announcements
 *******************************/
@@ -4260,4 +4294,11 @@ li.plupload_droptext {
 }
 #new-notification-form #response-message {
   display: none;
+}
+/* Settings
+*******************************/
+#smugmug-form .info {
+  margin-top: 24px;
+  border-top: 1px solid #c9c9c9;
+  padding-top: 24px;
 }

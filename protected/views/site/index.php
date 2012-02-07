@@ -7,9 +7,11 @@
 				<span class="arr">&gt;</span>
 				<span class="click">click here</span>
 			</a>
-			<div class="slider">
+			<div id="homepage-slider">
 				<ul>
-					<li><span class="slide1"></span></li>
+					<?php foreach ($slides as $k => $slide) : ?>
+						<li class="slide slide<?php echo $k?>"><?php echo YsaHtml::image($slide); ?></li>
+					<?php endforeach; ?>
 				</ul>
 			</div>
 		</section>

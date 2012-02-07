@@ -48,53 +48,12 @@
 		filter:Alpha(opacity=80);
 	}
 }
-/* Message Boxes
+
+/* Static Flash Member Styles
 *******************************/
-div.flash {
-	z-index:999;
-    position:fixed;
-    z-index: 101;
-    top: 0;
-    left: 0;
-    right: 0;
-    text-align: center;
-    overflow: hidden;
-	background:@white-alpha;
-	color:@gray-juliet;
-	.font-shorthand(700, 13px, 2.5);
-	.shadow-black-alpha;
-	cursor:pointer;
-	.text-shadow;
-	&.success {
-		background: rgba(162, 232, 162, .9);
-	}
-	&.error {
-		background: rgba(240, 204, 204, .9);
-	}
-	&.notice {
-		background: rgba(232, 232, 162, .9);
-	}
-	&.info {
-		background: rgba(115, 208, 239, .9);
-	}
-	&.app {
-		@-webkit-keyframes slideDown {
-			0%, 100% { -webkit-transform: translateY(-50px); }
-			10%, 90% { -webkit-transform: translateY(0px); }
-		}
-		@-moz-keyframes slideDown {
-			0%, 100% { -moz-transform: translateY(-50px); }
-			10%, 90% { -moz-transform: translateY(0px); }
-		}
-		-webkit-transform: translateY(-50px);
-		-webkit-animation: slideDown 6s 1s 1 ease forwards;
-		-moz-transform:    translateY(-50px);
-		-moz-animation:    slideDown 6s 1s 1 ease forwards;
-	}
-	a {
-		color:@gray-juliet;
-		text-decoration:underline;
-	}
+div.static-flash {
+	.w;
+	width:940px;
 }
 
 
@@ -2120,4 +2079,15 @@ li.plupload_droptext {
 #new-notification-form #response-message
 {
 	display:none;
+}
+
+
+/* Settings
+*******************************/
+#smugmug-form {
+	.info {
+		margin-top:24px;
+		border-top:1px solid @gray-foxtrot;
+		padding-top:24px;
+	}
 }

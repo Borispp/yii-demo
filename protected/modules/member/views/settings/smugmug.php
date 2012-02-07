@@ -65,28 +65,23 @@
 						<?php echo CHtml::submitButton('Save & Authorize'); ?>
 					</div>
 
-					<?php $this->endWidget();?>
-
 					<?php if (isset(Yii::app()->session['smugmugRequestToken'])) : ?>
+					<div class="info">
 						<p>Please click <?php echo YsaHtml::link('this link', $entry->smugmug()->authorize(), array('target' => '_blank', 'id' => 'settings-smugmug-authorize')); ?> to authorize to SmugMug.<br/>
 						After authorization please click <?php echo YsaHtml::link('this link', array('settings/smugmug/authorize/')); ?> to complete authentication.</p>
+					</div>
 					<?php endif; ?>
+					
+					<?php $this->endWidget();?>
+
+
 				</div>
 
 				<?php endif; ?>
 			</div>
 		</div>
 	</section>
-	
-	
-	
-	
-
-
-	
 </div>
-
-
 
 <?php if (isset(Yii::app()->session['smugmugRequestToken'])) : ?>
 <script type="text/javascript">

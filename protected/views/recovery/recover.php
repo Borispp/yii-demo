@@ -1,18 +1,25 @@
 <div class="general-page" id="recover">
-	
 	<div class="content cf">
 		<?php if(Yii::app()->user->hasFlash('recoveryMessage')): ?>
-			<div class="success">
-				<?php echo Yii::app()->user->getFlash('recoveryMessage'); ?>
+			<div id="recover-success">
+				<span class="icon <?php echo Yii::app()->user->getFlash('recoveryStatus') == 'changed' ? 'lock' : 'mail'?>"></span>
+				<div class="message">
+					<?php echo  Yii::app()->user->getFlash('recoveryMessage'); ?>
+					<?php if (Yii::app()->user->getFlash('recoveryStatus') == 'changed') : ?>
+						<div class="buttons c"><?php echo YsaHtml::link('Login Now', array('login/'), array('class' => 'btn blue')); ?></div>
+					<?php endif; ?>
+				</div>
 			</div>
 		<?php else: ?>
 			<div class="form large-form">
 				
-				<?php echo YsaHtml::errorSummary($entry, false, false); ?>
+				<div class="info">
+					<?php echo $page->content; ?>
+				</div>
 				
+				<?php echo YsaHtml::errorSummary($entry, false, false); ?>
 				<?php $form=$this->beginWidget('YsaForm', array(
 						'id'=>'recovery-change-password-form',
-						'enableAjaxValidation'=>false,
 				)); ?>
 				<section class="cf">
 					<div>
@@ -24,8 +31,8 @@
 				</section>
 				<?php $this->endWidget(); ?>
 			</div>
-			<div class="info">
-				<p>Please enter your username or email to reset your password. You’ll receive an email with instructions. </p>
+			<div class="image">
+				
 			</div>
 		<?php endif; ?>
 	</div>

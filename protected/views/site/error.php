@@ -1,7 +1,11 @@
-<?php echo YsaHtml::pageHeaderTitle('Error ' . $code); ?>
-
-<div class="w body">
-	<div class="error">
-		<?php echo CHtml::encode($message); ?>
+<div class="general-page" id="page404">
+	<div class="content">
+		
+		
+		<span class="image"></span>
+		<p>
+			<?php echo CHtml::encode($message); ?>
+		</p>
+		
 	</div>
-</div>
+</div> 

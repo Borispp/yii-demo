@@ -1,12 +1,9 @@
 $(function(){
-<<<<<<< HEAD
-=======
 	$('a.btn.disabled,button.disabled,input:submit.disabled,input:button.disabled').live('click', function(e){
 		e.preventDefault();
 		return false;
 	});
 	
->>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 	$.tools.validator.addEffect("wall", function(errors, event) {
 			var wall = $(this.getConf().container).fadeIn();
 			wall.find("p").remove();
@@ -17,27 +14,30 @@ $(function(){
 			});
 		}, function(inputs)  {}
 	);
-<<<<<<< HEAD
-
-=======
->>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 
 	$.fn.initFaq = function() {
 		$(this).each(function(){
 			var faq = $(this);
-			var answers = faq.find('.answers');
-			var questions = faq.find('.questions');
-			faq.find('.questions ul li a').click(function(e){
+			
+			faq.find('.questions a').click(function(e){
 				e.preventDefault();
 				var link = $(this);
-				var id = link.data('id');
-				link.addClass('active').parent().siblings().find('a').removeClass('active');
-				answers.find('.answer:visible').hide();
-				$('#faq-answer-' + id).fadeIn('fast');
-			}).filter(':first').trigger('click');
+				$.scrollTo($('#faq-answer-' + link.data('id')), 800);
+			})
 			
-			
-			faq.equalHeights(true);
+//			var answers = faq.find('.answers');
+//			var questions = faq.find('.questions');
+//			faq.find('.questions ul li a').click(function(e){
+//				e.preventDefault();
+//				var link = $(this);
+//				var id = link.data('id');
+//				link.addClass('active').parent().siblings().find('a').removeClass('active');
+//				answers.find('.answer:visible').hide();
+//				$('#faq-answer-' + id).fadeIn('fast');
+//			}).filter(':first').trigger('click');
+//			
+//			
+//			faq.equalHeights(true);
 			
 		});
 	}
@@ -82,10 +82,10 @@ $(function(){
 			var login = $(this);
 			var login_visible = 0;
 			var login_link = $('#navigation-login-link');
-			$('html').click(function(){
-				if (login_visible) {
-					login_link.find('a').trigger('click');
-				}
+			$('html').click(function(e){
+                if ('object' == typeof(e.originalEvent) && login_visible) {
+                    login_link.find('a').trigger('click');
+                }
 			});
 			login.click(function(e){
 				e.stopPropagation();
@@ -117,10 +117,6 @@ $(function(){
 	{
 		$(this).each(function(){
 			var contact = $(this);
-<<<<<<< HEAD
-			
-=======
->>>>>>> d827d60c5729572833ecbe8a13231818268a1940
 			var form = contact.find('form');
 			form.validator({
 				position: 'top center', 
@@ -143,19 +139,6 @@ $(function(){
 						}
 					}, 'json');
 				}
-<<<<<<< HEAD
-			})
-//			.submit(function(e){
-//				if (!e.isDefaultPrevented()) {
-//
-//				}
-//			});
-		});
-	}
-	$('#contact').initContact();
-		
-})
-=======
 			});
 		});
 	}
@@ -213,5 +196,69 @@ $(function(){
 		});
 	}
 	$('#login-register').initLoginRegister();
+	
+	
+	
+	
+	$.fn.initHomepageSlider = function(){
+		$(this).each(function(){
+			var slider = $(this);
+			var slides = slider.find('li');
+			var buttons_container = $('<span class="buttons"></span>');
+			slides.each(function(k){
+				buttons_container.append('<a href="#" data-slide="' + k + '"></a>');
+			});
+			slider.append(buttons_container);
+			var buttons = buttons_container.find('a');
+			var scroll_interval;
+			var animated = false;
+			
+			buttons.click(function(e){
+				e.preventDefault();
+				var link = $(this);
+				if (link.hasClass('active')) {
+					return;
+				}
+				if (animated) {
+					return;
+				}
+                if ('object' == typeof(e.originalEvent)) {
+                    clearInterval(scroll_interval);
+                }
+				var current = slides.filter(':visible');
+				var show = slides.filter('.slide' + link.data('slide'));
+				animated = true;
+				
+				link.addClass('active').siblings('.active').removeClass('active');
+				if (current.length) {
+					current.fadeOut(400);
+				}
+				
+				show.css({
+					opacity:0,
+					display:'block',
+					visibility:'visible',
+					right:'500px'
+				}).animate({
+                    opacity:1,
+                    right:0
+                }, 'swing', function() {
+					animated = false;
+				});
+			}).filter(':first').trigger('click');
+			
+			
+            scroll_interval = setInterval(function(){
+                var current = buttons.filter('.active');
+                var show = current.next();
+                if (!show.length) {
+                    show = buttons.filter(':first');
+                }
+                show.trigger('click');
+            }, 5000);
+			
+			
+		});
+	}
+	$('#homepage-slider').initHomepageSlider();
 });
->>>>>>> d827d60c5729572833ecbe8a13231818268a1940
