@@ -64,11 +64,15 @@
 					<table class="data">
 						<tr>
 							<th>Opened</th>
-							<td><?php echo $obUserSubscription->Transaction->created?></td>
+							<td><?php echo $obUserSubscription->Transaction[0]->created?></td>
 						</tr>
 						<tr>
 							<th>Payed</th>
-							<td><?php echo $obUserSubscription->Transaction->payed?></td>
+							<td><?php echo $obUserSubscription->Transaction[0]->paid?></td>
+						</tr>
+						<tr>
+							<th>Transaction System ID</th>
+							<td><?php echo $obUserSubscription->Transaction[0]->outer_id?></td>
 						</tr>
 					</table>
 				</div>

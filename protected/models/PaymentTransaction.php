@@ -188,12 +188,10 @@ class PaymentTransaction extends YsaActiveRecord
 		$application->save();
 	}
 
-	/**
-	 * @todo process subscription payment
-	 * @return void
-	 */
 	protected  function _processSuccessSubscription()
 	{
+		list($subscription) = $this->paymentTransactionSubscriptions;
+		$subscription->subscription->activate();
 		return;
 	}
 }

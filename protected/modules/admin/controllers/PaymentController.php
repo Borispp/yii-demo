@@ -8,11 +8,11 @@ class PaymentController extends YsaAdminController
 	{
 		$criteria = new CDbCriteria;
 
-		$pagination = new CPagination(UserTransaction::model()->count($criteria));
+		$pagination = new CPagination(PaymentTransaction::model()->count($criteria));
 		$pagination->pageSize = Yii::app()->params['admin_per_page'];
 		$pagination->applyLimit($criteria);
 
-		$entries = UserTransaction::model()->findAll($criteria);
+		$entries = PaymentTransaction::model()->findAll($criteria);
 
 		$this->setContentTitle('Payments');
 		$this->setContentDescription('view all payments.');
@@ -27,7 +27,7 @@ class PaymentController extends YsaAdminController
 	{
 		$id = (int) $id;
 
-		$entry = UserTransaction::model()->findByPk($id);
+		$entry = PaymentTransaction::model()->findByPk($id);
 		if (!$entry)
 			$this->redirect('/admin/' . $this->getId());
 		$this->setContentTitle('Transaction #'.$entry->id.' Details');
