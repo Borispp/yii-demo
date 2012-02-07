@@ -168,49 +168,49 @@ class PaymentTransaction extends YsaActiveRecord
 		$this->processSuccess();
 	}
 
-	public function processSuccess()
-	{
-		if ($this->type == 'application')
-		{
-			$this->_processSuccessApplication();
-		}
-		else
-		{
-			$this->_processSuccessSubscription();
-		}
-	}
-
-	protected  function _processSuccessApplication()
-	{
-		list($transactionApplication) = $this->paymentTransactionApplications;
-		$application = $transactionApplication->application;
-		$application->paid = 1;
-		$application->save();
-	}
-
-	protected  function _processSuccessSubscription()
-	{
-		list($subscription) = $this->paymentTransactionSubscriptions;
-		$subscription->subscription->activate();
-		return;
-	}
-
-	public function getMember()
-	{
-		if ($this->type == 'application')
-			return $this->paymentTransactionApplications[0]->application->user;
-		return $this->paymentTransactionSubscriptions[0]->subscription->Member;
-	}
-
-	public function getRedirectUrl()
-	{
-		if ($this->type == 'subscription')
-			return array('subscription/list/');
-		return array('application/');
-	}
-	
 	public function isPaid()
 	{
 		return $this->paid;
+	}
+
+	/**
+	 * @return YsaPaymentTransaction
+	 */
+	protected  function _getTransactionRelationObject()
+	{
+		if ($this->type == 'application')
+		{
+			list($applicationRelation) = $this->paymentTransactionApplications;
+			return $applicationRelation;
+		}
+		else
+		{
+			list($subscriptionRelation) = $this->paymentTransactionSubscriptions;
+			return $subscriptionRelation;
+		}
+	}
+
+	/**
+	 * @return void
+	 */
+	public function processSuccess()
+	{
+		$this->_getTransactionRelationObject()->processSuccess();
+	}
+
+	/**
+	 * @return Member
+	 */
+	public function getMember()
+	{
+		return $this->_getTransactionRelationObject()->getMember();
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getRedirectUrl()
+	{
+		return $this->_getTransactionRelationObject()->getUrl();
 	}
 }
