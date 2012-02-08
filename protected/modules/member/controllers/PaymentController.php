@@ -76,7 +76,11 @@ class PaymentController extends YsaMemberController
 	public function actionPay($payway)
 	{
 		$this->_checkTransaction();
-		$backUrl = 	$this->createAbsoluteUrl('/member/payment/return/', array(
+		$returnUrl = 	$this->createAbsoluteUrl('/member/payment/return/', array(
+			'payway'         => $payway,
+			'transaction_id' => $this->_getTransaction()->id
+		));
+		$notifyUrl = 	$this->createAbsoluteUrl('/member/payment/catchnotification/', array(
 			'payway'         => $payway,
 			'transaction_id' => $this->_getTransaction()->id
 		));
@@ -84,8 +88,8 @@ class PaymentController extends YsaMemberController
 		$this->renderVar('formFields',
 			$this->_getPayment($payway)->getFormFields(
 				$this->_getTransaction(),
-				$backUrl,
-				$backUrl
+				$notifyUrl,
+				$returnUrl
 			)
 		);
 		$this->renderVar('formAction', $this->_getPayment($payway)->getFormUrl());
@@ -97,22 +101,8 @@ class PaymentController extends YsaMemberController
 		$this->render('pay');
 	}
 
-	public function actionCatchNotification($payway)
+	protected function _process($payway)
 	{
-		$this->_getPayment($payway)->catchNotification();
-	}
-
-	public function actionReturn($payway)
-	{
-		ob_start();
-		var_dump($_REQUEST);
-		$body = ob_get_clean();
-		Yii::app()->mailer->From = Yii::app()->settings->get('send_mail_from_email');
-		Yii::app()->mailer->FromName = Yii::app()->settings->get('send_mail_from_name');
-		Yii::app()->mailer->AddAddress('rassols@gmail.com');
-		Yii::app()->mailer->Subject = 'payway notification';
-		Yii::app()->mailer->Body = $body;
-		Yii::app()->mailer->Send();
 		if (!$this->_getPayment($payway)->getOuterId())
 		{
 			$this->redirect(array('/member'));
@@ -120,11 +110,23 @@ class PaymentController extends YsaMemberController
 		$this->_getTransaction()->outer_id = $this->_getPayment($payway)->getOuterId();
 		$this->_getTransaction()->data = serialize($_POST);
 		$this->_getTransaction()->save();
+		if ($state = $this->_getPayment($payway)->verify())
+		{
+			$this->_getTransaction()->setPaid();
+		}
+		return $state;
+	}
 
-		if ($this->_getPayment($payway)->verify())
+	public function actionCatchNotification($payway)
+	{
+		$this->_process($payway);
+	}
+
+	public function actionReturn($payway)
+	{
+		if ($this->_process($payway))
 		{
 			$this->setSuccess(Yii::t('payment','payment_done'));
-			$this->_getTransaction()->setPaid();
 		}
 		else
 		{
