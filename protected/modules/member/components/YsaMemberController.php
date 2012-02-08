@@ -38,7 +38,7 @@ class YsaMemberController extends YsaController
 				'allow', 
 				'roles' => array('interesant'),
 				'expression' => $this->_matchModuleExpression(array('member')),
-				'controllers' => array('application','settings','inbox','payment'), 
+				'controllers' => array('application','settings','inbox','payment','default'), 
 			),
 			array('deny', 'roles' => array('interesant')),
 			
