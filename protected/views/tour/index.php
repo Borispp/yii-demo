@@ -21,7 +21,7 @@
 		<span class="shadow"></span>
 		<h2>Custom <span>Featured Pages</span></h2>
 		<div class="story">
-			<p>This is your own application for your photography studio in the app store. Free for anyone to download and use on their iPad or iPhone. This is your mobile connection and experience for your new and current clients!</p>
+			<p>Throughout your app you are able to create custom pages that showcase you, your studio information, as well as any other specials or workshops. You will have complete control to modify and change these at any time through your web back end.</p>
 		</div>
 		<span class="image"></span>
 	</div>
@@ -31,7 +31,7 @@
 		<h2>Push <span>Notifications</span></h2>
 		<div class="story">
 			<p>
-				This is your own application for your photography studio in the app store. Free for anyone to download and use on their iPad or iPhone. This is your mobile connection and experience for your new and current clients!
+				You have the ability to send a specific push notification to your clients for any given event. Instantly, everyone with your application who is connected to that event will be able to view, comment on photos with one another, and mark their favorites. No matter where they are they can experience your work together!
 			</p>
 		</div>
 		<span class="image"></span>
@@ -42,7 +42,7 @@
 		<h2>Web-based <span>Control</span></h2>
 		<div class="story">
 			<p>
-				You will have access to monitor and update your application through a web back end. You will constantly be adding client galleries, sending push notifications, and changing your custom featured pages... this will be your mobile command center!
+				You will have access to monitor and update your application through a web back end.  You will constantly be adding client galleries, sending push notifications, and changing your custom featured pages... this will be your mobile command center!
 			</p>
 		</div>
 		<span class="image"></span>
@@ -53,7 +53,7 @@
 		<h2>Workflow <span>Integration</span></h2>
 		<div class="story">
 			<p>
-				This is your own application for your photography studio in the app store. Free for anyone to download and use on their iPad or iPhone. This is your mobile connection and experience for your new and current clients!
+				Your Studio App is set up for easy and quick integration between your hosting or proofing company, your Facebook and Twitter, as well as your studio management! No re-uploading or resizing of images is needed for you clients to experience and share your work on their tablet or phone!
 			</p>
 		</div>
 		<span class="image"></span>

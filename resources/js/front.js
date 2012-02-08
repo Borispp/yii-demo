@@ -25,29 +25,46 @@ $(function(){
 				$.scrollTo($('#faq-answer-' + link.data('id')), 800);
 			});
 			
+			var answers = faq.find('.answers');
+			var answers_width = answers.outerWidth();
 			
             var totop = faq.find('a.top');
             var totop_height = totop.outerHeight();
-            totop.click(function(e){
-                e.preventDefault();
-                $.scrollTo($('#faq-top'), 800);
-            });
-
 			
-//			var answers = faq.find('.answers');
-//			var questions = faq.find('.questions');
-//			faq.find('.questions ul li a').click(function(e){
-//				e.preventDefault();
-//				var link = $(this);
-//				var id = link.data('id');
-//				link.addClass('active').parent().siblings().find('a').removeClass('active');
-//				answers.find('.answer:visible').hide();
-//				$('#faq-answer-' + id).fadeIn('fast');
-//			}).filter(':first').trigger('click');
-//			
-//			
-//			faq.equalHeights(true);
+			var window_height, before_answers_offset, window_top;
 			
+			function _init_button()
+			{
+				window_height = $(window).height();
+				before_answers_offset = answers.offset();
+				window_top = $(this).scrollTop();
+				
+				if (window_top >= before_answers_offset.top) {
+					totop.css({
+						left:answers_width + before_answers_offset.left - totop_height / 2,
+						top:(window_height-totop_height) / 2
+					});
+					if (totop.is(':hidden')) {
+						totop.fadeIn(200);
+					}
+				} else {
+					if (totop.is(':visible')) {
+						totop.fadeOut(200);
+					}
+				}
+			}
+			
+			$(window).scroll(function(){
+				_init_button();
+			}).resize(function(){
+				_init_button();
+			});
+			_init_button();
+			
+			totop.click(function(e){
+				e.preventDefault();
+				$.scrollTo($('#page-top'), 400);
+			});
 		});
 	}
 	$('#faq').initFaq();
@@ -60,6 +77,7 @@ $(function(){
 			form.validator({
 				position: 'center right', 
 				offset: [0, -500],
+				messageClass:'form-error',
 				message: '<div><em/></div>' // em element is the arrow
 			}).submit(function(e){
 				e.preventDefault();

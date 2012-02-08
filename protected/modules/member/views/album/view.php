@@ -147,10 +147,8 @@
 					</select>
 					<input type="button" value="Show Photos" />
 				</div>
-				
 				<div class="import cf"></div>
 				<div class="loading">Loading album images. Please be patient &mdash; it takes a while...</div>
-				
 			</div>
 		</section>
 	<?php endif; ?>

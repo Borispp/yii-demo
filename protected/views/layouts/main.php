@@ -17,7 +17,7 @@
 </head>
 <body>
     <div id="header-wrapper">
-		<a name="faq-top" id="faq-top"></a>
+		<a name="page-top" id="page-top"></a>
         <header class="w cf">
 			<?php $this->widget('YsaMemberAnnouncementBar')?>
             <h1><a href="<?php echo Yii::app()->homeUrl; ?>">YourStudioApp</a></h1>

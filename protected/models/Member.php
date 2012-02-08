@@ -156,6 +156,12 @@ class Member extends User
 		return $this->option(UserOption::ZENFOLIO_HASH) ? true : false;
 	}
 	
+	public function zenfolioUnauthorize()
+	{
+		$this->deleteOption(UserOption::ZENFOLIO_HASH);
+		return $this;
+	}
+	
 	/**
 	 *
 	 * @return Five00pxOAuth

@@ -7,7 +7,9 @@ class TourController extends YsaFrontController
 		
 		$this->setMeta($page->meta());
 		
-		$this->setFrontPageTitle(Yii::t('title', $page->title));
+//		$this->setFrontPageTitle($page->title);
+		
+		$this->setFrontPageTitle('&nbsp;');
 		
 		$this->render('index', array(
 			'page' => $page,

@@ -178,6 +178,8 @@ class SettingsController extends YsaMemberController
 				}
 			}
 		}
+		
+		$loginForm->username = $this->member()->option(UserOption::ZENFOLIO_LOGIN);
 
 		$this->setMemberPageTitle(Yii::t('title', 'settings_zenfolio'));
 
@@ -185,6 +187,15 @@ class SettingsController extends YsaMemberController
 				->crumb('ZenFolio');
 
 		if ($this->member()->zenfolioAuthorized()) {
+			try {
+				$this->member()->zenfolioAuthorize();
+				$zenfolioProfile = $this->member()->zenfolio()->LoadPrivateProfile();
+				$this->renderVar('zenfolioProfile', $zenfolioProfile);
+			} catch (Exception $e) {
+				$this->setError($e->getMessage());
+				$this->member()->zenfolioUnauthorize();
+				$this->refresh();
+			}
 			
 		}
 		
@@ -196,11 +207,8 @@ class SettingsController extends YsaMemberController
 	
 	public function actionZenfolioUnlink()
 	{
-		$this->member()->deleteOption(UserOption::ZENFOLIO_HASH);
-		$this->member()->deleteOption(UserOption::ZENFOLIO_LOGIN);
-
+		$this->member()->zenfolioUnauthorize();
 		$this->setSuccess(Yii::t('save', 'settings_zenfolio_unlinked'));
-
 		$this->redirect(array('settings/zenfolio/'));
 	}
 

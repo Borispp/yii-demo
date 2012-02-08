@@ -6,9 +6,7 @@
 		</div>
 		<div class="box-content">
 			<div class="shadow-box">
-				<?php if ($this->member()->zenfolioAuthorized()) : ?>
-				
-					<?php $zenfolioProfile = $this->member()->zenfolio()->LoadPrivateProfile(); ?>
+				<?php if ($this->member()->zenfolioAuthorized() && isset($zenfolioProfile)) : ?>
 					<div class="info-box">
 						<dl class="cf">
 							
@@ -38,7 +36,7 @@
 						'enableAjaxValidation'=>false,
 					)); ?>
 
-					<section>
+					<section class="cf">
 						<?php echo $form->labelEx($zenlogin,'username'); ?>
 						<div>
 							<?php echo $form->textField($zenlogin,'username', array('size'=>50,'maxlength'=>50)); ?>
@@ -46,7 +44,7 @@
 						</div>
 					</section>
 
-					<section>
+					<section class="cf">
 						<?php echo $form->labelEx($zenlogin,'password'); ?>
 						<div>
 							<?php echo $form->textField($zenlogin,'password',array('size'=>50,'maxlength'=>50)); ?>
@@ -54,8 +52,8 @@
 						</div>
 					</section>
 
-					<div class="row buttons">
-						<?php echo CHtml::submitButton('Authorize'); ?>
+					<div class="button">
+						<?php echo YsaHtml::submitButton('Authorize', array('class' => 'blue')); ?>
 					</div>
 
 					<?php $this->endWidget();?>

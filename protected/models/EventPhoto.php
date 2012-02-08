@@ -543,6 +543,8 @@ class EventPhoto extends YsaActiveRecord
 			$this->_importSmugmug($data);
 		} elseif ($from == 'zenfolio') {
 			$this->_importZenfolio($data);
+		} elseif ($from == 'pictage') {
+			VarDumper::dump('pictage import is not implemented yet');
 		}
 		
 		if ($save) {
@@ -557,7 +559,7 @@ class EventPhoto extends YsaActiveRecord
 		$target = tempnam(sys_get_temp_dir(), 'img');
 		
 		$fh = fopen($target,'w');
-		$check = fwrite($fh,file_get_contents($data['CustomURL']));
+		$check = fwrite($fh,file_get_contents($data['XLargeURL']));
 		fclose($fh);
 		
 		if (!$check) {
@@ -575,8 +577,8 @@ class EventPhoto extends YsaActiveRecord
 		$data['from'] = 'smugmug';
 		$this->imported_data = serialize($data);
 		
-		if (isset($data['exif'])) {
-			$this->exif_data = $this->_formatSmugmugExif($data['exif']);
+		if (isset($data['EXIF'])) {
+			$this->exif_data = serialize($this->_formatSmugmugExif($data['EXIF']));
 		}
 		
 		$this->generateBaseName();
