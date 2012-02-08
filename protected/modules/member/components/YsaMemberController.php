@@ -18,7 +18,6 @@ class YsaMemberController extends YsaController
 	{
 		return array(
 
-			array('allow', 'roles' => array('guest'), 'controllers' => array('payment'), 'actions' => array('catchnotification')),
 			 // not activated member
 			array( //TODO: Functional Test of access rights
 				'deny',
@@ -44,7 +43,7 @@ class YsaMemberController extends YsaController
 			array('deny', 'roles' => array('interesant')),
 
 			// allow notifications from external (paypal,authorize)
-
+			array('allow', 'roles' => array('guest'), 'controllers' => array('payment'), 'actions' => array('catchnotification')),
 
 			array('allow', 'roles' => array('customer','member')),
 
