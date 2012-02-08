@@ -7,7 +7,7 @@
 <meta http-equiv="Page-Enter" content="blendTrans(Duration=0.1)" />
 <meta http-equiv="Page-Exit" content="blendTrans(Duration=0.1)" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<title><?php echo CHtml::encode($this->getMetaTitle()); ?></title>
+<title><?php echo YsaHtml::encode($this->getMetaTitle()); ?></title>
 <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->

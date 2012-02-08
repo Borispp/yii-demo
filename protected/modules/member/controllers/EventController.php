@@ -26,7 +26,7 @@ class EventController extends YsaMemberController
 		$pagination = new CPagination(Event::model()->count($criteria));
 		$pagination->pageSize = Yii::app()->params['admin_per_page'];
 		$pagination->applyLimit($criteria);
-
+		
 		$entries = Event::model()->findAll($criteria);
 
 		$this->setMemberPageTitle(Yii::t('title', 'events'));
@@ -34,10 +34,10 @@ class EventController extends YsaMemberController
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/eventlist.js', CClientScript::POS_HEAD);
 
 		$this->render('index',array(
-				'entries'       => $entries,
-				'pagination'    => $pagination,
-				'searchOptions' => Event::model()->searchOptions(),
-			));
+			'entries'       => $entries,
+			'pagination'    => $pagination,
+			'searchOptions' => Event::model()->searchOptions(),
+		));
 	}
 
 	public function actionView($eventId)
@@ -51,6 +51,27 @@ class EventController extends YsaMemberController
 		$this->crumb($entry->name);
 
 		$this->setMemberPageTitle($entry->name);
+		
+		try {
+			if ($this->member()->smugmugAuthorized()) {
+				$this->member()->smugmugSetAccessToken();
+			}
+		} catch (Exception $e) {
+			$this->setError($e->getMessage());
+		}
+		
+		try {
+			if ($this->member()->zenfolioAuthorized()) {
+				$this->member()->zenfolioAuthorize();
+				$profile = $this->member()->zenfolio()->LoadPrivateProfile();
+				$hierarchy = $this->member()->zenfolio()->LoadGroupHierarchy($profile['LoginName']);
+
+				$this->renderVar('zenfolioHierarchy', $hierarchy);
+			}
+		} catch (Exception $e) {
+			$this->member()->zenfolioUnauthorize();
+			$this->setError($e->getMessage());
+		}
 
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/eventpage.js', CClientScript::POS_HEAD);
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/notification_button.js', CClientScript::POS_HEAD);

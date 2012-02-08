@@ -1650,7 +1650,7 @@ button {
   width: auto !important;
 }
 /* form error messages */
-div.error {
+div.form-error {
   /* supply height to ensure consistent positioning for every browser */
 
   height: 15px;
@@ -1670,12 +1670,12 @@ div.error {
   -moz-box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
 }
-div.error p {
+div.form-error p {
   margin: 0;
   text-align: center;
   line-height: 15px;
 }
-div.error em {
+div.form-error em {
   width: 0;
   height: 0;
   display: block;
@@ -1811,8 +1811,8 @@ header h1 {
 }
 header h1 a {
   float: left;
-  height: 62px;
-  width: 155px;
+  height: 73px;
+  width: 150px;
   background: url(../images/logo.png) 50% 50% no-repeat;
   text-indent: -9999px;
 }
@@ -1821,7 +1821,7 @@ header nav {
   float: right;
   text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
   position: relative;
-  z-index: 999;
+  z-index: 100;
 }
 header nav li {
   float: left;
@@ -2966,9 +2966,10 @@ a.btn {
   background: url(../images/top.png) 0 0 no-repeat;
   text-indent: -9999px;
   display: block;
-  position: absolute;
-  right: -23px;
-  top: 400px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
 }
 /* Blog
 *******************************/
@@ -3180,6 +3181,9 @@ a.btn {
 }
 /* Tour
 *******************************/
+#tour {
+  top: -61px;
+}
 #tour .tour-box {
   position: relative;
   height: 399px;
@@ -3419,4 +3423,57 @@ a.btn {
 #share-image figure img {
   height: auto;
   max-width: 910px;
+}
+/* Maintenance
+*******************************/
+.maintenance-wrapper {
+  padding-top: 40px;
+}
+#maintenance {
+  width: 980px;
+  margin: 0 auto;
+  padding: 60px 0;
+  background: #ffffff;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  color: #777777;
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  text-shadow: 1px 1px 0px #ffffff;
+}
+#maintenance h1 {
+  margin: 0 0 60px 0;
+  padding: 0;
+}
+#maintenance h1 a {
+  display: block;
+  height: 28px;
+  background: url(../images/maintenance-logo.jpg) 50% 50% no-repeat;
+  text-indent: -9999px;
+}
+#maintenance .image {
+  display: block;
+  background: url(../images/maintenance-image.jpg) 50% 0 no-repeat;
+  height: 141px;
+  margin-bottom: 60px;
+}
+#maintenance h2 {
+  text-align: center;
+  font-size: 36px;
+  font-weight: normal;
+  line-height: 1.1;
+  color: #777777;
+  margin-bottom: 48px;
+}
+#maintenance p {
+  text-align: center;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.5;
+  font-style: italic;
 }

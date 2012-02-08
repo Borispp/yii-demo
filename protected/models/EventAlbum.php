@@ -18,6 +18,7 @@
  * @property integer $can_save
  * @property integer $cover_id
  * @property string $order_link
+ * @property string $data
  * 
  * @property EventPhoto $photos
  * @property Event $event
@@ -28,6 +29,12 @@ class EventAlbum extends YsaActiveRecord
 	 * Default name for proofing album 
 	 */
 	const PROOFING_NAME = 'Proofing Album';
+	
+	const IMPORT_ZENFOLIO = 'zenfolio';
+	
+	const IMPORT_SMUGMUG = 'smugmug';
+	
+	const IMPORT_PICTAGE = 'pictage';
 	
 	/**
 	 * Album Upload path
@@ -76,6 +83,12 @@ class EventAlbum extends YsaActiveRecord
 	 * @var string
 	 */
 	protected $_cover;
+	
+	/**
+	 * Unserialized Data
+	 * @var array
+	 */
+	protected $_data;
 	
 	/**
 	 * Path where stores original images
@@ -141,7 +154,7 @@ class EventAlbum extends YsaActiveRecord
 			array('event_id, rank, state, can_share, can_save, can_order', 'numerical', 'integerOnly'=>true),
 			array('name, place', 'length', 'max' => 255),
 			array('event_id, state, name', 'required'),
-			array('description, shooting_date, created, updated, can_share, can_save, can_order, order_link', 'safe'),
+			array('description, shooting_date, created, updated, can_share, can_save, can_order, order_link, data', 'safe'),
 			array('id, event_id, name, state, created', 'safe', 'on'=>'search'),
 		);
 	}
@@ -355,6 +368,14 @@ class EventAlbum extends YsaActiveRecord
 		
 		return $this->_cover;
 	}
+	
+	public function setCover($id)
+	{
+		$this->cover_id = $id;
+		$this->save();
+		
+		return $this;
+	}
 
 	/**
 	 * Apply next rank to new album
@@ -438,6 +459,19 @@ class EventAlbum extends YsaActiveRecord
 		
 		return $this;
 	}
+	
+	/**
+	 * Get Unserialized Album protected Data
+	 * @return type 
+	 */
+	public function data()
+	{
+		if (null === $this->_data) {
+			$this->_data = unserialize($this->data);
+		}
+		
+		return $this->_data;
+	}
         
 	/**
 	 * Path where original images stores
@@ -464,6 +498,89 @@ class EventAlbum extends YsaActiveRecord
 	{
 		if (!is_dir($this->_uploadPath)) {
 			mkdir($this->_uploadPath, 0777);
+		}
+		
+		return $this;
+	}
+	
+	/**
+	 * Import ZenFolio PhotoSet into YSA Album
+	 *
+	 * @param array $photoSet
+	 * @param bool $importPhotos
+	 * @return EventAlbum 
+	 */
+	public function importZenfolioAlbum($photoSet, $importPhotos = true)
+	{
+		$this->name = $photoSet['Title'];
+		$this->description = $photoSet['Caption'];
+		$this->state = EventAlbum::STATE_ACTIVE;
+		$this->created = $photoSet['CreatedOn']['Value'];
+		$this->updated = $photoSet['ModifiedOn']['Value'];
+		$this->can_order = 1;
+		$this->can_share = 1;
+		$this->order_link = $photoSet['PageUrl'];
+		$this->data = serialize(array(
+			'imported'	=> self::IMPORT_ZENFOLIO,
+			'album_id'	=> $photoSet['Id'],
+			'type'		=> $photoSet['Type'],
+			'keywords'	=> $photoSet['Keywords'],
+			'categories'=> $photoSet['Categories'],
+			'mailbox'	=> $photoSet['MailboxId'],
+			'access'	=> $photoSet['AccessDescriptor'],	
+			'upload_url'=> $photoSet['UploadUrl'],
+			'page_url'	=> $photoSet['PageUrl'],
+		));
+		
+		$this->save();
+
+		if (count($photoSet['Photos']) && $importPhotos) {
+			foreach ($photoSet['Photos'] as $image) {
+				$photo = new EventPhoto();
+				$photo->album_id = $this->id;
+				$photo->import($image, 'zenfolio');
+				if ($image['Id'] == $photoSet['TitlePhoto']['Id']) {
+					$this->setCover($photo->id);
+				}
+				// clear photo from memory
+				unset($photo);
+			}
+		}
+		
+		return $this;
+	}
+	
+	public function importSmugmugAlbum($photoSet, $importPhotos = true)
+	{
+		$this->name = $photoSet['Title'];
+		$this->state = EventAlbum::STATE_ACTIVE;
+		$this->created = $photoSet['LastUpdated'];
+		$this->updated = $photoSet['LastUpdated'];
+		$this->can_order = 1;
+		$this->can_share = 1;
+		$this->order_link = $photoSet['URL'];
+		
+		$this->data = serialize(array(
+			'imported'	=> self::IMPORT_SMUGMUG,
+			'album_id'	=> $photoSet['id'],
+			'album_key'	=> $photoSet['Key'],
+			'keywords'	=> $photoSet['Keywords'],
+			'category'	=> $photoSet['Category'],
+		));
+		
+		$this->save();
+		
+		if (count($photoSet['photoSetImages']['Images']) && $importPhotos) {
+			foreach ($photoSet['photoSetImages']['Images'] as $image) {
+				$photo = new EventPhoto();
+				$photo->album_id = $this->id;
+				$photo->import($image, 'smugmug');
+				if ($image['id'] == $photoSet['Highlight']['id']) {
+					$this->setCover($photo->id);
+				}
+				// clear photo from memory
+				unset($photo);
+			}
 		}
 		
 		return $this;

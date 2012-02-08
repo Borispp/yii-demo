@@ -40,40 +40,71 @@
 					<?php endif; ?>
 					<?php if (!$entry->isProofing()) : ?>
 						<?php echo YsaHtml::link('Create New Album', array('album/create/event/' . $entry->id), array('class' => 'btn blue')); ?>
+						
+						<?php if ($this->member()->smugmugAuthorized()) : ?>
+							<?php echo YsaHtml::link('Import SmugMug Album', '#album-import-smugmug-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-smugmug-import-button')); ?>
+						<?php endif; ?>
+						
+						<?php if ($this->member()->zenfolioAuthorized()) : ?>
+							<?php echo YsaHtml::link('Import ZenFolio Album', '#album-import-zenfolio-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-zenfolio-import-button')); ?>
+						<?php endif; ?>
 					<?php endif; ?>
 						
 					<div class="cf"></div>
 				</div>
 					
 				<div class="cf"></div>
-				<?php if (count($entry->albums)) : ?>
 					<ul id="event-albums" class="albums cf">
 						<?php foreach ($entry->albums as $album) : ?>
-							<li id="event-album-<?php echo $album->id?>" class="<?php echo strtolower($album->state()); ?>">
-								<figure>
-									<?php echo $album->preview(); ?>
-									<figcaption><?php echo YsaHtml::link(YsaHelpers::truncate($album->name, 25), array('album/view/' . $album->id), array('title' => $album->name)); ?></figcaption>
-									<span class="menu">
-										<?php echo YsaHtml::link('View', array('album/view/' . $album->id), array('class' => 'view icon i_eye', 'title' => 'View Album')); ?>
-										&nbsp;|&nbsp;
-										<?php echo YsaHtml::link('Edit', array('album/edit/' . $album->id), array('class' => 'edit icon i_pencil', 'title' => 'Edit Album Details')); ?>
-										<?php if (!$entry->isProofing()) : ?>
-											&nbsp;|&nbsp;
-											<?php echo YsaHtml::link('Delete', array('album/delete/' . $album->id), array('class' => 'del icon i_delete', 'rel' => $album->id, 'title' => 'Delete Album')); ?>
-										<?php endif; ?>
-									</span>
-									<?php echo YsaHtml::link('Sort', '#', array('class' => 'move icon i_cursor_drag_arrow')); ?>
-								</figure>
-							</li>
+							<?php $this->renderPartial('/album/_listalbum', array(
+								'album' => $album,
+								'event' => $entry,
+							));?>
 						<?php endforeach; ?>
 					</ul>
-					
-				<?php else:?>
-					<div class="empty-list">Empty List</div>
-				<?php endif; ?>
-					
 			</div>
 			<div class="cf"></div>
 		</div>
+		
+		
+		<?php if ($this->member()->smugmugAuthorized()) : ?>
+			<section id="album-import-smugmug-container" class="smugmug-album-import album-import box">
+				<div class="box-title">
+					<h3>Import SmugMug Album</h3>
+				</div>
+				<div class="box-content">
+					<div class="data">
+						<select name="album" id="smugmug-album-id">
+							<option value="">&ndash;&ndash;&ndash;</option>
+							<?php foreach ($this->member()->smugmug()->albums_get() as $album) : ?>
+								<option value="<?php echo $album['id']; ?>|<?php echo $album['Key']; ?>"><?php echo $album['Title']; ?></option>
+							<?php endforeach; ?>
+						</select>
+						<input type="button" value="Import Album" />
+					</div>
+					<div class="loading">Importing album&#133; Please be patient &ndash; it takes a while&#133;</div>
+				</div>
+			</section>
+		<?php endif;?>
+		
+		<?php if ($this->member()->zenfolioAuthorized() && isset($zenfolioHierarchy)) : ?>
+			<section id="album-import-zenfolio-container" class="zenfolio-album-import album-import box">
+				<div class="box-title">
+					<h3>Import ZenFolio Album</h3>
+				</div>
+				<div class="box-content">
+					<div class="data">
+						<select name="album" id="zenfolio-album-id">
+							<option value="">&ndash;&ndash;&ndash;</option>
+							<?php foreach ($zenfolioHierarchy['Elements'] as $element) : ?>
+								<option value="<?php echo $element['Id']; ?>"><?php echo $element['Title']; ?></option>
+							<?php endforeach; ?>
+						</select>
+						<input type="button" value="Import Album" />
+					</div>
+					<div class="loading">Importing album&#133; Please be patient &ndash; it takes a while&#133;</div>
+				</div>
+			</section>
+		<?php endif;?>
 	</section>
 </section>

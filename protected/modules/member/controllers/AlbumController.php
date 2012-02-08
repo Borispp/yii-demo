@@ -128,10 +128,11 @@ class AlbumController extends YsaMemberController
 				$this->member()->zenfolioAuthorize();
 				$profile = $this->member()->zenfolio()->LoadPrivateProfile();
 				$hierarchy = $this->member()->zenfolio()->LoadGroupHierarchy($profile['LoginName']);
-
+				
 				$this->renderVar('zenfolioHierarchy', $hierarchy);
 			}
 		} catch (Exception $e) {
+			$this->member()->zenfolioUnauthorize();
 			$this->setError($e->getMessage());
 		}
 

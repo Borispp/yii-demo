@@ -38,9 +38,12 @@ class YsaMemberController extends YsaController
 				'allow', 
 				'roles' => array('interesant'),
 				'expression' => $this->_matchModuleExpression(array('member')),
-				'controllers' => array('application','settings','inbox'), 
+				'controllers' => array('application','settings','inbox','payment','default'), 
 			),
 			array('deny', 'roles' => array('interesant')),
+			
+			// allow notifications from external (paypal,authorize)
+			array('allow', 'roles' => array('guest'), 'controllers' => array('payment'), 'actions' => array('catchNotification')),
 			
 			array('allow', 'roles' => array('customer','member')),
 			
