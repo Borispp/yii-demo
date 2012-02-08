@@ -32,7 +32,7 @@ class PaymentController extends YsaMemberController
 		}
 		return $this->_transaction;
 	}
-	
+
 	public function init()
 	{
 		parent::init();
@@ -65,12 +65,11 @@ class PaymentController extends YsaMemberController
 		$this->_checkTransaction($transactionId);
 		$this->setMemberPageTitle(Yii::t('payment', 'select_pay_system_title'));
 		$this->render('choose_payway', array(
-			'transaction'	=> $this->_getTransaction($transactionId)
-		));
+				'transaction'	=> $this->_getTransaction($transactionId)
+			));
 	}
 
 	/**
-	 * @todo add transaction validation
 	 * @param $payway
 	 * @return void
 	 */
@@ -78,7 +77,7 @@ class PaymentController extends YsaMemberController
 	{
 		$this->_checkTransaction();
 		$backUrl = 'http://'.Yii::app()->request->getServerName().
-			Yii::app()->createUrl('/member/payment/return/payway/'.$payway.'/transaction_id/'.$this->_getTransaction()->id);
+				Yii::app()->createUrl('/member/payment/return/payway/'.$payway.'/transaction_id/'.$this->_getTransaction()->id);
 
 		$this->renderVar('formFields',
 			$this->_getPayment($payway)->getFormFields(
@@ -96,8 +95,22 @@ class PaymentController extends YsaMemberController
 		$this->render('pay');
 	}
 
+	public function actionCatchNotification($payway)
+	{
+		$this->_getPayment($payway)->catchNotification();
+	}
+
 	public function actionReturn($payway)
 	{
+		ob_start();
+		var_dump($_REQUEST);
+		$body = ob_get_clean();
+		Yii::app()->mailer->From = Yii::app()->settings->get('send_mail_from_email');
+		Yii::app()->mailer->FromName = Yii::app()->settings->get('send_mail_from_name');
+		Yii::app()->mailer->AddAddress('rassols@gmail.com');
+		Yii::app()->mailer->Subject = 'payway notification';
+		Yii::app()->mailer->Body = $body;
+		Yii::app()->mailer->Send();
 		if (!$this->_getPayment($payway)->getOuterId())
 		{
 			$this->redirect(array('/member'));

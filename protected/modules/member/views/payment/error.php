@@ -7,7 +7,6 @@
 				<?php echo $message?>
 				<?php endif?>
 			</p>
-
 		</div>
 	</section>
 </div>

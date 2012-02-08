@@ -59,4 +59,9 @@ class YsaMemberAuthorizeNet implements YsaMemberPayment
 		);
 	}
 
+	public function catchNotification()
+	{
+		
+	}
+
 }

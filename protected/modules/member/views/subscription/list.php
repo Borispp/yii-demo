@@ -37,17 +37,7 @@
 								</td>
 								<td><span class="<?php echo strtolower($obUserSubscription->labelState()); ?>"><?php echo $obUserSubscription->labelState()?></span></td>
 								<td class="actions">
-									<?php if ($obUserSubscription->state == UserSubscription::STATE_INACTIVE):?>
-										<?php if ($obUserSubscription->Transaction):?>
-											<?php echo YsaHtml::link('Pay Now', array('payment/choosepayway/transactionId/' . $obUserSubscription->Transaction[0]->id . '/'), array('class' => 'blue btn small')); ?>
-											<?php echo YsaHtml::link('Delete', array('subscription/delete/subscriptionId/' . $obUserSubscription->id . '/'), array('class' => 'btn small red-txt delete')); ?>
-										<?php endif;?>
-									
-									<?php elseif ($obUserSubscription->state == UserSubscription::STATE_ENABLED) :?>
-									
-									<?php elseif ($obUserSubscription->state == UserSubscription::STATE_ACTIVE) :?>
-										<?php echo YsaHtml::link('Details', array('subscription/details/id/' . $obUserSubscription->id . '/'), array('class' => 'btn small')); ?>
-									<?php endif?>
+									<?php echo YsaHtml::link('Details', array('subscription/details/id/' . $obUserSubscription->id . '/'), array('class' => 'btn small')); ?>
 								</td>
 							</tr>
 							<?php endforeach;?>
