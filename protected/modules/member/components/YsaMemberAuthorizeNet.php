@@ -52,13 +52,17 @@ class YsaMemberAuthorizeNet implements YsaMemberPayment
 			'x_market_type'  => '2',
 			'x_test_request' => 'true',
 			//'x_method'       => 'cc',
-
-			'x_card_num'     => '370000000000002',
-			'x_exp_date'     => '05-2012',
-			'x_card_code'    => '1111'
+//
+//			'x_card_num'     => '370000000000002',
+//			'x_exp_date'     => '05-2012',
+//			'x_card_code'    => '1111'
 		);
 	}
 
+	/**
+	 * @todo Check if save as verify
+	 * @return void
+	 */
 	public function catchNotification()
 	{
 		
