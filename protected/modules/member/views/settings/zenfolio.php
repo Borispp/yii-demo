@@ -38,7 +38,7 @@
 						'enableAjaxValidation'=>false,
 					)); ?>
 
-					<section>
+					<section class="cf">
 						<?php echo $form->labelEx($zenlogin,'username'); ?>
 						<div>
 							<?php echo $form->textField($zenlogin,'username', array('size'=>50,'maxlength'=>50)); ?>
@@ -46,7 +46,7 @@
 						</div>
 					</section>
 
-					<section>
+					<section class="cf">
 						<?php echo $form->labelEx($zenlogin,'password'); ?>
 						<div>
 							<?php echo $form->textField($zenlogin,'password',array('size'=>50,'maxlength'=>50)); ?>

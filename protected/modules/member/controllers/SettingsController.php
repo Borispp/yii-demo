@@ -50,13 +50,16 @@ class SettingsController extends YsaMemberController
 		$shootqForm->shootq_key = $this->member()->option('shootq_key');
 		$shootqForm->shootq_enabled = (int) $this->member()->option('shootq_enabled', 0);
 
-		if (isset($_POST['ShootqApi'])) {
+		if (isset($_POST['ShootqApi'])) 
+		{
 			$shootqForm->attributes = $_POST['ShootqApi'];
-			if ($shootqForm->validate()) {
+			if ($shootqForm->validate()) 
+			{
 				foreach ($shootqForm->attributes as $name => $value) {
 					$this->member()->editOption($name, $value);
 				}
 				$this->setSuccess(Yii::t('save', 'settings_shootq_saved'));
+				$this->member()->activate();
 				$this->refresh();
 			}
 		}
@@ -79,24 +82,36 @@ class SettingsController extends YsaMemberController
 		$smugForm->smug_api = $this->member()->option(UserOption::SMUGMUG_API);
 		$smugForm->smug_secret = $this->member()->option(UserOption::SMUGMUG_SECRET);
 
-		if (isset($_POST['SmugMugApi'])) {
+		if (isset($_POST['SmugMugApi'])) 
+		{
 			$smugForm->attributes = $_POST['SmugMugApi'];
-			if ($smugForm->validate()) {
+			if ($smugForm->validate()) 
+			{
 				foreach ($smugForm->attributes as $name => $value) {
 					$this->member()->editOption($name, $value);
 				}
 
-				$requestToken = $this->member()->smugmug()->auth_getRequestToken();
-				//				$this->member()->editOption(UserOption::SMUGMUG_REQUEST, $requestToken);
+				try
+				{
+					$requestToken = $this->member()->smugmug()->auth_getRequestToken();
+					//				$this->member()->editOption(UserOption::SMUGMUG_REQUEST, $requestToken);
+				}
+				catch(PhpSmugException $e)
+				{
+					$this->setError($e->getMessage());
+					$this->refresh();
+				}
 
 				Yii::app()->session['smugmugRequestToken'] = $requestToken;
 
 				$this->setSuccess(Yii::t('save', 'settings_smugmug_saved'));
+				$this->member()->activate();
 				$this->refresh();
 			}
 		}
 
-		if (isset(Yii::app()->session['smugmugRequestToken'])) {
+		if (isset(Yii::app()->session['smugmugRequestToken'])) 
+		{
 			if (!$this->member()->smugmugSetRequestToken(Yii::app()->session['smugmugRequestToken'])) {
 				unset(Yii::app()->session['smugmugRequestToken']);
 				$this->refresh();
@@ -158,12 +173,17 @@ class SettingsController extends YsaMemberController
 	{
 		$loginForm = new ZenFolioLogin();
 
-		if ($this->member()->zenfolioAuthorized() && $this->member()->zenfolioAuthorize()) {
+		if ($this->member()->zenfolioAuthorized() && $this->member()->zenfolioAuthorize()) 
+		{
 
-		} else {
-			if (isset($_POST['ZenFolioLogin'])) {
+		} 
+		else 
+		{
+			if (isset($_POST['ZenFolioLogin'])) 
+			{
 				$loginForm->attributes = $_POST['ZenFolioLogin'];
-				if ($loginForm->validate()) {
+				if ($loginForm->validate()) 
+				{
 					try {
 						$this->member()->zenfolio()->login("Username=" . $loginForm->username, "Password=" . $loginForm->password); // "Plaintext=TRUE"
 						
@@ -184,9 +204,8 @@ class SettingsController extends YsaMemberController
 		$this->crumb('Settings', array('settings/'))
 				->crumb('ZenFolio');
 
-		if ($this->member()->zenfolioAuthorized()) {
-			
-		}
+		if ($this->member()->zenfolioAuthorized())
+			$this->member()->activate();
 		
 		$this->render('zenfolio', array(
 			'zenlogin'	=> $loginForm,
@@ -272,16 +291,17 @@ class SettingsController extends YsaMemberController
 		);
 		$authIdentity = Yii::app()->eauth->getIdentity( 'facebook', $options );
 
-		if ( $authIdentity->authenticate() ) 
+		if ($authIdentity->authenticate()) 
 		{
 			try
 			{
-				$this->member()->linkFacebook( $authIdentity->getAttribute('id') );
+				$this->member()->linkFacebook($authIdentity->getAttribute('id'));
+				$this->member()->activate();
 				$this->setSuccess(Yii::t('save', 'settings_facebook_linked'));
 			}
 			catch ( CDbException $e )
 			{
-				$this->setError( $e->getMessage() );
+				$this->setError($e->getMessage());
 			}
 		}
 		
@@ -291,8 +311,8 @@ class SettingsController extends YsaMemberController
 	
 	public function actionFacebookUnlink()
 	{
-		if ( ! $this->member()->unlinkFacebook() )
-			$this->setError( 'Unable to unlink Facebook account' );
+		if (!$this->member()->unlinkFacebook())
+			$this->setError('Unable to unlink Facebook account');
 		else
 			$this->setSuccess(Yii::t('save', 'settings_facebook_unlinked'));
 		
