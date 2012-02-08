@@ -4,21 +4,9 @@ class SubscriptionController extends YsaMemberController
 	public function init()
 	{
 		parent::init();
-		
+
 		$this->crumb('Settings', array('settings/'))
 			 ->crumb('Subscriptions', array('subscription/'));
-	}
-	
-	protected function _addNewTransaction(UserSubscription $obUserSubscription)
-	{
-		$obTransaction = new UserTransaction();
-		$obTransaction->user_subscription_id = $obUserSubscription->id;
-		$obTransaction->state = $obTransaction::STATE_CREATED;
-		$obTransaction->notes = $obUserSubscription->Membership->name;
-		$obTransaction->created = date('Y.m.d H:i:s');
-		$obTransaction->summ = $obUserSubscription->getSumm();
-		$obTransaction->save();
-		return $obTransaction;
 	}
 
 	/**
@@ -39,7 +27,7 @@ class SubscriptionController extends YsaMemberController
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/subscriptionlist.js', CClientScript::POS_HEAD);
 		
 		$this->render('list', array(
-			'subscriptions' => $this->member()->UserSubscription,
+			'subscriptions' => $this->member()->payedSubscriptions,
 		));
 	}
 
@@ -70,19 +58,17 @@ class SubscriptionController extends YsaMemberController
 			if ($entry->validate() && $state) 
 			{
 				$entry->save();
-				$obTransaction = $this->_addNewTransaction($entry);
+				$transaction = $entry->createTransaction();
 				$this->member()->activate();
-				unset( Yii::app()->session['discount'] );
-				$this->redirect(array('paypal', 'id' => $obTransaction->id));
-//				$this->setSuccessFlash("New entry successfully added. " . CHtml::link('Back to listing.', array('index')));
-//				$this->redirect(array('edit', 'id'=>$entry->id));
+				unset(Yii::app()->session['discount']);
+				$this->redirect(array('payment/choosepayway/transactionId/'.$transaction->id));
 			}
 		}
 		
-		$this->setMemberPageTitle('New Subscription');		
+		$this->setMemberPageTitle('New Subscription');
 		$this->crumb('Add Subscription');
 		$this->setNotice( null ); // do not show default subscription notification
-		
+
 		$this->render('new', array(
 			'membershipList'	=> Membership::model()->findAllActive(),
 			'entry'				=> $entry
@@ -120,82 +106,6 @@ class SubscriptionController extends YsaMemberController
 		
 		$this->redirect( array('new') );
 	}
-	
-	public function actionPaypal()
-	{
-		if (empty($_GET['id']) || !($obUserTransaction = UserTransaction::model()->findByPk($_GET['id'])) || !$obUserTransaction->UserSubscription)
-		{
-			if (!empty($_GET['id']) && $obUserTransaction && !$obUserTransaction->UserSubscription)
-				$obUserTransaction->delete();
-			return $this->render('error', array(
-				'title'		=> 'Not found',
-				'message'	=> 'No Transaction with such ID found'
-			));
-		}
-		if ($obUserTransaction->UserSubscription->user_id != $this->member()->id)
-		{
-			return $this->render('error', array(
-				'title'		=> 'Access denied',
-				'message'	=> 'You are not allowed to access this tranaction.',
-			));
-		}
-		if ($obUserTransaction->state == UserTransaction::STATE_PAID || $obUserTransaction->UserSubscription->isActive())
-		{
-			return $this->render('error', array(
-				'title'		=> 'Already paid',
-				'message'	=> 'You\'ve already paid this transaction.',
-			));
-		}
-		
-		$this->setMemberPageTitle('New Subscription');
-		
-		$obUserTransaction->state = UserTransaction::STATE_SENT;
-		$this->renderVar('currency', $this->_getPayment()->getCurrency());
-		$this->renderVar('email', $this->_getPayment()->getEmail());
-		$this->renderVar('productName', $obUserTransaction->notes);
-		$this->renderVar('productId', $obUserTransaction->id);
-		$this->renderVar('amount', $obUserTransaction->summ);
-		$this->renderVar('notifyUrl', 'http://'.Yii::app()->request->getServerName().Yii::app()->createUrl('/member/subscription/notify/'));
-		$this->renderVar('returnUrl', 'http://'.Yii::app()->request->getServerName().Yii::app()->createUrl('/member/subscription/notify/'));
-		$this->renderVar('isTestMode', $this->_getPayment()->isTestMode());
-		$this->renderVar('url', $this->_getPayment()->getUrl());
-		$this->render('paypal');
-	}
-
-	public function actionNotify()
-	{
-		if ($_SERVER['REQUEST_METHOD'] == 'POST')
-		{
-			if (!$this->_getPayment()->verify())
-				return $this->render('error', array(
-				'title'		=> 'Verification failed',
-				'message'	=> 'Transaction verification failed',
-				));
-			$obUserTransaction = UserTransaction::model()->findByPk($_POST['item_number']);
-			$obUserTransaction->data = serialize($_POST);
-			$obUserTransaction->state = UserTransaction::STATE_PAID;
-			$obUserTransaction->payed = date('Y-m-d');
-			$obUserTransaction->save();
-			$obUserSubscription = $obUserTransaction->UserSubscription;
-			$obUserSubscription->activate();
-			return $this->render('ok', array(
-				'obUserSubscription' => $obUserSubscription
-			));
-		}
-		return $this->render('error', array(
-			'title'		=> 'Access denied ',
-			'message'	=> 'You are not allowed to access this page directly.',
-		));
-	}
-
-	public function actionCancel()
-	{
-
-		$this->render('error', array(
-			'message'	=> 'You canceled your subscription payment. If you have any questions — contact us.',
-			'title'		=> 'Subscription payment canceled'
-		));
-	}
 
 	public function actionIndex()
 	{
@@ -230,11 +140,13 @@ class SubscriptionController extends YsaMemberController
 
 	public function actionDetails($id)
 	{
-		$this->setMemberPageTitle('Subscription details');
 		if (!($obUserSubscription = UserSubscription::model()->findByPk($id)) || $obUserSubscription->user_id != $this->member()->id || UserSubscription::STATE_INACTIVE == $obUserSubscription->state)
 		{
 			$this->redirect(array('subscription/'));
 		}
+		$this->crumb('Subscription Details');
+		$this->setMemberPageTitle('Subscription details');
+
 		return $this->render('details', array('obUserSubscription' => $obUserSubscription));
 	}
 }

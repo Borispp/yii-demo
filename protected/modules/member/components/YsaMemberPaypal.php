@@ -1,9 +1,36 @@
 <?php
-class YsaMemberPaypal extends YsaMemberPayment
+class YsaMemberPaypal implements YsaMemberPayment
 {
 	protected $_email;
 	protected $_mode;
 	protected $_currency;
+
+	public function __construct()
+	{
+		$this->_email = Yii::app()->settings->get('paypal_user');
+		//$this->_mode = Yii::app()->settings->get('paypal_mode');
+		$this->_currency = Yii::app()->settings->get('paypal_currency');
+	}
+
+	public function getFormFields(PaymentTransaction $transaction, $notifyUrl, $returnUrl)
+	{
+		return array(
+			'cmd'           => '_xclick',
+			'currency_code' => $this->getCurrency(),
+			'business'      => $this->getEmail(),
+			'item_name'     => $transaction->name,
+			'amount'        => $transaction->summ,
+			'item_number'   => $transaction->getItemId(),
+			'ipn_test'      => $this->isTestMode(),
+			'notify_url'    => $notifyUrl,
+			'return'        => $returnUrl,
+		);
+	}
+
+	public function getFormUrl()
+	{
+		return $this->getUrl();
+	}
 
 	public  function getEmail()
 	{
@@ -105,5 +132,15 @@ class YsaMemberPaypal extends YsaMemberPayment
 			}
 			fclose ($fp);
 		}
+	}
+
+	public function catchNotification()
+	{
+		var_dump($_REQUEST);die;
+	}
+
+	public function getOuterId()
+	{
+		return @$_POST['txn_id'];
 	}
 }

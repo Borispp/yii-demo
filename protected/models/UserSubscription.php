@@ -177,8 +177,7 @@ class UserSubscription extends YsaActiveRecord
 			'Discount'		=> array(self::BELONGS_TO, 'Discount', 'discount_id'),
 			'Membership'	=> array(self::BELONGS_TO, 'Membership', 'membership_id'),
 			'Member'		=> array(self::BELONGS_TO, 'Member', 'user_id'),
-			'Transaction'	=> array(self::HAS_ONE, 'UserTransaction', 'user_subscription_id'),
-
+			'Transaction'	=> array(self::MANY_MANY, 'PaymentTransaction', 'payment_transaction_subscription(subscription_id, transaction_id)'),
 		);
 	}
 
@@ -256,7 +255,7 @@ class UserSubscription extends YsaActiveRecord
 	{
 		$labels = array(
 			self::STATE_ACTIVE		=> 'Active',
-			self::STATE_ENABLED		=> 'Payed',
+			self::STATE_ENABLED		=> 'Paid',
 			self::STATE_INACTIVE	=> 'Inactive',
 
 		);
@@ -267,5 +266,22 @@ class UserSubscription extends YsaActiveRecord
 	{
 		if (strtotime($this->expiry_date) < time())
 			return TRUE;
+	}
+
+	public function createTransaction()
+	{
+		$transaction = new PaymentTransaction();
+		$transaction->state = $transaction::STATE_CREATED;
+		$transaction->name = $this->Membership->name;
+		$transaction->description = $this->Membership->description;
+		$transaction->summ = (float)$this->getSumm();
+		$transaction->created = date('Y.m.d H:i:s');
+		$transaction->type = 'subscription';
+		$transaction->save();
+		$transactionApplication = new PaymentTransactionSubscription();
+		$transactionApplication->subscription_id = $this->id;
+		$transactionApplication->transaction_id = $transaction->id;
+		$transactionApplication->save();
+		return $transaction;
 	}
 }

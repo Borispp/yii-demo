@@ -19,6 +19,7 @@
 					
 					<span class="button"><?php echo YsaHtml::link('Change Settings', array('wizard'), array('class' => 'btn')); ?></span>
 				</div>
+				<?php if ($app->isPaid()):?>
 				<div class="shadow-box submit">
 					<h4>Submit your application</h4>
 					
@@ -28,7 +29,16 @@
 						<span class="button"><?php echo YsaHtml::link('Submit for Review', array('submit'), array('class' => 'btn blue')); ?></span>
 					<?php endif; ?>
 				</div>
-				
+				<?php else:?>
+				<div class="shadow-box submit">
+					<h4>Pay for your application</h4>
+
+					<p>Donec lorem nunc, facilisis a adipiscing vel, pulvinar et elit. Nullam nec dolor ut quam venenatis posuere. In at libero vitae urna semper dictum a a augue.</p>
+
+					<span class="button"><?php echo YsaHtml::link('Make payment', array('pay'), array('class' => 'btn blue')); ?></span>
+				</div>
+				<?php endif;?>
+
 				<?php if ($app->hasSupport()) : ?>
 					<?php echo YsaHtml::link('Support Ticket', array('support'), array('class' => 'btn red-txt fr')); ?>
 				<?php endif; ?>

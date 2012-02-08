@@ -7,36 +7,53 @@
 				<label>Member name</label>
 				<div>
 					<a href="<?php echo Yii::app()->createUrl('/admin/member/view/', array(
-							'id'	=> $entry->UserSubscription->Member->id
-						))?>"><?php echo $entry->UserSubscription->Member->name()?></a>
+							'id'	=> $entry->getMember()->id
+						))?>"><?php echo $entry->getMember()->name()?></a>
 				</div>
 			</section>
+			<section>
+				<label>Creation Date</label>
+				<div>
+					<?php echo date('m.d.Y', strtotime($entry->created))?>
+				</div>
+			</section>
+			<?php if ($entry->type == 'subscription'):?>
 			<section>
 				<label>Membership</label>
 				<div>
 					<a href="<?php echo Yii::app()->createUrl('/admin/membership/edit/', array(
-							'id'	=> $entry->UserSubscription->Membership->id
-						))?>"><?php echo $entry->UserSubscription->Membership->name?></a>
+							'id'	=> $entry->paymentTransactionSubscriptions[0]->subscription->Membership->id
+						))?>"><?php echo $entry->paymentTransactionSubscriptions[0]->subscription->Membership->name?></a>
 				</div>
 			</section>
 			<section>
 				<label>Subscription</label>
 				<div>
 					<a href="<?php echo Yii::app()->createUrl('/admin/subscription/edit/', array(
-							'id'	=> $entry->UserSubscription->id
-						))?>">Subscription #<?php echo $entry->UserSubscription->id?></a>
-					<?php if ($entry->UserSubscription):?>
-					(<strong><?php echo $entry->UserSubscription->state()?></strong>) 
+							'id'	=> $entry->paymentTransactionSubscriptions[0]->subscription->id
+						))?>">Subscription #<?php echo $entry->paymentTransactionSubscriptions[0]->subscription->id?></a>
+					<?php if ($entry->paymentTransactionSubscriptions[0]->subscription):?>
+					(<strong><?php echo $entry->paymentTransactionSubscriptions[0]->subscription->state()?></strong>)
 					<?php endif?>
 				</div>
 			</section>
+			<?php else:?>
+			<section>
+				<label>Application</label>
+				<div>
+					<a href="<?php echo Yii::app()->createUrl('/admin/application/view/', array(
+							'id'	=> $entry->paymentTransactionApplications[0]->application->id
+						))?>">Application ID#<?php echo $entry->paymentTransactionApplications[0]->application->id?></a>
+				</div>
+			</section>
+			<?php endif;?>
 			<section>
 				<label>Summ</label>
 				<div>
 					<?php echo $entry->summ?> <?php echo Yii::app()->settings->get('paypal_currency')?>
-					<?php if ($entry->UserSubscription->Discount):?>
+					<?/*php if ($entry->UserSubscription->Discount):?>
 					(<strong>Discount <?php echo $entry->UserSubscription->Discount->summ?>%</strong>)
-					<?php endif?>
+					<?php endif*/?>
 				</div>
 			</section>
 			<section>
@@ -45,11 +62,17 @@
 					<?php echo $entry->state()?>
 				</div>
 			</section>
-			<?php if ($entry->state == $entry::STATE_PAID && $entry->payed && $entry->payed != '0000-00-00'):?>
+			<?php if ($entry->state == $entry::STATE_PAID && $entry->paid && $entry->paid != '0000-00-00'):?>
 			<section>
 				<label>Payment Date</label>
 				<div>
-					<?php echo date('m.d.Y', strtotime($entry->payed))?>
+					<?php echo date('m.d.Y', strtotime($entry->paid))?>
+				</div>
+			</section>
+			<section>
+				<label>Outer ID</label>
+				<div>
+					<?php echo $entry->outer_id?>
 				</div>
 			</section>
 			<?php endif?>

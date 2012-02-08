@@ -64,7 +64,7 @@
 				<div>
 					<?php echo $form->dropDownList($entry,'state', array(
 						$entry::STATE_INACTIVE => 'inactive',
-						$entry::STATE_ENABLED => 'payed',
+						$entry::STATE_ENABLED => 'paid',
 						$entry::STATE_ACTIVE => 'active',
 					)); ?>
 					<?php echo $form->error($entry,'state'); ?>
