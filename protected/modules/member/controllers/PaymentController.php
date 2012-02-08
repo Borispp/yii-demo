@@ -76,8 +76,10 @@ class PaymentController extends YsaMemberController
 	public function actionPay($payway)
 	{
 		$this->_checkTransaction();
-		$backUrl = 'http://'.Yii::app()->request->getServerName().
-				Yii::app()->createUrl('/member/payment/return/payway/'.$payway.'/transaction_id/'.$this->_getTransaction()->id);
+		$backUrl = 	$this->createAbsoluteUrl('/member/payment/return/', array(
+			'payway'         => $payway,
+			'transaction_id' => $this->_getTransaction()->id
+		));
 
 		$this->renderVar('formFields',
 			$this->_getPayment($payway)->getFormFields(
