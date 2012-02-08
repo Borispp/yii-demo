@@ -90,9 +90,9 @@ class YsaMemberController extends YsaController
 		$this->_member = Member::model()->findByPk(Yii::app()->user->getId());
 		if (Yii::app()->controller->module && Yii::app()->controller->module->id == 'member' && Yii::app()->controller->id == 'payment' && $action->id == 'catchnotification')
 		{
-			return;
+			return true;
 		}
-
+		
 		if (!$this->_member)
 		{
 			Yii::app()->user->logout();
@@ -108,6 +108,8 @@ class YsaMemberController extends YsaController
 		{
 			$this->setStaticNotice('<div class="need-to-subscribe">You have no subscription. <a href="'.Yii::app()->createUrl('/member/subscription/').'">Subscribe now</a></div>');
 		}
+		
+		return true;
 	}
 
 	/**
