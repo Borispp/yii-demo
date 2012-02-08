@@ -67,7 +67,7 @@
 							<td><?php echo $obUserSubscription->Transaction[0]->created?></td>
 						</tr>
 						<tr>
-							<th>Payed</th>
+							<th>Paid</th>
 							<td><?php echo $obUserSubscription->Transaction[0]->paid?></td>
 						</tr>
 						<tr>

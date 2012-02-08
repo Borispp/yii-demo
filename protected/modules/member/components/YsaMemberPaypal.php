@@ -23,7 +23,7 @@ class YsaMemberPaypal implements YsaMemberPayment
 			'item_number'   => $transaction->getItemId(),
 			'ipn_test'      => $this->isTestMode(),
 			'notify_url'    => $notifyUrl,
-			'return'        => $returnUrl
+			'return'        => $returnUrl,
 		);
 	}
 
@@ -132,6 +132,11 @@ class YsaMemberPaypal implements YsaMemberPayment
 			}
 			fclose ($fp);
 		}
+	}
+
+	public function catchNotification()
+	{
+		var_dump($_REQUEST);die;
 	}
 
 	public function getOuterId()

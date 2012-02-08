@@ -12,7 +12,7 @@
  * @property Application $application
  * @property PaymentTransaction $transaction
  */
-class PaymentTransactionApplication extends YsaActiveRecord
+class PaymentTransactionApplication extends YsaActiveRecord implements YsaPaymentTransaction
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -89,5 +89,31 @@ class PaymentTransactionApplication extends YsaActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function processSuccess()
+	{
+		$application = $this->application;
+		$application->paid = 1;
+		$application->save();
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getUrl()
+	{
+		return array('application/');
+	}
+
+	/**
+	 * @return Member
+	 */
+	public function getMember()
+	{
+		return $this->application->user;
 	}
 }

@@ -443,80 +443,41 @@ class Application extends YsaActiveRecord
 	
 	public function numStatus()
 	{
-		return $this->filled . $this->submitted . $this->locked . $this->approved . $this->ready;
+		return $this->filled . $this->paid . $this->submitted . $this->locked . $this->approved . $this->ready;
 	}
 	
 	public function status()
 	{
-		$s = '';
-		switch ($this->numStatus()) {
-			case '00000':
-				$s = 'newly-created';
-				break;
-			case '10000':
-				$s = 'filled';
-				break;
-			case '11000':
-				$s = 'submitted';
-				break;
-			case '11100':
-				$s = 'locked';
-				break;
-			case '11110':
-				$s = 'approved';
-				break;
-			case '11111':
-				$s = 'appstore';
-				break;
-			case '11112':
-				$s = 'running';
-				break;
-			case '1111-1':
-				$s = 'rejected';
-				break;
-			case '111-10':
-			case '110-10':
-				$s = 'unapproved';
-				break;
-		}
-		
-		return $s;
-		
+		$statusDictionary = array(
+			'000000'  => 'newly-created',
+			'100000'  => 'filled',
+			'110000'  => 'paid',
+			'111000'  => 'submitted',
+			'111100'  => 'locked',
+			'111110'  => 'approved',
+			'111111'  => 'appstore',
+			'111112'  => 'running',
+			'11111-1' => 'rejected',
+			'1111-10' => 'unapproved',
+			'1110-10' => 'unapproved',
+		);
+		return $statusDictionary[$this->numStatus()];
 	}
 	
 	public function statusLabel()
 	{
-		$label = '';
-		switch ($this->status()) {
-			case 'newly-created':
-				$label = 'Application is up.';
-				break;
-			case 'filled':
-				$label = 'Application is filled up.';
-				break;
-			case 'submitted':
-				$label = 'Application has been successfully submitted.';
-				break;
-			case 'locked':
-				$label = 'Application has been locked to pervert requred fields changes.';
-				break;
-			case 'approved':
-				$label = 'Application has been successfully approved by moderators.';
-				break;
-			case 'appstore':
-				$label = 'Application has been successfully sent to AppStore.';
-				break;
-			case 'appstore':
-				$label = 'Application is running properly.';
-				break;
-			case 'rejected':
-				$label = 'Application has been rejected by AppStore. Don\'t panic! We are working on that.';
-				break;
-			default:
-				break;
-		}
-		
-		return $label;
+		$labelDictionary = array(
+			'newly-created' => 'Application is up.',
+			'paid'          => 'Application is paid.',
+			'filled'        => 'Application is filled up.',
+			'submitted'     => 'Application has been successfully submitted.',
+			'locked'        => 'Application has been locked to pervert requred fields changes.',
+			'approved'      => 'Application has been successfully approved by moderators.',
+			'appstore'      => 'Application has been successfully sent to AppStore.',
+			'appstore'      => 'Application is running properly.',
+			'rejected'      => 'Application has been rejected by AppStore. Don\'t panic! We are working on that.',
+		);
+		return $labelDictionary[$this->status()];
 	}
 	
 	

@@ -27,7 +27,7 @@ class SubscriptionController extends YsaMemberController
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/subscriptionlist.js', CClientScript::POS_HEAD);
 		
 		$this->render('list', array(
-			'subscriptions' => $this->member()->UserSubscription,
+			'subscriptions' => $this->member()->payedSubscriptions,
 		));
 	}
 
@@ -140,11 +140,13 @@ class SubscriptionController extends YsaMemberController
 
 	public function actionDetails($id)
 	{
-		$this->setMemberPageTitle('Subscription details');
 		if (!($obUserSubscription = UserSubscription::model()->findByPk($id)) || $obUserSubscription->user_id != $this->member()->id || UserSubscription::STATE_INACTIVE == $obUserSubscription->state)
 		{
 			$this->redirect(array('subscription/'));
 		}
+		$this->crumb('Subscription Details');
+		$this->setMemberPageTitle('Subscription details');
+
 		return $this->render('details', array('obUserSubscription' => $obUserSubscription));
 	}
 }

@@ -12,7 +12,7 @@
  * @property UserSubscription $subscription
  * @property PaymentTransaction $transaction
  */
-class PaymentTransactionSubscription extends YsaActiveRecord
+class PaymentTransactionSubscription extends YsaActiveRecord implements YsaPaymentTransaction
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -90,5 +90,23 @@ class PaymentTransactionSubscription extends YsaActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+
+	public function processSuccess()
+	{
+		$this->subscription->activate();
+	}
+
+	public function getUrl()
+	{
+		return array('subscription/list/');
+	}
+
+	/**
+	 * @return Member
+	 */
+	public function getMember()
+	{
+		return $this->subscription->Member;
 	}
 }

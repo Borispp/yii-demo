@@ -28,12 +28,13 @@ class Member extends User
 	public function relations()
 	{
 		return array(
-			'UserSubscription'	=> array(self::HAS_MANY, 'UserSubscription', 'user_id'),
-			'clients'			=> array(self::HAS_MANY, 'Client', 'user_id'),
-			'Membership'		=> array(self::MANY_MANY, 'Membership', 'user_subscription(user_id, membership_id)'),
-			'event'				=> array(self::HAS_MANY, 'Event', 'user_id'),
-			'tickets'			=> array(self::HAS_MANY, 'Ticket', 'user_id', 'order' => 'created DESC'),
-			'open_tickets'		=> array(self::HAS_MANY, 'Ticket', 'user_id', 'order' => 'created DESC', 'condition' => 'state=:state', 'params' => array('state' => Ticket::STATE_ACTIVE)),
+			'UserSubscription'   => array(self::HAS_MANY, 'UserSubscription', 'user_id'),
+			'clients'            => array(self::HAS_MANY, 'Client', 'user_id'),
+			'Membership'         => array(self::MANY_MANY, 'Membership', 'user_subscription(user_id, membership_id)'),
+			'event'              => array(self::HAS_MANY, 'Event', 'user_id'),
+			'tickets'            => array(self::HAS_MANY, 'Ticket', 'user_id', 'order' => 'created DESC'),
+			'open_tickets'       => array(self::HAS_MANY, 'Ticket', 'user_id', 'order' => 'created DESC', 'condition' => 'state=:state', 'params' => array('state' => Ticket::STATE_ACTIVE)),
+			'payedSubscriptions' => array(self::HAS_MANY, 'UserSubscription', 'user_id', 'order' => 'start_date ASC', 'condition' => 'state>0'),
 		) + parent::relations();
 	}
 

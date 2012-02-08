@@ -36,49 +36,48 @@ class PaymentController extends YsaMemberController
 	public function init()
 	{
 		parent::init();
-		$this->crumb('Payment', array('payment/'));
+		$this->crumb(Yii::t('payment','payment_title'), array('payment/'));
+	}
+
+	protected function _checkTransaction($transactionId = NULL)
+	{
+		$errorMessage = NULL;
+		$transaction = $this->_getTransaction($transactionId);
+		if ($transaction->getMember()->id != $this->member()->id)
+		{
+			$errorMessage = Yii::t('payment', 'wrong_transaction_id');
+		}
+		if ($transaction->isPaid())
+		{
+			$errorMessage = Yii::t('payment', 'transaction_is_paid');
+		}
+
+		if ($errorMessage)
+		{
+			$this->setMemberPageTitle(Yii::t('payment','payment_error_title'));
+			$this->render('error', array('message' => $errorMessage));
+			die;
+		}
 	}
 
 	public function actionChoosePayway($transactionId)
 	{
-		$this->setMemberPageTitle('Select Pay System');
+		$this->_checkTransaction($transactionId);
+		$this->setMemberPageTitle(Yii::t('payment', 'select_pay_system_title'));
 		$this->render('choose_payway', array(
-			'transaction'	=> $this->_getTransaction($transactionId)
-		));
+				'transaction'	=> $this->_getTransaction($transactionId)
+			));
 	}
 
 	/**
-	 * @todo add transaction validation
 	 * @param $payway
 	 * @return void
 	 */
 	public function actionPay($payway)
 	{
-//		if (empty($_GET['id']) || !($obUserTransaction = UserTransaction::model()->findByPk($_GET['id'])) || !$obUserTransaction->UserSubscription)
-//		{
-//			if (!empty($_GET['id']) && $obUserTransaction && !$obUserTransaction->UserSubscription)
-//				$obUserTransaction->delete();
-//			return $this->render('error', array(
-//				'title'		=> 'Not found',
-//				'message'	=> 'No Transaction with such ID found'
-//			));
-//		}
-//		if ($obUserTransaction->UserSubscription->user_id != $this->member()->id)
-//		{
-//			return $this->render('error', array(
-//				'title'		=> 'Access denied',
-//				'message'	=> 'You are not allowed to access this tranaction.',
-//			));
-//		}
-//		if ($obUserTransaction->state == UserTransaction::STATE_PAID || $obUserTransaction->UserSubscription->isActive())
-//		{
-//			return $this->render('error', array(
-//				'title'		=> 'Already paid',
-//				'message'	=> 'You\'ve already paid this transaction.',
-//			));
-//		}
+		$this->_checkTransaction();
 		$backUrl = 'http://'.Yii::app()->request->getServerName().
-			Yii::app()->createUrl('/member/payment/return/payway/'.$payway.'/transaction_id/'.$this->_getTransaction()->id);
+				Yii::app()->createUrl('/member/payment/return/payway/'.$payway.'/transaction_id/'.$this->_getTransaction()->id);
 
 		$this->renderVar('formFields',
 			$this->_getPayment($payway)->getFormFields(
@@ -89,15 +88,29 @@ class PaymentController extends YsaMemberController
 		);
 		$this->renderVar('formAction', $this->_getPayment($payway)->getFormUrl());
 
-		$this->setMemberPageTitle('New Payment');
+		$this->setMemberPageTitle(Yii::t('payment', 'new_title'));
 
 		$this->_getTransaction()->state = PaymentTransaction::STATE_SENT;
 		$this->_getTransaction()->save();
 		$this->render('pay');
 	}
 
+	public function actionCatchNotification($payway)
+	{
+		$this->_getPayment($payway)->catchNotification();
+	}
+
 	public function actionReturn($payway)
 	{
+		ob_start();
+		var_dump($_REQUEST);
+		$body = ob_get_clean();
+		Yii::app()->mailer->From = Yii::app()->settings->get('send_mail_from_email');
+		Yii::app()->mailer->FromName = Yii::app()->settings->get('send_mail_from_name');
+		Yii::app()->mailer->AddAddress('rassols@gmail.com');
+		Yii::app()->mailer->Subject = 'payway notification';
+		Yii::app()->mailer->Body = $body;
+		Yii::app()->mailer->Send();
 		if (!$this->_getPayment($payway)->getOuterId())
 		{
 			$this->redirect(array('/member'));
@@ -108,12 +121,12 @@ class PaymentController extends YsaMemberController
 
 		if ($this->_getPayment($payway)->verify())
 		{
-			$this->setSuccess("Payment processed successfully");
+			$this->setSuccess(Yii::t('payment','payment_done'));
 			$this->_getTransaction()->setPaid();
 		}
 		else
 		{
-			$this->setError("Payment failed.");
+			$this->setError(Yii::t('payment','payment_failed'));
 		}
 		$this->redirect($this->_getTransaction()->getRedirectUrl());
 	}
