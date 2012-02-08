@@ -21,36 +21,36 @@ class YsaMemberController extends YsaController
 			array('allow', 'roles' => array('guest'), 'controllers' => array('payment'), 'actions' => array('catchnotification')),
 			 // not activated member
 			array( //TODO: Functional Test of access rights
-				'deny', 
+				'deny',
 				'roles' => array('interesant','member'),
 				'expression' => $this->_matchModuleExpression(array('member')),
-				'controllers' => array('application'), 
-				'actions' => array('submit'), 
+				'controllers' => array('application'),
+				'actions' => array('submit'),
 			),
 			array(
-				'deny', 
+				'deny',
 				'roles' => array('interesant'),
 				'expression' => $this->_matchModuleExpression(array('member')),
-				'controllers' => array('settings'), 
+				'controllers' => array('settings'),
 				'actions' => array('index'),
 				'verbs' => array('POST')
 			),
 			array(
-				'allow', 
+				'allow',
 				'roles' => array('interesant'),
 				'expression' => $this->_matchModuleExpression(array('member')),
-				'controllers' => array('application','settings','inbox','payment','default'), 
+				'controllers' => array('application','settings','inbox','payment','default'),
 			),
 			array('deny', 'roles' => array('interesant')),
-			
+
 			// allow notifications from external (paypal,authorize)
 
-			
+
 			array('allow', 'roles' => array('customer','member')),
-			
+
 			array('allow', 'actions' => array('delete','view','index','list'), 'roles' => array('expired_customer')),
 			array('deny', 'roles' => array('expired_customer')),
-			
+
 			array('deny',  'users' => array('*')),
 		);
 	}
@@ -63,11 +63,11 @@ class YsaMemberController extends YsaController
 	{
 		$GLOBALS['_x_module'] = $module = isset($this->module) ? $this->module->getName() : false;
 		$GLOBALS['_x_modules'] = $modules;
-		return (version_compare(PHP_VERSION, '5.3.0') >= 0) 
+		return (version_compare(PHP_VERSION, '5.3.0') >= 0)
 					? function() use($module,$modules) { return in_array($module, $modules); }
 					: 'in_array($GLOBALS["_x_module"], $GLOBALS["_x_modules"]);';
 	}
-	
+
 	/**
 	 * @return array action filters
 	 */
@@ -80,25 +80,26 @@ class YsaMemberController extends YsaController
 
 	public $layout='//layouts/member';
 
-	public function beforeAction($action)
+	public function init()
 	{
-		parent::beforeAction($action);
+		parent::init();
 
 		/**
 		 * Load member
 		 */
 		$this->_member = Member::model()->findByPk(Yii::app()->user->getId());
-		if (Yii::app()->controller->module && Yii::app()->controller->module->id == 'member' && Yii::app()->controller->id == 'payment' && $action->id == 'catchnotification')
+		if (Yii::app()->controller->module && Yii::app()->controller->module->id == 'member' && Yii::app()->controller->id == 'payment')
 		{
-			return true;
+			return TRUE;
 		}
-		
+
+
 		if (!$this->_member)
 		{
 			Yii::app()->user->logout();
 			$this->redirect(Yii::app()->homeUrl);
 		}
-		
+
 		if (!$this->_member->isActivated())
 		{
 			$mail_host = substr($this->_member->email, stripos($this->_member->email, '@')+1);
@@ -108,8 +109,6 @@ class YsaMemberController extends YsaController
 		{
 			$this->setStaticNotice('<div class="need-to-subscribe">You have no subscription. <a href="'.Yii::app()->createUrl('/member/subscription/').'">Subscribe now</a></div>');
 		}
-		
-		return true;
 	}
 
 	/**
