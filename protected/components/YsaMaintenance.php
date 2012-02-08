@@ -25,9 +25,19 @@ class YsaMaintenance extends CComponent
             }
         }
     }
+	
+	public function setMessage($msg)
+	{
+		$this->_message = $msg;
+	}
     
     public function getMessage()
     {
         return $this->_message;
     }
+	
+	public function enabled()
+	{
+		return $this->_enabled;
+	}
 }

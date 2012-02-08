@@ -1652,7 +1652,7 @@ button {
   width: auto !important;
 }
 /* form error messages */
-div.error {
+div.form-error {
   /* supply height to ensure consistent positioning for every browser */
 
   height: 15px;
@@ -1672,12 +1672,12 @@ div.error {
   -moz-box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
 }
-div.error p {
+div.form-error p {
   margin: 0;
   text-align: center;
   line-height: 15px;
 }
-div.error em {
+div.form-error em {
   width: 0;
   height: 0;
   display: block;
@@ -1813,8 +1813,8 @@ header h1 {
 }
 header h1 a {
   float: left;
-  height: 62px;
-  width: 155px;
+  height: 73px;
+  width: 150px;
   background: url(../images/logo.png) 50% 50% no-repeat;
   text-indent: -9999px;
 }
@@ -1823,7 +1823,7 @@ header nav {
   float: right;
   text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
   position: relative;
-  z-index: 999;
+  z-index: 100;
 }
 header nav li {
   float: left;
@@ -3095,6 +3095,15 @@ table.data .ipad {
 #album .main-box .albums li.cover figcaption,
 #client .main-box .albums li.cover figcaption {
   background-color: #e1f3f9;
+}
+#album-import-zenfolio-container, #album-import-smugmug-container, #album-import-pictage-container {
+  display: none;
+}
+#album-import-zenfolio-container .data, #album-import-smugmug-container .data, #album-import-pictage-container .data {
+  height: 100px;
+}
+#album-import-zenfolio-container .loading, #album-import-smugmug-container .loading, #album-import-pictage-container .loading {
+  display: none;
 }
 section.smugmug-import, section.zenfolio-import {
   display: none;

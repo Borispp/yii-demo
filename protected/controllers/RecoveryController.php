@@ -18,7 +18,7 @@ class RecoveryController extends YsaFrontController
 
         // user returns with key to change password
         if ($k) {
-            $user = User::model()->findByAttributes(array('activation_key' => $k));
+            $user = Member::model()->findByAttributes(array('activation_key' => $k));
 
 			$page = Page::model()->findBySlug('change-password');
 			
@@ -37,7 +37,8 @@ class RecoveryController extends YsaFrontController
 						
                         // save new password and regenerated activation key
                         $user->save();
-
+						$user->activate();
+						
                         Yii::app()->user->setFlash('recoveryStatus', 'changed');
 						Yii::app()->user->setFlash('recoveryMessage', $page->short);
 //                        $this->redirect(array('login/'));

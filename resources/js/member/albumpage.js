@@ -158,13 +158,15 @@ $(function(){
 				
 				link.parents('form').find('input[type=checkbox]:checked').each(function(){
 					var checkbox = $(this);
-					chain.push($.post(_member_url + '/photo/smugmugImportPhoto', {
+					chain.push($.post(_member_url + '/smugmug/importPhoto', {
 						smugmug:checkbox.val(),
 						album_id:album_id
 					}, function(data){
 						checkbox.attr('checked', false);
 						if (data.success) {
 							album_photos_container.append(data.html);
+						} else {
+							$._flash(data.msg, {type:'error'});
 						}
 					}, 'json'));
 				});
@@ -176,7 +178,7 @@ $(function(){
 					smugmug_import.html('');
 					smugmug_container.find('select').val('');
 					$.uniform.update(); 
-					$._flash('Photos were successfully imported.', {type:'success'});
+					$._flash('Photos have been successfully imported.', {type:'success'});
 				});
 			});
 			
@@ -270,13 +272,15 @@ $(function(){
 				
 				link.parents('form').find('input[type=checkbox]:checked').each(function(){
 					var checkbox = $(this);
-					chain.push($.post(_member_url + '/photo/zenfolioImportPhoto', {
+					chain.push($.post(_member_url + '/zenfolio/importPhoto', {
 						id:checkbox.val(),
 						album_id:album_id
 					}, function(data){
 						checkbox.attr('checked', false);
 						if (data.success) {
 							album_photos_container.append(data.html);
+						} else {
+							$._flash(data.msg, {type:'error'});
 						}
 					}, 'json'));
 				});
