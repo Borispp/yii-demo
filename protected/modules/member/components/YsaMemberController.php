@@ -17,7 +17,8 @@ class YsaMemberController extends YsaController
 	public function accessRules()
 	{
 		return array(
-			
+
+			array('allow', 'roles' => array('guest'), 'controllers' => array('payment'), 'actions' => array('catchnotification')),
 			 // not activated member
 			array( //TODO: Functional Test of access rights
 				'deny', 
@@ -43,7 +44,7 @@ class YsaMemberController extends YsaController
 			array('deny', 'roles' => array('interesant')),
 			
 			// allow notifications from external (paypal,authorize)
-			array('allow', 'roles' => array('guest'), 'controllers' => array('payment'), 'actions' => array('catchNotification')),
+
 			
 			array('allow', 'roles' => array('customer','member')),
 			
@@ -79,15 +80,19 @@ class YsaMemberController extends YsaController
 
 	public $layout='//layouts/member';
 
-	public function init()
+	public function beforeAction($action)
 	{
-		parent::init();
+		parent::beforeAction($action);
 
 		/**
 		 * Load member
 		 */
 		$this->_member = Member::model()->findByPk(Yii::app()->user->getId());
-		
+		if (Yii::app()->controller->module && Yii::app()->controller->module->id == 'member' && Yii::app()->controller->id == 'payment' && $action->id == 'catchnotification')
+		{
+			return;
+		}
+
 		if (!$this->_member)
 		{
 			Yii::app()->user->logout();
