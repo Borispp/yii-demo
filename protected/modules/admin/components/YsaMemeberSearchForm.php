@@ -45,7 +45,8 @@ class YsaMemeberSearchForm extends YsaAdminFormModel
 	
 	static public function stateOptions()
 	{
-		return array(1 => 'Active', 0 => 'Inactive');
+		$member = new Member;
+		return $member->getStates();
 	}
 	
 //	public function rules()

@@ -84,9 +84,9 @@ class AlbumController extends YsaMemberController
 		$availability = new AlbumPhotoAvailability();
 		
 		$availability->can_save =$entry->canSave();
-		$availability->can_order = $entry->canOrder();
+//		$availability->can_order = $entry->canOrder();
+		$availability->can_share = $entry->canShare();
 		$availability->order_link = $entry->order_link;
-		
 		
 		if (isset($_POST['PhotoUploadForm'])) {
 			$upload->photo = CUploadedFile::getInstance($upload, 'photo');
@@ -115,17 +115,26 @@ class AlbumController extends YsaMemberController
 //			$this->refresh();
 //		}
 		
-		if ($this->member()->smugmugAuthorized()) {
-			$this->member()->smugmugSetAccessToken();
+		try {
+			if ($this->member()->smugmugAuthorized()) {
+				$this->member()->smugmugSetAccessToken();
+			}
+		} catch (Exception $e) {
+			$this->setError($e->getMessage());
 		}
 		
-		if ($this->member()->zenfolioAuthorized()) {
-			$this->member()->zenfolioAuthorize();
-			$profile = $this->member()->zenfolio()->LoadPrivateProfile();
-			$hierarchy = $this->member()->zenfolio()->LoadGroupHierarchy($profile['LoginName']);
-			
-			$this->renderVar('zenfolioHierarchy', $hierarchy);
+		try {
+			if ($this->member()->zenfolioAuthorized()) {
+				$this->member()->zenfolioAuthorize();
+				$profile = $this->member()->zenfolio()->LoadPrivateProfile();
+				$hierarchy = $this->member()->zenfolio()->LoadGroupHierarchy($profile['LoginName']);
+
+				$this->renderVar('zenfolioHierarchy', $hierarchy);
+			}
+		} catch (Exception $e) {
+			$this->setError($e->getMessage());
 		}
+
 		
 		$this->loadPlupload(true);
 		
@@ -255,6 +264,7 @@ class AlbumController extends YsaMemberController
 				$entry->can_share = $availability->can_share;
 				$entry->save();
 			}
+			
 			if (Yii::app()->request->isAjaxRequest) {
 				$this->sendJsonSuccess();
 			} else {

@@ -303,22 +303,27 @@ class Member extends User
 	 * Register new member 
 	 * Use this method instead of save
 	 */
-	public function register($confirm_email = true)
+	public function register($confirm_email = true, $subscribe = true)
 	{
 		if( !$this->validate() ) 
 			return false;
 		
-		$this->state = User::STATE_INACTIVE;
+		$this->state = User::STATE_ACTIVE;
 		$this->role = User::ROLE_MEMBER;
+		$this->activated = 0;
 		$this->encryptPassword();
 		$this->generateActivationKey();
 
 		if ( !$this->save(false) )
 			return false;
 
+		// create new Studio
+		$studio = new Studio();
+		$studio->user_id = $this->id;
+		$studio->save();
+		
 		// send confirmation email
-		if ( $confirm_email )
-		{
+		if ($confirm_email) {
 			Email::model()->send(
 				array($this->email, $this->name()), 
 				'member_confirmation', 
@@ -329,12 +334,17 @@ class Member extends User
 				)
 			);
 		}
-
-		// create new Studio
-		$studio = new Studio();
-		$studio->user_id = $this->id;
-		$studio->save();
-
+		
+		$mailchimp = new MCAPI(Yii::app()->settings->get('mailchimp_list_id'));
+		
+		// subscribe to member's list
+		$mailchimp->listSubscribe(Yii::app()->settings->get('mailchimp_member_list_id'), $this->email, array('FNAME' => $this->first_name, 'LNAME' => $this->last_name));
+		
+		// subscribe to mailing list
+		if ($subscribe) {
+			$mailchimp->listSubscribe(Yii::app()->settings->get('mailchimp_list_id'), $this->email, array('FNAME' => $this->first_name, 'LNAME' => $this->last_name));
+		}
+		
 		return true;
 	}
 }

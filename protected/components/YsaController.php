@@ -207,7 +207,7 @@ class YsaController extends CController
 				array('label'=>'Events', 'url'=>array('event/'), 'active' => in_array($c, array('event', 'album', 'photo'))),
 				array('label'=>'Clients', 'url'=>array('client/'), 'active' => $c == 'client'),
 				array('label'=>'Settings', 'url'=>array('settings/'), 'active' => $c == 'settings'),
-				array('label'=>'Logout', 'url'=>array('/logout'), 'visible' => !Yii::app()->user->isGuest),
+				array('label'=>'Logout', 'url'=>array('/logout'), 'visible' => !Yii::app()->user->isGuest, 'itemOptions' => array('class' => 'logout')),
 			);
 		}
 		return $nav;

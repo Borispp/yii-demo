@@ -18,7 +18,29 @@ class YsaMemberController extends YsaController
 	{
 		return array(
 			
-			//TODO: deny submit app for member
+			 // not activated member
+			array( //TODO: Functional Test of access rights
+				'deny', 
+				'roles' => array('interesant','member'),
+				'expression' => $this->_matchModuleExpression(array('member')),
+				'controllers' => array('application'), 
+				'actions' => array('submit'), 
+			),
+			array(
+				'deny', 
+				'roles' => array('interesant'),
+				'expression' => $this->_matchModuleExpression(array('member')),
+				'controllers' => array('settings'), 
+				'actions' => array('index'),
+				'verbs' => array('POST')
+			),
+			array(
+				'allow', 
+				'roles' => array('interesant'),
+				'expression' => $this->_matchModuleExpression(array('member')),
+				'controllers' => array('application','settings','inbox'), 
+			),
+			array('deny', 'roles' => array('interesant')),
 			
 			array('allow', 'roles' => array('customer','member')),
 			
@@ -29,6 +51,19 @@ class YsaMemberController extends YsaController
 		);
 	}
 
+	/**
+	 * @param array $modules
+	 * @return clousure|string expression to be evaluated
+	 */
+	protected function _matchModuleExpression(array $modules)
+	{
+		$GLOBALS['_x_module'] = $module = isset($this->module) ? $this->module->getName() : false;
+		$GLOBALS['_x_modules'] = $modules;
+		return (version_compare(PHP_VERSION, '5.3.0') >= 0) 
+					? function() use($module,$modules) { return in_array($module, $modules); }
+					: 'in_array($GLOBALS["_x_module"], $GLOBALS["_x_modules"]);';
+	}
+	
 	/**
 	 * @return array action filters
 	 */

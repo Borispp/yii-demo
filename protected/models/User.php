@@ -160,7 +160,7 @@ class User extends YsaActiveRecord
 	 */
 	public function isActivated()
 	{
-		return $this->state == self::STATE_INACTIVE;
+		return (bool) $this->activated;
 	}
 	
 	/**
@@ -177,6 +177,9 @@ class User extends YsaActiveRecord
 		return $this->first_name . ' ' . $this->last_name;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getStates()
 	{
 		return array(

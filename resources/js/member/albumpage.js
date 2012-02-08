@@ -292,20 +292,12 @@ $(function(){
 				});
 			});
 			
-			
-			
-			
-			
-			
-			
 			$('#album-order-availability form').ajaxForm({
 				beforeSubmit:function(items, frm){
-					var submit = frm.find('input:submit');
-					submit.val(submit.data('loading')).addClass('disabled');
+					frm.find('input:submit').btnLoading();
 				},
 				success:function(data, success, response, frm){
-					var submit = frm.find('input:submit');
-					submit.val(submit.data('value')).removeClass('disabled');
+					frm.find('input:submit').btnLoaded();
 				}
 			});
 		});

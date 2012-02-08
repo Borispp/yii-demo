@@ -16,7 +16,6 @@
 			</div>
 		</section>
 	</div>
-
 	<div class="homepage-video-wrapper">
 		<section id="homepage-video">
 			<div class="content">
@@ -33,7 +32,6 @@
 			</div>
 		</section>
 	</div>
-	
 	<div class="homepage-social-wrapper">
 		<div id="homepage-social">
 			<span class="image"></span>

@@ -6,6 +6,15 @@ return array(
 		'bizRule' => null,
 		'data' => null
 	),
+		'interesant' => array(
+			'type' => CAuthItem::TYPE_ROLE,
+			'description' => 'Not activated Member',
+			'children' => array(
+				'guest',
+			),
+			'bizRule' => null,
+			'data' => null
+		),
 		'member' => array(
 			'type' => CAuthItem::TYPE_ROLE,
 			'description' => 'New Member',

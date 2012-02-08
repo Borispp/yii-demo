@@ -323,6 +323,10 @@ a.btn{
 				font-size:11px;
 			}
 		}
+		a {
+			color:@gray-golf;
+			text-decoration:underline;
+		}
 		#newsletter-subscribe-form-errors {
 			float:left;
 			width:160px;
@@ -624,7 +628,7 @@ a.btn{
 		background:@gray-india - 5%;
 		border:1px solid @gray-india - 10%;
 		.rounded(8px);
-
+		.text-shadow(rgba(255,255,255, .3));
 		.image {
 			min-height:194px;
 			position:relative;
@@ -632,7 +636,7 @@ a.btn{
 			h2 {
 				text-transform:none;
 				.text-shadow;
-				margin-bottom:40px;
+				margin-bottom:35px;
 			}
 			.app {
 				float:left;
@@ -640,30 +644,34 @@ a.btn{
 				.p {
 					display:block;
 					text-indent:-9999px;
-					height:36px;
+					height:71px;
 					background:url(../images/pricing-price-app.png) 0 0 no-repeat;
-					margin-bottom:40px;
 				}
 			}
 			.host {
 				float:right;
-				width:190px;
+				width:200px;
 				.p {
 					display:block;
 					text-indent:-9999px;
-					height:36px;
+					height:71px;
 					background:url(../images/pricing-price-host.png) 0 0 no-repeat;
-					margin-bottom:40px;
 				}
 			}
 			ul {
 				line-height:1.5;
 				font-size:11px;
 				font-style:italic;
+				li {
+					margin-bottom:.5em;
+					&:last-child {
+						margin-bottom:0;
+					}
+				}
 			}
 			.separator {
 				width:1px;
-				height:194px;
+				height:260px;
 				position:absolute;
 				top:0;
 				left:235px;
@@ -695,6 +703,7 @@ a.btn{
 			margin-bottom:0;
 			font-style:italic;
 			font-size:11px;
+			color:@blue-delta;
 		}
 	}
 }
@@ -702,12 +711,11 @@ a.btn{
 /* FAQ
 *******************************/
 #faq {
-
+	position:relative;
 	.questions {
-		padding:20px 40px;
-		background:@gray-golf;
-		.rounded(4px);
-		margin-bottom:40px;
+		padding:44px 36px;
+		background:@gray-golf url(../images/faq-questions.png) 100% 100% no-repeat;
+		.rounded-top(8px);
 		ul {
 			li {
 				font-size:13px;
@@ -723,6 +731,8 @@ a.btn{
 		}
 	}
 	.answers {
+		padding:44px 36px;
+		position:relative;
 		.answer {
 			position:relative;
 			h3 {
@@ -743,6 +753,18 @@ a.btn{
 			}
 		}
 	}
+
+	a.top {
+		width:46px;
+		height:46px;
+		background:url(../images/top.png) 0 0 no-repeat;
+		text-indent:-9999px;
+		display:block;
+		position:absolute;
+		right:-23px;
+		top:400px;
+	}
+
 /*
 	.questions {
 		.rounded-left(8px);

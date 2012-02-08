@@ -23,7 +23,16 @@ $(function(){
 				e.preventDefault();
 				var link = $(this);
 				$.scrollTo($('#faq-answer-' + link.data('id')), 800);
-			})
+			});
+			
+			
+            var totop = faq.find('a.top');
+            var totop_height = totop.outerHeight();
+            totop.click(function(e){
+                e.preventDefault();
+                $.scrollTo($('#faq-top'), 800);
+            });
+
 			
 //			var answers = faq.find('.answers');
 //			var questions = faq.find('.questions');
@@ -52,13 +61,15 @@ $(function(){
 				position: 'center right', 
 				offset: [0, -500],
 				message: '<div><em/></div>' // em element is the arrow
-			});
-			form.submit(function(e){
+			}).submit(function(e){
 				e.preventDefault();
 				if (!form.data('validator').checkValidity()) {
 					return;
 				}
+				var button = form.find('input:submit');
+				button.btnLoading();
 				$.post(form.attr('action'), form.serialize(), function(data){
+					button.btnLoaded();
 					if (data.success) {
 						var success = $('<div id="newsletter-subscribe-success"></div>').hide().html(data.msg);
 						newsletter.append(success);
@@ -261,4 +272,22 @@ $(function(){
 		});
 	}
 	$('#homepage-slider').initHomepageSlider();
+	
+	
+	$.fn.initHomepageVideo = function(){
+		$(this).each(function(){
+			var video = $(this);
+			
+			video.find('.video a').click(function(e){
+				e.preventDefault();
+				
+				$.fancybox({
+					'href' : _base_url + '/site/loadVideo/',
+					'type' : 'ajax'
+				});
+			});
+		});
+	}
+	$('#homepage-video').initHomepageVideo();
+	
 });
