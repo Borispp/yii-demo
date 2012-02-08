@@ -1854,6 +1854,9 @@ header nav li.active a {
 header nav li.logout a:hover {
   color: #999999;
 }
+header nav li.panel a {
+  color: #000000;
+}
 header nav li.login-visible a {
   background: #ffffff;
   -moz-border-radius-topleft: 4px;
@@ -3383,23 +3386,32 @@ a.btn {
 #tour .tour-box-create a.btn:active {
   top: 85px;
 }
-/* 404 Page
+/* Error Pages
 *******************************/
-#page404 .content {
-  min-height: 500px;
+#page-404 .content, #page-403 .content {
+  height: 140px;
+  padding-top: 360px;
   background: url(../images/404.jpg) 225px 190px no-repeat;
   position: relative;
 }
-#page404 .content p {
-  position: absolute;
-  left: 300px;
-  top: 345px;
+#page-404 .content p, #page-403 .content p {
   font-size: 18px;
   font-weight: normal;
   line-height: 1.4;
   font-style: italic;
   text-shadow: 1px 1px 0px #ffffff;
+  text-align: center;
   color: #616161;
+}
+#page-404 .content .button, #page-403 .content .button {
+  display: block;
+  text-align: center;
+}
+#page-404 .content {
+  background: url(../images/404.jpg) 225px 190px no-repeat;
+}
+#page-403 .content {
+  background: url(../images/403.jpg) 50% 115px no-repeat;
 }
 /* Share image
 *******************************/

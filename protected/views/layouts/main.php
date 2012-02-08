@@ -10,7 +10,7 @@
 	var _base_url = '<?php echo Yii::app()->getBaseUrl(true)?>';
 	var _member_url = '<?php echo Yii::app()->getBaseUrl(true)?>/member';
 </script>
-<title><?php echo CHtml::encode($this->getMetaTitle()); ?></title>
+<title><?php echo YsaHtml::encode($this->getMetaTitle()); ?></title>
 <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
@@ -47,7 +47,12 @@
             <p><?php echo Yii::app()->settings->get('copyright'); ?>&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;site by <a href="http://flosites.com" rel="external">Flosites</a></p>
         </footer>
     </div>
-	
 	<span id="ajax-loader">loading...</span>
+	<?php if (Yii::app()->settings->get('olark')) : ?>
+	    <?php echo Yii::app()->settings->get('olark'); ?>
+	<?php endif; ?>
+	<?php if (Yii::app()->settings->get('google_analytics')) : ?>
+	    <?php echo Yii::app()->settings->get('google_analytics'); ?>
+	<?php endif; ?>
 </body>
 </html>

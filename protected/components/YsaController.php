@@ -195,7 +195,7 @@ class YsaController extends CController
 				array('label'=>'Faq', 'url'=>array('faq/'), 'active' => $c == 'faq'),
 				array('label'=>'Tour', 'url'=>array('tour/'), 'active' => $c == 'tour'),
 				array('label'=>'Pricing', 'url'=>array('pricing/'), 'active' => $c == 'pricing'),
-				array('label'=>'Panel', 'url'=>array('member/'), 'visible' => !Yii::app()->user->isGuest),
+				array('label'=>'Panel', 'url'=>array('member/'), 'visible' => !Yii::app()->user->isGuest, 'itemOptions' => array('class' => 'panel')),
 				array('label'=>'Login', 'url'=>array('/login'), 'visible' => Yii::app()->user->isGuest, 'itemOptions' => array('id' => 'navigation-login-link')),
 				array('label'=>'Logout', 'url'=>array('/logout'), 'visible' => !Yii::app()->user->isGuest),
 			);

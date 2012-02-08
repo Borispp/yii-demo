@@ -1,11 +1,8 @@
-<div class="general-page" id="page404">
+<div class="general-page" id="<?php echo $page->slug?>">
 	<div class="content">
-		
-		
-		<span class="image"></span>
-		<p>
-			<?php echo CHtml::encode($message); ?>
-		</p>
-		
+		<p><?php echo YsaHtml::encode($error['message']); ?></p>
+		<?php if ($errCode == 403) : ?>
+			<span class="button"><?php echo YsaHtml::link('&#8672; Back', YsaHttpRequest::getUrlReferrer() ? YsaHttpRequest::getUrlReferrer() : Yii::app()->homeUrl, array('class' => 'btn blue')); ?></span>
+		<?php endif; ?>
 	</div>
-</div> 
+</div>

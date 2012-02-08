@@ -49,7 +49,17 @@ class SiteController extends YsaFrontController
     {
         $error=Yii::app()->errorHandler->error;
 		
-		$this->setFrontPageTitle('Oops! Something went wrong...');
+		switch($error['code']) {
+			case 403:
+				$errCode = '403';
+				break;
+			case 404:
+			default:
+				$errCode = '404';
+				break;
+		}
+		
+		$page = Page::model()->findBySlug('page-' . $errCode);
 		
         if($error) {
             if(Yii::app()->request->isAjaxRequest) {
@@ -57,8 +67,17 @@ class SiteController extends YsaFrontController
 					'msg' => $error['message'],
 				));
             } else {
-                $this->render('error', $error);
+				
+				$this->setFrontPageTitle($page->short);
+				
+                $this->render('error', array(
+					'error'		=> $error,
+					'page'		=> $page,
+					'errCode'	=> $errCode,
+				));
             }
-        }
+        } else {
+			$this->redirect(Yii::app()->homeUrl);
+		}
     }
 }
