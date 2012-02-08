@@ -80,7 +80,7 @@ class PaymentController extends YsaMemberController
 			'payway'         => $payway,
 			'transaction_id' => $this->_getTransaction()->id
 		));
-		$notifyUrl = 	$this->createAbsoluteUrl('/member/payment/return/', array(
+		$notifyUrl = 	$this->createAbsoluteUrl('/member/payment/catchnotification/', array(
 			'payway'         => $payway,
 			'transaction_id' => $this->_getTransaction()->id
 		));
