@@ -14,6 +14,11 @@ class DefaultController extends YsaAdminController
 		$criteria->limit = 5;
 		$c_messages = ContactMessage::model()->findAll($criteria);
 		
+		$criteria = new CDbCriteria;
+		$criteria->order = 'created DESC';
+		$criteria->limit = 5;
+		$payments = PaymentTransaction::model()->findAll($criteria);
+		
 		$totals = array();
 		$totals[] = array('title'=>'Members', 'count'=> Member::model()->count());
 		$totals[] = array('title'=>'Events', 'count'=> Event::model()->count());
@@ -23,7 +28,8 @@ class DefaultController extends YsaAdminController
 		$this->render('index',array(
 			'applications' => $applications,
 			'c_messages' => $c_messages,
-			'totals' => $totals
+			'totals' => $totals,
+			'payments' => $payments
 		));
 	}
 }
