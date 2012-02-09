@@ -19,7 +19,7 @@
 					
 					<span class="button"><?php echo YsaHtml::link('Change Settings', array('wizard'), array('class' => 'btn')); ?></span>
 				</div>
-				<?php if (!$app->running()):?>
+				<?php if (!$app->running() || $app->isPaid()):?>
 				<div class="shadow-box submit">
 					<h4>Submit your application</h4>
 					<p>Donec lorem nunc, facilisis a adipiscing vel, pulvinar et elit. Nullam nec dolor ut quam venenatis posuere. In at libero vitae urna semper dictum a a augue.</p>
