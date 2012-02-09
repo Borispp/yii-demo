@@ -18,7 +18,6 @@ class YsaMemberController extends YsaController
 	{
 		return array(
 
-			array('allow', 'roles' => array('guest'), 'controllers' => array('payment'), 'actions' => array('catchnotification')),
 			 // not activated member
 			array( //TODO: Functional Test of access rights
 				'deny', 
@@ -43,8 +42,8 @@ class YsaMemberController extends YsaController
 			),
 			array('deny', 'roles' => array('interesant')),
 			
-			// allow notifications from external (paypal,authorize)
-
+			// allow guest notifications from external (paypal,authorize)
+			array('allow', 'roles' => array('guest'), 'controllers' => array('payment'), 'actions' => array('catchNotification')),
 			
 			array('allow', 'roles' => array('customer','member')),
 			
@@ -80,21 +79,21 @@ class YsaMemberController extends YsaController
 
 	public $layout='//layouts/member';
 
-	public function beforeAction($action)
+	public function init()
 	{
-		parent::beforeAction($action);
-
+		parent::init();
+		
 		/**
 		 * Load member
 		 */
-		$this->_member = Member::model()->findByPk(Yii::app()->user->getId());
-		if (Yii::app()->controller->module && Yii::app()->controller->module->id == 'member' && Yii::app()->controller->id == 'payment' && $action->id == 'catchnotification')
-		{
-			return true;
-		}
+		$this->_member = Member::model()->findByPk(Yii::app()->user->getId());		
 		
 		if (!$this->_member)
 		{
+			// ACL allows guest access
+			if (Yii::app()->user->checkAccess('guest'))
+				return true;
+			
 			Yii::app()->user->logout();
 			$this->redirect(Yii::app()->homeUrl);
 		}
