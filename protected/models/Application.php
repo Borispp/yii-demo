@@ -169,22 +169,6 @@ class Application extends YsaActiveRecord
 		));
 	}
 
-	/*
-	protected function beforeSave() 
-	{
-		// set update time equivalent to create time
-		//TODO: make common behavior in YsaActiveRecord
-		if ($this->getIsNewRecord())
-		{
-			$this->created = $date = date(self::FORMAT_DATETIME);
-			$this->updated = $date;
-		}
-		
-		return parent::beforeSave();
-	}
-	 */
-
-
 	public function findByMember($memberId)
 	{
 		return $this->findByAttributes(array(
@@ -477,6 +461,13 @@ class Application extends YsaActiveRecord
 			'1011-10' => 'unapproved',
 			'1010-10' => 'unapproved',
 		);
+		
+		if (!isset($statusDictionary[$this->numStatus()]))
+		{
+			Yii::log('Unknown application status ['.$this->numStatus().']', CLogger::LEVEL_ERROR);
+			return 'unknown';
+		}
+		
 		return $statusDictionary[$this->numStatus()];
 	}
 	
@@ -497,7 +488,7 @@ class Application extends YsaActiveRecord
 		if (!array_key_exists($this->status(), $labelDictionary))
 		{
 			Yii::log('Unknown application status ['.$this->status().']', CLogger::LEVEL_ERROR);
-			return 'Unknown application status';
+			return 'unknown';
 		}
 		
 		return $labelDictionary[$this->status()];
