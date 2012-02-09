@@ -123,10 +123,6 @@ class ApplicationController extends YsaMemberController
 		if (!$app) {
 			$this->redirect(array('application/create'));
 		}
-		if (!$app->isPaid())
-		{
-			$this->redirect(array('view'));
-		}
 		if ($app->filled()) {
 			$app->submit();
 			$app->lock();
@@ -149,8 +145,22 @@ class ApplicationController extends YsaMemberController
 		} else {
 			$this->redirect(array('view'));
 		}
+	}
 
-
+	public function actionAgreement()
+	{
+		$app = $this->member()->application;
+		if (!$app) {
+			$this->redirect(array('application/create'));
+		}
+		if (!$app->filled())
+		{
+			$this->redirect(array('view'));
+		}
+		$page = Page::model()->findBySlug('terms-and-conditions');
+		$this->render('agreement', array(
+			'page'	=> $page
+		));
 	}
 
 	public function actionUpload($image)

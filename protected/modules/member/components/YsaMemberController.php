@@ -20,6 +20,7 @@ class YsaMemberController extends YsaController
 		
 		return array(
 
+			/* deny application submit
 			array(
 				'deny', 
 				'roles' => array('interesant','member'),
@@ -27,6 +28,7 @@ class YsaMemberController extends YsaController
 				'controllers' => array('application'), 
 				'actions' => array('submit'), 
 			),
+			 */
 			array(
 				'deny', 
 				'roles' => array('interesant'),
