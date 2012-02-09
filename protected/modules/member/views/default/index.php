@@ -66,7 +66,7 @@
 					<?php if (count($this->member()->events)) : ?>
 						<?php echo YsaHtml::link('View All', array('event/'), array('class' => 'btn small')); ?>
 					<?php endif;?>
-					<?php echo YsaHtml::link('Create New Event', array('event/add/'), array('class' => 'btn small')); ?>
+					<?php echo YsaHtml::link('Create New Event', array('event/create/'), array('class' => 'btn small')); ?>
 				</div>
 			</div>
 		</section>

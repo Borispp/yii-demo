@@ -58,10 +58,15 @@ class Member extends User
 	 */
 	public function hasSubscription()
 	{
+		// temporarly force subscription
+		return true;
+		
+		/*
 		foreach($this->UserSubscription as $obUserSubscription)
 			if ($obUserSubscription->isActive())
 				return TRUE;
 		return FALSE;
+		 */
 	}
 
 	public function getLastPaidSubscriptionDate()
@@ -352,5 +357,29 @@ class Member extends User
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * Upgrade Member to Customer
+	 *
+	 * @return boolean state of performed action
+	 */
+	public function upgradeToCustomer()
+	{
+		$transaction = Yii::app()->db->beginTransaction();
+		try
+		{
+			$this->activate();
+			$this->role = 'customer';
+			$this->save(false);
+			$transaction->commit();
+			return true;
+		}
+		catch ( CException $e )
+		{
+			$transaction->rollBack();
+			Yii::log($e->getMessage(), CLogger::LEVEL_ERROR, 'member');
+			return false;
+		}
 	}
 }
