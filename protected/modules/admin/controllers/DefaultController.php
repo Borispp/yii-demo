@@ -22,6 +22,9 @@ class DefaultController extends YsaAdminController
 		$totals = array();
 		$totals[] = array('title'=>'Members', 'count'=> Member::model()->count());
 		$totals[] = array('title'=>'Events', 'count'=> Event::model()->count());
+		$totals[] = array('title'=>'Albums', 'count'=> EventAlbum::model()->count());
+		$totals[] = array('title'=>'Photos', 'count'=> EventPhoto::model()->count());
+		$totals[] = array('title'=>'Clients', 'count'=> Client::model()->count());
 		
 		$this->setContentTitle('Dashboard');
 //		$this->setContentDescription('view all applications.');
