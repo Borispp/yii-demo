@@ -46,7 +46,7 @@ class StudioMessage extends YsaActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('message, client_id, user_id, name, email, subject, phone', 'required'),
+			array('message, client_id, user_id, name, email, subject', 'required'),
 			array('user_id, client_id, unread', 'numerical', 'integerOnly'=>true),
 			array('name, email, subject', 'length', 'max'=>200),
 			array('device_id, phone', 'length', 'max'=>50),
@@ -197,5 +197,16 @@ class StudioMessage extends YsaActiveRecord
 		}
 
 		return $criteria;
+	}
+
+	public function afterSave()
+	{
+		$this->user->notify(Yii::t('api', 'new_mail_from_ipad', array(
+			'{client}' => $this->name,
+			'{link}'   => YsaHtml::link(
+				Yii::app()->createAbsoluteUrl('member/inbox/view/'.$this->id),
+				Yii::app()->createAbsoluteUrl('member/inbox/view/'.$this->id))
+		)));
+		return parent::afterSave();
 	}
 }
