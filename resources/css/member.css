@@ -1884,7 +1884,7 @@ header nav li.login-visible a {
   border-radius: 4px 0 4px 4px;
   background: #ffffff;
   display: none;
-  z-index: 888;
+  z-index: 99;
   border: 1px solid #e0e0e0;
 }
 #login-window .rows {
@@ -2064,6 +2064,9 @@ div.flash.app {
 div.flash a {
   color: #333333;
   text-decoration: underline;
+}
+#static-notifications {
+  display: none;
 }
 div.static-flash {
   margin-bottom: 24px;
@@ -2562,9 +2565,9 @@ section.box .box-title {
   -webkit-border-radius: 3px 3px 0px 0px;
   border-radius: 3px 3px 0px 0px;
   background: #ffffff;
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #f6f6f6), color-stop(1, #ffffff));
-  background: -ms-linear-gradient(bottom, #f6f6f6, #ffffff);
-  background: -moz-linear-gradient(center bottom, #f6f6f6 0%, #ffffff 100%);
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #f9f9f9), color-stop(1, #ffffff));
+  background: -ms-linear-gradient(bottom, #f9f9f9, #ffffff);
+  background: -moz-linear-gradient(center bottom, #f9f9f9 0%, #ffffff 100%);
   text-shadow: 1px 1px 0px #ffffff;
 }
 section.box .box-title .box-title-button {
@@ -2587,6 +2590,33 @@ section.box .box-title .box-icon {
   position: relative;
   float: left;
   margin: 12px 12px 0 0;
+}
+section.box .box-title .box-help {
+  float: left;
+  margin: 11px 0 0 11px;
+  border: 2px solid #02b5f5;
+  color: #02b5f5;
+  font-weight: bold;
+  height: 16px;
+  width: 16px;
+  line-height: 16px;
+  text-align: center;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  position: relative;
+}
+section.box .box-title .box-help:hover {
+  color: #5e646e;
+  border-color: #5e646e;
+}
+section.box .box-title .box-help:active {
+  top: 1px;
+  color: #3a3a3a;
+  border-color: #3a3a3a;
 }
 section.box .box-content {
   padding: 20px;
@@ -3489,6 +3519,11 @@ section.smugmug-import .import li span, section.zenfolio-import .import li span 
   text-transform: uppercase;
   display: block;
 }
+#wizard-accordion .step section label.title a.help {
+  font-size: 10px;
+  text-align: center;
+  color: #02b5f5;
+}
 #wizard-accordion .step .save {
   clear: both;
   text-align: right;
@@ -3506,7 +3541,7 @@ section.smugmug-import .import li span, section.zenfolio-import .import li span 
   top: 3px;
 }
 /****  style selector****/
-#wizard-accordion .step section.style a {
+#wizard-accordion .step section.style a.styl {
   height: 24px;
   font-size: 10px;
   font-weight: 700;
@@ -3523,10 +3558,10 @@ section.smugmug-import .import li span, section.zenfolio-import .import li span 
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-#wizard-accordion .step section.style a:hover {
+#wizard-accordion .step section.style a.styl:hover {
   border-color: #d0d0d0;
 }
-#wizard-accordion .step section.style a.selected {
+#wizard-accordion .step section.style a.styl.selected {
   border-color: #02b7f2;
 }
 #wizard-accordion .step section.style a.dark {

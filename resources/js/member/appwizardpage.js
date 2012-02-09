@@ -1,6 +1,4 @@
 $(function(){
-	
-	
 	$.fn.ysaAccordion = function(_settings){
 		
 		var settings = $.extend({
@@ -192,8 +190,12 @@ $(function(){
 				}
 			});
 			
+			page.find('a.fancybox').fancybox({
+				
+			});
+			
 			// style selector
-			$('#logo-step-form .style a').click(function(e){
+			$('#logo-step-form .style a.styl').click(function(e){
 				e.preventDefault()
 				var link = $(this);
 				var input = link.siblings('input[type=hidden]');

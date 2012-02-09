@@ -2,6 +2,9 @@
 	<section class="box">
 		<div class="box-title">
 			<h3>General Information</h3>
+			<?php if ($entry->help('general')) : ?>
+				<a href="<?php echo $entry->help('general');?>" class="box-help fancybox">?</a>
+			<?php endif; ?>
 		</div>
 		<div class="box-content">
 			<?php $this->renderPartial('_form', array(
@@ -13,6 +16,9 @@
 	<section class="box">
 		<div class="box-title">
 			<h3>Contact Information</h3>
+			<?php if ($entry->help('contact')) : ?>
+				<a href="<?php echo $entry->help('contact');?>" class="box-help fancybox">?</a>
+			<?php endif; ?>
 		</div>
 		<div class="box-content">
 			<div class="shadow-box" id="studio-contacts">
@@ -26,6 +32,9 @@
 	<section class="box">
 		<div class="box-title">
 			<h3>Specials</h3>
+			<?php if ($entry->help('specials')) : ?>
+				<a href="<?php echo $entry->help('specials');?>" class="box-help fancybox">?</a>
+			<?php endif; ?>
 		</div>
 		<div class="box-content">
 			<div class="shadow-box" id="studio-specials">
@@ -39,6 +48,9 @@
 	<section class="box" id="studio-photographer-info">
 		<div class="box-title">
 			<h3>Studio Photographers</h3>
+			<?php if ($entry->help('shooters')) : ?>
+				<a href="<?php echo $entry->help('shooters');?>" class="box-help fancybox">?</a>
+			<?php endif; ?>
 			<div class="box-title-button">
 				<?php echo YsaHtml::link('<span class="icon i_round_plus"></span>Add Photographer', array('person/add'), array('class' => 'secondary iconed fancybox.ajax', 'id' => 'studio-person-add-button')); ?>
 			</div>
@@ -63,6 +75,9 @@
 	<section class="box" id="studio-icon-links">
 		<div class="box-title">
 			<h3>Custom Links</h3>
+			<?php if ($entry->help('custom')) : ?>
+				<a href="<?php echo $entry->help('custom');?>" class="box-help fancybox">?</a>
+			<?php endif; ?>
 			<?php if (count($entry->customLinks) < 2) : ?>
 				<div class="box-title-button">
 					<?php echo YsaHtml::link('<span class="icon i_round_plus"></span>Add Custom Link', array('link/addCustom'), array('class' => 'secondary iconed fancybox.ajax', 'id' => 'studio-link-custom-add-button')); ?>
@@ -90,6 +105,9 @@
 	<section class="box" id="studio-bookmark-links">
 		<div class="box-title">
 			<h3>Bookmarks</h3>
+			<?php if ($entry->help('bookmarks')) : ?>
+				<a href="<?php echo $entry->help('bookmarks');?>" class="box-help fancybox">?</a>
+			<?php endif; ?>
 			<div class="box-title-button">
 				<?php echo YsaHtml::link('<span class="icon i_round_plus"></span>Add Bookmark', array('link/addBookmark'), array('class' => 'secondary iconed fancybox.ajax', 'id' => 'studio-link-bookmark-add-button')); ?>
 			</div>			
@@ -114,6 +132,9 @@
 	<section class="box">
 		<div class="box-title">
 			<h3>Video</h3>
+			<?php if ($entry->help('video')) : ?>
+				<a href="<?php echo $entry->help('video');?>" class="box-help fancybox">?</a>
+			<?php endif; ?>
 		</div>
 		<div class="box-content">
 			<div class="shadow-box">

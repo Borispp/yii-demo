@@ -68,8 +68,18 @@ class StudioLink extends YsaActiveRecord
 			array('icon, type', 'safe'),
 			array('studio_id, rank', 'numerical', 'integerOnly'=>true),
 			array('name, url', 'length', 'max'=>100),
+			array('name', 'validateLink'),
 			array('created, updated', 'safe'),
 		);
+	}
+	
+	public function validateLink($field)
+	{
+		if ($this->type == self::TYPE_CUSTOM) {
+			if (strlen($this->{$field}) > 10) {
+				$this->addError($field, 'Custom Link label cannot be more that 10 symbols.');
+			}
+		}
 	}
 
 	/**

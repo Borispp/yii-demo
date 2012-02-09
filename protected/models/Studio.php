@@ -35,6 +35,16 @@ class Studio extends YsaActiveRecord
 	
 	const VIDEO_VIMEO = 'vimeo';
 	
+	protected $_help = array(
+		'general'	=> 'general.jpg',
+		'contact'	=> 'contact.jpg',
+		'specials'	=> 'specials.jpg',
+		'shooters'	=> 'shooters.jpg',
+		'custom'	=> 'custom.jpg',
+		'bookmarks' => 'bookmarks.jpg',
+		'video'		=> 'video.jpg',
+	);
+	
     public function init() {
         parent::init();
         
@@ -260,5 +270,10 @@ class Studio extends YsaActiveRecord
 	public function contact()
 	{
 		return YsaHelpers::isSerialized($this->contact) ? unserialize($this->contact) : $this->contact;
+	}
+	
+	public function help($field)
+	{
+		return isset($this->_help[$field]) ? Yii::app()->baseUrl . '/resources/images/help/studio/' . $this->_help[$field] : null;
 	}
 }

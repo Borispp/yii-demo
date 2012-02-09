@@ -7,13 +7,18 @@ class YsaCTimestampBehavior extends CTimestampBehavior
 	*
 	* @param CModelEvent $event event parameter
 	*/
-	public function beforeSave($event) {
+	public function beforeSave($event) 
+	{
 		if ($this->getOwner()->getIsNewRecord() && ($this->createAttribute !== null))
 		{
 			if ($this->_hasCreateAttribute())
 				$this->getOwner()->{$this->createAttribute} = $this->getTimestampByAttribute($this->createAttribute);
+			if ($this->_hasUpdateAttribute())
+				$this->getOwner()->{$this->updateAttribute} = $this->getTimestampByAttribute($this->updateAttribute);
 		}
-		if ((!$this->getOwner()->getIsNewRecord() || $this->setUpdateOnCreate) && ($this->updateAttribute !== null)) {
+		
+		if ((!$this->getOwner()->getIsNewRecord() || $this->setUpdateOnCreate) && ($this->updateAttribute !== null)) 
+		{
 			if ($this->_hasUpdateAttribute())
 				$this->getOwner()->{$this->updateAttribute} = $this->getTimestampByAttribute($this->updateAttribute);
 		}

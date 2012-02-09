@@ -10,7 +10,7 @@
 	<div class="color">
 		<div class="value">
 			<div class="color-selector">
-				<?php echo $form->textField($model, $colorName, array('class' => 'colors', 'readonly' => true)); ?>
+				<?php echo $form->textField($model, $colorName, array('class' => 'colors')); ?>
 				<?php echo $form->error($model, $colorName); ?>
 			</div>
 		</div>

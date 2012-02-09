@@ -31,7 +31,7 @@
 				<div class="shadow-box submit">
 					<h4>Pay for your application</h4>
 					<p>You have 2 weeks to pay for you approved and running application. After that period it will be removed from appstore.</p>
-					<span class="button"><?php echo YsaHtml::link('Make payment', array('pay'), array('class' => 'btn blue')); ?></span>
+					<span class="button"><?php echo YsaHtml::link('Purchase App', array('pay'), array('class' => 'btn blue')); ?></span>
 				</div>
 				<?php endif?>
 				<?php if ($app->hasSupport()) : ?>

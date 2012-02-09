@@ -4,7 +4,12 @@
 )); ?>
 
 <section class="part group studio-bg shadow-box" id="wizard-box-studio_bg">
-	<label class="title">Studio Background</label>
+		<label class="title cf">
+			<span><?php echo Yii::t('general', 'Studio Background'); ?>&nbsp;&nbsp;</span>
+			<?php if ($model->help('studio')) : ?>
+				<a href="<?php echo $model->help('studio') ?>" class="help fancybox" title="<?php echo Yii::t('general', 'Studio Background'); ?>">?</a>
+			<?php endif; ?>
+		</label>
 	<?php
 		$this->renderPartial('/wizard/_selector', array(
 			'radioName' => 'studio_bg',
@@ -19,7 +24,12 @@
 </section>
 
 <section class="part group generic-bg shadow-box" id="wizard-box-generic_bg">
-	<label class="title">Generic Background</label>
+		<label class="title cf">
+			<span><?php echo Yii::t('general', 'Generic Background'); ?>&nbsp;&nbsp;</span>
+			<?php if ($model->help('generic')) : ?>
+				<a href="<?php echo $model->help('generic') ?>" class="help fancybox" title="<?php echo Yii::t('general', 'Generic Background'); ?>">?</a>
+			<?php endif; ?>
+		</label>
 	<?php
 		$this->renderPartial('/wizard/_selector', array(
 			'radioName' => 'generic_bg',

@@ -76,8 +76,8 @@
 					<div class="data">
 						<select name="album" id="smugmug-album-id">
 							<option value="">&ndash;&ndash;&ndash;</option>
-							<?php foreach ($this->member()->smugmug()->albums_get() as $album) : ?>
-								<option value="<?php echo $album['id']; ?>|<?php echo $album['Key']; ?>"><?php echo $album['Title']; ?></option>
+							<?php foreach ($this->member()->smugmug()->albums_get('Extras=ImageCount') as $album) : ?>
+								<option value="<?php echo $album['id']; ?>|<?php echo $album['Key']; ?>"><?php echo $album['Title']; ?> (<?php echo $album['ImageCount']?>)</option>
 							<?php endforeach; ?>
 						</select>
 						<input type="button" value="Import Album" />
@@ -97,7 +97,7 @@
 						<select name="album" id="zenfolio-album-id">
 							<option value="">&ndash;&ndash;&ndash;</option>
 							<?php foreach ($zenfolioHierarchy['Elements'] as $element) : ?>
-								<option value="<?php echo $element['Id']; ?>"><?php echo $element['Title']; ?></option>
+								<option value="<?php echo $element['Id']; ?>"><?php echo $element['Title']; ?> (<?php echo $element['PhotoCount']?>)</option>
 							<?php endforeach; ?>
 						</select>
 						<input type="button" value="Import Album" />

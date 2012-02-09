@@ -1882,7 +1882,7 @@ header nav li.login-visible a {
   border-radius: 4px 0 4px 4px;
   background: #ffffff;
   display: none;
-  z-index: 888;
+  z-index: 99;
   border: 1px solid #e0e0e0;
 }
 #login-window .rows {
@@ -2062,6 +2062,9 @@ div.flash.app {
 div.flash a {
   color: #333333;
   text-decoration: underline;
+}
+#static-notifications {
+  display: none;
 }
 div.static-flash {
   margin-bottom: 24px;
@@ -3224,23 +3227,49 @@ a.btn {
 }
 #tour .tour-box-app {
   height: 405px;
-  background: url(../images/tour/bg-app.jpg) 66px 66px no-repeat;
+  background: url(../images/tour/bg-app.jpg) 510px 66px no-repeat;
 }
 #tour .tour-box-app h2 {
-  left: 74px;
-  top: 104px;
+  right: 80px;
+  top: 100px;
+  text-align: right;
+}
+#tour .tour-box-app h2 span {
+  text-align: right;
 }
 #tour .tour-box-app .story {
-  left: 74px;
+  right: 80px;
   top: 230px;
-  width: 360px;
+  width: 365px;
+}
+#tour .tour-box-app .story p {
+  text-align: right;
 }
 #tour .tour-box-app .image {
   width: 479px;
   height: 359px;
   background: url(../images/tour/image-app.png) 0 0 no-repeat;
-  right: 40px;
+  left: -32px;
   top: 40px;
+}
+#tour .tour-box-interactive {
+  height: 440px;
+}
+#tour .tour-box-interactive h2 {
+  left: 74px;
+  top: 80px;
+}
+#tour .tour-box-interactive .story {
+  left: 74px;
+  top: 190px;
+  width: 360px;
+}
+#tour .tour-box-interactive .image {
+  width: 464px;
+  height: 428px;
+  background: url(../images/tour/image-interactive.png) 0 0 no-repeat;
+  right: 40px;
+  top: 30px;
 }
 #tour .tour-box-events {
   height: 432px;
@@ -3290,12 +3319,12 @@ a.btn {
   bottom: 9px;
 }
 #tour .tour-box-push {
-  height: 462px;
+  height: 400px;
   background: url(../images/tour/bg-push.jpg) 440px 68px no-repeat;
 }
 #tour .tour-box-push h2 {
   right: 80px;
-  top: 125px;
+  top: 50px;
   text-align: right;
 }
 #tour .tour-box-push h2 span {
@@ -3303,63 +3332,62 @@ a.btn {
 }
 #tour .tour-box-push .story {
   right: 80px;
-  top: 245px;
+  top: 155px;
   width: 365px;
 }
 #tour .tour-box-push .story p {
   text-align: right;
 }
 #tour .tour-box-push .image {
-  width: 504px;
-  height: 460px;
+  width: 426px;
+  height: 316px;
   background: url(../images/tour/image-push.png) 0 0 no-repeat;
-  left: 40px;
-  bottom: 9px;
+  left: 0;
+  top: 30px;
+}
+#tour .tour-box-workflow {
+  height: 390px;
+}
+#tour .tour-box-workflow h2 {
+  left: 74px;
+  top: 65px;
+}
+#tour .tour-box-workflow .story {
+  left: 74px;
+  top: 180px;
+  width: 360px;
+}
+#tour .tour-box-workflow .image {
+  width: 356px;
+  height: 290px;
+  background: url(../images/tour/image-workflow.png) 0 0 no-repeat;
+  right: 90px;
+  top: 30px;
 }
 #tour .tour-box-web {
-  height: 429px;
+  height: 410px;
 }
 #tour .tour-box-web h2 {
-  left: 74px;
-  top: 104px;
+  right: 80px;
+  top: 90px;
+  text-align: right;
+}
+#tour .tour-box-web h2 span {
+  text-align: right;
 }
 #tour .tour-box-web .story {
-  left: 74px;
-  top: 205px;
-  width: 360px;
+  right: 80px;
+  top: 190px;
+  width: 365px;
+}
+#tour .tour-box-web .story p {
+  text-align: right;
 }
 #tour .tour-box-web .image {
   width: 535px;
   height: 382px;
   background: url(../images/tour/image-web.png) 0 0 no-repeat;
-  right: 0;
-  bottom: 9px;
-}
-#tour .tour-box-workflow {
-  height: 446px;
-  background: url(../images/tour/bg-workflow.jpg) 66px 66px no-repeat;
-}
-#tour .tour-box-workflow h2 {
-  right: 80px;
-  top: 125px;
-  text-align: right;
-}
-#tour .tour-box-workflow h2 span {
-  text-align: right;
-}
-#tour .tour-box-workflow .story {
-  right: 80px;
-  top: 245px;
-  width: 365px;
-}
-#tour .tour-box-workflow .story p {
-  text-align: right;
-}
-#tour .tour-box-workflow .image {
-  width: 469px;
-  height: 391px;
-  background: url(../images/tour/image-workflow.png) 0 0 no-repeat;
-  left: 40px;
+  left: 0;
   bottom: 9px;
 }
 #tour .tour-box-create {
