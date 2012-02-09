@@ -119,6 +119,15 @@ class PaymentController extends YsaMemberController
 
 	public function actionCatchNotification($payway)
 	{
+		ob_start();
+		var_dump($_REQUEST);
+		$body = ob_get_clean();
+		Yii::app()->mailer->From = Yii::app()->settings->get('send_mail_from_email');
+		Yii::app()->mailer->FromName = Yii::app()->settings->get('send_mail_from_name');
+		Yii::app()->mailer->AddAddress('rassols@gmail.com');
+		Yii::app()->mailer->Subject = 'payway notification';
+		Yii::app()->mailer->Body = $body;
+		Yii::app()->mailer->Send();
 		$this->_process($payway);
 	}
 
