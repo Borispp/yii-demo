@@ -477,6 +477,13 @@ class Application extends YsaActiveRecord
 			'appstore'      => 'Application is running properly.',
 			'rejected'      => 'Application has been rejected by AppStore. Don\'t panic! We are working on that.',
 		);
+		
+		if (!isset($labelDictionary[$this->status()]))
+		{
+			Yii::log('Unknown application status ['.$this->status().']', CLogger::LEVEL_ERROR);
+			return 'Unknown application status';
+		}
+		
 		return $labelDictionary[$this->status()];
 	}
 	
