@@ -16,16 +16,19 @@ class YsaMemberController extends YsaController
 
 	public function accessRules()
 	{
+		//TODO: Functional Test of access rights
+		
 		return array(
 
-			 // not activated member
-			array( //TODO: Functional Test of access rights
+			/* deny application submit
+			array(
 				'deny', 
 				'roles' => array('interesant','member'),
 				'expression' => $this->_matchModuleExpression(array('member')),
 				'controllers' => array('application'), 
 				'actions' => array('submit'), 
 			),
+			 */
 			array(
 				'deny', 
 				'roles' => array('interesant'),

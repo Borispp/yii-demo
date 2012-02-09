@@ -4,7 +4,7 @@
  */
 class YsaApiController extends YsaController
 {
-		/**
+	/**
 	 * @var EventAlbum
 	 */
 	protected $_obEventAlbum = NULL;
@@ -188,7 +188,7 @@ class YsaApiController extends YsaController
 		$this->_renderError('Action parameter is required');
 	}
 
-		/**
+	/**
 	 * @return Event
 	 */
 	protected function _getEvent()
@@ -239,6 +239,38 @@ class YsaApiController extends YsaController
 
 
 	/**
+	 * @param EventAlbum $obPhoto
+	 * @return array
+	 */
+	protected function _getEventAlbumInfo(EventAlbum $album)
+	{
+		$sizes = array();
+		if ($album->canOrder() && $album->size())
+		{
+			foreach($album->sizes as $size)
+				$sizes[$size->title] = array(
+					'height'	=> $size->height,
+					'width'		=> $size->width,
+				);
+		}
+		return array(
+			'name'				=> $album->name,
+			'date'				=> $album->shooting_date,
+			'place'				=> $album->place,
+			'album_id'			=> $album->id,
+			'preview'			=> $album->previewUrl(),
+			'number_of_photos'	=> count($album->photos),
+			'filesize'			=> $album->size(),
+			'checksum'			=> $album->getChecksum(),
+			'can_order'			=> $album->canOrder(),
+			'can_share'			=> $album->canShare(),
+			'can_save'			=> $album->canSave(),
+			'order_link'		=> $album->order_link,
+			'sizes'				=> $sizes
+		);
+	}
+
+	/**
 	 * @param EventPhoto $obPhoto
 	 * @return array
 	 */
@@ -283,7 +315,7 @@ class YsaApiController extends YsaController
 			'share_link'	=> $obPhoto->shareUrl()
 		);
 	}
-	
+
 	/**
 	 * Validates vars and checks token match
 	 * @return ClientAuth
@@ -304,10 +336,10 @@ class YsaApiController extends YsaController
 				)
 			)
 		);
-		
+
 		if ($obClientAuth = ClientAuth::model()->authByToken($_POST['token'], $_POST['app_key'], $_POST['device_id']))
 			return $obClientAuth->client;
-		
+
 		$this->_renderError(Yii::t('api', 'client_token_auth_failed'));
 	}
 }

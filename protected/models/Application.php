@@ -451,16 +451,23 @@ class Application extends YsaActiveRecord
 		$statusDictionary = array(
 			'000000'  => 'newly-created',
 			'100000'  => 'filled',
-			'110000'  => 'paid',
-			'111000'  => 'submitted',
-			'111100'  => 'locked',
-			'111110'  => 'approved',
-			'111111'  => 'appstore',
-			'111112'  => 'running',
-			'11111-1' => 'rejected',
-			'1111-10' => 'unapproved',
-			'1110-10' => 'unapproved',
+			'101000'  => 'submitted',
+			'101100'  => 'locked',
+			'101110'  => 'approved',
+			'101111'  => 'appstore',
+			'101112'  => 'running',
+			'111112'  => 'paid',
+			'10111-1' => 'rejected',
+			'1011-10' => 'unapproved',
+			'1010-10' => 'unapproved',
 		);
+		
+		if (!isset($statusDictionary[$this->numStatus()]))
+		{
+			Yii::log('Unknown application status ['.$this->numStatus().']', CLogger::LEVEL_ERROR);
+			return 'unknown';
+		}
+		
 		return $statusDictionary[$this->numStatus()];
 	}
 	
@@ -474,9 +481,16 @@ class Application extends YsaActiveRecord
 			'locked'        => 'Application has been locked to pervert requred fields changes.',
 			'approved'      => 'Application has been successfully approved by moderators.',
 			'appstore'      => 'Application has been successfully sent to AppStore.',
-			'appstore'      => 'Application is running properly.',
+			'running'      => 'Application is running properly.',
 			'rejected'      => 'Application has been rejected by AppStore. Don\'t panic! We are working on that.',
 		);
+		
+		if (!array_key_exists($this->status(), $labelDictionary))
+		{
+			Yii::log('Unknown application status ['.$this->status().']', CLogger::LEVEL_ERROR);
+			return 'unknown';
+		}
+		
 		return $labelDictionary[$this->status()];
 	}
 	

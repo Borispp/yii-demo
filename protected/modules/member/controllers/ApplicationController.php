@@ -25,10 +25,7 @@ class ApplicationController extends YsaMemberController
 
 		//$this->member()->simpleNotify("Here's my message. I would like to add some rows.<br/>Here's another one.<br/>And another one. A <a href='link'>link here</a>.", "Test member notification");
 		// new member -> redirect to application creation
-		if (null === $app) {
-		}
-
-		if (!$app->filled()) {
+		if (null === $app or !$app->filled()) {
 			$this->redirect(array('application/wizard/'));
 		}
 
@@ -126,10 +123,6 @@ class ApplicationController extends YsaMemberController
 		if (!$app) {
 			$this->redirect(array('application/create'));
 		}
-		if (!$app->isPaid())
-		{
-			$this->redirect(array('view'));
-		}
 		if ($app->filled()) {
 			$app->submit();
 			$app->lock();
@@ -152,8 +145,22 @@ class ApplicationController extends YsaMemberController
 		} else {
 			$this->redirect(array('view'));
 		}
+	}
 
-
+	public function actionAgreement()
+	{
+		$app = $this->member()->application;
+		if (!$app) {
+			$this->redirect(array('application/create'));
+		}
+		if (!$app->filled())
+		{
+			$this->redirect(array('view'));
+		}
+		$page = Page::model()->findBySlug('terms-and-conditions');
+		$this->render('agreement', array(
+			'page'	=> $page
+		));
 	}
 
 	public function actionUpload($image)

@@ -156,29 +156,7 @@ class StudioController extends YsaApiController
 		{
 			if (!$obEventAlbum->isActive())
 				continue;
-			$sizes = array();
-			if ($obEventAlbum->canOrder() && $obEventAlbum->size())
-			{
-				foreach($obEventAlbum->sizes as $obSize)
-					$sizes[$obSize->title] = array(
-						'height'	=> $obSize->height,
-						'width'		=> $obSize->width,
-					);
-			}
-			$params['albums'][] = array(
-				'name'				=> $obEventAlbum->name,
-				'date'				=> $obEventAlbum->shooting_date,
-				'place'				=> $obEventAlbum->place,
-				'album_id'			=> $obEventAlbum->id,
-				'preview'			=> $obEventAlbum->previewUrl(),
-				'number_of_photos'	=> count($obEventAlbum->photos),
-				'filesize'			=> $obEventAlbum->size(),
-				'checksum'			=> $obEventAlbum->getChecksum(),
-				'can_order'			=> $obEventAlbum->canOrder(),
-				'can_share'			=> $obEventAlbum->canShare(),
-				'order_link'		=> $obEventAlbum->order_link,
-				'sizes'				=> $sizes
-			);
+			$params['albums'][] = $this->_getEventAlbumInfo($obEventAlbum);
 		}
 		$this->_render($params);
 	}
