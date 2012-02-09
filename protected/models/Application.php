@@ -169,22 +169,6 @@ class Application extends YsaActiveRecord
 		));
 	}
 
-	/*
-	protected function beforeSave() 
-	{
-		// set update time equivalent to create time
-		//TODO: make common behavior in YsaActiveRecord
-		if ($this->getIsNewRecord())
-		{
-			$this->created = $date = date(self::FORMAT_DATETIME);
-			$this->updated = $date;
-		}
-		
-		return parent::beforeSave();
-	}
-	 */
-
-
 	public function findByMember($memberId)
 	{
 		return $this->findByAttributes(array(

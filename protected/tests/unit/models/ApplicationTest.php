@@ -6,6 +6,10 @@ class ApplicationTest extends CDbTestCase
         'users' => 'Member',
     );
 	
+	/**
+	 * This behavior is extended from YsaActiveRecord 
+	 * @see YsaCTimestampBehavior
+	 */
 	public function testUpdateTimeIsEquivalentToCreateTimeOnInsert()
 	{
 		$app = new Application;
