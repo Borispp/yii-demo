@@ -7,14 +7,26 @@
 		<?php if (!$model->style) {
 			$model->style = $model->defaultStyle();
 		 }?>
-		<?php echo $form->labelEx($model, 'style', array('class' => 'title')); ?>
+		
+		<label class="title cf">
+			<span><?php echo Yii::t('general', 'Style'); ?>&nbsp;&nbsp;</span>
+			<?php if ($model->help('style')) : ?>
+				<a href="<?php echo $model->help('style') ?>" class="help fancybox" title="<?php echo Yii::t('general', 'Style'); ?>">?</a>
+			<?php endif; ?>
+		</label>
+		
 		<?php foreach ($model->getStylesList() as $kStyle => $style) : ?>
-			<a href="#" data-style="<?php echo $kStyle; ?>" class="<?php echo $kStyle; ?><?php echo $kStyle == $model->style ? ' selected' : ''?>"><?php echo $style ?></a>
+			<a href="#" data-style="<?php echo $kStyle; ?>" class="styl <?php echo $kStyle; ?><?php echo $kStyle == $model->style ? ' selected' : ''?>"><?php echo $style ?></a>
 		<?php endforeach; ?>
 		<?php echo $form->hiddenField($model, 'style'); ?>
 	</section>
 	<section class="part icons shadow-box <?php echo $locked ? 'locked' : ''?>" id="wizard-box-icon">
-		<?php echo $form->labelEx($model, 'icon', array('class' => 'title')); ?>
+		<label class="title cf">
+			<span><?php echo Yii::t('general', 'iPad Icon'); ?>&nbsp;&nbsp;</span>
+			<?php if ($model->help('icon')) : ?>
+				<a href="<?php echo $model->help('icon') ?>" class="help fancybox" title="<?php echo Yii::t('general', 'iPad Icon'); ?>">?</a>
+			<?php endif; ?>
+		</label>
 		<?php
 			$this->renderPartial($locked ? '/wizard/_imagelock' : '/wizard/_uploader', array(
 				'name'	=> 'icon',
@@ -24,7 +36,12 @@
 		?>
 	</section>
 	<section class="part itunes-logo shadow-box <?php echo $locked ? 'locked' : ''?>" id="wizard-box-itunes_logo">
-		<?php echo $form->labelEx($model, 'itunes_logo', array('class' => 'title')); ?>
+		<label class="title cf">
+			<span><?php echo Yii::t('general', 'iTunes Logo'); ?>&nbsp;&nbsp;</span>
+			<?php if ($model->help('itunes_logo')) : ?>
+				<a href="<?php echo $model->help('itunes_logo') ?>" class="help fancybox" title="<?php echo Yii::t('general', 'iTunes Logo'); ?>">?</a>
+			<?php endif; ?>
+		</label>
 		
 		<?php
 			$this->renderPartial($locked ? '/wizard/_imagelock' : '/wizard/_uploader', array(
@@ -36,7 +53,12 @@
 	</section>
 
 	<section class="part group splash-bg shadow-box" id="wizard-box-background">
-		<label class="title">Background</label>
+		<label class="title cf">
+			<span><?php echo Yii::t('general', 'Splash'); ?>&nbsp;&nbsp;</span>
+			<?php if ($model->help('splash')) : ?>
+				<a href="<?php echo $model->help('splash') ?>" class="help fancybox" title="<?php echo Yii::t('general', 'Splash'); ?>">?</a>
+			<?php endif; ?>
+		</label>
 		<?php
 			$this->renderPartial('/wizard/_selector', array(
 				'radioName' => 'splash_bg',
@@ -51,7 +73,12 @@
 	</section>
 
 	<section class="part logo shadow-box <?php echo $locked ? 'locked' : ''?>" id="wizard-box-logo">
-		<?php echo $form->labelEx($model, 'logo', array('class' => 'title')); ?>
+		<label class="title cf">
+			<span><?php echo Yii::t('general', 'Logo'); ?>&nbsp;&nbsp;</span>
+			<?php if ($model->help('logo')) : ?>
+				<a href="<?php echo $model->help('logo') ?>" class="help fancybox" title="<?php echo Yii::t('general', 'Logo'); ?>">?</a>
+			<?php endif; ?>
+		</label>
 		<?php
 			$this->renderPartial($locked ? '/wizard/_imagelock' : '/wizard/_uploader', array(
 				'name'	=> 'logo',

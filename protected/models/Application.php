@@ -467,9 +467,9 @@ class Application extends YsaActiveRecord
 	public function statusLabel()
 	{
 		$labelDictionary = array(
-			'newly-created' => 'Application is up.',
+			'newly-created' => 'Your application is missing some key elements, please provide missing content before submitting.',
 			'paid'          => 'Application is paid.',
-			'filled'        => 'Application is filled up.',
+			'filled'        => 'All custom elements of your application have been provided.',
 			'submitted'     => 'Application has been successfully submitted.',
 			'locked'        => 'Application has been locked to pervert requred fields changes.',
 			'approved'      => 'Application has been successfully approved by moderators.',

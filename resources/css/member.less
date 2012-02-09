@@ -264,10 +264,8 @@ section.box {
 		border-bottom: 1px solid @gray-foxtrot;
 		height:44px;
 		.rounded-top(3px);
-		
-		.gradient(#fff, #f6f6f6, #fff);
-		.text-shadow(#fff);
-		
+		.gradient(@white-alpha, @gray-india, @white-alpha);
+		.text-shadow();
 		.box-title-button {
 			float: right;
 			padding:10px 0;
@@ -284,6 +282,28 @@ section.box {
 			.icon;
 			float:left;
 			margin:12px 12px 0 0;
+		}
+		.box-help {
+			float:left;
+			margin:11px 0 0 11px;
+			border:2px solid @blue-charlie;
+			color:@blue-charlie;
+			font-weight:bold;
+			height:16px;
+			width:16px;
+			line-height:16px;
+			text-align:center;
+			.rounded(9px);
+			position:relative;
+			&:hover {
+				color:@gray-alpha;
+				border-color:@gray-alpha;
+			}
+			&:active {
+				top:1px;
+				color:@gray-lima;
+				border-color:@gray-lima;
+			}
 		}
 	}
 	.box-content {
@@ -1187,6 +1207,11 @@ section.zenfolio-import {
 				height:22px;
 				text-transform: uppercase;
 				display: block;
+				a.help {
+					font-size:10px;
+					text-align:center;
+					color:@blue-charlie;
+				}
 			}
 		}
 		.save {
@@ -1211,36 +1236,43 @@ section.zenfolio-import {
 
 
 /****  style selector****/
-#wizard-accordion .step section.style a {
-	height:24px;
-	.font-shorthand(700, 10px, 24px);
-	text-transform:uppercase;
-	margin-bottom:8px;
-	display:block;
-	padding:0 10px;
-	border:2px solid #fff;
-	.rounded(4px);
-}
-#wizard-accordion .step section.style a:hover {
-	border-color: #d0d0d0;
-}
-#wizard-accordion .step section.style a.selected {
-	border-color: #02b7f2;
-}
 
-#wizard-accordion .step section.style a.dark {
-	.gradient(#222222, #222222, #646565);
-	color:@white-alpha;
+#wizard-accordion {
+	.step {
+		section.style {
+			a.styl {
+				height:24px;
+				.font-shorthand(700, 10px, 24px);
+				text-transform:uppercase;
+				margin-bottom:8px;
+				display:block;
+				padding:0 10px;
+				border:2px solid #fff;
+				.rounded(4px);
+				&:hover {
+					border-color: #d0d0d0;
+				}
+				&.selected {
+					border-color: #02b7f2;
+				}
+			}
+			a {
+				&.dark {
+					.gradient(#222222, #222222, #646565);
+					color:@white-alpha;
+				}
+				&.light {
+					.gradient(#c1c1c1, #c1c1c1, #f5f5f5);
+					color:@gray-lima;
+				}
+				&.biege {
+					.gradient(#d9b265, #d9b265, #e8d2a9);
+					color:#6a645c;
+				}
+			}
+		}
+	}
 }
-#wizard-accordion .step section.style a.light {
-	.gradient(#c1c1c1, #c1c1c1, #f5f5f5);
-	color:@gray-lima;
-}
-#wizard-accordion .step section.style a.biege {
-	.gradient(#d9b265, #d9b265, #e8d2a9);
-	color:#6a645c;
-}
-
 /****  uploader ****/
 #wizard-accordion .step .upload {
 	float:left;

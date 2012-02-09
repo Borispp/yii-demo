@@ -9,6 +9,11 @@ class WizardFonts extends Wizard
     
     public $second_font_color;
 
+	protected $_help = array(
+		'main'		=> 'main.jpg',
+		'second'	=> 'second.jpg',
+	);
+	
     public function rules() 
     {
         return array(

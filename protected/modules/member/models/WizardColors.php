@@ -12,6 +12,11 @@ class WizardColors extends Wizard
     public $generic_bg_image;
     
     public $generic_bg_color;
+	
+	protected $_help = array(
+		'studio'		=> 'studio.jpg',
+		'generic'		=> 'generic.jpg',
+	);
 
     public function rules() 
     {
