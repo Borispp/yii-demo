@@ -461,6 +461,13 @@ class Application extends YsaActiveRecord
 			'1111-10' => 'unapproved',
 			'1110-10' => 'unapproved',
 		);
+		
+		if (!isset($statusDictionary[$this->numStatus()]))
+		{
+			Yii::log('Unknown application status ['.$this->numStatus().']', CLogger::LEVEL_ERROR);
+			return 'unknown';
+		}
+		
 		return $statusDictionary[$this->numStatus()];
 	}
 	
@@ -481,7 +488,7 @@ class Application extends YsaActiveRecord
 		if (!isset($labelDictionary[$this->status()]))
 		{
 			Yii::log('Unknown application status ['.$this->status().']', CLogger::LEVEL_ERROR);
-			return 'Unknown application status';
+			return 'unknown';
 		}
 		
 		return $labelDictionary[$this->status()];

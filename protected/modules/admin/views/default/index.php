@@ -1,6 +1,6 @@
 <div class="g6 widgets">
-		
-	<div class="widget" data-icon="calendar">
+
+	<div class="widget ui-sortable" data-icon="application" >
 		<h3 class="handle">Latest Applications</h3>
 		<div>
 		<table class="data">
@@ -28,6 +28,64 @@
 				<?php endforeach; ?>
 			</tbody>
 		</table>	
+		</div>
+	</div>
+	
+	<div class="widget number-widget ui-sortable" id="widget_number">
+		<h3 class="handle">Numbers<a class="collapse" title="collapse widget"></a></h3>
+		<div>
+			<ul>
+				<?php foreach($totals as $total) : ?>
+					<li><a href=""><span><?php echo $total['count'] ?></span> <?php echo $total['title'] ?></a></li>
+				<?php endforeach ?>
+			</ul>
+		</div>
+	</div>
+	
+</div>	
+<div class="g6 widgets">
+	
+	<div class="widget ui-sortable" data-icon="companies" >
+		<h3 class="handle">Contacts Messages<a class="collapse" title="collapse widget"></a></h3>
+		<div>
+		<table class="data">
+			<thead>
+				<tr>
+					<th class="w_1"><input type="checkbox" value="" class="ids-toggle" /></th>
+					<th class="w_10">Created</th>
+					<th class="l w_20">Sender</th>
+					<th class="l">Message</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ($c_messages as $entry) : ?>
+					<tr>
+						<td><input type="checkbox" class="del" value="<?php echo $entry->id; ?>" name="ids[]" /></td>
+						<td>
+							<?php echo $entry->created('medium', 'short'); ?>
+						</td>
+						<td class="l">
+							<strong><?php echo $entry->name; ?></strong>
+							<br/>
+							<?php echo YsaHtml::mailto($entry->email, $entry->email); ?>
+						</td>
+
+						<td class="l">
+							<h5><?php echo $entry->subject; ?></h5>
+							<?php echo $entry->message(); ?>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+		</div>
+		
+	</div>
+	
+	<div class="widget ui-sortable" data-icon="paypal" >
+		<h3 class="handle">Payments<a class="collapse" title="collapse widget"></a></h3>
+		<div>
+			
 		</div>
 	</div>
 	
