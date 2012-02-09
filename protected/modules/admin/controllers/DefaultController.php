@@ -6,7 +6,7 @@ class DefaultController extends YsaAdminController
 	{
 		$criteria = new CDbCriteria;
 		$criteria->limit = 5;
-//		$criteria->order = '';
+		$criteria->order = 'updated DESC';
 		$applications = Application::model()->findAll($criteria);
 
 		$this->setContentTitle('Dashboard');
