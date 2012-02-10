@@ -10,9 +10,11 @@
 			</form>
 		</div>
 	</section>
+	<?php if ($enableRedirect):?>
 	<script type="text/javascript">
 		setTimeout(function(){
 			$('#paypal_form').submit();
 		}, 1000);
 	</script>
+	<?php endif;?>
 </div>

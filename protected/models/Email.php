@@ -86,12 +86,12 @@ class Email extends YsaActiveRecord
     public function send($to, $name, $aliases = array())
     {
         $mail = $this->model()->findByName($name);
-        $mail->setTo($to);
         
         if (!$mail) {
             return false;
         }
         
+		$mail->setTo($to);
         return $mail->prepare($aliases)
                     ->sendEmail();
     }
