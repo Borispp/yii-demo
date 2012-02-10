@@ -188,4 +188,10 @@ $(function(){
 		});
 	}
 	$('header nav').initNav();
+	
+	yepnope({
+		test: Modernizr.input.placeholder,
+//		yep : 'geo.js',
+		nope: _polyfill_url + '/placeholder.js'
+	});
 });

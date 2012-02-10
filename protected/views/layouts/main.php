@@ -9,6 +9,7 @@
 <script type="text/javascript">
 	var _base_url = '<?php echo Yii::app()->getBaseUrl(true)?>';
 	var _member_url = '<?php echo Yii::app()->getBaseUrl(true)?>/member';
+	var _polyfill_url = _base_url + '/resources/js/polyfills';
 </script>
 <title><?php echo YsaHtml::encode($this->getMetaTitle()); ?></title>
 <!--[if lt IE 9]>
