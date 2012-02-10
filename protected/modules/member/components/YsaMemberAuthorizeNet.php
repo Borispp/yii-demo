@@ -22,19 +22,10 @@ class YsaMemberAuthorizeNet implements YsaMemberPayment
 	{
 
 	}
-	public function prepare(PaymentTransaction $transaction)
-	{
-		$_p = array();
-		$_p['amount'] = $transaction->summ;
-		$_p['card_num'] = $_POST['cfull'];
-		$_p['exp_date'] = (int) $_POST['v1'] . '/' . (int) $_POST['v2'];
-		$_tmp = explode(' ',$_POST['full_name']);
-		$_p['first_name'] = $_tmp[0];
-		$_p['last_name'] = $_tmp[1];
-		$_p['phone'] = (string) $_POST['phone'];
-		$_p['email'] = (string) $_POST['email'];
-		$_p['description'] = (string) $transaction->name;
 
+
+	public function prepare(PaymentTransaction $transaction, YsaAuthorizeDotNet $entry)
+	{
 		$authTransaction = new AuthorizeNetAIM(
 			Yii::app()->settings->get('authorizenet_api'),
 			Yii::app()->settings->get('authorizenet_transaction')
@@ -44,16 +35,16 @@ class YsaMemberAuthorizeNet implements YsaMemberPayment
 
 		$authTransaction->test_request = "TRUE";
 
-		$authTransaction->amount = $_p['amount'];
-		$authTransaction->card_num = $_p['card_num'];
-		$authTransaction->exp_date = $_p['exp_date'];
+		$authTransaction->amount = $transaction->summ;
+		$authTransaction->card_num = $entry->card_number;
+		$authTransaction->exp_date = $entry->getExpireDate();
 
-		$authTransaction->first_name = $_p['first_name'];
-		$authTransaction->last_name = $_p['last_name'];
-		$authTransaction->company = 'Some compnay';
-		$authTransaction->phone = $_p['phone'];
-		$authTransaction->email = $_p['email'];
-		$authTransaction->description = $_p['description'];
+		$authTransaction->first_name = $entry->getFirstName();
+		$authTransaction->last_name = $entry->getLastName();
+		$authTransaction->company = $entry->getCompanyName();
+		$authTransaction->phone =$entry->phone;
+		$authTransaction->email = $entry->email;
+		$authTransaction->description = $transaction->name;
 
 		$response = $authTransaction->authorizeAndCapture();
 
@@ -65,8 +56,7 @@ class YsaMemberAuthorizeNet implements YsaMemberPayment
 			$transaction->setPaid();
 			return TRUE;
 		} else {
-			$response->error_message;
-			return FALSE;
+			return $response->error_message;
 		}
 	}
 
@@ -115,74 +105,6 @@ class YsaMemberAuthorizeNet implements YsaMemberPayment
 	public function getTemplateName()
 	{
 		return 'authorizedotnet';
-		/**
-		 * <p><label class="main">email</label>
-		<input type="text" value="" name="email"/>
-		</p>
-
-		<p><label class="main">phone</label>
-		<input type="text" value="" name="phone"/>
-		</p>
-
-		<p><label class="main">payment for</label>
-		<input type="text" value="" name="description"/>
-		</p>
-
-		<hr />
-
-		<p><label class="main">card number</label>
-		<input type="text" value="" name="cfull" class="ccnf"/>
-		</p>
-
-		<p class="validthru"><label class="main">valid thru</label>
-		<label class="m">month</label>
-		<label class="y">year</label>
-		<label class="d">/</label>
-		<select name="v1" class="v1">
-		<option selected>--</option>
-		<option value="01">01</option>
-		<option value="02">02</option>
-		<option value="03">03</option>
-		<option value="04">04</option>
-		<option value="05">05</option>
-		<option value="06">06</option>
-		<option value="07">07</option>
-		<option value="08">08</option>
-		<option value="09">09</option>
-		<option value="10">10</option>
-		<option value="11">11</option>
-		<option value="12">12</option>
-		</select>
-		<select name="v2" class="v2">
-		<option selected>--</option>
-		<option value="12">12</option>
-		<option value="13">13</option>
-		<option value="14">14</option>
-		<option value="15">15</option>
-		<option value="16">16</option>
-		</select>
-		</p>
-
-		<p><label class="main">name on card</label>
-		<input type="text" value="" name="full_name"/>
-		</p>
-
-		<hr />
-
-		<p><label class="main">choose amount</label>
-		<input type="text" value="0.00" name="amount" class="amount" onBlur="this.value=formatCurrency(this.value);"/>
-		</p>
-
-		<p><input class="submit" type="submit" name="submit" value="make payment" />
-		 */
-
-
-		return array();
-	}
-
-	public function enableRedirect()
-	{
-		return FALSE;
 	}
 
 	/**

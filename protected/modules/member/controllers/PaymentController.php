@@ -92,18 +92,27 @@ class PaymentController extends YsaMemberController
 				$returnUrl
 			)
 		);
-		$this->renderVar('formAction', $this->_getPayment($payway)->getFormUrl());
+		$formAction = $this->_getPayment($payway)->getFormUrl();
+
+		/**
+		 * @todo Change the way it works
+		 */
+		if ($payway != 'paypal')
+		{
+			$formAction = $this->createAbsoluteUrl('/member/payment/processAuthorizeDotNet/', array(
+				'transaction_id' => $this->_getTransaction()->id
+			));
+			$entry = new YsaAuthorizeDotNet();
+			$this->renderVar('entry', $entry);
+		}
+		$this->renderVar('formAction', $formAction);
 
 		$this->setMemberPageTitle(Yii::t('payment', 'new_title'));
 
 		$this->_getTransaction()->state = PaymentTransaction::STATE_SENT;
 		$this->_getTransaction()->save();
+
 		$this->renderVar('memberEmail', $this->member()->email);
-		$this->renderVar('prepareUrl', $this->createAbsoluteUrl('/member/payment/prepare/', array(
-			'payway'         => $payway,
-			'transaction_id' => $this->_getTransaction()->id
-		)));
-		$this->renderVar('enableRedirect', $this->_getPayment($payway)->enableRedirect());
 		$this->render($this->_getPayment($payway)->getTemplateName());
 	}
 
@@ -129,17 +138,34 @@ class PaymentController extends YsaMemberController
 	 * @param $payway
 	 * @return void
 	 */
-	public function actionPrepare($payway)
+	public function actionProcessAuthorizeDotNet()
 	{
-		if ($this->_getPayment($payway)->prepare($this->_getTransaction()))
+		$paymentProcessor = new YsaMemberAuthorizeNet();
+		$entry = new YsaAuthorizeDotNet();
+		
+
+		if (isset($_POST['YsaAuthorizeDotNet']))
 		{
-			$this->setSuccess(Yii::t('payment','payment_done'));
+
+			$entry->attributes = $_POST['YsaAuthorizeDotNet'];
+			if ($entry->validate())
+			{
+				if (($message = $paymentProcessor->prepare($this->_getTransaction(), $entry)) === TRUE)
+				{
+					$this->setSuccess(Yii::t('payment','payment_done'));
+					$this->redirect($this->_getTransaction()->getRedirectUrl());
+				}
+				else
+				{
+					$this->renderVar('errorMessage', $message);
+				}
+			}
 		}
-		else
-		{
-			$this->setError(Yii::t('payment','payment_failed'));
-		}
-		$this->redirect($this->_getTransaction()->getRedirectUrl());
+		$this->renderVar('entry', $entry);
+		$this->renderVar('formAction',  $this->createAbsoluteUrl('/member/payment/processAuthorizeDotNet/', array(
+			'transaction_id' => $this->_getTransaction()->id
+		)));
+		$this->render('authorizedotnet');
 	}
 
 	public function actionCatchNotification($payway)

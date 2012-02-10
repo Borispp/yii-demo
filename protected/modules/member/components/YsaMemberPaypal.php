@@ -149,12 +149,7 @@ class YsaMemberPaypal implements YsaMemberPayment
 		return 'pay';
 	}
 
-	public function enableRedirect()
-	{
-		return TRUE;
-	}
-
-	public function prepare(PaymentTransaction $transaction)
+	public function prepare(PaymentTransaction $transaction, YsaAuthorizeDotNet $entry)
 	{
 		return;
 	}
