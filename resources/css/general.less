@@ -4,8 +4,13 @@
 ::selection { background: @blue-golf; color:@white-alpha; text-shadow:none; }
 ::-moz-selection { background: @blue-golf; color:@white-alpha; text-shadow:none; }
 
-::-webkit-input-placeholder  { color:@gray-bravo; }
-input:-moz-placeholder { color:@gray-bravo; }
+::-webkit-input-placeholder {
+    color:    @gray-charlie;
+}
+:-moz-placeholder {
+    color: @gray-charlie;
+}
+
 
 html, body, textarea, input { 
 	.font-sans-serif();
@@ -219,13 +224,14 @@ header {
 		}
 	}
 	nav {
-		padding:20px 0;
+		padding:15px 0;
 		float: right;
 		.text-shadow(rgba(255,255,255,.5));
 		position:relative;
 		z-index:100;
 		li {
 			float:left;
+			position:relative;
 			background:url(../images/nav-separator.png) 0 50% no-repeat;
 			letter-spacing:.03em;
 			&:first-child {
@@ -236,7 +242,7 @@ header {
 			a {
 				color:@gray-lima;
 				display:block;
-				padding:10px 20px 10px 21px;
+				padding:15px 20px 15px 21px;
 				height:11px;
 				text-transform:uppercase;
 				.font-shorthand(700, 11px, 1);
@@ -247,25 +253,20 @@ header {
 				}
 			}
 			&.active {
-				a {
+				> a {
 					color:@blue-bravo;
 				}
 			}
-
 			&.logout {
 				a:hover {
 					color:@gray-charlie;
 				}
 			}
-
-			
 			&.panel {
 				a {
 					color:@black-alpha;
 				}
 			}
-
-
 			&.login-visible {
 				a {
 					background:@white-alpha;
@@ -275,13 +276,34 @@ header {
 					color:@blue-bravo;
 				}
 			}
+			ul {
+				display:none;
+				background:@white-alpha;
+				position:absolute;
+				left:0;
+				top:40px;
+				padding:5px 0;
+				.shadow-gray-alpha;
+				li {
+					display:block;
+					float:none;
+					background:none;
+					a {
+						padding:3px 0;
+						width:120px;
+						text-align:center;
+						font-size:10px;
+						display:block;
+					}
+				}
+			}
 		}
 	}
 }
 #login-window {
 	position:absolute;
 	right:0;
-	top:51px;
+	top:56px;
 	width:255px;
 	.rounded-corners(4px, 0, 4px, 4px);
 	background:@white-alpha;

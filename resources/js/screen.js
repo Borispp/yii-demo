@@ -171,4 +171,27 @@ $(function(){
 	{
 		this.val(this.data('value')).removeClass('disabled');
 	}
+	
+	
+	$.fn.initNav = function(){
+		$(this).each(function(){
+			var nav = $(this);
+			nav.find('>ul>li:has(ul)').each(function(){
+				var li = $(this);
+				var sub = li.find('ul');
+				sub.css('left', -(sub.outerWidth() - li.outerWidth())/2);
+			}).hover(function(){
+				$(this).find('ul').stop().fadeIn('fast');
+			}, function(){
+				$(this).find('ul').hide();				
+			});
+		});
+	}
+	$('header nav').initNav();
+	
+	yepnope({
+		test: Modernizr.input.placeholder,
+//		yep : 'geo.js',
+		nope: _polyfill_url + '/placeholder.js'
+	});
 });

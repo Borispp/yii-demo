@@ -34,6 +34,13 @@ class PageController extends YsaFrontController
 				$entry->save();
 				$entry->sendEmail();
 				
+				if ($entry->subscribe) {
+					$key = Yii::app()->settings->get('mailchimp_key');
+					$listId = Yii::app()->settings->get('mailchimp_list_id');
+					$mailchimp = new MCAPI($key);
+					$mailchimp->listSubscribe($listId, $entry->email, array('NAME' => $entry->name));
+				}
+				
 				if (Yii::app()->request->isAjaxRequest) {
 					$this->sendJsonSuccess(array(
 						'msg' => Yii::t('notice', 'contact_thank_you'),

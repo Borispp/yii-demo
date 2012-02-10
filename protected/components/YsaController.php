@@ -201,12 +201,19 @@ class YsaController extends CController
 			);
 		} else {
 			$nav = array(
-				array('label'=>'Home', 'url'=>Yii::app()->homeUrl, 'active' => $c == 'default'),
+				array('label'=>'Home', 'url'=> array('/member/'), 'active' => $c == 'default'),
 				array('label'=>'Application', 'url'=>array('application/'), 'active' => $c == 'application'),
-				array('label'=>'Studio', 'url'=>array('studio/'), 'active' => in_array($c, array('studio', 'link', 'person'))),
+				array('label'=>'Studio', 'url'=>array('studio/'), 'active' => in_array($c, array('studio', 'link', 'person', 'inbox')), 'items' => array(
+					array('label' => 'Inbox', 'url' => array('inbox/'),'active' => ($c == 'inbox') ),
+				)),
 				array('label'=>'Events', 'url'=>array('event/'), 'active' => in_array($c, array('event', 'album', 'photo'))),
 				array('label'=>'Clients', 'url'=>array('client/'), 'active' => $c == 'client'),
-				array('label'=>'Settings', 'url'=>array('settings/'), 'active' => $c == 'settings'),
+				array('label'=>'Settings', 'url'=>array('settings/'), 'active' => $c == 'settings', 'items' => array(
+					array('label' => 'Smugmug', 'url' => array('settings/smugmug/'), 'active' => ($a == 'smugmug') ),
+					array('label' => 'ZenFolio', 'url' => array('settings/zenfolio/'), 'active' => ($a == 'zenfolio') ),
+					array('label' => 'ShootQ', 'url' => array('settings/shootq/'), 'active' => ($a == 'shootq') ),
+					array('label' => 'Facebook', 'url' => array('settings/facebook/'), 'active' => ($a == 'facebook') ),
+				)),
 				array('label'=>'Logout', 'url'=>array('/logout'), 'visible' => !Yii::app()->user->isGuest, 'itemOptions' => array('class' => 'logout')),
 			);
 		}
@@ -257,7 +264,8 @@ class YsaController extends CController
 			$this->_cs->registerCoreScript('jquery')
 					->registerMetaTag($this->getMetaDescription(), 'description')
 					->registerMetaTag($this->getMetaKeywords(), 'keywords')
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/modernizr-2.0.6.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/modernizr.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/yepnope.js', CClientScript::POS_HEAD)
 //					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jquery.html5form-1.5.js', CClientScript::POS_HEAD)
 //					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jquery.tools.min.js', CClientScript::POS_HEAD)
 					->registerScriptFile('http://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js', CClientScript::POS_HEAD)

@@ -10,7 +10,12 @@
 			<div id="homepage-slider">
 				<ul>
 					<?php foreach ($slides as $k => $slide) : ?>
-						<li class="slide slide<?php echo $k?>"><?php echo YsaHtml::image($slide); ?></li>
+						<li class="slide slide<?php echo $k?>">
+							<figure>
+								<?php echo YsaHtml::image($slide['image']) ?>
+							</figure>
+							<p><?php echo $slide['caption']; ?></p>
+						</li>
 					<?php endforeach; ?>
 				</ul>
 			</div>

@@ -1548,10 +1548,10 @@ tango, uniform, victor, whiskey, x-ray, yankee, zulu.
   text-shadow: none;
 }
 ::-webkit-input-placeholder {
-  color: #777777;
+  color: #999999;
 }
-input:-moz-placeholder {
-  color: #777777;
+:-moz-placeholder {
+  color: #999999;
 }
 html,
 body,
@@ -1817,7 +1817,7 @@ header h1 a {
   text-indent: -9999px;
 }
 header nav {
-  padding: 20px 0;
+  padding: 15px 0;
   float: right;
   text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
   position: relative;
@@ -1825,6 +1825,7 @@ header nav {
 }
 header nav li {
   float: left;
+  position: relative;
   background: url(../images/nav-separator.png) 0 50% no-repeat;
   letter-spacing: .03em;
 }
@@ -1836,7 +1837,7 @@ header nav li:first-child {
 header nav li a {
   color: #3a3a3a;
   display: block;
-  padding: 10px 20px 10px 21px;
+  padding: 15px 20px 15px 21px;
   height: 11px;
   text-transform: uppercase;
   font-size: 11px;
@@ -1848,7 +1849,7 @@ header nav li a:hover {
   text-decoration: none;
   color: #03b6f2;
 }
-header nav li.active a {
+header nav li.active > a {
   color: #03b6f2;
 }
 header nav li.logout a:hover {
@@ -1869,10 +1870,33 @@ header nav li.login-visible a {
   border-bottom: 0;
   color: #03b6f2;
 }
+header nav li ul {
+  display: none;
+  background: #ffffff;
+  position: absolute;
+  left: 0;
+  top: 40px;
+  padding: 5px 0;
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+}
+header nav li ul li {
+  display: block;
+  float: none;
+  background: none;
+}
+header nav li ul li a {
+  padding: 3px 0;
+  width: 120px;
+  text-align: center;
+  font-size: 10px;
+  display: block;
+}
 #login-window {
   position: absolute;
   right: 0;
-  top: 51px;
+  top: 56px;
   width: 255px;
   -moz-border-radius-topleft: 4px;
   -moz-border-radius-topright: 0;
@@ -2296,12 +2320,42 @@ a.btn {
 #homepage-slider .buttons a.active {
   background: #3a3a3a;
 }
-#homepage-slider .slide {
-  position: absolute;
-  right: 0;
-  right: 500px;
-  top: 90px;
+#homepage-slider .slide figure {
   display: none;
+  position: absolute;
+  right: 500px;
+}
+#homepage-slider .slide p {
+  display: none;
+  position: absolute;
+  margin: 0;
+  left: 0;
+  top: 280px;
+  text-transform: uppercase;
+  color: #c9c9c9;
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 22px;
+}
+#homepage-slider .slide p strong {
+  color: #ffffff;
+}
+#homepage-slider .slide0 figure {
+  bottom: -45px;
+}
+#homepage-slider .slide1 figure {
+  bottom: 0;
+}
+#homepage-slider .slide1 p {
+  font-size: 28px;
+  font-weight: normal;
+  line-height: 30px;
+}
+#homepage-slider .slide2 {
+  display: block;
+}
+#homepage-slider .slide2 figure {
+  bottom: 90px;
 }
 .homepage-video-wrapper {
   background: #ffffff;
@@ -2482,6 +2536,11 @@ a.btn {
   margin-bottom: 0;
   line-height: 1.3;
 }
+#homepage-social .subscribe input[type=submit] {
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+}
 .homepage-idea-wrapper {
   background: #ffffff;
 }
@@ -2576,12 +2635,6 @@ a.btn {
   padding: 12px;
   width: 390px;
   font-size: 16px;
-  color: #777777;
-}
-.large-form section input[type=text]:focus,
-.large-form section input[type=password]:focus,
-.large-form section input[type=email]:focus,
-.large-form section textarea:focus {
   color: #454545;
 }
 .large-form section input[type=text].invalid,
@@ -2609,6 +2662,18 @@ a.btn {
   -webkit-box-shadow: inset 0 1px 3px rgba(100, 0, 0, 0.1), 0 0 5px rgba(250, 75, 75, 0.5);
   -moz-box-shadow: inset 0 1px 3px rgba(100, 0, 0, 0.1), 0 0 5px rgba(250, 75, 75, 0.5);
   box-shadow: inset 0 1px 3px rgba(100, 0, 0, 0.1), 0 0 5px rgba(250, 75, 75, 0.5);
+}
+.large-form section input[type=text]::-webkit-input-placeholder,
+.large-form section input[type=password]::-webkit-input-placeholder,
+.large-form section input[type=email]::-webkit-input-placeholder,
+.large-form section textarea::-webkit-input-placeholder {
+  color: #999999;
+}
+.large-form section input[type=text]:-moz-placeholder,
+.large-form section input[type=password]:-moz-placeholder,
+.large-form section input[type=email]:-moz-placeholder,
+.large-form section textarea:-moz-placeholder {
+  color: #999999;
 }
 .large-form section textarea {
   height: 100px;

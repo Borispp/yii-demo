@@ -4,7 +4,7 @@ class InboxController extends YsaMemberController
 	public function init()
 	{
 		parent::init();
-		$this->crumb('Settings', array('settings/'))
+		$this->crumb('Studio', array('studio/'))
 			 ->crumb('Inbox', array('inbox/'));
 	}
 
