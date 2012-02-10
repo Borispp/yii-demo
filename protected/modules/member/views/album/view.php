@@ -131,7 +131,6 @@
     <div id="photo-upload-container" class="multi-uploader">
 		<p>You browser doesn't have HTML5 support.</p>
 	</div>
-	
 	<?php if ($this->member()->smugmugAuthorized()) : ?>
 		<section id="photo-import-smugmug-container" class="smugmug-import box">
 			<div class="box-title">
@@ -139,10 +138,11 @@
 			</div>
 			<div class="box-content">
 				<div class="data">
+					<p>Please note that large amount of photos takes more time.</p>
 					<select name="album">
 						<option value="">&ndash;&ndash;&ndash;</option>
-						<?php foreach ($this->member()->smugmug()->albums_get() as $album) : ?>
-							<option value="<?php echo $album['id']; ?>|<?php echo $album['Key']; ?>"><?php echo $album['Title']; ?></option>
+						<?php foreach ($this->member()->smugmug()->albums_get('Extras=ImageCount') as $album) : ?>
+							<option value="<?php echo $album['id']; ?>|<?php echo $album['Key']; ?>"><?php echo $album['Title']; ?> (<?php echo $album['ImageCount']?>)</option>
 						<?php endforeach; ?>
 					</select>
 					<input type="button" value="Show Photos" />
@@ -152,7 +152,6 @@
 			</div>
 		</section>
 	<?php endif; ?>
-
 	<?php if ($this->member()->zenfolioAuthorized()) : ?>
 		<section id="photo-import-zenfolio-container" class="zenfolio-import box">
 			<div class="box-title">
@@ -160,10 +159,12 @@
 			</div>
 			<div class="box-content">
 				<div class="data">
+					<p>Please note that large amount of photos takes more time.</p>
+					<p>Sometimes SmugMug doesn't allow to show protected galleries images on the web. But they can be imported even if you don't see them. </p>
 					<select name="album">
 						<option value="">&ndash;&ndash;&ndash;</option>
 						<?php foreach ($zenfolioHierarchy['Elements'] as $element) : ?>
-							<option value="<?php echo $element['Id']; ?>"><?php echo $element['Title']; ?></option>
+							<option value="<?php echo $element['Id']; ?>"><?php echo $element['Title']; ?> (<?php echo $element['PhotoCount']?>)</option>
 						<?php endforeach; ?>
 					</select>
 					<input type="button" value="Show Photos" />

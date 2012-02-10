@@ -222,6 +222,9 @@ $(function(){
 				});
 			});
 			links_container.disableSelection();
+			
+			
+			studio.find('a.box-help').fancybox();
 		});
 	}
 	$('#studio').initStudioPage();

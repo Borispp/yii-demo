@@ -30,20 +30,20 @@
 				<?php echo $form->hiddenField($entry,'icon'); ?>
 			</div>
 		</section>
+		<script type="text/javascript">
+			$(function(){
+				var field = $('#studio-form-icon-field');
+				field.find('figure').click(function(e){
+					e.preventDefault();
+					var figure = $(this);
+					figure.parent().addClass('selected').siblings().removeClass('selected');
+					field.find('input:hidden').val(figure.data('icon'));
+				});
+			});
+		</script>
 	<?php endif; ?>
 	<div class="button">
 		<?php echo YsaHtml::submitButton($entry->isNewRecord ? 'Add' : 'Save', array('class' => 'blue')); ?>
 	</div>
 	<?php $this->endWidget(); ?>
 </div>
-<script type="text/javascript">
-	$(function(){
-		var field = $('#studio-form-icon-field');
-		field.find('figure').click(function(e){
-			e.preventDefault();
-			var figure = $(this);
-			figure.parent().addClass('selected').siblings().removeClass('selected');
-			field.find('input:hidden').val(figure.data('icon'));
-		});
-	});
-</script>

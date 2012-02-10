@@ -7,6 +7,16 @@
 		</div>
 		<span class="image"></span>
 	</div>
+	
+	<div class="tour-box tour-box-interactive">
+		<span class="shadow"></span>
+		<h2>Interactive <span>Portfolio</span></h2>
+		<div class="story">
+			<p>This allows every unique visitor to your app to have their own experience with your work. They will choose their area of interest and your application will highlight those images in their gallery. You will also be able to send specific galleries immediately to your inquiring client’s application and spotlight your areas of expertise!</p>
+		</div>
+		<span class="image"></span>
+	</div>
+	
 
 	<div class="tour-box tour-box-events">
 		<span class="shadow"></span>
@@ -37,23 +47,23 @@
 		<span class="image"></span>
 	</div>
 
-	<div class="tour-box tour-box-web">
-		<span class="shadow"></span>
-		<h2>Web-based <span>Control</span></h2>
-		<div class="story">
-			<p>
-				You will have access to monitor and update your application through a web back end.  You will constantly be adding client galleries, sending push notifications, and changing your custom featured pages... this will be your mobile command center!
-			</p>
-		</div>
-		<span class="image"></span>
-	</div>
-	
 	<div class="tour-box tour-box-workflow">
 		<span class="shadow"></span>
 		<h2>Workflow <span>Integration</span></h2>
 		<div class="story">
 			<p>
 				Your Studio App is set up for easy and quick integration between your hosting or proofing company, your Facebook and Twitter, as well as your studio management! No re-uploading or resizing of images is needed for you clients to experience and share your work on their tablet or phone!
+			</p>
+		</div>
+		<span class="image"></span>
+	</div>
+	
+	<div class="tour-box tour-box-web">
+		<span class="shadow"></span>
+		<h2>Web-based <span>Control</span></h2>
+		<div class="story">
+			<p>
+				You will have access to monitor and update your application through a web back end.  You will constantly be adding client galleries, sending push notifications, and changing your custom featured pages... this will be your mobile command center!
 			</p>
 		</div>
 		<span class="image"></span>

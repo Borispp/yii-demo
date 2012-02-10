@@ -15,7 +15,11 @@ class SmugmugController extends YsaMemberController
 				list ($smugmugAlbumId, $smugmugAlbumKey) = explode('|', $_POST['smugmug']);
 
 				$images = $this->member()->smugmug()->images_get('AlbumID=' . $smugmugAlbumId, 'AlbumKey=' . $smugmugAlbumKey);
-
+				
+				if (!$images) {
+					throw new Exception(Yii::t('error', 'standart_error'));
+				}
+				
 				$album = $this->member()->smugmug()->albums_getInfo('AlbumID=' . $smugmugAlbumId, 'AlbumKey=' . $smugmugAlbumKey);
 				
 				$this->sendJsonSuccess(array(	

@@ -123,7 +123,8 @@ class Email extends YsaActiveRecord
         Yii::app()->mailer->Subject = $this->subject;
         Yii::app()->mailer->AltBody = $this->alt_body;
         Yii::app()->mailer->getView('standart', array(
-            'body'  => $this->body,
+            'body'		=> $this->body,
+			'subject'	=> $this->subject,
         ));
         
         return Yii::app()->mailer->Send();

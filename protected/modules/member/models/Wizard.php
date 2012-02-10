@@ -129,4 +129,9 @@ abstract class Wizard extends YsaFormModel
 			$this->addError($attribute, 'Invalid style format');
 		} 
 	}
+	
+	public function help($field)
+	{
+		return isset($this->_help[$field]) ? Yii::app()->baseUrl . '/resources/images/help/wizard/' . $this->_help[$field] : null;
+	}
 }
