@@ -2713,6 +2713,9 @@ section.box .box-content {
 .widget .box-title {
   cursor: move;
 }
+.widget li {
+  line-height: 1.7;
+}
 .widget .list {
   padding-bottom: 10px;
   border-bottom: 1px solid #c9c9c9;
@@ -2726,6 +2729,19 @@ section.box .box-content {
 }
 .widget .box-button {
   text-align: right;
+}
+.widget span.number {
+  font-size: 17px;
+  font-weight: 700;
+  margin-right: 17px;
+  vertical-align: baseline;
+}
+.widget span.warning {
+  color: red;
+}
+#widget_application img {
+  float: left;
+  margin-right: 20px;
 }
 /* Standart Form
 *******************************/
