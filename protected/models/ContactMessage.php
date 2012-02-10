@@ -88,7 +88,7 @@ class ContactMessage extends YsaActiveRecord
 		
 		Email::model()->send(
 			array($admin->email, $admin->name()), 
-			'contact_admin', 
+			'contact_admin',
 			array(
 				'name'			=> $this->name,
 				'email'			=> $this->email,

@@ -184,4 +184,9 @@ class StudioPerson extends YsaActiveRecord
 		
 		return true;
 	}
+	
+	public function description()
+	{
+		return nl2br($this->description);
+	}
 }

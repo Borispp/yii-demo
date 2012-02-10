@@ -9,7 +9,7 @@
 					<?php echo $entry->photo(); ?>
 				</figure>
 				<div class="page">
-					<?php echo $entry->description; ?>
+					<?php echo $entry->description(); ?>
 				</div>
 			</div>
 		</div>

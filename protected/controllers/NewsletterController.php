@@ -27,7 +27,9 @@ class NewsletterController extends YsaFrontController
 					));
 				}
 			} else {
-				$this->sendJsonError();
+				$this->sendJsonError(array(
+					'msg' => Yii::t('newsletter', 'newsletter_errors'),
+				));
 			}
 		}
 	}
