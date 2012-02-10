@@ -213,7 +213,7 @@ class ApplicationNotification extends YsaActiveRecord
 		$obApplicationNotificationClient->client_id = $obClient->id;
 		if (!$obApplicationNotificationClient->validate())
 			return $obApplicationNotificationClient->getErrors();
-		$obApplicationNotificationClient->save();
+		return $obApplicationNotificationClient->save();
 	}
 
 	/**
