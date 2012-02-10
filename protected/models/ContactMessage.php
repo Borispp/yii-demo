@@ -7,7 +7,6 @@
  * @property string $id
  * @property string $name
  * @property string $email
- * @property string $subject
  * @property string $message
  * @property string $created
  * @property string $updated
@@ -69,7 +68,6 @@ class ContactMessage extends YsaActiveRecord
 			'id' => 'ID',
 			'name' => 'Name',
 			'email' => 'Email',
-			'subject' => 'Subject',
 			'message' => 'Message',
 			'created' => 'Created',
 			'updated' => 'Updated',
