@@ -382,4 +382,30 @@ class Member extends User
 			return false;
 		}
 	}
+	
+	/**
+	 * Total count of members albums
+	 *
+	 * @return integer
+	 */
+	public function countOfAlbums()
+	{
+		$sql = "SELECT COUNT(*) 
+			FROM event_album,event 
+			WHERE event.user_id=:user_id AND event_album.event_id=event.id";
+		return self::model()->countBySql($sql, array('user_id' => $this->id));
+	}
+	
+	/**
+	 * Total count of members photos
+	 *
+	 * @return integer
+	 */
+	public function countOfPhotos()
+	{
+		$sql = "SELECT COUNT(*) 
+			FROM event_photo,event_album,event 
+			WHERE event.user_id=:user_id AND event_album.event_id=event.id AND event_photo.album_id=event_album.id";
+		return self::model()->countBySql($sql, array('user_id' => $this->id));
+	}
 }
