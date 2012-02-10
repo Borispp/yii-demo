@@ -1550,10 +1550,10 @@ tango, uniform, victor, whiskey, x-ray, yankee, zulu.
   text-shadow: none;
 }
 ::-webkit-input-placeholder {
-  color: #777777;
+  color: #999999;
 }
-input:-moz-placeholder {
-  color: #777777;
+:-moz-placeholder {
+  color: #999999;
 }
 html,
 body,
@@ -1819,7 +1819,7 @@ header h1 a {
   text-indent: -9999px;
 }
 header nav {
-  padding: 20px 0;
+  padding: 15px 0;
   float: right;
   text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
   position: relative;
@@ -1827,6 +1827,7 @@ header nav {
 }
 header nav li {
   float: left;
+  position: relative;
   background: url(../images/nav-separator.png) 0 50% no-repeat;
   letter-spacing: .03em;
 }
@@ -1838,7 +1839,7 @@ header nav li:first-child {
 header nav li a {
   color: #3a3a3a;
   display: block;
-  padding: 10px 20px 10px 21px;
+  padding: 15px 20px 15px 21px;
   height: 11px;
   text-transform: uppercase;
   font-size: 11px;
@@ -1850,7 +1851,7 @@ header nav li a:hover {
   text-decoration: none;
   color: #03b6f2;
 }
-header nav li.active a {
+header nav li.active > a {
   color: #03b6f2;
 }
 header nav li.logout a:hover {
@@ -1871,10 +1872,33 @@ header nav li.login-visible a {
   border-bottom: 0;
   color: #03b6f2;
 }
+header nav li ul {
+  display: none;
+  background: #ffffff;
+  position: absolute;
+  left: 0;
+  top: 40px;
+  padding: 5px 0;
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+}
+header nav li ul li {
+  display: block;
+  float: none;
+  background: none;
+}
+header nav li ul li a {
+  padding: 3px 0;
+  width: 120px;
+  text-align: center;
+  font-size: 10px;
+  display: block;
+}
 #login-window {
   position: absolute;
   right: 0;
-  top: 51px;
+  top: 56px;
   width: 255px;
   -moz-border-radius-topleft: 4px;
   -moz-border-radius-topright: 0;
@@ -2689,6 +2713,9 @@ section.box .box-content {
 .widget .box-title {
   cursor: move;
 }
+.widget li {
+  line-height: 1.7;
+}
 .widget .list {
   padding-bottom: 10px;
   border-bottom: 1px solid #c9c9c9;
@@ -2702,6 +2729,19 @@ section.box .box-content {
 }
 .widget .box-button {
   text-align: right;
+}
+.widget span.number {
+  font-size: 17px;
+  font-weight: 700;
+  margin-right: 17px;
+  vertical-align: baseline;
+}
+.widget span.warning {
+  color: red;
+}
+#widget_application img {
+  float: left;
+  margin-right: 20px;
 }
 /* Standart Form
 *******************************/
@@ -2972,10 +3012,15 @@ table.data .ipad {
   padding-bottom: 1em;
 }
 #event .main-box .main-box-title h3, #album .main-box .main-box-title h3, #client .main-box .main-box-title h3 {
+  vertical-align: middle;
   float: left;
   padding-top: 12px;
   margin: 0;
   color: #5e646e;
+}
+#event .main-box .main-box-title h3 a, #album .main-box .main-box-title h3 a, #client .main-box .main-box-title h3 a {
+  vertical-align: middle;
+  float: none;
 }
 #event .main-box .main-box-title a, #album .main-box .main-box-title a, #client .main-box .main-box-title a {
   float: right;

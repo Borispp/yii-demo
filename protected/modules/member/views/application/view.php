@@ -3,13 +3,17 @@
 		<div class="box-title">
 			<h3><?php echo $app->name; ?></h3>
 			<div class="box-title-button">
-				<?php echo YsaHtml::link('<span class="icon i_pencil"></span>Edit General Settings', array('application/edit/' . $app->id), array('class' => 'secondary iconed')); ?>
+				<?php echo YsaHtml::link(
+					'<span class="icon i_pencil"></span>Edit General Settings',
+					array('application/edit/' . $app->id),
+					array('class' => 'secondary iconed'));
+				?>
 			</div>
 		</div>
 		<div class="box-content">
 			<div class="cf info">
 				<div class="shadow-box status">
-					<h4>Current Application Status</h4>
+					<h4><?php YsaHelpers::t('application', 'status_block_title')?></h4>
 					
 					<figure>
 						<?php echo $app->icon();?>
@@ -19,19 +23,19 @@
 					
 					<span class="button"><?php echo YsaHtml::link('Change Settings', array('wizard'), array('class' => 'btn')); ?></span>
 				</div>
-				<?php if (!$app->running()):?>
+				<?php if ($app->isPaid()):?>
 				<div class="shadow-box submit">
-					<h4>Submit your application</h4>
-					<p>Donec lorem nunc, facilisis a adipiscing vel, pulvinar et elit. Nullam nec dolor ut quam venenatis posuere. In at libero vitae urna semper dictum a a augue.</p>
+					<h4><?php YsaHelpers::t('application', 'submit_block_title')?></h4>
+					<p><?php YsaHelpers::t('application', 'submit_block_text')?></p>
 					<?php if (!$app->submitted()) : ?>
-						<span class="button"><?php echo YsaHtml::link('Submit for Review', array('agreement'), array('class' => 'btn blue')); ?></span>
+						<span class="button"><?php echo YsaHtml::link(Yii::t('application', 'submit_button'), array('agreement'), array('class' => 'btn blue')); ?></span>
 					<?php endif; ?>
 				</div>
 				<?php else:?>
 				<div class="shadow-box submit">
-					<h4>Pay for your application</h4>
-					<p>You have 2 weeks to pay for you approved and running application. After that period it will be removed from appstore.</p>
-					<span class="button"><?php echo YsaHtml::link('Purchase App', array('pay'), array('class' => 'btn blue')); ?></span>
+					<h4><?php YsaHelpers::t('application', 'pay_block_title')?></h4>
+					<p><?php YsaHelpers::t('application', 'pay_block_text')?></p>
+					<span class="button"><?php echo YsaHtml::link(Yii::t('application', 'pay_button'), array('pay'), array('class' => 'btn blue')); ?></span>
 				</div>
 				<?php endif?>
 				<?php if ($app->hasSupport()) : ?>

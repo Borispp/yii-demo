@@ -231,11 +231,16 @@ $(function(){
 	
 	$.fn.initHomepageSlider = function(){
 		$(this).each(function(){
+			
+			var animate_speed = 800;
+			var interval_speed = 8000;
+			
 			var slider = $(this);
 			var slides = slider.find('li');
 			var buttons_container = $('<span class="buttons"></span>');
 			slides.each(function(k){
 				buttons_container.append('<a href="#" data-slide="' + k + '"></a>');
+				$.preload($(this).find('img').prop('src'));
 			});
 			slider.append(buttons_container);
 			var buttons = buttons_container.find('a');
@@ -256,14 +261,16 @@ $(function(){
                 }
 				var current = slides.filter(':visible');
 				var show = slides.filter('.slide' + link.data('slide'));
+				
 				animated = true;
 				
 				link.addClass('active').siblings('.active').removeClass('active');
 				if (current.length) {
-					current.fadeOut(400);
+					current.find('p, figure').fadeOut(animate_speed/2);
 				}
 				
-				show.css({
+				show.find('p').fadeIn(animate_speed);
+				show.find('figure').css({
 					opacity:0,
 					display:'block',
 					visibility:'visible',
@@ -274,6 +281,7 @@ $(function(){
                 }, 'swing', function() {
 					animated = false;
 				});
+				
 			}).filter(':first').trigger('click');
 			
 			
@@ -284,7 +292,7 @@ $(function(){
                     show = buttons.filter(':first');
                 }
                 show.trigger('click');
-            }, 5000);
+            }, interval_speed);
 			
 			
 		});

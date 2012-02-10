@@ -7,10 +7,12 @@
  * @property string $id
  * @property string $name
  * @property string $email
- * @property string $subject
  * @property string $message
  * @property string $created
  * @property string $updated
+ * @property string $studio_name
+ * @property string $studio_website
+ * @property string $phone_number
  */
 class ContactMessage extends YsaActiveRecord
 {
@@ -69,7 +71,6 @@ class ContactMessage extends YsaActiveRecord
 			'id' => 'ID',
 			'name' => 'Name',
 			'email' => 'Email',
-			'subject' => 'Subject',
 			'message' => 'Message',
 			'created' => 'Created',
 			'updated' => 'Updated',
@@ -83,9 +84,21 @@ class ContactMessage extends YsaActiveRecord
 	 */
 	public function sendEmail()
 	{
-		/**
-		 * TODO send email to admin 
-		 */
+		$admin = Admin::model()->findByPk(1);
+		
+		Email::model()->send(
+			array($admin->email, $admin->name()), 
+			'contact_admin', 
+			array(
+				'name'			=> $this->name,
+				'email'			=> $this->email,
+				'date'			=> Yii::app()->dateFormatter->formatDateTime(time()),
+				'studio_name'	=> $this->studio_name,
+				'studio_website'=> $this->studio_website,
+				'phone'			=> $this->phone_number,
+				'message'		=> $this->message(),
+			)
+		);
 	}
 	
 	public function message()

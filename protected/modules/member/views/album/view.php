@@ -119,7 +119,7 @@
 					<div><?php echo $avlForm->checkBox($availability, 'can_save', array('checked' => $availability->can_save)); ?></div>
 				</section>
 				<div class="button">
-					<?php echo YsaHtml::submitLoadingButton('Save'); ?>
+					<?php echo YsaHtml::submitLoadingButton('Save', array('class' => 'blue')); ?>
 				</div>
 				<?php $this->endWidget();?>
 			</div>
