@@ -98,7 +98,13 @@ class PaymentController extends YsaMemberController
 
 		$this->_getTransaction()->state = PaymentTransaction::STATE_SENT;
 		$this->_getTransaction()->save();
-		$this->render('pay');
+		$this->renderVar('memberEmail', $this->member()->email);
+		$this->renderVar('prepareUrl', $this->createAbsoluteUrl('/member/payment/prepare/', array(
+			'payway'         => $payway,
+			'transaction_id' => $this->_getTransaction()->id
+		)));
+		$this->renderVar('enableRedirect', $this->_getPayment($payway)->enableRedirect());
+		$this->render($this->_getPayment($payway)->getTemplateName());
 	}
 
 	protected function _process($payway)
@@ -115,6 +121,25 @@ class PaymentController extends YsaMemberController
 			$this->_getTransaction()->setPaid();
 		}
 		return $state;
+	}
+
+	/**
+	 * Custom method for authorize.net
+	 * @todo MAKE IT NOT SO CUSTOM
+	 * @param $payway
+	 * @return void
+	 */
+	public function actionPrepare($payway)
+	{
+		if ($this->_getPayment($payway)->prepare($this->_getTransaction()))
+		{
+			$this->setSuccess(Yii::t('payment','payment_done'));
+		}
+		else
+		{
+			$this->setError(Yii::t('payment','payment_failed'));
+		}
+		$this->redirect($this->_getTransaction()->getRedirectUrl());
 	}
 
 	public function actionCatchNotification($payway)
