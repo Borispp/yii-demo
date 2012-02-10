@@ -143,4 +143,19 @@ class YsaMemberPaypal implements YsaMemberPayment
 	{
 		return @$_POST['txn_id'];
 	}
+
+	public function getTemplateName()
+	{
+		return 'pay';
+	}
+
+	public function enableRedirect()
+	{
+		return TRUE;
+	}
+
+	public function prepare(PaymentTransaction $transaction)
+	{
+		return;
+	}
 }
