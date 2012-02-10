@@ -28,7 +28,7 @@
 					</td>
 
                     <td class="l">
-						<h5><?php echo $entry->subject; ?></h5>
+<!--						<h5><?php //echo $entry->subject; ?></h5>-->
 						<?php echo $entry->message(); ?>
 					</td>
                 </tr>

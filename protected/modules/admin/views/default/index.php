@@ -51,7 +51,6 @@
 		<table class="data">
 			<thead>
 				<tr>
-					<th class="w_1"><input type="checkbox" value="" class="ids-toggle" /></th>
 					<th class="w_10">Created</th>
 					<th class="l w_20">Sender</th>
 					<th class="l">Message</th>
@@ -60,7 +59,6 @@
 			<tbody>
 				<?php foreach ($c_messages as $entry) : ?>
 					<tr>
-						<td><input type="checkbox" class="del" value="<?php echo $entry->id; ?>" name="ids[]" /></td>
 						<td>
 							<?php echo $entry->created('medium', 'short'); ?>
 						</td>
@@ -71,8 +69,8 @@
 						</td>
 
 						<td class="l">
-							<h5><?php echo $entry->subject; ?></h5>
-							<?php echo $entry->message(); ?>
+<!--							<h5><?php //echo $entry->subject; ?></h5>-->
+							<?php echo substr($entry->message(), 0, 256); ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>
@@ -94,7 +92,7 @@
 					<th class="l">Type</th>
 					<th class="w_5">State</th>
 					<th class="w_5">Summ</th>
-					<th class="w_5">Creation Date</th>
+					<th class="w_6">Creation Date</th>
 					<th class="w_10">&nbsp;</th>
 				</tr>
 				</thead>
@@ -110,7 +108,7 @@
 					</td>
 					<td><?php echo $entry->state()?></td>
 					<td><?php echo $entry->summ?> <?php echo Yii::app()->settings->get('paypal_currency')?></td>
-					<td><?php echo date('m.d.Y', strtotime($entry->created))?></td>
+					<td><?php echo $entry->created('medium', 'short') ?></td>
 					<td>
 						<?php echo CHtml::link('View', array('payment/view', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
 					</td>
