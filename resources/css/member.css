@@ -1819,7 +1819,7 @@ header h1 a {
   text-indent: -9999px;
 }
 header nav {
-  padding: 20px 0;
+  padding: 15px 0;
   float: right;
   text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
   position: relative;
@@ -1827,6 +1827,7 @@ header nav {
 }
 header nav li {
   float: left;
+  position: relative;
   background: url(../images/nav-separator.png) 0 50% no-repeat;
   letter-spacing: .03em;
 }
@@ -1838,7 +1839,7 @@ header nav li:first-child {
 header nav li a {
   color: #3a3a3a;
   display: block;
-  padding: 10px 20px 10px 21px;
+  padding: 15px 20px 15px 21px;
   height: 11px;
   text-transform: uppercase;
   font-size: 11px;
@@ -1850,7 +1851,7 @@ header nav li a:hover {
   text-decoration: none;
   color: #03b6f2;
 }
-header nav li.active a {
+header nav li.active > a {
   color: #03b6f2;
 }
 header nav li.logout a:hover {
@@ -1870,6 +1871,29 @@ header nav li.login-visible a {
   border: 1px solid #e0e0e0;
   border-bottom: 0;
   color: #03b6f2;
+}
+header nav li ul {
+  display: none;
+  background: #ffffff;
+  position: absolute;
+  left: 0;
+  top: 40px;
+  padding: 5px 0;
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+}
+header nav li ul li {
+  display: block;
+  float: none;
+  background: none;
+}
+header nav li ul li a {
+  padding: 3px 0;
+  width: 120px;
+  text-align: center;
+  font-size: 10px;
+  display: block;
 }
 #login-window {
   position: absolute;

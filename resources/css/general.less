@@ -219,13 +219,14 @@ header {
 		}
 	}
 	nav {
-		padding:20px 0;
+		padding:15px 0;
 		float: right;
 		.text-shadow(rgba(255,255,255,.5));
 		position:relative;
 		z-index:100;
 		li {
 			float:left;
+			position:relative;
 			background:url(../images/nav-separator.png) 0 50% no-repeat;
 			letter-spacing:.03em;
 			&:first-child {
@@ -236,7 +237,7 @@ header {
 			a {
 				color:@gray-lima;
 				display:block;
-				padding:10px 20px 10px 21px;
+				padding:15px 20px 15px 21px;
 				height:11px;
 				text-transform:uppercase;
 				.font-shorthand(700, 11px, 1);
@@ -247,25 +248,20 @@ header {
 				}
 			}
 			&.active {
-				a {
+				> a {
 					color:@blue-bravo;
 				}
 			}
-
 			&.logout {
 				a:hover {
 					color:@gray-charlie;
 				}
 			}
-
-			
 			&.panel {
 				a {
 					color:@black-alpha;
 				}
 			}
-
-
 			&.login-visible {
 				a {
 					background:@white-alpha;
@@ -273,6 +269,27 @@ header {
 					border:1px solid @gray-hotel;
 					border-bottom:0;
 					color:@blue-bravo;
+				}
+			}
+			ul {
+				display:none;
+				background:@white-alpha;
+				position:absolute;
+				left:0;
+				top:40px;
+				padding:5px 0;
+				.shadow-gray-alpha;
+				li {
+					display:block;
+					float:none;
+					background:none;
+					a {
+						padding:3px 0;
+						width:120px;
+						text-align:center;
+						font-size:10px;
+						display:block;
+					}
 				}
 			}
 		}

@@ -48,9 +48,11 @@
         </footer>
     </div>
 	<span id="ajax-loader">loading...</span>
+	<?/*
 	<?php if (Yii::app()->settings->get('olark')) : ?>
 	    <?php echo Yii::app()->settings->get('olark'); ?>
 	<?php endif; ?>
+	 */?>
 	<?php if (Yii::app()->settings->get('google_analytics')) : ?>
 	    <?php echo Yii::app()->settings->get('google_analytics'); ?>
 	<?php endif; ?>
