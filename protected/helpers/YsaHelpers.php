@@ -195,43 +195,55 @@ class YsaHelpers
 	{
 		return str_ireplace(rtrim(Yii::getPathOfAlias('webroot'), '/'), '', $path);
 	}
-	
+
 	public static function formatDate($date, $format = 'Y-m-d H:i:s')
 	{
 		return date($format, strtotime($date));
 	}
 
-    public static function truncate($string, $length = 80, $etc = '&#133;', $break_words = false, $middle = false)
-    {
-        if ($length == 0)
-            return '';
+	/**
+	 * @static
+	 * @param $category
+	 * @param $message
+	 * @call Yii::t
+	 * @return void
+	 */
+	public static function t($category,$message)
+	{
+		echo Yii::t($category, $message);
+	}
 
-        if (strlen($string) > $length) {
-            $length -= min($length, strlen($etc));
-            if (!$break_words && !$middle) {
-                $string = preg_replace('/\s+?(\S+)?$/', '', substr($string, 0, $length+1));
-            }
-            if(!$middle) {
-                return substr($string, 0, $length) . $etc;
-            } else {
-                return substr($string, 0, $length/2) . $etc . substr($string, -$length/2);
-            }
-        } else {
-            return $string;
-        }
-    }
-	
+	public static function truncate($string, $length = 80, $etc = '&#133;', $break_words = false, $middle = false)
+	{
+		if ($length == 0)
+			return '';
+
+		if (strlen($string) > $length) {
+			$length -= min($length, strlen($etc));
+			if (!$break_words && !$middle) {
+				$string = preg_replace('/\s+?(\S+)?$/', '', substr($string, 0, $length+1));
+			}
+			if(!$middle) {
+				return substr($string, 0, $length) . $etc;
+			} else {
+				return substr($string, 0, $length/2) . $etc . substr($string, -$length/2);
+			}
+		} else {
+			return $string;
+		}
+	}
+
 	public static function encode($string)
 	{
 		return base64_encode(sha1($string, true));
 	}
-	
+
 	public static function short($number, $frombase = 20, $tobase = 36)
 	{
 		return base_convert($number, $frombase, $tobase);
 	}
-	
-	public static function readableFilesize($size) 
+
+	public static function readableFilesize($size)
 	{
 		$mod = 1024;
 
