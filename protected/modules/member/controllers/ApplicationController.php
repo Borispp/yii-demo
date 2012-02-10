@@ -123,14 +123,13 @@ class ApplicationController extends YsaMemberController
 		if (!$app) {
 			$this->redirect(array('application/create'));
 		}
-		if ($app->filled()) {
+		if ($app->isPaid()) {
 			$app->submit();
 			$app->lock();
 			Yii::app()->user->setFlash('congrats', 'congrats');
 			$this->redirect(array('congratulations'));
-		} else {
-			$this->redirect(array('view'));
 		}
+		$this->redirect(array('view'));
 	}
 
 	public function actionPay()
@@ -142,9 +141,8 @@ class ApplicationController extends YsaMemberController
 		if ($app->filled()) {
 			$transaction = $app->createTransaction();
 			$this->redirect(array('payment/choosepayway/transactionId/'.$transaction->id));
-		} else {
-			$this->redirect(array('view'));
 		}
+		$this->redirect(array('view'));
 	}
 
 	public function actionAgreement()
@@ -153,7 +151,7 @@ class ApplicationController extends YsaMemberController
 		if (!$app) {
 			$this->redirect(array('application/create'));
 		}
-		if (!$app->filled())
+		if (!$app->isPaid())
 		{
 			$this->redirect(array('view'));
 		}

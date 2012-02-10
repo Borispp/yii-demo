@@ -137,14 +137,17 @@ return array(
 
 		// uncomment the following to use a MySQL database
 		'db'=>array(
-			'connectionString' => 'mysql:host=office.flosites.com;dbname=yoursturioapp',
-			//			'connectionString' => 'mysql:host=localhost;dbname=ysadev',
-			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => 'iloveflosites',
-			'charset' => 'utf8',
-			'enableProfiling' => true,
-			'enableParamLogging' => true,
+			'connectionString'      => 'mysql:host=office.flosites.com;dbname=yoursturioapp',
+			'emulatePrepare'        => true,
+			'username'              => 'root',
+			'schemaCachingDuration' => 3600,
+			'password'              => 'iloveflosites',
+			'charset'               => 'utf8',
+			'enableProfiling'       => true,
+			'enableParamLogging'    => true,
+		),
+		'cache' => array (
+			'class' => 'system.caching.CFileCache'
 		),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors

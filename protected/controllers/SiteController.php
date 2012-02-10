@@ -22,8 +22,19 @@ class SiteController extends YsaFrontController
             'page' => $page,
 			'newsletterForm' => $newsletterForm,
 			'slides' => array(
-				Yii::app()->getBaseUrl(true) . '/resources/images/homepage/slide1.png',
-				Yii::app()->getBaseUrl(true) . '/resources/images/homepage/slide1.png',
+				array(
+					'image' => Yii::app()->getBaseUrl(true) . '/resources/images/homepage/slide1.png',
+					'caption' => 'a new way to <strong>market to<br/>your brides</strong> that encourages<br/>them to share your work',
+				),
+				array(
+					'image' => Yii::app()->getBaseUrl(true) . '/resources/images/homepage/slide2.png',
+					'caption' => 'debut at <br/><strong>WPPI LaunchPad <br/>Event</strong>&#133;',
+				),
+				array(
+					'image' => Yii::app()->getBaseUrl(true) . '/resources/images/homepage/slide3.png',
+					'caption' => 'connections to <strong>SmugMug</strong>, <br/> <strong>Zenfolio</strong>, and <strong>Pictage</strong> <br/>to allow for orders to <br/>be made from <strong>anywhere</strong>',
+				),
+				
 			)
         ));
     }

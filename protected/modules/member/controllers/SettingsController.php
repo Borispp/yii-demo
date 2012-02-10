@@ -8,10 +8,14 @@ class SettingsController extends YsaMemberController
 
 			if ($this->member()->validate()) {
 				$this->member()->save();
-				$this->member()->editOption('notify_by_email', isset($_POST['notify_by_email']));
 				$this->setSuccess(Yii::t('save', 'settings_changed'));
 				$this->refresh();
 			}
+		}
+
+		if (isset($_POST['notify_by_email']))
+		{
+			$this->member()->editOption('notify_by_email', isset($_POST['notify_by_email']));
 		}
 
 		$changePasswordForm = new SettingsChangePassword();
