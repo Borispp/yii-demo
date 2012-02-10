@@ -1550,10 +1550,10 @@ tango, uniform, victor, whiskey, x-ray, yankee, zulu.
   text-shadow: none;
 }
 ::-webkit-input-placeholder {
-  color: #777777;
+  color: #999999;
 }
-input:-moz-placeholder {
-  color: #777777;
+:-moz-placeholder {
+  color: #999999;
 }
 html,
 body,
@@ -2996,10 +2996,15 @@ table.data .ipad {
   padding-bottom: 1em;
 }
 #event .main-box .main-box-title h3, #album .main-box .main-box-title h3, #client .main-box .main-box-title h3 {
+  vertical-align: middle;
   float: left;
   padding-top: 12px;
   margin: 0;
   color: #5e646e;
+}
+#event .main-box .main-box-title h3 a, #album .main-box .main-box-title h3 a, #client .main-box .main-box-title h3 a {
+  vertical-align: middle;
+  float: none;
 }
 #event .main-box .main-box-title a, #album .main-box .main-box-title a, #client .main-box .main-box-title a {
   float: right;

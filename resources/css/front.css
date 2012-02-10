@@ -1548,10 +1548,10 @@ tango, uniform, victor, whiskey, x-ray, yankee, zulu.
   text-shadow: none;
 }
 ::-webkit-input-placeholder {
-  color: #777777;
+  color: #999999;
 }
-input:-moz-placeholder {
-  color: #777777;
+:-moz-placeholder {
+  color: #999999;
 }
 html,
 body,
@@ -2635,12 +2635,6 @@ a.btn {
   padding: 12px;
   width: 390px;
   font-size: 16px;
-  color: #777777;
-}
-.large-form section input[type=text]:focus,
-.large-form section input[type=password]:focus,
-.large-form section input[type=email]:focus,
-.large-form section textarea:focus {
   color: #454545;
 }
 .large-form section input[type=text].invalid,
@@ -2668,6 +2662,18 @@ a.btn {
   -webkit-box-shadow: inset 0 1px 3px rgba(100, 0, 0, 0.1), 0 0 5px rgba(250, 75, 75, 0.5);
   -moz-box-shadow: inset 0 1px 3px rgba(100, 0, 0, 0.1), 0 0 5px rgba(250, 75, 75, 0.5);
   box-shadow: inset 0 1px 3px rgba(100, 0, 0, 0.1), 0 0 5px rgba(250, 75, 75, 0.5);
+}
+.large-form section input[type=text]::-webkit-input-placeholder,
+.large-form section input[type=password]::-webkit-input-placeholder,
+.large-form section input[type=email]::-webkit-input-placeholder,
+.large-form section textarea::-webkit-input-placeholder {
+  color: #999999;
+}
+.large-form section input[type=text]:-moz-placeholder,
+.large-form section input[type=password]:-moz-placeholder,
+.large-form section input[type=email]:-moz-placeholder,
+.large-form section textarea:-moz-placeholder {
+  color: #999999;
 }
 .large-form section textarea {
   height: 100px;

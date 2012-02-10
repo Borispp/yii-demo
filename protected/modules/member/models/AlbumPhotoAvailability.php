@@ -24,7 +24,7 @@ class AlbumPhotoAvailability extends YsaFormModel
 			'can_order' => 'Available for order',
 			'can_share'	=> 'Available for share',
 			'can_save'	=> 'Available for saving',
-			'order_link' => 'Order Link',
+			'order_link' => 'Order URL',
 		);
 	}
 }

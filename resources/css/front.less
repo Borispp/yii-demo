@@ -459,9 +459,9 @@ a.btn{
 			padding:12px;
 			width:390px;
 			font-size:16px;
-			color:@gray-bravo;
+			color:@gray-bravo - 50%;
 			&:focus {
-				color:@gray-bravo - 50%;
+				
 			}
 			&.invalid,
 			&.error {
@@ -472,6 +472,12 @@ a.btn{
 					@shadow: inset 0 1px 3px rgba(100,0,0,.1), 0 0 5px rgba(250, 75, 75, .5);
 					.box-shadow(@shadow);
 				}
+			}
+			&::-webkit-input-placeholder {
+				color:    @gray-charlie;
+			}
+			&:-moz-placeholder {
+				color: @gray-charlie;
 			}
 		}
 		textarea {
