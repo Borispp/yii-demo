@@ -72,7 +72,7 @@ class YsaMemberAuthorizeNet implements YsaMemberPayment
 
 	public function getOuterId()
 	{
-		return ;
+		return;
 	}
 
 	public function getFormUrl()
