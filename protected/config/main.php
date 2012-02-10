@@ -31,7 +31,7 @@ return array(
 		'application.extensions.mailer.*',
 		'application.extensions.image.*',
 		'application.extensions.phpsmug.*',
-		'application.extensions.phpzenfolio.*',
+		'application.extensions.phpZenfolio.*',
 		'application.extensions.twitteroauth.*',
 		'ext.eoauth.*',
         'ext.eoauth.lib.*',
