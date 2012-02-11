@@ -22,7 +22,7 @@
         <header class="w cf">
 			<?php $this->widget('YsaMemberAnnouncementBar')?>
             <h1><a href="<?php echo Yii::app()->homeUrl; ?>">YourStudioApp</a></h1>
-            <nav>
+            <nav role="navigation">
                 <?php $this->widget('YsaMenu',array(
                     'htmlOptions' => array(
                         'class' => 'cf',
@@ -40,12 +40,12 @@
 			<?php endif; ?>
         </header>
     </div>
-    <section id="content" class="cf">
+    <section id="content" class="cf" role="main">
         <?php echo $content; ?>
     </section>
     <div class="lighter-w footer-w">
         <footer class="w">
-            <p><?php echo Yii::app()->settings->get('copyright'); ?>&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;site by <a href="http://flosites.com" rel="external">Flosites</a></p>
+            <p role="copyright"><?php echo Yii::app()->settings->get('copyright'); ?>&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;site by <a href="http://flosites.com" rel="external">Flosites</a></p>
         </footer>
     </div>
 	<span id="ajax-loader">loading...</span>

@@ -92,7 +92,7 @@ class User extends YsaActiveRecord
 			
 			'events'			=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC'),
 			'client'			=> array(self::HAS_MANY, 'Client', 'user_id', 'order' => 'id DESC'),
-			'client_events'		=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC', 'condition' => 'type!=:type', 'params' => array('type' => Event::TYPE_PROOF)),
+			'client_events'		=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC', 'condition' => 'type!=:type', 'params' => array('type' => Event::TYPE_PORTFOLIO)),
 			'proof_events'		=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC', 'condition' => 'type=:type', 'params' => array('type' => Event::TYPE_PROOF)),
 			'portfolio_events'	=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC', 'condition' => 'type=:type', 'params' => array('type' => Event::TYPE_PORTFOLIO)),
 			'public_events'		=> array(self::HAS_MANY, 'Event', 'user_id', 'order' => 'id DESC', 'condition' => 'type=:type', 'params' => array('type' => Event::TYPE_PUBLIC)),

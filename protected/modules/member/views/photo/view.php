@@ -75,7 +75,7 @@
 						<div class="content cf">
 							<ul class="edit">
 								<li><?php echo YsaHtml::link('<span></span>Rotate Left', array('photo/redact/photoId/' . $entry->id . '/act/rotate/p/left/')); ?></li>
-								<li><?php echo YsaHtml::link('<span></span>Rotate Right', array('photo/redact/photoId/' . $entry->id . '/act/rotate/p/left/')); ?></li>
+								<li><?php echo YsaHtml::link('<span></span>Rotate Right', array('photo/redact/photoId/' . $entry->id . '/act/rotate/p/right/')); ?></li>
 								<li><?php echo YsaHtml::link('<span></span>Flip Vertically', array('photo/redact/photoId/' . $entry->id . '/act/flip/p/vert/')); ?></li>
 								<li><?php echo YsaHtml::link('<span></span>Flip Horizontally', array('photo/redact/photoId/' . $entry->id . '/act/flip/p/horiz/')); ?></li>
 								<li><?php echo YsaHtml::link('<span></span>Restore from Original', array('photo/restore/photoId/' . $entry->id . '/')); ?></li>

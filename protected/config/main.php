@@ -253,7 +253,7 @@ return array(
 		'application'   => array(
 			'logo'  => array(
 				'width'  => 400,
-				'height' => 300,
+				'height' => 400,
 				'ext'    => 'png',
 			),
 			'icon'	=> array(

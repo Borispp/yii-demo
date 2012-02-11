@@ -573,6 +573,8 @@ class EventPhoto extends YsaActiveRecord
 		$this->extention = YsaHelpers::mimeToExtention($this->meta_type);
 		$this->alt = $data['Caption'];
 		$this->state = self::STATE_ACTIVE;
+		$this->created = $data['Date'];
+		$this->updated = date(EventPhoto::FORMAT_DATETIME);
 		
 		$data['from'] = 'smugmug';
 		$this->imported_data = serialize($data);

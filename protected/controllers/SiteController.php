@@ -6,7 +6,7 @@ class SiteController extends YsaFrontController
      * when an action is not explicitly requested by users.
      */
     public function actionIndex()
-    {	
+    {
         $page = Page::model()->findBySlug('homepage');
         $this->setMeta($page->meta());
 

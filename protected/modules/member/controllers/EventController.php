@@ -114,6 +114,9 @@ class EventController extends YsaMemberController
 				}
 				$this->redirect(array('event/view/' . $entry->id));
 			}
+		} else {
+			// set default state
+			$entry->state = Client::STATE_ACTIVE;
 		}
 
 		$this->crumb('Create New Event');

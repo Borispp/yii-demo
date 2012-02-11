@@ -9,5 +9,3 @@
 		<?php echo YsaHtml::link('x', array('deleteSpecials'), array('class' => 'btn delete red small', 'title' => 'Remove Image')); ?>
 	</div>
 <?php endif; ?>
-
-

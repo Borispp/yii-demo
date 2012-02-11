@@ -16,7 +16,7 @@
 			'radioValues' => array('color' => 'Color', 'image' => 'Image'),
 			'colorName' => 'studio_bg_color',
 			'imageName' => 'studio_bg_image',
-			'info'  => 'You should use some iOS icon generator like <a href="http://wizardtoolkit.com/shooter/iPhone-Icon-Generator" target="_blank">this</a> to make you icon shiny and professional',
+			'info'  => 'The top part of your Studio page can be customized with an image or color. Must be 1024x768 pixels.',
 			'form' => $form,
 			'model' => $model,
 		));
@@ -36,7 +36,7 @@
 			'radioValues' => array('color' => 'Color', 'image' => 'Image'),
 			'colorName' => 'generic_bg_color',
 			'imageName' => 'generic_bg_image',
-			'info'  => 'You should use some iOS icon generator like <a href="http://wizardtoolkit.com/shooter/iPhone-Icon-Generator" target="_blank">this</a> to make you icon shiny and professional',
+			'info'  => 'Select or upload the background your Events page will be set against. Must be 1024x768 pixels.',
 			'form' => $form,
 			'model' => $model,
 		));
