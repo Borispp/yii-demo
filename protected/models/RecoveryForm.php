@@ -1,10 +1,10 @@
 <?php
-class RecoveryForm extends YsaFormModel 
+class RecoveryForm extends YsaFormModel
 {
 	public $email;
-        
+
 	public $user_id;
-	
+
 	public function rules()
 	{
             return array(
@@ -22,7 +22,7 @@ class RecoveryForm extends YsaFormModel
 			'email' => 'Email',
 		);
 	}
-	
+
 	public function checkexists($attribute, $params) {
 		if(!$this->hasErrors()) {
 			$user=User::model()->findByAttributes(array('email' => $this->email));

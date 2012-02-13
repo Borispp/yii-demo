@@ -341,6 +341,22 @@ class EventAlbum extends YsaActiveRecord
 		
 		return $previewUrl;
 	}
+
+	public function previewFilesize()
+	{
+		$photo = $this->cover();
+
+		$w = Yii::app()->params['member_area']['album']['preview']['width'];
+		$h = Yii::app()->params['member_area']['album']['preview']['height'];
+
+		if ($photo) {
+			$size = $photo->previewFilesize($w, $h);
+		} else {
+			$size = $photo->defaultPicFilesize($w, $h);
+		}
+
+		return $size;
+	}
 	
 	/**
 	 * Album cover

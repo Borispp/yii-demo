@@ -70,7 +70,7 @@ class ClientController extends YsaApiController
 			'password'			=> $_POST['password'],
 			'added_with'		=> 'ipad',
 			'state'				=> 1,
-			'client_id'			=> $this->_getApplication()->user_id
+			'user_id'			=> $this->_getApplication()->user_id
 		);
 		if (!empty($_POST['phone']))
 			$params['phone'] = $_POST['phone'];
@@ -137,8 +137,9 @@ class ClientController extends YsaApiController
 				'required' => TRUE
 			)
 		));
-		$form = new RecoveryForm();
+		$form = new RecoveryClientForm();
 		$form->email = $_POST['email'];
+		$form->user_id = $this->_getApplication()->user_id;
 		if (!$form->validate())
 		{
 			$this->_render(array(
@@ -146,14 +147,16 @@ class ClientController extends YsaApiController
 					'message' => $form->getError('email'),
 				));
 		}
-		$entry = User::model()->findbyPk($form->user_id);
+		$client = $form->getClient();
+		$newPassword = YsaHelpers::genRandomString(6);
+		$client->password = $newPassword;
+		$client->save();
 		$sent = Email::model()->send(
-			array($entry->email, $entry->name()),
-			'member_recovery',
+			array($client->email, $client->name),
+			'client_recovery',
 			array(
-				'name'  => $entry->name(),
-				'email' => $form->email,
-				'link'  => $entry->getRecoveryLink(),
+				'name'        => $client->name,
+				'newpassword' => $newPassword,
 			)
 		);
 		if (!$sent)

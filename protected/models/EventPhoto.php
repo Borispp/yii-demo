@@ -301,6 +301,11 @@ class EventPhoto extends YsaActiveRecord
 			return $this->defaultPicUrl($width, $height);
 		}
 	}
+
+	public function previewFilesize($width = 300, $height = 200)
+	{
+		return filesize(ImageHelper::thumbPath($width, $height, $this->path()));
+	}
 	
 	/**
 	 * Show preview image
@@ -443,6 +448,11 @@ class EventPhoto extends YsaActiveRecord
 	public function defaultPicUrl($width = 300, $height = 200)
 	{	
 		return ImageHelper::thumb($width, $height, ImageHelper::defaultImagePath());
+	}
+
+	public function defaultPicFilesize($width = 300, $height = 200)
+	{
+		return filesize(ImageHelper::thumbPath($width, $height, ImageHelper::defaultImagePath()));
 	}
 
 	/**
