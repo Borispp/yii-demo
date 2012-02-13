@@ -1,18 +1,15 @@
 <?php
 class AuthController extends YsaFrontController
 {
-	/**
-	* Declares class-based actions.
-	*/
-//	public function actions()
-//	{
-//		return array(
-//			'captcha'=>array(
-//			 'class'=>'CCaptchaAction',
-//			 'backColor'=>0xFFFFFF,
-//			),
-//		);
-//	}
+	public function beforeAction($action) {
+		parent::beforeAction($action);
+		
+		if (!isset($_GET['b51']) && $this->getAction()->getId() != 'logout') {
+			$this->redirect(array('/comingsoon'));
+		}
+		
+		return true;
+	}
 	
 	/**
 	 * Displays the login page
