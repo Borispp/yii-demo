@@ -309,7 +309,13 @@ class YsaController extends CController
 
 		if ($this->isWebsite()) {
 			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/front.js', CClientScript::POS_HEAD)
-					->registerCssFile(Yii::app()->baseUrl . '/resources/css/front.css');			
+					->registerCssFile(Yii::app()->baseUrl . '/resources/css/front.css')
+					->registerCssFile(Yii::app()->baseUrl . '/resources/css/front-responsive.css', 'screen and (max-width: 1100px)');
+			
+			
+			
+			
+			
 			
 		} elseif ($this->isMemberPanel()) {
 			// register js
@@ -343,9 +349,24 @@ class YsaController extends CController
 	public function _productionBeforeRender()
 	{
 		if ($this->isWebsite()) {
-			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/compressed/frontplugins.js', CClientScript::POS_HEAD)
-					->registerScriptFile('http://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js', CClientScript::POS_HEAD)
-					->registerCssFile(Yii::app()->baseUrl . '/resources/css/front.css');			
+//			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/scrollto.js', CClientScript::POS_HEAD)
+//					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/compressed/frontplugins.js', CClientScript::POS_HEAD)
+//					->registerScriptFile('http://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js', CClientScript::POS_HEAD)
+//					->registerCssFile(Yii::app()->baseUrl . '/resources/css/front.css')
+//					->registerCssFile(Yii::app()->baseUrl . '/resources/css/front-responsive.css', 'screen and (max-width: 1100px)');	
+			
+			
+			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/modernizr.js', CClientScript::POS_HEAD)
+				->registerScriptFile('http://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js', CClientScript::POS_HEAD)
+				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/scrollto.js', CClientScript::POS_HEAD)
+				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/color.js', CClientScript::POS_HEAD)
+				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/form.js', CClientScript::POS_HEAD)
+				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD);
+			
+			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/front.js', CClientScript::POS_HEAD)
+					->registerCssFile(Yii::app()->baseUrl . '/resources/css/front.css')
+					->registerCssFile(Yii::app()->baseUrl . '/resources/css/front-responsive.css', 'screen and (max-width: 1100px)');
+			
 			
 		} elseif ($this->isMemberPanel()) {
 			// register main js

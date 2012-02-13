@@ -9,9 +9,6 @@
         global $page, $paged;
         wp_title( '|', true, 'right' );
         bloginfo( 'name' );
-        $site_description = get_bloginfo( 'description', 'display' );
-        if ( $site_description && ( is_home() || is_front_page() ) )
-            echo " | $site_description";
         if ( $paged >= 2 || $page >= 2 )
             echo ' | ' . sprintf('Page %s', max( $paged, $page ));
     ?></title>
@@ -22,7 +19,7 @@
     <!--[if lt IE 9]>
         <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-	
+	<link rel="shortcut icon" type="image/x-icon" href="<?php echo YOURSTUDIOAPP_WEBSITE . '/' ?>favicon.ico" />
 	<script type="text/javascript">
 	var disqus_developer = true; 
 	</script>

@@ -14,6 +14,7 @@ class Flotheme_App extends Flotheme
 		
 		wp_enqueue_script('modernizr', YOURSTUDIOAPP_WEBSITE . '/resources/js/compressed/frontplugins.js');
 		wp_enqueue_style('front_css', YOURSTUDIOAPP_WEBSITE . '/resources/css/front.css');
+		wp_enqueue_style('responsive_css', YOURSTUDIOAPP_WEBSITE . '/resources/css/front-responsive.css', 'front_css', 1, 'screen and (max-width: 1100px)');
     }
     
     /**

@@ -37,7 +37,7 @@ class SiteController extends YsaFrontController
 				),
 				array(
 					'image' => Yii::app()->getBaseUrl(true) . '/resources/images/homepage/slide5.png',
-					'caption' => 'Debuting in WPPI at the<br/>LaunchPad Event on<br/><strong>February 19th</stong>',
+					'caption' => 'Debuting in WPPI at the<br/>LaunchPad Event on<br/><strong>February 19th</strong>',
 				),
 			),
         ));
