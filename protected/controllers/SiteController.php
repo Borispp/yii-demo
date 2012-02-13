@@ -10,11 +10,8 @@ class SiteController extends YsaFrontController
         $page = Page::model()->findBySlug('homepage');
         $this->setMeta($page->meta());
 
-		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/fancybox.js', CClientScript::POS_END)
-				  ->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/fancybox.css')
-				  ->registerScriptFile('http://vjs.zencdn.net/c/video.js', CClientScript::POS_HEAD)
-				  ->registerCssFile('http://vjs.zencdn.net/c/video-js.css');
-		
+		$this->loadFancybox()
+			->loadVideoJS();
 		
 		$newsletterForm = new NewsletterForm();
 		
