@@ -1,7 +1,7 @@
 <section id="studio" class="w">
 	<section class="box">
 		<div class="box-title">
-			<h3>General Information</h3>
+			<h3>Blog and Social Media Information</h3>
 			<?php if ($entry->help('general')) : ?>
 				<a href="<?php echo $entry->help('general');?>" class="box-help fancybox">?</a>
 			<?php endif; ?>
@@ -31,7 +31,7 @@
 	
 	<section class="box">
 		<div class="box-title">
-			<h3>Specials</h3>
+			<h3>Specials/Custom Page</h3>
 			<?php if ($entry->help('specials')) : ?>
 				<a href="<?php echo $entry->help('specials');?>" class="box-help fancybox">?</a>
 			<?php endif; ?>
@@ -57,6 +57,11 @@
 		</div>
 		<div class="box-content">
 			<div class="shadow-box">
+				
+				<div class="box-description">
+					Create unique profiles for all of your studio photographers to be seen on the Studio page within your app. Each profile photo should be 100x100 pixels.
+				</div>
+				
 				<?php if (count($entry->persons)) : ?>
 					<ul class="list persons cf">
 						<?php foreach ($entry->persons as $person) : ?>
@@ -86,7 +91,7 @@
 		</div>
 		<div class="box-content">
 			<div class="shadow-box">
-				<div class="box-description">These links are shown under "More" tab in your Application</div>
+				<div class="box-description">These links are shown under the “more” tab in your application.</div>
 				<?php if (count($entry->customLinks)) : ?>
 					<ul class="list links cf" data-type="<?php echo StudioLink::TYPE_BOOKMARK?>">
 						<?php foreach ($entry->customLinks as $link) : ?>
@@ -104,7 +109,7 @@
 	
 	<section class="box" id="studio-bookmark-links">
 		<div class="box-title">
-			<h3>Bookmarks</h3>
+			<h3>Studio Page Featured Links</h3>
 			<?php if ($entry->help('bookmarks')) : ?>
 				<a href="<?php echo $entry->help('bookmarks');?>" class="box-help fancybox">?</a>
 			<?php endif; ?>
@@ -114,6 +119,11 @@
 		</div>
 		<div class="box-content">
 			<div class="shadow-box">
+				
+				<div class="box-description">
+					You can add up to 10 of links to display on your Studio page. Maximum amount of 50 characters per line.
+				</div>
+				
 				<?php if (count($entry->bookmarkLinks)) : ?>
 					<ul class="list links cf" data-type="<?php echo StudioLink::TYPE_BOOKMARK?>">
 						<?php foreach ($entry->bookmarkLinks as $link) : ?>

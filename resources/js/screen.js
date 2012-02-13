@@ -16,7 +16,6 @@ $(function(){
                    function(firstLetter){
                       return   firstLetter.toUpperCase();
                    });
-
 	}
 	
 	$.fn.backgroundImageUrl = function(options) {
@@ -189,9 +188,8 @@ $(function(){
 	}
 	$('header nav').initNav();
 	
-	yepnope({
+	Modernizr.load({
 		test: Modernizr.input.placeholder,
-//		yep : 'geo.js',
-		nope: _polyfill_url + '/placeholder.js'
+		nope: _polyfill_url + '/placeholder.js'		
 	});
 });

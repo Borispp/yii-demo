@@ -22,41 +22,6 @@
  */
 class Application extends YsaActiveRecord
 {
-//	/**
-//	 * Created by member
-//	 */
-//	const STATE_CREATED = 1;
-//
-//	/**
-//	 * Approved by website moderator
-//	 */
-//	const STATE_SUBMITTED = 2;
-//	
-//	/**
-//	 * Approved by website moderator
-//	 */
-//	const STATE_MODERATOR_APPROVED = 3;
-//
-//	/**
-//	 * Waiting AppStore Approval
-//	 */
-//	const STATE_APPSTORE_WAITING_APPROVAL = 4;
-//
-//	/**
-//	 * Application is ready to work
-//	 */
-//	const STATE_READY = 5;
-//
-//	/**
-//	 * Unapproved by website moderator
-//	 */
-//	const STATE_MODERATOR_UNAPROVED = -3;
-//
-//	/**
-//	 * Rejected by AppStore
-//	 */
-//	const STATE_APPSTORE_REJECTED = -4;
-	
 	protected $_ticket;
 	
 	public $default_style;
@@ -64,31 +29,36 @@ class Application extends YsaActiveRecord
 	protected $_steps = array(
 		'logo' => array(
 			'position' => 1,
-			'title' => 'Logo',
-			'title_annotation' => 'Logo &amp; backgrounds',
-			'header' => 'Upload Your Logo',
+			'title' => 'Icons/Logos',
+			'short_title' => 'Icons/Logos',
+			'title_annotation' => 'Upload your icons &amp; logos',
+			'header' => 'Upload your icons &amp; logos',
 		),
 		'colors' => array(
 			'position' => 2,
-			'title' => 'Colors',
+			'title' => 'Design Your Backgrounds',
+			'short_title' => 'Backgrounds',
 			'title_annotation' => 'Colors &amp; images',
-			'header' => 'Set Your Colors',
+			'header' => 'Design Your Backgrounds',
 		),
 		'fonts' => array(
 			'position' => 3,
-			'title' => 'Fonts',
-			'title_annotation' => 'Fonts &amp; colors',
-			'header' => 'Choose Your Fonts',
+			'title' => 'Choose Your Fonts and Colors',
+			'short_title' => 'Fonts',
+			'title_annotation' => 'Your Typography',
+			'header' => 'Choose Your Fonts and Colors',
 		),
 		'copyrights' => array(
 			'position' => 4,
-			'title' => 'Copyrights',
-			'title_annotation' => 'Copyrights',
-			'header' => 'Set Your Copyrights',
+			'title' => 'Insert Your Copyright',
+			'short_title' => 'Copyrights',
+			'title_annotation' => 'Copyright your app',
+			'header' => 'Insert Your Copyright',
 		),
 		'submit' => array(
 			'position' => 5,
-			'title' => 'Submit',
+			'title' => 'Submit Your Application',
+			'short_title' => 'Submit',
 			'title_annotation' => 'It\'s all done!',
 			'header' => 'Submit Your Application',
 		),	
@@ -151,7 +121,7 @@ class Application extends YsaActiveRecord
 			'passwd' => 'Password',
 			'state' => 'State',
 			'name' => 'Name',
-			'default_style' => 'Default Style',
+			'default_style' => 'Main Color Scheme',
 		);
 	}
 

@@ -11,7 +11,7 @@
 				<a href="<?php echo $model->help('main') ?>" class="help fancybox" title="<?php echo Yii::t('general', 'Main Font'); ?>">?</a>
 			<?php endif; ?>
 		</label>
-		<p>Please select the main font for your application. Font is used in headers, comments, etc.</p>
+		<p>Please select the main font and color for your application. This font is used in headers, comments, etc.</p>
 		<div class="font-style">
 			<?php echo $form->labelEx($model, 'main_font'); ?>
 			<div>
@@ -36,7 +36,7 @@
 				<a href="<?php echo $model->help('second') ?>" class="help fancybox" title="<?php echo Yii::t('general', 'Secondary Font'); ?>">?</a>
 			<?php endif; ?>
 		</label>
-		<p>Please select the secondary font for your application. Font is used in notifications, navigation, etc.</p>
+		<p>Please select the secondary font and color for your application. This font is used in notifications, navigation, etc.</p>
 		
 		<div class="font-style">
 			<?php echo $form->labelEx($model, 'second_font'); ?>

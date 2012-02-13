@@ -1539,6 +1539,11 @@ tango, uniform, victor, whiskey, x-ray, yankee, zulu.
   background: -ms-linear-gradient(bottom, #e9e9e9, #ebebeb);
   background: -moz-linear-gradient(center bottom, #e9e9e9 0%, #ebebeb 100%);
 }
+.inline-block {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
 ::selection {
   background: #00a7dd;
   color: #ffffff;
@@ -2089,9 +2094,6 @@ div.flash a {
   color: #333333;
   text-decoration: underline;
 }
-#static-notifications {
-  display: none;
-}
 div.static-flash {
   margin-bottom: 24px;
   color: #3a3a3a;
@@ -2293,6 +2295,8 @@ a.btn,
 input[type="submit"],
 input[type="button"] {
   display: inline-block;
+  *display: inline;
+  *zoom: 1;
   cursor: pointer;
   padding: 8px 12px;
   text-decoration: none;
@@ -2488,6 +2492,8 @@ a.btn {
 }
 a.secondary {
   display: inline-block;
+  *display: inline;
+  *zoom: 1;
   cursor: pointer;
   text-decoration: none;
   position: relative;
@@ -2542,6 +2548,8 @@ a.secondary.iconed .icon {
 *******************************/
 .label {
   display: inline-block;
+  *display: inline;
+  *zoom: 1;
   margin: 2px;
   padding: 0 6px;
   color: #ffffff;
@@ -2733,7 +2741,9 @@ section.box .box-content {
 .widget span.number {
   font-size: 17px;
   font-weight: 700;
-  margin-right: 17px;
+  line-height: 1.2;
+  display: inline-block;
+  width: 40px;
   vertical-align: baseline;
 }
 .widget span.warning {
@@ -3481,7 +3491,9 @@ section.smugmug-import .import li span, section.zenfolio-import .import li span 
   display: none;
 }
 #wizard-accordion .step p {
-  line-height: 1.3;
+  font-size: 11px;
+  font-weight: normal;
+  line-height: 13px;
 }
 #wizard-accordion .step .loading {
   display: none;
@@ -3664,6 +3676,8 @@ section.smugmug-import .import li span, section.zenfolio-import .import li span 
 }
 #wizard-accordion .step .switcher li {
   display: inline-block;
+  *display: inline;
+  *zoom: 1;
   width: 180px;
 }
 /****  color picker ****/
@@ -3767,12 +3781,6 @@ section.smugmug-import .import li span, section.zenfolio-import .import li span 
 #wizard-breadcrumbs li a:hover {
   background-position: 0 -120px;
 }
-#wizard-breadcrumbs li:last-child a {
-  width: 160px;
-}
-#wizard-breadcrumbs li a:active, #wizard-breadcrumbs li.active a {
-  background-position: 0 0;
-}
 #wizard-breadcrumbs li a span {
   display: block;
   height: 60px;
@@ -3790,16 +3798,22 @@ section.smugmug-import .import li span, section.zenfolio-import .import li span 
   line-height: 60px;
   text-align: center;
 }
+#wizard-breadcrumbs li a:active, #wizard-breadcrumbs li.active a {
+  background-position: 0 0;
+}
+#wizard-breadcrumbs li:last-child a {
+  width: 160px;
+}
 #wizard-breadcrumbs li a span strong {
   position: absolute;
   left: 50px;
-  top: 10px;
+  top: 12px;
   font: normal normal 14px "Candal", sans-serif;
   text-transform: uppercase;
   font-weight: bold;
 }
 #wizard-breadcrumbs li a span em {
-  font: normal normal 12px Arial, Helvetica, sans-serif;
+  font: normal normal 11px Arial, Helvetica, sans-serif;
   text-transform: none;
   display: block;
 }

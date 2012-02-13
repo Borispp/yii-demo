@@ -24,8 +24,14 @@
 	<div class="homepage-video-wrapper">
 		<section id="homepage-video">
 			<div class="content">
+				<?/*
 				<h2>Watch the<span>YsaStudioApp Video</span></h2>
 				<p>Hey everyone! So great to have you be a part of YSA's launch! Less than 24hrs. into our announcement and we've already been getting some great feedback and we appreciate you spreading the word! We know you're intrigued about what's to come!</p>
+				 */?>
+				<h2>Watch the <span>YourStudioApp Video</span></h2>
+				
+				<p>What Exactly is Your Studio App? <br/>Watch This Quick Video to Find Out!</p>
+				
 				<div class="buttons">
 					<?php echo YsaHtml::link('Tour', array('/tour'), array('class' => 'btn black')); ?>
 					<span></span>

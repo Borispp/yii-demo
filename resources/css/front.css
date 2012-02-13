@@ -13,9 +13,7 @@ section {
   display: block;
 }
 audio[controls], canvas, video {
-  display: inline-block;
-  *display: inline;
-  *zoom: 1;
+	.inline-block;
 }
 html {
   overflow-y: scroll;
@@ -507,7 +505,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
   left: -91.667%;
 }
 .icon {
-  display: inline-block;
+  .inline-block;
   background-image: url(../images/icons-gray.png);
   background-repeat: no-repeat;
   background-position: 0 0;
@@ -2087,9 +2085,6 @@ div.flash a {
   color: #333333;
   text-decoration: underline;
 }
-#static-notifications {
-  display: none;
-}
 div.static-flash {
   margin-bottom: 24px;
   color: #3a3a3a;
@@ -2125,7 +2120,7 @@ button,
 a.btn,
 input[type="submit"],
 input[type="button"] {
-  display: inline-block;
+  .inline-block;
   cursor: pointer;
   padding: 6px 12px;
   text-decoration: none;
@@ -2278,7 +2273,7 @@ a.btn {
   background: url(../images/homepage-sign-arr.png) 50% 50% no-repeat;
   width: 60px;
   text-indent: -9999px;
-  display: inline-block;
+  .inline-block;
   vertical-align: middle;
 }
 #homepage-header a.signup .click {
@@ -2302,7 +2297,7 @@ a.btn {
   text-align: center;
 }
 #homepage-slider .buttons a {
-  display: inline-block;
+  .inline-block;
   width: 10px;
   height: 10px;
   margin: 0 3px;
@@ -2395,7 +2390,7 @@ a.btn {
   box-shadow: 0px 2px 0px 1px rgba(0, 0, 0, 0.15);
 }
 #homepage-video .content .buttons span {
-  display: inline-block;
+  .inline-block;
   background: url(../images/nav-separator.png) 50% 50% no-repeat;
   width: 40px;
   height: 12px;
@@ -3116,7 +3111,7 @@ a.btn {
   text-align: right;
 }
 #blog #blog-content article .more a {
-  display: inline-block;
+  .inline-block;
   cursor: pointer;
   padding: 6px 12px;
   text-decoration: none;

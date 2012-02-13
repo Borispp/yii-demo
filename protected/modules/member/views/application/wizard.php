@@ -3,7 +3,7 @@
 		<ul>
 			<?php foreach ($app->wizardSteps() as $step => $stepOptions) : ?>
 				<li class="<?php echo $step?><?php $step == 'logo' ? ' active' : ''?>">
-					<a href="#"><span><i><?php echo $stepOptions['position']; ?></i><strong><?php echo $stepOptions['title']; ?><em><?php echo $stepOptions['title_annotation']; ?></em></strong></span></a>
+					<a href="#"><span><i><?php echo $stepOptions['position']; ?></i><strong><?php echo $stepOptions['short_title']; ?><em><?php echo $stepOptions['title_annotation']; ?></em></strong></span></a>
 				</li>
 			<?php endforeach; ?>
 		</ul>

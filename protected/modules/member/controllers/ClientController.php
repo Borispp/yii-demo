@@ -30,6 +30,9 @@ class ClientController extends YsaMemberController
 					$entry->selectedEvents = $entry->prepareSelectedEvents($_POST['Client']['eventList']);
 				}
 			}
+		} else {
+			// set default state
+			$entry->state = Client::STATE_ACTIVE;
 		}
 		$this->setMemberPageTitle(Yii::t('title', 'client_new'));
 		

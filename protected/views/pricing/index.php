@@ -1,7 +1,7 @@
 <div class="general-page" id="pricing">
 	<div class="content">
 		<div class="idea">
-			<h2><?php echo Yii::t('general', 'The Idea'); ?></h2>
+			<h2><?php echo Yii::t('general', 'The Process'); ?></h2>
 			<span class="image"></span>
 		</div>
 		
@@ -16,7 +16,7 @@
 						<h2>Application Creation</h2>
 						<span class="p"><del>$1000</del><ins>$500</ins></span>
 						<ul>
-							<li>Development of your Application by YSA</li>
+							<li>Development of your Application with YSA</li>
 							<li>Review and Submission to the App Store</li>
 							<li>1-on-1 Direct Support at any Time During the Creation Process</li>
 						</ul>
@@ -27,9 +27,9 @@
 						<h2>Hosting</h2>
 						<span class="p"><del>$20</del><ins>free</ins></span>
 						<ul>
-							<li>Maintains and Allows your Application to Remain Free to Download by Anyone in the App Store</li>
+							<li>Maintains your Application in the App Store with future upgrades &amp; releases</li>
 							<li>Web Back End Hosting and Instant Access to Your Application</li>
-							<li>Eligible for all YSA Software and Feature Updates</li>
+							<li>Eligible for all YSA  Feature Updates</li>
 						</ul>
 					</div>
 				</div>

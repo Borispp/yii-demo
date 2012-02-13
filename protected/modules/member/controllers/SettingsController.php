@@ -334,4 +334,19 @@ class SettingsController extends YsaMemberController
 		
 		$this->redirect(array('settings/'));
 	}
+	
+	/**
+	 *  Resend the activation link
+	 */
+	public function actionResendActlink()
+	{
+		$this->member()->generateActivationKey();
+		
+		if ($this->member()->save(false) && $this->member()->sendActivationLink())
+			$this->setSuccess('Email with activation link was sent');
+		else
+			$this->setError('Unable to send email with activation link');
+		
+		$this->redirect(array('settings/'));
+	}
 }

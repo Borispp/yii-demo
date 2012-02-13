@@ -22,7 +22,7 @@
 	</section>
 	<section class="part icons shadow-box <?php echo $locked ? 'locked' : ''?>" id="wizard-box-icon">
 		<label class="title cf">
-			<span><?php echo Yii::t('general', 'iPad Icon'); ?>&nbsp;&nbsp;</span>
+			<span><?php echo Yii::t('general', 'Your iPad Icon'); ?>&nbsp;&nbsp;</span>
 			<?php if ($model->help('icon')) : ?>
 				<a href="<?php echo $model->help('icon') ?>" class="help fancybox" title="<?php echo Yii::t('general', 'iPad Icon'); ?>">?</a>
 			<?php endif; ?>
@@ -31,7 +31,7 @@
 			$this->renderPartial($locked ? '/wizard/_imagelock' : '/wizard/_uploader', array(
 				'name'	=> 'icon',
 				'model' => $model,
-				'info'  => 'You should use some iOS icon generator like <a href="http://wizardtoolkit.com/shooter/iPhone-Icon-Generator" target="_blank">this</a> to make you icon shiny and professional',
+				'info'  => 'This is what will appear on your device. Must be 72x72 pixels. Use an iOS icon generator like this to make your icon shiny and professional.',
 			));
 		?>
 	</section>
@@ -47,7 +47,7 @@
 			$this->renderPartial($locked ? '/wizard/_imagelock' : '/wizard/_uploader', array(
 				'name'	=> 'itunes_logo',
 				'model' => $model,
-				'info'  => 'You should use some iOS icon generator like <a href="http://wizardtoolkit.com/shooter/iPhone-Icon-Generator" target="_blank">this</a> to make you icon shiny and professional',
+				'info'  => 'Design what icon will be seen in iTunes and on the App Store. Usually a larger version of your mobile icon (512x512 pixels).',
 			));
 		?>
 	</section>
@@ -65,7 +65,7 @@
 				'radioValues' => array('color' => 'Color', 'image' => 'Image'),
 				'colorName' => 'splash_bg_color',
 				'imageName' => 'splash_bg_image',
-				'info'  => 'You should use some iOS icon generator like <a href="http://wizardtoolkit.com/shooter/iPhone-Icon-Generator" target="_blank">this</a> to make you icon shiny and professional',
+				'info'  => 'This is the image seen when your app first opens. Should be 1024x768 pixels to account for the navigation bar at the bottom.',
 				'form' => $form,
 				'model' => $model,
 			));
@@ -83,7 +83,7 @@
 			$this->renderPartial($locked ? '/wizard/_imagelock' : '/wizard/_uploader', array(
 				'name'	=> 'logo',
 				'model' => $model,
-				'info'  => 'You should use some iOS icon generator like <a href="http://wizardtoolkit.com/shooter/iPhone-Icon-Generator" target="_blank">this</a> to make you icon shiny and professional',
+				'info'  => 'Your logo will appear at the top of the Events page. Click on the “?” to see it’s location on your app. Should be no larger than 400x400 pixels.',
 			));
 		?>
 	</section>

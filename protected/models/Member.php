@@ -335,15 +335,7 @@ class Member extends User
 		
 		// send confirmation email
 		if ($confirm_email) {
-			Email::model()->send(
-				array($this->email, $this->name()), 
-				'member_confirmation', 
-				array(
-					'name'	=> $this->name(),
-					'email' => $this->email,
-					'link'	=> $this->getActivationLink(),
-				)
-			);
+			$this->sendActivationLink();
 		}
 		
 		$mailchimp = new MCAPI(Yii::app()->settings->get('mailchimp_list_id'));
@@ -357,6 +349,23 @@ class Member extends User
 		}
 		
 		return true;
+	}
+	
+	/**
+	 *
+	 * @return bolean
+	 */
+	public function sendActivationLink()
+	{
+		return Email::model()->send(
+			array($this->email, $this->name()), 
+			'member_confirmation', 
+			array(
+				'name'	=> $this->name(),
+				'email' => $this->email,
+				'link'	=> $this->getActivationLink(),
+			)
+		);
 	}
 	
 	/**

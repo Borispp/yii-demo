@@ -31,6 +31,9 @@ class AlbumController extends YsaMemberController
 				$entry->save();
 				$this->redirect(array('album/view/' . $entry->id));
 			}
+		} else {
+			// set default state
+			$entry->state = Client::STATE_ACTIVE;
 		}
 		
 		$this->crumb($event->name, array('event/view/' . $event->id))

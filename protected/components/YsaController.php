@@ -265,18 +265,17 @@ class YsaController extends CController
 					->registerMetaTag($this->getMetaDescription(), 'description')
 					->registerMetaTag($this->getMetaKeywords(), 'keywords')
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/modernizr.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/yepnope.js', CClientScript::POS_HEAD)
-//					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jquery.html5form-1.5.js', CClientScript::POS_HEAD)
-//					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jquery.tools.min.js', CClientScript::POS_HEAD)
+//					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/webshim/polyfiller.js', CClientScript::POS_HEAD)
+//					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/form.js', CClientScript::POS_HEAD)
 					->registerScriptFile('http://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/scrollto.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD)
 					->registerCssFile('http://fonts.googleapis.com/css?family=Candal');
-
 		}
 		
 		if ($this->isWebsite()) {
 			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/front.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/form.js', CClientScript::POS_HEAD)
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/front.css');
 			
 		} elseif ($this->isMemberPanel()) {

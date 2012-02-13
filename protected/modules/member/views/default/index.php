@@ -13,16 +13,6 @@
 				</ul>
 			</div>
 		</section>
-<!--		
-		<section class="box widget" id="widget_statistics">
-			<div class="box-title">
-				<h3>Statistics</h3>
-			</div>
-			<div class="box-content">
-				some statistics goes here
-			</div>
-		</section>
--->
 	</div>
 	<div class="widgets g4">
 		<section class="box widget" id="widget_application">
@@ -62,11 +52,13 @@
 			<div class="box-content">
 				
 				<ul>
-					<li><?php echo !empty($this->member()->studio->name) ? $this->member()->studio->name : '<span class="warning">Studio name is undefined</span>' ?></li>
+					<li><?php echo !empty($this->member()->studio->name) ? '<strong>' . $this->member()->studio->name . '</strong>' : '<span class="warning">Studio name is undefined</span>' ?></li>
 					<li><span class="number"><?php echo count($this->member()->studio->persons) ?></span> Photographers</li>
+					<li><span class="number"><?php echo count($this->member()->studio->customLinks) ?></span> Custom Links</li>
+					<li><span class="number"><?php echo count($this->member()->studio->bookmarkLinks) ?></span> Bookmarks</li>
 				</ul>
 				
-				<div class="box-button"><?php echo YsaHtml::link('View&Edit', array('studio/'), array('class' => 'btn small')); ?></div>
+				<div class="box-button"><?php echo YsaHtml::link('View &amp; Edit', array('studio/'), array('class' => 'btn small')); ?></div>
 			</div>
 		</section>
 	</div>

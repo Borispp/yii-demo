@@ -128,18 +128,20 @@ class Studio extends YsaActiveRecord
 		$path = $this->_uploadPath . DIRECTORY_SEPARATOR . $this->specials;
 		
 		$url = $this->specialsUrl();
-		
-		$finfo = new finfo(FILEINFO_MIME_TYPE);
-		$ext = YsaHelpers::mimeToExtention($finfo->file($path));
-		
-		switch($ext) {
-			case 'pdf':
-				return 'View PDF';
-				break;
-			default:
-				return YsaHtml::image($url);
-				break;
+		if (is_file($path)) {
+			$finfo = new finfo(FILEINFO_MIME_TYPE);
+			$ext = YsaHelpers::mimeToExtention($finfo->file($path));
+
+			switch($ext) {
+				case 'pdf':
+					return 'View PDF';
+					break;
+				default:
+					return YsaHtml::image($url);
+					break;
+			}
 		}
+		return '';
 	}
 	
 	public function specialsExtention()
