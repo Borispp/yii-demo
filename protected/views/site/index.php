@@ -24,14 +24,8 @@
 	<div class="homepage-video-wrapper">
 		<section id="homepage-video">
 			<div class="content">
-				<?/*
-				<h2>Watch the<span>YsaStudioApp Video</span></h2>
-				<p>Hey everyone! So great to have you be a part of YSA's launch! Less than 24hrs. into our announcement and we've already been getting some great feedback and we appreciate you spreading the word! We know you're intrigued about what's to come!</p>
-				 */?>
 				<h2>Watch the <span>YourStudioApp Video</span></h2>
-				
 				<p>What Exactly is Your Studio App? <br/>Watch This Quick Video to Find Out!</p>
-				
 				<div class="buttons">
 					<?php echo YsaHtml::link('Tour', array('/tour'), array('class' => 'btn black')); ?>
 					<span></span>
@@ -39,7 +33,15 @@
 				</div>
 			</div>
 			<div class="video">
-				<?php echo YsaHtml::link('<span>preview</span>', array('/video'), array('class' => 'preview')); ?>
+				<?php echo YsaHtml::link('<span>preview</span>', '#', array('class' => 'preview')); ?>
+			</div>
+			<div id="homepage-video-player">
+				<video id="checkout-ysa-video" class="video-js vjs-default-skin" controls
+				preload="auto" width="720" height="400" poster="<?php echo Yii::app()->baseUrl?>/resources/video/ysapromo.png"
+				data-setup="{}">
+					<source src="<?php echo Yii::app()->baseUrl?>/resources/video/ysapromo.m4v" type='video/mp4'>
+					<source src="<?php echo Yii::app()->baseUrl?>/resources/video/ysapromo.webm" type='video/webm'>
+				</video>
 			</div>
 		</section>
 	</div>
@@ -47,13 +49,13 @@
 		<div id="homepage-social">
 			<span class="image"></span>
 			<div class="info">
-				<h3>Get connected to our <span>social life</span></h3>
+				<h3>Stay connected with <span>YSA</span></h3>
 				<ul>
 					<li>
 						<a href="<?php echo Yii::app()->settings->get('facebook'); ?>" class="fb" rel="external">Become a fan of YSA on <span>Facebook</span></a>
 					</li>
 					<li>
-						<a href="<?php echo Yii::app()->settings->get('twitter'); ?>" class="twi" rel="external">Recent <span>Twitter</span> feed</a>
+						<a href="<?php echo Yii::app()->settings->get('twitter'); ?>" class="twi" rel="external">Follow us on <span>Twitter</span></a>
 						<div class="feed">
 							<?php foreach (YsaTwitterReader::getTweets(Yii::app()->settings->get('twitter')) as $tweet) : ?>
 								<?php echo $tweet['tweet']; ?>

@@ -58,7 +58,7 @@
 		<span class="shadow"></span>
 		<h2>Web-based <span>Control</span></h2>
 		<div class="story">
-			<p>You will have access to monitor and update your application through a web back end. You can add client galleries, send push notifications, or change your custom featured pages... Think of this as your your app's command center!</p>
+			<p>You will have access to monitor and update your application through a web back end. You can add client galleries, send push notifications, or change your custom featured pages... Think of this as your app's command center!</p>
 		</div>
 		<span class="image"></span>
 	</div>

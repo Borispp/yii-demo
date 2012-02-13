@@ -97,16 +97,18 @@ a.btn{
 		.sign {
 			text-transform:uppercase;
 			text-shadow: 0px 0px 2px #3a3a3a;
+			.inline-block;
 		}
 		.arr {
 			background:url(../images/homepage-sign-arr.png) 50% 50% no-repeat;
 			width:60px;
 			text-indent:-9999px;
-			display:inline-block;
+			.inline-block;
 			vertical-align:middle;
 		}
 		.click {
 			color:@blue-delta;
+			.inline-block;
 		}
 
 		&:hover {
@@ -157,10 +159,11 @@ a.btn{
 			position:absolute;
 			margin:0;
 			left:0;
+			width:400px;
 			top:280px;
 			text-transform:uppercase;
 			color:@gray-foxtrot;
-			.font-shorthand(normal, 20px, 22px);
+			.font-shorthand(normal, 20px, 26px);
 			strong {
 				color:@white-alpha;
 			}
@@ -168,21 +171,30 @@ a.btn{
 	}
 	.slide0 {
 		figure {
-			bottom:-45px;
+			bottom:-95px;
 		}
 	}
 	.slide1 {
+		figure {
+			bottom:85px;
+		}
+	}
+	.slide2 {
+		figure {
+			bottom:55px;
+		}
+	}
+	.slide3 {
+		figure {
+			bottom:-45px;
+		}
+	}
+	.slide4 {
 		figure {
 			bottom:0;
 		}
 		p {
 			.font-shorthand(normal, 28px, 30px);
-		}		
-	}
-	.slide2 {
-		display:block;
-		figure {
-			bottom:90px;
 		}
 	}
 }
@@ -212,6 +224,8 @@ a.btn{
 		p {
 			color:@gray-charlie;
 			font-style:italic;
+			font-size:18px;
+			font-weight:normal;
 			margin-bottom:48px;
 		}	
 		.buttons {
@@ -251,6 +265,9 @@ a.btn{
 		}
 	}
 }
+#homepage-video-player {
+	display:none;
+}
 
 .homepage-social-wrapper {
 	background:@gray-lima;
@@ -275,11 +292,12 @@ a.btn{
 		h3 {
 			text-transform:uppercase;
 			color:@white-alpha;
-			.font-shorthand(700, 16px, 1);
+			.font-shorthand(normal, 16px, 1);
 			margin-bottom:20px;
+			letter-spacing:0.04em;
 			span {
 				color:@blue-bravo;
-				font-weight:normal;
+				font-weight:700;
 			}
 		}
 	}
@@ -656,6 +674,10 @@ a.btn{
 			margin-bottom:24px;
 			text-transform:none;
 		}
+		p {
+			font-size:18px;
+			line-height:1.3;
+		}
 	}
 	.price {
 		float:right;
@@ -727,7 +749,6 @@ a.btn{
 		}
 		.get-started {
 			text-align:center;
-			.margin-bottom-alpha;
 			a {
 				padding-left:40px;
 				padding-right:40px;
@@ -775,10 +796,8 @@ a.btn{
 				text-transform:none;
 			}
 			background:url(../images/separator-dark-horizontal.gif) 0 100% repeat-x;
-			padding-bottom:21px;
-			margin-bottom:20px;
+			padding:20px 0 21px;
 			&:last-child {
-				margin-bottom:0;
 				padding-bottom:0;
 				background:none;
 			}
@@ -1072,10 +1091,10 @@ a.btn{
 		}
 		.story {
 			font-style:italic;
-			font-size:14px;
+			font-size:18px;
 			position:absolute;
 			p {
-				line-height:1.4;
+				line-height:1.3;
 			}
 		}
 		.shadow {
@@ -1101,7 +1120,7 @@ a.btn{
 		}
 		.story {
 			right:80px;
-			top:230px;
+			top:210px;
 			width:365px;
 			p {
 				text-align:right;
@@ -1124,7 +1143,7 @@ a.btn{
 		}
 		.story {
 			left:74px;
-			top:190px;
+			top:170px;
 			width:360px;
 		}
 		.image {
@@ -1173,7 +1192,7 @@ a.btn{
 		}
 		.story {
 			left:74px;
-			top:230px;
+			top:210px;
 			width:360px;
 		}
 		.image {
@@ -1197,7 +1216,7 @@ a.btn{
 		}
 		.story {
 			right:80px;
-			top:155px;
+			top:150px;
 			width:365px;
 			p {
 				text-align:right;
@@ -1220,7 +1239,7 @@ a.btn{
 		}
 		.story {
 			left:74px;
-			top:180px;
+			top:160px;
 			width:360px;
 		}
 		.image {
@@ -1243,7 +1262,7 @@ a.btn{
 		}
 		.story {
 			right:80px;
-			top:190px;
+			top:185px;
 			width:365px;
 			p {
 				text-align:right;
@@ -1391,4 +1410,108 @@ a.btn{
 		font-style:italic;
 	}
 
+}
+
+
+
+
+/* Coming Soon
+*******************************/
+#coming-soon {
+	.header-wrapper {
+		background:@gray-lima url(../images/comingsoon-header.jpg) 50% 0 no-repeat;
+	}
+	.header {
+		.w;
+		height:266px;
+		position:relative;
+		.message {
+			position:absolute;
+			left:0;
+			top:80px;
+			letter-spacing:0.04em;
+			.font-shorthand(700, 20px, 24px);
+			color:@white-alpha;
+			text-transform:uppercase;
+			strong {
+				display:block;
+				.font-shorthand(700, 38px, 48px);
+				color:@blue-lima;
+				
+			}
+		}
+		h2 {
+			position:absolute;
+			z-index:50;
+			right:95px;
+			top:90px;
+			width:340px;
+			height:70px;
+			margin:0;
+			text-indent:-9999px;
+			background:url(../images/comingsoon-logo.png) 0 0 no-repeat;
+		}
+	}
+	.container-wrapper {
+		background:@white-alpha;
+	}
+	.container {
+		.w;
+		.subscribe {
+			float:left;
+			width:390px;
+			padding:44px 0;
+			h2 {
+				margin-bottom:5px;
+			}
+			p {
+				font-size:18px;
+				line-height:1.3;
+				margin-bottom:24px;
+			}
+
+		section {
+			margin-bottom:1em;	
+			position:relative;
+			input[type=text],
+			input[type=email] {
+				width:362px;
+				font-size:12px;
+				&.error {
+					
+				}
+			}
+			.errorMessage {
+				color:@pink-bravo;
+				line-height:1.2;
+				font-size:11px;
+			}
+		}
+		a {
+			color:@gray-golf;
+			text-decoration:underline;
+		}
+
+
+
+
+
+		}
+
+		.screens {
+			width:532px;
+			float:right;
+				position:relative;
+				top:-35px;
+			li {
+				float:left;
+				margin-left:12px;
+				padding:10px;
+				width:234px;
+				height:145px;
+				background:@white-alpha;
+				.rounded(10px);
+			}
+		}
+	}
 }

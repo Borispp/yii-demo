@@ -201,7 +201,7 @@ class YsaController extends CController
 			);
 		} else {
 			$nav = array(
-				array('label'=>'Home', 'url'=> array('/member/'), 'active' => $c == 'default'),
+				array('label'=>'Panel', 'url'=> array('/member/'), 'active' => $c == 'default'),
 				array('label'=>'Application', 'url'=>array('application/'), 'active' => $c == 'application'),
 				array('label'=>'Studio', 'url'=>array('studio/'), 'active' => in_array($c, array('studio', 'link', 'person', 'inbox')), 'items' => array(
 					array('label' => 'Inbox', 'url' => array('inbox/'),'active' => ($c == 'inbox') ),
@@ -265,8 +265,6 @@ class YsaController extends CController
 					->registerMetaTag($this->getMetaDescription(), 'description')
 					->registerMetaTag($this->getMetaKeywords(), 'keywords')
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/modernizr.js', CClientScript::POS_HEAD)
-//					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/webshim/polyfiller.js', CClientScript::POS_HEAD)
-//					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/form.js', CClientScript::POS_HEAD)
 					->registerScriptFile('http://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/scrollto.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD)
@@ -275,7 +273,9 @@ class YsaController extends CController
 		
 		if ($this->isWebsite()) {
 			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/front.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/color.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/form.js', CClientScript::POS_HEAD)
+					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jplayer/jquery.jplayer.min.js', CClientScript::POS_HEAD)
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/front.css');
 			
 		} elseif ($this->isMemberPanel()) {

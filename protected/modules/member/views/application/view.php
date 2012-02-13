@@ -11,16 +11,28 @@
 			</div>
 		</div>
 		<div class="box-content">
+			
+			<div class="preview">
+				<div class="ipad ipad900">
+					<div class="wrap">
+						<div class="content">
+						</div>
+					</div>
+					<div class="home">
+						<div>
+							<span></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			
 			<div class="cf info">
 				<div class="shadow-box status">
 					<h4><?php YsaHelpers::t('application', 'status_block_title')?></h4>
-					
 					<figure>
 						<?php echo $app->icon();?>
 					</figure>
-					
 					<p><?php echo $app->statusLabel(); ?></p>
-					
 					<span class="button"><?php echo YsaHtml::link('Change Settings', array('wizard'), array('class' => 'btn')); ?></span>
 				</div>
 				<?php if ($app->isPaid()):?>
@@ -41,22 +53,6 @@
 				<?php if ($app->hasSupport()) : ?>
 					<?php echo YsaHtml::link('Support Ticket', array('support'), array('class' => 'btn red-txt fr')); ?>
 				<?php endif; ?>
-			</div>
-			
-			<div class="preview">
-				
-				<div class="ipad ipad900">
-					<div class="wrap">
-						<div class="content">
-						</div>
-					</div>
-					<div class="home">
-						<div>
-							<span></span>
-						</div>
-					</div>
-				</div>
-				
 			</div>
 		</div>
 	</section>

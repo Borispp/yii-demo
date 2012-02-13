@@ -60,7 +60,7 @@ class Application extends YsaActiveRecord
 			'title' => 'Submit Your Application',
 			'short_title' => 'Submit',
 			'title_annotation' => 'It\'s all done!',
-			'header' => 'Submit Your Application',
+			'header' => 'Purchase and Submit Your Application',
 		),	
 	);
 	

@@ -36,9 +36,6 @@
 				<div class="get-started">
 					<?php echo YsaHtml::link('Get Started', array('/login'), array('class' => 'btn')); ?>
 				</div>
-				<p>
-					Introductory pricing is for a very limited time, <br/>be one of the first and get started on creating your application!
-				</p>
 			</div>
 		</div>
 	</div>

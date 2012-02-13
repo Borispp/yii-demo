@@ -59,6 +59,8 @@ class PageController extends YsaFrontController
 		
 		$this->setFrontPageTitle($page->title);
 		
+		$this->setMeta($page->meta());
+		
 		$this->render('contact', array(
 			'page' => $page,
 			'entry' => $entry,
