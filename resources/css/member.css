@@ -2736,6 +2736,12 @@ section.box .box-content {
   line-height: 2;
   font-weight: 700;
 }
+.widget .list span.date {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  opacity: .5;
+}
 .widget .box-button {
   text-align: right;
 }
