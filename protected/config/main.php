@@ -237,6 +237,7 @@ return array(
 		'admin_per_page'=> 10,
 		'salt'          => 'wel0veyourstud1oapp',
 		'date_format'   => 'Y-m-d H:i:s',
+		'date_format_short' => 'D, j M',
 		'currency'      => 'USD',
 		
 		'languages'	=> array(

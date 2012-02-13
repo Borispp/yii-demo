@@ -13,6 +13,26 @@
 				</ul>
 			</div>
 		</section>
+		
+		<section class="box widget number-widget" id="widget_latest_registered">
+			<div class="box-title">
+				<h3>Help Desk</h3>
+			</div>
+			<div class="box-content">
+				<ul class="list">
+					<?php foreach($zd_requests as $request) : ?>
+					<li>
+						<?php echo CHtml::link($request->subject, Zendesk::requestsUrl($request->nice_id),array('target'=>'_blank'))  ?>
+						<span class="date"><?php echo Zendesk::date($request->created_at, Yii::app()->params['date_format_short']) ?></span>
+					</li>
+					<?php endforeach ?>
+				</ul>
+				<div class="box-button">
+					<?php echo YsaHtml::link('Open new ticket', Zendesk::newRequestURL(), array('class' => 'btn small', 'target'=>'_blank')); ?>
+				</div>
+			</div>
+		</section>
+		
 	</div>
 	<div class="widgets g4">
 		<section class="box widget" id="widget_application">
