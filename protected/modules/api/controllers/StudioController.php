@@ -24,15 +24,15 @@ class StudioController extends YsaApiController
 		$this->_render(array(
 				'logo'					=> $this->_getUrlFromImage($this->_getApplication()->option('logo')),
 
-				'studio_bg_use_image'	=> (bool)$this->_getApplication()->option('studio_bg'),
+				'studio_bg_use_image'	=> $this->_getApplication()->option('studio_bg') != 'color',
 				'studio_bg'				=> $this->_getApplication()->option('studio_bg') ? NULL : YsaHelpers::html2rgb($this->_getApplication()->option('studio_bg_color')),
 				'studio_bg_image'		=> $this->_getApplication()->option('studio_bg') ? $this->_getUrlFromImage($this->_getApplication()->option('studio_bg_image')) : NULL,
 
-				'generic_bg_use_image'	=> (bool)$this->_getApplication()->option('generic_bg'),
+				'generic_bg_use_image'	=> $this->_getApplication()->option('generic_bg') != 'color',
 				'generic_bg'			=> $this->_getApplication()->option('generic_bg') ? NULL : YsaHelpers::html2rgb($this->_getApplication()->option('generic_bg_color')),
 				'generic_bg_image'		=> $this->_getApplication()->option('generic_bg') ? $this->_getUrlFromImage($this->_getApplication()->option('generic_bg_image')) : NULL,
 
-				'splash_bg_use_image'	=> (bool)$this->_getApplication()->option('splash_bg'),
+				'splash_bg_use_image'	=> $this->_getApplication()->option('splash_bg') != 'color',
 				'splash_bg'				=> $this->_getApplication()->option('splash_bg') ? NULL : YsaHelpers::html2rgb($this->_getApplication()->option('splash_bg_color')),
 				'splash_bg_image'		=> $this->_getApplication()->option('splash_bg') ? $this->_getUrlFromImage($this->_getApplication()->option('splash_bg_image')) : NULL,
 
