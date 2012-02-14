@@ -1,5 +1,4 @@
 <?php
-
 define( 'FACEBOOK_APP_ID', '328815410473890' );
 define( 'FACEBOOK_APP_SECRET', '1b7ed31430e3e0110dcce0077e8cf28d' );
 

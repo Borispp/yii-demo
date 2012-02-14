@@ -11,6 +11,7 @@
 	var _member_url = '<?php echo Yii::app()->getBaseUrl(true)?>/member';
 	var _polyfill_url = _base_url + '/resources/js/polyfills';
 </script>
+<link rel="shortcut icon" type="image/x-icon" href="http://yourstudioapp.com/favicon.ico" />
 <title><?php echo YsaHtml::encode($this->getMetaTitle()); ?></title>
 <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
