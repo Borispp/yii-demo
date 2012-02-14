@@ -1,16 +1,6 @@
 <?php
 class AuthController extends YsaFrontController
-{
-	public function beforeAction($action) {
-		parent::beforeAction($action);
-		
-		if (!isset($_GET['b51']) && $this->getAction()->getId() != 'logout') {
-			$this->redirect(array('/comingsoon'));
-		}
-		
-		return true;
-	}
-	
+{	
 	/**
 	 * Displays the login page
 	 */
