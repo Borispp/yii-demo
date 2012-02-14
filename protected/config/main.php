@@ -1,5 +1,4 @@
 <?php
-
 define( 'FACEBOOK_APP_ID', '328815410473890' );
 define( 'FACEBOOK_APP_SECRET', '1b7ed31430e3e0110dcce0077e8cf28d' );
 
@@ -237,6 +236,7 @@ return array(
 		'admin_per_page'=> 10,
 		'salt'          => 'wel0veyourstud1oapp',
 		'date_format'   => 'Y-m-d H:i:s',
+		'date_format_short' => 'D, j M',
 		'currency'      => 'USD',
 		
 		'languages'	=> array(

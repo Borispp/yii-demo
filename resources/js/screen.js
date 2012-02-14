@@ -171,6 +171,20 @@ $(function(){
 		this.val(this.data('value')).removeClass('disabled');
 	}
 	
+    $.fn.animateHighlight = function (highlightColor, duration) {
+        var highlightBg = highlightColor || "#FFFF9C";
+        var animateMs = duration || "fast"; // edit is here
+        var originalBg = this.css("background-color");
+
+        if (!originalBg || originalBg == highlightBg)
+            originalBg = "#FFFFFF"; // default to white
+
+        jQuery(this)
+            .css("backgroundColor", highlightBg)
+            .animate({ backgroundColor: originalBg }, animateMs, null, function () {
+                jQuery(this).css("backgroundColor", originalBg); 
+            });
+    };
 	
 	$.fn.initNav = function(){
 		$(this).each(function(){

@@ -1,15 +1,9 @@
 <div class="general-page" id="contact">
 	<div class="content">
-		<?php if ($page) : ?>
-			<?php echo $page->content; ?>
-		<?php endif; ?>
-
 		<div class="cf">
 			<div class="info">
 				<h2><?php echo Yii::t('general', 'Let\'s Talk!'); ?></h2>
-				
-				<p>Please fill out the form below and we will get back to you with in 1-2 business days. We look forward to serving you!</p>
-				
+				<?php echo $page->content; ?>
 				<dl class="cf">
 					<dt><?php echo Yii::t('general', 'For Support Questions'); ?></dt>
 					<dd><?php echo YsaHtml::mailto(Yii::app()->settings->get('support_email'), Yii::app()->settings->get('support_email')); ?></dd>

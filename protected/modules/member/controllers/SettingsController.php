@@ -345,7 +345,10 @@ class SettingsController extends YsaMemberController
 		if ($this->member()->save(false) && $this->member()->sendActivationLink())
 			$this->setSuccess('Email with activation link was sent');
 		else
+		{
 			$this->setError('Unable to send email with activation link');
+			Yii::log("Unable to send email with activation link, user ID [{$this->member()->id}] ", CLogger::LEVEL_ERROR);
+		}
 		
 		$this->redirect(array('settings/'));
 	}

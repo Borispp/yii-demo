@@ -1999,10 +1999,11 @@ header nav li ul li a {
 .page-header h2 {
   color: #f6f6f6;
   margin: 0;
-  padding: 48px 24px;
+  padding: 44px 24px;
   font-weight: normal;
   text-transform: none;
-  font-size: 22px;
+  font-size: 26px;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8);
 }
 /* Body Content
 *******************************/
@@ -2734,6 +2735,12 @@ section.box .box-content {
   font-size: 11px;
   line-height: 2;
   font-weight: 700;
+}
+.widget .list span.date {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  opacity: .5;
 }
 .widget .box-button {
   text-align: right;
@@ -3844,9 +3851,6 @@ section.smugmug-import .import li span, section.zenfolio-import .import li span 
 #wizard-breadcrumbs li.submit {
   z-index: 5;
 }
-#application .info {
-  margin-bottom: 40px;
-}
 #application .info .shadow-box {
   width: 420px;
   height: 110px;
@@ -3906,6 +3910,9 @@ section.smugmug-import .import li span, section.zenfolio-import .import li span 
   color: #5e646e;
   margin-bottom: 10px;
   padding: 0;
+}
+#application .preview {
+  margin-bottom: 24px;
 }
 .ipad {
   border: 1px solid #c5c5c5;
