@@ -139,6 +139,8 @@ class YiiDebugToolbarRoute extends CLogRoute
 
     protected function onBeginRequest(CEvent $event)
     {
+        $route = Yii::app()->getUrlManager()->parseUrl(Yii::app()->request);
+        $this->enabled = (preg_match('~(?:application\/upload)~',$route) == 0);
         $this->initComponents();
 
         $this->getToolbarWidget()

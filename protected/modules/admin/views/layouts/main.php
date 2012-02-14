@@ -185,6 +185,20 @@
 		'url' => array('/admin/translationCategory/'),
 		'linkOptions' => array('class' => $this->getNavigationClass('translationCategory')),
 	);
+	
+//	$translationItems = TranslationCategory::model()->getNavigationList();
+	$tutorialItems = array(
+		array(
+			'label' => 'Tutorials',
+			'url' => array('/admin/tutorial/'),
+			'linkOptions' => array('class' => $this->getNavigationClass('tutorial')),
+		),
+		array(
+			'label' => 'Categories',
+			'url' => array('/admin/tutorialCategory/'),
+			'linkOptions' => array('class' => $this->getNavigationClass('tutorialCategory')),
+		),
+	);
 
 
 	$this->widget('YsaAdminMenu',array(
@@ -196,6 +210,15 @@
 					'itemOptions' => array('class' => 'i_house'),
 					'linkOptions' => array('class' => $this->getNavigationClass('default')),
 				),
+				
+				
+				array(
+					'label'=>'Contact Messages',
+					'url'=>array('/admin/contact'),
+					'itemOptions' => array('class' => 'i_companies'),
+					'linkOptions' => array('class' => $this->getNavigationClass('contact')),
+				),
+				
 				array(
 					'label'=>'Administrators',
 					'url'=>array('/admin/administrator'),
@@ -240,19 +263,14 @@
 					'itemOptions' => array('class' => 'i_mail'),
 					'linkOptions' => array('class' => $this->getNavigationClass('email')),
 				),
-				
+
 				array(
-					'label'=>'Contact Messages',
-					'url'=>array('/admin/contact'),
-					'itemOptions' => array('class' => 'i_companies'),
-					'linkOptions' => array('class' => $this->getNavigationClass('contact')),
-				),
-				
-				array(
-					'label'=>'Mailchimp Newsletters',
-					'url'=>array('mailchimp/'),
-					'itemOptions' => array('class' => 'i_speech_bubbles'),
-					'linkOptions' => array('class' => $this->getNavigationClass('mailchimp')),
+					'label'=>'Tutorials',
+					'url'=>'',
+					'itemOptions' => array('class' => 'i_information'),
+					'linkOptions' => array('class' => $this->getNavigationClass('tutorial,tutorialCategory')),
+					'active' => $this->getNavigationClass('tutorial,tutorialCategory'),
+					'items'	=> $tutorialItems,
 				),
 				
 				array(
@@ -263,6 +281,14 @@
 					'active' => $this->getNavigationClass('translation,translationCategory'),
 					'items'	=> $translationItems,
 				),
+				
+				array(
+					'label'=>'Mailchimp Newsletters',
+					'url'=>array('mailchimp/'),
+					'itemOptions' => array('class' => 'i_speech_bubbles'),
+					'linkOptions' => array('class' => $this->getNavigationClass('mailchimp')),
+				),
+				
 				array(
 					'label' =>'Settings',
 					'url'   => '',

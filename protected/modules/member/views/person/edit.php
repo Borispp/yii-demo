@@ -1,4 +1,4 @@
-<div class="w">
+<div class="w" id="person-edit" data-personid="<?php echo $entry->id?>">
 	<section class="box">
 		<div class="box-title">
 			<h3>Edit Shooter</h3>

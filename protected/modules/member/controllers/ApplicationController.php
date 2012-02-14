@@ -23,8 +23,6 @@ class ApplicationController extends YsaMemberController
 	{
 		$app = $this->member()->application;
 
-		//$this->member()->simpleNotify("Here's my message. I would like to add some rows.<br/>Here's another one.<br/>And another one. A <a href='link'>link here</a>.", "Test member notification");
-		// new member -> redirect to application creation
 		if (null === $app or !$app->filled()) {
 			$this->redirect(array('application/wizard/'));
 		}
@@ -181,11 +179,16 @@ class ApplicationController extends YsaMemberController
 
 		if (null === $file) {
 			$this->sendJsonError(array(
-					'msg' => Yii::t('error', 'files_empty'),
-				));
+				'msg' => Yii::t('error', 'files_empty'),
+			));
 		}
 
 		if ($app->editOption($image, $file)) {
+			
+			
+			if (in_array($image, array('splash_bg_image', 'studio_bg_image', 'generic_bg_image'))) {
+				$app->editOption(str_replace('_image', '', $image), 'image');
+			}
 			$this->sendJsonSuccess(array(
 					'html' => $this->renderPartial('/wizard/_image', array(
 							'name'	=> $image,
@@ -194,9 +197,10 @@ class ApplicationController extends YsaMemberController
 				));
 		} else {
 			$this->sendJsonError(array(
-					'msg' => Yii::t('error', 'standart_error'),
-				));
+				'msg' => Yii::t('error', 'standart_error'),
+			));
 		}
+		Yii::app()->end();
 	}
 
 	public function actionDelete($image)
@@ -322,12 +326,6 @@ class ApplicationController extends YsaMemberController
 					if (!$app->filled()) {
 						$app->fill();
 					}
-					//					if ($app->submitted()) {
-					//						$data['redirectUrl'] = $this->createAbsoluteUrl('application/');
-					//					} else {
-					//						$data['redirectUrl'] = $this->createAbsoluteUrl('application/');
-					//					}
-
 					$data['redirectUrl'] = $this->createAbsoluteUrl('application/');
 					$data['success'] = 1;
 				}

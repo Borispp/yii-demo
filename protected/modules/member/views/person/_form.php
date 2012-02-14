@@ -11,25 +11,18 @@
 			<?php echo $form->error($entry,'name'); ?>
 		</div>
 	</section>
-	
-	
-	<?php if ($entry->photo) : ?>
-		<section class="cf">
-			<?php echo $entry->photo(); ?>
-				<?php echo YsaHtml::link('x', array('person/deleteImage/' . $entry->id)); ?>
-		</section>
-	<?php else: ?>
-		<section class="cf">
-			<?php echo $form->labelEx($entry,'photo'); ?>
-			<div>
+	<section class="cf">
+		<?php echo $form->labelEx($entry,'photo'); ?>
+		<div>
+			<?php if ($entry->photo) : ?>
+				<?php echo $entry->photo(); ?>
+				<?php echo YsaHtml::link('x', array('person/deleteImage/' . $entry->id), array('class' => 'btn red small del')); ?>
+			<?php else: ?>
 				<?php echo $form->fileField($entry,'photo', array('maxlength' => 100)); ?>
 				<?php echo $form->error($entry,'photo'); ?>
-			</div>
-		</section>
-	<?php endif; ?>
-	
-
-	
+			<?php endif; ?>
+		</div>
+	</section>
 	<section class="cf">
 		<?php echo $form->labelEx($entry,'description'); ?>
 		<div>

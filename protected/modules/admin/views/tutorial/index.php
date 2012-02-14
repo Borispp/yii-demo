@@ -1,8 +1,6 @@
 <div class="g12">
-	
-	
+	<?php echo $this->renderPartial('/_messages/save');?>
 	<div>
-		
 		<?php $form=$this->beginWidget('CActiveForm', array(
 			'action'=>Yii::app()->createUrl($this->route),
 			'method' => 'get',
@@ -11,30 +9,37 @@
 		<fieldset>
 			<div class="g12"><h3 id="search_toggler">Search</h3></div>
 			<div class="clearfix"></div>
-			<div id="search_form" class="<?php echo !isset($_GET['YsaMemeberSearchForm']) ? 'hidden' : '' ?>">
+			<div id="search_form" class="<?php echo !isset($_GET['YsaTutorialSearchForm']) ? 'hidden' : '' ?>">
 			<fieldset>
 			<section class="search-form">
-				<?php echo $form->label($member_search,'keywords'); ?>
+				<?php echo $form->label($tutorialSearch,'keywords'); ?>
 				<div>
-					<?php echo $form->textField($member_search,'keywords'); ?>
+					<?php echo $form->textField($tutorialSearch,'keywords'); ?>
 				</div>
 			</section>
 			<section class="search-form">
-				<?php echo $form->label($member_search,'order_by'); ?>
+				<?php echo $form->label($tutorialSearch,'category'); ?>
 				<div>
-					<?php echo $form->dropDownList($member_search, 'order_by', $member_search->orderByOptions()); ?>
+					<?php echo $form->dropDownList($tutorialSearch, 'category', $tutorialSearch->categories()); ?>
+				</div>
+			</section>
+				
+			<section class="search-form">
+				<?php echo $form->label($tutorialSearch,'order_by'); ?>
+				<div>
+					<?php echo $form->dropDownList($tutorialSearch, 'order_by', $tutorialSearch->orderByOptions()); ?>
 				</div>
 			</section>
 			<section class="search-form">
-				<?php echo $form->label($member_search,'order_sort'); ?>
+				<?php echo $form->label($tutorialSearch,'order_sort'); ?>
 				<div>
-					<?php echo $form->dropDownList($member_search, 'order_sort', $member_search->orderSortOptions()); ?>
+					<?php echo $form->dropDownList($tutorialSearch, 'order_sort', $tutorialSearch->orderSortOptions()); ?>
 				</div>
 			</section>
 			<section class="search-form">
-				<?php echo $form->label($member_search,'state'); ?>
+				<?php echo $form->label($tutorialSearch,'state'); ?>
 				<div>
-					<?php echo $form->dropDownList($member_search, 'state', $member_search->stateOptions()); ?>
+					<?php echo $form->dropDownList($tutorialSearch, 'state', $tutorialSearch->stateOptions()); ?>
 				</div>
 			</section>
 			<section class="search-form">
@@ -58,9 +63,7 @@
 	)); ?>
 
 	<p>
-		<?php echo CHtml::link('Export to CSV', array('member/export'), array('class' => 'btn i_download icon')); ?>
-		<?php echo CHtml::link('Add New', array('add'), array('class' => 'btn i_plus icon ysa fr')); ?>
-		<?php echo CHtml::link('Send announcement', array('announcement/addtoall'), array('class' => 'btn i_mail icon ysa fr')); ?>
+		<?php echo YsaHtml::link('Add New', array('add'), array('class' => 'btn i_plus icon ysa fr')); ?>
 		<span class="clearfix"></span>
 	</p>
 	
@@ -69,7 +72,8 @@
 		<tr>
 			<th class="w_1"><input type="checkbox" value="" class="ids-toggle" /></th>
 			<th class="w_1">ID</th>
-			<th class="l">Name</th>
+			<th class="l">Title</th>
+			<th class="w_20 l">Category</th>
 			<th class="w_5">Status</th>
 			<th class="w_10">&nbsp;</th>
 		</tr>
@@ -80,13 +84,12 @@
 			<td><input type="checkbox" class="del" value="<?php echo $entry->id; ?>" name="ids[]" /></td>
 			<td><?php echo $entry->id; ?></td>
 			<td class="l">
-				<h4><?php echo CHtml::link($entry->name(), array('view', 'id' => $entry->id)); ?></h4>
-				<span><?php echo $entry->email; ?></span>
+				<h4><?php echo YsaHtml::link($entry->title, array('edit', 'id' => $entry->id)); ?></h4>
 			</td>
+			<td class="l"><strong><?php echo $entry->category->name; ?></strong></td>
 			<td><?php echo $entry->state(); ?></td>
 			<td>
-				<?php echo CHtml::link('View', array('view', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
-				<?php echo CHtml::link('Edit', array('edit', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
+				<?php echo YsaHtml::link('Edit', array('edit', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
 			</td>
 		</tr>
 			<?php endforeach; ?>

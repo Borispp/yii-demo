@@ -1,7 +1,7 @@
 <div class="g12">
 	<?php $this->beginWidget('YsaAdminForm', array(
-		'id'=>'translation-category-form',
-		'action'=>Yii::app()->createUrl('/admin/translationCategory/delete'),
+		'id'=>'tutorial-category-form',
+		'action'=>Yii::app()->createUrl('/admin/tutorialCategory/delete'),
 		'method'=>'post',
 	)); ?>
 

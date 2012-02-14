@@ -1,11 +1,25 @@
 <?php
-class TranslationCategoryController extends YsaAdminController
+class TutorialCategoryController extends YsaAdminController
 {
+	public function actionIndex()
+	{
+		$entries = TutorialCategory::model()->findAll(array(
+			'order' => 'rank ASC',
+		));
+
+		$this->setContentTitle('Tutorial Categories Management');
+		$this->setContentDescription('view all categories.');
+
+		$this->render('index',array(
+			'entries'   => $entries,
+		));
+	}
+	
 	public function actionAdd()
 	{
-		$entry = new TranslationCategory();
-		if(isset($_POST['TranslationCategory'])) {
-			$entry->attributes=$_POST['TranslationCategory'];
+		$entry = new TutorialCategory();
+		if(isset($_POST['TutorialCategory'])) {
+			$entry->attributes=$_POST['TutorialCategory'];
 			if ($entry->validate())
 			{
 				$entry->save();
@@ -13,7 +27,7 @@ class TranslationCategoryController extends YsaAdminController
 				$this->redirect(array('edit', 'id'=>$entry->id));
 			}
 		}
-		$this->setContentTitle('Add Translation Category');
+		$this->setContentTitle('Add Tutorial Category');
 		$this->render('add', array(
 			'entry' => $entry,
 		));
@@ -23,36 +37,24 @@ class TranslationCategoryController extends YsaAdminController
 	{
 		$id = (int) $id;
 
-		$entry = TranslationCategory::model()->findByPk($id);
+		$entry = TutorialCategory::model()->findByPk($id);
 
 		if (!$entry) {
 			$this->redirect('/admin/' . $this->getId());
 		}
-		if(Yii::app()->request->isPostRequest && isset($_POST['TranslationCategory'])) {
-			$entry->attributes=$_POST['TranslationCategory'];
+		if(Yii::app()->request->isPostRequest && isset($_POST['TutorialCategory'])) {
+			$entry->attributes=$_POST['TutorialCategory'];
 			if($entry->save()) {
 				$this->setSuccessFlash("Entry successfully updated. " . YsaHtml::link('Back to listing.', array('index')));
 				$this->refresh();
 			}
 		}
-		$this->setContentTitle('Edit Translation Category');
+		$this->setContentTitle('Edit Tutorial Category');
 		$this->render('edit',array(
 			'entry'     => $entry,
 		));
 	}
-
-	public function actionIndex()
-	{
-		$entries = TranslationCategory::model()->findAll(array(
-            'order' => 'name ASC',
-        ));
-		$this->setContentTitle('Translation Category');
-		$this->setContentDescription('manage questions.');
-		$this->render('index', array(
-				'entries' => $entries,
-			));
-	}
-
+	
 	public function actionDelete()
 	{
 		$ids = array();
@@ -63,7 +65,7 @@ class TranslationCategoryController extends YsaAdminController
 		}
 
 		foreach ($ids as $id) {
-			TranslationCategory::model()->findByPk($id)->delete();
+			TutorialCategory::model()->findByPk($id)->delete();
 		}
 
 		if (Yii::app()->getRequest()->isAjaxRequest) {

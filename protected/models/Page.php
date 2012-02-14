@@ -160,7 +160,7 @@ class Page extends YsaActiveRecord
 	public function getOneLevelTree($parent = 0, $list = array(), $level = '')
 	{
 		$entries = $this->findAll(array(
-				'order'     => 'id ASC',
+				'order'     => 'title ASC',
 				'condition' => 'parent_id=:parent_id',
 				'params'    => array(':parent_id' => $parent)
 			));
