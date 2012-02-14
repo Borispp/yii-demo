@@ -1649,8 +1649,55 @@ section.zenfolio-import {
 			position:relative;
 			width: @wrap-width;
 			height: @wrap-height;
-			background:url(../images/application-ipad-test-image.jpg) 0 0 no-repeat;
+			overflow: hidden;
+			/*background:url(../images/application-ipad-test-image.jpg) 0 0 no-repeat;*/
+			li.slide
+			{
+				width: @wrap-width;
+				height: @wrap-height;
+				position: absolute;
+				top:0;
+				left:0;
+				display: none;
+			}
 		}
+	}
+	.pagination
+	{
+		position: absolute;
+		left: 50%;
+		margin-left: -141px;
+		height: 10px;
+		bottom: 30px;
+		width: 282px;
+		text-align: center;
+	}
+	.pagination li
+	{
+		display: inline-block;
+		width: 10px;
+		height: 10px;
+		margin: 0 3px;
+	}
+	.pagination li a
+	{
+	    -webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		-moz-background-clip: padding;
+		-webkit-background-clip: padding-box;
+		background-clip: padding-box;
+		background: #b0b0b0;
+		display: block;
+		text-indent: -999px;
+		height: 10px;
+		overflow: hidden;
+	}
+	.pagination li a:hover {
+	  background: #616161;
+	}
+	.pagination li.current a {
+	  background: #3a3a3a;
 	}
 }
 

@@ -3964,7 +3964,51 @@ section.smugmug-import .import li span, section.zenfolio-import .import li span 
   position: relative;
   width: 783px;
   height: 584px;
-  background: url(../images/application-ipad-test-image.jpg) 0 0 no-repeat;
+  overflow: hidden;
+  /*background:url(../images/application-ipad-test-image.jpg) 0 0 no-repeat;*/
+
+}
+.ipad .wrap .content li.slide {
+  width: 783px;
+  height: 584px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+}
+.ipad .pagination {
+  position: absolute;
+  left: 50%;
+  margin-left: -141px;
+  height: 10px;
+  bottom: 30px;
+  width: 282px;
+  text-align: center;
+}
+.ipad .pagination li {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 0 3px;
+}
+.ipad .pagination li a {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  background: #b0b0b0;
+  display: block;
+  text-indent: -999px;
+  height: 10px;
+  overflow: hidden;
+}
+.ipad .pagination li a:hover {
+  background: #616161;
+}
+.ipad .pagination li.current a {
+  background: #3a3a3a;
 }
 #application-preview .buttons {
   margin-bottom: 24px;
