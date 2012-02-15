@@ -5,8 +5,9 @@ class ApplicationController extends YsaMemberController
 
 	public function init() {
 		parent::init();
-
+		$this->renderVar('application', $this->member()->application);
 		$this->setMemberPageTitle(Yii::t('title', 'application_wizard'));
+		$this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/ipad.css');
 	}
 
 	public function beforeRender($view) {
@@ -15,6 +16,7 @@ class ApplicationController extends YsaMemberController
 		$this->loadPlupload();
 
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/appwizardpage.js', CClientScript::POS_HEAD);
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/appviewpage.js', CClientScript::POS_HEAD);
 
 		return true;
 	}

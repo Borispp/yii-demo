@@ -197,8 +197,6 @@ class YsaController extends CController
 				array('label'=>'Pricing', 'url'=>array('pricing/'), 'active' => $c == 'pricing'),
 				array('label'=>'Panel', 'url'=>array('member/'), 'visible' => Yii::app()->user->isMember(), 'itemOptions' => array('class' => 'panel')),
 				array('label'=>'Panel', 'url'=>array('admin/'), 'visible' => Yii::app()->user->isAdmin(), 'itemOptions' => array('class' => 'panel')),
-				
-				
 				array('label'=>'Login', 'url'=>array('/login'), 'visible' => Yii::app()->user->isGuest, 'itemOptions' => array('id' => 'navigation-login-link')),
 				array('label'=>'Logout', 'url'=>array('/logout'), 'visible' => !Yii::app()->user->isGuest),
 			);
