@@ -40,6 +40,25 @@
 				</div>
 			</section>
 		</fieldset>
+		
+		<fieldset>
+			<label>Change Password</label>
+			<section>
+				<?php echo $form->labelEx($entry,'password'); ?>
+				<div>
+					<?php echo $form->textField($entry,'password',array('size'=>50,'maxlength'=>50, 'class' => 'w_50')); ?>
+					<?php echo $form->error($entry,'password'); ?>
+				</div>
+			</section>
+			<section>
+				<?php echo $form->labelEx($entry,'verifyPassword'); ?>
+				<div>
+					<?php echo $form->textField($entry,'verifyPassword',array('size'=>50,'maxlength'=>50, 'class' => 'w_50')); ?>
+					<?php echo $form->error($entry,'verifyPassword'); ?>
+				</div>
+			</section>
+		</fieldset>
+		
 		<?php echo YsaHtml::adminSaveSection();?>
 		<?php $this->endWidget(); ?>
 	</div>

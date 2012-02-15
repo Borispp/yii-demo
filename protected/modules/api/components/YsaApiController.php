@@ -176,6 +176,7 @@ class YsaApiController extends YsaController
 			'date'          => $obEvent->date,
 			'creation_date' => $obEvent->created,
 			'preview'       => $obEvent->previewUrl(),
+			'filesize'      => $obEvent->previewFilesize(),
 		);
 	}
 

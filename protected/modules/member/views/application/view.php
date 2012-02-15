@@ -11,15 +11,15 @@
 			</div>
 		</div>
 		<div class="box-content">
-			<?php $this->renderPartial('ipad-font-style', array('application' => $application));?>
+			<?php $this->renderPartial('ipad-font-style', array('application' => $app));?>
 			<div class="preview">
 				<div class="ipad ipad900" id="ipad-slider">
-					<div class="wrap" id="style-<?php echo $application->option('style')?>">
+					<div class="wrap" id="style-<?php echo $app->option('style')?>">
 						<div class="content">
 							<ul class="slides_container">
 								<?php foreach(array('events','main','studio','gallery') as $template):?>
 								<li class="slide" id="slide-<?php echo $template?>"><?php $this->renderPartial('ipad-'.$template, array(
-										'application' => $application))?></li>
+										'application' => $app))?></li>
 								<?php endforeach?>
 							</ul>
 						</div>

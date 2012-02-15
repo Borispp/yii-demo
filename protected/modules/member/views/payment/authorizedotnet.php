@@ -58,7 +58,7 @@
 				<div class="button">
 					<?php echo YsaHtml::submitButton('Pay', array('class' => 'blue')); ?>
 				</div>
-				<?php if ($errorMessage):?>
+				<?php if (!empty($errorMessage)):?>
 					<div class="errorMessage"><?php echo $errorMessage?></div>
 				<?php endif;?>
 				<?php $this->endWidget(); ?>

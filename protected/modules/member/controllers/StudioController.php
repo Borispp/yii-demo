@@ -34,6 +34,7 @@ class StudioController extends YsaMemberController
 		if ($entry->contact()) {
 			$contactForm->setAttributes($entry->contact());
 		}
+		$contactForm->name = $entry->name;
 		
 		$this->render('index', array(
 			'entry'			=> $entry,
@@ -95,6 +96,7 @@ class StudioController extends YsaMemberController
 				if (Yii::app()->request->isAjaxRequest) {
 					$this->sendJsonSuccess(array(
 						'msg' => $msg,
+						'attributes' => $entry->socialAttributes(),
 					));
 				} else {
 					$this->setSuccess($msg);
@@ -177,7 +179,14 @@ class StudioController extends YsaMemberController
 			
 			if ($form->validate()) {
 				
-				$this->member()->studio->saveContact($form->attributes);
+				$this->member()->studio->name = $form->name;
+				$this->member()->studio->save();
+
+				$this->member()->studio->saveContact(array(
+					'address'	=> $form->address,
+					'phone'		=> $form->phone,
+					'info'		=> $form->info,
+				));
 				
 				$msg = Yii::t('save', 'studio_contact_saved');
 				if (Yii::app()->request->isAjaxRequest) {

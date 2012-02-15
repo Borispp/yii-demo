@@ -304,7 +304,14 @@ class EventPhoto extends YsaActiveRecord
 
 	public function previewFilesize($width = 300, $height = 200)
 	{
-		return filesize(ImageHelper::thumbPath($width, $height, $this->path()));
+		try
+		{
+			return filesize(ImageHelper::thumbPath($width, $height, $this->path()));
+		}
+		catch(Exception $e)
+		{
+			return 0;
+		}
 	}
 	
 	/**

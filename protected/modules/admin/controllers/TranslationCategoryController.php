@@ -15,8 +15,8 @@ class TranslationCategoryController extends YsaAdminController
 		}
 		$this->setContentTitle('Add Translation Category');
 		$this->render('add', array(
-				'entry' => $entry,
-			));
+			'entry' => $entry,
+		));
 	}
 
 	public function actionEdit($id)
@@ -35,10 +35,10 @@ class TranslationCategoryController extends YsaAdminController
 				$this->refresh();
 			}
 		}
-		$this->setContentTitle('Edit question');
+		$this->setContentTitle('Edit Translation Category');
 		$this->render('edit',array(
-				'entry'     => $entry,
-			));
+			'entry'     => $entry,
+		));
 	}
 
 	public function actionIndex()

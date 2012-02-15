@@ -92,7 +92,7 @@ class YsaController extends CController
 		$this->setMetaTitle($meta->title)
 				->setMetaKeywords($meta->keywords)
 				->setMetaDescription($meta->description);
-
+		
 		return $this;
 	}
 
@@ -197,7 +197,7 @@ class YsaController extends CController
 				array('label'=>'Pricing', 'url'=>array('pricing/'), 'active' => $c == 'pricing'),
 				array('label'=>'Panel', 'url'=>array('member/'), 'visible' => Yii::app()->user->isMember(), 'itemOptions' => array('class' => 'panel')),
 				array('label'=>'Panel', 'url'=>array('admin/'), 'visible' => Yii::app()->user->isAdmin(), 'itemOptions' => array('class' => 'panel')),
-				array('label'=>'Login', 'url'=>array('/login'), 'visible' => 0 && Yii::app()->user->isGuest, 'itemOptions' => array('id' => 'navigation-login-link')),
+				array('label'=>'Login', 'url'=>array('/login'), 'visible' => Yii::app()->user->isGuest, 'itemOptions' => array('id' => 'navigation-login-link')),
 				array('label'=>'Logout', 'url'=>array('/logout'), 'visible' => !Yii::app()->user->isGuest),
 			);
 		} else {
@@ -209,6 +209,12 @@ class YsaController extends CController
 				)),
 				array('label'=>'Events', 'url'=>array('event/'), 'active' => in_array($c, array('event', 'album', 'photo'))),
 				array('label'=>'Clients', 'url'=>array('client/'), 'active' => $c == 'client'),
+				
+				array('label'=>'Support', 'url'=>array('support/'), 'active' => in_array($c, array('support', 'help')), 'items' => array(
+					array('label' => 'Help', 'url' => array('help/'), 'active' => ($c == 'help') ),
+					array('label' => 'Zendesk', 'url' => ''),
+				)),
+				
 				array('label'=>'Settings', 'url'=>array('settings/'), 'active' => $c == 'settings', 'items' => array(
 					array('label' => 'Smugmug', 'url' => array('settings/smugmug/'), 'active' => ($a == 'smugmug') ),
 					array('label' => 'ZenFolio', 'url' => array('settings/zenfolio/'), 'active' => ($a == 'zenfolio') ),

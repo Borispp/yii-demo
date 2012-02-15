@@ -85,11 +85,7 @@
             )); ?>
         </div>
         
-        <section>
-            <div class="c">
-                <button class="submit ysa big">Save</button>
-            </div>
-        </section>
+        <?php echo YsaHtml::adminSaveSection();?>
         <?php $this->endWidget(); ?>
     </div>
 </div>
