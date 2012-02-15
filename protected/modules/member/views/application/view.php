@@ -11,12 +11,21 @@
 			</div>
 		</div>
 		<div class="box-content">
-			
+			<?php $this->renderPartial('ipad-font-style', array('application' => $app));?>
 			<div class="preview">
-				<div class="ipad ipad900">
-					<div class="wrap">
+				<div class="ipad ipad900" id="ipad-slider">
+					<div class="wrap" id="style-<?php echo $app->option('style')?>">
 						<div class="content">
+							<ul class="slides_container">
+								<?php foreach(array('events','main','studio','gallery') as $template):?>
+								<li class="slide" id="slide-<?php echo $template?>"><?php $this->renderPartial('ipad-'.$template, array(
+										'application' => $app))?></li>
+								<?php endforeach?>
+							</ul>
 						</div>
+					</div>
+					<div id="">
+
 					</div>
 					<div class="home">
 						<div>
@@ -25,7 +34,6 @@
 					</div>
 				</div>
 			</div>
-			
 			<div class="cf info">
 				<div class="shadow-box status">
 					<h4><?php YsaHelpers::t('application', 'status_block_title')?></h4>
@@ -40,7 +48,7 @@
 					<h4><?php YsaHelpers::t('application', 'submit_block_title')?></h4>
 					<p><?php YsaHelpers::t('application', 'submit_block_text')?></p>
 					<?php if (!$app->submitted()) : ?>
-						<span class="button"><?php echo YsaHtml::link(Yii::t('application', 'submit_button'), array('agreement'), array('class' => 'btn blue')); ?></span>
+					<span class="button"><?php echo YsaHtml::link(Yii::t('application', 'submit_button'), array('agreement'), array('class' => 'btn blue')); ?></span>
 					<?php endif; ?>
 				</div>
 				<?php else:?>
@@ -51,7 +59,7 @@
 				</div>
 				<?php endif?>
 				<?php if ($app->hasSupport()) : ?>
-					<?php echo YsaHtml::link('Support Ticket', array('support'), array('class' => 'btn red-txt fr')); ?>
+				<?php echo YsaHtml::link('Support Ticket', array('support'), array('class' => 'btn red-txt fr')); ?>
 				<?php endif; ?>
 			</div>
 		</div>
