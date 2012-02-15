@@ -52,7 +52,7 @@ class ImageHelper {
 		if(!file_exists($img)){
 			$img = str_replace('\\', '/', YiiBase::getPathOfAlias('webroot').$img);
 			if(!file_exists($img)){
-				throw new ExceptionClass('Image not found');
+				throw new Exception('Image not found');
 			}
 		}
 
