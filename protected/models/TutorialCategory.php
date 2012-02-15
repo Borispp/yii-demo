@@ -50,7 +50,7 @@ class TutorialCategory extends YsaActiveRecord
 	public function relations()
 	{
 		return array(
-//			'tutorial' => array(self::HAS_MANY, 'Tutorial', 'cat_id', 'order' => 'rank ASC'),
+			'tutorials' => array(self::HAS_MANY, 'Tutorial', 'cat_id', 'order' => 'rank ASC'),
 		);
 	}
 
@@ -79,7 +79,7 @@ class TutorialCategory extends YsaActiveRecord
 	}
 	
 	public function setNextRank()
-	{	
+	{
 		$maxRank = (int) Yii::app()->db->createCommand()
 							->select('max(rank) as max')
 							->from($this->tableName())

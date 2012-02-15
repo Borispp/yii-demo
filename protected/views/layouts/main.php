@@ -17,7 +17,7 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 </head>
-<body>
+<body<?php echo $this->isMemberPanel() ? ' id="member-panel"' : ''?>>
     <div id="header-wrapper">
 		<a name="page-top" id="page-top"></a>
         <header class="w cf">
@@ -44,7 +44,7 @@
     <section id="content" class="cf" role="main">
         <?php echo $content; ?>
     </section>
-    <div class="lighter-w footer-w">
+    <div id="footer-wrapper" class="lighter-w footer-w">
         <footer class="w">
             <p role="copyright"><?php echo Yii::app()->settings->get('copyright'); ?>&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;site by <a href="http://flosites.com" rel="external">Flosites</a></p>
         </footer>

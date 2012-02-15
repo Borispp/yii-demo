@@ -95,10 +95,19 @@
 			<div class="shadow-box">
 				<div class="box-description">These links are shown under the “more” tab in your application.</div>
 				<?php if (count($entry->customLinks)) : ?>
+				
+					<?php
+						$folder = $this->member()->application->option('style');
+						if (!$folder) {
+							$folder = 'black';
+						}
+					?>
+				
 					<ul class="list links cf" data-type="<?php echo StudioLink::TYPE_BOOKMARK?>">
 						<?php foreach ($entry->customLinks as $link) : ?>
 							<?php $this->renderPartial('/link/_listcustom', array(
-								'entry' => $link,
+								'entry'		=> $link,
+								'folder'	=> $folder,
 							)); ?>
 						<?php endforeach; ?>
 					</ul>

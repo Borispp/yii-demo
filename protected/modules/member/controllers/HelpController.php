@@ -12,6 +12,33 @@ class HelpController extends YsaMemberController
 	{
 		$this->setMemberPageTitle(Yii::t('title', 'help'));
 		
-		$this->render('index');
+		$categories = TutorialCategory::model()->findAll(array(
+			'order'		=> 'rank ASC',
+			'condition' => 'state=:state',
+			'params'	=> array(
+				'state' => TutorialCategory::STATE_ACTIVE,
+			)
+		));
+
+		$this->render('index', array(
+			'categories' => $categories,
+		));
+	}
+	
+	public function actionView($slug)
+	{
+		$tutorial = Tutorial::model()->findBy('slug', $slug);
+		
+		if (!$tutorial || !$tutorial->isActive()) {
+			$this->redirect(array('help/'));
+		}
+		
+		$this->setMemberPageTitle(Yii::t('title', 'help'));
+		
+		$this->crumb($tutorial->title);
+		
+		$this->render('view', array(
+			'tutorial' => $tutorial,
+		));
 	}
 }

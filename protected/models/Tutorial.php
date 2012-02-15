@@ -16,6 +16,10 @@
  */
 class Tutorial extends YsaActiveRecord
 {
+	protected $_prev;
+	
+	protected $_next;
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Tutorial the static model class
@@ -138,5 +142,33 @@ class Tutorial extends YsaActiveRecord
 	public function generateSlugFromTitle()
 	{
 		$this->slug = YsaHelpers::filterSystemName($this->title);
+	}
+	
+	public function previous()
+	{
+		if (null === $this->_prev) {
+			$this->_prev = $this->model()->find('cat_id=:cat_id AND rank<:rank', array(
+				'cat_id' => $this->cat_id,
+				'rank'   => $this->rank,
+			));
+			if (!$this->_prev) {
+				$this->_prev = false;
+			}
+		}
+		return $this->_prev;
+	}
+	
+	public function next()
+	{
+		if (null === $this->_next) {
+			$this->_next = $this->model()->find('cat_id=:cat_id AND rank>:rank', array(
+				'cat_id' => $this->cat_id,
+				'rank'   => $this->rank,
+			));
+			if (!$this->_next) {
+				$this->_next = false;
+			}
+		}
+		return $this->_next;
 	}
 }

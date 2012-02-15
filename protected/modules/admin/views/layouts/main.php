@@ -2,11 +2,8 @@
 <html lang="en-us">
 <head>
 	<meta charset="utf-8">
-
 	<title><?php echo YsaHtml::encode($this->pageTitle); ?></title>
-
 	<meta name="description" content="" />
-
 	<script type="text/javascript">
 		var _admin_url = '<?php echo CController::createUrl('/admin')?>';
 	</script>
