@@ -1,17 +1,6 @@
 <?php
 class RecoveryController extends YsaFrontController
 {
-	public function beforeAction($action) {
-		parent::beforeAction($action);
-		
-		if (!isset($_GET['b51']) && $this->getAction()->getId() != 'logout') {
-			$this->redirect(array('/comingsoon'));
-		}
-		
-		return true;
-	}
-	
-	
     public $defaultAction = 'recover';
 
     public function actionChangepassword()
