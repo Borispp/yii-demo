@@ -13,7 +13,7 @@ section {
   display: block;
 }
 audio[controls], canvas, video {
-  display: inline-block;
+	display: inline-block;
   *display: inline;
   *zoom: 1;
 }
