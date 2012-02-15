@@ -5,7 +5,6 @@ class ApplicationController extends YsaMemberController
 
 	public function init() {
 		parent::init();
-		$this->renderVar('application', $this->member()->application);
 		$this->setMemberPageTitle(Yii::t('title', 'application_wizard'));
 		$this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/ipad.css');
 	}
