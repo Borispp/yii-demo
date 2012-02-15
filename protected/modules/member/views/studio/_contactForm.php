@@ -7,6 +7,15 @@
 			'id'=>'studio-contact-form',
 			'action' => array('saveContact')
 	)); ?>
+	
+	<section class="cf">
+		<?php echo $form->labelEx($entry, 'name'); ?>
+		<div>
+			<?php echo $form->textField($entry, 'name', array('maxlength' => 100)); ?>
+			<?php echo $form->error($entry, 'name'); ?>
+		</div>
+	</section>
+	
 	<section class="cf">
 		<?php echo $form->labelEx($entry, 'address'); ?>
 		<div>

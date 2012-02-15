@@ -1,17 +1,5 @@
 <section id="studio" class="w">
-	<section class="box">
-		<div class="box-title">
-			<h3>Blog and Social Media Information</h3>
-			<?php if ($entry->help('general')) : ?>
-				<a href="<?php echo $entry->help('general');?>" class="box-help fancybox">?</a>
-			<?php endif; ?>
-		</div>
-		<div class="box-content">
-			<?php $this->renderPartial('_form', array(
-				'entry' => $entry,
-			)); ?>
-		</div>
-	</section>
+
 	
 	<section class="box">
 		<div class="box-title">
@@ -26,6 +14,20 @@
 					'entry' => $contactForm,
 				)); ?>
 			</div>
+		</div>
+	</section>
+	
+	<section class="box">
+		<div class="box-title">
+			<h3>Blog and Social Media Information</h3>
+			<?php if ($entry->help('general')) : ?>
+				<a href="<?php echo $entry->help('general');?>" class="box-help fancybox">?</a>
+			<?php endif; ?>
+		</div>
+		<div class="box-content">
+			<?php $this->renderPartial('_form', array(
+				'entry' => $entry,
+			)); ?>
 		</div>
 	</section>
 	

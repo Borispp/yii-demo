@@ -23,10 +23,10 @@ class MemberController extends YsaAdminController
 
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/adm/js/search-form.js', CClientScript::POS_HEAD);
 		$this->render('index',array(
-				'entries'   => $entries,
-				'pagination'=> $pagination,
-				'member_search' => $member_search,
-			));
+			'entries'   => $entries,
+			'pagination'=> $pagination,
+			'member_search' => $member_search,
+		));
 	}
 
 	public function actionAdd()
@@ -50,8 +50,8 @@ class MemberController extends YsaAdminController
 		$this->setContentDescription('Fill the form to add new member.');
 
 		$this->render('add',array(
-				'entry'     => $entry,
-			));
+			'entry'     => $entry,
+		));
 	}
 
 	public function actionEdit($id)

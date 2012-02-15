@@ -152,4 +152,18 @@ class YsaActiveRecord extends CActiveRecord
 		}
 		return $errors;
 	}
+	
+	/**
+	 * Add URL filter for all links. Adds http:// to the start if not exists.
+	 * 
+	 * @param string $value
+	 * @return string 
+	 */
+	public function filterUrl($value)
+	{
+		if (!preg_match('~^http\:\/\/~', $value)) {
+			$value = 'http://' . $value;
+		}
+		return $value;
+	}
 }

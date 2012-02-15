@@ -1,6 +1,6 @@
 <div class="g12">
 	<?php $this->beginWidget('YsaAdminForm', array(
-		'id'=>'membership-form',
+		'id'=>'translation-category-form',
 		'action'=>Yii::app()->createUrl('/admin/translationCategory/delete'),
 		'method'=>'post',
 	)); ?>

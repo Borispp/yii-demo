@@ -68,7 +68,7 @@ class YsaHelpers
 	public static function filterSystemName($value, $replacement = '-')
 	{
 		$value = strtolower($value);
-		return preg_replace('~' . $replacement . '{2,}~', $replacement, preg_replace('~[^a-zA-Z0-9]~si', $replacement, $value));
+		return trim(preg_replace('~' . $replacement . '{2,}~', $replacement, preg_replace('~[^a-zA-Z0-9]~si', $replacement, $value)), ' ' . $replacement);
 	}
 
 	public static function isSerialized($string) {

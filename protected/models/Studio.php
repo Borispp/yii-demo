@@ -72,14 +72,15 @@ class Studio extends YsaActiveRecord
 	public function rules()
 	{
 		return array(
+			array('twitter_feed, facebook_feed, blog_feed', 'filter', 'filter' => array($this, 'filterUrl')),
+			
 			array('user_id', 'required'),
 			array('user_id', 'numerical', 'integerOnly'=>true),
 			array('name, facebook_feed, twitter_feed, blog_feed', 'length', 'max'=>100),
-			array('facebook_feed, twitter_feed, blog_feed, order_link', 'url'),
+			array('facebook_feed, twitter_feed, blog_feed', 'url'),
 			array('name, facebook_feed, twitter_feed, blog_feed, order_link, created, updated, specials, video, contact', 'safe'),
 		);
 	}
-
 	/**
 	 * @return array relational rules.
 	 */
@@ -277,5 +278,14 @@ class Studio extends YsaActiveRecord
 	public function help($field)
 	{
 		return isset($this->_help[$field]) ? Yii::app()->baseUrl . '/resources/images/help/studio/' . $this->_help[$field] : null;
+	}
+	
+	public function socialAttributes()
+	{
+		return array(
+			'blog_feed' => $this->blog_feed,
+			'facebook_feed' => $this->facebook_feed,
+			'twitter_feed' => $this->twitter_feed,
+		);
 	}
 }

@@ -4,7 +4,7 @@
 			'action' => array('saveGeneralInfo')
 	)); ?>
 	<?php
-		$fields = array('name', 'blog_feed', 'twitter_feed', 'facebook_feed',);
+		$fields = array('blog_feed', 'twitter_feed', 'facebook_feed',);
 		//'order_link'
 	?>
 	<?php foreach ($fields as $field) : ?>

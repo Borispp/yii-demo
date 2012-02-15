@@ -87,6 +87,7 @@ class PersonController extends YsaMemberController
 			if ($entry->validate()) {
 				$entry->uploadPhoto();
 				$entry->save();
+				$this->setSuccess(Yii::t('save', 'photographer_edited'));
 				$this->redirect(array('studio/'));
 			}
 		}
@@ -126,12 +127,16 @@ class PersonController extends YsaMemberController
 		$entry = StudioPerson::model()->findByPk($personId);
 		
 		if (!$entry || !$entry->isOwner()) {
-			$this->redirect(array('studio/'));
+			if (Yii::app()->getRequest()->isAjaxRequest) {
+				$this->sendJsonError();
+			} else {
+				$this->redirect(array('studio/'));
+			}
 		}
 		
 		$entry->removePhoto();
 		
-		$this->redirect(array('studio/person/' . $entry->id));
+		$this->redirect(array('person/edit/' . $entry->id . '/'));
 	}
 	
 	public function actionSort()
