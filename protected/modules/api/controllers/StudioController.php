@@ -12,6 +12,13 @@ class StudioController extends YsaApiController
 		return $image['url'];
 	}
 
+	protected function _getImageSize(array $image = NULL)
+	{
+		if (file_exists($image['path']))
+			return @filesize($image['path']);
+		return 0;
+	}
+
 	/**
 	 * Basic action — returns all information about app — color, font-family, background image, logo etc.
 	 * Inquiry params: [app_key, device_id]
@@ -21,29 +28,35 @@ class StudioController extends YsaApiController
 	public function actionStyle()
 	{
 		$this->_commonValidate();
+		$hasStudioBgImage = $this->_getApplication()->option('studio_bg') != 'color';
+		$hasGenericBgImage = $this->_getApplication()->option('generic_bg') != 'color';
+		$hasSplashBgImage = $this->_getApplication()->option('splash_bg') != 'color';
 		$this->_render(array(
-				'logo'					=> $this->_getUrlFromImage($this->_getApplication()->option('logo')),
+				'logo'                      => $this->_getUrlFromImage($this->_getApplication()->option('logo')),
 
-				'studio_bg_use_image'	=> $this->_getApplication()->option('studio_bg') != 'color',
-				'studio_bg'				=> $this->_getApplication()->option('studio_bg') ? NULL : YsaHelpers::html2rgb($this->_getApplication()->option('studio_bg_color')),
-				'studio_bg_image'		=> $this->_getApplication()->option('studio_bg') ? $this->_getUrlFromImage($this->_getApplication()->option('studio_bg_image')) : NULL,
+				'studio_bg_use_image'       => $hasStudioBgImage,
+				'studio_bg'                 => $hasStudioBgImage ? NULL : YsaHelpers::html2rgb($this->_getApplication()->option('studio_bg_color')),
+				'studio_bg_image'           => $hasStudioBgImage ? $this->_getUrlFromImage($this->_getApplication()->option('studio_bg_image')) : NULL,
+				'studio_bg_image_filesize'  => $hasStudioBgImage ? $this->_getImageSize($this->_getApplication()->option('studio_bg_image')): 0,
 
-				'generic_bg_use_image'	=> $this->_getApplication()->option('generic_bg') != 'color',
-				'generic_bg'			=> $this->_getApplication()->option('generic_bg') ? NULL : YsaHelpers::html2rgb($this->_getApplication()->option('generic_bg_color')),
-				'generic_bg_image'		=> $this->_getApplication()->option('generic_bg') ? $this->_getUrlFromImage($this->_getApplication()->option('generic_bg_image')) : NULL,
+				'generic_bg_use_image'      => $hasGenericBgImage,
+				'generic_bg'                => $hasGenericBgImage ? NULL : YsaHelpers::html2rgb($this->_getApplication()->option('generic_bg_color')),
+				'generic_bg_image'          => $hasGenericBgImage ? $this->_getUrlFromImage($this->_getApplication()->option('generic_bg_image')) : NULL,
+				'generic_bg_image_filesize' => $hasGenericBgImage ? $this->_getImageSize($this->_getApplication()->option('generic_bg_image')): 0,
 
-				'splash_bg_use_image'	=> $this->_getApplication()->option('splash_bg') != 'color',
-				'splash_bg'				=> $this->_getApplication()->option('splash_bg') ? NULL : YsaHelpers::html2rgb($this->_getApplication()->option('splash_bg_color')),
-				'splash_bg_image'		=> $this->_getApplication()->option('splash_bg') ? $this->_getUrlFromImage($this->_getApplication()->option('splash_bg_image')) : NULL,
+				'splash_bg_use_image'       => $hasSplashBgImage,
+				'splash_bg'                 => $hasSplashBgImage ? NULL : YsaHelpers::html2rgb($this->_getApplication()->option('splash_bg_color')),
+				'splash_bg_image'           => $hasSplashBgImage ? $this->_getUrlFromImage($this->_getApplication()->option('splash_bg_image')) : NULL,
+				'splash_bg_image_filesize'  => $hasSplashBgImage ? $this->_getImageSize($this->_getApplication()->option('splash_bg_image')): 0,
 
-				'first_font'			=> $this->_getApplication()->option('main_font'),
-				'second_font'			=> $this->_getApplication()->option('second_font'),
+				'first_font'                => $this->_getApplication()->option('main_font'),
+				'second_font'               => $this->_getApplication()->option('second_font'),
 
-				'main_color'			=> YsaHelpers::html2rgb($this->_getApplication()->option('main_font_color')),
-				'second_color'			=> YsaHelpers::html2rgb($this->_getApplication()->option('second_font_color')),
+				'main_color'                => YsaHelpers::html2rgb($this->_getApplication()->option('main_font_color')),
+				'second_color'              => YsaHelpers::html2rgb($this->_getApplication()->option('second_font_color')),
 
-				'studio_name'			=> $this->_getApplication()->name,
-				'copyright'				=> $this->_getApplication()->option('copyright'),
+				'studio_name'               => $this->_getApplication()->name,
+				'copyright'                 => $this->_getApplication()->option('copyright'),
 			));
 	}
 
