@@ -120,7 +120,7 @@ if($.alert) $.alert.defaults = {
 //	initialContent: ''
 //};
 
-    if (elRTE) {
+    if (typeof(elRTE) != 'undefined') {
          elRTE.prototype.options.panels.ysa_toolbar = [
               'bold', 'italic', 'forecolor', 'justifyleft', 'justifyright',
               'justifycenter', 'justifyfull', 'formatblock', 'insertorderedlist', 'insertunorderedlist',

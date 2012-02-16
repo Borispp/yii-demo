@@ -17,7 +17,7 @@ class TranslationCategory extends YsaActiveRecord
 	{
 		return parent::model($className);
 	}
-
+	
 	/**
 	 * @return string the associated database table name
 	 */
@@ -55,7 +55,6 @@ class TranslationCategory extends YsaActiveRecord
         $categories = $this->model()->findAll(array(
             'order' => 'name ASC',
         ));
-        
         $list = array();
         foreach ($categories as $cat) {
             $list[] = array(
@@ -64,7 +63,6 @@ class TranslationCategory extends YsaActiveRecord
                 'linkOptions' => array('class' => Yii::app()->request->getParam('cat') == $cat->name ? 'active' : ''), 
             );
         }
-
         return $list;
     }
 }

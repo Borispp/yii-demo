@@ -32,19 +32,21 @@ class StudioController extends YsaApiController
 		$hasGenericBgImage = $this->_getApplication()->option('generic_bg') != 'color';
 		$hasSplashBgImage = $this->_getApplication()->option('splash_bg') != 'color';
 		$this->_render(array(
+				'logo_use_image'            => 1,
+				'logo_filesize'             => $this->_getImageSize($this->_getApplication()->option('logo')),
 				'logo'                      => $this->_getUrlFromImage($this->_getApplication()->option('logo')),
 
-				'studio_bg_use_image'       => $hasStudioBgImage,
+				'studio_bg_image_use'       => $hasStudioBgImage,
 				'studio_bg'                 => $hasStudioBgImage ? NULL : YsaHelpers::html2rgb($this->_getApplication()->option('studio_bg_color')),
 				'studio_bg_image'           => $hasStudioBgImage ? $this->_getUrlFromImage($this->_getApplication()->option('studio_bg_image')) : NULL,
 				'studio_bg_image_filesize'  => $hasStudioBgImage ? $this->_getImageSize($this->_getApplication()->option('studio_bg_image')): 0,
 
-				'generic_bg_use_image'      => $hasGenericBgImage,
+				'generic_bg_image_use'      => $hasGenericBgImage,
 				'generic_bg'                => $hasGenericBgImage ? NULL : YsaHelpers::html2rgb($this->_getApplication()->option('generic_bg_color')),
 				'generic_bg_image'          => $hasGenericBgImage ? $this->_getUrlFromImage($this->_getApplication()->option('generic_bg_image')) : NULL,
 				'generic_bg_image_filesize' => $hasGenericBgImage ? $this->_getImageSize($this->_getApplication()->option('generic_bg_image')): 0,
 
-				'splash_bg_use_image'       => $hasSplashBgImage,
+				'splash_bg_image_use'       => $hasSplashBgImage,
 				'splash_bg'                 => $hasSplashBgImage ? NULL : YsaHelpers::html2rgb($this->_getApplication()->option('splash_bg_color')),
 				'splash_bg_image'           => $hasSplashBgImage ? $this->_getUrlFromImage($this->_getApplication()->option('splash_bg_image')) : NULL,
 				'splash_bg_image_filesize'  => $hasSplashBgImage ? $this->_getImageSize($this->_getApplication()->option('splash_bg_image')): 0,

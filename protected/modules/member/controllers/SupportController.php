@@ -6,6 +6,8 @@ class SupportController extends YsaMemberController
 		$this->crumb('Support');
 		$this->setMemberPageTitle(Yii::t('title', 'support'));
 		
+		$this->setMetaTitle(Yii::t('title', 'support'));
+		
 		$this->render('index');
 	}
 }

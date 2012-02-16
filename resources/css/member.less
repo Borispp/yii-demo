@@ -1036,12 +1036,24 @@ section.zenfolio-import {
 		
 		figure {
 			float:left;
-			width:40px;
-			height:40px;
+			width:24px;
+			height:24px;
+			padding:10px;
+			.rounded(5px);
+			&.black {
+				background:@gray-lima;
+			}
+			&.white {
+				background:@gray-golf;
+			}
+			&.biege {
+				background:@biege-alpha;
+			}
 			overflow:hidden;
 			margin-right:20px;
 			img {
-				width:40px;
+				margin:0;
+				width:24px;
 				height:auto;
 			}
 		}
@@ -1071,10 +1083,6 @@ section.zenfolio-import {
 		strong {
 			width:190px;
 		}
-		img {
-			width:24px;
-			margin:8px 0 0 8px;
-		}
 	}
 }
 
@@ -1083,21 +1091,46 @@ section.zenfolio-import {
 		cursor:pointer;
 		float:left;
 		margin:0 1em 1em 0;
-		padding:2px;
+		padding:5px;
 		border:1px solid @white-alpha;
-		.rounded(3px);
-		&:hover {
-			background:@gray-hotel;
-			border-color:@gray-foxtrot;
+		.rounded(5px);
+		&.black {
+			background:@gray-lima;
+			&:hover {
+				background:@gray-lima + 40%;
+				border-color:@gray-lima - 20%;
+			}
+			&.selected {
+				background:@gray-lima - 40%;
+				border-color:@gray-lima - 40%;
+			}
 		}
-		&.selected {
-			background:@blue-echo;
-			border-color:@blue-alpha;
+		&.white {
+			background:@gray-golf;
+			&:hover {
+				background:@gray-golf - 20%;
+				border-color:@gray-golf - 50%;
+			}
+			&.selected {
+				background:@gray-golf - 50%;
+				border-color:@gray-golf - 50%;
+			}
+		}
+		&.biege {
+			background:@biege-alpha;
+			&:hover {
+				background:@biege-alpha + 20%;
+				border-color:@biege-alpha - 0%;
+			}
+			&.selected {
+				background:@biege-alpha - 20%;
+				border-color:@biege-alpha - 30%;
+			}
 		}
 	}
 }
 #studio-form-icon-field {
-	width:460px;
+	width:350px;
 }
 #studio-person-view {
 	figure {
@@ -1521,12 +1554,11 @@ section.zenfolio-import {
 
 #application {
 	.info {
+		.margin-bottom-alpha;
 		.shadow-box {
 			width:420px;
 			height:110px;
 			position:relative;
-
-
 			span.button {
 				position:absolute;
 				right:20px;
@@ -1578,8 +1610,6 @@ section.zenfolio-import {
 
 
 	.preview {
-		.margin-bottom-alpha;
-
 	}
 }
 
@@ -1658,6 +1688,11 @@ section.zenfolio-import {
 	}
 }
 
+#application-congrats {
+	.story {
+		font-size:16px;
+	}
+}
 
 
 #client-list .search-bar,
@@ -2111,5 +2146,71 @@ li.plupload_droptext {
 		margin-top:24px;
 		border-top:1px solid @gray-foxtrot;
 		padding-top:24px;
+	}
+}
+
+
+/* Help
+*******************************/
+#help-index {
+	.category {
+		.padding-bottom-alpha;
+		border-bottom:1px solid @gray-foxtrot;
+		.margin-bottom-alpha;
+		&:last-child {
+			padding-bottom:0;
+			border-bottom:0;
+		}
+
+		h4 {
+			margin-bottom:.5em;
+		}
+		ul {
+			li {
+				list-style:decimal;
+				margin-left:2em;
+				font-size:14px;
+				line-height:24px;
+			}
+		}
+	}
+}
+#help-view {
+	.story {
+		.margin-bottom-alpha;
+		line-height:1.5;
+		font-size:14px;
+	}
+	.paginator {
+
+		padding-top:20px;
+		border-top:1px solid @gray-foxtrot;
+	
+		span {
+			height:20px;
+			line-height:20px;
+			font-weight:bold;
+			font-size:14px;
+		}
+		.prev {
+			float:left;
+			width:200px;
+		}
+		.next {
+			float:right;
+			width:200px;
+			text-align:right;
+		}
+		.index {
+			margin:0 200px;
+			text-align:center;
+		}
+	}
+}
+#support-index {
+	.box-content {
+		.shadow-box {
+			width:420px;
+		}
 	}
 }

@@ -1874,9 +1874,6 @@ header nav li.active > a {
 header nav li.logout a:hover {
   color: #999999;
 }
-header nav li.panel a {
-  color: #000000;
-}
 header nav li.login-visible a {
   background: #ffffff;
   -moz-border-radius-topleft: 4px;
@@ -2025,6 +2022,8 @@ header nav li ul li a {
 /* Footer
 *******************************/
 .footer-w {
+  left: 0;
+  right: 0;
   -webkit-box-shadow: 0px 0px 2px 0px #999999;
   -moz-box-shadow: 0px 0px 2px 0px #999999;
   box-shadow: 0px 0px 2px 0px #999999;
@@ -2137,6 +2136,55 @@ div.static-flash.info {
 div.static-flash a {
   color: #3a3a3a;
   text-decoration: underline;
+}
+/* General Page Wrapper
+*******************************/
+.general-page {
+  position: relative;
+  top: -24px;
+  width: 980px;
+  margin: 0 auto;
+  background: #ffffff;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.general-page .content {
+  padding: 36px;
+}
+#member-panel .general-page {
+  top: 0;
+  margin-bottom: 24px;
+}
+/* Error Pages
+*******************************/
+#page-404 .content, #page-403 .content {
+  height: 140px;
+  padding-top: 360px;
+  background: url(../images/404.jpg) 225px 190px no-repeat;
+  position: relative;
+}
+#page-404 .content p, #page-403 .content p {
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 1.4;
+  font-style: italic;
+  text-shadow: 1px 1px 0px #ffffff;
+  text-align: center;
+  color: #616161;
+}
+#page-404 .content .button, #page-403 .content .button {
+  display: block;
+  text-align: center;
+}
+#page-404 .content {
+  background: url(../images/404.jpg) 225px 190px no-repeat;
+}
+#page-403 .content {
+  background: url(../images/403.jpg) 50% 115px no-repeat;
 }
 /* Breadcrumb
 *******************************/
@@ -3410,13 +3458,30 @@ section.smugmug-import .import li span, section.zenfolio-import .import li span 
 }
 #studio .list li figure {
   float: left;
-  width: 40px;
-  height: 40px;
+  width: 24px;
+  height: 24px;
+  padding: 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
   overflow: hidden;
   margin-right: 20px;
 }
+#studio .list li figure.black {
+  background: #3a3a3a;
+}
+#studio .list li figure.white {
+  background: #f0f0f0;
+}
+#studio .list li figure.biege {
+  background: #e7ddcb;
+}
 #studio .list li figure img {
-  width: 40px;
+  margin: 0;
+  width: 24px;
   height: auto;
 }
 #studio .list li a.url, #studio .list li a.view, #studio .list li strong {
@@ -3436,33 +3501,54 @@ section.smugmug-import .import li span, section.zenfolio-import .import li span 
 #studio .list.links a.url, #studio .list.links strong {
   width: 190px;
 }
-#studio .list.links img {
-  width: 24px;
-  margin: 8px 0 0 8px;
-}
 #studio-add-link-form li {
   cursor: pointer;
   float: left;
   margin: 0 1em 1em 0;
-  padding: 2px;
+  padding: 5px;
   border: 1px solid #ffffff;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-#studio-add-link-form li:hover {
-  background: #e0e0e0;
-  border-color: #c9c9c9;
+#studio-add-link-form li.black {
+  background: #3a3a3a;
 }
-#studio-add-link-form li.selected {
-  background: #e1f3f9;
-  border-color: #008eb0;
+#studio-add-link-form li.black:hover {
+  background: #626262;
+  border-color: #262626;
+}
+#studio-add-link-form li.black.selected {
+  background: #121212;
+  border-color: #121212;
+}
+#studio-add-link-form li.white {
+  background: #f0f0f0;
+}
+#studio-add-link-form li.white:hover {
+  background: #dcdcdc;
+  border-color: #bebebe;
+}
+#studio-add-link-form li.white.selected {
+  background: #bebebe;
+  border-color: #bebebe;
+}
+#studio-add-link-form li.biege {
+  background: #e7ddcb;
+}
+#studio-add-link-form li.biege:hover {
+  background: #fbf1df;
+  border-color: #e7ddcb;
+}
+#studio-add-link-form li.biege.selected {
+  background: #d3c9b7;
+  border-color: #c9bfad;
 }
 #studio-form-icon-field {
-  width: 460px;
+  width: 350px;
 }
 #studio-person-view figure {
   float: left;
@@ -3863,6 +3949,9 @@ section.smugmug-import .import li span, section.zenfolio-import .import li span 
 #wizard-breadcrumbs li.submit {
   z-index: 5;
 }
+#application .info {
+  margin-bottom: 24px;
+}
 #application .info .shadow-box {
   width: 420px;
   height: 110px;
@@ -3922,9 +4011,6 @@ section.smugmug-import .import li span, section.zenfolio-import .import li span 
   color: #5e646e;
   margin-bottom: 10px;
   padding: 0;
-}
-#application .preview {
-  margin-bottom: 24px;
 }
 #application-preview .buttons {
   margin-bottom: 24px;
@@ -3999,6 +4085,9 @@ section.smugmug-import .import li span, section.zenfolio-import .import li span 
 #application-support .replies li p {
   line-height: 1.3;
   margin-bottom: 0;
+}
+#application-congrats .story {
+  font-size: 16px;
 }
 #client-list .search-bar,
 #inbox-list .search-bar,
@@ -4420,4 +4509,55 @@ li.plupload_droptext {
   margin-top: 24px;
   border-top: 1px solid #c9c9c9;
   padding-top: 24px;
+}
+/* Help
+*******************************/
+#help-index .category {
+  padding-bottom: 24px;
+  border-bottom: 1px solid #c9c9c9;
+  margin-bottom: 24px;
+}
+#help-index .category:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+#help-index .category h4 {
+  margin-bottom: .5em;
+}
+#help-index .category ul li {
+  list-style: decimal;
+  margin-left: 2em;
+  font-size: 14px;
+  line-height: 24px;
+}
+#help-view .story {
+  margin-bottom: 24px;
+  line-height: 1.5;
+  font-size: 14px;
+}
+#help-view .paginator {
+  padding-top: 20px;
+  border-top: 1px solid #c9c9c9;
+}
+#help-view .paginator span {
+  height: 20px;
+  line-height: 20px;
+  font-weight: bold;
+  font-size: 14px;
+}
+#help-view .paginator .prev {
+  float: left;
+  width: 200px;
+}
+#help-view .paginator .next {
+  float: right;
+  width: 200px;
+  text-align: right;
+}
+#help-view .paginator .index {
+  margin: 0 200px;
+  text-align: center;
+}
+#support-index .box-content .shadow-box {
+  width: 420px;
 }

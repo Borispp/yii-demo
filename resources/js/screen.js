@@ -181,7 +181,7 @@ $(function(){
 
         jQuery(this)
             .css("backgroundColor", highlightBg)
-            .animate({ backgroundColor: originalBg }, animateMs, null, function () {
+            .animate({backgroundColor: originalBg}, animateMs, null, function () {
                 jQuery(this).css("backgroundColor", originalBg); 
             });
     };
@@ -201,9 +201,35 @@ $(function(){
 		});
 	}
 	$('header nav').initNav();
-	
+
 	Modernizr.load({
 		test: Modernizr.input.placeholder,
 		nope: _polyfill_url + '/placeholder.js'		
 	});
+	
+	
+	
+
+	// position footer 
+       var footerTop = 0,
+		$footer = $("#footer-wrapper"),   
+		footerHeight = $footer.outerHeight();
+       function _position_footer() {
+			footerTop = ($(window).scrollTop()+$(window).height()-footerHeight)+"px";
+
+			if ( ($(document.body).height()+footerHeight) < $(window).height()) {
+				$footer.css({
+					position: "fixed",
+				}).animate({
+                        bottom:0
+                   })
+			} else {
+				$footer.css({
+					position: "static"
+				});
+			}
+       }
+	   _position_footer();
+       $(window).scroll(_position_footer)
+                .resize(_position_footer)
 });

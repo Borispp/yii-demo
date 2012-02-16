@@ -12,6 +12,13 @@ class MemberModule extends CWebModule
 			'member.models.*',
 			'member.components.*',
 		));
+		
+        Yii::app()->setComponents(array(
+            'errorHandler'=>array(
+				'errorAction'=>'member/default/error',
+			),
+		));
+
 	}
 
 	public function beforeControllerAction($controller, $action)

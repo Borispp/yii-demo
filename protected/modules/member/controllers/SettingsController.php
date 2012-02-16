@@ -1,6 +1,12 @@
 <?php
 class SettingsController extends YsaMemberController
 {
+	public function init() {
+		parent::init();
+		
+		$this->setMetaTitle(Yii::t('title', 'settings'));
+	}
+	
 	public function actionIndex()
 	{
 		if (isset($_POST['Member'])) {

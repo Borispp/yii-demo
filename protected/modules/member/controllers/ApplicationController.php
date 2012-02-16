@@ -7,6 +7,9 @@ class ApplicationController extends YsaMemberController
 		parent::init();
 		$this->setMemberPageTitle(Yii::t('title', 'application_wizard'));
 		$this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/ipad.css');
+		
+		$this->setMetaTitle(Yii::t('title', 'application'));
+		
 	}
 
 	public function beforeRender($view) {
@@ -33,8 +36,8 @@ class ApplicationController extends YsaMemberController
 		$this->setMemberPageTitle(Yii::t('title', 'application'));
 
 		$this->render('view', array(
-				'app' => $app,
-			));
+			'app' => $app,
+		));
 	}
 
 	public function actionCreate()
@@ -357,7 +360,7 @@ class ApplicationController extends YsaMemberController
 		$this->setMemberPageTitle($page->title);
 
 		$this->crumb('Application', array('application/'))
-				->crumb('Sucessfully Submitted');
+				->crumb($page->title);
 
 		$this->render('congratulations', array(
 				'page' => $page,

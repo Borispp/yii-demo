@@ -1,6 +1,12 @@
 <?php
 class StudioController extends YsaMemberController
 {
+	public function init() {
+		parent::init();
+		
+		$this->setMetaTitle(Yii::t('title', 'studio'));
+	}
+	
 	public function accessRules()
 	{
 		return array_merge(

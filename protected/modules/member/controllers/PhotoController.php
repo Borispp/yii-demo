@@ -1,6 +1,12 @@
 <?php
 class PhotoController extends YsaMemberController
 {
+	public function init() {
+		parent::init();
+		
+		$this->setMetaTitle(Yii::t('title', 'Events'));
+	}
+	
 	/**
 	 * Ensure that given PhotoID is valid and has right owner
 	 *

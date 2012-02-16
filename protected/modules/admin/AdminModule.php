@@ -18,8 +18,19 @@ class AdminModule extends CWebModule
 	{
 		if(parent::beforeControllerAction($controller, $action))
 		{
-			// this method is called before any module controller action is performed
-			// you may place customized code here
+
+			Yii::app()->setComponents(array(
+					'user' => array(
+						'class'          => 'YsaWebUser',
+						'stateKeyPrefix' => 'admin',
+						'loginUrl'       => Yii::app()->createUrl('/admin/auth/login'),
+					),
+//					'errorHandler'=>array(
+//							'errorAction'=>'/admin/index/error',
+//					)
+			));   
+			
+			
 			return true;
 		}
 		else

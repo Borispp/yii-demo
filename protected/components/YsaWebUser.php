@@ -7,7 +7,6 @@ class YsaWebUser extends CWebUser
         parent::login($identity, $duration);
     }
 
-
     public function isAdmin() 
     {
         $user = $this->loadUser(Yii::app()->user->id);
