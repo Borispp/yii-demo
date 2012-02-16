@@ -548,6 +548,14 @@ class EventPhoto extends YsaActiveRecord
 		return sprintf('%.2f', $this->rating);
 	}
 	
+	/**
+	 *
+	 * @param mixed $data
+	 * @param string $from
+	 * @param boolean $save
+	 * @return \EventPhoto
+	 * @throws CException 
+	 */
 	public function import($data, $from = 'smugmug', $save = true)
 	{
 		if (!$this->album_id) {
@@ -556,15 +564,29 @@ class EventPhoto extends YsaActiveRecord
 		
 		$this->imported = true;
 		
-		if ($from == 'smugmug') {
-			$this->_importSmugmug($data);
-		} elseif ($from == 'zenfolio') {
-			$this->_importZenfolio($data);
-		} elseif ($from == 'pictage') {
-			VarDumper::dump('pictage import is not implemented yet');
+		ini_set('max_execution_time', 300); // 5 minutes
+		
+		switch($from)
+		{
+			case 'smugmug':
+				$this->_importSmugmug($data);
+			break;
+			case 'zenfolio':
+				$this->_importZenfolio($data);
+			break;
+			case 'pass':
+				$this->_importPass($data);
+			break;
+			case 'pictage':
+				VarDumper::dump('pictage import is not implemented yet');
+			break;
 		}
 		
-		if ($save) {
+		if ($save) 
+		{
+			if (!$this->validate())
+				throw new CException('Event Photo validation failed: '. current(array_shift($this->getErrors())));
+			
 			$this->save();
 		}
 		
@@ -682,9 +704,12 @@ class EventPhoto extends YsaActiveRecord
 	// no exif data at the moment
 	protected function _formatZenfolioExif($data)
 	{
-		$exif = array();
-		
-		return $exif;
+		return array();
+	}
+	
+	protected function _formatPassExif($data)
+	{
+		return array();
 	}
 	
 	protected function _importZenfolio($data)
@@ -712,6 +737,52 @@ class EventPhoto extends YsaActiveRecord
 		$this->imported_data = serialize($data);
 		
 		$this->exif_data = $this->_formatZenfolioExif($data);
+		
+		$this->generateBaseName();
+
+		$image->quality(100);
+		
+		$original_image = clone $image;
+		
+		$image->resize(
+			Yii::app()->params['member_area']['photo']['full']['width'], 
+			Yii::app()->params['member_area']['photo']['full']['height']
+		);
+                
+		$savePath = $this->path();
+		$image->save($savePath);
+		$this->size = filesize($savePath);
+		
+		$original_save_path = $this->originPath();
+		$original_image->save( $original_save_path );
+		$this->original_size = filesize($original_save_path);
+	}
+	
+	public function _importPass($data)
+	{
+		$target = tempnam(sys_get_temp_dir(), 'img');
+		
+		$fh = fopen($target, 'w');
+		$check = fwrite($fh, file_get_contents($data['URL']));
+		fclose($fh);
+		
+		if (!$check) {
+			throw new CException('PASS image file can\'t be read. Please try again later.');
+		}
+		
+		$image = new YsaImage($target);
+		
+		$this->name = $data['FileName'];
+		$this->created = $this->updated = $data['Date'];
+		$this->meta_type = $image->mime;
+		$this->extention = YsaHelpers::mimeToExtention($this->meta_type);
+		$this->alt = '';
+		$this->state = self::STATE_ACTIVE;
+		
+		$data['from'] = 'pass';
+		$this->imported_data = serialize($data);
+		
+		$this->exif_data = $this->_formatPassExif($data);
 		
 		$this->generateBaseName();
 

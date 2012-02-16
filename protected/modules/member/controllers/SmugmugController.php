@@ -65,7 +65,7 @@ class SmugmugController extends YsaMemberController
 				}
 				
 				if (!$photoSet['ImageCount']) {
-					throw new Exception(Yii::t('error', 'smugmug_album_empty'));
+					throw new Exception(Yii::t('error', 'import_album_empty'));
 				}
 				
 				$photoSet['photoSetImages'] = $this->member()->smugmug()->images_get('AlbumID=' . $smugmugAlbumId, 'AlbumKey=' . $smugmugAlbumKey, 'Heavy=true', 'Extras=EXIF');
@@ -76,7 +76,7 @@ class SmugmugController extends YsaMemberController
 				
 				$this->sendJsonSuccess(array(	
 					'html' => $this->renderPartial('/album/_listalbum', array('album' => $album, 'event' => $event), true),
-					'msg' => Yii::t('success', 'smugmug_album_imported'),
+					'msg' => Yii::t('api', 'service_event_album_imported'),
 				));
 				
 			} catch (Exception $e) {
