@@ -6,10 +6,10 @@ class YsaMemberController extends YsaController
 	 */
 	protected $_member;
 
-	protected $_uploadImagePath;
-
-	protected $_uploadImageUrl;
-	
+//	protected $_uploadImagePath;
+//
+//	protected $_uploadImageUrl;
+//	
 	public $breadcrumbs;
 	
 	public $memberPageTitle;
