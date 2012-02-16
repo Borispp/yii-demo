@@ -6,7 +6,7 @@
 		<?php //@todo make new class specially for payment?>
 		<div class="box-content subscription-list">
 			<section class="part shadow-box">
-				<?php echo YsaHtml::form(array('payment/pay/payway/paypal/'))?>
+				<?php echo YsaHtml::form(array('paypal/process/'))?>
 				<?php echo YsaHtml::hiddenField('type', $type)?>
 				<?php echo YsaHtml::hiddenField('summ', $summ)?>
 				<?php echo YsaHtml::hiddenField('item_id', $item_id)?>
@@ -19,7 +19,7 @@
 				<?php echo YsaHtml::endForm()?>
 			</section>
 			<section class="part shadow-box">
-				<?php echo YsaHtml::form(array('payment/pay/payway/authorizenet/'))?>
+				<?php echo YsaHtml::form(array('authorizedotnet/process/'))?>
 				<?php echo YsaHtml::hiddenField('type', $type)?>
 				<?php echo YsaHtml::hiddenField('summ', $summ)?>
 				<?php echo YsaHtml::hiddenField('item_id', $item_id)?>
