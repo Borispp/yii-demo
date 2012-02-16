@@ -21,22 +21,22 @@
 					<span class="button"><?php echo YsaHtml::link('Change Settings', array('wizard'), array('class' => 'btn')); ?></span>
 				</div>
 				<?php if ($app->isPaid()):?>
-				<div class="shadow-box submit">
-					<h4><?php YsaHelpers::t('application', 'submit_block_title')?></h4>
-					<p><?php YsaHelpers::t('application', 'submit_block_text')?></p>
-					<?php if (!$app->submitted()) : ?>
-					<span class="button"><?php echo YsaHtml::link(Yii::t('application', 'submit_button'), array('agreement'), array('class' => 'btn blue')); ?></span>
-					<?php endif; ?>
-				</div>
+					<div class="shadow-box submit">
+						<h4><?php YsaHelpers::t('application', 'submit_block_title')?></h4>
+						<p><?php YsaHelpers::t('application', 'submit_block_text')?></p>
+						<?php if (!$app->submitted()) : ?>
+						<span class="button"><?php echo YsaHtml::link(Yii::t('application', 'submit_button'), array('agreement'), array('class' => 'btn blue')); ?></span>
+						<?php endif; ?>
+					</div>
 				<?php else:?>
-				<div class="shadow-box submit">
-					<h4><?php YsaHelpers::t('application', 'pay_block_title')?></h4>
-					<p><?php YsaHelpers::t('application', 'pay_block_text')?></p>
-					<span class="button"><?php echo YsaHtml::link(Yii::t('application', 'pay_button'), array('pay'), array('class' => 'btn blue')); ?></span>
-				</div>
+					<div class="shadow-box submit">
+						<h4><?php YsaHelpers::t('application', 'pay_block_title')?></h4>
+						<p><?php YsaHelpers::t('application', 'pay_block_text')?></p>
+						<span class="button"><?php echo YsaHtml::link(Yii::t('application', 'pay_button'), array('pay'), array('class' => 'btn blue')); ?></span>
+					</div>
 				<?php endif?>
 				<?php if ($app->hasSupport()) : ?>
-				<?php echo YsaHtml::link('Support Ticket', array('support'), array('class' => 'btn red-txt fr')); ?>
+					<?php echo YsaHtml::link('Support Ticket', array('support'), array('class' => 'btn red-txt fr')); ?>
 				<?php endif; ?>
 			</div>
 			

@@ -6,6 +6,8 @@ class HelpController extends YsaMemberController
 		
 		$this->crumb(Yii::t('title', 'support'), array('support/'))
 			->crumb(Yii::t('title', 'help'), array('help/'));
+		
+		$this->setMetaTitle(Yii::t('title', 'Tutorials'));
 	}
 	
 	public function actionIndex()

@@ -448,11 +448,11 @@ class Application extends YsaActiveRecord
 			'paid'          => 'Application is paid.',
 			'filled'        => 'All custom elements of your application have been provided.',
 			'submitted'     => 'Application has been successfully submitted.',
-			'locked'        => 'Application has been locked to pervert requred fields changes.',
+			'locked'        => 'Application has been locked to prevent any changes.',
 			'approved'      => 'Application has been successfully approved by moderators.',
 			'appstore'      => 'Application has been successfully sent to AppStore.',
 			'running'      => 'Application is running properly.',
-			'rejected'      => 'Application has been rejected by AppStore. Don\'t panic! We are working on that.',
+			'rejected'      => 'YSA support will be in touch with you soon.',
 		);
 		
 		if (!array_key_exists($this->status(), $labelDictionary))

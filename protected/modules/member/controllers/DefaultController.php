@@ -6,7 +6,10 @@ class DefaultController extends YsaMemberController
 //		$zd = new Zendesk;
 //		$requests = $zd->requests($this->member()->email);
 		
-		$this->setMemberPageTitle(Yii::t('title', 'member_area'));
+		$this->setMemberPageTitle(Yii::t('title', 'Dashboard'));
+		
+		$this->setMetaTitle(Yii::t('title', 'Dashboard'));
+		
 		$this->render('index', array(
 			'zd_requests' => array()
 		));
