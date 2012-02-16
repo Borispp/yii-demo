@@ -6,6 +6,15 @@ class PaymentController extends YsaMemberController
 	 */
 	protected $_transaction = NULL;
 
+	protected function _getPaymentData()
+	{
+		return (object)array(
+			'type'    => $_REQUEST['type'],
+			'summ'    => $_REQUEST['summ'],
+			'item_id' => $_REQUEST['item_id'],
+		);
+	}
+
 	/**
 	 * @return YsaMemberPayment
 	 */
@@ -60,13 +69,14 @@ class PaymentController extends YsaMemberController
 		}
 	}
 
-	public function actionChoosePayway($transactionId)
+	public function actionChoosePayway($type, $summ, $item_id)
 	{
-		$this->_checkTransaction($transactionId);
 		$this->setMemberPageTitle(Yii::t('payment', 'select_pay_system_title'));
 		$this->render('choose_payway', array(
-				'transaction'	=> $this->_getTransaction($transactionId)
-			));
+			'type'    => $type,
+			'summ'    => $summ,
+			'item_id' => $item_id,
+		));
 	}
 
 	/**
@@ -75,19 +85,18 @@ class PaymentController extends YsaMemberController
 	 */
 	public function actionPay($payway)
 	{
-		$this->_checkTransaction();
 		$returnUrl = 	$this->createAbsoluteUrl('/member/payment/return/', array(
 			'payway'         => $payway,
-			'transaction_id' => $this->_getTransaction()->id
 		));
 		$notifyUrl = 	$this->createAbsoluteUrl('/member/payment/catchnotification/', array(
 			'payway'         => $payway,
-			'transaction_id' => $this->_getTransaction()->id
 		));
 
 		$this->renderVar('formFields',
 			$this->_getPayment($payway)->getFormFields(
-				$this->_getTransaction(),
+				$this->_getPaymentData()->type,
+				$this->_getPaymentData()->summ,
+				$this->_getPaymentData()->item_id,
 				$notifyUrl,
 				$returnUrl
 			)
@@ -99,18 +108,22 @@ class PaymentController extends YsaMemberController
 		 */
 		if ($payway != 'paypal')
 		{
-			$formAction = $this->createAbsoluteUrl('/member/payment/processAuthorizeDotNet/', array(
-				'transaction_id' => $this->_getTransaction()->id
-			));
+			$formAction = $this->createAbsoluteUrl('/member/payment/processAuthorizeDotNet/');
 			$entry = new YsaAuthorizeDotNet();
 			$this->renderVar('entry', $entry);
+			$this->renderVar('hidden_fields', array(
+				'type'    => $this->_getPaymentData()->type,
+				'summ'    => $this->_getPaymentData()->summ,
+				'item_id' => $this->_getPaymentData()->item_id,
+			));
 		}
 		$this->renderVar('formAction', $formAction);
 
+
 		$this->setMemberPageTitle(Yii::t('payment', 'new_title'));
 
-		$this->_getTransaction()->state = PaymentTransaction::STATE_SENT;
-		$this->_getTransaction()->save();
+		//		$this->_getTransaction()->state = PaymentTransaction::STATE_SENT;
+		//		$this->_getTransaction()->save();
 
 		$this->renderVar('memberEmail', $this->member()->email);
 		$this->render($this->_getPayment($payway)->getTemplateName());
@@ -122,12 +135,15 @@ class PaymentController extends YsaMemberController
 		{
 			$this->redirect(array('/member'));
 		}
-		$this->_getTransaction()->outer_id = $this->_getPayment($payway)->getOuterId();
-		$this->_getTransaction()->data = serialize($_POST);
-		$this->_getTransaction()->save();
+
+		$transaction = $this->_getPayment($payway)->createTransaction();
+		$transaction->outer_id = $this->_getPayment($payway)->getOuterId();
+		$transaction->data = serialize($_POST);
+		$transaction->save();
+		$this->_transaction = $transaction;
 		if ($state = $this->_getPayment($payway)->verify())
 		{
-			$this->_getTransaction()->setPaid();
+			$transaction->setPaid();
 		}
 		return $state;
 	}
@@ -142,18 +158,16 @@ class PaymentController extends YsaMemberController
 	{
 		$paymentProcessor = new YsaMemberAuthorizeNet();
 		$entry = new YsaAuthorizeDotNet();
-		
 
 		if (isset($_POST['YsaAuthorizeDotNet']))
 		{
-
 			$entry->attributes = $_POST['YsaAuthorizeDotNet'];
 			if ($entry->validate())
 			{
-				if (($message = $paymentProcessor->prepare($this->_getTransaction(), $entry)) === TRUE)
+				if (($message = $paymentProcessor->prepare($_REQUEST['type'], $_REQUEST['summ'], $_REQUEST['item_id'], $entry)) === TRUE)
 				{
 					$this->setSuccess(Yii::t('payment','payment_done'));
-					$this->redirect($this->_getTransaction()->getRedirectUrl());
+					$this->redirect($paymentProcessor->createTransaction($_REQUEST['type'], $_REQUEST['summ'], $_REQUEST['item_id'])->getRedirectUrl());
 				}
 				else
 				{
@@ -162,10 +176,13 @@ class PaymentController extends YsaMemberController
 			}
 		}
 		$this->renderVar('entry', $entry);
-		$this->renderVar('formAction',  $this->createAbsoluteUrl('/member/payment/processAuthorizeDotNet/', array(
-			'transaction_id' => $this->_getTransaction()->id
-		)));
-		$this->render('authorizedotnet');
+		$this->renderVar('formAction',  $this->createAbsoluteUrl('/member/payment/processAuthorizeDotNet/'));
+		$this->render('authorizedotnet', array(
+			'hidden_fields' => array(
+				'type'    => $_REQUEST['type'],
+				'summ'    => $_REQUEST['summ'],
+				'item_id' => $_REQUEST['item_id']
+			)));
 	}
 
 	public function actionCatchNotification($payway)

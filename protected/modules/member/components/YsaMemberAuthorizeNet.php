@@ -4,6 +4,8 @@ class YsaMemberAuthorizeNet implements YsaMemberPayment
 	protected $_apiLoginId = NULL;
 	protected $_transactionKey = NULL;
 	protected $_testMode = TRUE;
+	public $transaction;
+
 
 	/**
 	 * Include everything needed.
@@ -24,8 +26,10 @@ class YsaMemberAuthorizeNet implements YsaMemberPayment
 	}
 
 
-	public function prepare(PaymentTransaction $transaction, YsaAuthorizeDotNet $entry)
+	public function prepare($type, $summ, $itemId, YsaAuthorizeDotNet $entry)
 	{
+		$transaction = $this->createTransaction($type, $summ, $itemId);
+
 		$authTransaction = new AuthorizeNetAIM(
 			Yii::app()->settings->get('authorizenet_api'),
 			Yii::app()->settings->get('authorizenet_transaction')
@@ -70,25 +74,23 @@ class YsaMemberAuthorizeNet implements YsaMemberPayment
 		return 'https://test.authorize.net/gateway/transact.dll';
 	}
 
-	protected function _getFingerprint(PaymentTransaction $transaction, $timestamp)
+	protected function _getFingerprint($summ, $itemId, $timestamp)
 	{
 		return AuthorizeNetSIM_Form::getFingerprint(
-			$this->_apiLoginId,
-			$this->_transactionKey,
-			$transaction->summ, $transaction->getItemId(), $timestamp);
+			$this->_apiLoginId,$this->_transactionKey,$summ, $itemId, $timestamp);
 	}
 
-	public function getFormFields(PaymentTransaction $transaction, $notifyUrl, $returnUrl)
+	public function getFormFields($type, $summ, $itemId, $notifyUrl, $returnUrl)
 	{
 		$timestamp = time();
 		return array(
 			'x_type'         => 'AUTH_CAPTURE',
 			'x_login'        => $this->_apiLoginId,
 			//			'x_tran_key'     => $this->_transactionKey,
-			'x_fp_hash'      => $this->_getFingerprint($transaction, $timestamp),
-			'x_amount'       => $transaction->summ,
+			'x_fp_hash'      => $this->_getFingerprint($summ, $itemId, $timestamp),
+			'x_amount'       => $summ,
 			'x_fp_timestamp' => $timestamp,
-			'x_fp_sequence'  => $transaction->getItemId(),
+			'x_fp_sequence'  => $itemId,
 			'x_version'      => '3.1',
 			'x_device_type'  => '1',
 			'x_show_form'    => 'PAYMENT_FORM',
@@ -116,4 +118,19 @@ class YsaMemberAuthorizeNet implements YsaMemberPayment
 
 	}
 
+	/**
+	 * @return PaymentTransaction
+	 */
+	public function createTransaction($type = NULL, $summ = NULL, $itemId = NULL)
+	{
+		if (!$this->transaction)
+		{
+			if (strtolower($type) == 'application')
+			{
+				$app = Application::model()->findByPk($itemId);
+				$this->transaction = $app->createTransaction(NULL, $summ);
+			}
+		}
+		return $this->transaction;
+	}
 }
