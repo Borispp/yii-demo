@@ -109,6 +109,8 @@ class PaypalController extends YsaMemberPayment
 		$txn_id = $_POST['txn_id'];
 		$receiver_email = $_POST['receiver_email'];
 		$payer_email = $_POST['payer_email'];
+		if ($payment_amount != $this->getSumm($_POST['custom'], $item_number))
+			return FALSE;
 
 		if (!$fp) {
 			return FALSE;
@@ -156,6 +158,7 @@ class PaypalController extends YsaMemberPayment
 	public function init()
 	{
 		parent::init();
+		$this->crumb('Paypal');
 		$this->_email = Yii::app()->settings->get('paypal_user');
 		//$this->_mode = Yii::app()->settings->get('paypal_mode');
 		$this->_currency = Yii::app()->settings->get('paypal_currency');

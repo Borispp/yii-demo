@@ -32,6 +32,7 @@ class StudioController extends YsaApiController
 		$hasGenericBgImage = $this->_getApplication()->option('generic_bg') != 'color';
 		$hasSplashBgImage = $this->_getApplication()->option('splash_bg') != 'color';
 		$this->_render(array(
+				'style'                     => $this->_getApplication()->option('style'),
 				'logo_use_image'            => 1,
 				'logo_filesize'             => $this->_getImageSize($this->_getApplication()->option('logo')),
 				'logo'                      => $this->_getUrlFromImage($this->_getApplication()->option('logo')),
