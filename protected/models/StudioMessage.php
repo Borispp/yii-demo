@@ -209,4 +209,9 @@ class StudioMessage extends YsaActiveRecord
 		)));
 		return parent::afterSave();
 	}
+	
+	public function message()
+	{
+		return nl2br($this->message);
+	}
 }

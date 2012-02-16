@@ -100,24 +100,6 @@ class ApplicationController extends YsaMemberController
 			));
 	}
 
-	public function actionPreview()
-	{
-		$app = $this->member()->application;
-
-		if (!$app) {
-			$this->redirect(array('application/create'));
-		}
-
-		$this->crumb('Application', array('application/'))
-				->crumb('Preview');
-
-		$this->setMemberPageTitle(Yii::t('title', 'application_preview'));
-
-		$this->render('preview', array(
-				'app' => $app,
-			));
-	}
-
 	public function actionSubmit()
 	{
 		$app = $this->member()->application;
