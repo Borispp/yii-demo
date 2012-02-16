@@ -2211,6 +2211,37 @@ li.plupload_droptext {
 	.box-content {
 		.shadow-box {
 			width:420px;
+			height:340px;
+			a {
+				display:block;
+				width:420px;
+				height:340px;
+				position:relative;
+				strong {
+					position:absolute;
+					left:20px;
+					top:120px;
+					font-size:24px;
+				}
+				em {
+					color:@gray-alpha;
+					position:absolute;
+					left:20px;
+					top:260px;
+					width:360px;
+					.font-shorthand(normal, 16px, 1.4);
+				}
+			}
+		}
+		.helpdesk {
+			a {
+				background:@white-alpha url(../images/support-helpdesk.jpg) 100% 0 no-repeat;
+			}
+		}
+		.tutorials {
+			a {
+				background:@white-alpha url(../images/support-tutorials.jpg) 100% 0 no-repeat;
+			}
 		}
 	}
 }
