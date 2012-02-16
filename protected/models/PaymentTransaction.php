@@ -170,7 +170,7 @@ class PaymentTransaction extends YsaActiveRecord
 
 	public function isPaid()
 	{
-		return $this->paid;
+		return $this->state == 2;
 	}
 
 	/**

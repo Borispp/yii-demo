@@ -1,8 +1,8 @@
 <div class="g12">
-	
-	
+
+
 	<div>
-		
+
 		<?php $form=$this->beginWidget('CActiveForm', array(
 			'action'=>Yii::app()->createUrl($this->route),
 			'method' => 'get',
@@ -49,8 +49,8 @@
 		
 		<?php $this->endWidget(); ?>
 	</div>
-	
-	
+
+
 	<?php $this->beginWidget('YsaAdminForm', array(
 		'id'=>'member-form',
 		'action'=>Yii::app()->createUrl('/admin/member/delete'),
