@@ -15,6 +15,7 @@
 	</div>
 </section>
 <div class="save">
+	<?php echo YsaHtml::link('Preview', '#', array('class' => 'btn small preview'));?>
 	<?php echo YsaHtml::submitButton('Save & Continue', array('class' => 'blue'));?>
 </div>
 <?php $this->endWidget(); ?>

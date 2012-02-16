@@ -1281,6 +1281,10 @@ section.pass-import {
 		.save {
 			clear:both;
 			text-align: right;
+			a.preview {
+				float:left;
+				margin-top:10px;
+			}
 		}
 		/****  color selector****/
 		.color-selector {
@@ -1612,18 +1616,14 @@ section.pass-import {
 
 
 	.preview {
-	}
-}
-
-#application-preview {
-	.box-preview {
-		
+		margin-bottom:20px;
 	}
 	.buttons {
-		.margin-bottom-alpha;
+		font-weight:bold;
 		text-align:center;
 	}
 }
+
 #ipad {
 	position:relative;
 	.case {
@@ -2121,12 +2121,26 @@ li.plupload_droptext {
 #subscription-add {
 	.subscription-list {
 		section.part {
-			float: left;
-			// 20 + 20 + 20 + (440 * 2) = 940px
-			width: 410px;
-			margin-right: 20px;
-			margin-bottom: 15px;
-			&:hover { background-color: @blue-echo;  }
+			width: 420px;
+			margin-bottom: 20px;
+			//&:hover { background-color: @blue-echo;  }
+			h3 {
+				height:132px;
+				text-indent:-9999px;
+			}
+			.info {
+				font-size:14px;
+			}
+		}
+		section.authorize {
+			h3 {
+				background:url(../images/pay-authorize.jpg) 0 50% no-repeat;
+			}
+		}
+		section.paypal {
+			h3 {
+				background:url(../images/pay-paypal.jpg) 0 50% no-repeat;
+			}
 		}
 	}
 }
@@ -2213,6 +2227,65 @@ li.plupload_droptext {
 	.box-content {
 		.shadow-box {
 			width:420px;
+			height:340px;
+			a {
+				display:block;
+				width:420px;
+				height:340px;
+				position:relative;
+				strong {
+					position:absolute;
+					left:20px;
+					top:120px;
+					font-size:24px;
+				}
+				em {
+					color:@gray-alpha;
+					position:absolute;
+					left:20px;
+					top:260px;
+					width:360px;
+					.font-shorthand(normal, 16px, 1.4);
+				}
+			}
+		}
+		.helpdesk {
+			a {
+				background:@white-alpha url(../images/support-helpdesk.jpg) 100% 0 no-repeat;
+			}
+		}
+		.tutorials {
+			a {
+				background:@white-alpha url(../images/support-tutorials.jpg) 100% 0 no-repeat;
+			}
+		}
+	}
+}
+
+
+/* Inbox
+*******************************/
+#inbox-list {
+	table {
+		.state {
+			font-weight:bold;
+		}
+		.unread {
+			color:@red-alpha;
+		}
+		.state {
+			font-weight:bold;
+			font-size:11px;
+		}
+		.date {
+			font-size:11px;
+		}
+		.unread .name {
+			font-weight:bold;
+		}
+		.unread .subject {
+			font-weight:bold;
+			font-size:13px;
 		}
 	}
 }

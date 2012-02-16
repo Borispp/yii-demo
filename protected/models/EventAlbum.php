@@ -593,7 +593,7 @@ class EventAlbum extends YsaActiveRecord
 				$photo = new EventPhoto();
 				$photo->album_id = $this->id;
 				$photo->import($image, 'smugmug');
-				if ($image['id'] == $photoSet['Highlight']['id']) {
+				if (isset($photoSet['Highlight']) && $image['id'] == $photoSet['Highlight']['id']) {
 					$this->setCover($photo->id);
 				}
 				// clear photo from memory
