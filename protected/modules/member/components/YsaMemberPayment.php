@@ -9,7 +9,6 @@ abstract class YsaMemberPayment extends YsaMemberController
 	public function init()
 	{
 		parent::init();
-		$this->crumb(Yii::t('payment','payment_title'), array('payment/'));
 		if (!empty($_REQUEST['type']) && !empty($_REQUEST['item_id']) && !empty($_REQUEST['summ']))
 		{
 			$this->_sessionTransaction = new YsaSessionTransaction();
