@@ -35,6 +35,7 @@
 			<?php endforeach; ?>
 		</tbody>
 	</table>
+
 	<?php $this->widget('YsaAdminPager',array('pages'=>$pagination)) ?>
 	<div class="clearfix"></div>
 </div>

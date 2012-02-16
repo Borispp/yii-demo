@@ -181,7 +181,6 @@ class PaypalController extends YsaMemberPayment
 		{
 			$this->redirect(array('/member'));
 		}
-
 		$transaction = $this->createTransaction();
 		$transaction->outer_id = $this->getOuterId();
 		$transaction->notes = 'Paid by paypal';
