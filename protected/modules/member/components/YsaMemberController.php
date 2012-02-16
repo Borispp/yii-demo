@@ -46,7 +46,7 @@ class YsaMemberController extends YsaController
 			array('deny', 'roles' => array('interesant')),
 			
 			// allow guest notifications from external (paypal,authorize)
-			array('allow', 'roles' => array('guest'), 'controllers' => array('payment'), 'actions' => array('catchNotification')),
+			array('allow', 'roles' => array('guest'), 'controllers' => array('paypal'), 'actions' => array('catchNotification')),
 			
 			array('allow', 'roles' => array('customer','member')),
 			

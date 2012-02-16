@@ -1,37 +1,33 @@
 <?php
-class YsaMemberPaypal implements YsaMemberPayment
+class PaypalController extends YsaMemberPayment
 {
 	protected $_email;
 	protected $_mode;
 	protected $_currency;
+	protected $_returnUrl;
+	protected $_notifyUrl;
 
-	public function __construct()
-	{
-		$this->_email = Yii::app()->settings->get('paypal_user');
-		//$this->_mode = Yii::app()->settings->get('paypal_mode');
-		$this->_currency = Yii::app()->settings->get('paypal_currency');
-	}
-
-	public function getFormFields($type, $summ, $item_id, $notifyUrl, $returnUrl)
+	/**
+	 * Prepare form fields
+	 * @param string $notifyUrl
+	 * @param string $returnUrl
+	 * @return array
+	 */
+	protected function _getFormFields()
 	{
 		return array(
 			'cmd'           => '_xclick',
 			'mode'          => 'passthrough',
-			'custom'        => $type,
+			'custom'        => $this->_sessionTransaction->type,
 			'currency_code' => $this->getCurrency(),
 			'business'      => $this->getEmail(),
-			'item_name'     => $type == 'application' ? 'Application Initial Payment' : '',
-			'amount'        => $summ,
-			'item_number'   => $item_id,
+			'item_name'     => $this->_sessionTransaction->name,
+			'amount'        => $this->_sessionTransaction->summ,
+			'item_number'   => $this->_sessionTransaction->item_id,
 			'ipn_test'      => $this->isTestMode(),
-			'notify_url'    => $notifyUrl,
-			'return'        => $returnUrl,
+			'notify_url'    => $this->_notifyUrl,
+			'return'        => $this->_returnUrl,
 		);
-	}
-
-	public function getFormUrl()
-	{
-		return $this->getUrl();
 	}
 
 	public  function getEmail()
@@ -67,6 +63,7 @@ class YsaMemberPaypal implements YsaMemberPayment
 		else
 			return 'https://www.paypal.com/cgi-bin/webscr';
 	}
+
 	protected function _getGateUrl()
 	{
 		if ($this->isTestMode())
@@ -141,11 +138,6 @@ class YsaMemberPaypal implements YsaMemberPayment
 		return @$_POST['txn_id'];
 	}
 
-	public function getTemplateName()
-	{
-		return 'pay';
-	}
-
 	/**
 	 * @return PaymentTransaction
 	 */
@@ -158,5 +150,61 @@ class YsaMemberPaypal implements YsaMemberPayment
 			$app = Application::model()->findByPk($_POST['item_number']);
 			return  $app->createTransaction(NULL, $summ);
 		}
+	}
+
+
+	public function init()
+	{
+		parent::init();
+		$this->_email = Yii::app()->settings->get('paypal_user');
+		//$this->_mode = Yii::app()->settings->get('paypal_mode');
+		$this->_currency = Yii::app()->settings->get('paypal_currency');
+		$this->_returnUrl = $this->createAbsoluteUrl('/member/paypal/return/');
+		$this->_notifyUrl = $this->createAbsoluteUrl('/member/paypal/catchnotification/');
+	}
+
+	public function actionProcess()
+	{
+		$this->renderVar('formFields', $this->_getFormFields());
+		$this->renderVar('formAction', $this->getUrl());
+		$this->setMemberPageTitle(Yii::t('payment', 'new_title'));
+		$this->renderVar('memberEmail', $this->member()->email);
+		$this->render('pay');
+	}
+
+	protected function _process()
+	{
+		if (!$this->getOuterId())
+		{
+			$this->redirect(array('/member'));
+		}
+
+		$transaction = $this->createTransaction();
+		$transaction->outer_id = $this->getOuterId();
+		$transaction->data = serialize($_POST);
+		$transaction->save();
+		if ($state = $this->verify())
+		{
+			$transaction->setPaid();
+		}
+		return $state;
+	}
+
+	public function actionCatchNotification()
+	{
+		$this->_process();
+	}
+
+	public function actionReturn()
+	{
+		if ($this->_process())
+		{
+			$this->setSuccess(Yii::t('payment','payment_done'));
+		}
+		else
+		{
+			$this->setError(Yii::t('payment','payment_failed'));
+		}
+		$this->redirect($this->createTransaction()->getRedirectUrl());
 	}
 }
