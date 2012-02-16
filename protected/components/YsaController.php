@@ -211,15 +211,16 @@ class YsaController extends CController
 				array('label'=>'Clients', 'url'=>array('client/'), 'active' => $c == 'client'),
 				
 				array('label'=>'Support', 'url'=>array('support/'), 'active' => in_array($c, array('support', 'help')), 'items' => array(
-					array('label' => 'Help', 'url' => array('help/'), 'active' => ($c == 'help') ),
+					array('label' => 'Tutorials', 'url' => array('help/'), 'active' => ($c == 'help') ),
 					array('label' => 'Zendesk', 'url' => Yii::app()->settings->get('zendesk_url')),
 				)),
 				
-				array('label'=>'Settings', 'url'=>array('settings/'), 'active' => $c == 'settings', 'items' => array(
+				array('label'=>'Settings', 'url'=>array('settings/'), 'active' => in_array($c, array('settings', 'announcement')), 'items' => array(
 					array('label' => 'Smugmug', 'url' => array('settings/smugmug/'), 'active' => ($a == 'smugmug') ),
 					array('label' => 'ZenFolio', 'url' => array('settings/zenfolio/'), 'active' => ($a == 'zenfolio') ),
 					array('label' => 'ShootQ', 'url' => array('settings/shootq/'), 'active' => ($a == 'shootq') ),
 					array('label' => 'Facebook', 'url' => array('settings/facebook/'), 'active' => ($a == 'facebook') ),
+					array('label' => 'Announcements', 'url' => array('announcement/'), 'active' => ($c == 'announcement') ),
 				)),
 				array('label'=>'Logout', 'url'=>array('/logout'), 'visible' => !Yii::app()->user->isGuest, 'itemOptions' => array('class' => 'logout')),
 			);
