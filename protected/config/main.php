@@ -139,9 +139,9 @@ return array(
 		'db'=>array(
 			'connectionString'      => 'mysql:host=office.flosites.com;dbname=yoursturioapp',
 			'emulatePrepare'        => true,
-			'username'              => 'root',
+			'username'              => 'yourstudioapp',
 			'schemaCachingDuration' => 3600,
-			'password'              => 'iloveflosites',
+			'password'              => '6ZpBcVrtA6LaEdrZ',
 			'charset'               => 'utf8',
 			'enableProfiling'       => true,
 			'enableParamLogging'    => true,
