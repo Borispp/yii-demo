@@ -21,6 +21,12 @@
 				</div>
 			</section>
 			<section>
+				<?php echo $form->labelEx($entry,'outer_id'); ?>
+				<div>
+					<?php echo $form->textField($entry,'outer_id', array('size' => 12, 'maxlength' => 12, 'class' => 'w_20'));?>
+				</div>
+			</section>
+			<section>
 				<?php echo $form->labelEx($entry,'description'); ?>
 				<div>
 					<?php echo $form->textArea($entry,'description', array(
@@ -33,18 +39,10 @@
 			<section>
 				<?php echo $form->labelEx($entry,'notes'); ?>
 				<div>
-					<?php echo $form->textArea($entry,'notes', array(
-						'data-autogrow' => 'true',
-						'rows'          => 3,
+					<?php echo $form->dropDownList($entry,'notes', array(
+						'Paid by authorize.net' => 'Paid by authorize.net',
+						'Paid by paypal' => 'Paid by paypal',
 					)); ?>
-					<?php echo $form->error($entry,'notes'); ?>
-				</div>
-			</section>
-			<section>
-				<?php echo $form->labelEx($entry,'state'); ?>
-				<div>
-					<?php echo $form->dropDownList($entry,'state', $entry->getStates()); ?>
-					<?php echo $form->error($entry,'state'); ?>
 				</div>
 			</section>
 			<section>

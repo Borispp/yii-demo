@@ -72,7 +72,7 @@ class PaymentTransaction extends YsaActiveRecord
 			array('state', 'numerical', 'integerOnly'=>true),
 			array('summ', 'numerical'),
 			array('name', 'length', 'max'=>500),
-			array('description, data, notes, updated, paid', 'safe'),
+			array('description, data, notes, outer_id, name, updated, paid', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, description, summ, type, outer_id, data, notes, state, created, updated, paid', 'safe', 'on'=>'search'),
@@ -103,7 +103,7 @@ class PaymentTransaction extends YsaActiveRecord
 			'description' => 'Description',
 			'summ' => 'Summ',
 			'type' => 'Order Type',
-			'outer_id' => 'Outer',
+			'outer_id' => 'Outer ID',
 			'data' => 'Data',
 			'notes' => 'Notes',
 			'state' => 'State',

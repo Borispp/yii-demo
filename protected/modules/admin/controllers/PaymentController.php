@@ -53,13 +53,11 @@ class PaymentController extends YsaAdminController
 					$transactionApplication->application_id = $application->id;
 					$transactionApplication->transaction_id = $entry->id;
 					$transactionApplication->save();
-					if ($entry->isPaid())
-						$entry->setPaid();
+					$entry->setPaid();
 				}
 				$this->setSuccessFlash("New payment record successfully added. " . CHtml::link('Back to listing.', array('index')));
 				$this->redirect(array('view', 'id'=>$entry->id));
 			}
-			var_dump($entry->getErrors());die;
 		}
 		$this->setContentTitle('New transaction');
 		$this->render('add',array(
