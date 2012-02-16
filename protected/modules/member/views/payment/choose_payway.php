@@ -1,9 +1,18 @@
 <div class="w" id="subscription-add">
 	<section class="box">
 		<div class="box-title">
+			<h3>Payment information</h3>
+		</div>
+		<?php $this->renderPartial($type.'_info', array(
+			'type'    => $type,
+			'summ'    => $summ,
+			'item_id' => $item_id,
+		))?>
+	</section>
+	<section class="box">
+		<div class="box-title">
 			<h3>Select Pay System</h3>
 		</div>
-		<?php //@todo make new class specially for payment?>
 		<div class="box-content subscription-list">
 			<section class="part shadow-box fl paypal">
 				<?php echo YsaHtml::form(array('paypal/process/'))?>

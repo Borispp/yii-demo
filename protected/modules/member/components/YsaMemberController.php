@@ -17,7 +17,7 @@ class YsaMemberController extends YsaController
 	public function accessRules()
 	{
 		//TODO: Functional Test of access rights
-		
+
 		return array(
 
 			/* deny application submit

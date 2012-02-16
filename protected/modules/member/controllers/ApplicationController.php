@@ -121,7 +121,7 @@ class ApplicationController extends YsaMemberController
 			$this->redirect(array('application/create'));
 		}
 		if ($app->filled()) {
-			$this->redirect(array('payment/choosepayway/type/application/summ/'.(float)Yii::app()->settings->get('application_summ').'/item_id/'.$app->id));
+			$this->redirect(array('payment/choosepayway/type/application/item_id/'.$app->id));
 		}
 		$this->redirect(array('view'));
 	}
