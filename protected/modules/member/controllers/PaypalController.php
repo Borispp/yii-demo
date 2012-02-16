@@ -184,6 +184,7 @@ class PaypalController extends YsaMemberPayment
 
 		$transaction = $this->createTransaction();
 		$transaction->outer_id = $this->getOuterId();
+		$transaction->notes = 'Paid by paypal';
 		$transaction->data = serialize($_POST);
 		$transaction->save();
 		if ($state = $this->verify())

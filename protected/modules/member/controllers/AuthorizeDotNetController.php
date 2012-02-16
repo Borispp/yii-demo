@@ -50,6 +50,7 @@ class AuthorizeDotNetController extends YsaMemberPayment
 
 		if ($response->approved)
 		{
+			$transaction->notes = 'Paid by authorize.net';
 			$transaction->outer_id = $response->transaction_id;
 			$transaction->data = serialize(get_object_vars($response));
 			$transaction->save();
