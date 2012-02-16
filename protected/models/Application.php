@@ -60,7 +60,7 @@ class Application extends YsaActiveRecord
 			'title' => 'Submit Your Application',
 			'short_title' => 'Submit',
 			'title_annotation' => 'It\'s all done!',
-			'header' => 'Submit Your Application',
+			'header' => 'Purchase and Submit Your Application',
 		),	
 	);
 	
@@ -448,11 +448,11 @@ class Application extends YsaActiveRecord
 			'paid'          => 'Application is paid.',
 			'filled'        => 'All custom elements of your application have been provided.',
 			'submitted'     => 'Application has been successfully submitted.',
-			'locked'        => 'Application has been locked to pervert requred fields changes.',
+			'locked'        => 'Application has been locked to prevent any changes.',
 			'approved'      => 'Application has been successfully approved by moderators.',
 			'appstore'      => 'Application has been successfully sent to AppStore.',
 			'running'      => 'Application is running properly.',
-			'rejected'      => 'Application has been rejected by AppStore. Don\'t panic! We are working on that.',
+			'rejected'      => 'YSA support will be in touch with you soon.',
 		);
 		
 		if (!array_key_exists($this->status(), $labelDictionary))
@@ -777,13 +777,13 @@ class Application extends YsaActiveRecord
 		return $this->paid;
 	}
 
-	public function createTransaction()
+	public function createTransaction($name = NULL, $summ = NULL)
 	{
 		$transaction = new PaymentTransaction();
 		$transaction->state = $transaction::STATE_CREATED;
-		$transaction->name = 'Application Initial Payment';
+		$transaction->name = $name ? $name : 'Application Initial Payment';
 		$transaction->description = 'Initial payment for the creation of YSApplication.';
-		$transaction->summ = (float)Yii::app()->settings->get('application_summ');
+		$transaction->summ = (float)($summ ? $summ : Yii::app()->settings->get('application_summ'));
 		$transaction->created = date('Y.m.d H:i:s');
 		$transaction->save();
 		$transactionApplication = new PaymentTransactionApplication();

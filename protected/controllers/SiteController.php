@@ -10,11 +10,8 @@ class SiteController extends YsaFrontController
         $page = Page::model()->findBySlug('homepage');
         $this->setMeta($page->meta());
 
-		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/fancybox.js', CClientScript::POS_END)
-				  ->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/fancybox.css');
-//				  ->registerScriptFile('http://vjs.zencdn.net/c/video.js', CClientScript::POS_HEAD)
-//				  ->registerCssFile('http://vjs.zencdn.net/c/video-js.css');
-		
+		$this->loadFancybox()
+			->loadVideoJS();
 		
 		$newsletterForm = new NewsletterForm();
 		
@@ -24,20 +21,31 @@ class SiteController extends YsaFrontController
 			'slides' => array(
 				array(
 					'image' => Yii::app()->getBaseUrl(true) . '/resources/images/homepage/slide1.png',
-					'caption' => 'a new way to <strong>market to<br/>your brides</strong> that encourages<br/>them to share your work',
+					'caption' => 'Deliver a <strong>new and incredible<br/>experience</strong> to your clients<br/>through <strong>your own mobile<br/>application</strong>',
 				),
 				array(
 					'image' => Yii::app()->getBaseUrl(true) . '/resources/images/homepage/slide2.png',
-					'caption' => 'debut at <br/><strong>WPPI LaunchPad <br/>Event</strong>&#133;',
+					'caption' => 'Seamless <strong>connection to your<br/>workflow</strong> and the companies<br/><strong>you love</strong>',
 				),
 				array(
 					'image' => Yii::app()->getBaseUrl(true) . '/resources/images/homepage/slide3.png',
-					'caption' => 'connections to <strong>SmugMug</strong>, <br/> <strong>Zenfolio</strong>, and <strong>Pictage</strong> <br/>to allow for orders to <br/>be made from <strong>anywhere</strong>',
+					'caption' => 'Now featuring Shoot and Share<br/>integration with <strong>PASS</strong> &ndash;<br/>the new way for professionals<br/>to <strong>share their images</strong>',
 				),
-				
-			)
+				array(
+					'image' => Yii::app()->getBaseUrl(true) . '/resources/images/homepage/slide4.png',
+					'caption' => 'Allows your work to be <strong>seen</strong>,<br/><strong>shared</strong>, and <strong>ordered more<br/>conveniently</strong> than ever!',
+				),
+				array(
+					'image' => Yii::app()->getBaseUrl(true) . '/resources/images/homepage/slide5.png',
+					'caption' => 'Debuting in WPPI at the<br/>LaunchPad Event on<br/><strong>February 19th</strong>',
+				),
+			),
         ));
     }
+	
+
+
+	
 	
 	public function actionLoadVideo()
 	{

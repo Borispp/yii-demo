@@ -15,6 +15,7 @@ class NewsletterController extends YsaFrontController
 				
 				$key = Yii::app()->settings->get('mailchimp_key');
 				$listId = Yii::app()->settings->get('mailchimp_list_id');
+				$subscribed = 1;
 				$mailchimp = new MCAPI($key);
 				$subscribed = $mailchimp->listSubscribe($listId, $newsletterForm->email, array('NAME' => $newsletterForm->name));
 				if ($subscribed) {

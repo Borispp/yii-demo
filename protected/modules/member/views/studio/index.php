@@ -1,17 +1,5 @@
 <section id="studio" class="w">
-	<section class="box">
-		<div class="box-title">
-			<h3>Blog and Social Media Information</h3>
-			<?php if ($entry->help('general')) : ?>
-				<a href="<?php echo $entry->help('general');?>" class="box-help fancybox">?</a>
-			<?php endif; ?>
-		</div>
-		<div class="box-content">
-			<?php $this->renderPartial('_form', array(
-				'entry' => $entry,
-			)); ?>
-		</div>
-	</section>
+
 	
 	<section class="box">
 		<div class="box-title">
@@ -26,6 +14,20 @@
 					'entry' => $contactForm,
 				)); ?>
 			</div>
+		</div>
+	</section>
+	
+	<section class="box">
+		<div class="box-title">
+			<h3>Blog and Social Media Information</h3>
+			<?php if ($entry->help('general')) : ?>
+				<a href="<?php echo $entry->help('general');?>" class="box-help fancybox">?</a>
+			<?php endif; ?>
+		</div>
+		<div class="box-content">
+			<?php $this->renderPartial('_form', array(
+				'entry' => $entry,
+			)); ?>
 		</div>
 	</section>
 	
@@ -93,10 +95,19 @@
 			<div class="shadow-box">
 				<div class="box-description">These links are shown under the “more” tab in your application.</div>
 				<?php if (count($entry->customLinks)) : ?>
+				
+					<?php
+						$folder = $this->member()->application->option('style');
+						if (!$folder) {
+							$folder = 'black';
+						}
+					?>
+				
 					<ul class="list links cf" data-type="<?php echo StudioLink::TYPE_BOOKMARK?>">
 						<?php foreach ($entry->customLinks as $link) : ?>
 							<?php $this->renderPartial('/link/_listcustom', array(
-								'entry' => $link,
+								'entry'		=> $link,
+								'folder'	=> $folder,
 							)); ?>
 						<?php endforeach; ?>
 					</ul>

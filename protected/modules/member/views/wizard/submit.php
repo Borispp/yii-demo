@@ -20,11 +20,10 @@
 	</section>
 	<?php echo $form->hiddenField($model, 'finish', array()); ?>
 	<div class="save">
+		<?php echo YsaHtml::link('Preview', '#', array('class' => 'btn small preview'));?>
 		<?php echo YsaHtml::link('I want to play more later', array('application/'), array('class' => 'btn small')); ?>
 		<?php echo YsaHtml::submitButton('Preview & Submit', array('class' => 'blue'));?>
 	</div>
 <?php endif; ?>
-
-
 
 <?php $this->endWidget(); ?>

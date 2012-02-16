@@ -21,7 +21,6 @@
  * @since 1.0
  */
 
-
 defined('YII_BEGIN_TIME') or define('YII_BEGIN_TIME',microtime(true));
 defined('YII_DEBUG') or define('YII_DEBUG',false);
 defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',0);

@@ -36,6 +36,8 @@ class EventAlbum extends YsaActiveRecord
 	
 	const IMPORT_PICTAGE = 'pictage';
 	
+	const IMPORT_PASS = 'pass';
+	
 	/**
 	 * Album Upload path
 	 * @var string
@@ -341,6 +343,22 @@ class EventAlbum extends YsaActiveRecord
 		
 		return $previewUrl;
 	}
+
+	public function previewFilesize()
+	{
+		$photo = $this->cover();
+
+		$w = Yii::app()->params['member_area']['album']['preview']['width'];
+		$h = Yii::app()->params['member_area']['album']['preview']['height'];
+
+		if ($photo) {
+			$size = $photo->previewFilesize($w, $h);
+		} else {
+			$size = $photo->defaultPicFilesize($w, $h);
+		}
+
+		return $size;
+	}
 	
 	/**
 	 * Album cover
@@ -575,9 +593,53 @@ class EventAlbum extends YsaActiveRecord
 				$photo = new EventPhoto();
 				$photo->album_id = $this->id;
 				$photo->import($image, 'smugmug');
-				if ($image['id'] == $photoSet['Highlight']['id']) {
+				if (isset($photoSet['Highlight']) && $image['id'] == $photoSet['Highlight']['id']) {
 					$this->setCover($photo->id);
 				}
+				// clear photo from memory
+				unset($photo);
+			}
+		}
+		
+		return $this;
+	}
+	
+	public function importPassAlbum($photoSet, $importPhotos = true)
+	{
+		$this->name = $photoSet['Title'];
+		$this->state = EventAlbum::STATE_ACTIVE;
+		$this->created = $photoSet['LastUpdated'];
+		$this->updated = $photoSet['LastUpdated'];
+		$this->can_order = 1;
+		$this->can_share = 1;
+		$this->order_link = '';
+		
+		$this->data = serialize(array(
+			'imported'	=> self::IMPORT_PASS,
+//			'album_id'	=> $photoSet['id'],
+//			'album_key'	=> $photoSet['Key'],
+//			'keywords'	=> $photoSet['Keywords'],
+//			'category'	=> $photoSet['Category'],
+		));
+		
+		if (!$this->validate())
+			throw new CException('Event Album validation failed: '. current(array_shift($this->getErrors())));
+		
+		$this->save();
+		
+		if (count($photoSet['photoSetImages']) && $importPhotos) 
+		{
+			foreach ($photoSet['photoSetImages'] as $image) 
+			{
+				$photo = new EventPhoto();
+				$photo->album_id = $this->id;
+				$photo->import($image, 'pass');
+				
+				//TODO: set cover
+//				if ($image['id'] == $photoSet['Highlight']['id']) {
+//					$this->setCover($photo->id);
+//				}
+//				
 				// clear photo from memory
 				unset($photo);
 			}

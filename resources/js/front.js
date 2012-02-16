@@ -22,7 +22,9 @@ $(function(){
 			faq.find('.questions a').click(function(e){
 				e.preventDefault();
 				var link = $(this);
-				$.scrollTo($('#faq-answer-' + link.data('id')), 800);
+				$.scrollTo($('#faq-answer-' + link.data('id')), 800, function(elm){
+					elm.animateHighlight('#FCF6C4', 800);
+				});
 			});
 			
 			var answers = faq.find('.answers');
@@ -309,11 +311,59 @@ $(function(){
 				
 				$.fancybox({
 					'href' : _base_url + '/site/loadVideo/',
-					'type' : 'ajax'
+					'type' : 'inline',
+					'href' : '#homepage-video-player',
+					'afterLoad':function(){
+
+					}
 				});
 			});
 		});
 	}
 	$('#homepage-video').initHomepageVideo();
 	
+	
+	$.fn.initComingSoon = function() {
+		$(this).each(function(){
+			var coming = $(this);
+			var newsletter = coming.find('.subscribe');
+			var form = coming.find('form');
+			form.validator({
+				position: 'top center', 
+				offset: [10, 0],
+				messageClass:'error-top',
+				errorClass:'error',
+				grouped:true
+			}).submit(function(e){
+				e.preventDefault();
+				if (!form.data('validator').checkValidity()) {
+					return;
+				}
+				var button = form.find('input:submit');
+				button.btnLoading();
+				$.post(form.attr('action'), form.serialize(), function(data){
+					button.btnLoaded();
+					if (data.success) {
+						var success = $('<div id="newsletter-subscribe-success"></div>').hide().html(data.msg);
+						newsletter.append(success);
+						form.fadeOut('fast', function(){
+							$(this).remove();
+							success.fadeIn('fast');
+						})
+					} else {
+						$('#newsletter-subscribe-form-errors').html(data.msg);
+					}
+				}, 'json');
+			});
+		})
+	};
+	$('#coming-soon').initComingSoon();
+	
+	
+	
+	
+	
+	
+	
+
 });

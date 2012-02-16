@@ -5,8 +5,7 @@ class ApplicationController extends YsaMemberController
 
 	public function init() {
 		parent::init();
-
-		$this->setMemberPageTitle(Yii::t('title', 'application_wizard'));
+		$this->setMetaTitle(Yii::t('title', 'application'));
 	}
 
 	public function beforeRender($view) {
@@ -15,6 +14,7 @@ class ApplicationController extends YsaMemberController
 		$this->loadPlupload();
 
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/appwizardpage.js', CClientScript::POS_HEAD);
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/appviewpage.js', CClientScript::POS_HEAD);
 
 		return true;
 	}
@@ -23,8 +23,6 @@ class ApplicationController extends YsaMemberController
 	{
 		$app = $this->member()->application;
 
-		//$this->member()->simpleNotify("Here's my message. I would like to add some rows.<br/>Here's another one.<br/>And another one. A <a href='link'>link here</a>.", "Test member notification");
-		// new member -> redirect to application creation
 		if (null === $app or !$app->filled()) {
 			$this->redirect(array('application/wizard/'));
 		}
@@ -32,10 +30,12 @@ class ApplicationController extends YsaMemberController
 		$this->crumb('Application');
 
 		$this->setMemberPageTitle(Yii::t('title', 'application'));
+		
+		$this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/ipad.css');
 
 		$this->render('view', array(
-				'app' => $app,
-			));
+			'app' => $app,
+		));
 	}
 
 	public function actionCreate()
@@ -98,24 +98,6 @@ class ApplicationController extends YsaMemberController
 			));
 	}
 
-	public function actionPreview()
-	{
-		$app = $this->member()->application;
-
-		if (!$app) {
-			$this->redirect(array('application/create'));
-		}
-
-		$this->crumb('Application', array('application/'))
-				->crumb('Preview');
-
-		$this->setMemberPageTitle(Yii::t('title', 'application_preview'));
-
-		$this->render('preview', array(
-				'app' => $app,
-			));
-	}
-
 	public function actionSubmit()
 	{
 		$app = $this->member()->application;
@@ -139,8 +121,7 @@ class ApplicationController extends YsaMemberController
 			$this->redirect(array('application/create'));
 		}
 		if ($app->filled()) {
-			$transaction = $app->createTransaction();
-			$this->redirect(array('payment/choosepayway/transactionId/'.$transaction->id));
+			$this->redirect(array('payment/choosepayway/type/application/summ/'.(float)Yii::app()->settings->get('application_summ').'/item_id/'.$app->id));
 		}
 		$this->redirect(array('view'));
 	}
@@ -181,11 +162,16 @@ class ApplicationController extends YsaMemberController
 
 		if (null === $file) {
 			$this->sendJsonError(array(
-					'msg' => Yii::t('error', 'files_empty'),
-				));
+				'msg' => Yii::t('error', 'files_empty'),
+			));
 		}
 
 		if ($app->editOption($image, $file)) {
+			
+			
+			if (in_array($image, array('splash_bg_image', 'studio_bg_image', 'generic_bg_image'))) {
+				$app->editOption(str_replace('_image', '', $image), 'image');
+			}
 			$this->sendJsonSuccess(array(
 					'html' => $this->renderPartial('/wizard/_image', array(
 							'name'	=> $image,
@@ -194,9 +180,10 @@ class ApplicationController extends YsaMemberController
 				));
 		} else {
 			$this->sendJsonError(array(
-					'msg' => Yii::t('error', 'standart_error'),
-				));
+				'msg' => Yii::t('error', 'standart_error'),
+			));
 		}
+		Yii::app()->end();
 	}
 
 	public function actionDelete($image)
@@ -246,11 +233,15 @@ class ApplicationController extends YsaMemberController
 			$models[$k]->setApplication($app)
 					->loadDefaultValues();
 		}
+		
+		$this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/ipad.css');
+		
+		$this->setMemberPageTitle(Yii::t('title', 'application_wizard'));
 
 		$this->render('wizard', array(
-				'app' => $app,
-				'models' => $models,
-			));
+			'app' => $app,
+			'models' => $models,
+		));
 	}
 
 	public function actionLoadStep($step)
@@ -322,12 +313,6 @@ class ApplicationController extends YsaMemberController
 					if (!$app->filled()) {
 						$app->fill();
 					}
-					//					if ($app->submitted()) {
-					//						$data['redirectUrl'] = $this->createAbsoluteUrl('application/');
-					//					} else {
-					//						$data['redirectUrl'] = $this->createAbsoluteUrl('application/');
-					//					}
-
 					$data['redirectUrl'] = $this->createAbsoluteUrl('application/');
 					$data['success'] = 1;
 				}
@@ -358,7 +343,7 @@ class ApplicationController extends YsaMemberController
 		$this->setMemberPageTitle($page->title);
 
 		$this->crumb('Application', array('application/'))
-				->crumb('Sucessfully Submitted');
+				->crumb($page->title);
 
 		$this->render('congratulations', array(
 				'page' => $page,
@@ -423,5 +408,21 @@ class ApplicationController extends YsaMemberController
 		}
 
 		$this->redirect(array('application/wizard/'));
+	}
+	
+	public function actionQuickPreview()
+	{
+		if (!Yii::app()->request->isAjaxRequest) {
+			$this->redirect(array('application/create'));
+		}
+		
+		$app = $this->member()->application;
+		
+		if ($app) {
+			$this->renderPartial('_ipad-preview', array('app' => $app));
+		} else {
+			echo Yii::t('error', 'standart_error');
+		}
+		Yii::app()->end();
 	}
 }

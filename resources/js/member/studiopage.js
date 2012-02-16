@@ -61,7 +61,9 @@ $(function(){
 				success:function(data, success, response, frm){
 					var submit = frm.find('input:submit');
 					submit.val(submit.data('value')).removeClass('disabled');
-					
+					$.each(data.attributes, function(field, value){
+						$('#Studio_' + field).val(value);
+					});
 					$._flash(data.msg, {
 						'type':data.success ? 'success' : 'error'
 					});

@@ -1,5 +1,4 @@
 <?php
-
 define( 'FACEBOOK_APP_ID', '328815410473890' );
 define( 'FACEBOOK_APP_SECRET', '1b7ed31430e3e0110dcce0077e8cf28d' );
 
@@ -114,7 +113,8 @@ return array(
 				'/member/person/<action:\w+>/<personId>' => 'member/person/<action>',
 				'/member/settings/facebook/connect/<service_param>/<service>'=>'member/settings/facebookconnect',
 				'/member/settings/facebook/unlink/'=>'member/settings/facebookunlink',
-
+				'/member/help/<slug:[\w\d\-]+>' => 'member/help/view',
+				
 				//image route
 				'/image/<action:\w+>/<imageId>' => 'image/<action>',
 
@@ -139,9 +139,9 @@ return array(
 		'db'=>array(
 			'connectionString'      => 'mysql:host=office.flosites.com;dbname=yoursturioapp',
 			'emulatePrepare'        => true,
-			'username'              => 'root',
+			'username'              => 'yourstudioapp',
 			'schemaCachingDuration' => 3600,
-			'password'              => 'iloveflosites',
+			'password'              => '6ZpBcVrtA6LaEdrZ',
 			'charset'               => 'utf8',
 			'enableProfiling'       => true,
 			'enableParamLogging'    => true,
@@ -284,8 +284,8 @@ return array(
 				'ext'    => 'png',
 			),
 			'generic_bg_image' => array(
-//				'width'  => 1024,
-//				'height' => 768,
+				'width'  => 1024,
+				'height' => 768,
 				'ext'    => 'png',
 			),
 		),
@@ -383,17 +383,23 @@ return array(
 			'fonts'		=> array(
 				'main_font' => array(
 					'values'	=> array(
-						'arial'     => 'Arial',
-						'helvetica' => 'Helvetica',
-						'georgia'   => 'Georgia',
+						'arial'			=> 'Arial',
+						'helvetica'		=> 'Helvetica',
+						'verdana'		=> 'Verdana',
+						'georgia'		=> 'Georgia',
+						'baskerville'	=> 'Baskerville',
+						'gillsans'		=> 'GillSans',
 					),
 					'label'		=> 'Font'
 				),
 				'second_font' => array(
 					'values'	=> array(
-						'arial'     => 'Arial',
-						'helvetica' => 'Helvetica',
-						'georgia'   => 'Georgia',
+						'arial'			=> 'Arial',
+						'helvetica'		=> 'Helvetica',
+						'verdana'		=> 'Verdana',
+						'georgia'		=> 'Georgia',
+						'baskerville'	=> 'Baskerville',
+						'gillsans'		=> 'GillSans',
 					),
 					'label'		=> 'Font'
 				),
@@ -457,7 +463,6 @@ return array(
 				'main_font_color'	=> '#6a645c',
 				'second_font_color'	=> '#6a645c',
 			),
-		)
-		
+		)	
 	),
 );

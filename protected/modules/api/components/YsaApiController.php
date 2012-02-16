@@ -176,6 +176,7 @@ class YsaApiController extends YsaController
 			'date'          => $obEvent->date,
 			'creation_date' => $obEvent->created,
 			'preview'       => $obEvent->previewUrl(),
+			'filesize'      => $obEvent->previewFilesize(),
 		);
 	}
 
@@ -259,6 +260,7 @@ class YsaApiController extends YsaController
 			'place'				=> $album->place,
 			'album_id'			=> $album->id,
 			'preview'			=> $album->previewUrl(),
+			'preview_size'		=> $album->previewFilesize(),
 			'number_of_photos'	=> count($album->photos),
 			'filesize'			=> $album->size(),
 			'checksum'			=> $album->getChecksum(),
@@ -304,6 +306,7 @@ class YsaApiController extends YsaController
 			'filesize'		=> $obPhoto->size,
 			'name'			=> $obPhoto->name,
 			'thumbnail'		=> $obPhoto->previewUrl(),
+			'thumbnail_size'=> $obPhoto->previewFilesize(),
 			'fullsize'		=> $obPhoto->fullUrl(),
 			'meta'			=> $obPhoto->exif(),
 			'rank'			=> $obPhoto->rating(),

@@ -1,17 +1,16 @@
 <section class="w">
 	<section class="box">
 		<div class="box-title">
-			<h3><?php echo $entry->name(); ?></h3>
+			<h3>Connect Accounts</h3>
 		</div>
 		<div class="box-content">
 			<div class="shadow-box menu-box">
 				<ul>
-					<li><?php echo YsaHtml::link('Inbox', array('inbox/')); ?></li>
-					<!-- <li><?php echo YsaHtml::link('My Subscriptions', array('subscription/list/')); ?></li> -->
 					<li><?php echo YsaHtml::link('SmugMug Settings', array('settings/smugmug/')); ?></li>
 					<li><?php echo YsaHtml::link('ZenFolio Settings', array('settings/zenfolio/')); ?></li>
 					<li><?php echo YsaHtml::link('ShootQ Settings', array('settings/shootq/')); ?></li>
 					<li><?php echo YsaHtml::link('Facebook Account', array('settings/facebook/')); ?></li>
+					<li><?php echo YsaHtml::link('PASS Account', array('settings/pass/')); ?></li>
 				</ul>
 			</div>
 		</div>
@@ -19,7 +18,7 @@
 
 	<section class="box">
 		<div class="box-title">
-			<h3>Change Details</h3>
+			<h3>Change My Details</h3>
 		</div>
 		<div class="box-content">
 			<div class="form standart-form shadow-box">

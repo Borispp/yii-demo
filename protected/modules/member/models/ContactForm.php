@@ -7,6 +7,8 @@ class ContactForm extends YsaFormModel
 	
 	public $info;
 	
+	public $name;
+	
 	const AREA_ROWS = 2;
 	
 	const AREA_MAXLENGTH = 100;
@@ -14,11 +16,19 @@ class ContactForm extends YsaFormModel
     public function rules() 
     {
         return array(
-			array('address, phone, info', 'safe'),
-			array('address, phone, info', 'filter', 'filter' =>  'trim'),
+			array('address, phone, info, name', 'safe'),
+			array('address, phone, info, name', 'filter', 'filter' =>  'trim'),
 			array('address, phone, info', 'validateRows'),
         );
     }
+	
+	public function attributeLabels() {
+		return array(
+			'name'	=> 'Studio Name',
+			'info'	=> 'Additional Information',
+			'phone' => 'Phone / Working Hours',
+		);
+	}
 	
 	public function validateRows($param)
 	{

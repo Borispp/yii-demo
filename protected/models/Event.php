@@ -373,4 +373,18 @@ class Event extends YsaActiveRecord
 		}
 		return $this->_preview;
 	}
+
+	public function previewFilesize()
+	{
+		if (count($this->albums))
+		{
+			$filesize = $this->albums[0]->previewFilesize();
+		} else {
+			$w = Yii::app()->params['member_area']['album']['preview']['width'];
+			$h = Yii::app()->params['member_area']['album']['preview']['height'];
+
+			$filesize = EventPhoto::model()->defaultPicFilesize($w, $h);
+		}
+		return $filesize;
+	}
 }

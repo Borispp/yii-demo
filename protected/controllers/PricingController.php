@@ -9,6 +9,8 @@ class PricingController extends YsaFrontController
 		
 		$this->setFrontPageTitle($page->title);
 		
+		$this->setMeta($page->meta());
+		
 		$this->render('index', array(
 			'page' => $page,
 			'signupnow' => $signupnow,

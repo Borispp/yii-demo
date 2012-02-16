@@ -1,19 +1,6 @@
 <?php
 class AuthController extends YsaFrontController
-{
-	/**
-	* Declares class-based actions.
-	*/
-//	public function actions()
-//	{
-//		return array(
-//			'captcha'=>array(
-//			 'class'=>'CCaptchaAction',
-//			 'backColor'=>0xFFFFFF,
-//			),
-//		);
-//	}
-	
+{	
 	/**
 	 * Displays the login page
 	 */

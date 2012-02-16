@@ -6,10 +6,10 @@ class YsaMemberController extends YsaController
 	 */
 	protected $_member;
 
-	protected $_uploadImagePath;
-
-	protected $_uploadImageUrl;
-	
+//	protected $_uploadImagePath;
+//
+//	protected $_uploadImageUrl;
+//	
 	public $breadcrumbs;
 	
 	public $memberPageTitle;
@@ -46,7 +46,7 @@ class YsaMemberController extends YsaController
 			array('deny', 'roles' => array('interesant')),
 			
 			// allow guest notifications from external (paypal,authorize)
-			array('allow', 'roles' => array('guest'), 'controllers' => array('payment'), 'actions' => array('catchNotification')),
+			array('allow', 'roles' => array('guest'), 'controllers' => array('paypal'), 'actions' => array('catchNotification')),
 			
 			array('allow', 'roles' => array('customer','member')),
 			
@@ -81,7 +81,7 @@ class YsaMemberController extends YsaController
 	}
 
 	public $layout='//layouts/member';
-
+	
 	public function init()
 	{
 		parent::init();
@@ -113,7 +113,7 @@ class YsaMemberController extends YsaController
 		
 		return true;
 	}
-
+	
 	/**
 	 *
 	 * @return Member

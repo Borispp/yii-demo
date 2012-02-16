@@ -29,6 +29,9 @@ class UserOption extends YsaOptionActiveRecord
 	
 	const FACEBOOK_ID = 'facebook_id';
 	
+	const PASS_EMAIL = 'pass_api_email';
+	const PASS_PASSWORD = 'pass_api_password';
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return UserOption the static model class

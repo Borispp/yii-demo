@@ -52,15 +52,31 @@ class AdministratorController extends YsaAdminController
 	{
 		$id = (int) $id;
 
-		$entry = Admin::model()->findByPk($id);
-
+		$entry = AdminForm::model()->findByPk($id);
+		
 		if (!$entry) {
 			$this->redirect('/admin/' . $this->getId());
 		}
-
-		if(Yii::app()->request->isPostRequest && isset($_POST['User'])) {
-			$entry->attributes=$_POST['User'];
-			if($entry->save()) {
+		
+		if(Yii::app()->request->isPostRequest && isset($_POST['AdminForm'])) {
+			
+			if (!$_POST['AdminForm']['password']) {
+				unset($_POST['AdminForm']['password']);
+				unset($_POST['AdminForm']['verifyPassword']);
+				$changePassword = false;
+			} else {
+				$changePassword = true;
+			}
+			
+			$entry->attributes = $_POST['AdminForm'];
+			
+			if($entry->validate()) {
+				
+				if ($changePassword) {
+					$entry->encryptPassword();
+				}
+				
+				$entry->save(false);
 				$this->setSuccessFlash("Entry successfully updated. " . CHtml::link('Back to listing.', array('index')));
 				$this->refresh();
 			}
@@ -69,9 +85,12 @@ class AdministratorController extends YsaAdminController
 		$this->setContentTitle($entry->name(), array('(view)', array('view', 'id' => $entry->id)));
 		$this->setContentDescription('edit administrator details.');
 
+		
+		$entry->unsetAttributes(array('password', 'verifyPassword'));
+		
 		$this->render('edit',array(
-				'entry'     => $entry,
-			));
+			'entry'     => $entry,
+		));
 	}
 
 	public function actionView($id)
