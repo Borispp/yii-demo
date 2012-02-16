@@ -2119,12 +2119,26 @@ li.plupload_droptext {
 #subscription-add {
 	.subscription-list {
 		section.part {
-			float: left;
-			// 20 + 20 + 20 + (440 * 2) = 940px
-			width: 410px;
-			margin-right: 20px;
-			margin-bottom: 15px;
-			&:hover { background-color: @blue-echo;  }
+			width: 420px;
+			margin-bottom: 20px;
+			//&:hover { background-color: @blue-echo;  }
+			h3 {
+				height:132px;
+				text-indent:-9999px;
+			}
+			.info {
+				font-size:14px;
+			}
+		}
+		section.authorize {
+			h3 {
+				background:url(../images/pay-authorize.jpg) 0 50% no-repeat;
+			}
+		}
+		section.paypal {
+			h3 {
+				background:url(../images/pay-paypal.jpg) 0 50% no-repeat;
+			}
 		}
 	}
 }
