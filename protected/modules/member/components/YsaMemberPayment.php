@@ -5,7 +5,7 @@ interface YsaMemberPayment
 	public function getFormUrl();
 	public function getOuterId();
 	public function getTemplateName();
-	public function prepare(PaymentTransaction $transaction, YsaAuthorizeDotNet $entry);
 	public function catchNotification();
-	public function getFormFields(PaymentTransaction $transaction, $notifyUrl, $returnUrl);
+	public function createTransaction($type = NULL, $summ = NULL, $itemId = NULL);
+	public function getFormFields($type, $summ, $item_id, $notifyUrl, $returnUrl);
 }
