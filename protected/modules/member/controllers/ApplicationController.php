@@ -5,11 +5,7 @@ class ApplicationController extends YsaMemberController
 
 	public function init() {
 		parent::init();
-		$this->setMemberPageTitle(Yii::t('title', 'application_wizard'));
-		$this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/ipad.css');
-		
 		$this->setMetaTitle(Yii::t('title', 'application'));
-		
 	}
 
 	public function beforeRender($view) {
@@ -34,6 +30,8 @@ class ApplicationController extends YsaMemberController
 		$this->crumb('Application');
 
 		$this->setMemberPageTitle(Yii::t('title', 'application'));
+		
+		$this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/ipad.css');
 
 		$this->render('view', array(
 			'app' => $app,
@@ -235,11 +233,15 @@ class ApplicationController extends YsaMemberController
 			$models[$k]->setApplication($app)
 					->loadDefaultValues();
 		}
+		
+		$this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/ipad.css');
+		
+		$this->setMemberPageTitle(Yii::t('title', 'application_wizard'));
 
 		$this->render('wizard', array(
-				'app' => $app,
-				'models' => $models,
-			));
+			'app' => $app,
+			'models' => $models,
+		));
 	}
 
 	public function actionLoadStep($step)
@@ -406,5 +408,21 @@ class ApplicationController extends YsaMemberController
 		}
 
 		$this->redirect(array('application/wizard/'));
+	}
+	
+	public function actionQuickPreview()
+	{
+		if (!Yii::app()->request->isAjaxRequest) {
+			$this->redirect(array('application/create'));
+		}
+		
+		$app = $this->member()->application;
+		
+		if ($app) {
+			$this->renderPartial('_ipad-preview', array('app' => $app));
+		} else {
+			echo Yii::t('error', 'standart_error');
+		}
+		Yii::app()->end();
 	}
 }
