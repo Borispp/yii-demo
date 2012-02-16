@@ -5,6 +5,8 @@ class AlbumController extends YsaMemberController
 		parent::init();
 		
 		$this->crumb('Events', array('event/'));
+		
+		$this->setMetaTitle(Yii::t('title', 'Events'));
 	}
 	
 	public function actionCreate($event)

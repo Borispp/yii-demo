@@ -81,7 +81,7 @@ class YsaMemberController extends YsaController
 	}
 
 	public $layout='//layouts/member';
-
+	
 	public function init()
 	{
 		parent::init();
@@ -113,7 +113,7 @@ class YsaMemberController extends YsaController
 		
 		return true;
 	}
-
+	
 	/**
 	 *
 	 * @return Member

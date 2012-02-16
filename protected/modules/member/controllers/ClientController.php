@@ -5,6 +5,9 @@ class ClientController extends YsaMemberController
 	{
 		parent::init();
 		$this->crumb('Clients', array('client/'));
+		
+		$this->setMetaTitle(Yii::t('title', 'Clients'));
+		
 		$this->renderVar('events', $this->member()->client_events);
 	}
 	public function actionAdd()

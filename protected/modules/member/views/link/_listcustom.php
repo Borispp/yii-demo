@@ -1,5 +1,5 @@
-<li id="studio-link-<?php echo $entry->id?>" class="cf">
-	<figure><?php echo $entry->icon(); ?></figure>
+<li id="studio-link-<?php echo $entry->id?>" class="cf">	
+	<figure class="<?php echo $folder?>"><?php echo $entry->icon($folder); ?></figure>
 	<strong><?php echo $entry->name; ?></strong>
 	<?php echo YsaHtml::link($entry->url, $entry->url, array('rel' => 'external', 'class' => 'url')); ?>
 	<span class="menu">

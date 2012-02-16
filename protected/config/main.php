@@ -113,7 +113,8 @@ return array(
 				'/member/person/<action:\w+>/<personId>' => 'member/person/<action>',
 				'/member/settings/facebook/connect/<service_param>/<service>'=>'member/settings/facebookconnect',
 				'/member/settings/facebook/unlink/'=>'member/settings/facebookunlink',
-
+				'/member/help/<slug:[\w\d\-]+>' => 'member/help/view',
+				
 				//image route
 				'/image/<action:\w+>/<imageId>' => 'image/<action>',
 
@@ -138,9 +139,9 @@ return array(
 		'db'=>array(
 			'connectionString'      => 'mysql:host=office.flosites.com;dbname=yoursturioapp',
 			'emulatePrepare'        => true,
-			'username'              => 'root',
+			'username'              => 'yourstudioapp',
 			'schemaCachingDuration' => 3600,
-			'password'              => 'iloveflosites',
+			'password'              => '6ZpBcVrtA6LaEdrZ',
 			'charset'               => 'utf8',
 			'enableProfiling'       => true,
 			'enableParamLogging'    => true,
@@ -382,17 +383,23 @@ return array(
 			'fonts'		=> array(
 				'main_font' => array(
 					'values'	=> array(
-						'arial'     => 'Arial',
-						'helvetica' => 'Helvetica',
-						'georgia'   => 'Georgia',
+						'arial'			=> 'Arial',
+						'helvetica'		=> 'Helvetica',
+						'verdana'		=> 'Verdana',
+						'georgia'		=> 'Georgia',
+						'baskerville'	=> 'Baskerville',
+						'gillsans'		=> 'GillSans',
 					),
 					'label'		=> 'Font'
 				),
 				'second_font' => array(
 					'values'	=> array(
-						'arial'     => 'Arial',
-						'helvetica' => 'Helvetica',
-						'georgia'   => 'Georgia',
+						'arial'			=> 'Arial',
+						'helvetica'		=> 'Helvetica',
+						'verdana'		=> 'Verdana',
+						'georgia'		=> 'Georgia',
+						'baskerville'	=> 'Baskerville',
+						'gillsans'		=> 'GillSans',
 					),
 					'label'		=> 'Font'
 				),
@@ -456,7 +463,6 @@ return array(
 				'main_font_color'	=> '#6a645c',
 				'second_font_color'	=> '#6a645c',
 			),
-		)
-		
+		)	
 	),
 );

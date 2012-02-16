@@ -212,7 +212,7 @@ class YsaController extends CController
 				
 				array('label'=>'Support', 'url'=>array('support/'), 'active' => in_array($c, array('support', 'help')), 'items' => array(
 					array('label' => 'Help', 'url' => array('help/'), 'active' => ($c == 'help') ),
-					array('label' => 'Zendesk', 'url' => ''),
+					array('label' => 'Zendesk', 'url' => Yii::app()->settings->get('zendesk_url')),
 				)),
 				
 				array('label'=>'Settings', 'url'=>array('settings/'), 'active' => $c == 'settings', 'items' => array(
