@@ -143,7 +143,7 @@ class Announcement extends YsaActiveRecord
 		{
 			foreach($this->announcement_user as $obAnnouncementUser)
 			{
-				$obAnnouncementUser->read = date('Y-m-d H:i:s');
+				$obAnnouncementUser->read = date(Announcement::FORMAT_DATETIME);
 				$obAnnouncementUser->save();
 			}
 			return;
@@ -155,7 +155,7 @@ class Announcement extends YsaActiveRecord
 			));
 		if ($announcementUser)
 		{
-			$announcementUser->read = date('Y-m-d H:i:s');
+			$announcementUser->read = date(Announcement::FORMAT_DATETIME);
 			$announcementUser->save();
 		}
 	}
