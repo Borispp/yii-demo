@@ -460,6 +460,12 @@ return array(
 				'main_font_color'	=> '#6a645c',
 				'second_font_color'	=> '#6a645c',
 			),
-		)	
+		),
+		
+		'application_ajax_fields' => array(
+			'studio_bg_color', 'style', 'splash_bg_color', 'generic_bg_color',
+			'main_font', 'main_font_color', 'second_font', 'second_font_color', 
+			'copyright', 'splash_bg', 'generic_bg', 'studio_bg',
+		)
 	),
 );

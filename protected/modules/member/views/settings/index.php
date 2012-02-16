@@ -19,6 +19,9 @@
 	<section class="box">
 		<div class="box-title">
 			<h3>Change My Details</h3>
+			<div class="box-title-button">
+				<?php echo YsaHtml::link('<span class="icon i_inbox"></span>Announcements', array('announcement/'), array('class' => 'secondary iconed')); ?>
+			</div>
 		</div>
 		<div class="box-content">
 			<div class="form standart-form shadow-box">
