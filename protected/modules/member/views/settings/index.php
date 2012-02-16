@@ -10,6 +10,7 @@
 					<li><?php echo YsaHtml::link('ZenFolio Settings', array('settings/zenfolio/')); ?></li>
 					<li><?php echo YsaHtml::link('ShootQ Settings', array('settings/shootq/')); ?></li>
 					<li><?php echo YsaHtml::link('Facebook Account', array('settings/facebook/')); ?></li>
+					<li><?php echo YsaHtml::link('PASS Account', array('settings/pass/')); ?></li>
 				</ul>
 			</div>
 		</div>

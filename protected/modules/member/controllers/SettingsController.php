@@ -174,7 +174,7 @@ class SettingsController extends YsaMemberController
 		$this->member()->deleteOption(UserOption::SMUGMUG_HASH);
 		$this->member()->deleteOption(UserOption::SMUGMUG_AUTHORIZED);
 
-		$this->setSuccess(Yii::t('save', 'settings_smugmug_unlinked'));
+		$this->setSuccess(Yii::t('save', 'settings_external_service_unlinked'));
 
 		$this->redirect(array('settings/smugmug/'));
 	}
@@ -241,7 +241,7 @@ class SettingsController extends YsaMemberController
 	public function actionZenfolioUnlink()
 	{
 		$this->member()->zenfolioUnauthorize();
-		$this->setSuccess(Yii::t('save', 'settings_zenfolio_unlinked'));
+		$this->setSuccess(Yii::t('save', 'settings_external_service_unlinked'));
 		$this->redirect(array('settings/zenfolio/'));
 	}
 
@@ -286,7 +286,7 @@ class SettingsController extends YsaMemberController
 			unset(Yii::app()->session['500pxRequestToken']);
 		}
 		
-		$this->setSuccess(Yii::t('save', 'settings_500px_unlinked'));
+		$this->setSuccess(Yii::t('save', 'settings_external_service_unlinked'));
 
 		$this->redirect(array('settings/500px/'));
 	}
@@ -336,7 +336,7 @@ class SettingsController extends YsaMemberController
 		if (!$this->member()->unlinkFacebook())
 			$this->setError('Unable to unlink Facebook account');
 		else
-			$this->setSuccess(Yii::t('save', 'settings_facebook_unlinked'));
+			$this->setSuccess(Yii::t('save', 'settings_external_service_unlinked'));
 		
 		$this->redirect(array('settings/'));
 	}
@@ -356,6 +356,33 @@ class SettingsController extends YsaMemberController
 			Yii::log("Unable to send email with activation link, user ID [{$this->member()->id}] ", CLogger::LEVEL_ERROR);
 		}
 		
+		$this->redirect(array('settings/'));
+	}
+	
+	public function actionPass()
+	{
+		$pass_api = new PassApi;
+		
+		if (Yii::app()->getRequest()->getIsPostRequest())
+		{
+			$pass_api->setAttributes($_POST['PassApi'], false);
+			if ($pass_api->validate() && $pass_api->authorize())
+			{
+				$pass_api->link($this->member());
+				$this->setSuccess(Yii::t('save', 'settings_pass_authorized'));
+			}
+		}
+		
+		$this->render('pass', array(
+			'pass_form' => $pass_api,
+		));
+	}
+	
+	public function actionPassUnlink()
+	{
+		$pass_api = new PassApi;
+		$pass_api->unlink($this->member());
+		$this->setSuccess(Yii::t('save', 'settings_external_service_unlinked'));
 		$this->redirect(array('settings/'));
 	}
 }

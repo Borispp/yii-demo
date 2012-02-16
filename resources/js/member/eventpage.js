@@ -46,6 +46,7 @@ $(function(){
 				},'json');
 			});
 			
+			// zenfolio
 			$('#album-zenfolio-import-button').fancybox({
 				fitToView:false,
 				autoSize:false,
@@ -81,6 +82,7 @@ $(function(){
 				}, 'json');
 			});
 			
+			// smugmug
 			$('#album-smugmug-import-button').fancybox({
 				fitToView:false,
 				autoSize:false,
@@ -116,6 +118,41 @@ $(function(){
 				}, 'json');
 			});
 			
+			// PASS
+			$('#album-pass-import-button').fancybox({
+				fitToView:false,
+				autoSize:false,
+				minWidth:720,
+				height:200,
+				margin:40,
+				padding:0
+			});
+			
+			var pass_container = $('#album-import-pass-container');
+			var pass_data = pass_container.find('.data');
+			var pass_loading = pass_container.find('.loading');
+			
+			pass_container.find('input:button').click(function(e){
+				e.preventDefault();
+				var album_id = pass_container.find('select').val();
+				if (!album_id) {
+					return;
+				}
+				pass_data.hide();
+				pass_loading.show();
+				$.post(_member_url + '/pass/importAlbum/', {id:album_id,event_id:event_id}, function(data){
+					pass_loading.hide();
+					pass_data.show();
+					if (data.success) {
+						$.fancybox.close();
+						$.uniform.update();
+						$._flash(data.msg, {type:'success'});
+						event_albums_container.append(data.html);
+					} else {
+						$._alert(data.msg);
+					}
+				}, 'json');
+			});
 		});
 	};
 	

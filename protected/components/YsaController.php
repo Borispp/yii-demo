@@ -220,6 +220,7 @@ class YsaController extends CController
 					array('label' => 'ZenFolio', 'url' => array('settings/zenfolio/'), 'active' => ($a == 'zenfolio') ),
 					array('label' => 'ShootQ', 'url' => array('settings/shootq/'), 'active' => ($a == 'shootq') ),
 					array('label' => 'Facebook', 'url' => array('settings/facebook/'), 'active' => ($a == 'facebook') ),
+					array('label' => 'PASS', 'url' => array('settings/pass/'), 'active' => ($a == 'PASS') ),
 				)),
 				array('label'=>'Logout', 'url'=>array('/logout'), 'visible' => !Yii::app()->user->isGuest, 'itemOptions' => array('class' => 'logout')),
 			);

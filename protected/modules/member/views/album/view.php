@@ -51,6 +51,9 @@
 					<?php if ($this->member()->zenfolioAuthorized()) : ?>
 						<?php echo YsaHtml::link('Import from ZenFolio', '#photo-import-zenfolio-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-zenfolio-import-button')); ?>
 					<?php endif;?>
+					<?php if ($this->member()->passApiLinked()) : ?>
+							<?php echo YsaHtml::link('Import from PASS', '#photo-import-pass-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-pass-import-button')); ?>
+						<?php endif; ?>
 					<div class="cf"></div>
 				</div>
 				<ul id="album-photos" class="album-photos cf">
@@ -165,6 +168,27 @@
 						<option value="">&ndash;&ndash;&ndash;</option>
 						<?php foreach ($zenfolioHierarchy['Elements'] as $element) : ?>
 							<option value="<?php echo $element['Id']; ?>"><?php echo $element['Title']; ?> (<?php echo $element['PhotoCount']?>)</option>
+						<?php endforeach; ?>
+					</select>
+					<input type="button" value="Show Photos" />
+				</div>
+				<div class="import cf"></div>
+				<div class="loading">Loading album images. Please be patient &mdash; it takes a while...</div>
+			</div>
+		</section>
+	<?php endif; ?>
+	<?php if ($this->member()->passApiLinked()) : ?>
+		<section id="photo-import-pass-container" class="pass-import box">
+			<div class="box-title">
+				<h3>Import from PASS Album</h3>
+			</div>
+			<div class="box-content">
+				<div class="data">
+					<p>Please note that large amount of photos takes more time.</p>
+					<select name="album">
+						<option value="">&ndash;&ndash;&ndash;</option>
+						<?php foreach ($this->member()->passApi()->ysaAlbumList() as $album) : ?>
+							<option value="<?php echo $album->key; ?>"><?php echo $album->title; ?> (<?php echo $album->photo_count ?>)</option>
 						<?php endforeach; ?>
 					</select>
 					<input type="button" value="Show Photos" />
