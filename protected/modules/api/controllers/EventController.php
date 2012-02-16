@@ -102,7 +102,6 @@ class EventController extends YsaApiController
 	 * Returns event info.
 	 * Inquiry params: [app_key, device_id, token, event_id]
 	 * Response params: [name,type,description,date,creation_date,filesize,checksumm]
-	 * @todo Add checksumm and filesize
 	 * @return void
 	 */
 	public function actionGetEventInfo()

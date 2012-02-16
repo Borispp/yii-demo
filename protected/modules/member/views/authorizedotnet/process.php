@@ -8,6 +8,10 @@
 					'id'=>'authorizedotnet-form',
 					'action' => $formAction
 				)); ?>
+
+				<?php foreach($hidden_fields as $name => $value):?>
+				<?php echo YsaHtml::hiddenField($name, $value); ?>
+				<?php endforeach?>
 				<section class="cf">
 					<?php echo $form->labelEx($entry,'full_name'); ?>
 					<div>
