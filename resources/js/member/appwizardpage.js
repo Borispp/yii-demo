@@ -214,6 +214,18 @@ $(function(){
 				});
 			})
 			page.find('a.fancybox').fancybox();
+			
+			
+			page.find('a.preview').fancybox({
+				'type' : 'ajax',
+				'href' : _member_url + '/application/quickPreview',
+				afterShow:function() {
+					console.log($('#ipad-slider'));
+					
+					$('#ipad-slider').slides();
+				}
+			});
+			
 		});
 	}
 	

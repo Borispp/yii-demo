@@ -20,6 +20,12 @@ class Member extends User
 	 */
 	protected $_zenfolio;
 
+	/**
+	 *
+	 * @var PassApi
+	 */
+	protected $_pass_api;
+	
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -166,6 +172,25 @@ class Member extends User
 	{
 		$this->deleteOption(UserOption::ZENFOLIO_HASH);
 		return $this;
+	}
+	
+	/**
+	 * @return PassApi
+	 */
+	public function passApi()
+	{
+		if (is_null($this->_pass_api))
+			return $this->_pass_api = new PassApi;
+		
+		return $this->_pass_api;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function passApiLinked()
+	{
+		return $this->passApi()->isLinked($this);
 	}
 	
 	/**

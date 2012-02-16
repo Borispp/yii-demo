@@ -62,7 +62,7 @@ class ZenfolioController extends YsaMemberController
 				}
 				
 				if (!$photoSet['PhotoCount']) {
-					throw new Exception(Yii::t('error', 'zenfolio_album_empty'));
+					throw new Exception(Yii::t('error', 'import_album_empty'));
 				}
 				
 				$album = new EventAlbum();
@@ -71,7 +71,7 @@ class ZenfolioController extends YsaMemberController
 				
 				$this->sendJsonSuccess(array(	
 					'html' => $this->renderPartial('/album/_listalbum', array('album' => $album, 'event' => $event), true),
-					'msg' => Yii::t('success', 'zenfolio_album_imported'),
+					'msg' => Yii::t('api', 'service_event_album_imported'),
 				));
 				
 			} catch (Exception $e) {

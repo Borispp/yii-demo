@@ -22,7 +22,6 @@
 		));
 	?>
 </section>
-
 <section class="part group generic-bg shadow-box" id="wizard-box-generic_bg">
 		<label class="title cf">
 			<span><?php echo Yii::t('general', 'Event Page Background'); ?>&nbsp;&nbsp;</span>
@@ -43,9 +42,10 @@
 	?>
 </section>
 
-<div class="clearfix"></div>
+<div class="cf"></div>
 
 <div class="save">
+	<?php echo YsaHtml::link('Preview', '#', array('class' => 'btn small preview'));?>
 	<?php echo YsaHtml::submitButton('Save & Continue', array('class' => 'blue'));?>
 </div>
 
