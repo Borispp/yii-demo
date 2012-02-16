@@ -12,15 +12,17 @@ class YsaMemberPaypal implements YsaMemberPayment
 		$this->_currency = Yii::app()->settings->get('paypal_currency');
 	}
 
-	public function getFormFields(PaymentTransaction $transaction, $notifyUrl, $returnUrl)
+	public function getFormFields($type, $summ, $item_id, $notifyUrl, $returnUrl)
 	{
 		return array(
 			'cmd'           => '_xclick',
+			'mode'          => 'passthrough',
+			'custom'        => $type,
 			'currency_code' => $this->getCurrency(),
 			'business'      => $this->getEmail(),
-			'item_name'     => $transaction->name,
-			'amount'        => $transaction->summ,
-			'item_number'   => $transaction->getItemId(),
+			'item_name'     => $type == 'application' ? 'Application Initial Payment' : '',
+			'amount'        => $summ,
+			'item_number'   => $item_id,
 			'ipn_test'      => $this->isTestMode(),
 			'notify_url'    => $notifyUrl,
 			'return'        => $returnUrl,
@@ -134,11 +136,6 @@ class YsaMemberPaypal implements YsaMemberPayment
 		}
 	}
 
-	public function catchNotification()
-	{
-		var_dump($_REQUEST);die;
-	}
-
 	public function getOuterId()
 	{
 		return @$_POST['txn_id'];
@@ -149,8 +146,17 @@ class YsaMemberPaypal implements YsaMemberPayment
 		return 'pay';
 	}
 
-	public function prepare(PaymentTransaction $transaction, YsaAuthorizeDotNet $entry)
+	/**
+	 * @return PaymentTransaction
+	 */
+	public function createTransaction($type = NULL, $summ = NULL, $itemId = NULL)
 	{
-		return;
+		if ($transaction = PaymentTransaction::model()->findByAttributes(array('outer_id' => $this->getOuterId())))
+			return $transaction;
+		if (strtolower(@$_POST['custom']) == 'application')
+		{
+			$app = Application::model()->findByPk($_POST['item_number']);
+			return  $app->createTransaction(NULL, $summ);
+		}
 	}
 }
