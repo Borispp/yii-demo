@@ -22,6 +22,7 @@ class YsaUserIdentity extends CUserIdentity
 	public function authenticate() 
 	{
 		$user = User::model()->findByAttributes(array('email' => $this->username));
+		
 		if (null === $user) {
 			$this->setError( self::ERROR_EMAIL_INVALID );
 		} else {

@@ -133,9 +133,6 @@ return array(
 				'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
 			),
 		),
-
-
-		// uncomment the following to use a MySQL database
 		'db'=>array(
 			'connectionString'      => 'mysql:host=office.flosites.com;dbname=yoursturioapp',
 			'emulatePrepare'        => true,

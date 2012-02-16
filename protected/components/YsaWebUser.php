@@ -19,10 +19,11 @@ class YsaWebUser extends CWebUser
     public function isMember() 
     {
         $user = $this->loadUser(Yii::app()->user->id);
+		
 		if (null === $user) {
 			return false;
 		}
-        return 'member' == $user->role;
+        return in_array($user->role, array('member', 'customer', 'expired_customer', 'interesant'));
     }
     
 	/**
