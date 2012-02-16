@@ -161,6 +161,10 @@ class YsaActiveRecord extends CActiveRecord
 	 */
 	public function filterUrl($value)
 	{
+		if (!$value) {
+			return $value;
+		}
+		
 		if (!preg_match('~^http\:\/\/~', $value)) {
 			$value = 'http://' . $value;
 		}

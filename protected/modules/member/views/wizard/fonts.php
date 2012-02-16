@@ -15,14 +15,14 @@
 		<div class="font-style">
 			<?php echo $form->labelEx($model, 'main_font'); ?>
 			<div>
-				<?php echo $form->dropDownList($model, 'main_font', $model->getFontList()); ?>
+				<?php echo $form->dropDownList($model, 'main_font', $model->getFontList(), array('data-field' => 'main_font')); ?>
 				<?php echo $form->error($model,'main_font'); ?>
 			</div>
 		</div>
 		<div class="font-color">
 			<?php echo $form->labelEx($model, 'main_font_color'); ?>
 			<div class="color-selector">
-				<?php echo $form->textField($model, 'main_font_color', array('class' => 'colors')); ?>
+				<?php echo $form->textField($model, 'main_font_color', array('class' => 'colors', 'data-field' => 'main_font_color')); ?>
 				<?php echo $form->error($model,'main_font_color'); ?>
 			</div>
 		</div>
@@ -41,14 +41,14 @@
 		<div class="font-style">
 			<?php echo $form->labelEx($model, 'second_font'); ?>
 			<div>
-				<?php echo $form->dropDownList($model, 'second_font', $model->getFontList()); ?>
+				<?php echo $form->dropDownList($model, 'second_font', $model->getFontList(), array('data-field' => 'second_font')); ?>
 				<?php echo $form->error($model,'second_font'); ?>
 			</div>
 		</div>
 		<div class="font-color">
 			<?php echo $form->labelEx($model, 'second_font_color'); ?>
 			<div class="color-selector">
-				<?php echo $form->textField($model, 'second_font_color', array('class' => 'colors')); ?>
+				<?php echo $form->textField($model, 'second_font_color', array('class' => 'colors', 'data-field' => 'second_font_color')); ?>
 				<?php echo $form->error($model,'second_font_color'); ?>
 			</div>
 		</div>

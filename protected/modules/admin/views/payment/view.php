@@ -17,6 +17,18 @@
 					<?php echo date('m.d.Y', strtotime($entry->created))?>
 				</div>
 			</section>
+			<section>
+				<label>Description</label>
+				<div>
+					<?php echo nl2br($entry->description)?>
+				</div>
+			</section>
+			<section>
+				<label>Notes</label>
+				<div>
+					<?php echo nl2br($entry->notes)?>
+				</div>
+			</section>
 			<?php if ($entry->type == 'subscription'):?>
 			<section>
 				<label>Membership</label>
@@ -41,9 +53,10 @@
 			<section>
 				<label>Application</label>
 				<div>
-					<a href="<?php echo Yii::app()->createUrl('/admin/application/view/', array(
-							'id'	=> $entry->paymentTransactionApplications[0]->application->id
-						))?>">Application ID#<?php echo $entry->paymentTransactionApplications[0]->application->id?></a>
+					<a href="<?php echo Yii::app()->createUrl('/admin/application/moderate/', array(
+							'id'     => $entry->paymentTransactionApplications[0]->application->id
+						))?>" target="_blank">
+					Application ID#<?php echo $entry->paymentTransactionApplications[0]->application->id?></a>
 				</div>
 			</section>
 			<?php endif;?>
@@ -72,7 +85,7 @@
 			<section>
 				<label>Outer ID</label>
 				<div>
-					<?php echo $entry->outer_id?>
+					<?php echo $entry->outer_id ? $entry->outer_id : 'No outer ID'?>
 				</div>
 			</section>
 			<?php endif?>

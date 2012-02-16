@@ -14,6 +14,7 @@ class AuthorizeDotNetController extends YsaMemberPayment
 	public function init()
 	{
 		parent::init();
+		$this->crumb('Authorize.net');
 		$this->_apiLoginId = Yii::app()->settings->get('authorizenet_api');
 		$this->_transactionKey = Yii::app()->settings->get('authorizenet_transaction');
 		$this->_testMode = (bool)Yii::app()->settings->get('authorizenet_mode');
@@ -49,6 +50,7 @@ class AuthorizeDotNetController extends YsaMemberPayment
 
 		if ($response->approved)
 		{
+			$transaction->notes = 'Paid by authorize.net';
 			$transaction->outer_id = $response->transaction_id;
 			$transaction->data = serialize(get_object_vars($response));
 			$transaction->save();
@@ -104,7 +106,7 @@ class AuthorizeDotNetController extends YsaMemberPayment
 				$app = Application::model()->findByPk($this->_sessionTransaction->item_id);
 				$this->transaction = $app->createTransaction(
 					$this->_sessionTransaction->name,
-					$this->_sessionTransaction->summ
+					$this->getSumm($this->_sessionTransaction->type, $this->_sessionTransaction->item_id)
 				);
 			}
 		}
@@ -126,6 +128,7 @@ class AuthorizeDotNetController extends YsaMemberPayment
 
 	public function actionProcess()
 	{
+		$this->setMemberPageTitle(Yii::t('payment', 'new_title'));
 		$entry = new YsaAuthorizeDotNet();
 		$message = NULL;
 

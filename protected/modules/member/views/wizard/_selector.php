@@ -5,12 +5,12 @@
 </div>
 <div class="main-container">
 	<ul class="switcher">
-		<?php echo $form->radioButtonList($model, $radioName, $radioValues, array('separator' => '', 'template' => '<li>{input} {label}</li>'));?>
+		<?php echo $form->radioButtonList($model, $radioName, $radioValues, array('separator' => '', 'template' => '<li>{input} {label}</li>', 'data-field' => $radioName));?>
 	</ul>
 	<div class="color">
 		<div class="value">
 			<div class="color-selector">
-				<?php echo $form->textField($model, $colorName, array('class' => 'colors')); ?>
+				<?php echo $form->textField($model, $colorName, array('class' => 'colors', 'data-field' => $colorName)); ?>
 				<?php echo $form->error($model, $colorName); ?>
 			</div>
 		</div>
