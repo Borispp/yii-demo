@@ -62,7 +62,7 @@ class LinkController extends YsaMemberController
     public function actionAdd()
     {
 		$entry = new StudioLink();
-		
+
 		if (!in_array($this->_type, array_keys(StudioLink::model()->getTypes()))) {
 			$this->redirect(array('studio/'));
 		}
@@ -86,7 +86,7 @@ class LinkController extends YsaMemberController
 				$this->redirect(array('studio/'));
 			}
 		}
-		
+
 		if (Yii::app()->request->isAjaxRequest || isset($_GET['iframe'])) {
 			$this->renderPartial('add', array(
 				'entry' => $entry,
