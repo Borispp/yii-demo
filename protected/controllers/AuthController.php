@@ -170,7 +170,7 @@ class AuthController extends YsaFrontController
 		$transaction = Yii::app()->getDb()->beginTransaction();
 		try
 		{
-			if ($reg_form->register(true, true))
+			if ($reg_form->register(false, true))
 			{
 				$reg_form->linkFacebook($attr['id']);
 				$reg_form->activate();
