@@ -228,6 +228,8 @@ $(function(){
 			page.find('a.preview').fancybox({
 				'type' : 'ajax',
 				'href' : _member_url + '/application/quickPreview',
+				'padding':10,
+				'margin':15,
 				afterShow:function() {
 					$('#ipad-slider').slides();
 				}

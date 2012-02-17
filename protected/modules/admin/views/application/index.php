@@ -10,6 +10,7 @@
 		
 		<fieldset>
 			<div class="g12"><h3 id="search_toggler">Search</h3></div>
+			<div class="clearfix"></div>
 			<div id="search_form" class="<?php echo !isset($_GET['YsaApplicationSearchForm']) ? 'hidden' : '' ?>">
 			<fieldset>
 			<section class="search-form">

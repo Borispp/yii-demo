@@ -14,7 +14,7 @@
 			<h3>Choose Method of Payment</h3>
 		</div>
 		<div class="box-content subscription-list">
-			<section class="part shadow-box fl paypal">
+			<section class="part shadow-box paypal">
 				<?php echo YsaHtml::form(array('paypal/process/'))?>
 				<?php echo YsaHtml::hiddenField('type', $type)?>
 				<?php echo YsaHtml::hiddenField('summ', $summ)?>
@@ -26,7 +26,8 @@
 				</div>
 				<?php echo YsaHtml::endForm()?>
 			</section>
-			<section class="part shadow-box fr authorize">
+			<?/*
+			<section class="part shadow-box authorize">
 				<?php echo YsaHtml::form(array('authorizedotnet/process/'))?>
 				<?php echo YsaHtml::hiddenField('type', $type)?>
 				<?php echo YsaHtml::hiddenField('summ', $summ)?>
@@ -38,6 +39,7 @@
 				</div>
 				<?php echo YsaHtml::endForm()?>
 			</section>
+			 */?>
 			<div class="clear"></div>
 		</div>
 	</section>
