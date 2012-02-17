@@ -445,7 +445,7 @@ class Application extends YsaActiveRecord
 	{
 		$labelDictionary = array(
 			'newly-created' => 'Your application is missing some key elements, please provide missing content before submitting.',
-			'paid'          => 'Application is paid.',
+			'paid'          => Yii::t('application', 'paid_block_text'),
 			'filled'        => 'All custom elements of your application have been provided.',
 			'submitted'     => 'Application has been successfully submitted.',
 			'locked'        => 'Application has been locked to prevent any changes.',
