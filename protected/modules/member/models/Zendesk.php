@@ -73,8 +73,9 @@ class Zendesk extends CModel
 	protected function get($page, $args = array())
 	{
 		$result = $this->api->get($page, $args);
-		if (!$result)
-			throw new CException("Zendesk API request error: page={$page}, args=".var_export($args,true));
+//		if (!$result)
+//			throw new CException("Zendesk API request error: page={$page}, args=".var_export($args,true));
+
 		return $this->readJSON($result);
 	}
 	
