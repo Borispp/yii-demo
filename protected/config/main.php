@@ -134,9 +134,10 @@ return array(
 			),
 		),
 		'db'=>array(
-			'connectionString'      => 'mysql:host=office.flosites.com;dbname=yoursturioapp',
+			'connectionString'      => 'mysql:host=office.flosites.com;dbname=yourstudioapp_te',
 			'emulatePrepare'        => true,
-			'username'              => 'yourstudioapp',
+//			'username'              => 'yourstudioapp',
+			'username'              => 'yourstudioapp_te',
 			'schemaCachingDuration' => 3600,
 			'password'              => '6ZpBcVrtA6LaEdrZ',
 			'charset'               => 'utf8',
@@ -460,6 +461,12 @@ return array(
 				'main_font_color'	=> '#6a645c',
 				'second_font_color'	=> '#6a645c',
 			),
-		)	
+		),
+		
+		'application_ajax_fields' => array(
+			'studio_bg_color', 'style', 'splash_bg_color', 'generic_bg_color',
+			'main_font', 'main_font_color', 'second_font', 'second_font_color', 
+			'copyright', 'splash_bg', 'generic_bg', 'studio_bg',
+		)
 	),
 );
