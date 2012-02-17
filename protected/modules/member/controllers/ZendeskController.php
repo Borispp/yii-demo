@@ -33,7 +33,7 @@ class ZendeskController extends YsaMemberController
 		$this->zd->create('users', array(
 			'details' => array(
 				'email' => $email = $this->member()->email,
-				'name' => $email = $this->member()->name(),
+				'name' => $this->member()->name(),
 				
 				/**
 				 * End user	0
@@ -55,8 +55,13 @@ class ZendeskController extends YsaMemberController
 			)
 		), 'api/v1/users');	
 		
+		/**
+		 * @see Zendesk::requests
+		 */
+		Zendesk::deleteRequestsCache($email);
+		
 		$zd_acc = Yii::app()->settings->get('zendesk_account');
-		header("Location: https://{$zd_acc}.zendesk.com/anonymous_requests/new?email=".urlencode($this->member()->email), true);
+		header("Location: https://{$zd_acc}.zendesk.com/anonymous_requests/new?email=".urlencode($email), true);
 		Yii::app()->end();
 	}
 }
