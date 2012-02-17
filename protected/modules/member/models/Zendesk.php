@@ -132,7 +132,7 @@ class Zendesk extends CModel
 		catch(CException $e)
 		{
 			Yii::log($e->getMessage(), CLogger::LEVEL_ERROR, 'zendesk');
-			throw $e;
+			return array();
 		}
 	}
 }

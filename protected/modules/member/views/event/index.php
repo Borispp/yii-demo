@@ -28,8 +28,9 @@
 									<td><?php echo $entry->id; ?></td>
 									<td>
 										<?php echo YsaHtml::link('<strong>' . $entry->name . '</strong>', array('event/view/' . $entry->id), array('class' => 'title')); ?>
-
-										<span class="descr">Password: <strong><?php echo $entry->passwd; ?></strong></span>
+										<?php if (!$entry->isPortfolio()) : ?>
+											<span class="descr">Password: <strong><?php echo $entry->passwd; ?></strong></span>
+										<?php endif; ?>
 									</td>
 									<td>
 										<?php echo $entry->description; ?>
