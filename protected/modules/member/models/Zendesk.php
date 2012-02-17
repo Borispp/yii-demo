@@ -116,6 +116,16 @@ class Zendesk extends CModel
 		throw new CException($msg);
 	}
 	
+	public static function deleteRequestsCache($member_email)
+	{
+		Yii::app()->cache->delete(self::requestsCacheKey($member_email));
+	}
+	
+	protected static function requestsCacheKey($member_email)
+	{
+		return 'zendesk_requests_'.$member_email;
+	}
+	
 	/**
 	 * @link http://www.zendesk.com/support/api/tickets
 	 * @param string $member_email
@@ -124,10 +134,20 @@ class Zendesk extends CModel
 	public function requests($member_email)
 	{
 		try
-		{
-			return $this->get('requests', array(
-				'on-behalf-of' => $member_email
-			));
+		{	
+			$key = self::requestsCacheKey($member_email);
+			$data = Yii::app()->cache->get($key);
+		
+			if($data === false)
+			{
+				$data = $this->get('requests', array(
+					'on-behalf-of' => $member_email
+				));
+
+				Yii::app()->cache->set($key, $data); // infinit lifetime
+			}
+			else error_log('Cache hit');
+			return $data;
 		}
 		catch(CException $e)
 		{
