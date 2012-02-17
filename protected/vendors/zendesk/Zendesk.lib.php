@@ -144,8 +144,8 @@ class ZendeskAPI
 		if (isset($this->curl))
 		{
 			curl_setopt($this->curl, CURLOPT_URL, $url);
-			curl_setopt($this->curl, CURLOPT_FOLLOWLOCATION, true);
-			curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true); // !
+//			curl_setopt($this->curl, CURLOPT_FOLLOWLOCATION, true);
+//			curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true); // !
 			curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $method);
 			// HACK: we could include the Zendesk certificate CA info here, but that's a huge increase in filesize.
 			if ($this->secure) curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false);
