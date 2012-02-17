@@ -60,7 +60,7 @@ class ApplicationNotificationEvent extends YsaActiveRecord
 			$this->addError('event_id', 'Event is inactive');
 			return FALSE;
 		}
-		if (!$event->isPortfolio())
+		if ($event->isPortfolio())
 		{
 			$this->addError('event_id', 'You can\'t send notification to portfolio event');
 			return FALSE;
