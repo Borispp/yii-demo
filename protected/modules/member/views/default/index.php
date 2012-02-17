@@ -36,6 +36,7 @@
 		</section>
 		
 	</div>
+	
 	<div class="widgets g4">
 		<section class="box widget" id="widget_application">
 			<div class="box-title">
@@ -72,18 +73,18 @@
 				<h3>Studio Info</h3>
 			</div>
 			<div class="box-content">
-				
 				<ul>
-					<li><?php echo !empty($this->member()->studio->name) ? '<strong>' . $this->member()->studio->name . '</strong>' : '<span class="warning">Studio name is undefined</span>' ?></li>
-					<li><span class="number"><?php echo count($this->member()->studio->persons) ?></span> Photographers</li>
-					<li><span class="number"><?php echo count($this->member()->studio->customLinks) ?></span> Custom Links</li>
-					<li><span class="number"><?php echo count($this->member()->studio->bookmarkLinks) ?></span> Bookmarks</li>
+					<li><?php echo !empty($this->member()->studio()->name) ? '<strong>' . $this->member()->studio()->name . '</strong>' : '<span class="warning">Studio name is undefined</span>' ?></li>
+					<li><span class="number"><?php echo count($this->member()->studio()->persons) ?></span> Photographers</li>
+					<li><span class="number"><?php echo count($this->member()->studio()->customLinks) ?></span> Custom Links</li>
+					<li><span class="number"><?php echo count($this->member()->studio()->bookmarkLinks) ?></span> Bookmarks</li>
 				</ul>
 				
 				<div class="box-button"><?php echo YsaHtml::link('View &amp; Edit', array('studio/'), array('class' => 'btn small')); ?></div>
 			</div>
 		</section>
 	</div>
+	
 	<div class="widgets g4">
 		<section class="box widget number-widget" id="widget_latest_events">
 			<div class="box-title">

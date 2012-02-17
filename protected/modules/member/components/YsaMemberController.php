@@ -17,7 +17,7 @@ class YsaMemberController extends YsaController
 	public function accessRules()
 	{
 		//TODO: Functional Test of access rights
-		
+
 		return array(
 
 			/* deny application submit
@@ -104,7 +104,7 @@ class YsaMemberController extends YsaController
 		if (!$this->_member->isActivated())
 		{
 			$mail_host = substr($this->_member->email, stripos($this->_member->email, '@')+1);
-			$this->setStaticNotice('<div class="need-to-subscribe">You have not activated your account. Please, <a href="http://'.$mail_host.'/" rel="external">check your mail</a> for activation link</div>');
+			$this->setStaticNotice('<div class="need-to-subscribe">You have not activated your account. Please, check your mail for activation link</div>');
 		}
 		elseif (!$this->_member->hasSubscription())
 		{

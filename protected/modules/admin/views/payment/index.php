@@ -1,4 +1,8 @@
 <div class="g12">
+	<p>
+		<?php echo CHtml::link('Add New', array('add'), array('class' => 'btn i_plus icon ysa fr')); ?>
+		<span class="clearfix"></span>
+	</p>
 	<table class="data">
 		<thead>
 		<tr>
@@ -31,6 +35,7 @@
 			<?php endforeach; ?>
 		</tbody>
 	</table>
+
 	<?php $this->widget('YsaAdminPager',array('pages'=>$pagination)) ?>
 	<div class="clearfix"></div>
 </div>

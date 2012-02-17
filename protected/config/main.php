@@ -53,17 +53,13 @@ return array(
 
 	// application components
 	'components'=>array(
-
 		'messages' => array(
 			'class' => 'YsaMessageSource',
 			'forceTranslation' => true,
 			'sourceMessageTable' => 'translation_source',
 			'translatedMessageTable' => 'translation',
 			'language' => 'en',
-			// config for db message source here, see http://www.yiiframework.com/doc/api/CDbMessageSource
 		),
-
-		
 		'request'=>array(
 			//            'enableCsrfValidation'=>true,
 			'class' => 'application.components.YsaHttpRequest',
@@ -133,12 +129,10 @@ return array(
 				'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
 			),
 		),
-
-
-		// uncomment the following to use a MySQL database
 		'db'=>array(
 			'connectionString'      => 'mysql:host=office.flosites.com;dbname=yoursturioapp',
 			'emulatePrepare'        => true,
+//			'username'              => 'yourstudioapp',
 			'username'              => 'yourstudioapp',
 			'schemaCachingDuration' => 3600,
 			'password'              => '6ZpBcVrtA6LaEdrZ',
@@ -463,6 +457,12 @@ return array(
 				'main_font_color'	=> '#6a645c',
 				'second_font_color'	=> '#6a645c',
 			),
-		)	
+		),
+		
+		'application_ajax_fields' => array(
+			'studio_bg_color', 'style', 'splash_bg_color', 'generic_bg_color',
+			'main_font', 'main_font_color', 'second_font', 'second_font_color', 
+			'copyright', 'splash_bg', 'generic_bg', 'studio_bg',
+		)
 	),
 );

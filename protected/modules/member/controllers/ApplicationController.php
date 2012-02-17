@@ -90,6 +90,7 @@ class ApplicationController extends YsaMemberController
 			}
 		}
 
+		$this->setMemberPageTitle('Edit Application General Settings');
 		$this->crumb('Application', array('application/'))
 				->crumb('Edit');
 
@@ -121,7 +122,7 @@ class ApplicationController extends YsaMemberController
 			$this->redirect(array('application/create'));
 		}
 		if ($app->filled()) {
-			$this->redirect(array('payment/choosepayway/type/application/summ/'.(float)Yii::app()->settings->get('application_summ').'/item_id/'.$app->id));
+			$this->redirect(array('payment/choosepayway/type/application/item_id/'.$app->id));
 		}
 		$this->redirect(array('view'));
 	}
@@ -290,15 +291,15 @@ class ApplicationController extends YsaMemberController
 
 			if (!$app->filterWizardStep($step)) {
 				$this->sendJsonError(array(
-						'msg' => Yii::t('error', 'invalid_step'),
-					));
+					'msg' => Yii::t('error', 'invalid_step'),
+				));
 			}
 
 			$modelName = 'Wizard' . ucfirst($step);
 			if (!class_exists($modelName)) {
 				$this->sendJsonError(array(
-						'msg' => Yii::t('error', 'standart_error'),
-					));
+					'msg' => Yii::t('error', 'standart_error'),
+				));
 			}
 
 			if ('submit' == $step) {
@@ -330,21 +331,27 @@ class ApplicationController extends YsaMemberController
 			$this->redirect('application/');
 		}
 	}
+	
+	public function actionSaveField()
+	{
+		if (isset($_POST['field']) && isset($_POST['value']) && in_array($_POST['field'], Yii::app()->params['application_ajax_fields']) && Yii::app()->request->isAjaxRequest) {
+			$app = $this->member()->application;
+			$app->editOption($_POST['field'], $_POST['value']);
+			$this->sendJsonSuccess();
+		}
+		Yii::app()->end();
+	}
 
 	public function actionCongratulations()
 	{
-
 		if (!Yii::app()->user->hasFlash('congrats')) {
 			$this->redirect(array('application/'));
 		}
 
 		$page = Page::model()->findBySlug('wizard-congratulations');
-
 		$this->setMemberPageTitle($page->title);
-
 		$this->crumb('Application', array('application/'))
 				->crumb($page->title);
-
 		$this->render('congratulations', array(
 				'page' => $page,
 			));

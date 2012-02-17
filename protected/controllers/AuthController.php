@@ -7,7 +7,7 @@ class AuthController extends YsaFrontController
 	public function actionLogin()
 	{
 		if (Yii::app()->user->isLoggedIn()) {
-			$this->redirect(Yii::app()->user->returnUrl);
+			$this->_urlToRedirectAuthenticated();
 		}
 
 		$login = new LoginForm;
