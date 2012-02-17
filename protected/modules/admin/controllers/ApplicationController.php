@@ -110,7 +110,9 @@ class ApplicationController extends YsaAdminController
 			
 			$member = Member::model()->findByPk($ticket->user_id);
 			
-			$member->notify('We cannot approve your application right now.');
+			$member->notify(
+				'New support ticket: ' . $reply->message . ' (' . YsaHtml::link('View support ticket', array('/member/application/support/')) . ')'
+			);
 			
 			$entry->unapproved();
 			
@@ -121,12 +123,9 @@ class ApplicationController extends YsaAdminController
 			$entry->editOption('appstore_link', $_POST['appstore_link']);
 			
 			if (isset($_POST['notify_member']) && $_POST['notify_member']) {
-				
-				$member = Member::model()->findByPk($entry->user->id);
-				
-				$member->notify('Your application was successfully added to AppStore. Here is the link [link]');
+				$member = Member::model()->findByPk($entry->user->id);	
+				$member->notify('Your application was successfully added to AppStore. You preview it ' . YsaHtml::link('here', $_POST['appstore_link'], array('rel' => 'external')));
 			}
-			
 			$this->setSuccessFlash('AppStore Link has been successfully updated.');
 			$this->redirect(array($this->getId() . '/moderate/id/' . $id . '/'));
 		} else {
