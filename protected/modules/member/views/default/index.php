@@ -14,7 +14,7 @@
 			</div>
 		</section>
 		
-		<section class="box widget number-widget" id="widget_latest_registered">
+		<section class="box widget number-widget" id="widget_helpdesk">
 			<div class="box-title">
 				<h3>Help Desk</h3>
 			</div>

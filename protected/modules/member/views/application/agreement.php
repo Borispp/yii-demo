@@ -7,11 +7,9 @@
 			
 			<div class="shadow-box">
 				<div class="agreement">
-					<?php echo $page->content; ?>
-
-					<?php echo $page->content; ?>
-
-					<?php echo $page->content; ?>
+					<div class="story">
+						<?php echo $page->content; ?>
+					</div>
 				</div>
 				<div class="buttons-block">
 					<span class="button"><?php echo YsaHtml::link('Accept', array('submit'), array('class' => 'btn blue')); ?></span>

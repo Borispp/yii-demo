@@ -20,10 +20,9 @@
 				<?php echo YsaHtml::hiddenField('summ', $summ)?>
 				<?php echo YsaHtml::hiddenField('item_id', $item_id)?>
 				<h3>Paypal</h3>
-				<p class="info">PayPal is an American-based global e-commerce business allowing payments and
-				   money transfers to be made through the Internet.</p>
-				<div class="button">
-					<?php echo YsaHtml::submitButton('Use'); ?>
+				<p class="info">PayPal is an American-based global e-commerce business allowing payments and money transfers to be made through the Internet.</p>
+				<div class="buttons">
+					<?php echo YsaHtml::submitButton('Pay With Paypal', array('class' => 'blue big')); ?>
 				</div>
 				<?php echo YsaHtml::endForm()?>
 			</section>
@@ -33,10 +32,9 @@
 				<?php echo YsaHtml::hiddenField('summ', $summ)?>
 				<?php echo YsaHtml::hiddenField('item_id', $item_id)?>
 				<h3>Authorize.net</h3>
-				<p class="info">Since 1996, Authorize.Net has been a leading provider of payment gateway services, managing the
-				   submission of billions of transactions.</p>
-				<div class="button">
-					<?php echo YsaHtml::submitButton('Use'); ?>
+				<p class="info">Since 1996, Authorize.Net has been a leading provider of payment gateway services, managing the submission of billions of transactions.</p>
+				<div class="buttons">
+					<?php echo YsaHtml::submitButton('Pay With Authorize.Net', array('class' => 'blue big')); ?>
 				</div>
 				<?php echo YsaHtml::endForm()?>
 			</section>
