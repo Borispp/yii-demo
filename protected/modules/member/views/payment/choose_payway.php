@@ -11,7 +11,7 @@
 	</section>
 	<section class="box">
 		<div class="box-title">
-			<h3>Select Pay System</h3>
+			<h3>Choose Method of Payment</h3>
 		</div>
 		<div class="box-content subscription-list">
 			<section class="part shadow-box fl paypal">

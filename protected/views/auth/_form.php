@@ -12,14 +12,15 @@
 			<?php echo $form->passwordField($model,'password', array('placeholder' => 'Password')); ?>
 			<span class="ico-pass"></span>
 		</div>
-
-
 		<div class="row cf">
 			<div class="remember">
 				<?php echo $form->checkBox($model,'rememberMe', array('id' => 'login-window-remember')); ?>
 				<?php echo $form->label($model,'rememberMe', array('for' => 'login-window-remember')); ?>
 			</div>
 			<?php echo YsaHtml::submitLoadingButton('Login', array('class' => 'blue')); ?>
+		</div>
+		<div class="row cf">
+			<?php $this->widget('ext.eauth.EAuthWidget', array('action' => 'auth/loginOauth', 'options' => array('class' => 'fb-login'))) ?>
 		</div>
 	</div>
 	
