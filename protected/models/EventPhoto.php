@@ -839,6 +839,7 @@ class EventPhoto extends YsaActiveRecord
 		try {
 			// check if edited original file exists
 			$path = is_file($this->originEditedPath()) ? $this->originEditedPath() : $this->originPath();
+			
 			$image = new YsaImage($path);	
 			
 			$image->rotate($degrees);

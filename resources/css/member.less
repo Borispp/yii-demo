@@ -395,6 +395,7 @@ section.box {
 	}
 
 	.list span.date {
+		display: inline-block;
 		.inline-block;
 		opacity:.5;
 	}
@@ -1042,10 +1043,10 @@ section.pass-import {
 			height:24px;
 			padding:10px;
 			.rounded(5px);
-			&.black {
+			&.dark {
 				background:@gray-lima;
 			}
-			&.white {
+			&.light {
 				background:@gray-golf;
 			}
 			&.biege {
@@ -1096,7 +1097,7 @@ section.pass-import {
 		padding:5px;
 		border:1px solid @white-alpha;
 		.rounded(5px);
-		&.black {
+		&.dark {
 			background:@gray-lima;
 			&:hover {
 				background:@gray-lima + 40%;
@@ -1107,7 +1108,7 @@ section.pass-import {
 				border-color:@gray-lima - 40%;
 			}
 		}
-		&.white {
+		&.light {
 			background:@gray-golf;
 			&:hover {
 				background:@gray-golf - 20%;
@@ -1690,6 +1691,14 @@ section.pass-import {
 	}
 }
 
+#application-agreement {
+	.agreement {
+		height:400px;
+		overflow-y: scroll;
+		.margin-bottom-alpha;
+	}
+}
+
 #application-congrats {
 	.story {
 		font-size:16px;
@@ -2122,7 +2131,8 @@ li.plupload_droptext {
 	.subscription-list {
 		section.part {
 			width: 420px;
-			margin-bottom: 20px;
+			margin:0 auto 20px;
+			//margin-bottom: 20px;
 			//&:hover { background-color: @blue-echo;  }
 			h3 {
 				height:132px;
@@ -2131,6 +2141,9 @@ li.plupload_droptext {
 			.info {
 				font-size:14px;
 			}
+		}
+		.buttons {
+			text-align:center;
 		}
 		section.authorize {
 			h3 {

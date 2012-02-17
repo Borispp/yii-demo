@@ -73,8 +73,9 @@ class Zendesk extends CModel
 	protected function get($page, $args = array())
 	{
 		$result = $this->api->get($page, $args);
-		if (!$result)
-			throw new CException("Zendesk API request error: page={$page}, args=".var_export($args,true));
+//		if (!$result)
+//			throw new CException("Zendesk API request error: page={$page}, args=".var_export($args,true));
+
 		return $this->readJSON($result);
 	}
 	
@@ -115,6 +116,16 @@ class Zendesk extends CModel
 		throw new CException($msg);
 	}
 	
+	public static function deleteRequestsCache($member_email)
+	{
+		Yii::app()->cache->delete(self::requestsCacheKey($member_email));
+	}
+	
+	protected static function requestsCacheKey($member_email)
+	{
+		return 'zendesk_requests_'.$member_email;
+	}
+	
 	/**
 	 * @link http://www.zendesk.com/support/api/tickets
 	 * @param string $member_email
@@ -123,15 +134,25 @@ class Zendesk extends CModel
 	public function requests($member_email)
 	{
 		try
-		{
-			return $this->get('requests', array(
-				'on-behalf-of' => $member_email
-			));
+		{	
+			$key = self::requestsCacheKey($member_email);
+			$data = Yii::app()->cache->get($key);
+		
+			if($data === false)
+			{
+				$data = $this->get('requests', array(
+					'on-behalf-of' => $member_email
+				));
+
+				Yii::app()->cache->set($key, $data); // infinit lifetime
+			}
+			else error_log('Cache hit');
+			return $data;
 		}
 		catch(CException $e)
 		{
 			Yii::log($e->getMessage(), CLogger::LEVEL_ERROR, 'zendesk');
-			throw $e;
+			return array();
 		}
 	}
 }

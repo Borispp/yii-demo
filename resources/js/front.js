@@ -305,17 +305,11 @@ $(function(){
 	$.fn.initHomepageVideo = function(){
 		$(this).each(function(){
 			var video = $(this);
-			
 			video.find('.video a').click(function(e){
 				e.preventDefault();
-				
 				$.fancybox({
 					'href' : _base_url + '/site/loadVideo/',
-					'type' : 'inline',
-					'href' : '#homepage-video-player',
-					'afterLoad':function(){
-
-					}
+					'type' : 'ajax'
 				});
 			});
 		});

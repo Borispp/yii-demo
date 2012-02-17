@@ -22,7 +22,7 @@ class SettingsChangePassword extends YsaFormModel
         return array(
             'currentPassword'   => 'Current Password',
             'newPassword'       => 'New Password',
-            'repeatPassword'    => 'Old Password',
+            'repeatPassword'    => 'Retype New Password',
         );
     }
     

@@ -15,8 +15,13 @@ class ZendeskController extends YsaMemberController
 		Yii::import('application.vendors.*');
 		require_once('zendesk/Zendesk.lib.php');
 		
-		//TODO: move credintials to settings
-		$this->zd = new Zendesk('yourstudioapp', 'eugen@flosites.com', 'lKsfb2$La4r[Kj', true, true);
+		$this->zd = new ZendeskAPI(
+			Yii::app()->settings->get('zendesk_account'),
+			Yii::app()->settings->get('zendesk_user'),
+			Yii::app()->settings->get('zendesk_password'),
+			true, 
+			true
+		);
 		$this->zd->set_output(ZENDESK_OUTPUT_JSON);
 		
 		return true;
@@ -24,51 +29,40 @@ class ZendeskController extends YsaMemberController
 	
 	public function actionAdd()
 	{
-		
-		
-//		$result = $zd->create(ZENDESK_USERS, array(
-//			'details' => array(
-//				'email' => 'aljohson@example.com',
-//				'name' => 'Al Johnson',
-//				'roles' => 4,
-//				'restriction-id' => 1,
+		// try to create new user
+		$this->zd->create('users', array(
+			'details' => array(
+				'email' => $email = $this->member()->email,
+				'name' => $this->member()->name(),
+				
+				/**
+				 * End user	0
+				 * Administrator	2
+				 * Agent	4 
+				 */
+				'roles' => 0,
+				
+				/**
+				 * All tickets - 0
+				 * Tickets in member groups - 1
+				 * Tickets in member organization - 2
+				 * Assigned tickets - 3
+				 * Tickets requested by user - 4
+				 */
+				'restriction-id' => 0,
+				
 //				'groups' => array(2, 3)
-//			)
-//		));
+			)
+		), 'api/v1/users');	
+
 		
-		$result = $zd->get('requests', array(
-			'on-behalf-of' => 'george@flosites.org'
-		));
+		/**
+		 * @see Zendesk::requests
+		 */
+		Zendesk::deleteRequestsCache($email);
 		
-		var_dump($result);
-		Yii::app()->end();
-		
-//		Yii::setPathOfAlias('Versionable', Yii::getPathOfAlias('application.vendors.vZendesk.src.Versionable'));
-//		$c = new Versionable\Zendesk\Tag\Collection;
-//
-//		$t = new Versionable\Zendesk\Tag\Tag('printer');
-//		$t->setId(63);
-//		$t->setcount(10);
-//
-//		$c->add($t);
-//
-//		var_dump($c);
-	}
-	
-	public function actionListRequests()
-	{
-		$result = $this->zd->get('requests', array(
-			'on-behalf-of' => $this->member()->email
-		));
-		
-		if (!$result)
-			throw new CException;
-		
-		$decoded = json_decode($result);
-		if ($this->_json_last_error() !== JSON_ERROR_NONE)
-			throw new CException;
-		
-		var_dump($this->member()->email,$result);
+		$zd_acc = Yii::app()->settings->get('zendesk_account');
+		header("Location: https://{$zd_acc}.zendesk.com/anonymous_requests/new?email=".urlencode($email), true);
 		Yii::app()->end();
 	}
 }

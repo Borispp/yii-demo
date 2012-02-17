@@ -53,17 +53,13 @@ return array(
 
 	// application components
 	'components'=>array(
-
 		'messages' => array(
 			'class' => 'YsaMessageSource',
 			'forceTranslation' => true,
 			'sourceMessageTable' => 'translation_source',
 			'translatedMessageTable' => 'translation',
 			'language' => 'en',
-			// config for db message source here, see http://www.yiiframework.com/doc/api/CDbMessageSource
 		),
-
-		
 		'request'=>array(
 			//            'enableCsrfValidation'=>true,
 			'class' => 'application.components.YsaHttpRequest',
@@ -134,10 +130,10 @@ return array(
 			),
 		),
 		'db'=>array(
-			'connectionString'      => 'mysql:host=office.flosites.com;dbname=yourstudioapp_te',
+			'connectionString'      => 'mysql:host=office.flosites.com;dbname=yoursturioapp',
 			'emulatePrepare'        => true,
 //			'username'              => 'yourstudioapp',
-			'username'              => 'yourstudioapp_te',
+			'username'              => 'yourstudioapp',
 			'schemaCachingDuration' => 3600,
 			'password'              => '6ZpBcVrtA6LaEdrZ',
 			'charset'               => 'utf8',

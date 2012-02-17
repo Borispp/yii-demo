@@ -10,7 +10,7 @@ class MemberController extends YsaAdminController
 		$member_search->setAttributes(!empty($_GET['YsaMemeberSearchForm']) ? $_GET['YsaMemeberSearchForm'] : array(),false);
 		$criteria = $member_search->searchCriteria();
 		
-		$criteria->addCondition('role="member"');
+		$criteria->addCondition('role IN ("member", "customer", "expired_customer")');
 
 		$pagination = new CPagination(Member::model()->count($criteria));
 		$pagination->pageSize = Yii::app()->params['admin_per_page'];

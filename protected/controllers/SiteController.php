@@ -10,8 +10,8 @@ class SiteController extends YsaFrontController
         $page = Page::model()->findBySlug('homepage');
         $this->setMeta($page->meta());
 
-		$this->loadFancybox()
-			->loadVideoJS();
+		$this->loadFancybox();
+			//->loadVideoJS();
 		
 		$newsletterForm = new NewsletterForm();
 		

@@ -343,10 +343,33 @@ header {
 			.font-shorthand(normal, 10px, 40px);
 		}
 	}
-
 	.row {
 		margin-bottom:1em;
 		position:relative;
+		.services {
+			padding:0;
+			margin:0;
+			background:none;
+			float:right;
+			.auth-services {
+				margin:0;
+				.auth-service {
+					margin-right:0;
+					.auth-link//,.auth-link:hover 
+					{
+						width:auto;
+						.fb-login {
+							width:87px;
+							height:21px;
+							i {
+								width:auto;
+								height:auto;
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	input[type="text"],
