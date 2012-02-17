@@ -96,6 +96,10 @@
 	</div>
 	<div id="header">
 		
+		<ul id="headernav">
+			<li><ul><li><a target="_blank" href="http://yourstudioapp.zendesk.com/">Zendesk</a></li></ul></li>
+		</ul>
+		
 		<?/*
 		<?php if (0) : ?>
 			<ul id="headernav">

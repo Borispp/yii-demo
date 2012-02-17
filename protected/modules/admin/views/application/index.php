@@ -38,6 +38,18 @@
 				</div>
 			</section>
 			<section class="search-form">
+				<?php echo $form->label($app_search,'filled'); ?>
+				<div>
+					<?php echo $form->dropDownList($app_search, 'filled', $app_search->filledOptions()); ?>
+				</div>
+			</section>
+			<section class="search-form">
+				<?php echo $form->label($app_search,'paid'); ?>
+				<div>
+					<?php echo $form->dropDownList($app_search, 'paid', $app_search->paidOptions()); ?>
+				</div>
+			</section>
+			<section class="search-form">
 				<div>
 					<button class="submit blue">Search</button>
 					<button class="submit red" id="reset">Reset</button>
