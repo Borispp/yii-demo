@@ -144,8 +144,8 @@ class ZendeskAPI
 		if (isset($this->curl))
 		{
 			curl_setopt($this->curl, CURLOPT_URL, $url);
-			curl_setopt($this->curl, CURLOPT_FOLLOWLOCATION, true);
-			curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true); // !
+//			curl_setopt($this->curl, CURLOPT_FOLLOWLOCATION, true);
+//			curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true); // !
 			curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $method);
 			// HACK: we could include the Zendesk certificate CA info here, but that's a huge increase in filesize.
 			if ($this->secure) curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -166,7 +166,7 @@ class ZendeskAPI
 			curl_setopt($this->curl, CURLOPT_HTTPHEADER, $headers);
 
 			$result = curl_exec($this->curl);
-//			var_dump($result);
+
 			$info = curl_getinfo($this->curl);
 			$header = substr($result,0,$info['header_size']);
 			$body = substr($result, $info['header_size']);
@@ -255,7 +255,7 @@ class ZendeskAPI
 			return false;
 	}
 	
-	function create($page, $args)
+	function create($page, $args, $force_uri = null)
 	{
 		// We unset $args['id'] as we never use it in a create.
 		if (isset($args['id'])) unset($args['id']);
@@ -270,7 +270,8 @@ class ZendeskAPI
 						
 		$args['data'] = $this->_build_xml($args['details'], $root);
 		
-		$this->_request_force_xml($page, $args, 'POST');
+		$this->_request_force_xml($force_uri ? $force_uri : $page, $args, 'POST');
+		
 		if ($this->result['code'] == 201) {
 			if (preg_match("!https?://{$this->account}.zendesk.com/$page/#?(\d+)!i", $this->result['header'], $match))
 				return $match[1];

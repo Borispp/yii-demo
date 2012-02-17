@@ -3,15 +3,14 @@ class DefaultController extends YsaMemberController
 {
 	public function actionIndex()
 	{
-//		$zd = new Zendesk;
-//		$requests = $zd->requests($this->member()->email);
+		$zd = new Zendesk;
+		$requests = $zd->requests($this->member()->email);
 		
 		$this->setMemberPageTitle(Yii::t('title', 'Dashboard'));
-		
 		$this->setMetaTitle(Yii::t('title', 'Dashboard'));
 		
 		$this->render('index', array(
-			'zd_requests' => array()
+			'zd_requests' => (array) $requests
 		));
 	}
 	
