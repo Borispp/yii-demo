@@ -90,6 +90,7 @@ class ApplicationController extends YsaMemberController
 			}
 		}
 
+		$this->setMemberPageTitle('Edit Application General Settings');
 		$this->crumb('Application', array('application/'))
 				->crumb('Edit');
 
