@@ -19,6 +19,7 @@
 				<h3>Help Desk</h3>
 			</div>
 			<div class="box-content">
+				<?php if (count($zd_requests)) : ?>
 				<ul class="list">
 					<?php foreach($zd_requests as $request) : ?>
 					<li>
@@ -27,8 +28,9 @@
 					</li>
 					<?php endforeach ?>
 				</ul>
+				<?php endif ?>
 				<div class="box-button">
-					<?php echo YsaHtml::link('Open new ticket', Zendesk::newRequestURL(), array('class' => 'btn small', 'target'=>'_blank')); ?>
+					<?php echo YsaHtml::link('Open new ticket', array('zendesk/add/'), array('class' => 'btn small', 'target'=>'_blank')); ?>
 				</div>
 			</div>
 		</section>
