@@ -35,14 +35,7 @@
 			<div class="video">
 				<?php echo YsaHtml::link('<span>preview</span>', '#', array('class' => 'preview')); ?>
 			</div>
-			<div id="homepage-video-player">
-				<video id="checkout-ysa-video" class="video-js vjs-default-skin" controls
-				preload="auto" width="720" height="400" poster="<?php echo Yii::app()->baseUrl?>/resources/video/ysapromo.png"
-				data-setup="{}">
-					<source src="<?php echo Yii::app()->baseUrl?>/resources/video/ysapromo.m4v" type='video/mp4'>
-					<source src="<?php echo Yii::app()->baseUrl?>/resources/video/ysapromo.webm" type='video/webm'>
-				</video>
-			</div>
+			<div id="homepage-video-player"></div>
 		</section>
 	</div>
 	<div class="homepage-social-wrapper">
