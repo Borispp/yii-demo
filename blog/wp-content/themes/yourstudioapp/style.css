@@ -6,55 +6,7 @@ Author URI: http://flothemes.com
 Version: 0.0.1
 */
 
-/* Typo
-*******************************/
-.story {
-	line-height:1.5;
-}
-.story ul,
-.story ul li {
-    list-style: square;
-}
-.story ol,
-.story ol li {
-    list-style: decimal;
-}
-.story ul,
-.story ol {
-    margin: 0 0 1em 1.5em;
-    line-height: 1.5;
-}
-.story ol ol {
-    list-style: upper-alpha;
-}
-.story ol ol ol {
-    list-style: lower-roman;
-}
-.story ol ol ol ol {
-    list-style: lower-alpha;
-}
-.story ul ul,
-.story ol ol,
-.story ul ol,
-.story ol ul {
-    margin-bottom: 0;
-}
-.story h1,
-.story h2,
-.story h3,
-.story h4,
-.story h5,
-.story h6 {
-	text-transform:none;
-    margin-bottom: .5em;
-}
 
-.story a:link,
-.story a:visited,
-.story a:hover,
-.story a:active{
-    text-decoration: underline;
-}
 dl {
     margin: 0 0 1.5em 0;
 }

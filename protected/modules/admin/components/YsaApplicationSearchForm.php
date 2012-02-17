@@ -6,6 +6,8 @@ class YsaApplicationSearchForm extends YsaAdminFormModel
 	public $order_by;
 	public $order_sort;
 	public $state;
+	public $paid;
+	public $filled;
 
 
 	/**
@@ -30,8 +32,14 @@ class YsaApplicationSearchForm extends YsaAdminFormModel
 			}
 		}
 		
-		if (isset($this->state))
+		if (isset($this->state) && $this->state != '-1')
 			$criteria->compare('state', $this->state);
+		
+		if (isset($this->paid) && $this->paid != '-1')
+			$criteria->compare('paid', $this->paid);
+		
+		if (isset($this->filled) && $this->filled != '-1')
+			$criteria->compare('filled', $this->filled);
 		
 		return $criteria;
 	}
@@ -44,7 +52,17 @@ class YsaApplicationSearchForm extends YsaAdminFormModel
 	
 	static public function stateOptions()
 	{
-		return array(1 => 'Active', 0 => 'Inactive');
+		return array(-1 => 'All', 1 => 'Active', 0 => 'Inactive');
+	}
+	
+	static public function paidOptions()
+	{
+		return array(-1 => 'All', 1 => 'Paid', 0 => 'Unpaid');
+	}
+	
+	static public function filledOptions()
+	{
+		return array(-1 => 'All', 1 => 'Filled', 0 => 'Not filled');
 	}
 	
 	public function attributeLabels()

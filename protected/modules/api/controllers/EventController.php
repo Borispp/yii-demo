@@ -206,8 +206,6 @@ class EventController extends YsaApiController
 		$this->_render($this->_getPhotoInfo($this->_getEventPhoto()));
 	}
 
-
-
 	/**
 	 * Send rank for event photo
 	 * Inquiry params: [device_id, event_id, token, app_key, album_id, photo_id, rate]

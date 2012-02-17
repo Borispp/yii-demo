@@ -286,14 +286,14 @@ return array(
 		'member_area' => array(
 			'album' => array(
 				'preview' => array(
-					'width'  => 210,
-					'height' => 140,
+					'width'  => 230,
+					'height' => 230,
 				),
 			),
 			'photo' => array(
 				'preview' => array(
-					'width'  => 210,
-					'height' => 140,
+					'width'  => 230,
+					'height' => 230,
 				),
 				'full' => array(
 					'width'  => 1024,
@@ -304,8 +304,8 @@ return array(
 		'studio' => array(
 			'person' => array(
 				'photo' => array(
-					'width'  => 100,
-					'height' => 100,
+					'width'  => 220,
+					'height' => 220,
 				),
 			),
 			'video' => array(
@@ -314,8 +314,8 @@ return array(
 					'height' => 600,
 				),
 				'preview' => array(
-					'width'	 => 480,
-					'height' => 320,
+					'width'	 => 640,
+					'height' => 360,
 				),				
 			),
 		),
