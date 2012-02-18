@@ -5,7 +5,7 @@
 			<div class="box-title-button">
 				<?php echo YsaHtml::link(
 					'<span class="icon i_pencil"></span>Edit General Settings',
-					array('application/edit/' . $app->id),
+					array('application/edit/'),
 					array('class' => 'secondary iconed'));
 				?>
 			</div>

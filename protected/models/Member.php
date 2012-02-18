@@ -322,15 +322,17 @@ class Member extends User
 	}
 	protected function _sendEmail($message)
 	{
+		$subject = 'You have new announcement';
 		if (!$this->option('notify_by_email', FALSE))
 			return;
 		Yii::app()->mailer->From = Yii::app()->settings->get('send_mail_from_email');
 		Yii::app()->mailer->FromName = Yii::app()->settings->get('send_mail_from_name');
 		Yii::app()->mailer->AddAddress($this->email, $this->first_name.' '.$this->last_name);
-		Yii::app()->mailer->Subject = 'You have new announcement';
+		Yii::app()->mailer->Subject = $subject;
 		Yii::app()->mailer->AltBody = $message;
 		Yii::app()->mailer->getView('standart', array(
-				'body'  => $message,
+				'body'    => $message,
+				'subject' => $subject,
 			));
 		Yii::app()->mailer->Send();
 	}

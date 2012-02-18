@@ -17,8 +17,9 @@ abstract class YsaMemberPayment extends YsaMemberController
 			$this->_sessionTransaction->summ = $_REQUEST['summ'];
 			$this->_sessionTransaction->name = 'Application Initial Payment';
 			$this->crumb(Yii::t('payment','select_pay_system_title'),
-				array('payment/ChoosePayway/type/'.$_REQUEST['type'].'/item_id/'.$_REQUEST['item_id'])
-			);
+				array('payment/ChoosePayway/type/'.$_REQUEST['type'].
+				($_REQUEST['type'] != 'application' ? '/item_id/'.$_REQUEST['item_id'] : '')
+			));
 		}
 
 	}
