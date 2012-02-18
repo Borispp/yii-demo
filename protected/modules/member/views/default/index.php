@@ -23,8 +23,8 @@
 				<ul class="list">
 					<?php foreach($zd_requests as $request) : ?>
 					<li>
-						<?php echo CHtml::link($request->subject, Zendesk::requestsUrl($request->nice_id),array('target'=>'_blank'))  ?>
-						<span class="date"><?php echo Zendesk::date($request->created_at, Yii::app()->params['date_format_short']) ?></span>
+						<?php echo YsaHtml::link($request->subject, Zendesk::requestsUrl($request->nice_id),array('target'=>'_blank'))  ?>
+						<span class="date"><?php echo Yii::app()->dateFormatter->formatDateTime($request->created_at, 'medium', false) ?></span>
 					</li>
 					<?php endforeach ?>
 				</ul>

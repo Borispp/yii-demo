@@ -53,19 +53,20 @@ class Zendesk extends CModel
 	 */
 	public static function date($date, $format)
 	{
-		if (class_exists('DateTime'))
-		{
-			$dt = DateTime::createFromFormat('Y/m/d H:i:s O', $date);
-
-			$errors = DateTime::getLastErrors();
-			if ($errors['error_count'] > 0)
-				return $date;
-
-			return $dt->format($format);
-		}
-		
-		// ignores time shift
-		return date($format, strtotime($date));
+		return Yii::app()->dateFormatter->formatDateTime($date);
+//		
+//		if (class_exists('DateTime'))
+//		{
+//			$dt = DateTime::createFromFormat('Y/m/d H:i:s O', $date);
+//			$errors = DateTime::getLastErrors();
+//			if ($errors['error_count'] > 0)
+//				return $date;
+//
+//			return $dt->format($format);
+//		}
+//		
+//		// ignores time shift
+//		return date($format, strtotime($date));
 	}
 	
 	/**
