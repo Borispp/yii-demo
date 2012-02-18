@@ -55,6 +55,7 @@
 							<?php echo YsaHtml::link('PASS', '#photo-import-pass-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-pass-import-button')); ?>
 						<?php endif; ?>
 					<div class="cf"></div>
+					<div class="note">*<?php echo Yii::t('event', 'Importing photos takes a while. Please don\'t import more than 200 photos at a time.'); ?></div>
 				</div>
 				<ul id="album-photos" class="album-photos cf">
 					<?php if (count($entry->photos)) : ?>
