@@ -12,7 +12,7 @@
 					</div>
 				</div>
 				<div class="buttons-block">
-					<span class="button"><?php echo YsaHtml::link('Accept', array('submit'), array('class' => 'btn blue')); ?></span>
+					<span class="button"><?php echo YsaHtml::link('Accept', array('pay'), array('class' => 'btn blue')); ?></span>
 					<span class="button"><?php echo YsaHtml::link('Deny', array('view'), array('class' => 'btn blue')); ?></span>
 				</div>
 			</div>

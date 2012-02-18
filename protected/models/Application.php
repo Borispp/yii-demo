@@ -445,7 +445,7 @@ class Application extends YsaActiveRecord
 	{
 		$labelDictionary = array(
 			'newly-created' => 'Your application is missing some key elements, please provide missing content before submitting.',
-			'paid'          => 'Application is paid.',
+			'paid'          => Yii::t('application', 'paid_block_text'),
 			'filled'        => 'All custom elements of your application have been provided.',
 			'submitted'     => 'Application has been successfully submitted.',
 			'locked'        => 'Application has been locked to prevent any changes.',
@@ -540,7 +540,7 @@ class Application extends YsaActiveRecord
 		return $url;
 	}
 
-	public function editOption($name, $value, $type = null)
+	public function editOption($name, $value, $type = null, $resize = false)
 	{
 		$option = ApplicationOption::model()->findByAttributes(array(
 			'name'   => $name,
@@ -584,7 +584,12 @@ class Application extends YsaActiveRecord
 				$width = Yii::app()->params['application'][$name]['width'];
 				$height = Yii::app()->params['application'][$name]['height'];
 				
-				$image->auto_crop($width, $height);
+				if ($resize) {
+					$image->resize($width, $height);
+				} else {
+					$image->auto_crop($width, $height);
+				}
+				
 			} else {
 				$width = $image->width;
 				$height = $image->height;

@@ -10,6 +10,7 @@
 		
 		<fieldset>
 			<div class="g12"><h3 id="search_toggler">Search</h3></div>
+			<div class="clearfix"></div>
 			<div id="search_form" class="<?php echo !isset($_GET['YsaApplicationSearchForm']) ? 'hidden' : '' ?>">
 			<fieldset>
 			<section class="search-form">
@@ -34,6 +35,18 @@
 				<?php echo $form->label($app_search,'state'); ?>
 				<div>
 					<?php echo $form->dropDownList($app_search, 'state', $app_search->stateOptions()); ?>
+				</div>
+			</section>
+			<section class="search-form">
+				<?php echo $form->label($app_search,'filled'); ?>
+				<div>
+					<?php echo $form->dropDownList($app_search, 'filled', $app_search->filledOptions()); ?>
+				</div>
+			</section>
+			<section class="search-form">
+				<?php echo $form->label($app_search,'paid'); ?>
+				<div>
+					<?php echo $form->dropDownList($app_search, 'paid', $app_search->paidOptions()); ?>
 				</div>
 			</section>
 			<section class="search-form">

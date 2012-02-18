@@ -133,8 +133,7 @@ class ApplicationController extends YsaMemberController
 		if (!$app) {
 			$this->redirect(array('application/create'));
 		}
-		if (!$app->isPaid())
-		{
+		if ($app->isPaid()) {
 			$this->redirect(array('view'));
 		}
 		$page = Page::model()->findBySlug('terms-and-conditions');
@@ -166,19 +165,17 @@ class ApplicationController extends YsaMemberController
 				'msg' => Yii::t('error', 'files_empty'),
 			));
 		}
-
-		if ($app->editOption($image, $file)) {
-			
-			
+		
+		if ($app->editOption($image, $file, Option::TYPE_TEXT, $image == 'logo')) {
 			if (in_array($image, array('splash_bg_image', 'studio_bg_image', 'generic_bg_image'))) {
 				$app->editOption(str_replace('_image', '', $image), 'image');
 			}
 			$this->sendJsonSuccess(array(
-					'html' => $this->renderPartial('/wizard/_image', array(
-							'name'	=> $image,
-							'image' => $app->option($image),
-						), true)
-				));
+				'html' => $this->renderPartial('/wizard/_image', array(
+					'name'	=> $image,
+					'image' => $app->option($image),
+				), true)
+			));
 		} else {
 			$this->sendJsonError(array(
 				'msg' => Yii::t('error', 'standart_error'),
