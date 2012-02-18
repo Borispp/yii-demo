@@ -25,7 +25,7 @@
 					$folder = $this->member()->application->option('style');
 				}
 				if (!$folder) {
-					$folder = 'black';
+					$folder = 'dark';
 				}
 			?>
 			<div id="studio-form-icon-field">

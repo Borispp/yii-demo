@@ -25,33 +25,36 @@ class PassApi extends YsaFormModel
 	
 	protected static function json_decode($json, $toAssoc = false)
     {
-        $result = json_decode($json, $toAssoc);
+		$result = json_decode($json, $toAssoc);
 		
-        switch (json_last_error()) 
+		if (function_exists('json_last_error'))
 		{
-			case JSON_ERROR_NONE:
-			break;
-			case JSON_ERROR_DEPTH:
-				$error = ' - Maximum stack depth exceeded';
-			break;
-			case JSON_ERROR_STATE_MISMATCH:
-				$error = ' - Underflow or the modes mismatch';
-			break;
-			case JSON_ERROR_CTRL_CHAR:
-				$error = ' - Unexpected control character found';
-			break;
-			case JSON_ERROR_SYNTAX:
-				$error = ' - Syntax error, malformed JSON';
-			break;
-			case JSON_ERROR_UTF8:
-				$error = ' - Malformed UTF-8 characters, possibly incorrectly encoded';
-			break;
-			default:
-				$error = ' - Unknown error';
-			break;
+			switch (json_last_error()) 
+			{
+				case JSON_ERROR_NONE:
+				break;
+				case JSON_ERROR_DEPTH:
+					$error = ' - Maximum stack depth exceeded';
+				break;
+				case JSON_ERROR_STATE_MISMATCH:
+					$error = ' - Underflow or the modes mismatch';
+				break;
+				case JSON_ERROR_CTRL_CHAR:
+					$error = ' - Unexpected control character found';
+				break;
+				case JSON_ERROR_SYNTAX:
+					$error = ' - Syntax error, malformed JSON';
+				break;
+				case JSON_ERROR_UTF8:
+					$error = ' - Malformed UTF-8 characters, possibly incorrectly encoded';
+				break;
+				default:
+					$error = ' - Unknown error';
+				break;
+			}
 		}
 
-        if (!empty($error))
+        if (!empty($error) || $result === null)
             throw new RuntimeException('JSON Error: '.$error);        
         
         return $result;
@@ -98,6 +101,7 @@ class PassApi extends YsaFormModel
 					return call_user_func_array(__METHOD__, func_get_args());
 			}
 			
+			$this->addError('email', $output->message);
 			throw new RuntimeException($output->message, $output->error_id );
 		}
 		
@@ -189,8 +193,8 @@ class PassApi extends YsaFormModel
 	
 	public function isLinked(Member $member)
 	{
-		$email = $member->option(UserOption::PASS_EMAIL, $this->email);
-		$password = $member->option(UserOption::PASS_PASSWORD, $this->password);
+		$email = $member->option(UserOption::PASS_EMAIL);
+		$password = $member->option(UserOption::PASS_PASSWORD);
 		
 		return !empty($email) && !empty($password);
 	}

@@ -11,7 +11,7 @@ class StudioController extends YsaMemberController
 	{
 		return array_merge(
 			array(
-				array('allow', 'actions' => array('DeleteSpecials'), 'roles' => 'expired_customer')
+				array('allow', 'actions' => array('deleteSpecials'), 'roles' => array('expired_customer'))
 			),
 			parent::accessRules()
 		);

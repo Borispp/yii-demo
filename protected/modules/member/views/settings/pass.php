@@ -1,7 +1,7 @@
 <div class="w">
 	<section class="box">
 		<div class="box-title">
-			<h3>PASS Settings</h3>
+			<h3>PASS account settings</h3>
 		</div>
 		<div class="box-content">
 			<div class="shadow-box">
@@ -44,7 +44,7 @@
 					<section class="cf">
 						<?php echo $form->labelEx($pass_form,'password'); ?>
 						<div>
-							<?php echo $form->textField($pass_form,'password',array('size'=>50,'maxlength'=>50)); ?>
+							<?php echo $form->passwordField($pass_form,'password',array('size'=>50,'maxlength'=>50)); ?>
 							<?php echo $form->error($pass_form,'password'); ?>
 						</div>
 					</section>
