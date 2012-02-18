@@ -3,7 +3,7 @@
 		<div class="box-title">
 			<h3><?php echo $entry->name; ?></h3>
 			<div class="box-title-button">
-				<?php if ($this->hasApplication()):?>
+				<?php if ($this->hasApplication() && !$entry->isPortfolio()):?>
 				<?php echo YsaHtml::link('<span class="icon i_bell"></span>Send Push Notification', array('notification/new/recipient/'.$entry->id.'/type/event'), array('class' => 'secondary iconed', 'id' => 'send-push-link')); ?>
 				<?php endif?>
 				<?php echo YsaHtml::link('<span class="icon i_pencil"></span>Edit Event', array('event/edit/' . $entry->id), array('class' => 'secondary iconed')); ?>
@@ -58,7 +58,6 @@
 
 						<?php endif; ?>
 					<div class="cf"></div>
-					<div class="note">*<?php echo Yii::t('event', 'Importing photos takes a while. Please don\'t import more than 200 photos at a time.'); ?></div>
 				</div>
 					
 				<div class="cf"></div>
@@ -81,6 +80,7 @@
 					<h3>Import SmugMug Album</h3>
 				</div>
 				<div class="box-content">
+					<div class="note">*<?php echo Yii::t('event', 'Importing photos takes a while. Please don\'t import more than 200 photos at a time.'); ?></div>
 					<div class="data">
 						<select name="album" id="smugmug-album-id">
 							<option value="">&ndash;&ndash;&ndash;</option>
@@ -102,6 +102,7 @@
 				</div>
 				<div class="box-content">
 					<div class="data">
+						<p><em>*<?php echo Yii::t('event', 'Importing photos takes a while. Please don\'t import more than 200 photos at a time.'); ?></em></p>
 						<select name="album" id="zenfolio-album-id">
 							<option value="">&ndash;&ndash;&ndash;</option>
 							<?php foreach ($zenfolioHierarchy['Elements'] as $element) : ?>
@@ -122,6 +123,7 @@
 				</div>
 				<div class="box-content">
 					<div class="data">
+						<p><em>*<?php echo Yii::t('event', 'Importing photos takes a while. Please don\'t import more than 200 photos at a time.'); ?></em></p>
 						<select name="album" id="pass-album-id">
 							<option value="">&ndash;&ndash;&ndash;</option>
 							<?php foreach ($this->member()->passApi()->ysaAlbumList() as $album) : ?>

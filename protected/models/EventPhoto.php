@@ -577,9 +577,6 @@ class EventPhoto extends YsaActiveRecord
 			case 'pass':
 				$this->_importPass($data);
 			break;
-			case 'pictage':
-				VarDumper::dump('pictage import is not implemented yet');
-			break;
 		}
 		
 		if ($save) 

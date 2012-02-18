@@ -55,10 +55,6 @@ class SiteController extends YsaFrontController
 		
 		$this->renderPartial('_video');
 		Yii::app()->end();
-
-//		$this->sendJsonSuccess(array(
-//			'html' => $this->renderPartial('_video', array(), true)
-//		));
 	}
 
     /**

@@ -13,19 +13,21 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach ($applications as $entry) : ?>
-					<tr>
-						<td><?php echo $entry->id; ?></td>
-						<td class="l">
-							<?php echo YsaHtml::link($entry->name, array('edit', 'id' => $entry->id)); ?>
-						</td>
-						<td class="state <?php echo strtolower($entry->status())?>"><?php echo $entry->status(); ?></td>
-						<td>
-							<?php echo YsaHtml::link('Moderate', array('application/moderate', 'id' => $entry->id), array('class' => 'btn small green')); ?>
-							<?php echo YsaHtml::link('Edit', array('application/edit', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
-						</td>
-					</tr>
-				<?php endforeach; ?>
+				<?php if (count($applications)) : ?>
+					<?php foreach ($applications as $entry) : ?>
+						<tr>
+							<td><?php echo $entry->id; ?></td>
+							<td class="l">
+								<?php echo YsaHtml::link($entry->name, array('edit', 'id' => $entry->id)); ?>
+							</td>
+							<td class="state <?php echo strtolower($entry->status())?>"><?php echo $entry->status(); ?></td>
+							<td>
+								<?php echo YsaHtml::link('Moderate', array('application/moderate', 'id' => $entry->id), array('class' => 'btn small green')); ?>
+								<?php echo YsaHtml::link('Edit', array('application/edit', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				<?php endif; ?>
 			</tbody>
 		</table>	
 		</div>
@@ -57,6 +59,7 @@
 				</tr>
 			</thead>
 			<tbody>
+				<?php if (count($c_messages)) : ?>
 				<?php foreach ($c_messages as $entry) : ?>
 					<tr>
 						<td>
@@ -67,13 +70,12 @@
 							<br/>
 							<?php echo YsaHtml::mailto($entry->email, $entry->email); ?>
 						</td>
-
 						<td class="l">
-<!--							<h5><?php //echo $entry->subject; ?></h5>-->
 							<?php echo substr($entry->message(), 0, 256); ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>
+				<?php endif; ?>
 			</tbody>
 		</table>
 		</div>
@@ -97,23 +99,25 @@
 				</tr>
 				</thead>
 				<tbody>
-				<?php foreach ($payments as $entry) : ?>
-				<tr>
-					<td><?php echo $entry->id; ?></td>
-					<td class="l">
-						<?php echo CHtml::link($entry->getMember()->name(), array('payment/view', 'id' => $entry->id)); ?>
-					</td>
-					<td class="l">
-						<?php echo CHtml::link($entry->type, array('payment/view', 'id' => $entry->id)); ?>
-					</td>
-					<td><?php echo $entry->state()?></td>
-					<td><?php echo $entry->summ?> <?php echo Yii::app()->settings->get('paypal_currency')?></td>
-					<td><?php echo $entry->created('medium', 'short') ?></td>
-					<td>
-						<?php echo CHtml::link('View', array('payment/view', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
-					</td>
-				</tr>
-					<?php endforeach; ?>
+					<?php if (count($payments)) : ?>
+					<?php foreach ($payments as $entry) : ?>
+					<tr>
+						<td><?php echo $entry->id; ?></td>
+						<td class="l">
+							<?php echo CHtml::link($entry->getMember()->name(), array('payment/view', 'id' => $entry->id)); ?>
+						</td>
+						<td class="l">
+							<?php echo CHtml::link($entry->type, array('payment/view', 'id' => $entry->id)); ?>
+						</td>
+						<td><?php echo $entry->state()?></td>
+						<td><?php echo $entry->summ?> <?php echo Yii::app()->settings->get('paypal_currency')?></td>
+						<td><?php echo $entry->created('medium', 'short') ?></td>
+						<td>
+							<?php echo CHtml::link('View', array('payment/view', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
+						</td>
+					</tr>
+						<?php endforeach; ?>
+					<?php endif; ?>
 				</tbody>
 			</table>
 			

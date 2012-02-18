@@ -6,10 +6,6 @@ class YsaMemberController extends YsaController
 	 */
 	protected $_member;
 
-//	protected $_uploadImagePath;
-//
-//	protected $_uploadImageUrl;
-//	
 	public $breadcrumbs;
 	
 	public $memberPageTitle;
@@ -87,15 +83,18 @@ class YsaMemberController extends YsaController
 		 * Load member
 		 */
 		$this->_member = Member::model()->findByPk(Yii::app()->user->getId());		
-		
 		if (!$this->_member)
 		{
-			// ACL allows guest access
-			if (Yii::app()->user->checkAccess('guest'))
-				return true;
-			
-			Yii::app()->user->logout();
-			$this->redirect(Yii::app()->homeUrl);
+			try {
+				if (Yii::app()->user->checkAccess('guest'))
+					return true;	
+				
+				Yii::app()->user->logout();
+				$this->redirect(Yii::app()->homeUrl);
+			} catch (Exception $e) {
+				Yii::app()->user->logout();
+				$this->redirect(Yii::app()->homeUrl);
+			}
 		}
 		
 		if (!$this->_member->isActivated())

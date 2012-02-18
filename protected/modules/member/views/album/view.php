@@ -55,7 +55,6 @@
 							<?php echo YsaHtml::link('PASS', '#photo-import-pass-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-pass-import-button')); ?>
 						<?php endif; ?>
 					<div class="cf"></div>
-					<div class="note">*<?php echo Yii::t('event', 'Importing photos takes a while. Please don\'t import more than 200 photos at a time.'); ?></div>
 				</div>
 				<ul id="album-photos" class="album-photos cf">
 					<?php if (count($entry->photos)) : ?>
@@ -142,6 +141,7 @@
 			</div>
 			<div class="box-content">
 				<div class="data">
+					<p><em>*<?php echo Yii::t('event', 'Importing photos takes a while. Please don\'t import more than 200 photos at a time.'); ?></em></p>
 					<p>Please note that large amount of photos takes more time.</p>
 					<select name="album">
 						<option value="">&ndash;&ndash;&ndash;</option>
@@ -163,6 +163,7 @@
 			</div>
 			<div class="box-content">
 				<div class="data">
+					<p><em>*<?php echo Yii::t('event', 'Importing photos takes a while. Please don\'t import more than 200 photos at a time.'); ?></em></p>
 					<p>Please note that large amount of photos takes more time.</p>
 					<p>Sometimes SmugMug doesn't allow to show protected galleries images on the web. But they can be imported even if you don't see them. </p>
 					<select name="album">
@@ -185,6 +186,7 @@
 			</div>
 			<div class="box-content">
 				<div class="data">
+					<p><em>*<?php echo Yii::t('event', 'Importing photos takes a while. Please don\'t import more than 200 photos at a time.'); ?></em></p>
 					<p>Please note that large amount of photos takes more time.</p>
 					<select name="album">
 						<option value="">&ndash;&ndash;&ndash;</option>
