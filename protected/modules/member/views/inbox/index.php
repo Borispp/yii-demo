@@ -22,7 +22,13 @@
 					<?php if (count($entries)) : ?>
 						<?php foreach ($entries as $entry) : ?>
 							<tr class="<?php echo $entry->unread ? 'unread' : 'read'?>">
-								<td class="name"><?php echo YsaHtml::link($entry->name, array('client/view/' . $entry->client->id)); ?></td>
+								<td class="name">
+									<?php if ($entry->client):?>
+										<?php echo YsaHtml::link($entry->name, array('client/view/' . $entry->client->id)); ?>
+									<?php else:?>
+									<?php echo $entry->name?>
+									<?php endif?>
+								</td>
 								<td class="subject"><?php echo YsaHtml::link($entry->subject, array('inbox/view/' . $entry->id)); ?></td>
 								<td class="date"><?php echo Yii::app()->dateFormatter->formatDateTime($entry->created, 'medium', '') ?></td>
 								<td class="state"><?php echo $entry->unread ? 'unread' : ''?></td>
