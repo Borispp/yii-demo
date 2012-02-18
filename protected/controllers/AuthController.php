@@ -157,7 +157,7 @@ class AuthController extends YsaFrontController
 		if ( !Yii::app()->request->isPostRequest )
 		{
 			// display the login form
-			$this->render('login', array(
+			$this->render('oauth_reg', array(
 				'login'		=> new LoginForm,
 				'register'	=> $reg_form,
 				'page'		=> Page::model()->findBySlug('login'),

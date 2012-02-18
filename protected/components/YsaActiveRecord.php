@@ -147,7 +147,7 @@ class YsaActiveRecord extends CActiveRecord
 		$errors = array();
 		foreach ($this->getErrors() as $field => $err) {
 			if (isset($err[0])) {
-				$errors[get_called_class() . '[' . $field . ']'] = $err[0];
+				$errors[$this->_getCalledClass() . '[' . $field . ']'] = $err[0];
 			}
 		}
 		return $errors;
@@ -169,5 +169,17 @@ class YsaActiveRecord extends CActiveRecord
 			$value = 'http://' . $value;
 		}
 		return $value;
+	}
+	
+	protected function _getCalledClass()
+	{
+		if (function_exists('get_called_class')) {
+			return get_called_class();
+		} else {
+			$t = debug_backtrace(); $t = $t[0];
+			if ( isset( $t['object'] ) && $t['object'] instanceof $t['class'] )
+				return get_class( $t['object'] );
+			return false;
+		}
 	}
 }
