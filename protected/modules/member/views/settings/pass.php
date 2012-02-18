@@ -1,7 +1,7 @@
 <div class="w">
 	<section class="box">
 		<div class="box-title">
-			<h3>PASS Settings</h3>
+			<h3>PASS account settings</h3>
 		</div>
 		<div class="box-content">
 			<div class="shadow-box">

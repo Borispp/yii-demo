@@ -25,7 +25,7 @@ class PassApi extends YsaFormModel
 	
 	protected static function json_decode($json, $toAssoc = false)
     {
-         $result = json_decode($json, $toAssoc);
+		$result = json_decode($json, $toAssoc);
 		
 		if (function_exists('json_last_error'))
 		{
@@ -101,6 +101,7 @@ class PassApi extends YsaFormModel
 					return call_user_func_array(__METHOD__, func_get_args());
 			}
 			
+			$this->addError('email', $output->message);
 			throw new RuntimeException($output->message, $output->error_id );
 		}
 		
@@ -192,8 +193,8 @@ class PassApi extends YsaFormModel
 	
 	public function isLinked(Member $member)
 	{
-		$email = $member->option(UserOption::PASS_EMAIL, $this->email);
-		$password = $member->option(UserOption::PASS_PASSWORD, $this->password);
+		$email = $member->option(UserOption::PASS_EMAIL);
+		$password = $member->option(UserOption::PASS_PASSWORD);
 		
 		return !empty($email) && !empty($password);
 	}
