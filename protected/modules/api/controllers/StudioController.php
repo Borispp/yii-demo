@@ -247,4 +247,60 @@ class StudioController extends YsaApiController
 			$this->_renderError(Yii::t('api', 'event_album_photo_is_wrong'));
 		$this->_render($this->_getPhotoInfo($this->_getEventPhoto()));
 	}
+
+	/**
+	 * Send contact message from client to photographer
+	 * Inquiry params: [app_key, device_id, token, subject, message, name, email]
+	 * Response params: [state]
+	 * @return void
+	 */
+	public function actionSendMessage()
+	{
+		$this->_validateVars(array(
+			'subject' => array(
+				'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'subject')),
+				'required'	=> TRUE,
+			),
+			'message' => array(
+				'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'message')),
+				'required'	=> TRUE,
+			),
+			'name' => array(
+				'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'name')),
+				'required'	=> TRUE,
+			),
+			'email' => array(
+				'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'email')),
+				'required'	=> TRUE,
+			),
+		));
+		$obPhotographer = $this->_getApplication()->user;
+		$obStudioMessage = new StudioMessage();
+
+		//$obStudioMessage->client_id = $this->_obClient->id;
+		$obStudioMessage->name = $_POST['name'];
+		$obStudioMessage->email = $_POST['email'];
+		//$obStudioMessage->phone = $this->_obClient->phone;
+		$obStudioMessage->subject = @$_POST['subject'];
+		$obStudioMessage->message = @$_POST['message'];
+		$obStudioMessage->user_id = $obPhotographer->id;
+		$obStudioMessage->device_id = $_POST['device_id'];
+		if(!$obStudioMessage->save())
+			$this->_renderErrors($obStudioMessage->getErrors());
+//
+//		$body = '';
+//		foreach(array('name', 'email', 'phone', 'subject', 'message') as $name)
+//			$body .= $name.': '.$obStudioMessage->{$name}."\n\r";
+//
+//		Yii::app()->mailer->From = Yii::app()->settings->get('send_mail_from_email');
+//		Yii::app()->mailer->FromName = Yii::app()->settings->get('send_mail_from_name');
+//		Yii::app()->mailer->AddAddress($obPhotographer->email, $obPhotographer->first_name.' '.$obPhotographer->last_name);
+//		Yii::app()->mailer->AddAddress('rassols@gmail.com');
+//		Yii::app()->mailer->Subject = 'Mail from iOS application contact form';
+//		Yii::app()->mailer->AltBody = $body;
+//		Yii::app()->mailer->getView('standart', array(
+//				'body'  => $body,
+//			));
+		$this->_render(array('state' => TRUE/*Yii::app()->mailer->Send()*/));
+	}
 }

@@ -46,7 +46,7 @@ class StudioMessage extends YsaActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('message, client_id, user_id, name, email, subject', 'required'),
+			array('message, user_id, name, email, subject', 'required'),
 			array('user_id, client_id, unread', 'numerical', 'integerOnly'=>true),
 			array('name, email, subject', 'length', 'max'=>200),
 			array('device_id, phone', 'length', 'max'=>50),
