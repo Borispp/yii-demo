@@ -20,7 +20,10 @@
 		<section class="cf">
 			<?php echo $form->labelEx($entry,'icon'); ?>
 			<?php
-				$folder = $this->member()->application->option('style');
+				$folder = '';
+				if ($this->member()->application) {
+					$folder = $this->member()->application->option('style');
+				}
 				if (!$folder) {
 					$folder = 'black';
 				}

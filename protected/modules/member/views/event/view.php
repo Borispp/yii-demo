@@ -20,13 +20,15 @@
 						<dt>ID</dt>
 						<dd><?php echo $entry->id; ?></dd>
 						
-						<dt>Password</dt>
-						<dd><?php echo $entry->passwd; ?></dd>
+						<?php if (!$entry->isPortfolio()) : ?>
+							<dt>Password</dt>
+							<dd><?php echo $entry->passwd; ?></dd>
+						<?php endif; ?>
 						
 						<dt>Type</dt>
 						<dd><?php echo $entry->type(); ?></dd>
 						
-						<dt>Date</dt>
+						<dt>Created</dt>
 						<dd><?php echo $entry->created('medium', null); ?></dd>
 					</dl>
 			</div>

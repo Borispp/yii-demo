@@ -24,7 +24,7 @@ class DefaultController extends YsaMemberController
 				break;
 			case 404:
 			default:
-				$errCode = '404';
+				$errCode = 403;
 				break;
 		}
 		$page = Page::model()->findBySlug('page-' . $errCode);
