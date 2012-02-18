@@ -133,8 +133,7 @@ class ApplicationController extends YsaMemberController
 		if (!$app) {
 			$this->redirect(array('application/create'));
 		}
-		if (!$app->isPaid())
-		{
+		if ($app->isPaid()) {
 			$this->redirect(array('view'));
 		}
 		$page = Page::model()->findBySlug('terms-and-conditions');

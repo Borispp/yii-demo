@@ -1,6 +1,4 @@
 <div class="shadow-box submit" id="box-<?php echo $app->status()?>">
-	
-	
 	<?php /* application is created and filled */?>
 	<?php if ($app->filled() && !$app->isPaid()):?>
 		<h4><?php echo Yii::t('application', 'filled_block_title')?></h4>
@@ -8,7 +6,7 @@
 			<?php echo Yii::t('application', 'filled_block_text')?>
 		</p>
 		<span class="button">
-			<?php echo YsaHtml::link(Yii::t('application', 'pay_button'), array('pay'), array('class' => 'btn blue')); ?>
+			<?php echo YsaHtml::link(Yii::t('application', 'pay_button'), array('agreement'), array('class' => 'btn blue')); ?>
 		</span>
 	<?php /* application is filled and paid but not submitted */?>
 	<?php elseif ($app->isPaid() && !$app->submitted()) :?>
@@ -17,10 +15,8 @@
 			<?php echo Yii::t('application', 'paid_block_text')?>
 		</p>
 		<span class="button">
-			<?php echo YsaHtml::link(Yii::t('application', 'submit_button'), array('agreement'), array('class' => 'btn blue')); ?>
+			<?php echo YsaHtml::link(Yii::t('application', 'submit_button'), array('submit'), array('class' => 'btn blue')); ?>
 		</span>
-		
-		
 	<?php /* application is sent to appstore */?>
 	<?php elseif ($app->isReady()):?>
 			<h4><?php echo Yii::t('application', 'appstore_block_title')?></h4>
