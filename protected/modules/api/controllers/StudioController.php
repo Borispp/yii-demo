@@ -106,7 +106,7 @@ class StudioController extends YsaApiController
 			$params['links'][] = array(
 				'name' => $obLink->name,
 				'url'  => $obLink->url,
-				'icon' => $obLink->icon
+				'icon' => str_ireplace('.png','', $obLink->icon)
 			);
 		}
 
