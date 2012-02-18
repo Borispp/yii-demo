@@ -17,7 +17,6 @@
 			}
 			area.keydown(function(e){
 				var lines = $(this).val().split("\n").length;
-				
 				if (e.keyCode == 13 && lines >= maxrows) {
 					return false;
 				}

@@ -3,7 +3,9 @@
 		<div class="box-title">
 			<h3><?php echo $entry->name; ?></h3>
 			<div class="box-title-button">
+				<?php if ($this->hasApplication()):?>
 				<?php echo YsaHtml::link('<span class="icon i_bell"></span>Send Push Notification', array('notification/new/recipient/'.$entry->id.'/type/event'), array('class' => 'secondary iconed', 'id' => 'send-push-link')); ?>
+				<?php endif?>
 				<?php echo YsaHtml::link('<span class="icon i_pencil"></span>Edit Event', array('event/edit/' . $entry->id), array('class' => 'secondary iconed')); ?>
 			</div>
 		</div>
@@ -20,13 +22,15 @@
 						<dt>ID</dt>
 						<dd><?php echo $entry->id; ?></dd>
 						
-						<dt>Password</dt>
-						<dd><?php echo $entry->passwd; ?></dd>
+						<?php if (!$entry->isPortfolio()) : ?>
+							<dt>Password</dt>
+							<dd><?php echo $entry->passwd; ?></dd>
+						<?php endif; ?>
 						
 						<dt>Type</dt>
 						<dd><?php echo $entry->type(); ?></dd>
 						
-						<dt>Date</dt>
+						<dt>Created</dt>
 						<dd><?php echo $entry->created('medium', null); ?></dd>
 					</dl>
 			</div>
