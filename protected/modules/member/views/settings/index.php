@@ -1,4 +1,20 @@
 <section class="w">
+	<?php if (!$entry->isActivated()) : ?>
+		<section class="box">
+			<div class="box-title">
+				<h3>Resend activation link</h3>
+			</div>
+			<div class="box-content">
+				<?php $form = $this->beginWidget('YsaForm', array(
+					'id' => 'change-password-form',
+					'action' => YsaHtml::normalizeUrl(array('settings/resendActlink'))
+				)); ?>
+				<?php echo YsaHtml::submitButton('Send now', array('class' => 'blue')); ?>
+				<?php $this->endWidget();?>
+			</div>
+		</section>
+	<?php endif ?>	
+	
 	<section class="box">
 		<div class="box-title">
 			<h3>Connect Accounts</h3>
@@ -108,29 +124,9 @@
 				<?php $this->endWidget();?>
 			</div>
 		</div>
-	</section>
+	</section>	
 	
-	<?php if (!$entry->isActivated()) : ?>
-	<section class="box">
-		<div class="box-title">
-			<h3>Resend activation link</h3>
-		</div>
-		<div class="box-content">
-			<div class="form standart-form shadow-box">
-				<?php $form = $this->beginWidget('YsaForm', array(
-					'id' => 'change-password-form',
-					'action' => Chtml::normalizeUrl(array('settings/resendActlink'))
-				)); ?>
-				<div class="button">
-					<?php echo YsaHtml::submitButton('Send now', array('class' => 'blue')); ?>
-				</div>
 
-				<?php $this->endWidget();?>
-			</div>
-		</div>
-	</section>
-	<?php endif ?>
-	
 </section>
 
 

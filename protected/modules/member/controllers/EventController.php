@@ -7,7 +7,6 @@ class EventController extends YsaMemberController
 		$this->crumb('Events', array('event/'));
 		
 		$this->setMetaTitle(Yii::t('title', 'Events'));
-		
 	}
 
 	public function actionIndex()
@@ -102,6 +101,8 @@ class EventController extends YsaMemberController
 				
 				if ($entry->date) {
 					$entry->date = YsaHelpers::formatDate($entry->date, Event::FORMAT_DATE);
+				} else {
+					$entry->date = NULL;
 				}
 				
 				$entry->save();
@@ -142,6 +143,12 @@ class EventController extends YsaMemberController
 		if (isset($_POST['Event'])) {
 			$entry->attributes = $_POST['Event'];
 
+			if ($entry->date) {
+				$entry->date = YsaHelpers::formatDate($entry->date, Event::FORMAT_DATE);
+			} else {
+				$entry->date = NULL;
+			}
+			
 			if (!$entry->passwd) {
 				$entry->generatePassword();
 			}

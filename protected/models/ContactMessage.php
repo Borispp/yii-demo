@@ -84,10 +84,8 @@ class ContactMessage extends YsaActiveRecord
 	 */
 	public function sendEmail()
 	{
-		$admin = Admin::model()->findByPk(1);
-		
 		Email::model()->send(
-			array($admin->email, $admin->name()), 
+			Yii::app()->settings->get('admin_email'),
 			'contact_admin',
 			array(
 				'name'			=> $this->name,

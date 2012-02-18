@@ -1,5 +1,3 @@
-<?php //$this->widget('ext.eauth.EAuthWidget', array('action' => 'register/oauth')) ?>
-
 <div class="form large-form">
 	<?php $form=$this->beginWidget('YsaForm', array(
 			'id'=>'registration-form',
@@ -39,5 +37,8 @@
 	</section>
 
 	<?php $this->endWidget(); ?>
-	<?php $this->widget('ext.eauth.EAuthWidget', array('action' => 'auth/oauthRegistration')) ?>
+	<?php if (!isset($facebook_button) || $facebook_button == true ) : ?>
+		<?php $this->widget('ext.eauth.EAuthWidget', array('action' => 'auth/oauthRegistration')) ?>
+	<?php endif ?>
+	
 </div><!-- form -->

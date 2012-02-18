@@ -69,6 +69,7 @@ class StudioLink extends YsaActiveRecord
 			array('studio_id, rank', 'numerical', 'integerOnly'=>true),
 			array('name, url', 'length', 'max'=>100),
 			array('name', 'validateLink'),
+			array('name', 'filter', 'filter' => 'filterUrl'),
 			array('created, updated', 'safe'),
 		);
 	}
