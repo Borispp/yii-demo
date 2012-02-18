@@ -367,8 +367,13 @@ class SettingsController extends YsaMemberController
 				$pass_api->link($this->member());
 				$this->setSuccess(Yii::t('save', 'settings_pass_authorized'));
 			}
+			else
+			{
+				$this->setError(Yii::t('save', "Unable to link PASS account"));
+			}
 		}
 		
+		$this->setMemberPageTitle(Yii::t('title', 'PASS settings'));
 		$this->render('pass', array(
 			'pass_form' => $pass_api,
 		));
