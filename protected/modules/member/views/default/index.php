@@ -19,7 +19,7 @@
 				<h3>Help Desk</h3>
 			</div>
 			<div class="box-content">
-				<?php if (count($zd_requests)) : ?>
+				<?php if ($zd_requests && count($zd_requests)) : ?>
 				<ul class="list">
 					<?php foreach($zd_requests as $request) : ?>
 					<li>

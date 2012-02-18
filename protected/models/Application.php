@@ -785,7 +785,7 @@ class Application extends YsaActiveRecord
 	public function createTransaction($name = NULL, $summ = NULL)
 	{
 		$transaction = new PaymentTransaction();
-		$transaction->state = $transaction::STATE_CREATED;
+		$transaction->state = PaymentTransaction::STATE_CREATED;
 		$transaction->name = $name ? $name : 'Application Initial Payment';
 		$transaction->description = 'Initial payment for the creation of YSApplication.';
 		$transaction->summ = (float)($summ ? $summ : Yii::app()->settings->get('application_summ'));
