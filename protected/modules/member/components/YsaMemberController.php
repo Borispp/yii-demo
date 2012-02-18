@@ -65,9 +65,7 @@ class YsaMemberController extends YsaController
 	{
 		$GLOBALS['_x_module'] = $module = isset($this->module) ? $this->module->getName() : false;
 		$GLOBALS['_x_modules'] = $modules;
-		return (version_compare(PHP_VERSION, '5.3.0') >= 0) 
-					? function() use($module,$modules) { return in_array($module, $modules); }
-					: 'in_array($GLOBALS["_x_module"], $GLOBALS["_x_modules"]);';
+		return in_array($GLOBALS["_x_module"], $GLOBALS["_x_modules"]);
 	}
 	
 	/**
