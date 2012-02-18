@@ -17,7 +17,6 @@ class YsaMemberController extends YsaController
 	public function accessRules()
 	{
 		//TODO: Functional Test of access rights
-
 		return array(
 
 			/* deny application submit
@@ -32,7 +31,7 @@ class YsaMemberController extends YsaController
 			array(
 				'deny', 
 				'roles' => array('interesant'),
-				'expression' => $this->_matchModuleExpression(array('member')),
+//				'expression' => $this->_matchModuleExpression(array('member')),
 				'controllers' => array('settings'), 
 				'actions' => array('index'),
 				'verbs' => array('POST')
@@ -40,7 +39,7 @@ class YsaMemberController extends YsaController
 			array(
 				'allow', 
 				'roles' => array('interesant'),
-				'expression' => $this->_matchModuleExpression(array('member')),
+//				'expression' => $this->_matchModuleExpression(array('member')),
 				'controllers' => array('application','settings','inbox','payment','default'), 
 			),
 			array('deny', 'roles' => array('interesant')),

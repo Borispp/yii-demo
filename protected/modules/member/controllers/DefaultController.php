@@ -28,11 +28,17 @@ class DefaultController extends YsaMemberController
 				break;
 		}
 		$page = Page::model()->findBySlug('page-' . $errCode);
-		VarDumper::dump($error);
+		
+		$message = $error['message'];
+		
+		if (Yii::app()->user->isInteresant()) {
+			$message = Yii::t('error', 'Please activate your account before proceeding.');
+		}
+		
         if($error) {
             if(Yii::app()->request->isAjaxRequest) {
                 $this->sendJsonError(array(
-					'msg' => $error['message'],
+					'msg' => $message,
 				));
             } else {
 				
@@ -40,6 +46,7 @@ class DefaultController extends YsaMemberController
 				
                 $this->render('error', array(
 					'error'		=> $error,
+					'message'	=> $message,
 					'page'		=> $page,
 					'errCode'	=> $errCode,
 				));
