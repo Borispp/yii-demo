@@ -2825,7 +2825,7 @@ a.btn {
 }
 /* Register / Login Page
 *******************************/
-#login-register .login {
+#login-register .login, #login-register .oauth_register {
   float: left;
   width: 420px;
   margin-right: 32px;
