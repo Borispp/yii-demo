@@ -22,29 +22,31 @@ class PaymentController extends YsaMemberController
 	 */
 	protected function _validateInputParams($type, $itemId)
 	{
-		if ($type == 'application')
+		try
 		{
-			$app = Application::model()->findByPk($itemId);
-			try
+			$redirectUrl = '';
+			if (!in_array($type, array('application', 'subscription')))
 			{
-				if (!is_object($app))
+				throw new Exception('wrong_type');
+				$redirectUrl = '/member/';
+			}
+			if ($type == 'application')
+			{
+				$redirectUrl = 'application/view/';
+				if (!$itemId || !is_object($app = Application::model()->findByPk($itemId)))
 				{
-					throw new Exception(Yii::t('payment','no_app_found'));
-				}
-				if ($app->user_id != $this->member()->id)
-				{
-					throw new Exception(Yii::t('payment','not_your_app'));
+					throw new Exception('no_app_found');
 				}
 				if ($app->isPaid())
 				{
-					throw new Exception(Yii::t('payment','application_already_paid'));
+					throw new Exception('application_already_paid');
 				}
 			}
-			catch(Exception $e)
-			{
-				$this->setError($e->getMessage());
-				$this->redirect(array('application/view/'));
-			}
+		}
+		catch(Exception $e)
+		{
+			$this->setError(Yii::t('payment',$e->getMessage()));
+			$this->redirect(array($redirectUrl));
 		}
 	}
 
@@ -52,14 +54,19 @@ class PaymentController extends YsaMemberController
 	 * @param $type
 	 * @param $item_id
 	 */
-	public function actionChoosePayway($type, $item_id)
+	public function actionChoosePayway($type, $itemId = NULL)
 	{
-		$this->_validateInputParams($type, $item_id);
+		if ($type == 'application')
+		{
+			if ($this->member()->application)
+				$itemId = $this->member()->application->id;
+		}
+		$this->_validateInputParams($type, $itemId);
 		$this->setMemberPageTitle(Yii::t('payment', 'select_pay_system_title'));
 		$this->render('choose_payway', array(
 			'type'    => $type,
-			'summ'    => $this->getSumm($type, $item_id),
-			'item_id' => $item_id,
+			'summ'    => $this->getSumm($type, $itemId),
+			'item_id' => $itemId ,
 		));
 	}
 }
