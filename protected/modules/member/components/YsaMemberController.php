@@ -110,6 +110,13 @@ class YsaMemberController extends YsaController
 		
 		return true;
 	}
+
+	public function hasApplication()
+	{
+		if (!$this->member())
+			return FALSE;
+		return $this->member()->application;
+	}
 	
 	/**
 	 *
