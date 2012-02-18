@@ -4,7 +4,7 @@ var _plupload_settings = {
 	container : 'photo-upload-container',
 	max_file_size : '10mb',
 	filters : [
-		{title : "Image files", extensions : "jpg,gif,png,jpeg"},
+		{title : "Image files", extensions : "jpg,jpeg,gif,png,jpeg"},
 	]
 }
 

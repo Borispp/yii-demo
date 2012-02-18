@@ -271,7 +271,7 @@ class UserSubscription extends YsaActiveRecord
 	public function createTransaction()
 	{
 		$transaction = new PaymentTransaction();
-		$transaction->state = $transaction::STATE_CREATED;
+		$transaction->state = PaymentTransaction::STATE_CREATED;
 		$transaction->name = $this->Membership->name;
 		$transaction->description = $this->Membership->description;
 		$transaction->summ = (float)$this->getSumm();

@@ -9,7 +9,7 @@ class SmugMugApi extends YsaFormModel
     {
         return array(
             array('smug_api, smug_secret', 'required'),
-			array('smug_api, smug_secret', 'filter', 'trim'),
+			array('smug_api, smug_secret', 'filter', 'filter' => 'trim'),
         );
     }
 

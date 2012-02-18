@@ -12,7 +12,7 @@ $(function(){
 				browse_button:'studio-specials-browse',
 				multi_selection:false,
 				filters : [
-					{title : "Image & PDF files", extensions : "jpg,gif,png,jpeg,pdf"},
+					{title : "Image & PDF files", extensions : "jpg,jpeg,gif,png,jpeg,pdf"},
 				]
 			}));
 			uploader.init();

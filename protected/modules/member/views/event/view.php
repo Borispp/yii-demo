@@ -3,7 +3,7 @@
 		<div class="box-title">
 			<h3><?php echo $entry->name; ?></h3>
 			<div class="box-title-button">
-				<?php if ($this->hasApplication()):?>
+				<?php if ($this->hasApplication() && !$entry->isPortfolio()):?>
 				<?php echo YsaHtml::link('<span class="icon i_bell"></span>Send Push Notification', array('notification/new/recipient/'.$entry->id.'/type/event'), array('class' => 'secondary iconed', 'id' => 'send-push-link')); ?>
 				<?php endif?>
 				<?php echo YsaHtml::link('<span class="icon i_pencil"></span>Edit Event', array('event/edit/' . $entry->id), array('class' => 'secondary iconed')); ?>
@@ -18,23 +18,22 @@
 					
 				<div class="title">State</div>
 				<p><?php echo YsaHtml::dropDownList('state', $entry->state, $entry->getStates(), array('id' => 'description-state')); ?></p>
-					<dl>
-						<dt>ID</dt>
-						<dd><?php echo $entry->id; ?></dd>
-						
-						<?php if (!$entry->isPortfolio()) : ?>
-							<dt>Password</dt>
-							<dd><?php echo $entry->passwd; ?></dd>
-						<?php endif; ?>
-						
-						<dt>Type</dt>
-						<dd><?php echo $entry->type(); ?></dd>
-						
-						<dt>Created</dt>
-						<dd><?php echo $entry->created('medium', null); ?></dd>
-					</dl>
+				<dl>
+					<dt>ID</dt>
+					<dd><?php echo $entry->id; ?></dd>
+
+					<?php if (!$entry->isPortfolio()) : ?>
+						<dt>Password</dt>
+						<dd><?php echo $entry->passwd; ?></dd>
+					<?php endif; ?>
+
+					<dt>Type</dt>
+					<dd><?php echo $entry->type(); ?></dd>
+
+					<dt>Created</dt>
+					<dd><?php echo $entry->created('medium', null); ?></dd>
+				</dl>
 			</div>
-			
 			<div class="main-box">
 				<div class="main-box-title">
 					<?php if ($entry->isProofing()) : ?>
@@ -42,23 +41,22 @@
 					<?php else:?>
 						<h3>Albums</h3>
 					<?php endif; ?>
-					<?php if (!$entry->isProofing()) : ?>
-						<?php echo YsaHtml::link('Create New Album', array('album/create/event/' . $entry->id), array('class' => 'btn blue')); ?>
-						
-						<?php if ($this->member()->smugmugAuthorized()) : ?>
-							<?php echo YsaHtml::link('Import SmugMug Album', '#album-import-smugmug-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-smugmug-import-button')); ?>
+						<?php if (!$entry->isProofing()) : ?>
+							<?php echo YsaHtml::link('Create New Album', array('album/create/event/' . $entry->id), array('class' => 'btn blue')); ?>
+
+							<?php if ($this->member()->smugmugAuthorized()) : ?>
+								<?php echo YsaHtml::link('Import SmugMug Album', '#album-import-smugmug-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-smugmug-import-button')); ?>
+							<?php endif; ?>
+
+							<?php if ($this->member()->zenfolioAuthorized()) : ?>
+								<?php echo YsaHtml::link('Import ZenFolio Album', '#album-import-zenfolio-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-zenfolio-import-button')); ?>
+							<?php endif; ?>
+
+							<?php if ($this->member()->passApiLinked()) : ?>
+								<?php echo YsaHtml::link('Import PASS Album', '#album-import-pass-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-pass-import-button')); ?>
+							<?php endif; ?>
+
 						<?php endif; ?>
-						
-						<?php if ($this->member()->zenfolioAuthorized()) : ?>
-							<?php echo YsaHtml::link('Import ZenFolio Album', '#album-import-zenfolio-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-zenfolio-import-button')); ?>
-						<?php endif; ?>
-						
-						<?php if ($this->member()->passApiLinked()) : ?>
-							<?php echo YsaHtml::link('Import PASS Album', '#album-import-pass-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-pass-import-button')); ?>
-						<?php endif; ?>
-						
-					<?php endif; ?>
-						
 					<div class="cf"></div>
 				</div>
 					
@@ -82,6 +80,7 @@
 					<h3>Import SmugMug Album</h3>
 				</div>
 				<div class="box-content">
+					<div class="note">*<?php echo Yii::t('event', 'Importing photos takes a while. Please don\'t import more than 200 photos at a time.'); ?></div>
 					<div class="data">
 						<select name="album" id="smugmug-album-id">
 							<option value="">&ndash;&ndash;&ndash;</option>
@@ -103,6 +102,7 @@
 				</div>
 				<div class="box-content">
 					<div class="data">
+						<p><em>*<?php echo Yii::t('event', 'Importing photos takes a while. Please don\'t import more than 200 photos at a time.'); ?></em></p>
 						<select name="album" id="zenfolio-album-id">
 							<option value="">&ndash;&ndash;&ndash;</option>
 							<?php foreach ($zenfolioHierarchy['Elements'] as $element) : ?>
@@ -123,6 +123,7 @@
 				</div>
 				<div class="box-content">
 					<div class="data">
+						<p><em>*<?php echo Yii::t('event', 'Importing photos takes a while. Please don\'t import more than 200 photos at a time.'); ?></em></p>
 						<select name="album" id="pass-album-id">
 							<option value="">&ndash;&ndash;&ndash;</option>
 							<?php foreach ($this->member()->passApi()->ysaAlbumList() as $album) : ?>
