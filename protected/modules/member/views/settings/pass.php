@@ -44,7 +44,7 @@
 					<section class="cf">
 						<?php echo $form->labelEx($pass_form,'password'); ?>
 						<div>
-							<?php echo $form->textField($pass_form,'password',array('size'=>50,'maxlength'=>50)); ?>
+							<?php echo $form->passwordField($pass_form,'password',array('size'=>50,'maxlength'=>50)); ?>
 							<?php echo $form->error($pass_form,'password'); ?>
 						</div>
 					</section>
