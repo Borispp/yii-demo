@@ -10,7 +10,7 @@ class DefaultController extends YsaMemberController
 		$this->setMetaTitle(Yii::t('title', 'Dashboard'));
 		
 		$this->render('index', array(
-			'zd_requests' => (array) $requests
+			'zd_requests' => $requests ? (array) $requests : false,
 		));
 	}
 	
@@ -27,9 +27,8 @@ class DefaultController extends YsaMemberController
 				$errCode = '404';
 				break;
 		}
-		
 		$page = Page::model()->findBySlug('page-' . $errCode);
-		
+		VarDumper::dump($error);
         if($error) {
             if(Yii::app()->request->isAjaxRequest) {
                 $this->sendJsonError(array(

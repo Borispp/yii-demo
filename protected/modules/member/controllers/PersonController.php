@@ -8,12 +8,12 @@ class PersonController extends YsaMemberController
 		if (isset($_POST['StudioPerson'])) {
 			
 			$entry->attributes = $_POST['StudioPerson'];
-			$entry->photo = CUploadedFile::getInstance($entry, 'photo');
 			$entry->studio_id = $this->member()->studio->id;
 			
 			$entry->setNextRank();
 			
 			if ($entry->validate()) {
+				$entry->photo = CUploadedFile::getInstance($entry, 'photo');
 				$entry->uploadPhoto();
 				$entry->save();
 				
@@ -78,13 +78,12 @@ class PersonController extends YsaMemberController
 		if (isset($_POST['StudioPerson'])) {
 			
 			$entry->attributes = $_POST['StudioPerson'];
-			
-			$uploaded = CUploadedFile::getInstance($entry, 'photo');
-			if ($uploaded) {
-				$entry->photo = CUploadedFile::getInstance($entry, 'photo');
-			}
 
 			if ($entry->validate()) {
+				$uploaded = CUploadedFile::getInstance($entry, 'photo');
+				if ($uploaded) {
+					$entry->photo = CUploadedFile::getInstance($entry, 'photo');
+				}
 				$entry->uploadPhoto();
 				$entry->save();
 				$this->setSuccess(Yii::t('save', 'photographer_edited'));

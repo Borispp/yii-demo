@@ -122,7 +122,7 @@ class ApplicationController extends YsaMemberController
 			$this->redirect(array('application/create'));
 		}
 		if ($app->filled()) {
-			$this->redirect(array('payment/choosepayway/type/application/item_id/'.$app->id));
+			$this->redirect(array('payment/choosepayway/type/application/'));
 		}
 		$this->redirect(array('view'));
 	}
@@ -133,8 +133,7 @@ class ApplicationController extends YsaMemberController
 		if (!$app) {
 			$this->redirect(array('application/create'));
 		}
-		if (!$app->isPaid())
-		{
+		if ($app->isPaid()) {
 			$this->redirect(array('view'));
 		}
 		$page = Page::model()->findBySlug('terms-and-conditions');
