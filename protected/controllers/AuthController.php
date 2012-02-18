@@ -146,9 +146,9 @@ class AuthController extends YsaFrontController
 	public function actionCompleteOauthRegistration()
 	{
 		if ( !isset(Yii::app()->session['oauth_user_identity']) )
-			$this->redirect( $this->createAbsoluteUrl('/register') );
+			$this->redirect( array('login/') );
 
-		$this->setFrontPageTitle(Yii::t('general', 'Login'));
+		$this->setFrontPageTitle(Yii::t('general', 'Complete Registration'));
 		
 		$reg_form = new RegistrationForm;
 		$attr = Yii::app()->session['oauth_user_identity']->getItemAttributes();
@@ -196,7 +196,7 @@ class AuthController extends YsaFrontController
 		}
 		
 		// display the login form
-		$this->render('login', array(
+		$this->render('oauth_reg', array(
 			'login'		=> new LoginForm,
 			'register'	=> $reg_form,
 			'page'		=> Page::model()->findBySlug('login'),

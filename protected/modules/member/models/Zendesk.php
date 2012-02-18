@@ -115,10 +115,12 @@ class Zendesk extends CModel
 				break;
 			}
 		} else {
-			return $decoded ? $decoded : 'Unknown error';
+			if ($decoded) {
+				return $decoded;
+			} else {
+				return false;
+			}
 		}
-		
-
 		
 		throw new CException($msg);
 	}
