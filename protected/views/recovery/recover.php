@@ -8,7 +8,7 @@
 					<?php if (Yii::app()->user->getFlash('recoveryStatus') == 'changed') : ?>
 						<div class="buttons c"><?php echo YsaHtml::link('Login Now', array('login/'), array('class' => 'btn blue')); ?></div>
 					<?php else:?>
-						<div class="buttons c"><?php echo YsaHtml::link('Go back', '/', array('class' => 'btn blue')); ?></div>
+						<div class="buttons c"><?php echo YsaHtml::link('⇠ Back', '/', array('class' => 'btn blue')); ?></div>
 					<?php endif;?>
 				</div>
 			</div>
