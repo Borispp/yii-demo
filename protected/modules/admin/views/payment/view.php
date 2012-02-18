@@ -75,7 +75,7 @@
 					<?php echo $entry->state()?>
 				</div>
 			</section>
-			<?php if ($entry->state == $entry::STATE_PAID && $entry->paid && $entry->paid != '0000-00-00'):?>
+			<?php if ($entry->state == PaymentTransaction::STATE_PAID && $entry->paid && $entry->paid != '0000-00-00'):?>
 			<section>
 				<label>Payment Date</label>
 				<div>

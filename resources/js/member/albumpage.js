@@ -68,7 +68,7 @@ $(function(){
 					url:_member_url + '/photo/upload/album/' + album_id,
 					max_file_size : '10mb',
 					filters : [
-						{title : "Image files", extensions : "jpg,gif,png"},
+						{title : "Image files", extensions : "jpg,jpeg,gif,png"},
 					],
 					init : {
 						FileUploaded : function(up, file, response){

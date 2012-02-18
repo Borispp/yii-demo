@@ -3,7 +3,7 @@
 	<section class="box">
 		<div class="box-title">
 			<h3><?php echo $entry->title(); ?></h3>
-			<?php if (!$entry->album->event->isPublic()) : ?>
+			<?php if ($entry->album->canShare() && $entry->album->event->isPublic()) : ?>
 				<div class="box-title-button">
 					<?php echo $entry->shareLink('<span class="icon i_link"></span>Share URL', array('class' => 'secondary iconed', 'rel' => 'external')); ?>
 				</div>
@@ -15,8 +15,6 @@
 					<?php echo YsaHtml::link($entry->full(), $entry->fullUrl(), array('class' => 'fancybox')); ?>
 				</figure>
 				<div class="description">
-					
-					
 					<div class="container container-state">
 						<div class="title">State</div>
 						<div class="content">
