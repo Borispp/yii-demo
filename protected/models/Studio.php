@@ -130,8 +130,11 @@ class Studio extends YsaActiveRecord
 		
 		$url = $this->specialsUrl();
 		if (is_file($path)) {
-			$finfo = new finfo(FILEINFO_MIME_TYPE);
-			$ext = YsaHelpers::mimeToExtention($finfo->file($path));
+			//$finfo = new finfo(FILEINFO_MIME_TYPE);
+			//$ext = YsaHelpers::mimeToExtention($finfo->file($path));
+			
+			$mime = mime_content_type($path);
+			$ext = YsaHelpers::mimeToExtention($mime);
 
 			switch($ext) {
 				case 'pdf':
