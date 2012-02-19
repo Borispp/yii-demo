@@ -311,11 +311,11 @@ return array(
 			'video' => array(
 				'standart' => array(
 					'width'	 => 640,
-					'height' => 640,
+					'height' => 480,
 				),
 				'preview' => array(
 					'width'	 => 640,
-					'height' => 640,
+					'height' => 480,
 				),				
 			),
 		),
