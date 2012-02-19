@@ -56,7 +56,7 @@ class EventController extends YsaApiController
 		{
 			$this->_render(array(
 				'state'		=> 0,
-				'message'	=> 'Event allready added',
+				'message'	=> 'Event has benn already added',
 			));
 		}
 		if (!$this->_obClient->addPhotoEvent($this->_getEvent(), 'client'))
