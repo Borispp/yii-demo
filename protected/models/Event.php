@@ -288,7 +288,7 @@ class Event extends YsaActiveRecord
 	 */
 	public function canBeAddedByClient(Client $obClient, $passwd = NULL)
 	{
-		if (!$obClient->hasPhotoEvent($this) && $this->user->id == $obClient->user_id && $this->isPublic())
+		if ($this->user->id == $obClient->user_id && $this->isPublic())
 		{
 			return (is_null($passwd) || $passwd == $this->passwd);
 		}
