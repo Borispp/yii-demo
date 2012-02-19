@@ -161,7 +161,11 @@ class Studio extends YsaActiveRecord
 	
 	public function specialsUrl()
 	{
-		return $this->_uploadUrl . '/' . $this->specials;
+		if ($this->specials) {
+			return $this->_uploadUrl . '/' . $this->specials;
+		} else {
+			return null;
+		}
 	}
 	
 	public function uploadUrl()
