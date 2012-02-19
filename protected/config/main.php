@@ -310,12 +310,12 @@ return array(
 			),
 			'video' => array(
 				'standart' => array(
-					'width'	 => 800,
-					'height' => 600,
+					'width'	 => 640,
+					'height' => 480,
 				),
 				'preview' => array(
 					'width'	 => 640,
-					'height' => 360,
+					'height' => 480,
 				),				
 			),
 		),
