@@ -52,6 +52,13 @@ class EventController extends YsaApiController
 				'message'	=> Yii::t('api', 'event_add_wrong_client'),
 			));
 		}
+		if ($this->_obClient->hasPhotoEvent($this->_getEvent()))
+		{
+			$this->_render(array(
+				'state'		=> 0,
+				'message'	=> 'Event allready added',
+			));
+		}
 		if (!$this->_obClient->addPhotoEvent($this->_getEvent(), 'client'))
 		{
 			$this->_render(array(
