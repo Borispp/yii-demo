@@ -377,23 +377,21 @@ return array(
 			'fonts'		=> array(
 				'main_font' => array(
 					'values'	=> array(
-						'arial'			=> 'Arial',
-						'helvetica'		=> 'Helvetica',
-						'verdana'		=> 'Verdana',
-						'georgia'		=> 'Georgia',
-						'baskerville'	=> 'Baskerville',
-						'gillsans'		=> 'GillSans',
+						'Arial'			=> 'Arial',
+						'Helvetica'		=> 'Helvetica',
+						'Verdana'		=> 'Verdana',
+						'Georgia'		=> 'Georgia',
+						'Baskerville'	=> 'Baskerville',
 					),
 					'label'		=> 'Font'
 				),
 				'second_font' => array(
 					'values'	=> array(
-						'arial'			=> 'Arial',
-						'helvetica'		=> 'Helvetica',
-						'verdana'		=> 'Verdana',
-						'georgia'		=> 'Georgia',
-						'baskerville'	=> 'Baskerville',
-						'gillsans'		=> 'GillSans',
+						'Arial'			=> 'Arial',
+						'Helvetica'		=> 'Helvetica',
+						'Verdana'		=> 'Verdana',
+						'Georgia'		=> 'Georgia',
+						'Baskerville'	=> 'Baskerville',
 					),
 					'label'		=> 'Font'
 				),
