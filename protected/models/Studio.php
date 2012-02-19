@@ -230,7 +230,7 @@ class Studio extends YsaActiveRecord
 	public function video($size = 'standart')
 	{
 		if (!$this->video) {
-			return false;
+			return null;
 		}
 		
 		$video = unserialize($this->video);
