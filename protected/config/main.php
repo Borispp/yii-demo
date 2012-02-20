@@ -185,7 +185,7 @@ return array(
 		'clientScript'=>array(
 			'packages'=>array(
 				'jquery'=>array(
-					'baseUrl'=>'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/',
+					'baseUrl'=>'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/',
 					'js'=>array('jquery.min.js'),
 				),
 			),
