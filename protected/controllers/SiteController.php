@@ -11,7 +11,6 @@ class SiteController extends YsaFrontController
         $this->setMeta($page->meta());
 
 		$this->loadFancybox();
-			//->loadVideoJS();
 		
 		$newsletterForm = new NewsletterForm();
 		

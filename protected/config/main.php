@@ -61,7 +61,6 @@ return array(
 			'language' => 'en',
 		),
 		'request'=>array(
-			//            'enableCsrfValidation'=>true,
 			'class' => 'application.components.YsaHttpRequest',
 		),
 		'session' => array(
@@ -138,10 +137,9 @@ return array(
 			'errorAction'=>'site/error',
 		),
 		'log'=>array(
-			'class'=>'CLogRouter',
+			'class'=>'YsaLogRouter',
 			'routes'=>array(
 				array(
-					//					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
 					'class'=>'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
 					'ipFilters'=>array('127.0.0.1','192.168.1.215'),
@@ -151,6 +149,18 @@ return array(
 					'categories' => 'application',
 					'levels'=>'error, warning, trace, profile, info',
 				),
+				array(
+					'class' => 'CDbLogRoute',
+					'connectionID' => 'db',
+					'autoCreateLogTable' => 'true',
+					'levels' => 'error, warning',
+					'logTableName' => 'error_log',
+				),				
+                array(
+                    'class'=>'CEmailLogRoute',
+                    'levels'=>'error, warning',
+//                    'emails'=>'eugen@flosites.com',
+                ),
 			),
 		),
 
@@ -187,26 +197,9 @@ return array(
 		
         'eauth' => array(
             'class' => 'ext.eauth.EAuth',
-            'popup' => true, // Use the popup window instead of redirecting.
-            'services' => array( // You can change the providers and their classes.
-//                'google' => array(
-//                    'class' => 'GoogleOpenIDService',
-//                ),
-//                'twitter' => array(
-//                    // register your app here: https://dev.twitter.com/apps/new
-//                    'class' => 'TwitterOAuthService',
-//                    'key' => '...',
-//                    'secret' => '...',
-//                ),
-//                'google_oauth' => array(
-//                    // register your app here: https://code.google.com/apis/console/
-//                    'class' => 'GoogleOAuthService',
-//                    'client_id' => '...',
-//                    'client_secret' => '...',
-//                    'title' => 'Google (OAuth)',
-//                ),
+            'popup' => true,
+            'services' => array(
                 'facebook' => array(
-                    // register your app here: https://developers.facebook.com/apps/
                     'class' => 'FacebookOAuthService',
                 ),
             ),
