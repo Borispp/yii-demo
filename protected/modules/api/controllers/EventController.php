@@ -48,19 +48,26 @@ class EventController extends YsaApiController
 		if (!$this->_getEvent()->canBeAddedByClient($this->_obClient, $_POST['password']))
 		{
 			$this->_render(array(
-				'state'		=> 0,
+				'state'		=> FALSE,
 				'message'	=> Yii::t('api', 'event_add_wrong_client'),
+			));
+		}
+		if ($this->_obClient->hasPhotoEvent($this->_getEvent()))
+		{
+			$this->_render(array(
+				'state'		=> FALSE,
+				'message'	=> 'Event has been already added',
 			));
 		}
 		if (!$this->_obClient->addPhotoEvent($this->_getEvent(), 'client'))
 		{
 			$this->_render(array(
-				'state'		=> 0,
+				'state'		=> FALSE,
 				'message'	=> Yii::t('api', 'event_add_failed'),
 			));
 		}
 		$this->_render(array(
-			'state'		=> 1,
+			'state'		=> TRUE,
 			'message'	=> '',
 		));
 	}
@@ -74,9 +81,9 @@ class EventController extends YsaApiController
 	public function actionRemoveEvent()
 	{
 		$this->_render(($this->_obClient->removePhotoEvent($this->_getEvent(), 'client')) ?
-				array('state' => 1, 'message' => NULL)
+				array('state' => TRUE, 'message' => NULL)
 			:
-				array('state' => 0, Yii::t('api', 'event_remove_failed'))
+				array('state' => FALSE, Yii::t('api', 'event_remove_failed'))
 		);
 	}
 
@@ -154,7 +161,7 @@ class EventController extends YsaApiController
 				),
 			));
 		$this->_render(array(
-				'state'			=> !$this->_getEventAlbum()->checkHash($_POST['checksum']),
+				'state'			=> (bool)!$this->_getEventAlbum()->checkHash($_POST['checksum']),
 				'checksumm'		=> $this->_getEventAlbum()->getChecksum(),
 				'filesize'		=> $this->_getEventAlbum()->size()
 			));
@@ -249,7 +256,7 @@ class EventController extends YsaApiController
 				));
 		$obEventPhotoRate->save();
 		$this->_render(array(
-				'state'	=> 1,
+				'state'	=> TRUE,
 				'rank'	=> $this->_getEventPhoto()->rating()
 			));
 	}
