@@ -1,5 +1,5 @@
 <?php
-
+define('APPLICATION_ENV', isset($_SERVER['APPLICATION_ENV']) ? $_SERVER['APPLICATION_ENV'] : 'development');
 error_reporting(E_ALL);
 
 // change the following paths if necessary
