@@ -72,7 +72,7 @@ class PassApi extends YsaFormModel
 		$curl->options = array('setOptions' => array(CURLOPT_SSL_VERIFYPEER => false));
 		
 		$result = $curl->run($uri, $get_method, $post_data);
-	
+		
 		if ($curl->error_code)
 		{
 			Yii::log('cURL error #'.$curl->error_code.' msg:'.$curl->error_string, CLogger::LEVEL_ERROR, 'pass_api');
@@ -104,7 +104,7 @@ class PassApi extends YsaFormModel
 			$this->addError('email', $output->message);
 			throw new RuntimeException($output->message, $output->error_id );
 		}
-		
+
 		return $output;
 	}
 	
@@ -148,6 +148,7 @@ class PassApi extends YsaFormModel
 		}
 		catch(RuntimeException $e)
 		{
+			Yii::log('PASS authorize error ['.$this->email.']: '.$e->getMessage(), CLogger::LEVEL_ERROR, 'pass_api');
 			return false;
 		}
 	}
@@ -161,14 +162,25 @@ class PassApi extends YsaFormModel
 		return (bool) self::session();
 	}
 	
-	protected static function storeSession($value)
+	protected function storeSession($value)
 	{
 		Yii::app()->session['passapi_session'] = $value;
 	}
 	
-	protected static function session()
+	/**
+	 *
+	 * @return boolean
+	 * @throws RuntimeException 
+	 */
+	protected function session()
 	{
-		return isset(Yii::app()->session['passapi_session']) ? Yii::app()->session['passapi_session'] : null;
+		if (!empty(Yii::app()->session['passapi_session']))
+			return Yii::app()->session['passapi_session'];
+		
+		if (!$this->authorize())
+			throw new RuntimeException('PASS: Unable to authorize ['.$this->email.']');
+		
+		return true;
 	}
 	
 	public function link(Member $member)
@@ -191,16 +203,28 @@ class PassApi extends YsaFormModel
 		));
 	}
 	
-	public function isLinked(Member $member)
+	/**
+	 *
+	 * @param Member $member
+	 * @param boolean $load_data true to load linked account info into model
+	 * @return boolean 
+	 */
+	public function isLinked(Member $member, $load_data = false)
 	{
 		$email = $member->option(UserOption::PASS_EMAIL);
 		$password = $member->option(UserOption::PASS_PASSWORD);
+		
+		if ($load_data)
+		{
+			$this->email = $email ? $email : null;
+			$this->password = $password ? $password : null;
+		}
 		
 		return !empty($email) && !empty($password);
 	}
 	
 	/**
-	 * API Response example. This method returns only events part
+	 * API Response example
 	 * 
 	 * {
      * "first_name": "Pass",
@@ -358,6 +382,7 @@ class PassApi extends YsaFormModel
 				
 				$photo_set['Title'] .= ' / '.$collection->title;
 				$photo_set['PhotoCount'] = count($collection->images);
+				$photo_set['CoverImgKey'] = $collection->key_img;
 				foreach ($collection->images as $image)
 				{
 					$photo_set['photoSetImages'][] = array(
