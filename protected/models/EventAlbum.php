@@ -354,7 +354,7 @@ class EventAlbum extends YsaActiveRecord
 		if ($photo) {
 			$size = $photo->previewFilesize($w, $h);
 		} else {
-			$size = $photo->defaultPicFilesize($w, $h);
+			$size = EventPhoto::model()->defaultPicFilesize($w, $h);
 		}
 
 		return $size;
