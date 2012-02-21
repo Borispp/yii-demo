@@ -1,20 +1,16 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
 <head>
-<link rel="profile" href="http://gmpg.org/xfn/11" />
 <meta charset="UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8" />
-<meta http-equiv="Page-Enter" content="blendTrans(Duration=0.1)" />
-<meta http-equiv="Page-Exit" content="blendTrans(Duration=0.1)" />
 <script type="text/javascript">
 	var _base_url = '<?php echo Yii::app()->getBaseUrl(true)?>';
 	var _member_url = '<?php echo Yii::app()->getBaseUrl(true)?>/member';
 	var _polyfill_url = _base_url + '/resources/js/polyfills';
 </script>
-<link rel="shortcut icon" type="image/x-icon" href="http://yourstudioapp.com/favicon.ico" />
+<link rel="shortcut icon" type="image/x-icon" href="https://yourstudioapp.com/favicon.ico" />
 <title><?php echo YsaHtml::encode($this->getMetaTitle()); ?></title>
 <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 </head>
 <body<?php echo $this->isMemberPanel() ? ' id="member-panel"' : ''?>>

@@ -5,8 +5,8 @@ define( 'FACEBOOK_APP_SECRET', '1b7ed31430e3e0110dcce0077e8cf28d' );
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
-// This is the main Web application configuration. Any writable
-// CWebApplication properties can be configured here.
+require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'env'.DIRECTORY_SEPARATOR.APPLICATION_ENV.'.php';
+
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'YourStudioApp',
@@ -129,17 +129,7 @@ return array(
 				'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
 			),
 		),
-		'db'=>array(
-			'connectionString'      => 'mysql:host=office.flosites.com;dbname=yoursturioapp',
-			'emulatePrepare'        => true,
-//			'username'              => 'yourstudioapp',
-			'username'              => 'yourstudioapp',
-			'schemaCachingDuration' => 3600,
-			'password'              => '6ZpBcVrtA6LaEdrZ',
-			'charset'               => 'utf8',
-			'enableProfiling'       => true,
-			'enableParamLogging'    => true,
-		),
+		'db' => $envDb,
 		'cache' => array (
 			'class' => 'system.caching.CFileCache'
 		),
@@ -185,7 +175,7 @@ return array(
 		'clientScript'=>array(
 			'packages'=>array(
 				'jquery'=>array(
-					'baseUrl'=>'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/',
+					'baseUrl'=>'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/',
 					'js'=>array('jquery.min.js'),
 				),
 			),
