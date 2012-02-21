@@ -174,16 +174,23 @@ class ApplicationController extends YsaAdminController
 				if (empty($value))
 					continue;
 				if (!empty($propertyInfo['img']) && !empty($value['url'])) {
-					$value = YsaHtml::link(YsaHtml::image($value['url']), $value['url'], array('class' => 'fancybox image', 'title' => $propertyInfo['label'], 'rel' => 'application-image'));
+					$value = YsaHtml::link(YsaHtml::image($value['url']), $value['url'], array(
+						'class' => 'fancybox image',
+						'title' => $propertyInfo['label'],
+						'rel' => 'application-image'));
 				} elseif (substr_count($property, '_color')) {
-					
-					
-					$value = YsaHtml::openTag('span', array('class' => 'color', 'style' => 'background-color:' . $value)) . YsaHtml::closeTag('span') . YsaHtml::openTag('span', array('class' => 'lbl')) . $value . YsaHtml::closeTag('span');
-					
+					$value = YsaHtml::openTag('span', array(
+						'class' => 'color',
+						'style' => 'background-color:' . $value)
+					)
+					.YsaHtml::closeTag('span')
+					.YsaHtml::openTag('span', array('class' => 'lbl')).$value.YsaHtml::closeTag('span');
 				}
-				
-				
-				$result[$obApplication->generateAttributeLabel($section)][$propertyInfo['label']] = (!is_null($value) && array_key_exists('values', $propertyInfo) && $propertyInfo['values'][$value]) ? $propertyInfo['values'][$value] : $value;
+
+				$result[$obApplication->generateAttributeLabel($section)][$propertyInfo['label']] =
+				(!is_null($value) && array_key_exists('values', $propertyInfo) && !empty($propertyInfo['values'][$value]))
+					? $propertyInfo['values'][$value]
+					: $value;
 			}
 		}
 		return $result;
