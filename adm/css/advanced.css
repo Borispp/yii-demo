@@ -7,6 +7,26 @@ form div.errorMessage {
 	color: #c00;
 }
 
+
+table.data .true,
+table.data .false,
+table.data .app-ready,
+table.data .none {
+	color:#000;
+}
+table.data .true {
+	background-color: #A2E8A2;
+}
+table.data .false {
+	background-color: #F0A8A8;
+}
+table.data .app-ready {
+	background-color: #E5DDA0;
+}
+table.data .none {
+	background-color: #eee;
+}
+
 .state1,
 .bg_green {
     background-color: #A2E8A2;
