@@ -101,7 +101,7 @@ class PaymentTransactionApplication extends YsaActiveRecord implements YsaPaymen
 		$application->save();
 		//User is activated when he maid his payment.
 		$this->application->user->upgradeToCustomer();
-		$this->notify();
+//		$this->notify();
 	}
 
 	protected function notify()

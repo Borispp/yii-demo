@@ -316,7 +316,7 @@ class Application extends YsaActiveRecord
 	{
 		$this->ready = 1;
 		$this->save();
-		$this->notifyByEmail('application_ready');
+//		$this->notifyByEmail('application_ready');
 		if ($log) {
 			$this->log('ready');
 		}
