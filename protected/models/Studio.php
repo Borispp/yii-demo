@@ -295,4 +295,13 @@ class Studio extends YsaActiveRecord
 			'twitter_feed' => $this->twitter_feed,
 		);
 	}
+
+	/**
+	 * Parse studio blog rss and return array of posts with [link,image,date,title,excerpt]
+	 * @param int $limit
+	 */
+	public function getRecentBlogPosts($limit = 5)
+	{
+
+	}
 }
