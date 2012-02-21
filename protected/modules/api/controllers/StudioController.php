@@ -121,6 +121,21 @@ class StudioController extends YsaApiController
 	}
 
 	/**
+	 * Returns array of recent blog posts .
+	 * Inquiry params: [app_key, device_id]
+	 * Response params: [posts -> [link,image,date,title,excerpt]
+	 * @return void
+	 */
+	public function actionGetRecentBlogPosts()
+	{
+		$this->_commonValidate();
+		$obStudio = $this->_getApplication()->user->studio;
+		$this->_render(array(
+			'posts' => $obStudio->getRecentBlogPosts()
+		));
+	}
+
+	/**
 	 * Get Portfolio Event List
 	 * Inquiry params: [app_key, device_id]
 	 * Response params: events->[name,type,description,date,creation_date,filesize,checksumm]
