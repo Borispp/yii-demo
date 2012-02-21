@@ -295,4 +295,67 @@ class Studio extends YsaActiveRecord
 			'twitter_feed' => $this->twitter_feed,
 		);
 	}
+
+	/**
+	 * Parse studio blog rss and return array of posts with [link,image,date,title,excerpt]
+	 * @param int $limit
+	 */
+	public function getRecentBlogPosts($limit = 5)
+	{
+		if (!$this->blog_feed) {
+			return array();
+		}
+		
+		$this->blog_feed = 'http://matthewcotter.com/feed/';
+		
+		Yii::import('ext.httpclient.*');
+		Yii::import('ext.httpclient.adapter.*');
+		$client = new EHttpClient($this->blog_feed, array(
+			'timeout'      => 30,
+			'adapter'	   => 'EHttpClientAdapterCurl',
+		));
+		
+		$response = $client->request();
+		
+		$xml = YsaHelpers::xml2array($response->getBody());
+		
+		if (!isset($xml['rss'])) {
+			return array();
+		}
+		
+		$items = $xml['rss']['channel']['item'];
+		
+		$feed = array();
+		for ($i = 0; $i < $limit; $i++) {
+			// no more feeds
+			if (!isset($items[$i])) {
+				break;
+			}
+			
+			$excerpt = '';
+			$image = '';
+			if (isset($items[$i]['description']) && is_string($items[$i]['description'])) {
+				$excerpt = YsaHelpers::truncate(strip_tags($items[$i]['description']), 400);
+			}
+			
+			if (isset($items[$i]['content:encoded'])) {
+				preg_match('~src="([^"\']+)"~sim', $items[$i]['content:encoded'], $matches);
+				if (isset($matches[1]) && preg_match('~\.(png|jp(e)?g|gif)$~si', $matches[1])) {
+					$image = $matches[1];
+				}
+			}
+			
+			$entry = array(
+				'title'		=> $items[$i]['title'],
+				'date'		=> Yii::app()->dateFormatter->formatDateTime($items[$i]['pubDate']),
+				'link'		=> $items[$i]['link'],
+				'excerpt'	=> $excerpt,
+				'image'		=> $image,
+			);
+			
+			$feed[] = $entry;
+		}
+		
+		return $feed;
+	}
 }

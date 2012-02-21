@@ -373,6 +373,7 @@ class SettingsController extends YsaMemberController
 			}
 		}
 		
+		$pass_api->email = $this->member()->email;
 		$this->setMemberPageTitle(Yii::t('title', 'PASS settings'));
 		$this->render('pass', array(
 			'pass_form' => $pass_api,

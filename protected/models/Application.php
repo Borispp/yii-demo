@@ -68,6 +68,7 @@ class Application extends YsaActiveRecord
 		'icon',
 		'logo',
 		'itunes_logo',
+		'splash_bg_image',
 		'copyright',
 	);
 	
@@ -163,19 +164,6 @@ class Application extends YsaActiveRecord
 			));
 	}
 
-//	public function getStates()
-//	{
-//		return array(
-//			self::STATE_CREATED						=> 'Created',
-//			self::STATE_SUBMITTED					=> 'Submitted',
-//			self::STATE_MODERATOR_APPROVED			=> 'Approved by moderator',
-//			self::STATE_APPSTORE_WAITING_APPROVAL	=> 'Waiting approval',
-//			self::STATE_READY						=> 'Ready',
-//			self::STATE_MODERATOR_UNAPROVED			=> 'Unapproved',
-//			self::STATE_APPSTORE_REJECTED			=> 'Rejected by Apple',
-//		);
-//	}
-	
 	/**
 	 * Check if application needs an application wizard
 	 */
@@ -316,10 +304,24 @@ class Application extends YsaActiveRecord
 	{
 		$this->ready = 1;
 		$this->save();
+//		$this->notifyByEmail('application_ready');
 		if ($log) {
 			$this->log('ready');
 		}
 		return $this;
+	}
+
+	public function notifyByEmail($template)
+	{
+		$this->log('Notified user by email with '.$template.' template');
+		Email::model()->send(
+			array($this->user->email, $this->user->name()),
+			$template,
+			array(
+				'name'  => $this->user->name(),
+				'email' => $this->user->email,
+			)
+		);
 	}
 	
 	/**
@@ -475,7 +477,7 @@ class Application extends YsaActiveRecord
 	public function isProperlyFilled()
 	{
 		$notExists = array();
-		foreach ($this->_requiredOptions as $opt) {
+		foreach ($this->getRequiredOptions() as $opt) {
 			$option = $this->option($opt);
 			if (!$option) {
 				$notExists[$opt] = $opt;

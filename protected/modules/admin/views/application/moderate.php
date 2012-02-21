@@ -27,11 +27,17 @@
 					<?php if (!$icon):?>
 						<div class="errorMessage">No iOS uploaded</div>
 					<?php endif?>
+					<?php if (!$splash):?>
+						<div class="errorMessage">No Splash uploaded</div>
+					<?php endif?>
 					<?php if ($icon):?>
 						<?php echo YsaHtml::link('Download iPad Icon', array('application/download/id/' . $entry->id . '/image/icon'), array('class' => 'btn')); ?>
 					<?php endif?>
 					<?php if ($itunes_logo):?>
 						<?php echo YsaHtml::link('Download iTunes Logo', array('application/download/id/' . $entry->id . '/image/itunes_logo'), array('class' => 'btn')); ?>
+					<?php endif?>
+					<?php if ($splash):?>
+						<?php echo YsaHtml::link('Download Splash', array('application/download/id/' . $entry->id . '/image/splash_bg_image'), array('class' => 'btn')); ?>
 					<?php endif?>
 				</div>
 			</section>

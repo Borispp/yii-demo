@@ -5,8 +5,8 @@ define( 'FACEBOOK_APP_SECRET', '1b7ed31430e3e0110dcce0077e8cf28d' );
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
-// This is the main Web application configuration. Any writable
-// CWebApplication properties can be configured here.
+require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'env'.DIRECTORY_SEPARATOR.APPLICATION_ENV.'.php';
+
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'YourStudioApp',
@@ -61,7 +61,6 @@ return array(
 			'language' => 'en',
 		),
 		'request'=>array(
-			//            'enableCsrfValidation'=>true,
 			'class' => 'application.components.YsaHttpRequest',
 		),
 		'session' => array(
@@ -129,17 +128,7 @@ return array(
 				'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
 			),
 		),
-		'db'=>array(
-			'connectionString'      => 'mysql:host=office.flosites.com;dbname=yoursturioapp',
-			'emulatePrepare'        => true,
-//			'username'              => 'yourstudioapp',
-			'username'              => 'yourstudioapp',
-			'schemaCachingDuration' => 3600,
-			'password'              => '6ZpBcVrtA6LaEdrZ',
-			'charset'               => 'utf8',
-			'enableProfiling'       => true,
-			'enableParamLogging'    => true,
-		),
+		'db' => $envDb,
 		'cache' => array (
 			'class' => 'system.caching.CFileCache'
 		),
@@ -148,10 +137,9 @@ return array(
 			'errorAction'=>'site/error',
 		),
 		'log'=>array(
-			'class'=>'CLogRouter',
+			'class'=>'YsaLogRouter',
 			'routes'=>array(
 				array(
-					//					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
 					'class'=>'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
 					'ipFilters'=>array('127.0.0.1','192.168.1.215'),
@@ -161,6 +149,18 @@ return array(
 					'categories' => 'application',
 					'levels'=>'error, warning, trace, profile, info',
 				),
+				array(
+					'class' => 'CDbLogRoute',
+					'connectionID' => 'db',
+					'autoCreateLogTable' => 'true',
+					'levels' => 'error, warning',
+					'logTableName' => 'error_log',
+				),				
+                array(
+                    'class'=>'CEmailLogRoute',
+                    'levels'=>'error, warning',
+//                    'emails'=>'eugen@flosites.com',
+                ),
 			),
 		),
 
@@ -185,7 +185,7 @@ return array(
 		'clientScript'=>array(
 			'packages'=>array(
 				'jquery'=>array(
-					'baseUrl'=>'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/',
+					'baseUrl'=>'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/',
 					'js'=>array('jquery.min.js'),
 				),
 			),
@@ -197,26 +197,9 @@ return array(
 		
         'eauth' => array(
             'class' => 'ext.eauth.EAuth',
-            'popup' => true, // Use the popup window instead of redirecting.
-            'services' => array( // You can change the providers and their classes.
-//                'google' => array(
-//                    'class' => 'GoogleOpenIDService',
-//                ),
-//                'twitter' => array(
-//                    // register your app here: https://dev.twitter.com/apps/new
-//                    'class' => 'TwitterOAuthService',
-//                    'key' => '...',
-//                    'secret' => '...',
-//                ),
-//                'google_oauth' => array(
-//                    // register your app here: https://code.google.com/apis/console/
-//                    'class' => 'GoogleOAuthService',
-//                    'client_id' => '...',
-//                    'client_secret' => '...',
-//                    'title' => 'Google (OAuth)',
-//                ),
+            'popup' => true,
+            'services' => array(
                 'facebook' => array(
-                    // register your app here: https://developers.facebook.com/apps/
                     'class' => 'FacebookOAuthService',
                 ),
             ),
@@ -228,7 +211,7 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'    =>'webmaster@yourstudioapp.com',
-		'admin_per_page'=> 10,
+		'admin_per_page'=> 40,
 		'salt'          => 'wel0veyourstud1oapp',
 		'date_format'   => 'Y-m-d H:i:s',
 		'date_format_short' => 'D, j M',
@@ -337,16 +320,16 @@ return array(
 					'label'	=> 'Splash Background Image',
 					'img'	=> TRUE,
 				),
-				'splash_bg_color'	=> array(
-					'label'	=> 'Splash Background Color'
-				),
-				'splash_bg'	=> array(
-					'values'	=> array(
-						'image'	=> 'Background Image',
-						'color'	=> 'Background Color'
-					),
-					'label'		=> 'Splash Background Type'
-				)
+//				'splash_bg_color'	=> array(
+//					'label'	=> 'Splash Background Color'
+//				),
+//				'splash_bg'	=> array(
+//					'values'	=> array(
+//						'image'	=> 'Background Image',
+//						'color'	=> 'Background Color'
+//					),
+//					'label'		=> 'Splash Background Type'
+//				)
 			),
 			'colors'	=> array(
 				'studio_bg'	=> array(
@@ -420,38 +403,32 @@ return array(
 		
 		'default_styles' => array(
 			'dark' => array(
-				'splash_bg_color'	=> '#000000',
-				'splash_bg'			=> 'color',
 				'studio_bg_color'	=> '#000000',
 				'studio_bg'			=> 'color',
 				'generic_bg_color'	=> '#000000',
 				'generic_bg'		=> 'color',
-				'main_font'			=> 'arial',
-				'second_font'		=> 'arial',
+				'main_font'			=> 'Arial',
+				'second_font'		=> 'Arial',
 				'main_font_color'	=> '#ffffff',
 				'second_font_color'	=> '#ffffff',
 			),
 			'light' => array(
-				'splash_bg_color'	=> '#ffffff',
-				'splash_bg'			=> 'color',
 				'studio_bg_color'	=> '#ffffff',
 				'studio_bg'			=> 'color',
 				'generic_bg_color'	=> '#ffffff',
 				'generic_bg'		=> 'color',
-				'main_font'			=> 'arial',
-				'second_font'		=> 'arial',
+				'main_font'			=> 'Arial',
+				'second_font'		=> 'Arial',
 				'main_font_color'	=> '#000000',
 				'second_font_color'	=> '#000000',
 			),
 			'biege' => array(
-				'splash_bg_color'	=> '#e5d9c7',
-				'splash_bg'			=> 'color',
 				'studio_bg_color'	=> '#e5d9c7',
 				'studio_bg'			=> 'color',
 				'generic_bg_color'	=> '#e5d9c7',
 				'generic_bg'		=> 'color',
-				'main_font'			=> 'arial',
-				'second_font'		=> 'arial',
+				'main_font'			=> 'Arial',
+				'second_font'		=> 'Arial',
 				'main_font_color'	=> '#6a645c',
 				'second_font_color'	=> '#6a645c',
 			),

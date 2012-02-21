@@ -308,7 +308,7 @@ class YsaController extends CController
 	{
 		if (!$this->isAdminPanel()) {
 			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/modernizr.js', CClientScript::POS_HEAD)
-				->registerScriptFile('http://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js', CClientScript::POS_HEAD)
+				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/tools.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/scrollto.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/color.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/form.js', CClientScript::POS_HEAD)
@@ -351,7 +351,7 @@ class YsaController extends CController
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/tiptip.css')
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/fancybox.css')
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/member.css')
-					->registerCssFile('http://fonts.googleapis.com/css?family=Candal');
+					->registerCssFile('https://fonts.googleapis.com/css?family=Candal');
 		}
 	}
 	
@@ -366,7 +366,7 @@ class YsaController extends CController
 			
 			
 			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/modernizr.js', CClientScript::POS_HEAD)
-				->registerScriptFile('http://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js', CClientScript::POS_HEAD)
+				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/tools.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/scrollto.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/color.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/form.js', CClientScript::POS_HEAD)
@@ -380,7 +380,7 @@ class YsaController extends CController
 		} elseif ($this->isMemberPanel()) {
 			// register main js
 			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/modernizr.js', CClientScript::POS_HEAD)
-				->registerScriptFile('http://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js', CClientScript::POS_HEAD)
+				->registerScriptFile('https://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/scrollto.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD);
 			
@@ -410,7 +410,7 @@ class YsaController extends CController
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/tiptip.css')
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/fancybox.css')
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/member.css')
-					->registerCssFile('http://fonts.googleapis.com/css?family=Candal');
+					->registerCssFile('https://fonts.googleapis.com/css?family=Candal');
 		}
 	}
 }

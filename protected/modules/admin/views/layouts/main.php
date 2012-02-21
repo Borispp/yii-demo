@@ -9,7 +9,7 @@
 	</script>
 
 	<!-- Google Font and style definitions -->
-	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:regular,bold">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:regular,bold">
 	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/style.css">
 	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/light/theme.css" id="themestyle" />
 	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/advanced.css">
@@ -19,14 +19,14 @@
 	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/elrte/css/elrte.min.css">
 
 	<!--[if lt IE 9]>
-	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/ie.css" />
 	<![endif]-->
 
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,maximum-scale=1" />
 
 	<!-- Use Google CDN for jQuery and jQuery UI -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js"></script>
 
 	<!-- Loading JS Files this way is not recommended! Merge them but keep their order -->

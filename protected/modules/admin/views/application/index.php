@@ -1,13 +1,9 @@
 <div class="g12">
-	
-	
 	<div>
-		
 		<?php $form=$this->beginWidget('CActiveForm', array(
 			'action'=>Yii::app()->createUrl($this->route),
 			'method' => 'get',
 		)); ?>
-		
 		<fieldset>
 			<div class="g12"><h3 id="search_toggler">Search</h3></div>
 			<div class="clearfix"></div>
@@ -57,12 +53,9 @@
 			</section>
 			</fieldset>
 			</div>
-		</fieldset>
-		
+		</fieldset>	
 		<?php $this->endWidget(); ?>
 	</div>
-	
-	
 	<?php $this->beginWidget('YsaAdminForm', array(
 		'id'=>'application-form',
 		'action'=>Yii::app()->createUrl('/admin/application/delete'),
@@ -73,8 +66,13 @@
 			<tr>
 				<th class="w_1">ID</th>
 				<th class="l">Name</th>
-				<th class="w_5">Status</th>
-				<th class="w_20">&nbsp;</th>
+				<th class="w_5">Filled</th>
+				<th class="w_5">Paid</th>
+				<th class="w_5">Submitted</th>
+				<th class="w_5">Approved</th>
+				<th class="w_5">Locked</th>
+				<th class="w_5">AppStore</th>
+				<th class="w_15">&nbsp;</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -84,7 +82,32 @@
 					<td class="l">
 						<?php echo YsaHtml::link($entry->name, array('edit', 'id' => $entry->id)); ?>
 					</td>
-					<td class="state <?php echo strtolower($entry->status())?>"><?php echo $entry->status(); ?></td>
+					<td class="<?php echo $entry->filled() ? 'true' : 'false'?>">
+						<?php echo $entry->filled() ? '<strong>Yes</strong>' : 'No'; ?>
+					</td>
+					<td class="<?php echo $entry->isPaid() ? 'true' : 'false'?>">
+						<?php echo $entry->isPaid() ? '<strong>Yes</strong>' : 'No'; ?>
+					</td>
+					<td class="<?php echo $entry->submitted() ? 'true' : 'false'?>">
+						<?php echo $entry->submitted() ? '<strong>Yes</strong>' : 'No'; ?>
+					</td>
+					<td class="<?php echo $entry->approved() ? 'true' : 'false'?>">
+						<?php echo $entry->approved() ? '<strong>Yes</strong>' : 'No'; ?>
+					</td>
+					<td class="<?php echo $entry->locked() ? 'true' : 'false'?>">
+						<?php echo $entry->locked() ? '<strong>Yes</strong>' : 'No'; ?>
+					</td>
+					<td class="<?php echo $entry->rejected() ? 'false' : ($entry->running() ? 'true' : ($entry->isReady() ? 'app-ready' : 'none'))?>">
+						<?php if ($entry->rejected()) : ?>
+							Rejected
+						<?php elseif($entry->running()):?>
+							Running
+						<?php elseif($entry->isReady()):?>
+							<strong>Sent</strong>
+						<?php else:?>
+							&mdash;
+						<?php endif; ?>
+					</td>
 					<td>
 						<?php echo YsaHtml::link('Moderate', array('moderate', 'id' => $entry->id), array('class' => 'btn small green')); ?>
 						<?php echo YsaHtml::link('Edit', array('edit', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
@@ -93,9 +116,7 @@
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-	
 	<?php $this->widget('YsaAdminPager',array('pages'=>$pagination)) ?>
 	<div class="clearfix"></div>
-	
 	<?php $this->endWidget(); ?>
 </div>
