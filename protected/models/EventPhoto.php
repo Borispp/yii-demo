@@ -374,7 +374,7 @@ class EventPhoto extends YsaActiveRecord
 				$exif['date_time_digitized'] = $data['DateTimeDigitized'];
 			}
 			if (isset($data['DateTimeOriginal'])) {
-				$exif['date_time_original'] = $data['DateTimeOriginal'];
+				$this->created = $this->updated = $exif['date_time_original'] = $data['DateTimeOriginal'];
 			}
 			if (isset($data['ExposureBiasValue'])) {
 				$exif['exposure_bias_value'] = $data['ExposureBiasValue'];
@@ -918,5 +918,21 @@ class EventPhoto extends YsaActiveRecord
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * Import date from EventAlbum::shooting_date
+	 * Will not if value already exists
+	 *
+	 * @param EventAlbum $album 
+	 */
+	public function importDate(EventAlbum $album)
+	{
+		//TODO: use in UI defferent field like shooting_date instead of created !?
+		if (empty($this->created) && !empty($album->shooting_date) && $this->album_id && $this->album_id == $album->id )
+		{
+			$this->created = $this->updated = $album->shooting_date;
+			$this->save(false);
+		}
 	}
 }

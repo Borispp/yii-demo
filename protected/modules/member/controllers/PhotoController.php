@@ -169,7 +169,9 @@ class PhotoController extends YsaMemberController
 			$photo = new EventPhoto();
 			$photo->album_id = $album->id;
 			
-			if ($photo->upload($uploaded)) {
+			if ($photo->upload($uploaded)) 
+			{
+				$photo->importDate($album);
 				$this->sendJsonSuccess(array(
 					'html' => $this->renderPartial('_listphoto', array(
 						'entry' => $photo,

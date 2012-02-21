@@ -174,6 +174,22 @@ class PaymentTransaction extends YsaActiveRecord
 	}
 
 	/**
+	 * Checks if transaction is broken.
+	 * @return bool
+	 */
+	public  function isBroken()
+	{
+		if ($this->type == 'application')
+		{
+			return !$this->paymentTransactionApplications;
+		}
+		else
+		{
+			return !$this->paymentTransactionSubscriptions;
+		}
+	}
+
+	/**
 	 * @return YsaPaymentTransaction
 	 */
 	protected  function _getTransactionRelationObject()

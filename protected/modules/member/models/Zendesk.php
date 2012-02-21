@@ -161,7 +161,7 @@ class Zendesk extends CModel
 
 				Yii::app()->cache->set($key, $data); // infinit lifetime
 			}
-			else error_log('Cache hit');
+
 			return $data;
 		}
 		catch(CException $e)
