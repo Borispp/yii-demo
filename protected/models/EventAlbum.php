@@ -635,11 +635,10 @@ class EventAlbum extends YsaActiveRecord
 				$photo->album_id = $this->id;
 				$photo->import($image, 'pass');
 				
-				//TODO: set cover
-//				if ($image['id'] == $photoSet['Highlight']['id']) {
-//					$this->setCover($photo->id);
-//				}
-//				
+				if ($image['Key'] == $photoSet['CoverImgKey']) {
+					$this->setCover($photo->id);
+				}
+				
 				// clear photo from memory
 				unset($photo);
 			}
