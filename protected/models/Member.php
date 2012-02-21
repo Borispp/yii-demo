@@ -180,7 +180,11 @@ class Member extends User
 	public function passApi()
 	{
 		if (is_null($this->_pass_api))
-			return $this->_pass_api = new PassApi;
+		{
+			$this->_pass_api = new PassApi;
+			$this->_pass_api->isLinked($this, true); // also load linked data
+			return $this->_pass_api;
+		}
 		
 		return $this->_pass_api;
 	}

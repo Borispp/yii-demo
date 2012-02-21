@@ -12,8 +12,6 @@ class PassController extends YsaMemberController
 			
 		try 
 		{
-			$this->member()->zenfolioAuthorize();
-
 			if (!isset($_POST['id']) || !isset($_POST['event_id'])) {
 				throw new Exception(Yii::t('error', 'standart_error'));
 			}
