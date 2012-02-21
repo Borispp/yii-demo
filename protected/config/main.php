@@ -320,16 +320,16 @@ return array(
 					'label'	=> 'Splash Background Image',
 					'img'	=> TRUE,
 				),
-				'splash_bg_color'	=> array(
-					'label'	=> 'Splash Background Color'
-				),
-				'splash_bg'	=> array(
-					'values'	=> array(
-						'image'	=> 'Background Image',
-						'color'	=> 'Background Color'
-					),
-					'label'		=> 'Splash Background Type'
-				)
+//				'splash_bg_color'	=> array(
+//					'label'	=> 'Splash Background Color'
+//				),
+//				'splash_bg'	=> array(
+//					'values'	=> array(
+//						'image'	=> 'Background Image',
+//						'color'	=> 'Background Color'
+//					),
+//					'label'		=> 'Splash Background Type'
+//				)
 			),
 			'colors'	=> array(
 				'studio_bg'	=> array(
