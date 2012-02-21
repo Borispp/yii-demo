@@ -1,4 +1,4 @@
-<?php
+<?php //
 class ApplicationController extends YsaAdminController
 {
 	/**
@@ -37,7 +37,7 @@ class ApplicationController extends YsaAdminController
 			$this->redirect('/admin/' . $this->getId());
 		}
 		
-		if (in_array($image, array('icon', 'itunes_logo'))) {
+		if (in_array($image, array('icon', 'itunes_logo', 'splash_bg_image'))) {
 			
 			$value = $entry->option($image);
 			
@@ -50,7 +50,18 @@ class ApplicationController extends YsaAdminController
 				$this->redirect(array('application/edit/id/' . $id . '/'));
 			}
 			
-			Yii::app()->request->sendFile($image . '_' . $id . '.png', file_get_contents($value['path']));
+			$img = new YsaImage($value['path']);
+			
+			if ($image == 'splash_bg_image') {
+				$img->auto_crop(1024, 748);
+			}
+			
+			$newImageName = tempnam(sys_get_temp_dir(), 'YSA_' . $image . '_image') . '.' . $img->ext;
+			
+			$img->save($newImageName);
+			
+			Yii::app()->request->sendFile($id . '_' . $image . '.png', file_get_contents($newImageName));
+			Yii::app()->end();
 		}
 		$this->redirect(array('application/'));
 	}
@@ -158,7 +169,8 @@ class ApplicationController extends YsaAdminController
 			'entry'			=> $entry,
 			'options'		=> $this->_getLabelifiedOptions($entry),
 			'icon'			=> $entry->option('icon'),
-			'itunes_logo'	=> $entry->option('itunes_logo')
+			'itunes_logo'	=> $entry->option('itunes_logo'),
+			'splash'		=> $entry->option('splash_bg_image'),
 		));
 	}
 

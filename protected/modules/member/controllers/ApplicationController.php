@@ -167,7 +167,8 @@ class ApplicationController extends YsaMemberController
 		}
 		
 		if ($app->editOption($image, $file, Option::TYPE_TEXT, $image == 'logo')) {
-			if (in_array($image, array('splash_bg_image', 'studio_bg_image', 'generic_bg_image'))) {
+//			if (in_array($image, array('splash_bg_image', 'studio_bg_image', 'generic_bg_image'))) {
+			if (in_array($image, array('studio_bg_image', 'generic_bg_image'))) {
 				$app->editOption(str_replace('_image', '', $image), 'image');
 			}
 			$this->sendJsonSuccess(array(
