@@ -316,10 +316,24 @@ class Application extends YsaActiveRecord
 	{
 		$this->ready = 1;
 		$this->save();
+		$this->notifyByEmail('application_ready');
 		if ($log) {
 			$this->log('ready');
 		}
 		return $this;
+	}
+
+	public function notifyByEmail($template)
+	{
+		$this->log('Notified user by email with '.$template.' template');
+		Email::model()->send(
+			array($this->application->user->email, $this->application->user->name()),
+			$template,
+			array(
+				'name'  => $this->application->user->name(),
+				'email' => $this->application->user->email,
+			)
+		);
 	}
 	
 	/**
