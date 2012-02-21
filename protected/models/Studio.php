@@ -300,30 +300,42 @@ class Studio extends YsaActiveRecord
 	 * Parse studio blog rss and return array of posts with [link,image,date,title,excerpt]
 	 * @param int $limit
 	 */
-	public function getRecentBlogPosts($limit = 5)
+	public function getRecentBlogPosts($limit = 10, $clearCache = false)
 	{
 		if (!$this->blog_feed) {
 			return array();
 		}
 		
-		$this->blog_feed = 'http://matthewcotter.com/feed/';
+		$this->blog_feed = 'http://zozo.com';
 		
-		Yii::import('ext.httpclient.*');
-		Yii::import('ext.httpclient.adapter.*');
-		$client = new EHttpClient($this->blog_feed, array(
-			'timeout'      => 30,
-			'adapter'	   => 'EHttpClientAdapterCurl',
-		));
+		$cacheKey = 'studio_blog_cache_' . $this->id;
 		
-		$response = $client->request();
-		
-		$xml = YsaHelpers::xml2array($response->getBody());
-		
-		if (!isset($xml['rss'])) {
-			return array();
+		if ($clearCache) {
+			Yii::app()->cache->delete($cacheKey);
+			$items = false;
+		} else {
+			$items = Yii::app()->cache->get($cacheKey);
 		}
 		
-		$items = $xml['rss']['channel']['item'];
+		if (false === $items) {
+			
+			Yii::import('ext.httpclient.*');
+			Yii::import('ext.httpclient.adapter.*');
+			$client = new EHttpClient($this->blog_feed, array(
+				'timeout'      => 30,
+				'adapter'	   => 'EHttpClientAdapterCurl',
+			));
+
+			$response = $client->request();
+			$xml = YsaHelpers::xml2array($response->getBody());
+
+			$items = array();
+			if (isset($xml['rss'])) {
+				$items = $xml['rss']['channel']['item'];
+			}
+			
+			Yii::app()->cache->set($cacheKey, $items, 21600); // 6 hours cache time
+		}
 		
 		$feed = array();
 		for ($i = 0; $i < $limit; $i++) {
@@ -346,9 +358,9 @@ class Studio extends YsaActiveRecord
 			}
 			
 			$entry = array(
-				'title'		=> $items[$i]['title'],
-				'date'		=> Yii::app()->dateFormatter->formatDateTime($items[$i]['pubDate']),
-				'link'		=> $items[$i]['link'],
+				'title'		=> isset($items[$i]['title']) ? $items[$i]['title'] : 'No Title',
+				'date'		=> isset($items[$i]['pubDate']) ? Yii::app()->dateFormatter->formatDateTime($items[$i]['pubDate']) : '-',
+				'link'		=> isset($items[$i]['link']) ? $items[$i]['link'] : '',
 				'excerpt'	=> $excerpt,
 				'image'		=> $image,
 			);
