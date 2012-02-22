@@ -20,7 +20,11 @@
 		<tr>
 			<td><?php echo $entry->id; ?></td>
 			<td class="l">
-				<?php echo CHtml::link($entry->getMember()->name(), array('view', 'id' => $entry->id)); ?>
+				<?php if (!$entry->isBroken()):?>
+					<?php echo CHtml::link($entry->getMember()->name(), array('payment/view', 'id' => $entry->id)); ?>
+				<?php else:?>
+					Unknown (broken transaction)
+				<?php endif;?>
 			</td>
 			<td class="l">
 				<?php echo CHtml::link($entry->type, array('view', 'id' => $entry->id)); ?>

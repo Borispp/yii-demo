@@ -135,32 +135,8 @@ return array(
 			'errorAction'=>'site/error',
 		),
 		'log'=>array(
-			'class'=>'YsaLogRouter',
-			'routes'=>array(
-				array(
-					'class'=>'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
-					'levels'=>'error, warning',
-					'ipFilters'=>array('127.0.0.1','192.168.1.215'),
-				),
-				array(
-                    'class'=>'CFileLogRoute',
-                    'levels'=>'error, warning',
-                    'filter'=>'CLogFilter',
-                ),
-				array(
-					'class' => 'CDbLogRoute',
-					'connectionID' => 'db',
-					'autoCreateLogTable' => 'true',
-					'levels' => 'error, warning',
-					'logTableName' => 'error_log',
-				),				
-                array(
-                    'class'=>'CEmailLogRoute',
-                    'levels'=>'error, warning',
-//                    'emails'=>'eugen@flosites.com',
-                ),
-				$log_routes // see /env/*.php
-			),
+			'class' => 'YsaLogRouter',
+			'routes' => $envLogRoutes,
 		),
 
 		'mailer' => array(
@@ -209,8 +185,9 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'    =>'webmaster@yourstudioapp.com',
+		'adminEmail'    =>'admin@yourstudioapp.com',
 		'admin_per_page'=> 40,
+		'member_per_page'=> 20,
 		'salt'          => 'wel0veyourstud1oapp',
 		'date_format'   => 'Y-m-d H:i:s',
 		'date_format_short' => 'D, j M',

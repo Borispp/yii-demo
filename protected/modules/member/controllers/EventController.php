@@ -26,7 +26,7 @@ class EventController extends YsaMemberController
 		$criteria->addSearchCondition('user_id', $this->member()->id);
 
 		$pagination = new CPagination(Event::model()->count($criteria));
-		$pagination->pageSize = Yii::app()->params['admin_per_page'];
+		$pagination->pageSize = Yii::app()->params['member_per_page'];
 		$pagination->applyLimit($criteria);
 		
 		$entries = Event::model()->findAll($criteria);

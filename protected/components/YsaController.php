@@ -269,14 +269,6 @@ class YsaController extends CController
 		return $this;
 	}
 	
-	public function loadVideoJS()
-	{
-		$this->_cs->registerScriptFile('http://vjs.zencdn.net/c/video.js', CClientScript::POS_HEAD)
-				  ->registerCssFile('http://vjs.zencdn.net/c/video-js.css');
-		
-		return $this;
-	}
-	
     /**
      * Register web application's resources and meta.
      * @param object $view
@@ -380,7 +372,7 @@ class YsaController extends CController
 		} elseif ($this->isMemberPanel()) {
 			// register main js
 			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/modernizr.js', CClientScript::POS_HEAD)
-				->registerScriptFile('https://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js', CClientScript::POS_HEAD)
+				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/tools.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/scrollto.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD);
 			
