@@ -185,8 +185,9 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'    =>'webmaster@yourstudioapp.com',
+		'adminEmail'    =>'admin@yourstudioapp.com',
 		'admin_per_page'=> 40,
+		'member_per_page'=> 20,
 		'salt'          => 'wel0veyourstud1oapp',
 		'date_format'   => 'Y-m-d H:i:s',
 		'date_format_short' => 'D, j M',
