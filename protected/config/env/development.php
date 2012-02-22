@@ -9,3 +9,9 @@ $envDb = array(
 	'enableProfiling'       => true,
 	'enableParamLogging'    => true,
 );
+
+$log_routes = array(
+	'class' => 'CWebLogRoute',
+	'categories' => 'application',
+	'levels'=>'error, warning, trace, profile, info',
+);
