@@ -1,6 +1,4 @@
 <?php
-define( 'FACEBOOK_APP_ID', '328815410473890' );
-define( 'FACEBOOK_APP_SECRET', '1b7ed31430e3e0110dcce0077e8cf28d' );
 
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
@@ -140,15 +138,15 @@ return array(
 			'class'=>'YsaLogRouter',
 			'routes'=>array(
 				array(
-					'levels'=>'error, warning',
 					'class'=>'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
+					'levels'=>'error, warning',
 					'ipFilters'=>array('127.0.0.1','192.168.1.215'),
 				),
 				array(
-					'class' => 'CWebLogRoute',
-					'categories' => 'application',
-					'levels'=>'error, warning, trace, profile, info',
-				),
+                    'class'=>'CFileLogRoute',
+                    'levels'=>'error, warning',
+                    'filter'=>'CLogFilter',
+                ),
 				array(
 					'class' => 'CDbLogRoute',
 					'connectionID' => 'db',
@@ -161,6 +159,7 @@ return array(
                     'levels'=>'error, warning',
 //                    'emails'=>'eugen@flosites.com',
                 ),
+				$log_routes // see /env/*.php
 			),
 		),
 
@@ -205,7 +204,7 @@ return array(
             ),
         ),
 	),
-
+	
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
@@ -222,11 +221,6 @@ return array(
 		),
 
 		'max_image_size' => 1024 * 1024 * 5, // 5MB
-
-		'oauth' => array(
-			'facebook_app_id' => FACEBOOK_APP_ID,
-			'facebook_app_secret' => FACEBOOK_APP_SECRET,
-		),
 		
 		'application'   => array(
 			'logo'  => array(
@@ -439,5 +433,5 @@ return array(
 			'main_font', 'main_font_color', 'second_font', 'second_font_color', 
 			'copyright', 'splash_bg', 'generic_bg', 'studio_bg',
 		)
-	),
+	),	
 );

@@ -9,3 +9,5 @@ $envDb = array(
 	'enableProfiling'       => true,
 	'enableParamLogging'    => true,
 );
+
+$log_routes = array();
