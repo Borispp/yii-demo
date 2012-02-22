@@ -135,32 +135,8 @@ return array(
 			'errorAction'=>'site/error',
 		),
 		'log'=>array(
-			'class'=>'YsaLogRouter',
-			'routes'=>array(
-				array(
-					'class'=>'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
-					'levels'=>'error, warning',
-					'ipFilters'=>array('127.0.0.1','192.168.1.215'),
-				),
-				array(
-                    'class'=>'CFileLogRoute',
-                    'levels'=>'error, warning',
-                    'filter'=>'CLogFilter',
-                ),
-				array(
-					'class' => 'CDbLogRoute',
-					'connectionID' => 'db',
-					'autoCreateLogTable' => 'true',
-					'levels' => 'error, warning',
-					'logTableName' => 'error_log',
-				),				
-                array(
-                    'class'=>'CEmailLogRoute',
-                    'levels'=>'error, warning',
-//                    'emails'=>'eugen@flosites.com',
-                ),
-				$log_routes // see /env/*.php
-			),
+			'class' => 'YsaLogRouter',
+			'routes' => $envLogRoutes,
 		),
 
 		'mailer' => array(
