@@ -8,6 +8,11 @@ form div.errorMessage {
 }
 
 
+table.data td,
+table.data th {
+	vertical-align: middle;
+}
+
 table.data .true,
 table.data .false,
 table.data .app-ready,

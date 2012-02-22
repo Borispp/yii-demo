@@ -269,14 +269,6 @@ class YsaController extends CController
 		return $this;
 	}
 	
-	public function loadVideoJS()
-	{
-		$this->_cs->registerScriptFile('http://vjs.zencdn.net/c/video.js', CClientScript::POS_HEAD)
-				  ->registerCssFile('http://vjs.zencdn.net/c/video-js.css');
-		
-		return $this;
-	}
-	
     /**
      * Register web application's resources and meta.
      * @param object $view

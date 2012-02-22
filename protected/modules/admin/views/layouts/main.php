@@ -2,7 +2,7 @@
 <html lang="en-us">
 <head>
 	<meta charset="utf-8">
-	<title><?php echo YsaHtml::encode($this->pageTitle); ?></title>
+	
 	<meta name="description" content="" />
 	<script type="text/javascript">
 		var _admin_url = '<?php echo CController::createUrl('/admin')?>';
@@ -75,13 +75,14 @@
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/script.js"></script>
 
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/advanced.js"></script>
+	
+	<title><?php echo YsaHtml::encode($this->pageTitle); ?></title>
 </head>
 <body>
 <div id="pageoptions">
 	<ul>
 		<li><?php echo YsaHtml::link('Logout', array('/logout'))?></li>
 		<li><?php echo YsaHtml::link('Configuration', '#', array('id' => 'wl_config'))?></li>
-		<li><?php echo YsaHtml::link('Blog Admin', Yii::app()->homeUrl . '/blog/')?></li>
 		<li><?php echo YsaHtml::link('Website', Yii::app()->homeUrl)?></li>
 	</ul>
 	<div>
@@ -97,7 +98,11 @@
 	<div id="header">
 		
 		<ul id="headernav">
-			<li><ul><li><a target="_blank" href="http://yourstudioapp.zendesk.com/">Zendesk</a></li></ul></li>
+			<li><ul>
+				<li><?php echo YsaHtml::link('Zendesk', 'http://yourstudioapp.zendesk.com/', array('target' => '_blank')); ?></li>
+				<li><?php echo YsaHtml::link('Blog Admin', Yii::app()->homeUrl . '/blog/', array('target' => '_blank'))?></li>
+				<li><?php echo YsaHtml::link('Mailchimp', 'https://login.mailchimp.com', array('target' => '_blank'))?></li>
+			</ul></li>
 		</ul>
 		
 		<?/*
