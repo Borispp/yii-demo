@@ -1,5 +1,7 @@
 <?php
 
+require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'env'.DIRECTORY_SEPARATOR.APPLICATION_ENV.'.php';
+
 // This is the configuration for yiic console application.
 // Any writable CConsoleApplication properties can be configured here.
 return array
@@ -25,21 +27,22 @@ return array
 	// application components
 	'components'=>array(
 	
-		// uncomment the following to use a MySQL database
-		'db'=>array(
-			'connectionString' => 'mysql:host=office.flosites.com;dbname=yoursturioapp',
-			//			'connectionString' => 'mysql:host=localhost;dbname=ysadev',
-			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => 'iloveflosites',
-			'charset' => 'utf8',
-			'enableProfiling' => true,
-			'enableParamLogging' => true,
-		),
+		'db' => $envDb,
 		
 		'settings'  => array(
 			'class' => 'application.components.YsaSettings'
 		),
 		
-	),	
+	),
+	
+	'commandMap'=>array(
+        'migrate'=>array(
+            'class'=>'system.cli.commands.MigrateCommand',
+            'migrationPath'=>'application.db_migrations',
+            'migrationTable'=>'sys_migration',
+            'connectionID'=>'db',
+            //'templateFile'=>'application.migrations.template',
+        ),
+    ),
+	
 );
