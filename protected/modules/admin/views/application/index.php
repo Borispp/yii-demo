@@ -1,12 +1,9 @@
 <div class="g12">
-	
 	<div>
-		
 		<?php $form=$this->beginWidget('CActiveForm', array(
 			'action'=>Yii::app()->createUrl($this->route),
 			'method' => 'get',
 		)); ?>
-		
 		<fieldset>
 			<div class="g12"><h3 id="search_toggler">Search</h3></div>
 			<div class="clearfix"></div>
@@ -56,12 +53,9 @@
 			</section>
 			</fieldset>
 			</div>
-		</fieldset>
-		
+		</fieldset>	
 		<?php $this->endWidget(); ?>
 	</div>
-	
-	
 	<?php $this->beginWidget('YsaAdminForm', array(
 		'id'=>'application-form',
 		'action'=>Yii::app()->createUrl('/admin/application/delete'),
@@ -122,9 +116,7 @@
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-	
 	<?php $this->widget('YsaAdminPager',array('pages'=>$pagination)) ?>
 	<div class="clearfix"></div>
-	
 	<?php $this->endWidget(); ?>
 </div>

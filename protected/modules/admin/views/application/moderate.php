@@ -21,6 +21,13 @@
 			<section>
 				<label>&nbsp;</label>
 				<div>
+					<p>
+						Application Key<br/>
+						<code>
+							<strong class="big"><?php echo $entry->appkey; ?></strong>
+						</code>
+					</p>
+					
 					<?php if (!$itunes_logo):?>
 						<div class="errorMessage">No iTunes logo uploaded</div>
 					<?php endif?>
