@@ -234,13 +234,13 @@ class StudioController extends YsaApiController
 				),
 			));
 		
-		$params = array();
+		$params = array(
+			'images' => array(),
+		);
 		if ($this->_getEventAlbum(TRUE)->photos) {
 			//$this->_renderError(Yii::t('api', 'event_album_no_photos'));
 			foreach($this->_getEventAlbum(TRUE)->photos as $obPhoto)
 				$params['images'][] = $this->_getPhotoInfo($obPhoto);
-		} else {
-			$params['images'] = array();
 		}
 		
 		$this->_render($params);
