@@ -6,21 +6,26 @@
 		<div class="box-content">
 			<div class="shadow-box cf">
 				<div class="page">
-					<?php foreach ($categories as $category) : ?>
-						<?php if (count($category->tutorials)) : ?>
-							<div class="category">
-								<a name="<?php echo $category->id; ?>"></a>
-								<h4><?php echo $category->name; ?></h4>
-								<ul>
-									<?php foreach ($category->tutorials as $tutorial) : ?>
-										<li>
-											<?php echo YsaHtml::link($tutorial->title, array('help/' . $tutorial->slug)); ?>
-										</li>
-									<?php endforeach; ?>
-								</ul>
-							</div>
-						<?php endif; ?>
-					<?php endforeach; ?>
+					
+					<?php if (count($categories)) : ?>
+						<?php foreach ($categories as $category) : ?>
+							<?php if (count($category->tutorials)) : ?>
+								<div class="category">
+									<a name="<?php echo $category->id; ?>"></a>
+									<h4><?php echo $category->name; ?></h4>
+									<ul>
+										<?php foreach ($category->tutorials as $tutorial) : ?>
+											<li>
+												<?php echo YsaHtml::link($tutorial->title, array('help/' . $tutorial->slug)); ?>
+											</li>
+										<?php endforeach; ?>
+									</ul>
+								</div>
+							<?php endif; ?>
+						<?php endforeach; ?>
+					<?php else:?>
+						<div class="empty-list"><?php echo Yii::t('general', 'Coming soon'); ?></div>
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>

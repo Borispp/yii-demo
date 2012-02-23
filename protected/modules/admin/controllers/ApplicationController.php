@@ -199,12 +199,13 @@ class ApplicationController extends YsaAdminController
 					.YsaHtml::openTag('span', array('class' => 'lbl')).$value.YsaHtml::closeTag('span');
 				}
 
-				$result[$obApplication->generateAttributeLabel($section)][$propertyInfo['label']] =
+				$result[$obApplication->generateAttributeLabel($section)][$obApplication->generateAttributeLabel($property)] =
 				(!is_null($value) && array_key_exists('values', $propertyInfo) && !empty($propertyInfo['values'][$value]))
 					? $propertyInfo['values'][$value]
 					: $value;
 			}
 		}
+		
 		return $result;
 	}
 	
