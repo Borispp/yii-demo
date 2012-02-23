@@ -320,11 +320,24 @@ class EventPhoto extends YsaActiveRecord
 	 * @param integer $width
 	 * @param integer $height
 	 * @param array $htmlOptions
+	 * @param boolean|integer $lazy_load to use lazy load
 	 * @return string
 	 */
-	public function preview($width = 300, $height = 200, $htmlOptions = array())
+	public function preview($width = 300, $height = 200, $htmlOptions = array(), $lazy_load = false)
 	{
-		return YsaHtml::image($this->previewUrl($width, $height), $this->alt, $htmlOptions);
+		if ($lazy_load > 10)
+		{
+			$options = array_merge(
+				$htmlOptions, 
+				array(
+					'data-original' => $this->previewUrl($width, $height),
+					'class' => 'lazy'
+				)
+			);
+			return YsaHtml::image('/resources/images/ajax-loader.gif', $this->alt, $options);
+		}
+		
+		return YsaHtml::image($this->previewUrl($width, $height), $this->alt);
 	}
 	
 	/**

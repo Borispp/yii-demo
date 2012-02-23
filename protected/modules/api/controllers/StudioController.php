@@ -95,9 +95,10 @@ class StudioController extends YsaApiController
 		foreach($this->_getApplication()->user->studio->persons() as $obPerson)
 		{
 			$params['persons'][] = array(
-				'name'  => $obPerson->name,
-				'photo' => $obPerson->photoUrl(),
-				'text'  => $obPerson->description
+				'name'     => $obPerson->name,
+				'photo'    => $obPerson->photoUrl(),
+				'filesize' => $obPerson->photoFilesize(),
+				'text'     => $obPerson->description
 			);
 		}
 

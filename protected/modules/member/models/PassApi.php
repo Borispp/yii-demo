@@ -98,7 +98,10 @@ class PassApi extends YsaFormModel
 				$counter++;
 
 				if ($this->authorize() && $counter <= 3)
-					return call_user_func_array(__METHOD__, func_get_args());
+				{
+					$args = func_get_args();
+					return call_user_func_array(__METHOD__, $args);
+				}
 			}
 			
 			$this->addError('email', $output->message);

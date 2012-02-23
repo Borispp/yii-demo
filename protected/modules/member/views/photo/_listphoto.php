@@ -1,6 +1,6 @@
 <li id="album-photo-<?php echo $entry->id?>" <?php echo $entry->isCover() ? 'class="cover"' : ''; ?>>
 	<figure data-src="<?php echo $entry->url();?>">
-		<?php echo $entry->preview(Yii::app()->params['member_area']['photo']['preview']['width'], Yii::app()->params['member_area']['photo']['preview']['height']); ?>
+		<?php echo $entry->preview(Yii::app()->params['member_area']['photo']['preview']['width'], Yii::app()->params['member_area']['photo']['preview']['height'], array(), isset($position)?$position:0); ?>
 		<figcaption><?php echo YsaHtml::link(YsaHelpers::truncate($entry->name, 25), array('photo/view/' . $entry->id), array('title' => $entry->name)); ?></figcaption>
 		<span class="menu">
 			<?php echo YsaHtml::link(' ', array('photo/view/' . $entry->id), array('class' => 'view icon i_eye', 'title' => 'View Photo')); ?>
