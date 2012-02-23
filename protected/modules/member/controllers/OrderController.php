@@ -10,15 +10,15 @@ class OrderController extends YsaMemberController
 	{
 		$criteria = UserOrder::model()->searchCriteria();
 		$pagination = new CPagination(UserOrder::model()->count($criteria));
-		$pagination->pageSize = Yii::app()->params['admin_per_page'];
+		$pagination->pageSize = Yii::app()->params['member_per_page'];
 		$pagination->applyLimit($criteria);
 
 		$entries = UserOrder::model()->findAll($criteria);
 
 		$this->render('index',array(
-				'entries'       => $entries,
-				'pagination'    => $pagination
-			));
+			'entries'       => $entries,
+			'pagination'    => $pagination
+		));
 	}
 
 	public function actionShowPdf($id)

@@ -799,4 +799,20 @@ class Application extends YsaActiveRecord
 		$transactionApplication->save();
 		return $transaction;
 	}
+	
+	public function imageUrl($name, $width = 72, $height = 72)
+	{
+		$image = $this->option($name);
+		
+		if ($image && isset($image['url']) && is_file($image['path'])) {
+			return ImageHelper::thumb($width, $height, $image['path']);
+		} else {
+			return EventPhoto::model()->defaultPicUrl($width, $height);
+		}
+	}
+	
+	public function image($name, $width = 72, $height = 72, $alt = '', $htmlOptions = array())
+	{
+		return YsaHtml::image($this->imageUrl($name, $width, $height), $alt, $htmlOptions);
+	}
 }

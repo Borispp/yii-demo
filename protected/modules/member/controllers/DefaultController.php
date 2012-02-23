@@ -22,6 +22,9 @@ class DefaultController extends YsaMemberController
 			case 403:
 				$errCode = '403';
 				break;
+			case 500:
+				$errCode = 500;
+				break;
 			case 404:
 			default:
 				$errCode = 403;

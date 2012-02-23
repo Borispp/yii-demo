@@ -1,12 +1,9 @@
 <div class="g12">
-	
 	<div>
-		
 		<?php $form=$this->beginWidget('CActiveForm', array(
 			'action'=>Yii::app()->createUrl($this->route),
 			'method' => 'get',
 		)); ?>
-		
 		<fieldset>
 			<div class="g12"><h3 id="search_toggler">Search</h3></div>
 			<div class="clearfix"></div>
@@ -56,12 +53,9 @@
 			</section>
 			</fieldset>
 			</div>
-		</fieldset>
-		
+		</fieldset>	
 		<?php $this->endWidget(); ?>
 	</div>
-	
-	
 	<?php $this->beginWidget('YsaAdminForm', array(
 		'id'=>'application-form',
 		'action'=>Yii::app()->createUrl('/admin/application/delete'),
@@ -70,7 +64,7 @@
 	<table class="data">
 		<thead>
 			<tr>
-				<th class="w_1">ID</th>
+				<th class="w_1">&nbsp;</th>
 				<th class="l">Name</th>
 				<th class="w_5">Filled</th>
 				<th class="w_5">Paid</th>
@@ -84,9 +78,14 @@
 		<tbody>
 			<?php foreach ($entries as $entry) : ?>
 				<tr>
-					<td><?php echo $entry->id; ?></td>
+					<td>
+						<?php echo YsaHtml::link($entry->image('itunes_logo', 50, 50), array('application/moderate', 'id' => $entry->id)); ?>
+					</td>
 					<td class="l">
-						<?php echo YsaHtml::link($entry->name, array('edit', 'id' => $entry->id)); ?>
+						<h5><?php echo YsaHtml::link($entry->name, array('moderate', 'id' => $entry->id)); ?></h5>
+						<div>
+							<code><?php echo $entry->appkey; ?></code>
+						</div>
 					</td>
 					<td class="<?php echo $entry->filled() ? 'true' : 'false'?>">
 						<?php echo $entry->filled() ? '<strong>Yes</strong>' : 'No'; ?>
@@ -122,9 +121,7 @@
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-	
 	<?php $this->widget('YsaAdminPager',array('pages'=>$pagination)) ?>
 	<div class="clearfix"></div>
-	
 	<?php $this->endWidget(); ?>
 </div>

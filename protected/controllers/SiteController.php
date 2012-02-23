@@ -67,6 +67,8 @@ class SiteController extends YsaFrontController
 			case 403:
 				$errCode = '403';
 				break;
+			case 500:
+				$errCode = '500';
 			case 404:
 			default:
 				$errCode = '404';

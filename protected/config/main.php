@@ -1,6 +1,4 @@
 <?php
-define( 'FACEBOOK_APP_ID', '328815410473890' );
-define( 'FACEBOOK_APP_SECRET', '1b7ed31430e3e0110dcce0077e8cf28d' );
 
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
@@ -137,31 +135,8 @@ return array(
 			'errorAction'=>'site/error',
 		),
 		'log'=>array(
-			'class'=>'YsaLogRouter',
-			'routes'=>array(
-				array(
-					'levels'=>'error, warning',
-					'class'=>'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
-					'ipFilters'=>array('127.0.0.1','192.168.1.215'),
-				),
-				array(
-					'class' => 'CWebLogRoute',
-					'categories' => 'application',
-					'levels'=>'error, warning, trace, profile, info',
-				),
-				array(
-					'class' => 'CDbLogRoute',
-					'connectionID' => 'db',
-					'autoCreateLogTable' => 'true',
-					'levels' => 'error, warning',
-					'logTableName' => 'error_log',
-				),				
-                array(
-                    'class'=>'CEmailLogRoute',
-                    'levels'=>'error, warning',
-//                    'emails'=>'eugen@flosites.com',
-                ),
-			),
+			'class' => 'YsaLogRouter',
+			'routes' => $envLogRoutes,
 		),
 
 		'mailer' => array(
@@ -205,13 +180,14 @@ return array(
             ),
         ),
 	),
-
+	
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'    =>'webmaster@yourstudioapp.com',
+		'adminEmail'    =>'admin@yourstudioapp.com',
 		'admin_per_page'=> 40,
+		'member_per_page'=> 20,
 		'salt'          => 'wel0veyourstud1oapp',
 		'date_format'   => 'Y-m-d H:i:s',
 		'date_format_short' => 'D, j M',
@@ -222,11 +198,6 @@ return array(
 		),
 
 		'max_image_size' => 1024 * 1024 * 5, // 5MB
-
-		'oauth' => array(
-			'facebook_app_id' => FACEBOOK_APP_ID,
-			'facebook_app_secret' => FACEBOOK_APP_SECRET,
-		),
 		
 		'application'   => array(
 			'logo'  => array(
@@ -439,5 +410,5 @@ return array(
 			'main_font', 'main_font_color', 'second_font', 'second_font_color', 
 			'copyright', 'splash_bg', 'generic_bg', 'studio_bg',
 		)
-	),
+	),	
 );
