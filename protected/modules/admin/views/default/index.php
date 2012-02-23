@@ -120,7 +120,7 @@
 					<?php foreach ($applications as $entry) : ?>
 						<tr>
 							<td>
-								<?php echo YsaHtml::link($entry->image('logo', 50, 50), array('application/moderate', 'id' => $entry->id)); ?>
+								<?php echo YsaHtml::link($entry->image('itunes_logo', 50, 50), array('application/moderate', 'id' => $entry->id)); ?>
 							</td>
 							<td class="l">
 								<?php echo YsaHtml::link($entry->name, array('application/moderate', 'id' => $entry->id)); ?>

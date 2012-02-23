@@ -182,7 +182,9 @@ class StudioController extends YsaApiController
 	 */
 	public function actionGetEventAlbums()
 	{
-		$params = array();
+		$params = array(
+			'albums' => array(),
+		);
 		foreach($this->_getEvent()->albums as $obEventAlbum)
 		{
 			if (!$obEventAlbum->isActive())
@@ -231,11 +233,16 @@ class StudioController extends YsaApiController
 					'required'	=> TRUE,
 				),
 			));
-		if (!$this->_getEventAlbum(TRUE)->photos)
-			$this->_renderError(Yii::t('api', 'event_album_no_photos'));
-		$params = array();
-		foreach($this->_getEventAlbum(TRUE)->photos as $obPhoto)
-			$params['images'][] = $this->_getPhotoInfo($obPhoto);
+		
+		$params = array(
+			'images' => array(),
+		);
+		if ($this->_getEventAlbum(TRUE)->photos) {
+			//$this->_renderError(Yii::t('api', 'event_album_no_photos'));
+			foreach($this->_getEventAlbum(TRUE)->photos as $obPhoto)
+				$params['images'][] = $this->_getPhotoInfo($obPhoto);
+		}
+		
 		$this->_render($params);
 	}
 

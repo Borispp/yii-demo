@@ -79,7 +79,7 @@
 			<?php foreach ($entries as $entry) : ?>
 				<tr>
 					<td>
-						<?php echo YsaHtml::link($entry->image('logo', 50, 50), array('application/moderate', 'id' => $entry->id)); ?>
+						<?php echo YsaHtml::link($entry->image('itunes_logo', 50, 50), array('application/moderate', 'id' => $entry->id)); ?>
 					</td>
 					<td class="l">
 						<h5><?php echo YsaHtml::link($entry->name, array('moderate', 'id' => $entry->id)); ?></h5>
