@@ -11,11 +11,11 @@ $envDb = array(
 );
 
 $envLogRoutes = array(
-	array(
-		'class'=>'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
-		'levels'=>'error, warning',
-		'ipFilters'=>array('127.0.0.1','192.168.1.215'),
-	),
+//	array(
+//		'class'=>'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
+//		'levels'=>'error, warning',
+//		'ipFilters'=>array('127.0.0.1','192.168.1.215'),
+//	),
 	array(
 		'class'=>'CFileLogRoute',
 		'levels'=>'error, warning',

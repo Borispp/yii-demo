@@ -298,3 +298,25 @@ ul.replies li p {
 #loginform input[type=password] {
 	width:302px;
 }
+
+#tab-custom-fields {
+}
+#tab-custom-fields section {
+	
+}
+#tab-custom-fields .name,
+#tab-custom-fields .area,
+#tab-custom-fields .image,
+#tab-custom-fields .save {
+	margin-bottom:1em;
+}
+
+#tab-custom-fields .image img {
+	max-width:150px;
+	height:auto;
+	vertical-align: middle;
+}
+#tab-custom-fields .image .delete-image {
+	color:#c00;
+	
+}

@@ -182,4 +182,12 @@ class YsaActiveRecord extends CActiveRecord
 			return false;
 		}
 	}
+	
+	// flush field
+	public function flush($field)
+	{
+		$this->{$field} = null;
+		
+		return $this;
+	}
 }

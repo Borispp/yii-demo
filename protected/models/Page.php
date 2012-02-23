@@ -16,6 +16,8 @@
  * @property string $updated
  * @property integer $state
  * @property array @items;
+ * 
+ * @property PageCustom $custom
  */
 class Page extends YsaActiveRecord
 {
@@ -31,6 +33,8 @@ class Page extends YsaActiveRecord
 
 	protected $_meta;
 
+	protected $_custom;
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Page the static model class
@@ -73,7 +77,9 @@ class Page extends YsaActiveRecord
 	 */
 	public function relations()
 	{
-		return array();
+		return array(
+			'custom' => array(self::HAS_MANY, 'PageCustom', 'page_id'),
+		);
 	}
 
 	/**

@@ -81,6 +81,8 @@ class PageController extends YsaAdminController
 				$this->refresh();
 			}
 		}
+		
+		$this->loadPlupload();
 
 		$this->setContentTitle('Edit Page');
 		$this->render('edit', array(
@@ -98,5 +100,115 @@ class PageController extends YsaAdminController
 		$this->render('index',array(
 				'entries'   => $entries,
 			));
+	}
+	
+	public function actionAddCustomField()
+	{
+		if (Yii::app()->request->isAjaxRequest && isset($_POST['id'])) {
+			$page = Page::model()->findByPk($_POST['id']);
+			
+			if (!$page) {
+				$this->sendJsonError(array(
+					'msg' => Yii::t('error', 'general_error'),
+				));
+			}
+			
+			$field = new PageCustom();
+			$field->setAttributes(array(
+				'page_id' => $page->id,
+				'image'	=> '',
+				'value' => '',
+			));
+			$field->setNextRank();
+			$field->save();
+			
+			$this->sendJsonSuccess(array(
+				'html' => $this->renderPartial('_customField', array(
+					'field' => $field,
+				), true),
+			));
+		}
+		$this->redirect('index');
+	}
+	
+	public function actionSaveCustomField()
+	{
+		if (Yii::app()->request->isAjaxRequest && isset($_POST['id'])) {
+			$field = PageCustom::model()->findByPk($_POST['id']);
+			
+			if (!$field) {
+				$this->sendJsonError(array(
+					'msg' => Yii::t('error', 'general_error'),
+				));
+			}
+			
+			$field->setAttributes(array(
+				'name'	=> $_POST['name'],
+				'value' => $_POST['value'],
+			));
+			$field->save();
+			
+			$this->sendJsonSuccess();
+		}
+		$this->redirect('index');
+	}
+	
+	public function actionDeleteCustomField()
+	{
+		if (Yii::app()->request->isAjaxRequest && isset($_POST['id'])) {
+			$field = PageCustom::model()->findByPk($_POST['id']);
+			
+			if ($field) {
+				$field->delete();
+			}
+			
+			$this->sendJsonSuccess();
+		}
+		$this->redirect('index');
+	}
+	
+	public function actionDeleteCustomFieldImage()
+	{
+		if (Yii::app()->request->isAjaxRequest && isset($_POST['id'])) {
+			$field = PageCustom::model()->findByPk($_POST['id']);
+			
+			if ($field) {
+				$field->deleteImage();
+			}
+			
+			$this->sendJsonSuccess(array(
+				'html' => $this->renderPartial('_customLoad', array(
+					'field'	=> $field,
+				), true),
+			));
+		}
+		$this->redirect('index');
+	}
+	
+	public function actionLoadCustomImage($id)
+	{
+		$field = PageCustom::model()->findByPk($id);
+
+		if (!$field) {
+			$this->sendJsonError(array(
+				'msg' => Yii::t('error', 'general_error'),
+			));
+		}
+
+		if (isset($_FILES['file'])) {
+			$field->upload('file');
+			$image = $field->image();
+			$this->sendJsonSuccess(array(
+				'html' => $this->renderPartial('_customImage', array(
+					'image' => $image,
+					'field'	=> $field,
+				), true)
+			));
+			
+		} else {
+			$this->sendJsonError(array(
+				'msg' => Yii::t('error', 'general_error'),
+			));
+		}
 	}
 }
