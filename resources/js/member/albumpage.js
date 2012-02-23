@@ -397,5 +397,7 @@ $(function(){
 	}
 	
 	$('#album').initAlbumPage();
-	
+	$("#album-photos img.lazy").lazyload().bind('load', function() {
+	    $(this).removeClass('lazy')
+	});
 })

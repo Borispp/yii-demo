@@ -58,9 +58,12 @@
 				</div>
 				<ul id="album-photos" class="album-photos cf">
 					<?php if (count($entry->photos)) : ?>
+							<?php $counter = 0 ?>
 							<?php foreach ($entry->photos as $photo) : ?>
+							<?php $counter++ ?>
 							<?php echo $this->renderPartial('/photo/_listphoto', array(
-								'entry' => $photo
+								'entry' => $photo,
+								'position' => $counter
 							)); ?>
 							<?php endforeach; ?>
 					<?php endif; ?>
