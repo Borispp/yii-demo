@@ -149,7 +149,7 @@ class AlbumController extends YsaMemberController
 		
 		$this->setMemberPageTitle($entry->name);
 		
-		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/jquery.lazyload.js', CClientScript::POS_END);
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/jquery.lazyload.min.js', CClientScript::POS_END);
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/albumpage.js', CClientScript::POS_HEAD);
 		
 		$this->render('view', array(

@@ -179,6 +179,10 @@ return array(
                 ),
             ),
         ),
+		
+		'clientScript' => array(
+			'class' => 'ext.ClientScriptPacker.ClientScriptPacker',
+		),
 	),
 	
 	// application-level parameters that can be accessed
