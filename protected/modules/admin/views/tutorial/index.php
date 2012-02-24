@@ -84,10 +84,12 @@
 			<td><input type="checkbox" class="del" value="<?php echo $entry->id; ?>" name="ids[]" /></td>
 			<td><?php echo $entry->id; ?></td>
 			<td class="l">
-				<h4><?php echo YsaHtml::link($entry->title, array('edit', 'id' => $entry->id)); ?></h4>
+				<h5><?php echo YsaHtml::link($entry->title, array('edit', 'id' => $entry->id)); ?></h5>
 			</td>
 			<td class="l"><strong><?php echo $entry->category->name; ?></strong></td>
-			<td><?php echo $entry->state(); ?></td>
+			<td class="<?php echo strtolower($entry->state()); ?>">
+				<strong><?php echo $entry->state(); ?></strong>
+			</td>
 			<td>
 				<?php echo YsaHtml::link('Edit', array('edit', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
 			</td>

@@ -32,12 +32,27 @@ table.data .none {
 	background-color: #eee;
 }
 
+td.active,
+td.inactive {
+	color:#444;
+}
+
+td.page-system {
+	background-color: #ddd;
+}
+td.page-general {
+	background-color: #77D5EF;
+}
+
+
 .state1,
-.bg_green {
+.bg_green,
+td.active {
     background-color: #A2E8A2;
 }
 .state-1,
-.bg_red {
+.bg_red,
+td.inactive {
     background-color: #F0A8A8;
 }
 .state0,
