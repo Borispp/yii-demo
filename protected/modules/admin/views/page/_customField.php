@@ -1,4 +1,4 @@
-<section class="g6">
+<section class="g6 custom-field" id="customfield_<?php echo $field->id?>">
 	<div class="name">
 		<input type="text" value="<?php echo $field->name; ?>" placeholder="Field Name" />
 	</div>
@@ -19,6 +19,8 @@
 	</div>
 	<div class="save r">
 		<?php echo YsaHtml::link('Delete', '#', array('class' => 'btn red small del', 'data-id' => $field->id,)); ?>
-		<?php echo YsaHtml::link('Save', '#', array('class' => 'btn blue save' , 'data-id' => $field->id,)); ?>
+		<?php echo YsaHtml::link('Sort','#', array('class' => 'btn yellow small sort' , 'data-id' => $field->id,)); ?>
+		<?php echo YsaHtml::link('Save', '#', array('class' => 'btn blue small save' , 'data-id' => $field->id,)); ?>
 	</div>
+	<div class="clearfix"></div>
 </section>

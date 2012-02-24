@@ -302,21 +302,32 @@ ul.replies li p {
 #tab-custom-fields {
 }
 #tab-custom-fields section {
+	height:260px;
 	
 }
 #tab-custom-fields .name,
-#tab-custom-fields .area,
-#tab-custom-fields .image,
-#tab-custom-fields .save {
+#tab-custom-fields .area {
 	margin-bottom:1em;
+}
+
+#tab-custom-fields .image {
+	float:left;
+}
+#tab-custom-fields .save {
+	float:right;
 }
 
 #tab-custom-fields .image img {
 	max-width:150px;
+	max-height:100px;
 	height:auto;
 	vertical-align: middle;
 }
 #tab-custom-fields .image .delete-image {
 	color:#c00;
 	
+}
+#tab-custom-fields .custom-placeholder {
+	height:260px;
+	background:#eee;
 }

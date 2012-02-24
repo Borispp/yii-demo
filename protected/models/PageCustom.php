@@ -96,7 +96,7 @@ class PageCustom extends YsaActiveRecord
     public function upload($name, $save = true)
     {   
         $image = new YsaImage($_FILES[$name]['tmp_name']);
-        $newName = md5($name . Yii::app()->params['salt']) . '.' . $image->ext;
+        $newName = md5(time() . $name . Yii::app()->params['salt']) . '.' . $image->ext;
         $savePath = $this->_uploadPath . DIRECTORY_SEPARATOR . $newName;
         $url = $this->_uploadUrl . '/' . $newName;
         $status = $image->save($savePath);
@@ -124,12 +124,18 @@ class PageCustom extends YsaActiveRecord
         return $this;
     }
 	
-	public function image()
+	public function image($html = false, $htmlOptions = array())
 	{
-		if (YsaHelpers::isSerialized($this->image)) {
-			return unserialize($this->image);
-		} else {
+		$image = '';
+		if (!YsaHelpers::isSerialized($this->image)) {
 			return false;
+		}
+		
+		$image = unserialize($this->image);
+		if ($html) {
+			return YsaHtml::image($image['url'], "", $htmlOptions);
+		} else {
+			return $image;
 		}
 	}
 	

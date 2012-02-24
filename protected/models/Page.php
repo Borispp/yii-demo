@@ -78,7 +78,7 @@ class Page extends YsaActiveRecord
 	public function relations()
 	{
 		return array(
-			'custom' => array(self::HAS_MANY, 'PageCustom', 'page_id'),
+			'custom' => array(self::HAS_MANY, 'PageCustom', 'page_id', 'order' => 'rank ASC'),
 		);
 	}
 
@@ -245,5 +245,24 @@ class Page extends YsaActiveRecord
 	public function delete() {
 		$this->meta()->delete();
 		parent::delete();
+	}
+	
+	public function custom($field, $single = false)
+	{
+		if ($single) {
+			return PageCustom::model()->findByAttributes(array(
+				'page_id'	=> $this->id,
+				'name'		=> $field,
+			));
+		} else {
+			return PageCustom::model()->findAll(array(
+				'condition' => 'page_id=:page_id AND name=:name',
+				'params'	=> array(
+					'page_id'	=> $this->id,
+					'name'		=> $field,
+				),
+				'order' => 'rank ASC',
+			));
+		}
 	}
 }

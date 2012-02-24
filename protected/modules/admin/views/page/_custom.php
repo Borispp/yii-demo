@@ -5,11 +5,10 @@
 	<div class="clearfix"></div>
 </div>
 
-
-<div id="tab-custom-fields" class="g12">
-	<?php foreach ($entry->custom as $custom) : ?>
+<div id="tab-custom-fields" class="g12" data-id="<?php echo $entry->id; ?>">
+	<?php foreach ($entry->custom as $field) : ?>
 		<?php $this->renderPartial('_customField', array(
-			'field' => $custom,
+			'field' => $field,
 		)); ?>
 	<?php endforeach; ?>
 </div>
@@ -20,7 +19,6 @@
 
 <script type="text/javascript">
 $(function(){
-
 	var fields = $('#tab-custom-fields');	
 	var row;
 	
@@ -34,6 +32,9 @@ $(function(){
 				row = $(data.html);
 				fields.append(row);
 				row.find('input, select').uniform();
+				
+				_init_uploader(row.find('.load'));
+				
 			} else {
 				$.alert(data.error);
 			}
@@ -100,6 +101,34 @@ $(function(){
 	fields.find('.image .load').each(function(){
 		_init_uploader($(this));
 	});
+
+	//use jQuery UI sortable plugin for the widget sortable function
+	fields.sortable({
+		items: fields.find('section.custom-field'),
+		containment: fields,
+		opacity: 0.8,
+//		distance: 5,
+		handle: 'a.sort',
+		forceHelperSize: true,
+		placeholder: 'custom-placeholder g6',
+		forcePlaceholderSize: true,
+		zIndex: 10000,
+		update:function(){
+
+			var order = [];
+			fields.children('section').each(function(idx, elm) {
+				order.push(elm.id.split('_')[1])
+			});
+			
+			$.post(_admin_url + '/page/sortCustomFields/id/' + fields.data('id'), {'order[]':order}, function(data){
+				if (data.success) {
+					fields.effect('highlight');
+				} else {
+					$.alert(data.msg);
+				}
+			}, 'json');
+		}
+	});
 	
 	function _init_uploader(section) {
 
@@ -142,26 +171,6 @@ $(function(){
 
 		return uploader;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 });
 </script>

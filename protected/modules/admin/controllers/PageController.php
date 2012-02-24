@@ -211,4 +211,28 @@ class PageController extends YsaAdminController
 			));
 		}
 	}
+	
+	public function actionSortCustomFields($id)
+	{
+		$page = Page::model()->findByPk($id);
+		
+		if ($page && isset($_POST['order']) && is_array($_POST['order'])) {
+			
+			foreach ($_POST['order'] as $k => $id) {
+				$field = PageCustom::model()->findByPk($id);
+				if (!$field) {
+					continue;
+				}
+				$field->rank = $k+1;
+				$field->save();
+			}
+			
+			$this->sendJsonSuccess();
+			
+		} else {
+			$this->sendJsonError(array(
+				'msg' => Yii::t('error', 'general_error'),
+			));
+		}
+	}
 }

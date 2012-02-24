@@ -13,7 +13,6 @@ class SiteController extends YsaFrontController
 		$this->loadFancybox();
 		
 		$newsletterForm = new NewsletterForm();
-		
         $this->render('index', array(
             'page' => $page,
 			'newsletterForm' => $newsletterForm,
