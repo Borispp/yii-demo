@@ -26,6 +26,12 @@ $envLogRoutes = array(
 	array(
 		'class'=>'CEmailLogRoute',
 		'levels'=>'error, warning',
-//                    'emails'=>'eugen@flosites.com',
+//      'emails'=>'eugen@flosites.com',
 	),
+);
+
+$envModules = array(
+	'api',
+	'member',
+	'admin',
 );
