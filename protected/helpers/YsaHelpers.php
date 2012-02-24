@@ -387,5 +387,24 @@ class YsaHelpers
 		}
 
 		return($xml_array);
-	}  
+	}
+
+	/**
+	 * Recursive import files from path.
+	 * @static
+	 * @param $path
+	 */
+	public static function importRecursive($path)
+	{
+		$path = rtrim($path, '/').'/*';
+		foreach(glob($path) as $filename)
+		{
+			if (is_file($filename))
+			{
+				require_once($filename);
+				continue;
+			}
+			YsaHelpers::importRecursive($filename);
+		}
+	}
 }
