@@ -153,6 +153,13 @@ return array(
 					'js'=>array('jquery.min.js'),
 				),
 			),
+			'class' => 'ext.ExtendedClientScript.ExtendedClientScript',
+			'combineCss'=>false,
+            'compressCss'=>false,
+            'combineJs'=>true,
+            'compressJs'=>true,
+			'forceJsFiles' => array('/resources/js/plugins'),
+			'autoRefresh' => APPLICATION_ENV == 'production' ? false : true
 		),
 		
 		'loid' => array(
@@ -168,10 +175,6 @@ return array(
                 ),
             ),
         ),
-		
-//		'clientScript' => array(
-//			'class' => 'ext.ClientScriptPacker.ClientScriptPacker',
-//		),
 	),
 	
 	// application-level parameters that can be accessed
