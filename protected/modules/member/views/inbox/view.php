@@ -10,7 +10,6 @@
 		</div>
 		<div class="box-content cf">
 				<div class="shadow-box">
-					
 					<div class="message-info">
 						<dl>
 							<dt>From</dt>
@@ -31,9 +30,7 @@
 						</dl>
 						<div class="cf"></div>
 					</div>
-					
 					<h3><?php echo $entry->subject?></h3>
-					
 					<p><?php echo $entry->message()?></p>
 				</div>
 			</div>
