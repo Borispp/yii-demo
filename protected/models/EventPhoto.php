@@ -22,6 +22,8 @@
  * @property integer $original_size
  * @property integer $imported
  * @property string $imported_data
+ *
+ * @property EventAlbum $album
  */
 class EventPhoto extends YsaActiveRecord
 {
