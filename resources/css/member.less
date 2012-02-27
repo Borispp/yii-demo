@@ -437,51 +437,64 @@ section.box {
 	.button input {
 		position:relative;
 	}
-}
-
-.form section label,
-.form section > div strong {
-	float: left;
-	font-weight: bold;
-	line-height: 2;
-	width:200px;
-}
-.form section > div {
-	float: left;
-	width:700px;
-}
-.ajax-form section > div {
-	width:415px;
-}
-
-.form .errorMessage {
-	float: right;
-	width:250px;
-	padding:7px 10px;
-	color:#cb0202;
-	background: #f0e6e6;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px; 
-}
-.form .button {
-	padding-left: 200px;
-}
-.form div.selector {
-	width:420px;
-}
-.form div.selector span {
-	width:380px;
-}
-
-.form div.selector select {
-	min-width:415px;
-}
-.form .status {
-	font-size:11px;
-}
+	p.hint {
+		margin-bottom:0;
+		padding-top:4px;
+		line-height:1.3;
+		font-size:11px;
+		font-style:italic;
+		color:@gray-alpha + 20%;
+		width:410px;
+	}
 
 
+	section {
+		label,
+		> div strong {
+			float: left;
+			font-weight: bold;
+			line-height: 2;
+			width:200px;
+		}
+		> div {
+			float: left;
+			width:700px;
+		}
+	}
+
+	.errorMessage {
+		float: right;
+		width:250px;
+		padding:7px 10px;
+		color:#cb0202;
+		background: #f0e6e6;
+		-webkit-border-radius: 4px;
+		-moz-border-radius: 4px;
+		border-radius: 4px; 
+	}
+	.button {
+		padding-left: 200px;
+	}
+	div.selector {
+		width:420px;
+		select {
+			min-width:415px;
+		}
+		span {
+			width:380px;
+		}
+	}
+	.status {
+		font-size:11px;
+	}
+}
+.ajax-form  {
+	section {
+		> div {
+			width:415px;
+		}
+	}
+}
 /* Lists
 *******************************/
 .empty-list {
@@ -2330,5 +2343,28 @@ li.plupload_droptext {
 			font-weight:bold;
 			font-size:13px;
 		}
+	}
+}
+
+
+#inbox-view {
+	.message-info {
+		dl {
+			dt {
+				clear:both;
+				float:left;
+				width:200px;
+				padding-bottom:10px;
+			}
+			dd {
+				float:left;
+				width:500px;
+				padding-bottom:10px;
+				font-weight:bold;
+			}
+		}
+		padding-bottom:10px;
+		border-bottom:1px solid @gray-foxtrot;
+		margin-bottom:20px;
 	}
 }

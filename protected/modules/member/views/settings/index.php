@@ -69,7 +69,7 @@
 					</div>
 				</section>
 				<section class="cf">
-					<?php echo YsaHtml::label('Email important notifications','notify_by_email'); ?>
+					<?php echo YsaHtml::label('Email me all client and YSA messages','notify_by_email'); ?>
 					<div>
 						<?php echo YsaHtml::checkbox('notify_by_email', $notify_by_email, array('id'=>'notify_by_email')); ?>
 					</div>

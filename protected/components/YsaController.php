@@ -205,17 +205,20 @@ class YsaController extends CController
 				array('label'=>'Panel', 'url'=> array('/member/'), 'active' => $c == 'default'),
 				array('label'=>'Application', 'url'=>array('application/'), 'active' => $c == 'application'),
 				array('label'=>'Studio', 'url'=>array('studio/'), 'active' => in_array($c, array('studio', 'link', 'person', 'inbox')), 'items' => array(
+					array('label' => 'Studio', 'url' => array('studio/'), 'active' => in_array($c, array('studio', 'link', 'person'))),
 					array('label' => 'Inbox', 'url' => array('inbox/'),'active' => ($c == 'inbox') ),
 				)),
 				array('label'=>'Events', 'url'=>array('event/'), 'active' => in_array($c, array('event', 'album', 'photo'))),
 				array('label'=>'Clients', 'url'=>array('client/'), 'active' => $c == 'client'),
 				
-				array('label'=>'Support', 'url'=>array('support/'), 'active' => in_array($c, array('support', 'help')), 'items' => array(
+				array('label'=>'Help', 'url'=>array('support/'), 'active' => in_array($c, array('support', 'help')), 'items' => array(
+					array('label' => 'Support', 'url' => array('support/'), 'active' => ($c == 'support') ),
 					array('label' => 'Tutorials', 'url' => array('help/'), 'active' => ($c == 'help') ),
-					array('label' => 'Zendesk', 'url' => Yii::app()->settings->get('zendesk_url')),
+					array('label' => 'Zendesk', 'url' => Yii::app()->settings->get('zendesk_url'), 'linkOptions' => array('rel' => 'external')),
 				)),
 				
 				array('label'=>'Settings', 'url'=>array('settings/'), 'active' => in_array($c, array('settings', 'announcement')), 'items' => array(
+					array('label' => 'Account', 'url' => array('settings/'), 'active' => ($a == 'index' & $c == 'settings')),
 					array('label' => 'Smugmug', 'url' => array('settings/smugmug/'), 'active' => ($a == 'smugmug') ),
 					array('label' => 'ZenFolio', 'url' => array('settings/zenfolio/'), 'active' => ($a == 'zenfolio') ),
 					array('label' => 'ShootQ', 'url' => array('settings/shootq/'), 'active' => ($a == 'shootq') ),

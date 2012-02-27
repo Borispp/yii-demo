@@ -26,7 +26,7 @@ $envLogRoutes = array(
 	array(
 		'class'=>'CEmailLogRoute',
 		'levels'=>'error, warning',
-//      'emails'=>'eugen@flosites.com',
+      'emails'=>'developer@yourstudioapp.com',
 	),
 );
 
