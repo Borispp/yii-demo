@@ -30,12 +30,32 @@ class ApplicationController extends YsaMemberController
 		$this->crumb('Application');
 
 		$this->setMemberPageTitle(Yii::t('title', 'application'));
-		
+
 		$this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/ipad.css');
 
 		$this->render('view', array(
 			'app' => $app,
 		));
+	}
+
+	public function actionQuickCreate()
+	{
+		if (!$this->member()->application)
+		{
+			$app = new Application();
+			$app->user_id = $this->member()->id;
+			$app->state = Application::STATE_ACTIVE;
+			$app->name = $this->member()->name()."'s App";
+			$app->info = 'My shiny new App';
+			$app->generateAppKey();
+			$app->generatePasswd();
+
+			if ($app->validate()) {
+				$app->save();
+				$app->fillWithStyle();
+			}
+		}
+		$this->redirect(array('application/pay/'));
 	}
 
 	public function actionCreate()
@@ -50,9 +70,9 @@ class ApplicationController extends YsaMemberController
 			$app->attributes = $_POST['Application'];
 
 			$app->setAttributes(array(
-					'user_id'    => $this->member()->id,
-					'state'      => Application::STATE_ACTIVE,
-				));
+				'user_id'    => $this->member()->id,
+				'state'      => Application::STATE_ACTIVE,
+			));
 
 			$app->generateAppKey();
 			$app->generatePasswd();
@@ -68,8 +88,8 @@ class ApplicationController extends YsaMemberController
 		$this->setMemberPageTitle(Yii::t('title', 'application_create'));
 
 		$this->render('create', array(
-				'app'   => $app,
-			));
+			'app'   => $app,
+		));
 	}
 
 	public function actionEdit()
@@ -95,8 +115,8 @@ class ApplicationController extends YsaMemberController
 				->crumb('Edit');
 
 		$this->render('edit', array(
-				'app' => $app,
-			));
+			'app' => $app,
+		));
 	}
 
 	public function actionSubmit()
@@ -115,15 +135,18 @@ class ApplicationController extends YsaMemberController
 		$this->redirect(array('view'));
 	}
 
+	/**
+	 * @todo Temporary removed filled check
+	 */
 	public function actionPay()
 	{
 		$app = $this->member()->application;
 		if (!$app) {
 			$this->redirect(array('application/create'));
 		}
-		if ($app->filled()) {
+//		if ($app->filled()) {
 			$this->redirect(array('payment/choosepayway/type/application/'));
-		}
+//		}
 		$this->redirect(array('view'));
 	}
 
@@ -148,14 +171,14 @@ class ApplicationController extends YsaMemberController
 
 		if (!$app) {
 			$this->sendJsonError(array(
-					'msg' => Yii::t('error', 'application_not_found'),
-				));
+				'msg' => Yii::t('error', 'application_not_found'),
+			));
 		}
 
 		if (!in_array($image, $app->getAvailableImages())) {
 			$this->sendJsonError(array(
-					'msg' => Yii::t('error', 'files_no_available_images'),
-				));
+				'msg' => Yii::t('error', 'files_no_available_images'),
+			));
 		}
 
 		$file = CUploadedFile::getInstanceByName('file');
@@ -165,9 +188,9 @@ class ApplicationController extends YsaMemberController
 				'msg' => Yii::t('error', 'files_empty'),
 			));
 		}
-		
+
 		if ($app->editOption($image, $file, Option::TYPE_TEXT, $image == 'logo')) {
-//			if (in_array($image, array('splash_bg_image', 'studio_bg_image', 'generic_bg_image'))) {
+			//			if (in_array($image, array('splash_bg_image', 'studio_bg_image', 'generic_bg_image'))) {
 			if (in_array($image, array('studio_bg_image', 'generic_bg_image'))) {
 				$app->editOption(str_replace('_image', '', $image), 'image');
 			}
@@ -191,25 +214,25 @@ class ApplicationController extends YsaMemberController
 
 		if (!$app) {
 			$this->sendJsonError(array(
-					'msg' => Yii::t('error', 'application_not_found'),
-				));
+				'msg' => Yii::t('error', 'application_not_found'),
+			));
 		}
 
 		if (!in_array($image, $app->getAvailableImages())) {
 			$this->sendJsonError(array(
-					'msg' => Yii::t('error', 'files_no_available_images'),
-				));
+				'msg' => Yii::t('error', 'files_no_available_images'),
+			));
 		}
 
 		$app->deleteOption($image);
 
 		$this->sendJsonSuccess(array(
-				'image'	=> $image,
-				'html' => $this->renderPartial('/wizard/_upload', array(
-						'name'	=> $image,
-						'image' => $app->option($image),
-					), true)
-			));
+			'image'	=> $image,
+			'html' => $this->renderPartial('/wizard/_upload', array(
+				'name'	=> $image,
+				'image' => $app->option($image),
+			), true)
+		));
 	}
 
 	public function actionWizard()
@@ -232,9 +255,9 @@ class ApplicationController extends YsaMemberController
 			$models[$k]->setApplication($app)
 					->loadDefaultValues();
 		}
-		
+
 		$this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/ipad.css');
-		
+
 		$this->setMemberPageTitle(Yii::t('title', 'application_wizard'));
 
 		$this->render('wizard', array(
@@ -251,14 +274,14 @@ class ApplicationController extends YsaMemberController
 
 			if (!$app) {
 				$this->sendJsonError(array(
-						'msg' => Yii::t('error', 'application_not_found'),
-					));
+					'msg' => Yii::t('error', 'application_not_found'),
+				));
 			}
 
 			if (!$app->filterWizardStep($step)) {
 				$this->sendJsonError(array(
-						'msg' => Yii::t('error', 'invalid_step'),
-					));
+					'msg' => Yii::t('error', 'invalid_step'),
+				));
 			}
 
 			$model = 'Wizard' . ucfirst($step);
@@ -267,15 +290,15 @@ class ApplicationController extends YsaMemberController
 
 			if (!class_exists($model)) {
 				$this->sendJsonError(array(
-						'msg' => Yii::t('error', 'standart_error'),
-					));
+					'msg' => Yii::t('error', 'standart_error'),
+				));
 			}
 
 			$this->sendJsonSuccess(array(
-					'html' => $this->renderPartial($view, array(
-							'app' => $app,
-						)),
-				));
+				'html' => $this->renderPartial($view, array(
+					'app' => $app,
+				)),
+			));
 
 		} else {
 			$this->redirect('application/');
@@ -329,7 +352,7 @@ class ApplicationController extends YsaMemberController
 			$this->redirect('application/');
 		}
 	}
-	
+
 	public function actionSaveField()
 	{
 		if (isset($_POST['field']) && isset($_POST['value']) && in_array($_POST['field'], Yii::app()->params['application_ajax_fields']) && Yii::app()->request->isAjaxRequest) {
@@ -351,8 +374,8 @@ class ApplicationController extends YsaMemberController
 		$this->crumb('Application', array('application/'))
 				->crumb($page->title);
 		$this->render('congratulations', array(
-				'page' => $page,
-			));
+			'page' => $page,
+		));
 	}
 
 	public function actionSupport()
@@ -389,10 +412,10 @@ class ApplicationController extends YsaMemberController
 				->crumb('Support');
 
 		$this->render('support', array(
-				'app'		=> $app,
-				'ticket'	=> $app->ticket(),
-				'reply'		=> $reply
-			));
+			'app'		=> $app,
+			'ticket'	=> $app->ticket(),
+			'reply'		=> $reply
+		));
 	}
 
 	public function actionLoadTemplate($template = 'dark')
@@ -414,15 +437,15 @@ class ApplicationController extends YsaMemberController
 
 		$this->redirect(array('application/wizard/'));
 	}
-	
+
 	public function actionQuickPreview()
 	{
 		if (!Yii::app()->request->isAjaxRequest) {
 			$this->redirect(array('application/create'));
 		}
-		
+
 		$app = $this->member()->application;
-		
+
 		if ($app) {
 			$this->renderPartial('_ipad-preview', array('app' => $app));
 		} else {
