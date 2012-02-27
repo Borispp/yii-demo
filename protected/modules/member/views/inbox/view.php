@@ -14,8 +14,10 @@
 				<p><?php if ($entry->client):?>
 					<?php echo YsaHtml::link($entry->name, array('client/view/' . $entry->client->id)); ?>
 				<?php else:?>
-					<?php echo $entry->name?>
+					<?php echo $entry->name ?>
 				<?php endif?></p>
+				<div class="title">Email</div>
+				<p><?php echo YsaHtml::link($entry->email, 'mailto:'.$entry->email) ?></p>
 				<div class="title">Sent Date</div>
 				<p><?php echo Yii::app()->dateFormatter->formatDateTime($entry->created, 'medium', '') ?></p>
 			</div>
