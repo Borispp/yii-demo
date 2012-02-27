@@ -69,6 +69,7 @@ class StudioLink extends YsaActiveRecord
 			array('studio_id, rank', 'numerical', 'integerOnly'=>true),
 			array('name, url', 'length', 'max'=>100),
 			array('name', 'validateLink'),
+			array('url', 'filter', 'filter' => array($this, 'filterUrl')),
 			array('created, updated', 'safe'),
 		);
 	}
@@ -130,10 +131,12 @@ class StudioLink extends YsaActiveRecord
 		return $this->studio->isOwner();
 	}
 	
-	public function iconUrl()
+	public function iconUrl($folder = 'black')
 	{
-		if ($this->icon && is_file($this->_iconsPath . DIRECTORY_SEPARATOR . $this->icon)) {
-			$img = $this->_iconsUrl . '/' . $this->icon;
+		
+		
+		if ($this->icon && is_file($this->_iconsPath . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . $this->icon)) {
+			$img = $this->_iconsUrl . '/' . $folder . '/' . $this->icon;
 		} else {
 			$img = ImageHelper::thumb(
 				Yii::app()->params['studio_options']['icon']['width'], 
@@ -145,16 +148,16 @@ class StudioLink extends YsaActiveRecord
 		return $img;
 	}
 	
-	public function icon()
+	public function icon($folder = 'black')
 	{
-		return YsaHtml::image($this->iconUrl());
+		return YsaHtml::image($this->iconUrl($folder));
 	}
 	
-	public function icons()
+	public function icons($folder = 'black')
 	{
 		if (null === $this->_icons) {
 			
-			$_icons = scandir($this->_iconsPath);
+			$_icons = scandir($this->_iconsPath . '/' . $folder);
 			
 			$this->_icons = array();
 			
@@ -164,7 +167,7 @@ class StudioLink extends YsaActiveRecord
 					
 					$name = $matches[1];
 					$title = ucwords(str_replace(array('_', '-'), ' ', $name));
-					$url = $this->_iconsUrl . '/' . $icon;
+					$url = $this->_iconsUrl . '/' . $folder . '/' . $icon;
 					
 					$i = new stdClass();
 					

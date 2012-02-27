@@ -68,6 +68,7 @@ class Application extends YsaActiveRecord
 		'icon',
 		'logo',
 		'itunes_logo',
+		'splash_bg_image',
 		'copyright',
 	);
 	
@@ -96,8 +97,9 @@ class Application extends YsaActiveRecord
 			array('user_id, appkey, passwd, name', 'required'),
 			array('user_id, appkey, name', 'unique'),
 			array('user_id, state, locked, filled, submitted, ready, paid', 'numerical', 'integerOnly'=>true),
-			array('appkey, passwd, name', 'length', 'max'=>100),
-			array('info, locked, filled, submitted, ready, default_style, paid', 'safe'),
+			array('appkey, passwd, name', 'length', 'max' => 100),
+			array('info', 'required'),
+			array('locked, filled, submitted, ready, default_style, paid', 'safe'),
 			array('id, user_id, state, name', 'safe', 'on'=>'search'),
 		);
 	}
@@ -163,19 +165,6 @@ class Application extends YsaActiveRecord
 			));
 	}
 
-//	public function getStates()
-//	{
-//		return array(
-//			self::STATE_CREATED						=> 'Created',
-//			self::STATE_SUBMITTED					=> 'Submitted',
-//			self::STATE_MODERATOR_APPROVED			=> 'Approved by moderator',
-//			self::STATE_APPSTORE_WAITING_APPROVAL	=> 'Waiting approval',
-//			self::STATE_READY						=> 'Ready',
-//			self::STATE_MODERATOR_UNAPROVED			=> 'Unapproved',
-//			self::STATE_APPSTORE_REJECTED			=> 'Rejected by Apple',
-//		);
-//	}
-	
 	/**
 	 * Check if application needs an application wizard
 	 */
@@ -316,10 +305,24 @@ class Application extends YsaActiveRecord
 	{
 		$this->ready = 1;
 		$this->save();
+//		$this->notifyByEmail('application_ready');
 		if ($log) {
 			$this->log('ready');
 		}
 		return $this;
+	}
+
+	public function notifyByEmail($template)
+	{
+		$this->log('Notified user by email with '.$template.' template');
+		Email::model()->send(
+			array($this->user->email, $this->user->name()),
+			$template,
+			array(
+				'name'  => $this->user->name(),
+				'email' => $this->user->email,
+			)
+		);
 	}
 	
 	/**
@@ -445,14 +448,14 @@ class Application extends YsaActiveRecord
 	{
 		$labelDictionary = array(
 			'newly-created' => 'Your application is missing some key elements, please provide missing content before submitting.',
-			'paid'          => 'Application is paid.',
+			'paid'          => Yii::t('application', 'paid_block_text'),
 			'filled'        => 'All custom elements of your application have been provided.',
 			'submitted'     => 'Application has been successfully submitted.',
-			'locked'        => 'Application has been locked to pervert requred fields changes.',
+			'locked'        => 'Application has been locked to prevent any changes.',
 			'approved'      => 'Application has been successfully approved by moderators.',
 			'appstore'      => 'Application has been successfully sent to AppStore.',
 			'running'      => 'Application is running properly.',
-			'rejected'      => 'Application has been rejected by AppStore. Don\'t panic! We are working on that.',
+			'rejected'      => 'YSA support will be in touch with you soon.',
 		);
 		
 		if (!array_key_exists($this->status(), $labelDictionary))
@@ -475,7 +478,7 @@ class Application extends YsaActiveRecord
 	public function isProperlyFilled()
 	{
 		$notExists = array();
-		foreach ($this->_requiredOptions as $opt) {
+		foreach ($this->getRequiredOptions() as $opt) {
 			$option = $this->option($opt);
 			if (!$option) {
 				$notExists[$opt] = $opt;
@@ -540,7 +543,7 @@ class Application extends YsaActiveRecord
 		return $url;
 	}
 
-	public function editOption($name, $value, $type = null)
+	public function editOption($name, $value, $type = null, $resize = false)
 	{
 		$option = ApplicationOption::model()->findByAttributes(array(
 			'name'   => $name,
@@ -584,7 +587,12 @@ class Application extends YsaActiveRecord
 				$width = Yii::app()->params['application'][$name]['width'];
 				$height = Yii::app()->params['application'][$name]['height'];
 				
-				$image->auto_crop($width, $height);
+				if ($resize) {
+					$image->resize($width, $height);
+				} else {
+					$image->auto_crop($width, $height);
+				}
+				
 			} else {
 				$width = $image->width;
 				$height = $image->height;
@@ -777,13 +785,13 @@ class Application extends YsaActiveRecord
 		return $this->paid;
 	}
 
-	public function createTransaction()
+	public function createTransaction($name = NULL, $summ = NULL)
 	{
 		$transaction = new PaymentTransaction();
-		$transaction->state = $transaction::STATE_CREATED;
-		$transaction->name = 'Application Initial Payment';
+		$transaction->state = PaymentTransaction::STATE_CREATED;
+		$transaction->name = $name ? $name : 'Application Initial Payment';
 		$transaction->description = 'Initial payment for the creation of YSApplication.';
-		$transaction->summ = (float)Yii::app()->settings->get('application_summ');
+		$transaction->summ = (float)($summ ? $summ : Yii::app()->settings->get('application_summ'));
 		$transaction->created = date('Y.m.d H:i:s');
 		$transaction->save();
 		$transactionApplication = new PaymentTransactionApplication();
@@ -791,5 +799,21 @@ class Application extends YsaActiveRecord
 		$transactionApplication->transaction_id = $transaction->id;
 		$transactionApplication->save();
 		return $transaction;
+	}
+	
+	public function imageUrl($name, $width = 72, $height = 72)
+	{
+		$image = $this->option($name);
+		
+		if ($image && isset($image['url']) && is_file($image['path'])) {
+			return ImageHelper::thumb($width, $height, $image['path']);
+		} else {
+			return EventPhoto::model()->defaultPicUrl($width, $height);
+		}
+	}
+	
+	public function image($name, $width = 72, $height = 72, $alt = '', $htmlOptions = array())
+	{
+		return YsaHtml::image($this->imageUrl($name, $width, $height), $alt, $htmlOptions);
 	}
 }

@@ -1,17 +1,32 @@
 <section class="w">
+	<?php if (!$entry->isActivated()) : ?>
+		<section class="box">
+			<div class="box-title">
+				<h3>Resend activation link</h3>
+			</div>
+			<div class="box-content">
+				<?php $form = $this->beginWidget('YsaForm', array(
+					'id' => 'change-password-form',
+					'action' => YsaHtml::normalizeUrl(array('settings/resendActlink'))
+				)); ?>
+				<?php echo YsaHtml::submitButton('Send now', array('class' => 'blue')); ?>
+				<?php $this->endWidget();?>
+			</div>
+		</section>
+	<?php endif ?>	
+	
 	<section class="box">
 		<div class="box-title">
-			<h3><?php echo $entry->name(); ?></h3>
+			<h3>Connect Accounts</h3>
 		</div>
 		<div class="box-content">
 			<div class="shadow-box menu-box">
 				<ul>
-					<li><?php echo YsaHtml::link('Inbox', array('inbox/')); ?></li>
-					<!-- <li><?php echo YsaHtml::link('My Subscriptions', array('subscription/list/')); ?></li> -->
 					<li><?php echo YsaHtml::link('SmugMug Settings', array('settings/smugmug/')); ?></li>
 					<li><?php echo YsaHtml::link('ZenFolio Settings', array('settings/zenfolio/')); ?></li>
 					<li><?php echo YsaHtml::link('ShootQ Settings', array('settings/shootq/')); ?></li>
 					<li><?php echo YsaHtml::link('Facebook Account', array('settings/facebook/')); ?></li>
+					<li><?php echo YsaHtml::link('PASS Account', array('settings/pass/')); ?></li>
 				</ul>
 			</div>
 		</div>
@@ -19,7 +34,10 @@
 
 	<section class="box">
 		<div class="box-title">
-			<h3>Change Details</h3>
+			<h3>Change My Details</h3>
+			<div class="box-title-button">
+				<?php echo YsaHtml::link('<span class="icon i_inbox"></span>Announcements', array('announcement/'), array('class' => 'secondary iconed')); ?>
+			</div>
 		</div>
 		<div class="box-content">
 			<div class="form standart-form shadow-box">
@@ -51,7 +69,7 @@
 					</div>
 				</section>
 				<section class="cf">
-					<?php echo YsaHtml::label('Email important notifications','notify_by_email'); ?>
+					<?php echo YsaHtml::label('Email me all client and YSA messages','notify_by_email'); ?>
 					<div>
 						<?php echo YsaHtml::checkbox('notify_by_email', $notify_by_email, array('id'=>'notify_by_email')); ?>
 					</div>
@@ -106,29 +124,9 @@
 				<?php $this->endWidget();?>
 			</div>
 		</div>
-	</section>
+	</section>	
 	
-	<?php if (!$entry->isActivated()) : ?>
-	<section class="box">
-		<div class="box-title">
-			<h3>Resend activation link</h3>
-		</div>
-		<div class="box-content">
-			<div class="form standart-form shadow-box">
-				<?php $form = $this->beginWidget('YsaForm', array(
-					'id' => 'change-password-form',
-					'action' => Chtml::normalizeUrl(array('settings/resendActlink'))
-				)); ?>
-				<div class="button">
-					<?php echo YsaHtml::submitButton('Send now', array('class' => 'blue')); ?>
-				</div>
 
-				<?php $this->endWidget();?>
-			</div>
-		</div>
-	</section>
-	<?php endif ?>
-	
 </section>
 
 

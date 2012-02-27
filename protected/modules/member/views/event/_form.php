@@ -37,7 +37,7 @@
 
 	
 	<?php if ($entry->isNewRecord) : ?>
-		<section class="cf">
+		<section class="cf" id="event-form-type">
 			<?php echo $form->labelEx($entry,'type'); ?>
 			<div>
 				<?php echo $form->dropDownList($entry, 'type', $entry->getTypes()); ?>
@@ -54,7 +54,7 @@
 	<?php endif; ?>
 	
 	<?php if ($entry->isNewRecord || !$entry->isPortfolio()) : ?>
-		<section class="cf">
+		<section class="cf" id="event-form-password">
 			<?php echo $form->labelEx($entry,'passwd'); ?>
 			<div>
 				<?php echo $form->textField($entry,'passwd', array('maxlength' => 20)); ?>
@@ -68,3 +68,23 @@
 
 	<?php $this->endWidget(); ?>
 </div>
+<?php if ($entry->isNewRecord) : ?>
+	<script type="text/javascript">
+	$(function(){
+		var password_section = $('#event-form-password');
+		var type = $('#Event_type');
+		
+		function _hide_password()
+		{
+			var val = $(this).val();
+			if (val == 'portfolio') {
+				password_section.fadeOut('fast');
+			} else {
+				password_section.fadeIn('fast');
+			}
+		}
+		type.change(_hide_password);
+		_hide_password();
+	});
+	</script>
+<?php endif; ?>

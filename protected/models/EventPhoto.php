@@ -22,6 +22,8 @@
  * @property integer $original_size
  * @property integer $imported
  * @property string $imported_data
+ *
+ * @property EventAlbum $album
  */
 class EventPhoto extends YsaActiveRecord
 {
@@ -304,7 +306,14 @@ class EventPhoto extends YsaActiveRecord
 
 	public function previewFilesize($width = 300, $height = 200)
 	{
-		return filesize(ImageHelper::thumbPath($width, $height, $this->path()));
+		try
+		{
+			return filesize(ImageHelper::thumbPath($width, $height, $this->path()));
+		}
+		catch(Exception $e)
+		{
+			return 0;
+		}
 	}
 	
 	/**
@@ -313,11 +322,24 @@ class EventPhoto extends YsaActiveRecord
 	 * @param integer $width
 	 * @param integer $height
 	 * @param array $htmlOptions
+	 * @param boolean|integer $lazy_load to use lazy load
 	 * @return string
 	 */
-	public function preview($width = 300, $height = 200, $htmlOptions = array())
+	public function preview($width = 300, $height = 200, $htmlOptions = array(), $lazy_load = false)
 	{
-		return YsaHtml::image($this->previewUrl($width, $height), $this->alt, $htmlOptions);
+		if ($lazy_load > 10)
+		{
+			$options = array_merge(
+				$htmlOptions, 
+				array(
+					'data-original' => $this->previewUrl($width, $height),
+					'class' => 'lazy'
+				)
+			);
+			return YsaHtml::image('/resources/images/ajax-loader.gif', $this->alt, $options);
+		}
+		
+		return YsaHtml::image($this->previewUrl($width, $height), $this->alt);
 	}
 	
 	/**
@@ -367,7 +389,7 @@ class EventPhoto extends YsaActiveRecord
 				$exif['date_time_digitized'] = $data['DateTimeDigitized'];
 			}
 			if (isset($data['DateTimeOriginal'])) {
-				$exif['date_time_original'] = $data['DateTimeOriginal'];
+				$this->created = $this->updated = $exif['date_time_original'] = $data['DateTimeOriginal'];
 			}
 			if (isset($data['ExposureBiasValue'])) {
 				$exif['exposure_bias_value'] = $data['ExposureBiasValue'];
@@ -541,6 +563,14 @@ class EventPhoto extends YsaActiveRecord
 		return sprintf('%.2f', $this->rating);
 	}
 	
+	/**
+	 *
+	 * @param mixed $data
+	 * @param string $from
+	 * @param boolean $save
+	 * @return \EventPhoto
+	 * @throws CException 
+	 */
 	public function import($data, $from = 'smugmug', $save = true)
 	{
 		if (!$this->album_id) {
@@ -549,15 +579,26 @@ class EventPhoto extends YsaActiveRecord
 		
 		$this->imported = true;
 		
-		if ($from == 'smugmug') {
-			$this->_importSmugmug($data);
-		} elseif ($from == 'zenfolio') {
-			$this->_importZenfolio($data);
-		} elseif ($from == 'pictage') {
-			VarDumper::dump('pictage import is not implemented yet');
+		ini_set('max_execution_time', 300); // 5 minutes
+		
+		switch($from)
+		{
+			case 'smugmug':
+				$this->_importSmugmug($data);
+			break;
+			case 'zenfolio':
+				$this->_importZenfolio($data);
+			break;
+			case 'pass':
+				$this->_importPass($data);
+			break;
 		}
 		
-		if ($save) {
+		if ($save) 
+		{
+			if (!$this->validate())
+				throw new CException('Event Photo validation failed: '. current(array_shift($this->getErrors())));
+			
 			$this->save();
 		}
 		
@@ -675,9 +716,12 @@ class EventPhoto extends YsaActiveRecord
 	// no exif data at the moment
 	protected function _formatZenfolioExif($data)
 	{
-		$exif = array();
-		
-		return $exif;
+		return array();
+	}
+	
+	protected function _formatPassExif($data)
+	{
+		return array();
 	}
 	
 	protected function _importZenfolio($data)
@@ -705,6 +749,52 @@ class EventPhoto extends YsaActiveRecord
 		$this->imported_data = serialize($data);
 		
 		$this->exif_data = $this->_formatZenfolioExif($data);
+		
+		$this->generateBaseName();
+
+		$image->quality(100);
+		
+		$original_image = clone $image;
+		
+		$image->resize(
+			Yii::app()->params['member_area']['photo']['full']['width'], 
+			Yii::app()->params['member_area']['photo']['full']['height']
+		);
+                
+		$savePath = $this->path();
+		$image->save($savePath);
+		$this->size = filesize($savePath);
+		
+		$original_save_path = $this->originPath();
+		$original_image->save( $original_save_path );
+		$this->original_size = filesize($original_save_path);
+	}
+	
+	public function _importPass($data)
+	{
+		$target = tempnam(sys_get_temp_dir(), 'img');
+		
+		$fh = fopen($target, 'w');
+		$check = fwrite($fh, file_get_contents($data['URL']));
+		fclose($fh);
+		
+		if (!$check) {
+			throw new CException('PASS image file can\'t be read. Please try again later.');
+		}
+		
+		$image = new YsaImage($target);
+		
+		$this->name = $data['FileName'];
+		$this->created = $this->updated = $data['Date'];
+		$this->meta_type = $image->mime;
+		$this->extention = YsaHelpers::mimeToExtention($this->meta_type);
+		$this->alt = '';
+		$this->state = self::STATE_ACTIVE;
+		
+		$data['from'] = 'pass';
+		$this->imported_data = serialize($data);
+		
+		$this->exif_data = $this->_formatPassExif($data);
 		
 		$this->generateBaseName();
 
@@ -761,6 +851,7 @@ class EventPhoto extends YsaActiveRecord
 		try {
 			// check if edited original file exists
 			$path = is_file($this->originEditedPath()) ? $this->originEditedPath() : $this->originPath();
+			
 			$image = new YsaImage($path);	
 			
 			$image->rotate($degrees);
@@ -842,5 +933,21 @@ class EventPhoto extends YsaActiveRecord
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * Import date from EventAlbum::shooting_date
+	 * Will not if value already exists
+	 *
+	 * @param EventAlbum $album 
+	 */
+	public function importDate(EventAlbum $album)
+	{
+		//TODO: use in UI defferent field like shooting_date instead of created !?
+		if (empty($this->created) && !empty($album->shooting_date) && $this->album_id && $this->album_id == $album->id )
+		{
+			$this->created = $this->updated = $album->shooting_date;
+			$this->save(false);
+		}
 	}
 }

@@ -92,7 +92,7 @@ class YsaController extends CController
 		$this->setMetaTitle($meta->title)
 				->setMetaKeywords($meta->keywords)
 				->setMetaDescription($meta->description);
-
+		
 		return $this;
 	}
 
@@ -197,7 +197,7 @@ class YsaController extends CController
 				array('label'=>'Pricing', 'url'=>array('pricing/'), 'active' => $c == 'pricing'),
 				array('label'=>'Panel', 'url'=>array('member/'), 'visible' => Yii::app()->user->isMember(), 'itemOptions' => array('class' => 'panel')),
 				array('label'=>'Panel', 'url'=>array('admin/'), 'visible' => Yii::app()->user->isAdmin(), 'itemOptions' => array('class' => 'panel')),
-				array('label'=>'Login', 'url'=>array('/login'), 'visible' => 0 && Yii::app()->user->isGuest, 'itemOptions' => array('id' => 'navigation-login-link')),
+				array('label'=>'Login', 'url'=>array('/login'), 'visible' => Yii::app()->user->isGuest, 'itemOptions' => array('id' => 'navigation-login-link')),
 				array('label'=>'Logout', 'url'=>array('/logout'), 'visible' => !Yii::app()->user->isGuest),
 			);
 		} else {
@@ -205,15 +205,26 @@ class YsaController extends CController
 				array('label'=>'Panel', 'url'=> array('/member/'), 'active' => $c == 'default'),
 				array('label'=>'Application', 'url'=>array('application/'), 'active' => $c == 'application'),
 				array('label'=>'Studio', 'url'=>array('studio/'), 'active' => in_array($c, array('studio', 'link', 'person', 'inbox')), 'items' => array(
+					array('label' => 'Studio', 'url' => array('studio/'), 'active' => in_array($c, array('studio', 'link', 'person'))),
 					array('label' => 'Inbox', 'url' => array('inbox/'),'active' => ($c == 'inbox') ),
 				)),
 				array('label'=>'Events', 'url'=>array('event/'), 'active' => in_array($c, array('event', 'album', 'photo'))),
 				array('label'=>'Clients', 'url'=>array('client/'), 'active' => $c == 'client'),
-				array('label'=>'Settings', 'url'=>array('settings/'), 'active' => $c == 'settings', 'items' => array(
+				
+				array('label'=>'Help', 'url'=>array('support/'), 'active' => in_array($c, array('support', 'help')), 'items' => array(
+					array('label' => 'Support', 'url' => array('support/'), 'active' => ($c == 'support') ),
+					array('label' => 'Tutorials', 'url' => array('help/'), 'active' => ($c == 'help') ),
+					array('label' => 'Zendesk', 'url' => Yii::app()->settings->get('zendesk_url'), 'linkOptions' => array('rel' => 'external')),
+				)),
+				
+				array('label'=>'Settings', 'url'=>array('settings/'), 'active' => in_array($c, array('settings', 'announcement')), 'items' => array(
+					array('label' => 'Account', 'url' => array('settings/'), 'active' => ($a == 'index' & $c == 'settings')),
 					array('label' => 'Smugmug', 'url' => array('settings/smugmug/'), 'active' => ($a == 'smugmug') ),
 					array('label' => 'ZenFolio', 'url' => array('settings/zenfolio/'), 'active' => ($a == 'zenfolio') ),
 					array('label' => 'ShootQ', 'url' => array('settings/shootq/'), 'active' => ($a == 'shootq') ),
 					array('label' => 'Facebook', 'url' => array('settings/facebook/'), 'active' => ($a == 'facebook') ),
+					array('label' => 'PASS', 'url' => array('settings/pass/'), 'active' => ($a == 'PASS') ),
+					array('label' => 'Announcements', 'url' => array('announcement/'), 'active' => ($c == 'announcement') ),
 				)),
 				array('label'=>'Logout', 'url'=>array('/logout'), 'visible' => !Yii::app()->user->isGuest, 'itemOptions' => array('class' => 'logout')),
 			);
@@ -261,14 +272,6 @@ class YsaController extends CController
 		return $this;
 	}
 	
-	public function loadVideoJS()
-	{
-		$this->_cs->registerScriptFile('http://vjs.zencdn.net/c/video.js', CClientScript::POS_HEAD)
-				  ->registerCssFile('http://vjs.zencdn.net/c/video-js.css');
-		
-		return $this;
-	}
-	
     /**
      * Register web application's resources and meta.
      * @param object $view
@@ -300,7 +303,7 @@ class YsaController extends CController
 	{
 		if (!$this->isAdminPanel()) {
 			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/modernizr.js', CClientScript::POS_HEAD)
-				->registerScriptFile('http://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js', CClientScript::POS_HEAD)
+				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/tools.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/scrollto.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/color.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/form.js', CClientScript::POS_HEAD)
@@ -343,7 +346,7 @@ class YsaController extends CController
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/tiptip.css')
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/fancybox.css')
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/member.css')
-					->registerCssFile('http://fonts.googleapis.com/css?family=Candal');
+					->registerCssFile('https://fonts.googleapis.com/css?family=Candal');
 		}
 	}
 	
@@ -358,7 +361,7 @@ class YsaController extends CController
 			
 			
 			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/modernizr.js', CClientScript::POS_HEAD)
-				->registerScriptFile('http://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js', CClientScript::POS_HEAD)
+				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/tools.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/scrollto.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/color.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/form.js', CClientScript::POS_HEAD)
@@ -372,7 +375,7 @@ class YsaController extends CController
 		} elseif ($this->isMemberPanel()) {
 			// register main js
 			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/modernizr.js', CClientScript::POS_HEAD)
-				->registerScriptFile('http://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js', CClientScript::POS_HEAD)
+				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/tools.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/scrollto.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD);
 			
@@ -402,7 +405,7 @@ class YsaController extends CController
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/tiptip.css')
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/fancybox.css')
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/member.css')
-					->registerCssFile('http://fonts.googleapis.com/css?family=Candal');
+					->registerCssFile('https://fonts.googleapis.com/css?family=Candal');
 		}
 	}
 }

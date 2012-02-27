@@ -19,10 +19,19 @@
 	<?php if (StudioLink::TYPE_CUSTOM == $type) : ?>
 		<section class="cf">
 			<?php echo $form->labelEx($entry,'icon'); ?>
+			<?php
+				$folder = '';
+				if ($this->member()->application) {
+					$folder = $this->member()->application->option('style');
+				}
+				if (!$folder) {
+					$folder = 'dark';
+				}
+			?>
 			<div id="studio-form-icon-field">
 				<ul>
-					<?php foreach ($entry->icons() as $icon => $values) : ?>
-						<li<?php echo $icon == $entry->icon ? ' class="selected"' : ''?>>
+					<?php foreach ($entry->icons($folder) as $icon => $values) : ?>
+						<li class="<?php echo $folder?><?php echo $icon == $entry->icon ? ' selected' : ''?>">
 							<figure data-icon="<?php echo $icon?>"><img src="<?php echo $values->url; ?>" alt="<?php echo $values->title; ?>"/></figure>
 						</li>
 					<?php endforeach; ?>

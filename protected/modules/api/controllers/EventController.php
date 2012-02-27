@@ -48,19 +48,26 @@ class EventController extends YsaApiController
 		if (!$this->_getEvent()->canBeAddedByClient($this->_obClient, $_POST['password']))
 		{
 			$this->_render(array(
-				'state'		=> 0,
+				'state'		=> FALSE,
 				'message'	=> Yii::t('api', 'event_add_wrong_client'),
+			));
+		}
+		if ($this->_obClient->hasPhotoEvent($this->_getEvent()))
+		{
+			$this->_render(array(
+				'state'		=> FALSE,
+				'message'	=> 'Event has been already added',
 			));
 		}
 		if (!$this->_obClient->addPhotoEvent($this->_getEvent(), 'client'))
 		{
 			$this->_render(array(
-				'state'		=> 0,
+				'state'		=> FALSE,
 				'message'	=> Yii::t('api', 'event_add_failed'),
 			));
 		}
 		$this->_render(array(
-			'state'		=> 1,
+			'state'		=> TRUE,
 			'message'	=> '',
 		));
 	}
@@ -74,9 +81,9 @@ class EventController extends YsaApiController
 	public function actionRemoveEvent()
 	{
 		$this->_render(($this->_obClient->removePhotoEvent($this->_getEvent(), 'client')) ?
-				array('state' => 1, 'message' => NULL)
+				array('state' => TRUE, 'message' => NULL)
 			:
-				array('state' => 0, Yii::t('api', 'event_remove_failed'))
+				array('state' => FALSE, Yii::t('api', 'event_remove_failed'))
 		);
 	}
 
@@ -102,7 +109,6 @@ class EventController extends YsaApiController
 	 * Returns event info.
 	 * Inquiry params: [app_key, device_id, token, event_id]
 	 * Response params: [name,type,description,date,creation_date,filesize,checksumm]
-	 * @todo Add checksumm and filesize
 	 * @return void
 	 */
 	public function actionGetEventInfo()
@@ -128,7 +134,9 @@ class EventController extends YsaApiController
 	 */
 	public function actionGetEventAlbums()
 	{
-		$params = array();
+		$params = array(
+			'albums' => array(),
+		);
 		foreach($this->_getEvent()->albums as $obEventAlbum)
 		{
 			$params['albums'][] = $this->_getEventAlbumInfo($obEventAlbum);
@@ -155,7 +163,7 @@ class EventController extends YsaApiController
 				),
 			));
 		$this->_render(array(
-				'state'			=> !$this->_getEventAlbum()->checkHash($_POST['checksum']),
+				'state'			=> (bool)!$this->_getEventAlbum()->checkHash($_POST['checksum']),
 				'checksumm'		=> $this->_getEventAlbum()->getChecksum(),
 				'filesize'		=> $this->_getEventAlbum()->size()
 			));
@@ -175,9 +183,11 @@ class EventController extends YsaApiController
 					'required'	=> TRUE,
 				),
 			));
-		if (!$this->_getEventAlbum()->photos)
-			$this->_renderError(Yii::t('api', 'event_album_no_photos'));
-		$params = array();
+//		if (!$this->_getEventAlbum()->photos)
+//			$this->_renderError(Yii::t('api', 'event_album_no_photos'));
+		$params = array(
+			'images' => array(),
+		);
 		foreach($this->_getEventAlbum()->photos as $obPhoto)
 			$params['images'][] = $this->_getPhotoInfo($obPhoto);
 		$this->_render($params);
@@ -206,8 +216,6 @@ class EventController extends YsaApiController
 			$this->_renderError(Yii::t('api', 'event_album_photo_is_wrong'));
 		$this->_render($this->_getPhotoInfo($this->_getEventPhoto()));
 	}
-
-
 
 	/**
 	 * Send rank for event photo
@@ -252,7 +260,7 @@ class EventController extends YsaApiController
 				));
 		$obEventPhotoRate->save();
 		$this->_render(array(
-				'state'	=> 1,
+				'state'	=> TRUE,
 				'rank'	=> $this->_getEventPhoto()->rating()
 			));
 	}
@@ -300,75 +308,5 @@ class EventController extends YsaApiController
 				'message'			=> '',
 				'comments_number'	=> count($this->_getEventPhoto()->comments)
 			));
-	}
-
-	/**
-	 * Get unread notifications
-	 * Inquiry params: [device_id, app_key, token]
-	 * Response params: [notifications -> [message, date]]
-	 * @return void
-	 */
-	public function actionGetNotifications()
-	{
-		$notifications = array();
-		foreach(ApplicationNotification::model()->findByClient($this->_obClient, $_POST['device_id']) as $obApplicationNotification)
-		{
-			$notifications[] = array(
-				'message'	=> $obApplicationNotification->message,
-				'date'		=> $obApplicationNotification->created,
-			);
-			$obApplicationNotification->sent($_POST['device_id']);
-		}
-		$this->_render(array(
-				'notifications'	=> $notifications
-			));
-	}
-
-
-	/**
-	 * Send contact message from client to photographer
-	 * Inquiry params: [app_key, device_id, token, subject, message]
-	 * Response params: [state]
-	 * @return void
-	 */
-	public function actionSendMessage()
-	{
-		$this->_validateVars(array(
-			'subject' => array(
-				'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'subject')),
-				'required'	=> TRUE,
-			),
-			'message' => array(
-				'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'message')),
-				'required'	=> TRUE,
-			),
-		));
-		$obPhotographer = Application::model()->findByKey($_POST['app_key'])->user;
-		$obStudioMessage = new StudioMessage();
-		$obStudioMessage->client_id = $this->_obClient->id;
-		$obStudioMessage->name = $this->_obClient->name;
-		$obStudioMessage->email = $this->_obClient->email;
-		$obStudioMessage->phone = $this->_obClient->phone;
-		$obStudioMessage->subject = @$_POST['subject'];
-		$obStudioMessage->message = @$_POST['message'];
-		$obStudioMessage->user_id = $obPhotographer->id;
-		$obStudioMessage->device_id = $_POST['device_id'];
-		if(!$obStudioMessage->save())
-			$this->_renderErrors($obStudioMessage->getErrors());
-//
-//		$body = '';
-//		foreach(array('name', 'email', 'phone', 'subject', 'message') as $name)
-//			$body .= $name.': '.$obStudioMessage->{$name}."\n\r";
-//
-//		Yii::app()->mailer->From = Yii::app()->settings->get('send_mail_from_email');
-//		Yii::app()->mailer->FromName = Yii::app()->settings->get('send_mail_from_name');
-//		Yii::app()->mailer->AddAddress($obPhotographer->email, $obPhotographer->first_name.' '.$obPhotographer->last_name);
-//		Yii::app()->mailer->AddAddress('rassols@gmail.com');
-//		Yii::app()->mailer->Subject = 'Mail from iOS application contact form';
-//		Yii::app()->mailer->AltBody = $body;
-//		Yii::app()->mailer->getView('standart', array(
-//				'body'  => $body,
-//			));
-		$this->_render(array('state' => TRUE/*Yii::app()->mailer->Send()*/));
 	}
 }

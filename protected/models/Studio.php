@@ -72,14 +72,15 @@ class Studio extends YsaActiveRecord
 	public function rules()
 	{
 		return array(
+			array('twitter_feed, facebook_feed, blog_feed', 'filter', 'filter' => array($this, 'filterUrl')),
+			
 			array('user_id', 'required'),
 			array('user_id', 'numerical', 'integerOnly'=>true),
 			array('name, facebook_feed, twitter_feed, blog_feed', 'length', 'max'=>100),
-			array('facebook_feed, twitter_feed, blog_feed, order_link', 'url'),
+			array('facebook_feed, twitter_feed, blog_feed', 'url'),
 			array('name, facebook_feed, twitter_feed, blog_feed, order_link, created, updated, specials, video, contact', 'safe'),
 		);
 	}
-
 	/**
 	 * @return array relational rules.
 	 */
@@ -129,8 +130,11 @@ class Studio extends YsaActiveRecord
 		
 		$url = $this->specialsUrl();
 		if (is_file($path)) {
-			$finfo = new finfo(FILEINFO_MIME_TYPE);
-			$ext = YsaHelpers::mimeToExtention($finfo->file($path));
+			//$finfo = new finfo(FILEINFO_MIME_TYPE);
+			//$ext = YsaHelpers::mimeToExtention($finfo->file($path));
+			
+			$mime = mime_content_type($path);
+			$ext = YsaHelpers::mimeToExtention($mime);
 
 			switch($ext) {
 				case 'pdf':
@@ -157,7 +161,11 @@ class Studio extends YsaActiveRecord
 	
 	public function specialsUrl()
 	{
-		return $this->_uploadUrl . '/' . $this->specials;
+		if ($this->specials) {
+			return $this->_uploadUrl . '/' . $this->specials;
+		} else {
+			return null;
+		}
 	}
 	
 	public function uploadUrl()
@@ -222,7 +230,7 @@ class Studio extends YsaActiveRecord
 	public function video($size = 'standart')
 	{
 		if (!$this->video) {
-			return false;
+			return null;
 		}
 		
 		$video = unserialize($this->video);
@@ -277,5 +285,87 @@ class Studio extends YsaActiveRecord
 	public function help($field)
 	{
 		return isset($this->_help[$field]) ? Yii::app()->baseUrl . '/resources/images/help/studio/' . $this->_help[$field] : null;
+	}
+	
+	public function socialAttributes()
+	{
+		return array(
+			'blog_feed' => $this->blog_feed,
+			'facebook_feed' => $this->facebook_feed,
+			'twitter_feed' => $this->twitter_feed,
+		);
+	}
+
+	/**
+	 * Parse studio blog rss and return array of posts with [link,image,date,title,excerpt]
+	 * @param int $limit
+	 */
+	public function getRecentBlogPosts($limit = 10, $clearCache = false)
+	{
+		if (!$this->blog_feed) {
+			return array();
+		}
+		
+		$cacheKey = 'studio_blog_cache_' . $this->id;
+		
+		if ($clearCache) {
+			Yii::app()->cache->delete($cacheKey);
+			$items = false;
+		} else {
+			$items = Yii::app()->cache->get($cacheKey);
+		}
+		
+		if (false === $items) {
+			
+			Yii::import('ext.httpclient.*');
+			Yii::import('ext.httpclient.adapter.*');
+			$client = new EHttpClient($this->blog_feed, array(
+				'timeout'      => 30,
+				'adapter'	   => 'EHttpClientAdapterCurl',
+			));
+
+			$response = $client->request();
+			$xml = YsaHelpers::xml2array($response->getBody());
+
+			$items = array();
+			if (isset($xml['rss'])) {
+				$items = $xml['rss']['channel']['item'];
+			}
+			
+			Yii::app()->cache->set($cacheKey, $items, 21600); // 6 hours cache time
+		}
+		
+		$feed = array();
+		for ($i = 0; $i < $limit; $i++) {
+			// no more feeds
+			if (!isset($items[$i])) {
+				break;
+			}
+			
+			$excerpt = '';
+			$image = '';
+			if (isset($items[$i]['description']) && is_string($items[$i]['description'])) {
+				$excerpt = YsaHelpers::truncate(strip_tags($items[$i]['description']), 400);
+			}
+			
+			if (isset($items[$i]['content:encoded'])) {
+				preg_match('~src="([^"\']+)"~sim', $items[$i]['content:encoded'], $matches);
+				if (isset($matches[1]) && preg_match('~\.(png|jp(e)?g|gif)$~si', $matches[1])) {
+					$image = $matches[1];
+				}
+			}
+			
+			$entry = array(
+				'title'		=> isset($items[$i]['title']) ? $items[$i]['title'] : 'No Title',
+				'date'		=> isset($items[$i]['pubDate']) ? Yii::app()->dateFormatter->formatDateTime($items[$i]['pubDate']) : '-',
+				'link'		=> isset($items[$i]['link']) ? $items[$i]['link'] : '',
+				'excerpt'	=> $excerpt,
+				'image'		=> $image,
+			);
+			
+			$feed[] = $entry;
+		}
+		
+		return $feed;
 	}
 }

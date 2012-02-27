@@ -68,7 +68,7 @@ $(function(){
 					url:_member_url + '/photo/upload/album/' + album_id,
 					max_file_size : '10mb',
 					filters : [
-						{title : "Image files", extensions : "jpg,gif,png"},
+						{title : "Image files", extensions : "jpg,jpeg,gif,png"},
 					],
 					init : {
 						FileUploaded : function(up, file, response){
@@ -125,6 +125,15 @@ $(function(){
 				padding:0
 			});
 			
+			$('#album-pass-import-button').fancybox({
+				fitToView:true,
+				autoSize:false,
+				minWidth:720,
+				minHeight:400,
+				margin:40,
+				padding:0
+			});
+			
 			$('#album-slideshow-button').click(function(e){
 				e.preventDefault();
 				var images = [];
@@ -139,6 +148,7 @@ $(function(){
 				});
 			});
 			
+			// smugmug
 			var smugmug_container = $('#photo-import-smugmug-container');
 			
 			var smugmug_data = smugmug_container.find('.data');
@@ -217,9 +227,9 @@ $(function(){
 				}, 'json');
 			});
 			
-			
+			// zenfolio
 			var zenfolio_container = $('#photo-import-zenfolio-container');
-			
+
 			var zenfolio_data = zenfolio_container.find('.data');
 			var zenfolio_loading = zenfolio_container.find('.loading');
 			var zenfolio_import = zenfolio_container.find('.import');
@@ -296,6 +306,85 @@ $(function(){
 				});
 			});
 			
+			// pass
+			var pass_container = $('#photo-import-pass-container');
+			
+			var pass_data = pass_container.find('.data');
+			var pass_loading = pass_container.find('.loading');
+			var pass_import = pass_container.find('.import');
+			
+			pass_container.find('.pass-import-selected').live('click', function(e){
+				e.preventDefault();
+				var link = $(this);
+				var chain = new Array;
+				
+				var buttons = pass_container.find('.buttons');
+				var importing = pass_container.find('.importing');
+				
+				buttons.hide();
+				importing.show();
+				
+				link.parents('form').find('input[type=checkbox]:checked').each(function(){
+					var checkbox = $(this);
+					chain.push($.post(_member_url + '/pass/importPhoto', {
+						pass:checkbox.val(),
+						album_id:album_id
+					}, function(data){
+						checkbox.attr('checked', false);
+						if (data.success) {
+							album_photos_container.append(data.html);
+						} else {
+							$._flash(data.msg, {type:'error'});
+						}
+					}, 'json'));
+				});
+				
+				$.when.apply(this, chain).done(function(){
+					$.fancybox.close();
+					buttons.show();
+					importing.hide();
+					pass_import.html('');
+					pass_container.find('select').val('');
+					$.uniform.update(); 
+					$._flash('Photos have been successfully imported.', {type:'success'});
+				});
+			});
+			
+			pass_container.find('.pass-check-all, .pass-check-none, .pass-check-invert').live('click', function(e){
+				e.preventDefault();
+				var link = $(this);
+				var checkboxes = link.parents('form').find('input:checkbox');
+				if (link.hasClass('pass-check-all') || link.hasClass('pass-check-none')) {
+					checkboxes.attr('checked', link.hasClass('pass-check-all'));
+				} else if (link.hasClass('pass-check-invert')) {
+					checkboxes.each(function(){
+						$(this).attr('checked', !$(this).attr('checked'));
+					})
+				}
+				$.uniform.update(); 
+			});
+			
+			pass_container.find('input:button').click(function(e){
+				e.preventDefault();
+				var pass = pass_container.find('select').val();
+				if (!pass) {
+					return;
+				}
+				pass_data.hide();
+				pass_loading.show();
+				pass_import.html('');
+				$.post(_member_url + '/pass/album/', {pass:pass}, function(data){
+					pass_loading.hide();
+					pass_data.show();
+					if (data.success) {
+						pass_import.html(data.html);
+						pass_import.find('input:checkbox').uniform();
+					} else {
+						$._alert(data.msg);
+					}
+				}, 'json');
+			});
+			
 			$('#album-order-availability form').ajaxForm({
 				beforeSubmit:function(items, frm){
 					frm.find('input:submit').btnLoading();
@@ -308,5 +397,7 @@ $(function(){
 	}
 	
 	$('#album').initAlbumPage();
-	
+	$("#album-photos img.lazy").lazyload().bind('load', function() {
+	    $(this).removeClass('lazy')
+	});
 })

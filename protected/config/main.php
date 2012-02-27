@@ -1,12 +1,10 @@
 <?php
-define( 'FACEBOOK_APP_ID', '328815410473890' );
-define( 'FACEBOOK_APP_SECRET', '1b7ed31430e3e0110dcce0077e8cf28d' );
 
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
-// This is the main Web application configuration. Any writable
-// CWebApplication properties can be configured here.
+require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'env'.DIRECTORY_SEPARATOR.APPLICATION_ENV.'.php';
+
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'YourStudioApp',
@@ -38,34 +36,18 @@ return array(
         'ext.eauth.services.*',
 	),
 
-	'modules'=>array(
-		// uncomment the following to enable the Gii tool
-		'gii'=>array(
-			'class'=>'system.gii.GiiModule',
-			'password'=>'gii',
-			// If removed, Gii defaults to localhost only. Edit carefully to taste.
-			'ipFilters'=>array('127.0.0.1','::1'),
-		),
-		'api',
-		'member',
-		'admin',
-	),
+	'modules' => $envModules,
 
 	// application components
 	'components'=>array(
-
 		'messages' => array(
 			'class' => 'YsaMessageSource',
 			'forceTranslation' => true,
 			'sourceMessageTable' => 'translation_source',
 			'translatedMessageTable' => 'translation',
 			'language' => 'en',
-			// config for db message source here, see http://www.yiiframework.com/doc/api/CDbMessageSource
 		),
-
-		
 		'request'=>array(
-			//            'enableCsrfValidation'=>true,
 			'class' => 'application.components.YsaHttpRequest',
 		),
 		'session' => array(
@@ -113,7 +95,8 @@ return array(
 				'/member/person/<action:\w+>/<personId>' => 'member/person/<action>',
 				'/member/settings/facebook/connect/<service_param>/<service>'=>'member/settings/facebookconnect',
 				'/member/settings/facebook/unlink/'=>'member/settings/facebookunlink',
-
+				'/member/help/<slug:[\w\d\-]+>' => 'member/help/view',
+				
 				//image route
 				'/image/<action:\w+>/<imageId>' => 'image/<action>',
 
@@ -132,19 +115,7 @@ return array(
 				'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
 			),
 		),
-
-
-		// uncomment the following to use a MySQL database
-		'db'=>array(
-			'connectionString'      => 'mysql:host=office.flosites.com;dbname=yoursturioapp',
-			'emulatePrepare'        => true,
-			'username'              => 'root',
-			'schemaCachingDuration' => 3600,
-			'password'              => 'iloveflosites',
-			'charset'               => 'utf8',
-			'enableProfiling'       => true,
-			'enableParamLogging'    => true,
-		),
+		'db' => $envDb,
 		'cache' => array (
 			'class' => 'system.caching.CFileCache'
 		),
@@ -153,20 +124,8 @@ return array(
 			'errorAction'=>'site/error',
 		),
 		'log'=>array(
-			'class'=>'CLogRouter',
-			'routes'=>array(
-				array(
-					//					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
-					'class'=>'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
-					'ipFilters'=>array('127.0.0.1','192.168.1.215'),
-				),
-				array(
-					'class' => 'CWebLogRoute',
-					'categories' => 'application',
-					'levels'=>'error, warning, trace, profile, info',
-				),
-			),
+			'class' => 'YsaLogRouter',
+			'routes' => $envLogRoutes,
 		),
 
 		'mailer' => array(
@@ -190,10 +149,17 @@ return array(
 		'clientScript'=>array(
 			'packages'=>array(
 				'jquery'=>array(
-					'baseUrl'=>'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/',
+					'baseUrl'=>'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/',
 					'js'=>array('jquery.min.js'),
 				),
 			),
+			'class' => 'ext.ExtendedClientScript.ExtendedClientScript',
+			'combineCss'=>false,
+            'compressCss'=>false,
+            'combineJs'=>true,
+            'compressJs'=>true,
+			'forceJsFiles' => array('/resources/js/plugins'),
+			'autoRefresh' => APPLICATION_ENV == 'production' ? false : true
 		),
 		
 		'loid' => array(
@@ -202,38 +168,22 @@ return array(
 		
         'eauth' => array(
             'class' => 'ext.eauth.EAuth',
-            'popup' => true, // Use the popup window instead of redirecting.
-            'services' => array( // You can change the providers and their classes.
-//                'google' => array(
-//                    'class' => 'GoogleOpenIDService',
-//                ),
-//                'twitter' => array(
-//                    // register your app here: https://dev.twitter.com/apps/new
-//                    'class' => 'TwitterOAuthService',
-//                    'key' => '...',
-//                    'secret' => '...',
-//                ),
-//                'google_oauth' => array(
-//                    // register your app here: https://code.google.com/apis/console/
-//                    'class' => 'GoogleOAuthService',
-//                    'client_id' => '...',
-//                    'client_secret' => '...',
-//                    'title' => 'Google (OAuth)',
-//                ),
+            'popup' => true,
+            'services' => array(
                 'facebook' => array(
-                    // register your app here: https://developers.facebook.com/apps/
                     'class' => 'FacebookOAuthService',
                 ),
             ),
         ),
 	),
-
+	
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'    =>'webmaster@yourstudioapp.com',
-		'admin_per_page'=> 10,
+		'adminEmail'    =>'admin@yourstudioapp.com',
+		'admin_per_page'=> 40,
+		'member_per_page'=> 20,
 		'salt'          => 'wel0veyourstud1oapp',
 		'date_format'   => 'Y-m-d H:i:s',
 		'date_format_short' => 'D, j M',
@@ -244,11 +194,6 @@ return array(
 		),
 
 		'max_image_size' => 1024 * 1024 * 5, // 5MB
-
-		'oauth' => array(
-			'facebook_app_id' => FACEBOOK_APP_ID,
-			'facebook_app_secret' => FACEBOOK_APP_SECRET,
-		),
 		
 		'application'   => array(
 			'logo'  => array(
@@ -283,22 +228,22 @@ return array(
 				'ext'    => 'png',
 			),
 			'generic_bg_image' => array(
-//				'width'  => 1024,
-//				'height' => 768,
+				'width'  => 1024,
+				'height' => 768,
 				'ext'    => 'png',
 			),
 		),
 		'member_area' => array(
 			'album' => array(
 				'preview' => array(
-					'width'  => 210,
-					'height' => 140,
+					'width'  => 230,
+					'height' => 230,
 				),
 			),
 			'photo' => array(
 				'preview' => array(
-					'width'  => 210,
-					'height' => 140,
+					'width'  => 230,
+					'height' => 230,
 				),
 				'full' => array(
 					'width'  => 1024,
@@ -309,18 +254,18 @@ return array(
 		'studio' => array(
 			'person' => array(
 				'photo' => array(
-					'width'  => 100,
-					'height' => 100,
+					'width'  => 220,
+					'height' => 220,
 				),
 			),
 			'video' => array(
 				'standart' => array(
-					'width'	 => 800,
-					'height' => 600,
+					'width'	 => 640,
+					'height' => 360,
 				),
 				'preview' => array(
-					'width'	 => 480,
-					'height' => 320,
+					'width'	 => 640,
+					'height' => 360,
 				),				
 			),
 		),
@@ -342,16 +287,16 @@ return array(
 					'label'	=> 'Splash Background Image',
 					'img'	=> TRUE,
 				),
-				'splash_bg_color'	=> array(
-					'label'	=> 'Splash Background Color'
-				),
-				'splash_bg'	=> array(
-					'values'	=> array(
-						'image'	=> 'Background Image',
-						'color'	=> 'Background Color'
-					),
-					'label'		=> 'Splash Background Type'
-				)
+//				'splash_bg_color'	=> array(
+//					'label'	=> 'Splash Background Color'
+//				),
+//				'splash_bg'	=> array(
+//					'values'	=> array(
+//						'image'	=> 'Background Image',
+//						'color'	=> 'Background Color'
+//					),
+//					'label'		=> 'Splash Background Type'
+//				)
 			),
 			'colors'	=> array(
 				'studio_bg'	=> array(
@@ -382,17 +327,21 @@ return array(
 			'fonts'		=> array(
 				'main_font' => array(
 					'values'	=> array(
-						'arial'     => 'Arial',
-						'helvetica' => 'Helvetica',
-						'georgia'   => 'Georgia',
+						'Arial'			=> 'Arial',
+						'Helvetica'		=> 'Helvetica',
+						'Verdana'		=> 'Verdana',
+						'Georgia'		=> 'Georgia',
+						'Baskerville'	=> 'Baskerville',
 					),
 					'label'		=> 'Font'
 				),
 				'second_font' => array(
 					'values'	=> array(
-						'arial'     => 'Arial',
-						'helvetica' => 'Helvetica',
-						'georgia'   => 'Georgia',
+						'Arial'			=> 'Arial',
+						'Helvetica'		=> 'Helvetica',
+						'Verdana'		=> 'Verdana',
+						'Georgia'		=> 'Georgia',
+						'Baskerville'	=> 'Baskerville',
 					),
 					'label'		=> 'Font'
 				),
@@ -421,42 +370,41 @@ return array(
 		
 		'default_styles' => array(
 			'dark' => array(
-				'splash_bg_color'	=> '#000000',
-				'splash_bg'			=> 'color',
 				'studio_bg_color'	=> '#000000',
 				'studio_bg'			=> 'color',
 				'generic_bg_color'	=> '#000000',
 				'generic_bg'		=> 'color',
-				'main_font'			=> 'arial',
-				'second_font'		=> 'arial',
+				'main_font'			=> 'Arial',
+				'second_font'		=> 'Arial',
 				'main_font_color'	=> '#ffffff',
 				'second_font_color'	=> '#ffffff',
 			),
 			'light' => array(
-				'splash_bg_color'	=> '#ffffff',
-				'splash_bg'			=> 'color',
 				'studio_bg_color'	=> '#ffffff',
 				'studio_bg'			=> 'color',
 				'generic_bg_color'	=> '#ffffff',
 				'generic_bg'		=> 'color',
-				'main_font'			=> 'arial',
-				'second_font'		=> 'arial',
+				'main_font'			=> 'Arial',
+				'second_font'		=> 'Arial',
 				'main_font_color'	=> '#000000',
 				'second_font_color'	=> '#000000',
 			),
 			'biege' => array(
-				'splash_bg_color'	=> '#e5d9c7',
-				'splash_bg'			=> 'color',
 				'studio_bg_color'	=> '#e5d9c7',
 				'studio_bg'			=> 'color',
 				'generic_bg_color'	=> '#e5d9c7',
 				'generic_bg'		=> 'color',
-				'main_font'			=> 'arial',
-				'second_font'		=> 'arial',
+				'main_font'			=> 'Arial',
+				'second_font'		=> 'Arial',
 				'main_font_color'	=> '#6a645c',
 				'second_font_color'	=> '#6a645c',
 			),
-		)
+		),
 		
-	),
+		'application_ajax_fields' => array(
+			'studio_bg_color', 'style', 'splash_bg_color', 'generic_bg_color',
+			'main_font', 'main_font_color', 'second_font', 'second_font_color', 
+			'copyright', 'splash_bg', 'generic_bg', 'studio_bg',
+		)
+	),	
 );

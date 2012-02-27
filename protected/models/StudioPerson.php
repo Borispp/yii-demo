@@ -133,6 +133,17 @@ class StudioPerson extends YsaActiveRecord
 		
 		return true;
 	}
+
+	public function photoFilesize()
+	{
+		$imagePath = $this->_uploadPath . DIRECTORY_SEPARATOR . $this->photo;
+		if (is_file($imagePath))
+			return filesize($imagePath);
+		return EventPhoto::model()->defaultPicFilesize(
+			Yii::app()->params['studio']['person']['photo']['width'],
+			Yii::app()->params['studio']['person']['photo']['height']
+		);
+	}
 	
 	public function photoUrl()
 	{

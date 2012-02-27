@@ -7,12 +7,52 @@ form div.errorMessage {
 	color: #c00;
 }
 
+
+table.data td,
+table.data th {
+	vertical-align: middle;
+}
+
+table.data .true,
+table.data .false,
+table.data .app-ready,
+table.data .none {
+	color:#000;
+}
+table.data .true {
+	background-color: #A2E8A2;
+}
+table.data .false {
+	background-color: #F0A8A8;
+}
+table.data .app-ready {
+	background-color: #E5DDA0;
+}
+table.data .none {
+	background-color: #eee;
+}
+
+td.active,
+td.inactive {
+	color:#444;
+}
+
+td.page-system {
+	background-color: #ddd;
+}
+td.page-general {
+	background-color: #77D5EF;
+}
+
+
 .state1,
-.bg_green {
+.bg_green,
+td.active {
     background-color: #A2E8A2;
 }
 .state-1,
-.bg_red {
+.bg_red,
+td.inactive {
     background-color: #F0A8A8;
 }
 .state0,
@@ -269,3 +309,40 @@ ul.replies li p {
 	padding:0;
 }
 
+#loginform input[type=text],
+#loginform input[type=password] {
+	width:302px;
+}
+
+#tab-custom-fields {
+}
+#tab-custom-fields section {
+	height:260px;
+	
+}
+#tab-custom-fields .name,
+#tab-custom-fields .area {
+	margin-bottom:1em;
+}
+
+#tab-custom-fields .image {
+	float:left;
+}
+#tab-custom-fields .save {
+	float:right;
+}
+
+#tab-custom-fields .image img {
+	max-width:150px;
+	max-height:100px;
+	height:auto;
+	vertical-align: middle;
+}
+#tab-custom-fields .image .delete-image {
+	color:#c00;
+	
+}
+#tab-custom-fields .custom-placeholder {
+	height:260px;
+	background:#eee;
+}

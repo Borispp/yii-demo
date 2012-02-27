@@ -6,7 +6,7 @@
     )); ?>
     
     <p>
-        <?php echo CHtml::link('Add New', array('add'), array('class' => 'btn i_plus icon ysa fr')); ?>
+        <?php echo YsaHtml::link('Add New', array('add'), array('class' => 'btn i_plus icon ysa fr')); ?>
         <span class="clearfix"></span>
     </p>
     
@@ -23,10 +23,10 @@
                 <tr>
                     <td><input type="checkbox" class="del" value="<?php echo $entry->id; ?>" name="ids[]" /></td>
                     <td class="l">
-                        <h4><?php echo CHtml::link($entry->title, array('edit', 'id' => $entry->id)); ?></h4>
+                        <h5><?php echo YsaHtml::link($entry->title, array('edit', 'id' => $entry->id)); ?></h5>
                     </td>
                     <td>
-                        <?php echo CHtml::link('Edit', array('edit', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
+                        <?php echo YsaHtml::link('Edit', array('edit', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

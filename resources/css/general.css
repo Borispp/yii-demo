@@ -1380,6 +1380,51 @@ a.icon:hover, .icon-blue {
 .hidden {
   display: none;
 }
+/* Typo
+*******************************/
+.story {
+  line-height: 1.5;
+}
+.story ul, .story ul li {
+  list-style: square;
+}
+.story ol, .story ol li {
+  list-style: decimal;
+}
+.story ul, .story ol {
+  margin: 0 0 1em 1.5em;
+  line-height: 1.5;
+}
+.story ol ol {
+  list-style: upper-alpha;
+}
+.story ol ol ol {
+  list-style: lower-roman;
+}
+.story ol ol ol ol {
+  list-style: lower-alpha;
+}
+.story ul ul,
+.story ol ol,
+.story ul ol,
+.story ol ul {
+  margin-bottom: 0;
+}
+.story h1,
+.story h2,
+.story h3,
+.story h4,
+.story h5,
+.story h6 {
+  text-transform: none;
+  margin-bottom: .5em;
+}
+.story a:link,
+.story a:visited,
+.story a:hover,
+.story a:active {
+  text-decoration: underline;
+}
 /*
 alpha, bravo, charlie, delta, echo, foxtrot, 
 golf, hotel, india, juliet, kilo, lima, mike, 
@@ -1541,6 +1586,13 @@ tango, uniform, victor, whiskey, x-ray, yankee, zulu.
   display: inline-block;
   *display: inline;
   *zoom: 1;
+}
+.transition-color-alpha {
+  -webkit-transition: color 200ms ease;
+  -moz-transition: color 200ms ease;
+  -ms-transition: color 200ms ease;
+  -o-transition: color 200ms ease;
+  transition: color 200ms ease;
 }
 ::selection {
   background: #00a7dd;
@@ -1849,6 +1901,11 @@ header nav li a {
   font-weight: 700;
   line-height: 1;
   border: 1px solid transparent;
+  -webkit-transition: color 200ms ease;
+  -moz-transition: color 200ms ease;
+  -ms-transition: color 200ms ease;
+  -o-transition: color 200ms ease;
+  transition: color 200ms ease;
 }
 header nav li a:hover {
   text-decoration: none;
@@ -1859,9 +1916,6 @@ header nav li.active > a {
 }
 header nav li.logout a:hover {
   color: #999999;
-}
-header nav li.panel a {
-  color: #000000;
 }
 header nav li.login-visible a {
   background: #ffffff;
@@ -1957,6 +2011,29 @@ header nav li ul li a {
   margin-bottom: 1em;
   position: relative;
 }
+#login-window .row .services {
+  padding: 0;
+  margin: 0;
+  background: none;
+  float: right;
+}
+#login-window .row .services .auth-services {
+  margin: 0;
+}
+#login-window .row .services .auth-services .auth-service {
+  margin-right: 0;
+}
+#login-window .row .services .auth-services .auth-service .auth-link {
+  width: auto;
+}
+#login-window .row .services .auth-services .auth-service .auth-link .fb-login {
+  width: 87px;
+  height: 21px;
+}
+#login-window .row .services .auth-services .auth-service .auth-link .fb-login i {
+  width: auto;
+  height: auto;
+}
 #login-window input[type="text"], #login-window input[type="email"], #login-window input[type="password"] {
   font-size: 13px;
   padding: 10px;
@@ -2011,6 +2088,8 @@ header nav li ul li a {
 /* Footer
 *******************************/
 .footer-w {
+  left: 0;
+  right: 0;
   -webkit-box-shadow: 0px 0px 2px 0px #999999;
   -moz-box-shadow: 0px 0px 2px 0px #999999;
   box-shadow: 0px 0px 2px 0px #999999;
@@ -2123,4 +2202,53 @@ div.static-flash.info {
 div.static-flash a {
   color: #3a3a3a;
   text-decoration: underline;
+}
+/* General Page Wrapper
+*******************************/
+.general-page {
+  position: relative;
+  top: -24px;
+  width: 980px;
+  margin: 0 auto;
+  background: #ffffff;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.general-page .content {
+  padding: 36px;
+}
+#member-panel .general-page {
+  top: 0;
+  margin-bottom: 24px;
+}
+/* Error Pages
+*******************************/
+#page-404 .content, #page-403 .content {
+  height: 140px;
+  padding-top: 360px;
+  background: url(../images/404.jpg) 225px 190px no-repeat;
+  position: relative;
+}
+#page-404 .content p, #page-403 .content p {
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 1.4;
+  font-style: italic;
+  text-shadow: 1px 1px 0px #ffffff;
+  text-align: center;
+  color: #616161;
+}
+#page-404 .content .button, #page-403 .content .button {
+  display: block;
+  text-align: center;
+}
+#page-404 .content {
+  background: url(../images/404.jpg) 225px 190px no-repeat;
+}
+#page-403 .content {
+  background: url(../images/403.jpg) 50% 115px no-repeat;
 }

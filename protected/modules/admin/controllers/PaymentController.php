@@ -35,4 +35,36 @@ class PaymentController extends YsaAdminController
 				'entry'     => $entry,
 			));
 	}
+
+	public function actionAdd()
+	{
+		$entry = new PaymentTransaction();
+		if (isset($_POST['PaymentTransaction']))
+		{
+			$entry->attributes = $_POST['PaymentTransaction'];
+			$entry->created = date('Y-m-d H:i:s');
+			if ($entry->validate())
+			{
+				$entry->save();
+				if (!empty($_POST['application_id']))
+				{
+					$application = Application::model()->findByPk($_POST['application_id']);
+					$transactionApplication = new PaymentTransactionApplication();
+					$transactionApplication->application_id = $application->id;
+					$transactionApplication->transaction_id = $entry->id;
+					$transactionApplication->save();
+					$entry->setPaid();
+				}
+				$this->setSuccessFlash("New payment record successfully added. " . CHtml::link('Back to listing.', array('index')));
+				$this->redirect(array('view', 'id'=>$entry->id));
+			}
+		}
+		$this->setContentTitle('New transaction');
+		$this->render('add',array(
+			'entry'           => $entry,
+			'applicationList' => Application::model()->findAllByAttributes(array(
+				'paid' => 0
+			))
+		));
+	}
 }

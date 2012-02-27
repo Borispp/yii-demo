@@ -10,11 +10,9 @@ class SiteController extends YsaFrontController
         $page = Page::model()->findBySlug('homepage');
         $this->setMeta($page->meta());
 
-		$this->loadFancybox()
-			->loadVideoJS();
+		$this->loadFancybox();
 		
 		$newsletterForm = new NewsletterForm();
-		
         $this->render('index', array(
             'page' => $page,
 			'newsletterForm' => $newsletterForm,
@@ -55,10 +53,6 @@ class SiteController extends YsaFrontController
 		
 		$this->renderPartial('_video');
 		Yii::app()->end();
-
-//		$this->sendJsonSuccess(array(
-//			'html' => $this->renderPartial('_video', array(), true)
-//		));
 	}
 
     /**
@@ -72,6 +66,8 @@ class SiteController extends YsaFrontController
 			case 403:
 				$errCode = '403';
 				break;
+			case 500:
+				$errCode = '500';
 			case 404:
 			default:
 				$errCode = '404';

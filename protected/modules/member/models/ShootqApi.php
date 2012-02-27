@@ -10,7 +10,7 @@ class ShootqApi extends YsaFormModel
     public function rules() 
     {
         return array(
-            array('shootq_abbr, shootq_key', 'required'),
+            array('shootq_abbr, shootq_key', 'safe'),
 			array('shootq_enabled', 'numerical', 'integerOnly' => true)
         );
     }

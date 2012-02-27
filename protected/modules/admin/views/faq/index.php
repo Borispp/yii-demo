@@ -6,7 +6,7 @@
 	)); ?>
 
 	<p>
-		<?php echo CHtml::link('Add New', array('add'), array('class' => 'btn i_plus icon ysa fr')); ?>
+		<?php echo YsaHtml::link('Add New', array('add'), array('class' => 'btn i_plus icon ysa fr')); ?>
 		<span class="clearfix"></span>
 	</p>
 
@@ -15,7 +15,7 @@
 		<tr>
 			<th class="w_1"><input type="checkbox" value="" class="ids-toggle" /></th>
 			<th class="l">Question</th>
-			<th class="w_20">State</th>
+			<th class="w_5">Status</th>
 			<th class="w_10">&nbsp;</th>
 		</tr>
 		</thead>
@@ -24,11 +24,13 @@
 		<tr>
 			<td><input type="checkbox" class="del" value="<?php echo $entry->id; ?>" name="ids[]" /></td>
 			<td class="l">
-				<?php echo CHtml::link($entry->question, array('edit', 'id' => $entry->id)); ?>
+				<?php echo YsaHtml::link($entry->question, array('edit', 'id' => $entry->id)); ?>
 			</td>
-			<td><?php echo $entry->state() ?></td>
+			<td class="<?php echo strtolower($entry->state()); ?>">
+				<strong><?php echo $entry->state(); ?></strong>
+			</td>
 			<td>
-				<?php echo CHtml::link('Edit', array('edit', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
+				<?php echo YsaHtml::link('Edit', array('edit', 'id' => $entry->id), array('class' => 'btn small blue')); ?>
 			</td>
 		</tr>
 			<?php endforeach; ?>

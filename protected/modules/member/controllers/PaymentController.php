@@ -2,187 +2,71 @@
 class PaymentController extends YsaMemberController
 {
 	/**
-	 * @var PaymentTransaction
+	 * @todo Add case for subscription
+	 * @param string $type
+	 * @param integer $itemId
+	 * @return float
 	 */
-	protected $_transaction = NULL;
-
-	/**
-	 * @return YsaMemberPayment
-	 */
-	protected function _getPayment($payway)
+	public function getSumm($type, $itemId)
 	{
-		static $object;
-		if (empty($object[$payway]))
+		if ($type == 'application')
 		{
-			$object[$payway] = $payway == 'paypal' ? new YsaMemberPaypal() : new YsaMemberAuthorizeNet();
+			return Yii::app()->settings->get('application_summ');
 		}
-		return $object[$payway];
 	}
 
 	/**
-	 * @param null|int $transactionId
-	 * @return PaymentTransaction
+	 * Check if object can be paid
+	 * @param $type
+	 * @param $itemId
 	 */
-	protected function _getTransaction($transactionId = NULL)
+	protected function _validateInputParams($type, $itemId)
 	{
-		if (!$this->_transaction)
+		try
 		{
-			$transactionId = $transactionId ? $transactionId : $_REQUEST['transaction_id'];
-			$this->_transaction = PaymentTransaction::model()->findByPk($transactionId);
-		}
-		return $this->_transaction;
-	}
-
-	public function init()
-	{
-		parent::init();
-		$this->crumb(Yii::t('payment','payment_title'), array('payment/'));
-	}
-
-	protected function _checkTransaction($transactionId = NULL)
-	{
-		$errorMessage = NULL;
-		$transaction = $this->_getTransaction($transactionId);
-		if ($transaction->getMember()->id != $this->member()->id)
-		{
-			$errorMessage = Yii::t('payment', 'wrong_transaction_id');
-		}
-		if ($transaction->isPaid())
-		{
-			$errorMessage = Yii::t('payment', 'transaction_is_paid');
-		}
-
-		if ($errorMessage)
-		{
-			$this->setMemberPageTitle(Yii::t('payment','payment_error_title'));
-			$this->render('error', array('message' => $errorMessage));
-			die;
-		}
-	}
-
-	public function actionChoosePayway($transactionId)
-	{
-		$this->_checkTransaction($transactionId);
-		$this->setMemberPageTitle(Yii::t('payment', 'select_pay_system_title'));
-		$this->render('choose_payway', array(
-				'transaction'	=> $this->_getTransaction($transactionId)
-			));
-	}
-
-	/**
-	 * @param $payway
-	 * @return void
-	 */
-	public function actionPay($payway)
-	{
-		$this->_checkTransaction();
-		$returnUrl = 	$this->createAbsoluteUrl('/member/payment/return/', array(
-			'payway'         => $payway,
-			'transaction_id' => $this->_getTransaction()->id
-		));
-		$notifyUrl = 	$this->createAbsoluteUrl('/member/payment/catchnotification/', array(
-			'payway'         => $payway,
-			'transaction_id' => $this->_getTransaction()->id
-		));
-
-		$this->renderVar('formFields',
-			$this->_getPayment($payway)->getFormFields(
-				$this->_getTransaction(),
-				$notifyUrl,
-				$returnUrl
-			)
-		);
-		$formAction = $this->_getPayment($payway)->getFormUrl();
-
-		/**
-		 * @todo Change the way it works
-		 */
-		if ($payway != 'paypal')
-		{
-			$formAction = $this->createAbsoluteUrl('/member/payment/processAuthorizeDotNet/', array(
-				'transaction_id' => $this->_getTransaction()->id
-			));
-			$entry = new YsaAuthorizeDotNet();
-			$this->renderVar('entry', $entry);
-		}
-		$this->renderVar('formAction', $formAction);
-
-		$this->setMemberPageTitle(Yii::t('payment', 'new_title'));
-
-		$this->_getTransaction()->state = PaymentTransaction::STATE_SENT;
-		$this->_getTransaction()->save();
-
-		$this->renderVar('memberEmail', $this->member()->email);
-		$this->render($this->_getPayment($payway)->getTemplateName());
-	}
-
-	protected function _process($payway)
-	{
-		if (!$this->_getPayment($payway)->getOuterId())
-		{
-			$this->redirect(array('/member'));
-		}
-		$this->_getTransaction()->outer_id = $this->_getPayment($payway)->getOuterId();
-		$this->_getTransaction()->data = serialize($_POST);
-		$this->_getTransaction()->save();
-		if ($state = $this->_getPayment($payway)->verify())
-		{
-			$this->_getTransaction()->setPaid();
-		}
-		return $state;
-	}
-
-	/**
-	 * Custom method for authorize.net
-	 * @todo MAKE IT NOT SO CUSTOM
-	 * @param $payway
-	 * @return void
-	 */
-	public function actionProcessAuthorizeDotNet()
-	{
-		$paymentProcessor = new YsaMemberAuthorizeNet();
-		$entry = new YsaAuthorizeDotNet();
-		
-
-		if (isset($_POST['YsaAuthorizeDotNet']))
-		{
-
-			$entry->attributes = $_POST['YsaAuthorizeDotNet'];
-			if ($entry->validate())
+			$redirectUrl = '';
+			if (!in_array($type, array('application', 'subscription')))
 			{
-				if (($message = $paymentProcessor->prepare($this->_getTransaction(), $entry)) === TRUE)
+				throw new Exception('wrong_type');
+				$redirectUrl = '/member/';
+			}
+			if ($type == 'application')
+			{
+				$redirectUrl = 'application/view/';
+				if (!$itemId || !is_object($app = Application::model()->findByPk($itemId)))
 				{
-					$this->setSuccess(Yii::t('payment','payment_done'));
-					$this->redirect($this->_getTransaction()->getRedirectUrl());
+					throw new Exception('no_app_found');
 				}
-				else
+				if ($app->isPaid())
 				{
-					$this->renderVar('errorMessage', $message);
+					throw new Exception('application_already_paid');
 				}
 			}
 		}
-		$this->renderVar('entry', $entry);
-		$this->renderVar('formAction',  $this->createAbsoluteUrl('/member/payment/processAuthorizeDotNet/', array(
-			'transaction_id' => $this->_getTransaction()->id
-		)));
-		$this->render('authorizedotnet');
+		catch(Exception $e)
+		{
+			$this->setError(Yii::t('payment',$e->getMessage()));
+			$this->redirect(array($redirectUrl));
+		}
 	}
 
-	public function actionCatchNotification($payway)
+	/**
+	 * @param $type
+	 * @param $item_id
+	 */
+	public function actionChoosePayway($type, $itemId = NULL)
 	{
-		$this->_process($payway);
-	}
-
-	public function actionReturn($payway)
-	{
-		if ($this->_process($payway))
+		if ($type == 'application')
 		{
-			$this->setSuccess(Yii::t('payment','payment_done'));
+			if ($this->member()->application)
+				$itemId = $this->member()->application->id;
 		}
-		else
-		{
-			$this->setError(Yii::t('payment','payment_failed'));
-		}
-		$this->redirect($this->_getTransaction()->getRedirectUrl());
+		$this->_validateInputParams($type, $itemId);
+		$this->setMemberPageTitle(Yii::t('payment', 'select_pay_system_title'));
+		$this->render('choose_payway', array(
+			'type'    => $type,
+			'summ'    => $this->getSumm($type, $itemId),
+			'item_id' => $itemId ,
+		));
 	}
 }

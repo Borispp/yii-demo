@@ -29,8 +29,8 @@ class PageController extends YsaAdminController
 
 		$this->setContentTitle('Add New Page');
 		$this->render('add', array(
-				'entry' => $entry,
-			));
+			'entry' => $entry,
+		));
 	}
 
 	public function actionDelete()
@@ -81,6 +81,8 @@ class PageController extends YsaAdminController
 				$this->refresh();
 			}
 		}
+		
+		$this->loadPlupload();
 
 		$this->setContentTitle('Edit Page');
 		$this->render('edit', array(
@@ -90,8 +92,6 @@ class PageController extends YsaAdminController
 
 	public function actionIndex()
 	{
-		$criteria = new CDbCriteria;
-
 		$entries = Page::model()->getOneLevelTree();
 
 		$this->setContentTitle('Page Management');
@@ -101,31 +101,138 @@ class PageController extends YsaAdminController
 				'entries'   => $entries,
 			));
 	}
+	
+	public function actionAddCustomField()
+	{
+		if (Yii::app()->request->isAjaxRequest && isset($_POST['id'])) {
+			$page = Page::model()->findByPk($_POST['id']);
+			
+			if (!$page) {
+				$this->sendJsonError(array(
+					'msg' => Yii::t('error', 'general_error'),
+				));
+			}
+			
+			$field = new PageCustom();
+			$field->setAttributes(array(
+				'page_id' => $page->id,
+				'image'	=> '',
+				'value' => '',
+			));
+			$field->setNextRank();
+			$field->save();
+			
+			$this->sendJsonSuccess(array(
+				'html' => $this->renderPartial('_customField', array(
+					'field' => $field,
+				), true),
+			));
+		}
+		$this->redirect('index');
+	}
+	
+	public function actionSaveCustomField()
+	{
+		if (Yii::app()->request->isAjaxRequest && isset($_POST['id'])) {
+			$field = PageCustom::model()->findByPk($_POST['id']);
+			
+			if (!$field) {
+				$this->sendJsonError(array(
+					'msg' => Yii::t('error', 'general_error'),
+				));
+			}
+			
+			$field->setAttributes(array(
+				'name'	=> $_POST['name'],
+				'value' => $_POST['value'],
+			));
+			$field->save();
+			
+			$this->sendJsonSuccess();
+		}
+		$this->redirect('index');
+	}
+	
+	public function actionDeleteCustomField()
+	{
+		if (Yii::app()->request->isAjaxRequest && isset($_POST['id'])) {
+			$field = PageCustom::model()->findByPk($_POST['id']);
+			
+			if ($field) {
+				$field->delete();
+			}
+			
+			$this->sendJsonSuccess();
+		}
+		$this->redirect('index');
+	}
+	
+	public function actionDeleteCustomFieldImage()
+	{
+		if (Yii::app()->request->isAjaxRequest && isset($_POST['id'])) {
+			$field = PageCustom::model()->findByPk($_POST['id']);
+			
+			if ($field) {
+				$field->deleteImage();
+			}
+			
+			$this->sendJsonSuccess(array(
+				'html' => $this->renderPartial('_customLoad', array(
+					'field'	=> $field,
+				), true),
+			));
+		}
+		$this->redirect('index');
+	}
+	
+	public function actionLoadCustomImage($id)
+	{
+		$field = PageCustom::model()->findByPk($id);
 
-	// Uncomment the following methods and override them if needed
-	/*
-		public function filters()
-		{
-				// return the filter configuration for this controller, e.g.:
-				return array(
-						'inlineFilterName',
-						array(
-								'class'=>'path.to.FilterClass',
-								'propertyName'=>'propertyValue',
-						),
-				);
+		if (!$field) {
+			$this->sendJsonError(array(
+				'msg' => Yii::t('error', 'general_error'),
+			));
 		}
 
-		public function actions()
-		{
-				// return external action classes, e.g.:
-				return array(
-						'action1'=>'path.to.ActionClass',
-						'action2'=>array(
-								'class'=>'path.to.AnotherActionClass',
-								'propertyName'=>'propertyValue',
-						),
-				);
+		if (isset($_FILES['file'])) {
+			$field->upload('file');
+			$image = $field->image();
+			$this->sendJsonSuccess(array(
+				'html' => $this->renderPartial('_customImage', array(
+					'image' => $image,
+					'field'	=> $field,
+				), true)
+			));
+			
+		} else {
+			$this->sendJsonError(array(
+				'msg' => Yii::t('error', 'general_error'),
+			));
 		}
-		*/
+	}
+	
+	public function actionSortCustomFields($id)
+	{
+		$page = Page::model()->findByPk($id);
+		
+		if ($page && isset($_POST['order']) && is_array($_POST['order'])) {
+			
+			foreach ($_POST['order'] as $k => $id) {
+				$field = PageCustom::model()->findByPk($id);
+				if (!$field) {
+					continue;
+				}
+				$field->rank = $k+1;
+				$field->save();
+			}
+			
+			$this->sendJsonSuccess();
+			
+		} else {
+			$this->sendJsonError(array(
+				'msg' => Yii::t('error', 'general_error'),
+			));
+		}
+	}
 }

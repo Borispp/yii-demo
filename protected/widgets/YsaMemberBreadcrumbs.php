@@ -20,7 +20,7 @@ class YsaMemberBreadcrumbs extends CWidget
 	public function init() {
 		parent::init();
 		
-		$this->homeLink = YsaHtml::link('Home', array('/member'));
+		$this->homeLink = YsaHtml::link('Panel', array('/member'));
 	}
 	
 	public function run()

@@ -12,7 +12,7 @@ $(function(){
 				browse_button:'studio-specials-browse',
 				multi_selection:false,
 				filters : [
-					{title : "Image & PDF files", extensions : "jpg,gif,png,jpeg,pdf"},
+					{title : "Image & PDF files", extensions : "jpg,jpeg,gif,png,jpeg,pdf"},
 				]
 			}));
 			uploader.init();
@@ -61,7 +61,9 @@ $(function(){
 				success:function(data, success, response, frm){
 					var submit = frm.find('input:submit');
 					submit.val(submit.data('value')).removeClass('disabled');
-					
+					$.each(data.attributes, function(field, value){
+						$('#Studio_' + field).val(value);
+					});
 					$._flash(data.msg, {
 						'type':data.success ? 'success' : 'error'
 					});

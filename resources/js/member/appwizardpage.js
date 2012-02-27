@@ -109,11 +109,21 @@ $(function(){
 			return uploader;
 		}
 		
+		function _change_field_value(field, value, box)
+		{
+			$.post(_member_url + '/application/saveField', {
+				field:field,
+				value:value
+			}, function(data){
+				if (data.success && typeof(box) != 'undefined') {
+					box.effect('highlight');
+				}
+			}, 'json')
+		}
 		
 		$(this).each(function(){
 			var page = $(this);
 
-			
 			page.find('.upload .container a').each(function(){
 				_init_uploader($(this).attr('rel'));
 			});
@@ -190,9 +200,7 @@ $(function(){
 				}
 			});
 			
-			page.find('a.fancybox').fancybox({
-				
-			});
+			page.find('a.fancybox').fancybox();
 			
 			// style selector
 			$('#logo-step-form .style a.styl').click(function(e){
@@ -200,6 +208,9 @@ $(function(){
 				var link = $(this);
 				var input = link.siblings('input[type=hidden]');
 				input.val(link.data('style'));
+				
+				_change_field_value('style', input.val(), $('#wizard-box-style'));
+				
 				link.addClass('selected').siblings('a').removeClass('selected');
 			});
 			
@@ -213,9 +224,32 @@ $(function(){
 					}
 				});
 			})
-			page.find('a.fancybox').fancybox();
+			
+			page.find('a.preview').fancybox({
+				'type' : 'ajax',
+				'href' : _member_url + '/application/quickPreview',
+				'padding':10,
+				'margin':15,
+				afterShow:function() {
+					$('#ipad-slider').slides();
+				}
+			});
+			page.find('.color-selector input[type=text]').focusout(function(){
+				var input = $(this);
+				_change_field_value(input.data('field'), input.val(), input.parents('.shadow-box'));
+			});
+			page.find('.switcher input[type=radio]').change(function(){
+				var input = $(this);
+				_change_field_value(input.data('field'), input.val(), input.parents('.shadow-box'));
+			});
+			$('#WizardFonts_main_font, #WizardFonts_second_font').change(function(){
+				var input = $(this);
+				_change_field_value(input.data('field'), input.val(), input.parents('.shadow-box'));
+			});
+			$('#WizardCopyrights_copyright').focusout(function(){
+				_change_field_value('copyright', $(this).val(), $('#wizard-box-copyright'));
+			});
 		});
 	}
-	
 	$('#app-wizard').initAppWizardPage();
 });

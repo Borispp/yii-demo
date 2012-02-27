@@ -2,17 +2,14 @@
 <html lang="en-us">
 <head>
 	<meta charset="utf-8">
-
-	<title><?php echo YsaHtml::encode($this->pageTitle); ?></title>
-
+	
 	<meta name="description" content="" />
-
 	<script type="text/javascript">
 		var _admin_url = '<?php echo CController::createUrl('/admin')?>';
 	</script>
 
 	<!-- Google Font and style definitions -->
-	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:regular,bold">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:regular,bold">
 	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/style.css">
 	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/light/theme.css" id="themestyle" />
 	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/advanced.css">
@@ -22,14 +19,14 @@
 	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/elrte/css/elrte.min.css">
 
 	<!--[if lt IE 9]>
-	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/adm/css/ie.css" />
 	<![endif]-->
 
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,maximum-scale=1" />
 
 	<!-- Use Google CDN for jQuery and jQuery UI -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js"></script>
 
 	<!-- Loading JS Files this way is not recommended! Merge them but keep their order -->
@@ -78,13 +75,14 @@
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/script.js"></script>
 
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/adm/js/advanced.js"></script>
+	
+	<title><?php echo YsaHtml::encode($this->pageTitle); ?></title>
 </head>
 <body>
 <div id="pageoptions">
 	<ul>
 		<li><?php echo YsaHtml::link('Logout', array('/logout'))?></li>
 		<li><?php echo YsaHtml::link('Configuration', '#', array('id' => 'wl_config'))?></li>
-		<li><?php echo YsaHtml::link('Blog Admin', Yii::app()->homeUrl . '/blog/')?></li>
 		<li><?php echo YsaHtml::link('Website', Yii::app()->homeUrl)?></li>
 	</ul>
 	<div>
@@ -98,6 +96,14 @@
 		<?php echo YsaHtml::link('YourStudioApp', array('/admin')); ?>
 	</div>
 	<div id="header">
+		
+		<ul id="headernav">
+			<li><ul>
+				<li><?php echo YsaHtml::link('Zendesk', 'http://yourstudioapp.zendesk.com/', array('target' => '_blank')); ?></li>
+				<li><?php echo YsaHtml::link('Blog Admin', Yii::app()->homeUrl . '/blog/', array('target' => '_blank'))?></li>
+				<li><?php echo YsaHtml::link('Mailchimp', 'https://login.mailchimp.com', array('target' => '_blank'))?></li>
+			</ul></li>
+		</ul>
 		
 		<?/*
 		<?php if (0) : ?>
@@ -185,6 +191,20 @@
 		'url' => array('/admin/translationCategory/'),
 		'linkOptions' => array('class' => $this->getNavigationClass('translationCategory')),
 	);
+	
+//	$translationItems = TranslationCategory::model()->getNavigationList();
+	$tutorialItems = array(
+		array(
+			'label' => 'Tutorials',
+			'url' => array('/admin/tutorial/'),
+			'linkOptions' => array('class' => $this->getNavigationClass('tutorial')),
+		),
+		array(
+			'label' => 'Categories',
+			'url' => array('/admin/tutorialCategory/'),
+			'linkOptions' => array('class' => $this->getNavigationClass('tutorialCategory')),
+		),
+	);
 
 
 	$this->widget('YsaAdminMenu',array(
@@ -196,6 +216,15 @@
 					'itemOptions' => array('class' => 'i_house'),
 					'linkOptions' => array('class' => $this->getNavigationClass('default')),
 				),
+				
+				
+				array(
+					'label'=>'Contact Messages',
+					'url'=>array('/admin/contact'),
+					'itemOptions' => array('class' => 'i_companies'),
+					'linkOptions' => array('class' => $this->getNavigationClass('contact')),
+				),
+				
 				array(
 					'label'=>'Administrators',
 					'url'=>array('/admin/administrator'),
@@ -240,19 +269,14 @@
 					'itemOptions' => array('class' => 'i_mail'),
 					'linkOptions' => array('class' => $this->getNavigationClass('email')),
 				),
-				
+
 				array(
-					'label'=>'Contact Messages',
-					'url'=>array('/admin/contact'),
-					'itemOptions' => array('class' => 'i_companies'),
-					'linkOptions' => array('class' => $this->getNavigationClass('contact')),
-				),
-				
-				array(
-					'label'=>'Mailchimp Newsletters',
-					'url'=>array('mailchimp/'),
-					'itemOptions' => array('class' => 'i_speech_bubbles'),
-					'linkOptions' => array('class' => $this->getNavigationClass('mailchimp')),
+					'label'=>'Tutorials',
+					'url'=>'',
+					'itemOptions' => array('class' => 'i_information'),
+					'linkOptions' => array('class' => $this->getNavigationClass('tutorial,tutorialCategory')),
+					'active' => $this->getNavigationClass('tutorial,tutorialCategory'),
+					'items'	=> $tutorialItems,
 				),
 				
 				array(
@@ -263,6 +287,14 @@
 					'active' => $this->getNavigationClass('translation,translationCategory'),
 					'items'	=> $translationItems,
 				),
+				
+				array(
+					'label'=>'Mailchimp Newsletters',
+					'url'=>array('mailchimp/'),
+					'itemOptions' => array('class' => 'i_speech_bubbles'),
+					'linkOptions' => array('class' => $this->getNavigationClass('mailchimp')),
+				),
+				
 				array(
 					'label' =>'Settings',
 					'url'   => '',

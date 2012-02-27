@@ -2,9 +2,6 @@
 <html <?php language_attributes(); ?>>
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>" />
-    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8" />
-    <meta http-equiv="Page-Enter" content="blendTrans(Duration=0.1)" />
-    <meta http-equiv="Page-Exit" content="blendTrans(Duration=0.1)" />
     <title><?php
         global $page, $paged;
         wp_title( '|', true, 'right' );
@@ -17,12 +14,9 @@
     <?php wp_head();?>
 	<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
     <!--[if lt IE 9]>
-        <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 	<link rel="shortcut icon" type="image/x-icon" href="<?php echo YOURSTUDIOAPP_WEBSITE . '/' ?>favicon.ico" />
-	<script type="text/javascript">
-	var disqus_developer = true; 
-	</script>
 </head>
 <body>
     <div id="header-wrapper">

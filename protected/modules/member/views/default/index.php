@@ -14,26 +14,29 @@
 			</div>
 		</section>
 		
-		<section class="box widget number-widget" id="widget_latest_registered">
+		<section class="box widget number-widget" id="widget_helpdesk">
 			<div class="box-title">
 				<h3>Help Desk</h3>
 			</div>
 			<div class="box-content">
+				<?php if ($zd_requests && count($zd_requests)) : ?>
 				<ul class="list">
 					<?php foreach($zd_requests as $request) : ?>
 					<li>
-						<?php echo CHtml::link($request->subject, Zendesk::requestsUrl($request->nice_id),array('target'=>'_blank'))  ?>
-						<span class="date"><?php echo Zendesk::date($request->created_at, Yii::app()->params['date_format_short']) ?></span>
+						<?php echo YsaHtml::link($request->subject, Zendesk::requestsUrl($request->nice_id),array('target'=>'_blank'))  ?>
+						<span class="date"><?php echo Yii::app()->dateFormatter->formatDateTime($request->created_at, 'medium', false) ?></span>
 					</li>
 					<?php endforeach ?>
 				</ul>
+				<?php endif ?>
 				<div class="box-button">
-					<?php echo YsaHtml::link('Open new ticket', Zendesk::newRequestURL(), array('class' => 'btn small', 'target'=>'_blank')); ?>
+					<?php echo YsaHtml::link('Open new ticket', array('zendesk/add/'), array('class' => 'btn small', 'target'=>'_blank')); ?>
 				</div>
 			</div>
 		</section>
 		
 	</div>
+	
 	<div class="widgets g4">
 		<section class="box widget" id="widget_application">
 			<div class="box-title">
@@ -70,18 +73,18 @@
 				<h3>Studio Info</h3>
 			</div>
 			<div class="box-content">
-				
 				<ul>
-					<li><?php echo !empty($this->member()->studio->name) ? '<strong>' . $this->member()->studio->name . '</strong>' : '<span class="warning">Studio name is undefined</span>' ?></li>
-					<li><span class="number"><?php echo count($this->member()->studio->persons) ?></span> Photographers</li>
-					<li><span class="number"><?php echo count($this->member()->studio->customLinks) ?></span> Custom Links</li>
-					<li><span class="number"><?php echo count($this->member()->studio->bookmarkLinks) ?></span> Bookmarks</li>
+					<li><?php echo !empty($this->member()->studio()->name) ? '<strong>' . $this->member()->studio()->name . '</strong>' : '<span class="warning">Studio name is undefined</span>' ?></li>
+					<li><span class="number"><?php echo count($this->member()->studio()->persons) ?></span> Photographers</li>
+					<li><span class="number"><?php echo count($this->member()->studio()->customLinks) ?></span> Custom Links</li>
+					<li><span class="number"><?php echo count($this->member()->studio()->bookmarkLinks) ?></span> Bookmarks</li>
 				</ul>
 				
 				<div class="box-button"><?php echo YsaHtml::link('View &amp; Edit', array('studio/'), array('class' => 'btn small')); ?></div>
 			</div>
 		</section>
 	</div>
+	
 	<div class="widgets g4">
 		<section class="box widget number-widget" id="widget_latest_events">
 			<div class="box-title">

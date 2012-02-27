@@ -1,11 +1,42 @@
 <?php
-interface YsaMemberPayment
+abstract class YsaMemberPayment extends YsaMemberController
 {
-	public function verify();
-	public function getFormUrl();
-	public function getOuterId();
-	public function getTemplateName();
-	public function prepare(PaymentTransaction $transaction, YsaAuthorizeDotNet $entry);
-	public function catchNotification();
-	public function getFormFields(PaymentTransaction $transaction, $notifyUrl, $returnUrl);
+	/**
+	 * @var YsaSessionTransaction
+	 */
+	protected $_sessionTransaction = NULL;
+
+	public function init()
+	{
+		parent::init();
+		if (!empty($_REQUEST['type']) && !empty($_REQUEST['item_id']) && !empty($_REQUEST['summ']))
+		{
+			$this->_sessionTransaction = new YsaSessionTransaction();
+			$this->_sessionTransaction->type = $_REQUEST['type'];
+			$this->_sessionTransaction->item_id = $_REQUEST['item_id'];
+			$this->_sessionTransaction->summ = $_REQUEST['summ'];
+			$this->_sessionTransaction->name = 'Application Initial Payment';
+			$this->crumb(Yii::t('payment','select_pay_system_title'),
+				array('payment/ChoosePayway/type/'.$_REQUEST['type'].
+				($_REQUEST['type'] != 'application' ? '/item_id/'.$_REQUEST['item_id'] : '')
+			));
+		}
+
+	}
+
+	/**
+	 * @todo Add case for subscription
+	 * @param string $type
+	 * @param integer $itemId
+	 * @return float
+	 */
+	public function getSumm($type, $itemId)
+	{
+		if ($type == 'application')
+		{
+			return Yii::app()->settings->get('application_summ');
+		}
+	}
+
+	abstract public function actionProcess();
 }

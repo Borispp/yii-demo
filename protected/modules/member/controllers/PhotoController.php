@@ -1,6 +1,12 @@
 <?php
 class PhotoController extends YsaMemberController
 {
+	public function init() {
+		parent::init();
+		
+		$this->setMetaTitle(Yii::t('title', 'Events'));
+	}
+	
 	/**
 	 * Ensure that given PhotoID is valid and has right owner
 	 *
@@ -163,7 +169,9 @@ class PhotoController extends YsaMemberController
 			$photo = new EventPhoto();
 			$photo->album_id = $album->id;
 			
-			if ($photo->upload($uploaded)) {
+			if ($photo->upload($uploaded)) 
+			{
+				$photo->importDate($album);
 				$this->sendJsonSuccess(array(
 					'html' => $this->renderPartial('_listphoto', array(
 						'entry' => $photo,
@@ -243,16 +251,16 @@ class PhotoController extends YsaMemberController
 		}
 	}
 	
-	public function actionRedact($photoId, $act, $v = '')
+	public function actionRedact($photoId, $act, $p = '')
 	{
 		$photo = $this->_ensureValidPhotoId($photoId);
 		
 		switch ($act) {
 			case 'rotate':
-				$success = $photo->rotate($v == 'left' ? 90 : -90);
+				$success = $photo->rotate($p == 'left' ? -90 : 90);
 				break;
 			case 'flip':
-				$success = $photo->flip($v == 'horiz' ? YsaImage::HORIZONTAL : YsaImage::VERTICAL);
+				$success = $photo->flip($p == 'horiz' ? YsaImage::HORIZONTAL : YsaImage::VERTICAL);
 				break;
 			default:
 				break;

@@ -52,7 +52,7 @@
 		?>
 	</section>
 
-	<section class="part group splash-bg shadow-box" id="wizard-box-background">
+	<section class="part splash-bg shadow-box <?php echo $locked ? 'locked' : ''?>" id="wizard-box-splash_bg_image">
 		<label class="title cf">
 			<span><?php echo Yii::t('general', 'Splash'); ?>&nbsp;&nbsp;</span>
 			<?php if ($model->help('splash')) : ?>
@@ -60,15 +60,22 @@
 			<?php endif; ?>
 		</label>
 		<?php
-			$this->renderPartial('/wizard/_selector', array(
-				'radioName' => 'splash_bg',
-				'radioValues' => array('color' => 'Color', 'image' => 'Image'),
-				'colorName' => 'splash_bg_color',
-				'imageName' => 'splash_bg_image',
-				'info'  => 'This is the image seen when your app first opens. Should be 1024x768 pixels to account for the navigation bar at the bottom.',
-				'form' => $form,
+//			$this->renderPartial('/wizard/_selector', array(
+//				'radioName' => 'splash_bg',
+//				'radioValues' => array('color' => 'Color', 'image' => 'Image'),
+//				'colorName' => 'splash_bg_color',
+//				'imageName' => 'splash_bg_image',
+//				'info'  => 'This is the image seen when your app first opens. Should be 1024x768 pixels to account for the navigation bar at the bottom.',
+//				'form' => $form,
+//				'model' => $model,
+//			));
+			$this->renderPartial($locked ? '/wizard/_imagelock' : '/wizard/_uploader', array(
+				'name'	=> 'splash_bg_image',
 				'model' => $model,
+				'info'  => 'This is the image seen when your app first opens. Should be 1024x768 pixels to account for the navigation bar at the bottom.',
 			));
+			
+			
 		?>
 	</section>
 
@@ -89,6 +96,7 @@
 	</section>
 	
 	<div class="save">
+		<?php echo YsaHtml::link('Preview', '#', array('class' => 'btn small preview'));?>
 		<?php echo YsaHtml::submitButton('Save & Continue', array('class' => 'blue'));?>
 	</div>
 

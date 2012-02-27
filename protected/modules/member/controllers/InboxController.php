@@ -22,11 +22,12 @@ class InboxController extends YsaMemberController
 		$criteria = StudioMessage::model()->searchCriteria();
 
 		$pagination = new CPagination(StudioMessage::model()->count($criteria));
-		$pagination->pageSize = Yii::app()->params['admin_per_page'];
+		$pagination->pageSize = Yii::app()->params['member_per_page'];
 		$pagination->applyLimit($criteria);
 
 		$entries = StudioMessage::model()->findAll($criteria);
 
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/notification_button.js', CClientScript::POS_HEAD);
 		$this->render('index',array(
 			'entries'       => $entries,
 			'pagination'    => $pagination,

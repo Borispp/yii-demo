@@ -16,6 +16,7 @@
  * @property string $passwd
  *
  * @property array $albums
+ * @property array $clients
  * @property array $user
  */
 class Event extends YsaActiveRecord
@@ -95,8 +96,9 @@ class Event extends YsaActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'albums' => array(self::HAS_MANY, 'EventAlbum', 'event_id', 'order' => 'rank ASC'),
-			'user'   => array(self::BELONGS_TO, 'User', 'user_id'),
+			'albums'  => array(self::HAS_MANY, 'EventAlbum', 'event_id', 'order' => 'rank ASC'),
+			'user'    => array(self::BELONGS_TO, 'User', 'user_id'),
+			'clients' => array(self::MANY_MANY, 'Client', 'client_events(event_id,client_id)'),
 		);
 	}
 
@@ -288,7 +290,7 @@ class Event extends YsaActiveRecord
 	 */
 	public function canBeAddedByClient(Client $obClient, $passwd = NULL)
 	{
-		if (!$obClient->hasPhotoEvent($this) && $this->user->id == $obClient->user_id && $this->isPublic())
+		if ($this->user->id == $obClient->user_id && ($this->isPublic() || $this->isProofing()))
 		{
 			return (is_null($passwd) || $passwd == $this->passwd);
 		}
@@ -372,5 +374,19 @@ class Event extends YsaActiveRecord
 			$this->_preview = YsaHtml::image($this->previewUrl(), 'Event Preview', $htmlOptions);
 		}
 		return $this->_preview;
+	}
+
+	public function previewFilesize()
+	{
+		if (count($this->albums))
+		{
+			$filesize = $this->albums[0]->previewFilesize();
+		} else {
+			$w = Yii::app()->params['member_area']['album']['preview']['width'];
+			$h = Yii::app()->params['member_area']['album']['preview']['height'];
+
+			$filesize = EventPhoto::model()->defaultPicFilesize($w, $h);
+		}
+		return $filesize;
 	}
 }

@@ -20,7 +20,6 @@
 					<a href="<?php echo Yii::app()->settings->get('twitter'); ?>" class="twi" rel="external">Follow us<br/>on <span>Twitter</span></a>
 				</div>
 			</div>
-			
 			<div class="large-form form">
 				<div id="contact-error-summary"><?php echo YsaHtml::errorSummary($entry, false); ?></div>
 				<?php $form=$this->beginWidget('YsaForm', array(

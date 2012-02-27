@@ -46,18 +46,24 @@
 					</h3>
 					<?php echo YsaHtml::link('Upload Photos', '#photo-upload-container', array('class' => 'btn blue fancybox fancybox.inline', 'id' => 'album-upload-photos-button')); ?>
 					<?php if ($this->member()->smugmugAuthorized()) : ?>
-						<?php echo YsaHtml::link('Import from SmugMug', '#photo-import-smugmug-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-smugmug-import-button')); ?>
+						<?php echo YsaHtml::link('SmugMug', '#photo-import-smugmug-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-smugmug-import-button')); ?>
 					<?php endif;?>
 					<?php if ($this->member()->zenfolioAuthorized()) : ?>
-						<?php echo YsaHtml::link('Import from ZenFolio', '#photo-import-zenfolio-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-zenfolio-import-button')); ?>
+						<?php echo YsaHtml::link('ZenFolio', '#photo-import-zenfolio-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-zenfolio-import-button')); ?>
 					<?php endif;?>
+					<?php if ($this->member()->passApiLinked()) : ?>
+							<?php echo YsaHtml::link('PASS', '#photo-import-pass-container', array('class' => 'btn fancybox fancybox.inline', 'id' => 'album-pass-import-button')); ?>
+						<?php endif; ?>
 					<div class="cf"></div>
 				</div>
 				<ul id="album-photos" class="album-photos cf">
 					<?php if (count($entry->photos)) : ?>
+							<?php $counter = 0 ?>
 							<?php foreach ($entry->photos as $photo) : ?>
+							<?php $counter++ ?>
 							<?php echo $this->renderPartial('/photo/_listphoto', array(
-								'entry' => $photo
+								'entry' => $photo,
+								'position' => $counter
 							)); ?>
 							<?php endforeach; ?>
 					<?php endif; ?>
@@ -134,10 +140,11 @@
 	<?php if ($this->member()->smugmugAuthorized()) : ?>
 		<section id="photo-import-smugmug-container" class="smugmug-import box">
 			<div class="box-title">
-				<h3>Import from SmugMug Album</h3>
+				<h3>Import photos from SmugMug Album</h3>
 			</div>
 			<div class="box-content">
 				<div class="data">
+					<p><em>*<?php echo Yii::t('event', 'Importing photos takes a while. Please don\'t import more than 200 photos at a time.'); ?></em></p>
 					<p>Please note that large amount of photos takes more time.</p>
 					<select name="album">
 						<option value="">&ndash;&ndash;&ndash;</option>
@@ -155,16 +162,39 @@
 	<?php if ($this->member()->zenfolioAuthorized()) : ?>
 		<section id="photo-import-zenfolio-container" class="zenfolio-import box">
 			<div class="box-title">
-				<h3>Import from ZenFolio Album</h3>
+				<h3>Import photos from ZenFolio Album</h3>
 			</div>
 			<div class="box-content">
 				<div class="data">
+					<p><em>*<?php echo Yii::t('event', 'Importing photos takes a while. Please don\'t import more than 200 photos at a time.'); ?></em></p>
 					<p>Please note that large amount of photos takes more time.</p>
 					<p>Sometimes SmugMug doesn't allow to show protected galleries images on the web. But they can be imported even if you don't see them. </p>
 					<select name="album">
 						<option value="">&ndash;&ndash;&ndash;</option>
 						<?php foreach ($zenfolioHierarchy['Elements'] as $element) : ?>
 							<option value="<?php echo $element['Id']; ?>"><?php echo $element['Title']; ?> (<?php echo $element['PhotoCount']?>)</option>
+						<?php endforeach; ?>
+					</select>
+					<input type="button" value="Show Photos" />
+				</div>
+				<div class="import cf"></div>
+				<div class="loading">Loading album images. Please be patient &mdash; it takes a while...</div>
+			</div>
+		</section>
+	<?php endif; ?>
+	<?php if ($this->member()->passApiLinked()) : ?>
+		<section id="photo-import-pass-container" class="pass-import box">
+			<div class="box-title">
+				<h3>Import photos from PASS Album</h3>
+			</div>
+			<div class="box-content">
+				<div class="data">
+					<p><em>*<?php echo Yii::t('event', 'Importing photos takes a while. Please don\'t import more than 200 photos at a time.'); ?></em></p>
+					<p>Please note that large amount of photos takes more time.</p>
+					<select name="album">
+						<option value="">&ndash;&ndash;&ndash;</option>
+						<?php foreach ($this->member()->passApi()->ysaAlbumList() as $album) : ?>
+							<option value="<?php echo $album->key; ?>"><?php echo $album->title; ?> (<?php echo $album->photo_count ?>)</option>
 						<?php endforeach; ?>
 					</select>
 					<input type="button" value="Show Photos" />

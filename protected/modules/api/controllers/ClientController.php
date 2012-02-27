@@ -20,14 +20,11 @@ class ClientController extends YsaApiController
 	public function actionLogout()
 	{
 		$this->_validateVars(array(
-				'token'		=> array(
-					'message'	=> Yii::t('api', 'client_no_token'),
-					'required'	=> TRUE,
-					'event_id'	=> array(
-						'message'	=> Yii::t('api', 'event_no_id'),
-						'required'	=> TRUE
-					)
-				)));
+			'token'		=> array(
+				'message'	=> Yii::t('api', 'client_no_token'),
+				'required'	=> TRUE,
+			),
+		));
 		$obClientAuthList = ClientAuth::model()->findAllByAttributes(array(
 				'device_id'	=> $_POST['device_id'],
 				'token'		=> $_POST['token'],
@@ -69,7 +66,7 @@ class ClientController extends YsaApiController
 			'email'				=> $_POST['email'],
 			'password'			=> $_POST['password'],
 			'added_with'		=> 'ipad',
-			'state'				=> 1,
+			'state'				=> TRUE,
 			'user_id'			=> $this->_getApplication()->user_id
 		);
 		if (!empty($_POST['phone']))
@@ -89,7 +86,7 @@ class ClientController extends YsaApiController
 		$this->_render(array(
 				'state'		=> TRUE,
 				'message'	=> NULL,
-				'token'		=> ClientAuth::model()->authByPassword($_POST['email'], $_POST['password'], $_POST['app_key'], $_POST['device_id'])
+				'token'		=> ClientAuth::model()->authByPassword($_POST['email'], $_POST['password'], trim($_POST['app_key']), $_POST['device_id'])
 			));
 	}
 
@@ -114,7 +111,7 @@ class ClientController extends YsaApiController
 		try
 		{
 			$this->_render(array(
-					'state'		=> 1,
+					'state'		=> TRUE,
 					'message'	=> '',
 					'token'		=> ClientAuth::model()->authByPassword($_POST['email'], $_POST['password'], $_POST['app_key'], $_POST['device_id'])
 				));
@@ -122,7 +119,7 @@ class ClientController extends YsaApiController
 		catch(YsaAuthException $e)
 		{
 			$this->_render(array(
-					'state'		=> 0,
+					'state'		=> FALSE,
 					'message'	=> $e->getMessage(),
 					'token'		=> NULL,
 				));
@@ -232,7 +229,7 @@ class ClientController extends YsaApiController
 			{
 				// client profile not exists, need registration
 				return $this->_render(array(
-						'state'		=> false,
+						'state'		=> FALSE,
 						'message'	=> Yii::t('api', 'client_facebook_no_account'),
 						'token'		=> null,
 					));
@@ -243,7 +240,7 @@ class ClientController extends YsaApiController
 			$access_token = ClientAuth::model()->authByPassword($client->email, $client->password, $_POST['app_key'], $_POST['device_id']);
 
 			return $this->_render(array(
-					'state'		=> true,
+					'state'		=> TRUE,
 					'message'	=> '',
 					'token'		=> $access_token
 				));
@@ -251,7 +248,7 @@ class ClientController extends YsaApiController
 		catch(YsaAuthException $e)
 		{
 			$this->_render(array(
-					'state'		=> false,
+					'state'		=> FALSE,
 					'message'	=> $e->getMessage(),
 					'token'		=> null,
 				));
@@ -269,7 +266,7 @@ class ClientController extends YsaApiController
 			if ( !$client->linkFacebook( $_POST['fb_id'] ) )
 			{
 				$this->_render(array(
-						'state'		=> false,
+						'state'		=> FALSE,
 						'message'	=> Yii::t('api', 'client_facebook_link_failed'),
 					));
 			}
@@ -277,14 +274,14 @@ class ClientController extends YsaApiController
 		catch( LogicException $e )
 		{
 			$this->_render(array(
-					'state'		=> false,
+					'state'		=> FALSE,
 					'message'	=> $e->getMessage(),
 				));
 		}
 
 		return $this->_render(
 			array(
-				'state'		=> true,
+				'state'		=> TRUE,
 				'message'	=> ''
 			));
 	}
@@ -303,14 +300,14 @@ class ClientController extends YsaApiController
 		if ( !$client->unlinkFacebook() )
 		{
 			$this->_render(array(
-					'state'		=> false,
+					'state'		=> FALSE,
 					'message'	=> Yii::t('api', 'client_facebook_unlink_failed'),
 				));
 		}
 
 		return $this->_render(
 			array(
-				'state'		=> true,
+				'state'		=> TRUE,
 				'message'	=> ''
 			));
 	}

@@ -1,4 +1,4 @@
-<?php
+<?php //
 class ApplicationController extends YsaAdminController
 {
 	/**
@@ -37,7 +37,7 @@ class ApplicationController extends YsaAdminController
 			$this->redirect('/admin/' . $this->getId());
 		}
 		
-		if (in_array($image, array('icon', 'itunes_logo'))) {
+		if (in_array($image, array('icon', 'itunes_logo', 'splash_bg_image'))) {
 			
 			$value = $entry->option($image);
 			
@@ -50,7 +50,18 @@ class ApplicationController extends YsaAdminController
 				$this->redirect(array('application/edit/id/' . $id . '/'));
 			}
 			
-			Yii::app()->request->sendFile($image . '_' . $id . '.png', file_get_contents($value['path']));
+			$img = new YsaImage($value['path']);
+			
+			if ($image == 'splash_bg_image') {
+				$img->auto_crop(1024, 748);
+			}
+			
+			$newImageName = tempnam(sys_get_temp_dir(), 'YSA_' . $image . '_image') . '.' . $img->ext;
+			
+			$img->save($newImageName);
+			
+			Yii::app()->request->sendFile($id . '_' . $image . '.png', file_get_contents($newImageName));
+			Yii::app()->end();
 		}
 		$this->redirect(array('application/'));
 	}
@@ -110,7 +121,9 @@ class ApplicationController extends YsaAdminController
 			
 			$member = Member::model()->findByPk($ticket->user_id);
 			
-			$member->notify('We cannot approve your application right now.');
+			$member->notify(
+				'New support ticket: ' . $reply->message . ' (' . YsaHtml::link('View support ticket', array('/member/application/support/')) . ')'
+			);
 			
 			$entry->unapproved();
 			
@@ -121,12 +134,9 @@ class ApplicationController extends YsaAdminController
 			$entry->editOption('appstore_link', $_POST['appstore_link']);
 			
 			if (isset($_POST['notify_member']) && $_POST['notify_member']) {
-				
-				$member = Member::model()->findByPk($entry->user->id);
-				
-				$member->notify('Your application was successfully added to AppStore. Here is the link [link]');
+				$member = Member::model()->findByPk($entry->user->id);	
+				$member->notify('Your application was successfully added to AppStore. You preview it ' . YsaHtml::link('here', $_POST['appstore_link'], array('rel' => 'external')));
 			}
-			
 			$this->setSuccessFlash('AppStore Link has been successfully updated.');
 			$this->redirect(array($this->getId() . '/moderate/id/' . $id . '/'));
 		} else {
@@ -159,7 +169,8 @@ class ApplicationController extends YsaAdminController
 			'entry'			=> $entry,
 			'options'		=> $this->_getLabelifiedOptions($entry),
 			'icon'			=> $entry->option('icon'),
-			'itunes_logo'	=> $entry->option('itunes_logo')
+			'itunes_logo'	=> $entry->option('itunes_logo'),
+			'splash'		=> $entry->option('splash_bg_image'),
 		));
 	}
 
@@ -175,18 +186,26 @@ class ApplicationController extends YsaAdminController
 				if (empty($value))
 					continue;
 				if (!empty($propertyInfo['img']) && !empty($value['url'])) {
-					$value = YsaHtml::link(YsaHtml::image($value['url']), $value['url'], array('class' => 'fancybox image', 'title' => $propertyInfo['label'], 'rel' => 'application-image'));
+					$value = YsaHtml::link(YsaHtml::image($value['url']), $value['url'], array(
+						'class' => 'fancybox image',
+						'title' => $propertyInfo['label'],
+						'rel' => 'application-image'));
 				} elseif (substr_count($property, '_color')) {
-					
-					
-					$value = YsaHtml::openTag('span', array('class' => 'color', 'style' => 'background-color:' . $value)) . YsaHtml::closeTag('span') . YsaHtml::openTag('span', array('class' => 'lbl')) . $value . YsaHtml::closeTag('span');
-					
+					$value = YsaHtml::openTag('span', array(
+						'class' => 'color',
+						'style' => 'background-color:' . $value)
+					)
+					.YsaHtml::closeTag('span')
+					.YsaHtml::openTag('span', array('class' => 'lbl')).$value.YsaHtml::closeTag('span');
 				}
-				
-				
-				$result[$obApplication->generateAttributeLabel($section)][$propertyInfo['label']] = (!is_null($value) && array_key_exists('values', $propertyInfo) && $propertyInfo['values'][$value]) ? $propertyInfo['values'][$value] : $value;
+
+				$result[$obApplication->generateAttributeLabel($section)][$obApplication->generateAttributeLabel($property)] =
+				(!is_null($value) && array_key_exists('values', $propertyInfo) && !empty($propertyInfo['values'][$value]))
+					? $propertyInfo['values'][$value]
+					: $value;
 			}
 		}
+		
 		return $result;
 	}
 	

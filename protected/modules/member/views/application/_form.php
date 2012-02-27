@@ -7,13 +7,15 @@
 		<div>
 			<?php echo $form->textField($entry,'name', array('maxlength' => 100)); ?>
 			<?php echo $form->error($entry,'name'); ?>
+			<p class="hint">Name of  your application in the App Store (maximum characters: 100).</p>
 		</div>
 	</section>
 	<section class="cf">
 		<?php echo $form->labelEx($entry,'info'); ?>
 		<div>
-			<?php echo $form->textArea($entry,'info', array('cols' => 40, 'rows' => 4)); ?>
+			<?php echo $form->textArea($entry,'info', array('cols' => 40, 'rows' => 8)); ?>
 			<?php echo $form->error($entry,'info'); ?>
+			<p class="hint">This is your description of the app in the App Store.</p>
 		</div>
 	</section>
 	<?php if ($entry->isNewRecord) : ?>

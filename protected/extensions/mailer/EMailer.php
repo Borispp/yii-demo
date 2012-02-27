@@ -87,6 +87,7 @@ class EMailer
 	public function __construct()
 	{
 		$this->_myMailer = new PHPMailer();
+		$this->_myMailer->CharSet = 'UTF-8';
 	}
 
    //***************************************************************************

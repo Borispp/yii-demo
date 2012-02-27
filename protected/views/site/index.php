@@ -9,12 +9,12 @@
 			</a>
 			<div id="homepage-slider">
 				<ul>
-					<?php foreach ($slides as $k => $slide) : ?>
+					<?php foreach ($page->custom('slide') as $k => $field) : ?>
 						<li class="slide slide<?php echo $k?>">
 							<figure>
-								<?php echo YsaHtml::image($slide['image']) ?>
+								<?php echo $field->image(true) ?>
 							</figure>
-							<p><?php echo $slide['caption']; ?></p>
+							<p><?php echo $field->value; ?></p>
 						</li>
 					<?php endforeach; ?>
 				</ul>
@@ -35,14 +35,7 @@
 			<div class="video">
 				<?php echo YsaHtml::link('<span>preview</span>', '#', array('class' => 'preview')); ?>
 			</div>
-			<div id="homepage-video-player">
-				<video id="checkout-ysa-video" class="video-js vjs-default-skin" controls
-				preload="auto" width="720" height="400" poster="<?php echo Yii::app()->baseUrl?>/resources/video/ysapromo.png"
-				data-setup="{}">
-					<source src="<?php echo Yii::app()->baseUrl?>/resources/video/ysapromo.m4v" type='video/mp4'>
-					<source src="<?php echo Yii::app()->baseUrl?>/resources/video/ysapromo.webm" type='video/webm'>
-				</video>
-			</div>
+			<div id="homepage-video-player"></div>
 		</section>
 	</div>
 	<div class="homepage-social-wrapper">

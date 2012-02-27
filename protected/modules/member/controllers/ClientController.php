@@ -5,6 +5,9 @@ class ClientController extends YsaMemberController
 	{
 		parent::init();
 		$this->crumb('Clients', array('client/'));
+		
+		$this->setMetaTitle(Yii::t('title', 'Clients'));
+		
 		$this->renderVar('events', $this->member()->client_events);
 	}
 	public function actionAdd()
@@ -62,7 +65,7 @@ class ClientController extends YsaMemberController
 		$criteria->addSearchCondition('user_id', $this->member()->id);
 
 		$pagination = new CPagination(Client::model()->count($criteria));
-		$pagination->pageSize = Yii::app()->params['admin_per_page'];
+		$pagination->pageSize = Yii::app()->params['member_per_page'];
 		$pagination->applyLimit($criteria);
 
 		$entries = Client::model()->findAll($criteria);

@@ -5,6 +5,8 @@ class EventController extends YsaMemberController
 	{
 		parent::init();
 		$this->crumb('Events', array('event/'));
+		
+		$this->setMetaTitle(Yii::t('title', 'Events'));
 	}
 
 	public function actionIndex()
@@ -24,7 +26,7 @@ class EventController extends YsaMemberController
 		$criteria->addSearchCondition('user_id', $this->member()->id);
 
 		$pagination = new CPagination(Event::model()->count($criteria));
-		$pagination->pageSize = Yii::app()->params['admin_per_page'];
+		$pagination->pageSize = Yii::app()->params['member_per_page'];
 		$pagination->applyLimit($criteria);
 		
 		$entries = Event::model()->findAll($criteria);
@@ -99,6 +101,8 @@ class EventController extends YsaMemberController
 				
 				if ($entry->date) {
 					$entry->date = YsaHelpers::formatDate($entry->date, Event::FORMAT_DATE);
+				} else {
+					$entry->date = NULL;
 				}
 				
 				$entry->save();
@@ -139,6 +143,12 @@ class EventController extends YsaMemberController
 		if (isset($_POST['Event'])) {
 			$entry->attributes = $_POST['Event'];
 
+			if ($entry->date) {
+				$entry->date = YsaHelpers::formatDate($entry->date, Event::FORMAT_DATE);
+			} else {
+				$entry->date = NULL;
+			}
+			
 			if (!$entry->passwd) {
 				$entry->generatePassword();
 			}

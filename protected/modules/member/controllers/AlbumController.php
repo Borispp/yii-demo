@@ -5,6 +5,8 @@ class AlbumController extends YsaMemberController
 		parent::init();
 		
 		$this->crumb('Events', array('event/'));
+		
+		$this->setMetaTitle(Yii::t('title', 'Events'));
 	}
 	
 	public function actionCreate($event)
@@ -147,6 +149,7 @@ class AlbumController extends YsaMemberController
 		
 		$this->setMemberPageTitle($entry->name);
 		
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jquery.lazyload.min.js', CClientScript::POS_END);
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/albumpage.js', CClientScript::POS_HEAD);
 		
 		$this->render('view', array(
@@ -266,6 +269,7 @@ class AlbumController extends YsaMemberController
 				$entry->order_link = $availability->order_link;
 				$entry->can_order = $availability->can_order;
 				$entry->can_share = $availability->can_share;
+				$entry->can_save = $availability->can_save;
 				$entry->save();
 			}
 			
