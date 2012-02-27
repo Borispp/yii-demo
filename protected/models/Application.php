@@ -97,8 +97,9 @@ class Application extends YsaActiveRecord
 			array('user_id, appkey, passwd, name', 'required'),
 			array('user_id, appkey, name', 'unique'),
 			array('user_id, state, locked, filled, submitted, ready, paid', 'numerical', 'integerOnly'=>true),
-			array('appkey, passwd, name', 'length', 'max'=>100),
-			array('info, locked, filled, submitted, ready, default_style, paid', 'safe'),
+			array('appkey, passwd, name', 'length', 'max' => 100),
+			array('info', 'required'),
+			array('locked, filled, submitted, ready, default_style, paid', 'safe'),
 			array('id, user_id, state, name', 'safe', 'on'=>'search'),
 		);
 	}

@@ -269,6 +269,7 @@ class AlbumController extends YsaMemberController
 				$entry->order_link = $availability->order_link;
 				$entry->can_order = $availability->can_order;
 				$entry->can_share = $availability->can_share;
+				$entry->can_save = $availability->can_save;
 				$entry->save();
 			}
 			

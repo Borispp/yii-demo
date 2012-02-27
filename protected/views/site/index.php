@@ -9,12 +9,12 @@
 			</a>
 			<div id="homepage-slider">
 				<ul>
-					<?php foreach ($slides as $k => $slide) : ?>
+					<?php foreach ($page->custom('slide') as $k => $field) : ?>
 						<li class="slide slide<?php echo $k?>">
 							<figure>
-								<?php echo YsaHtml::image($slide['image']) ?>
+								<?php echo $field->image(true) ?>
 							</figure>
-							<p><?php echo $slide['caption']; ?></p>
+							<p><?php echo $field->value; ?></p>
 						</li>
 					<?php endforeach; ?>
 				</ul>

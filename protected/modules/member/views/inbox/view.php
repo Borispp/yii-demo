@@ -1,4 +1,4 @@
-<div class="w" id="client" data-inboxid="<?php echo $entry->id; ?>">
+<div class="w" id="inbox-view" data-inboxid="<?php echo $entry->id; ?>">
 	<section class="box">
 		<div class="box-title">
 			<h3><?php echo $entry->subject; ?></h3>
@@ -9,22 +9,28 @@
 			<?php endif?>
 		</div>
 		<div class="box-content cf">
-			<div class="description shadow-box">
-				<div class="title">From</div>
-				<p><?php if ($entry->client):?>
-					<?php echo YsaHtml::link($entry->name, array('client/view/' . $entry->client->id)); ?>
-				<?php else:?>
-					<?php echo $entry->name?>
-				<?php endif?></p>
-				<div class="title">Sent Date</div>
-				<p><?php echo Yii::app()->dateFormatter->formatDateTime($entry->created, 'medium', '') ?></p>
-			</div>
-			<div class="main-box">
-				<div class="main-box-title">
-					<h3><?php echo $entry->subject?></h3>
-					<div class="cf"></div>
-				</div>
 				<div class="shadow-box">
+					<div class="message-info">
+						<dl>
+							<dt>From</dt>
+							<dd>
+								<?php if ($entry->client):?>
+									<?php echo YsaHtml::link($entry->name, array('client/view/' . $entry->client->id)); ?>
+								<?php else:?>
+									<?php echo $entry->name?>
+								<?php endif?>
+							</dd>
+							<dt>Email</dt>
+							<dd>
+								<?php echo YsaHtml::mailto($entry->email, $entry->email); ?>
+							</dd>
+							
+							<dt>Sent Date</dt>
+							<dd><?php echo Yii::app()->dateFormatter->formatDateTime($entry->created, 'medium', '') ?></dd>
+						</dl>
+						<div class="cf"></div>
+					</div>
+					<h3><?php echo $entry->subject?></h3>
 					<p><?php echo $entry->message()?></p>
 				</div>
 			</div>

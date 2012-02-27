@@ -26,5 +26,4 @@
             <?php echo $form->error($meta,'description'); ?>
         </div>
     </section>
-
 </fieldset>

@@ -24,18 +24,24 @@
 							<tr class="<?php echo $entry->unread ? 'unread' : 'read'?>">
 								<td class="name">
 									<?php if ($entry->client):?>
-										<?php echo YsaHtml::link($entry->name, array('client/view/' . $entry->client->id)); ?>
+										<?php echo YsaHtml::link(YsaHelpers::truncate($entry->name, 30), array('client/view/' . $entry->client->id)); ?>
 									<?php else:?>
-									<?php echo $entry->name?>
+									<?php echo YsaHelpers::truncate($entry->name, 30) ?>
 									<?php endif?>
 								</td>
-								<td class="subject"><?php echo YsaHtml::link($entry->subject, array('inbox/view/' . $entry->id)); ?></td>
+								<td class="subject"><?php echo YsaHtml::link(YsaHelpers::truncate($entry->subject, 200), array('inbox/view/' . $entry->id)); ?></td>
 								<td class="date"><?php echo Yii::app()->dateFormatter->formatDateTime($entry->created, 'medium', '') ?></td>
 								<td class="state"><?php echo $entry->unread ? 'unread' : ''?></td>
-								<td class="actions">
-									<?php echo YsaHtml::link('View', array('inbox/view/' . $entry->id), array('class' => 'icon i_eye', 'title' => 'Read Message')); ?>
+								<td class="actions right">
+									<?php if ($entry->client):?>
+										<?php echo YsaHtml::link('', '/member/notification/new/recipient/'.$entry->client->id.'/type/client', array('class' => 'icon i_spechbubble_sq_line', 'title' => 'Respond with Push Notification', 'id' => 'send-push-link')); ?>
+										&nbsp;
+									<?php endif ?>
+									<?php echo YsaHtml::link('', 'mailto:'.$entry->email.'?subject=RE: '.$entry->subject, array('class' => 'icon i_mail', 'title' => 'Send Email')); ?>
 									&nbsp;
-									<?php echo YsaHtml::link('Delete', array('inbox/delete/' . $entry->id), array('class' => 'delete icon i_delete', 'title' => 'Delete Message')); ?>
+									<?php echo YsaHtml::link('', array('inbox/view/' . $entry->id), array('class' => 'icon i_eye', 'title' => 'Read Message')); ?>
+									&nbsp;
+									<?php echo YsaHtml::link('', array('inbox/delete/' . $entry->id), array('class' => 'delete icon i_delete', 'title' => 'Delete Message')); ?>
 								</td>
 							</tr>
 							<?php endforeach; ?>

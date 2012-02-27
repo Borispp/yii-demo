@@ -27,6 +27,7 @@ class InboxController extends YsaMemberController
 
 		$entries = StudioMessage::model()->findAll($criteria);
 
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/notification_button.js', CClientScript::POS_HEAD);
 		$this->render('index',array(
 			'entries'       => $entries,
 			'pagination'    => $pagination,
