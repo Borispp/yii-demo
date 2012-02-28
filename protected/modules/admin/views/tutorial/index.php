@@ -58,7 +58,7 @@
 	
 	<?php $this->beginWidget('YsaAdminForm', array(
 		'id'=>'member-form',
-		'action'=>Yii::app()->createUrl('/admin/member/delete'),
+		'action'=>Yii::app()->createUrl('/admin/tutorial/delete'),
 		'method'=>'post',
 	)); ?>
 
