@@ -387,6 +387,40 @@ class YsaHelpers
 		}
 
 		return($xml_array);
+	}  
+	
+	public static function videoFromLink($url, $width = 640, $height = 360)
+	{
+		$type = '';
+		if (substr_count($url, 'youtu')) {
+			$type = 'youtube';
+		} elseif (substr_count($url, 'vimeo')) {
+			$type = 'vimeo';
+		} else {
+			return false;
+		}
+		
+		if ($type == 'youtube') {
+			preg_match('~watch\?v=([^&]+)~si', $url, $matches);
+			// shortcode was inserted
+			if (!count($matches)) {
+				preg_match('~.be/([^&]+)~si', $url, $matches);
+			}
+			if (!isset($matches[1])) {
+				return false;
+			}
+			
+			return '<iframe width="' . $width . '" height="' . $height . '" src="http://www.youtube.com/embed/' . $matches[1] . '" frameborder="0" allowfullscreen></iframe>';
+			
+		} else {
+			preg_match('~\.com/(\d+)~si', $url, $matches);
+			if (!isset($matches[1])) {
+				return false;
+			}
+			return '<iframe src="http://player.vimeo.com/video/' . $matches[1] . '?title=0&amp;byline=0&amp;portrait=0" width="' . $width . '" height="' . $height . '" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+		}
+		
+		return false;
 	}
 
 	/**
