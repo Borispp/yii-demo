@@ -199,6 +199,11 @@ class StudioMessage extends YsaActiveRecord
 		return $criteria;
 	}
 
+	/**
+	 * Caution, even after updates it also will notify
+	 *
+	 * @return null 
+	 */
 	public function afterSave()
 	{
 		if ($this->isNewRecord)
@@ -229,5 +234,31 @@ class StudioMessage extends YsaActiveRecord
 	public function message()
 	{
 		return nl2br($this->message);
+	}
+	
+	/**
+	 * @return boolean whether the saving is successful
+	 */
+	public function markAsRead()
+	{
+		if ($this->unread)
+		{
+			return $this->saveCounters(array('unread' => -$this->unread)); // decrement an amount of current value to get zero
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * @return boolean whether the saving is successful
+	 */
+	public function markAsUnread()
+	{
+		if (!$this->unread)
+		{
+			return $this->saveCounters(array('unread' => 1));
+		}
+		
+		return true;
 	}
 }

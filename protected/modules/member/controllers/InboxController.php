@@ -46,11 +46,9 @@ class InboxController extends YsaMemberController
 			return $this->render('error',array(
 					'message'	=> 'Access denied'
 				));
-		if ($obStudioMessage->unread)
-		{
-			$obStudioMessage->unread = 0;
-			$obStudioMessage->save();
-		}
+		
+		$obStudioMessage->markAsRead();
+		
 		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/notification_button.js', CClientScript::POS_HEAD);
 		$this->setMemberPageTitle($obStudioMessage->subject);
 		$this->crumb($obStudioMessage->subject);

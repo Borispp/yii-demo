@@ -28,11 +28,16 @@ class PushController extends YsaApiController
 			'token'		=> array(
 				'message'	=> Yii::t('api', 'client_no_token'),
 				'required'	=> TRUE,
-		)));
-		$token = new IpadToken();
-		$token->app_id = $this->_getApplication()->id;
+			)));
+		if (!($token = Ipad::model()->findByAttributes(array(
+			'token' => $_POST['token']
+		))))
+		{
+			$token = new Ipad();
+			$token->app_id = $this->_getApplication()->id;
+			$token->token = $_POST['token'];
+		}
 		$token->device_id = $_POST['device_id'];
-		$token->token = $_POST['token'];
 		if (!empty($_POST['client_token']) && ($client = $this->_validateAuth()))
 		{
 			$token->client_id = $client->id;
