@@ -216,7 +216,7 @@ class EventController extends YsaApiController
 			$this->_renderError(Yii::t('api', 'event_album_photo_is_wrong'));
 		$this->_render($this->_getPhotoInfo($this->_getEventPhoto()));
 	}
-
+	
 	/**
 	 * Send rank for event photo
 	 * Inquiry params: [device_id, event_id, token, app_key, album_id, photo_id, rate]
@@ -307,28 +307,6 @@ class EventController extends YsaApiController
 				'state'				=> TRUE,
 				'message'			=> '',
 				'comments_number'	=> count($this->_getEventPhoto()->comments)
-			));
-	}
-
-	/**
-	 * Get unread notifications
-	 * Inquiry params: [device_id, app_key, token]
-	 * Response params: [notifications -> [message, date]]
-	 * @return void
-	 */
-	public function actionGetNotifications()
-	{
-		$notifications = array();
-		foreach(ApplicationNotification::model()->findByClient($this->_obClient, $_POST['device_id']) as $obApplicationNotification)
-		{
-			$notifications[] = array(
-				'message'	=> $obApplicationNotification->message,
-				'date'		=> $obApplicationNotification->created,
-			);
-			$obApplicationNotification->sent($_POST['device_id']);
-		}
-		$this->_render(array(
-				'notifications'	=> $notifications
 			));
 	}
 }

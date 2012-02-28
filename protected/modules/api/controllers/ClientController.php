@@ -20,14 +20,11 @@ class ClientController extends YsaApiController
 	public function actionLogout()
 	{
 		$this->_validateVars(array(
-				'token'		=> array(
-					'message'	=> Yii::t('api', 'client_no_token'),
-					'required'	=> TRUE,
-					'event_id'	=> array(
-						'message'	=> Yii::t('api', 'event_no_id'),
-						'required'	=> TRUE
-					)
-				)));
+			'token'		=> array(
+				'message'	=> Yii::t('api', 'client_no_token'),
+				'required'	=> TRUE,
+			),
+		));
 		$obClientAuthList = ClientAuth::model()->findAllByAttributes(array(
 				'device_id'	=> $_POST['device_id'],
 				'token'		=> $_POST['token'],

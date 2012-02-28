@@ -346,3 +346,30 @@ ul.replies li p {
 	height:260px;
 	background:#eee;
 }
+
+
+
+#tutorial-form .video {
+	padding-top:15px;
+}
+#tutorial-form .image {
+	padding-top:15px;
+}
+#tutorial-form .image img {
+	vertical-align: middle;
+}
+#tutorial-files {
+	
+}
+#tutorial-files div.uploader {
+	margin-bottom:0;
+}
+#tutorial-files input[type=text] {
+	float:left;
+	margin-right:10px;
+}
+
+td.preview-image-50 img{
+	width:80px;
+	height:auto;
+}
