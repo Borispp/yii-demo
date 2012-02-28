@@ -43,6 +43,7 @@ class Ipad extends YsaActiveRecord
 		// will receive user inputs.
 		return array(
 			array('app_id', 'required'),
+			array('token', 'unique'),
 			array('device_id, token', 'length', 'max'=>100),
 			array('client_id, app_id', 'length', 'max'=>11),
 			array('created', 'safe'),
