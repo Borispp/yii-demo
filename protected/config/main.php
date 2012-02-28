@@ -100,6 +100,9 @@ return array(
 				//image route
 				'/image/<action:\w+>/<imageId>' => 'image/<action>',
 
+				//tutorial file
+				'/tutorial/download/<basename:[\w\d]+>' => 'tutorial/download',
+				
 				// page routes
 				array(
 					'class' => 'application.components.YsaPageUrlRule',
@@ -194,7 +197,16 @@ return array(
 		),
 
 		'max_image_size' => 1024 * 1024 * 5, // 5MB
-		
+		'tutorial'		=> array(
+			'preview'	=> array(
+				'width'	=> 300,
+				'height' => 200,
+			),
+			'video' => array(
+				'width'	=> 900,
+				'height' => 510,
+			)
+		),
 		'application'   => array(
 			'logo'  => array(
 				'width'  => 400,

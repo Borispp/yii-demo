@@ -36,6 +36,27 @@ class TutorialController extends YsaAdminController
 			
 			if ($entry->validate()) {
 				$entry->save();
+				
+				$entry->preview = CUploadedFile::getInstance($entry, 'preview');
+				$entry->uploadPreview(true);
+				
+				if (isset($_FILES['file']) && is_array($_FILES['file'])) {
+					foreach ($_FILES['file']['name'] as $k => $name) {
+						if ($name && !$_FILES['file']['error'][$k]) {
+							$entry->uploadFile(
+								isset($_POST['file'][$k]) ? $_POST['file'][$k] : $name,
+								new CUploadedFile(
+									$_FILES['file']['name'][$k],
+									$_FILES['file']['tmp_name'][$k],
+									$_FILES['file']['type'][$k],
+									$_FILES['file']['size'][$k],
+									$_FILES['file']['error'][$k]
+								)
+							);
+						}
+					}
+				}
+				
 				$this->setSuccessFlash("New entry successfully added. " . YsaHtml::link('Back to listing.', array('index')));
 				$this->redirect(array('edit', 'id'=>$entry->id));
 			}
@@ -61,11 +82,49 @@ class TutorialController extends YsaAdminController
 
 		if(Yii::app()->request->isPostRequest && isset($_POST['Tutorial'])) {
 			$entry->attributes=$_POST['Tutorial'];
+			
 			if (!$entry->slug) {
 				$entry->generateSlugFromTitle();
 			}
+			
 			if ($entry->validate()) {
 				$entry->save();
+				
+				$preview = CUploadedFile::getInstance($entry, 'preview');
+				// delete old preview
+				if ($preview) {
+					$entry->deletePreview();
+				}
+				$entry->preview = $preview;	
+				$entry->uploadPreview(true);
+				
+				if (isset($_FILES['file']) && is_array($_FILES['file'])) {
+					foreach ($_FILES['file']['name'] as $k => $name) {
+						if ($name && !$_FILES['file']['error'][$k]) {
+							$entry->uploadFile(
+								isset($_POST['file'][$k]) ? $_POST['file'][$k] : $name,
+								new CUploadedFile(
+									$_FILES['file']['name'][$k],
+									$_FILES['file']['tmp_name'][$k],
+									$_FILES['file']['type'][$k],
+									$_FILES['file']['size'][$k],
+									$_FILES['file']['error'][$k]
+								)
+							);
+						}
+					}
+				}
+				
+				if (isset($_POST['uploadedfile']) && is_array($_POST['uploadedfile'])) {
+					foreach ($_POST['uploadedfile'] as $id => $name) {
+						$file = TutorialFile::model()->findByPk($id);
+						if ($file) {
+							$file->name = $name;
+							$file->save();
+						}
+					}
+				}
+				
 				$this->setSuccessFlash("Entry successfully updated. " . YsaHtml::link('Back to listing.', array('index')));
 				$this->refresh();
 			}
@@ -98,5 +157,30 @@ class TutorialController extends YsaAdminController
 		} else {
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 		}
+	}
+	
+	public function actionDeleteFile()
+	{
+		if (Yii::app()->request->isAjaxRequest && isset($_POST['id'])) {
+			$file = TutorialFile::model()->findByPk($_POST['id']);
+			if ($file) {
+				$file->delete();
+			}
+			$this->sendJsonSuccess();
+		} else {
+			$this->sendJsonError();
+		}	
+	}
+	
+	public function actionDeleteImage($id)
+	{
+		$file = Tutorial::model()->findByPk($id);
+		if ($file) {
+			$file->deletePreview(true);
+			$this->redirect(array('tutorial/edit/id/' . $file->id));
+		} else {
+			$this->redirect(array('index'));
+		}
+		
 	}
 }

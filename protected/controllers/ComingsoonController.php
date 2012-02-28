@@ -1,12 +1,10 @@
 <?php
 class ComingsoonController extends YsaFrontController
 {
-    /**
-     * This is the default 'index' action that is invoked
-     * when an action is not explicitly requested by users.
-     */
     public function actionIndex()
     {
+		$this->redirect(Yii::app()->homeUrl);
+		
         $page = Page::model()->findBySlug('coming-soon');
         $this->setMeta($page->meta());
 

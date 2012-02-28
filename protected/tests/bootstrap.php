@@ -1,5 +1,7 @@
 <?php
 
+define(APPLICATION_ENV, 'development');
+
 // change the following paths if necessary
 $config=dirname(__FILE__).'/../config/test.php';
 

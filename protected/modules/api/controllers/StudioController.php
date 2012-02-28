@@ -273,7 +273,7 @@ class StudioController extends YsaApiController
 
 	/**
 	 * Send contact message from client to photographer
-	 * Inquiry params: [app_key, device_id, token, subject, message, name, email]
+	 * Inquiry params: [app_key, device_id, token, subject, message, name, email, phone]
 	 * Response params: [state]
 	 * @return void
 	 */
@@ -303,7 +303,7 @@ class StudioController extends YsaApiController
 		//$obStudioMessage->client_id = $this->_obClient->id;
 		$obStudioMessage->name = $_POST['name'];
 		$obStudioMessage->email = $_POST['email'];
-		//$obStudioMessage->phone = $this->_obClient->phone;
+		$obStudioMessage->phone = @$_POST['phone'];
 		$obStudioMessage->subject = @$_POST['subject'];
 		$obStudioMessage->message = @$_POST['message'];
 		$obStudioMessage->user_id = $obPhotographer->id;
@@ -312,4 +312,37 @@ class StudioController extends YsaApiController
 			$this->_renderErrors($obStudioMessage->getErrors());
 		$this->_render(array('state' => TRUE));
 	}
+	
+	
+	/**
+	 * Check if the photo is available for sharing
+	 * Inquiry params: [device_id, token, app_key, photo_id]
+	 * Response params: [state message rank]
+	 * @return void
+	 */
+	public function actionIsPhotoAvailableForShare()
+	{
+		$this->_validateVars(array(
+			'photo_id' => array(
+				'message'	=> Yii::t('api', 'event_album_photo_no_id'),
+				'required'	=> TRUE,
+			),
+		));
+		
+		$entry = EventPhoto::model()->findByPk($_POST['photo_id']);
+		
+		if (!$entry) {
+			$this->_renderError(Yii::t('api', 'event_album_photo_is_wrong'));
+		}
+		
+		if (!$entry->album->can_share) {
+			$this->_renderError(Yii::t('api', 'event_album_photo_cannot_share'));
+		}
+		
+		$this->_render(array(
+			'state' => TRUE,
+			'url'	=> $entry->shareUrl(),
+		));
+	}
+	
 }

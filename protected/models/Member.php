@@ -302,18 +302,25 @@ class Member extends User
 	{
 		$this->_addAnnouncement($announcementMessage->getAnnouncementMessage());
 	}
-	
+
 	/**
-	 * @param $message
-	 * @return void
+	 * Notification to member. By default it is shown in site's notification bar.
+	 * Also if member leave enabled setting "notify me by email" he will receive letter.
+	 * Important! If you want to suppress sending email in any case use second argument.
+	 * @param string $message
+	 * @param bool $suppressEmail
 	 */
-	public function notify($message)
+	public function notify($message, $suppressEmail = FALSE)
 	{
-		$this->_addAnnouncement($message);
+		$this->_addAnnouncement($message, $suppressEmail);
 
 	}
 
-	protected function _addAnnouncement($message)
+	/**
+	 * @param $message
+	 * @param bool $suppressEmail
+	 */
+	protected function _addAnnouncement($message, $suppressEmail = FALSE)
 	{
 		$announcement = new Announcement();
 		$announcement->message = $message;
@@ -321,7 +328,8 @@ class Member extends User
 		{
 			$announcement->save();
 			$announcement->notifyMember($this);
-			$this->_sendEmail($message);
+			if (!$suppressEmail)
+				$this->_sendEmail($message);
 		}
 	}
 	protected function _sendEmail($message)

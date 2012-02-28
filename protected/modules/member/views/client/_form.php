@@ -1,5 +1,4 @@
 <div class="form standart-form">
-	<script type="text/javascript" src="<?php echo Yii::app()->baseUrl?>/resources/js/member/client.js"></script>
 	<?php $form=$this->beginWidget('YsaMemberForm', array(
 		'id'=>'client-form',
 	)); ?>

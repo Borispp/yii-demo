@@ -13,12 +13,17 @@
  * @property string $updated
  * @property integer $rank
  * @property integer $state
+ * @property string $video
+ * @property string $preview
+ * 
  */
 class Tutorial extends YsaActiveRecord
 {
 	protected $_prev;
 	
 	protected $_next;
+	
+	protected $_video;
 	
 	/**
 	 * Returns the static model of the specified AR class.
@@ -47,7 +52,7 @@ class Tutorial extends YsaActiveRecord
 		return array(
 			array('cat_id, rank, state', 'numerical', 'integerOnly'=>true),
 			array('slug', 'length', 'max'=>100),
-			array('title', 'length', 'max'=>255),
+			array('title, video', 'length', 'max'=>255),
 			array('content, created, updated', 'safe'),
 			
 			array('slug, title, cat_id', 'required'),
@@ -65,6 +70,7 @@ class Tutorial extends YsaActiveRecord
 	{
 		return array(
 			'category'			=> array(self::BELONGS_TO, 'TutorialCategory', 'cat_id'),
+			'files'				=> array(self::HAS_MANY, 'TutorialFile', 'tutorial_id', 'order' => 'id ASC'),
 		);
 	}
 
@@ -170,5 +176,115 @@ class Tutorial extends YsaActiveRecord
 			}
 		}
 		return $this->_next;
+	}
+	
+	public function getUploadDir()
+	{
+		$dir = rtrim(Yii::getPathOfAlias('webroot.images.tutorials'), '/');
+
+		$dir .= DIRECTORY_SEPARATOR . $this->id;
+
+		if (!is_dir($dir)) {
+			mkdir($dir);
+			chmod($dir, 0777);
+		}
+
+		return $dir;
+	}
+
+	public function getUploadUrl()
+	{
+		$url = Yii::app()->getBaseUrl(true) . '/images/tutorials/' . $this->id;
+
+		return $url;
+	}
+	
+	public function uploadFile($name, CUploadedFile $instance)
+	{
+		
+		$file = new TutorialFile();
+		$file->tutorial_id = $this->id;
+		$file->name = str_replace('.', '_', $name ? $name : $instance->getName());
+		$file->mime = $instance->getType();
+		$file->ext = YsaHelpers::mimeToExtention($file->mime);
+		$file->generateBaseName();
+		
+		$instance->saveAs($this->getUploadDir() . '/' . $file->basename);
+		
+		return $file->save();
+	}
+	
+	public function video($width = 640, $height = 360)
+	{
+		if (null === $this->_video) {
+			if ($this->video) {
+				$this->_video = YsaHelpers::videoFromLink($this->video, $width, $height);
+			} else {
+				$this->_video = false;
+			}
+		}
+		
+		return $this->_video;
+	}
+	
+	public function previewUrl()
+	{
+		if ($this->preview) {
+			return $this->getUploadUrl() . '/' . $this->preview;
+		} else {
+			return EventPhoto::model()->defaultPicUrl(Yii::app()->params['tutorial']['preview']['width'], Yii::app()->params['tutorial']['preview']['height']);
+		}
+	}
+	
+	public function preview()
+	{
+		return YsaHtml::image($this->previewUrl(), '');
+	}
+	
+	public function previewPath()
+	{
+		return $this->getUploadDir() . DIRECTORY_SEPARATOR . $this->preview;
+	}
+	
+	public function uploadPreview($save = false)
+	{
+		if (! ($this->preview instanceof CUploadedFile)) {
+			return false;
+		}
+		
+		$image = new YsaImage($this->preview->getTempName());
+		
+		$newName = YsaHelpers::encrypt($this->title . $this->id) . '.' . $image->ext;
+		$savePath = $this->getUploadDir() . DIRECTORY_SEPARATOR . $newName;
+		
+		$image->auto_crop(
+			Yii::app()->params['tutorial']['preview']['width'], 
+			Yii::app()->params['tutorial']['preview']['height']
+		);
+		
+		$image->save($savePath);
+		
+		$this->preview = $newName;
+		
+		if ($save) {
+			$this->save();
+		}
+		
+		return true;
+	}
+	
+	public function deletePreview($save = false)
+	{
+		$filename = $this->previewPath();
+		if (is_file($filename)) {
+			unlink($filename);
+		}
+		$this->preview = '';
+		
+		if ($save) {
+			$this->save();
+		}
+		
+		return $this;
 	}
 }

@@ -223,7 +223,7 @@ class YsaController extends CController
 					array('label' => 'ZenFolio', 'url' => array('settings/zenfolio/'), 'active' => ($a == 'zenfolio') ),
 					array('label' => 'ShootQ', 'url' => array('settings/shootq/'), 'active' => ($a == 'shootq') ),
 					array('label' => 'Facebook', 'url' => array('settings/facebook/'), 'active' => ($a == 'facebook') ),
-					array('label' => 'PASS', 'url' => array('settings/pass/'), 'active' => ($a == 'PASS') ),
+					array('label' => 'PASS', 'url' => array('settings/pass/'), 'active' => ($a == 'pass') ),
 					array('label' => 'Announcements', 'url' => array('announcement/'), 'active' => ($c == 'announcement') ),
 				)),
 				array('label'=>'Logout', 'url'=>array('/logout'), 'visible' => !Yii::app()->user->isGuest, 'itemOptions' => array('class' => 'logout')),
@@ -289,17 +289,12 @@ class YsaController extends CController
 					->registerMetaTag($this->getMetaKeywords(), 'keywords');
 		}
 		
-		if (defined('YII_DEBUG') && YII_DEBUG) {
-			$this->_debugBeforeRender();
-		} else {
-			$this->_productionBeforeRender();
-		}
-        
+		$this->_beforeRender();
+		
         return true;
     }
 	
-	
-	public function _debugBeforeRender()
+	public function _beforeRender()
 	{
 		if (!$this->isAdminPanel()) {
 			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/modernizr.js', CClientScript::POS_HEAD)
@@ -308,19 +303,13 @@ class YsaController extends CController
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/color.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/form.js', CClientScript::POS_HEAD)
 				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD);			
-			
 		}
 
 		if ($this->isWebsite()) {
 			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/front.js', CClientScript::POS_HEAD)
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/front.css')
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/front-responsive.css', 'screen and (max-width: 1100px)');
-			
-			
-			
-			
-			
-			
+
 		} elseif ($this->isMemberPanel()) {
 			// register js
 			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jquery-ui.min.js', CClientScript::POS_HEAD)
@@ -332,78 +321,15 @@ class YsaController extends CController
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/tiptip.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jqueryui-timepicker.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/fancybox.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/form.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/json.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jstorage.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/widgets.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/maxlength.js', CClientScript::POS_HEAD)
 					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member.js', CClientScript::POS_HEAD);
+			
 			// register css
 			$this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/ui/jquery-ui.css')
-					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/uniform.css')
-					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/apprise.css')
-					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/minicolors.css')
-					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/tiptip.css')
-					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/fancybox.css')
-					->registerCssFile(Yii::app()->baseUrl . '/resources/css/member.css')
-					->registerCssFile('https://fonts.googleapis.com/css?family=Candal');
-		}
-	}
-	
-	public function _productionBeforeRender()
-	{
-		if ($this->isWebsite()) {
-//			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/scrollto.js', CClientScript::POS_HEAD)
-//					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/compressed/frontplugins.js', CClientScript::POS_HEAD)
-//					->registerScriptFile('http://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js', CClientScript::POS_HEAD)
-//					->registerCssFile(Yii::app()->baseUrl . '/resources/css/front.css')
-//					->registerCssFile(Yii::app()->baseUrl . '/resources/css/front-responsive.css', 'screen and (max-width: 1100px)');	
-			
-			
-			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/modernizr.js', CClientScript::POS_HEAD)
-				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/tools.js', CClientScript::POS_HEAD)
-				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/scrollto.js', CClientScript::POS_HEAD)
-				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/color.js', CClientScript::POS_HEAD)
-				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/form.js', CClientScript::POS_HEAD)
-				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD);
-			
-			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/front.js', CClientScript::POS_HEAD)
-					->registerCssFile(Yii::app()->baseUrl . '/resources/css/front.css')
-					->registerCssFile(Yii::app()->baseUrl . '/resources/css/front-responsive.css', 'screen and (max-width: 1100px)');
-			
-			
-		} elseif ($this->isMemberPanel()) {
-			// register main js
-			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/modernizr.js', CClientScript::POS_HEAD)
-				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/tools.js', CClientScript::POS_HEAD)
-				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/scrollto.js', CClientScript::POS_HEAD)
-				->registerScriptFile(Yii::app()->baseUrl . '/resources/js/screen.js', CClientScript::POS_HEAD);
-			
-			//$plugins = array('jquery-ui.min', 'minicolors', 'quicksearch', 'multi-select', 'uniform', 'apprise', 'tiptip', 'jqueryui-timepicker', 'fancybox', 'form', 'json', 'jstorage', 'widgets', 'maxlength');
-			
-			// register js
-			$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jquery-ui.min.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/minicolors.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/quicksearch.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/multi-select.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/uniform.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/apprise.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/tiptip.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jqueryui-timepicker.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/fancybox.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/form.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/json.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/jstorage.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/widgets.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/maxlength.js', CClientScript::POS_HEAD)
-					->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member.js', CClientScript::POS_HEAD);
-			// register css
-			$this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/ui/jquery-ui.css')
-					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/uniform.css')
-					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/apprise.css')
-					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/minicolors.css')
-					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/tiptip.css')
-					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/fancybox.css')
+					->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins.css')
 					->registerCssFile(Yii::app()->baseUrl . '/resources/css/member.css')
 					->registerCssFile('https://fonts.googleapis.com/css?family=Candal');
 		}
