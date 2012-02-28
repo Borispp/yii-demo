@@ -72,6 +72,7 @@
 		<tr>
 			<th class="w_1"><input type="checkbox" value="" class="ids-toggle" /></th>
 			<th class="w_1">ID</th>
+			<th class="w_1">&nbsp;</th>
 			<th class="l">Title</th>
 			<th class="w_20 l">Category</th>
 			<th class="w_5">Status</th>
@@ -83,6 +84,7 @@
 		<tr>
 			<td><input type="checkbox" class="del" value="<?php echo $entry->id; ?>" name="ids[]" /></td>
 			<td><?php echo $entry->id; ?></td>
+			<td class="preview-image-50"><?php echo YsaHtml::link($entry->preview(), array('edit', 'id' => $entry->id)); ?></td>
 			<td class="l">
 				<h5><?php echo YsaHtml::link($entry->title, array('edit', 'id' => $entry->id)); ?></h5>
 			</td>

@@ -13,9 +13,12 @@
 								<div class="category">
 									<a name="<?php echo $category->id; ?>"></a>
 									<h4><?php echo $category->name; ?></h4>
-									<ul>
+									<ul class="cf">
 										<?php foreach ($category->tutorials as $tutorial) : ?>
 											<li>
+												<figure>
+													<?php echo YsaHtml::link($tutorial->preview(), array('help/' . $tutorial->slug)); ?>
+												</figure>
 												<?php echo YsaHtml::link($tutorial->title, array('help/' . $tutorial->slug)); ?>
 											</li>
 										<?php endforeach; ?>

@@ -2239,15 +2239,37 @@ li.plupload_droptext {
 		}
 		ul {
 			li {
-				list-style:decimal;
-				margin-left:2em;
+				width:280px;
+				height:230px;
+				overflow:hidden;
+				.inline-block;
 				font-size:14px;
-				line-height:24px;
+				line-height:1.2;
+				text-align:center;
+				margin:0 10px 10px 0;
+				figure {
+					margin-bottom:3px;
+				}
+				img {
+					max-width:280px;
+					height:auto;
+				}
 			}
 		}
 	}
 }
 #help-view {
+	.video {
+		margin-bottom:2em;
+	}
+	.files {
+		margin-bottom:2em;
+		ul {
+			li {
+				line-height:1.6;
+			}
+		}
+	}
 	.story {
 		.margin-bottom-alpha;
 		line-height:1.5;
