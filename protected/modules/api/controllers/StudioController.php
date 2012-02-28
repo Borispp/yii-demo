@@ -273,7 +273,7 @@ class StudioController extends YsaApiController
 
 	/**
 	 * Send contact message from client to photographer
-	 * Inquiry params: [app_key, device_id, token, subject, message, name, email]
+	 * Inquiry params: [app_key, device_id, token, subject, message, name, email, phone]
 	 * Response params: [state]
 	 * @return void
 	 */
@@ -303,7 +303,7 @@ class StudioController extends YsaApiController
 		//$obStudioMessage->client_id = $this->_obClient->id;
 		$obStudioMessage->name = $_POST['name'];
 		$obStudioMessage->email = $_POST['email'];
-		//$obStudioMessage->phone = $this->_obClient->phone;
+		$obStudioMessage->phone = @$_POST['phone'];
 		$obStudioMessage->subject = @$_POST['subject'];
 		$obStudioMessage->message = @$_POST['message'];
 		$obStudioMessage->user_id = $obPhotographer->id;

@@ -155,8 +155,8 @@ class StudioMessage extends YsaActiveRecord
 		$criteria->compare('unread',$this->unread);
 
 		return new CActiveDataProvider($this, array(
-				'criteria'=>$criteria,
-			));
+			'criteria'=>$criteria,
+		));
 	}
 
 	public function searchCriteria()
@@ -201,15 +201,31 @@ class StudioMessage extends YsaActiveRecord
 
 	public function afterSave()
 	{
-		$this->user->notify(Yii::t('api', 'new_mail_from_ipad', array(
-			'{client}' => $this->name,
-			'{link}'   => YsaHtml::link(
-				Yii::app()->createAbsoluteUrl('member/inbox/view/'.$this->id),
-				Yii::app()->createAbsoluteUrl('member/inbox/view/'.$this->id))
-		)));
+		if ($this->isNewRecord)
+		{
+			$this->user->notify(Yii::t('api', 'new_mail_from_ipad', array(
+				'{client}' => $this->name,
+				'{link}'   => YsaHtml::link(
+					Yii::app()->createAbsoluteUrl('member/inbox/view/'.$this->id),
+					Yii::app()->createAbsoluteUrl('member/inbox/view/'.$this->id))
+			)), TRUE);
+			Email::model()->send(
+				$this->user->email,
+				'contact_member',
+				array(
+					'name'			=> $this->name,
+					'email'			=> $this->email,
+					'date'			=> Yii::app()->dateFormatter->formatDateTime(strtotime($this->created)),
+					'phone'			=> $this->phone,
+					'subject'		=> $this->subject,
+					'message'		=> $this->message(),
+					'link_to_inbox'	=> Yii::app()->createAbsoluteUrl('member/inbox/view/'.$this->id),
+				)
+			);
+		}
 		return parent::afterSave();
 	}
-	
+
 	public function message()
 	{
 		return nl2br($this->message);

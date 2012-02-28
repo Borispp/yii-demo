@@ -309,26 +309,4 @@ class EventController extends YsaApiController
 				'comments_number'	=> count($this->_getEventPhoto()->comments)
 			));
 	}
-
-	/**
-	 * Get unread notifications
-	 * Inquiry params: [device_id, app_key, token]
-	 * Response params: [notifications -> [message, date]]
-	 * @return void
-	 */
-	public function actionGetNotifications()
-	{
-		$notifications = array();
-		foreach(ApplicationNotification::model()->findByClient($this->_obClient, $_POST['device_id']) as $obApplicationNotification)
-		{
-			$notifications[] = array(
-				'message'	=> $obApplicationNotification->message,
-				'date'		=> $obApplicationNotification->created,
-			);
-			$obApplicationNotification->sent($_POST['device_id']);
-		}
-		$this->_render(array(
-				'notifications'	=> $notifications
-			));
-	}
 }

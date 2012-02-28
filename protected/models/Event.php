@@ -16,6 +16,7 @@
  * @property string $passwd
  *
  * @property array $albums
+ * @property array $clients
  * @property array $user
  */
 class Event extends YsaActiveRecord
@@ -95,8 +96,9 @@ class Event extends YsaActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'albums' => array(self::HAS_MANY, 'EventAlbum', 'event_id', 'order' => 'rank ASC'),
-			'user'   => array(self::BELONGS_TO, 'User', 'user_id'),
+			'albums'  => array(self::HAS_MANY, 'EventAlbum', 'event_id', 'order' => 'rank ASC'),
+			'user'    => array(self::BELONGS_TO, 'User', 'user_id'),
+			'clients' => array(self::MANY_MANY, 'Client', 'client_events(event_id,client_id)'),
 		);
 	}
 
