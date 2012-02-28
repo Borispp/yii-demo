@@ -111,21 +111,27 @@ class ClientController extends YsaApiController
 		try
 		{
 			$this->_render(array(
-					'state'		=> TRUE,
-					'message'	=> '',
-					'token'		=> ClientAuth::model()->authByPassword($_POST['email'], $_POST['password'], $_POST['app_key'], $_POST['device_id'])
-				));
+				'state'		=> TRUE,
+				'message'	=> '',
+				'token'		=> ClientAuth::model()->authByPassword($_POST['email'], $_POST['password'], $_POST['app_key'], $_POST['device_id'])
+			));
 		}
 		catch(YsaAuthException $e)
 		{
 			$this->_render(array(
-					'state'		=> FALSE,
-					'message'	=> $e->getMessage(),
-					'token'		=> NULL,
-				));
+				'state'		=> FALSE,
+				'message'	=> $e->getMessage(),
+				'token'		=> NULL,
+			));
 		}
 	}
 
+	/**
+	 * Client Remind Password
+	 * Inquiry params: [device_id, app_key, email]
+	 * Response params: [state, message]
+	 * @return void
+	 */
 	public function actionRemindPassword()
 	{
 		$this->_validateVars(array(
@@ -164,6 +170,97 @@ class ClientController extends YsaApiController
 		$this->_render(array(
 			'state' => TRUE,
 			'message' => 'Email was send',
+		));
+	}
+
+	/**
+	 * Update user information — name, surname, phone
+	 * Inquiry params: [device_id, app_key, password, token, name, phone]
+	 * Response params: [state, message]
+	 * @return void
+	 */
+	public function actionUpdateUserdata()
+	{
+		$this->_validateVars(array(
+			'token'	=> array(
+				'message'  => Yii::t('api', 'common_no_field', array('{field}' => 'token')),
+				'required' => TRUE
+			),
+			'password'	=> array(
+				'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'password')),
+				'required'	=> TRUE,
+			),
+		));
+		if (empty($_POST['name']) && empty($_POST['phone']))
+		{
+			$this->_renderError('All fields are empty');
+		}
+		$client = $this->_validateAuth();
+		if ($client->password != $_POST['password'])
+		{
+			$this->_renderError('Wrong password');
+		}
+		if (!empty($_POST['name']))
+		{
+			$client->name = $_POST['name'];
+		}
+		if (!empty($_POST['phone']))
+		{
+			$client->phone = $_POST['phone'];
+		}
+		if (!$client->validate())
+		{
+			$this->_render(array(
+					'state' => FALSE,
+					'message' => 'update failed',
+				));
+		}
+		$client->save();
+		$this->_render(array(
+			'state' => TRUE,
+			'message' => 'Userdata updated',
+		));
+	}
+
+	/**
+	 * Update user information — name, surname, phone
+	 * Inquiry params: [device_id, app_key, password, token, new_password]
+	 * Response params: [state, message]
+	 * @return void
+	 */
+	public function actionUpdatePassword()
+	{
+		$this->_validateVars(array(
+			'token'	=> array(
+				'message'  => Yii::t('api', 'common_no_field', array('{field}' => 'token')),
+				'required' => TRUE
+			),
+			'password'	=> array(
+				'message'  => Yii::t('api', 'common_no_field', array('{field}' => 'password')),
+				'required' => TRUE
+			),
+			'new_password'	=> array(
+				'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'new_password')),
+				'required'	=> TRUE,
+			),
+		));
+		$client = $this->_validateAuth();
+		if ($client->password != $_POST['password'])
+		{
+			$this->_renderError('Wrong password');
+		}
+		$client->password = $_POST['new_password'];
+		if (!$client->validate())
+		{
+			$this->_render(array(
+				'state' => FALSE,
+				'message' => $client->getError('password'),
+			));
+		}
+		$client->save();
+		$this->_render(array(
+			'state' => TRUE,
+			'message' => 'Password has been changed',
 		));
 	}
 
