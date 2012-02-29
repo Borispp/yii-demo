@@ -174,8 +174,8 @@ class ClientController extends YsaApiController
 	}
 
 	/**
-	 * Update user information — name, surname, phone
-	 * Inquiry params: [device_id, app_key, password, token, name, phone]
+	 * Update user information — name, phone
+	 * Inquiry params: [device_id, app_key, token, name, phone]
 	 * Response params: [state, message]
 	 * @return void
 	 */
@@ -186,20 +186,12 @@ class ClientController extends YsaApiController
 				'message'  => Yii::t('api', 'common_no_field', array('{field}' => 'token')),
 				'required' => TRUE
 			),
-			'password'	=> array(
-				'message'	=> Yii::t('api', 'common_no_field', array('{field}' => 'password')),
-				'required'	=> TRUE,
-			),
 		));
 		if (empty($_POST['name']) && empty($_POST['phone']))
 		{
 			$this->_renderError('All fields are empty');
 		}
 		$client = $this->_validateAuth();
-		if ($client->password != $_POST['password'])
-		{
-			$this->_renderError('Wrong password');
-		}
 		if (!empty($_POST['name']))
 		{
 			$client->name = $_POST['name'];
@@ -223,7 +215,7 @@ class ClientController extends YsaApiController
 	}
 
 	/**
-	 * Update user information — name, surname, phone
+	 * Update password
 	 * Inquiry params: [device_id, app_key, password, token, new_password]
 	 * Response params: [state, message]
 	 * @return void

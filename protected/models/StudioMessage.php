@@ -261,4 +261,17 @@ class StudioMessage extends YsaActiveRecord
 		
 		return true;
 	}
+
+	/**
+	 * Return count of unread messages selected by user
+	 * @param User $member
+	 * @return array
+	 */
+	public function memberCountUnread(User $member)
+	{
+		return count($this->findAllByAttributes(array(
+			'user_id' => $member->id,
+			'unread'  => 1
+		)));
+	}
 }

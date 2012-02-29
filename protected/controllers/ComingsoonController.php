@@ -8,8 +8,7 @@ class ComingsoonController extends YsaFrontController
         $page = Page::model()->findBySlug('coming-soon');
         $this->setMeta($page->meta());
 
-		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/fancybox.js', CClientScript::POS_END)
-				  ->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/fancybox.css');
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/fancybox.js', CClientScript::POS_END);
 		
 		$newsletterForm = new NewsletterForm();
 		
