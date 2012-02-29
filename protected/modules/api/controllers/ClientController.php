@@ -174,7 +174,7 @@ class ClientController extends YsaApiController
 	}
 
 	/**
-	 * Update user information — name, surname, phone
+	 * Update user information — name, phone
 	 * Inquiry params: [device_id, app_key, password, token, name, phone]
 	 * Response params: [state, message]
 	 * @return void
@@ -223,7 +223,7 @@ class ClientController extends YsaApiController
 	}
 
 	/**
-	 * Update user information — name, surname, phone
+	 * Update password
 	 * Inquiry params: [device_id, app_key, password, token, new_password]
 	 * Response params: [state, message]
 	 * @return void
