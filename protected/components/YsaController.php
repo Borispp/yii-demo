@@ -266,8 +266,7 @@ class YsaController extends CController
 	
 	public function loadFancybox()
 	{
-		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/fancybox.js', CClientScript::POS_END)
-				  ->registerCssFile(Yii::app()->baseUrl . '/resources/css/plugins/fancybox.css');
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/plugins/fancybox.js', CClientScript::POS_END);
 		
 		return $this;
 	}
