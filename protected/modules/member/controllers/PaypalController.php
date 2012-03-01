@@ -110,15 +110,24 @@ class PaypalController extends YsaMemberPayment
 		$receiver_email = $_POST['receiver_email'];
 		$payer_email = $_POST['payer_email'];
 		if ($payment_amount != $this->getSumm($_POST['custom'], $item_number))
+		{
+			YsaHelpers::log('Error with payment summ', array(
+				'item_number'	=> $item_number,
+				'amount_from_server' => $payment_amount,
+				'real_amount' => $this->getSumm($_POST['custom'], $item_number)
+			), 'error');
 			return FALSE;
+		}
 
 		if (!$fp) {
+			YsaHelpers::log('Error while opening fsockopen', array('item_number' => $item_number,), 'error');
 			return FALSE;
 		} else {
 			fputs ($fp, $header . $req);
 			while (!feof($fp)) {
 				$res = fgets ($fp, 1024);
 				if (strcmp ($res, "VERIFIED") == 0) {
+					YsaHelpers::log('Transaction verified', array('item_number' => $item_number));
 					return TRUE;
 					// check the payment_status is Completed
 					// check that txn_id has not been previously processed
@@ -127,6 +136,7 @@ class PaypalController extends YsaMemberPayment
 					// process payment
 				}
 				else if (strcmp ($res, "INVALID") == 0) {
+					YsaHelpers::log('Transaction invalid', array('item_number' => $item_number), 'error');
 					return FALSE;
 					// log for manual investigation
 				}
@@ -172,13 +182,16 @@ class PaypalController extends YsaMemberPayment
 		$this->renderVar('formAction', $this->getUrl());
 		$this->setMemberPageTitle(Yii::t('payment', 'new_title'));
 		$this->renderVar('memberEmail', $this->member()->email);
+		YsaHelpers::log('Paypal processing', array('all_used_vars' => $this->_renderVars));
 		$this->render('pay');
 	}
 
 	protected function _process()
 	{
+		YsaHelpers::log('Result from paypal server', array('post_data' => $_POST));
 		if (!$this->getOuterId())
 		{
+			YsaHelpers::log('Error while processing — no outer ID found', array('post_data' => $_POST), 'error');
 			$this->redirect(array('/member'));
 		}
 		$transaction = $this->createTransaction();
