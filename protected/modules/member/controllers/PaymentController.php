@@ -61,6 +61,7 @@ class PaymentController extends YsaMemberController
 			if ($this->member()->application)
 				$itemId = $this->member()->application->id;
 		}
+		YsaHelpers::log('Choose payway in paymnet controller', array('type' => $type, 'app_id' => $itemId));
 		$this->_validateInputParams($type, $itemId);
 		$this->setMemberPageTitle(Yii::t('payment', 'select_pay_system_title'));
 		$this->render('choose_payway', array(

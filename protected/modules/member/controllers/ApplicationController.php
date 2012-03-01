@@ -140,11 +140,15 @@ class ApplicationController extends YsaMemberController
 	 */
 	public function actionPay()
 	{
+
 		$app = $this->member()->application;
-		if (!$app) {
+		if (!$app)
+		{
 			$this->redirect(array('application/create'));
 		}
+
 //		if ($app->filled()) {
+			YsaHelpers::log('ActionPay in app controller', array('app_id' => $app->id));
 			$this->redirect(array('payment/choosepayway/type/application/'));
 //		}
 		$this->redirect(array('view'));
