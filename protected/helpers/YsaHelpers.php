@@ -441,4 +441,13 @@ class YsaHelpers
 			YsaHelpers::importRecursive($filename);
 		}
 	}
+
+	public static function log($message,array $params, $errorLever = 'error', $section = 'paypal')
+	{
+		ob_start();
+		echo $message."\n";
+		if ($params)
+			var_dump($params);
+		Yii::log(ob_get_clean(), $errorLever, $section);
+	}
 }

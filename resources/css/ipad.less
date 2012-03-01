@@ -72,6 +72,8 @@
 				position: absolute;
 				top:0;
 				left:0;
+				margin:0;
+				padding:0;
 				display: none;
 			}
 		}
@@ -92,6 +94,7 @@
 		width: 10px;
 		height: 10px;
 		margin: 0 3px;
+		padding:0;
 	}
 	.pagination li a
 	{
@@ -132,6 +135,12 @@
 
 .ipad-wrapper
 {
+	font-family:Arial, sans-serif;
+	text-shadow:none;
+	h1, h2, h3, h4, h5, h6 {
+		text-shadow:none;
+	}
+
 	position: relative;
 	width: 100%;
 	height: 100%;
@@ -185,6 +194,9 @@
 	 	color: #fff;
 		position: absolute;
 		top: 24px;
+		line-height:1;
+		text-transform:uppercase;
+		font-weight:bold;
 	}
 	.footer-grid > h4.studio-title
 	{
@@ -206,18 +218,25 @@
 		width: 25%;
 		height: 43.4%;
 		left: 34.47%;
+		margin:0;
+		padding:0;
+		list-style:none;
 	}
 	.footer-grid > ul.links li
 	{
 	    font-size: 9pt;
 	 	color: #fff;
-		margin-bottom: 5.9%;
+		margin:0 0 5.9% 0;
+		padding:0;
+		list-style:none;
 	}
 	.footer-grid > ul.links li .title
 	{
 	    font-size: 8pt;
 	 	color:#8c8c8c;
 		text-transform: uppercase;
+		line-height:1;
+		
 	}
 	.footer-grid > .twitter-feed
 	{
@@ -226,28 +245,48 @@
 		height: 46.6%;
 		right: 7.2%;
 		top: 26%;
+		overflow:hidden;
+		ul {
+			margin:0;
+			padding:0;
+			list-style:none;
+			li {
+				margin:0;
+				padding:0;
+				list-style:none;
+			}
+		}
 	}
 	.footer-grid > .twitter-feed > h4
 	{
 	    font-size: 8pt;
 		color: #8c8c8c;
-		margin-bottom: 6%;
+		padding:0;
+		margin:0 0 6% 0;
+		line-height:1;
+		text-transform:uppercase;
+		font-weight:bold;
+		
 	}
 	.footer-grid > .twitter-feed > ul > li
 	{
-		margin-bottom: 6%;
+		padding:0;
+		margin:0 0 6% 0;
+		
 	}
 	.footer-grid > .twitter-feed > ul > li .time
 	{
 		font-size: 8pt;
 		color: #555;
 		text-transform: uppercase;
+		line-height:1.1;
 	}
 	.footer-grid > .twitter-feed > ul > li .message
 	{
 	    text-align: left;
 		font-size: 9pt;
 		color: #cbcbcb;
+		line-height:1.2;
 	}
 	.footer-grid > .twitter-feed > ul > li a.follow-link
 	{
@@ -276,6 +315,9 @@
 		left: 50%;
 		text-align: center;
 		position: absolute;
+		line-height:1;
+		text-transform:uppercase;
+		font-weight:bold;
 	}
 	.social-links
 	{
@@ -284,6 +326,9 @@
 		position: absolute;
 		bottom: 23.7%;
 		right: 26.4%;
+		margin:0;
+		padding:0;
+		list-style:none;
 	}
 	.social-links li
 	{
@@ -292,6 +337,9 @@
 		color: #fff;
 		height: 33.3%;
 		line-height: 350%;
+		margin:0;
+		padding:0;
+		list-style:none;
 	}
 }
 
@@ -304,6 +352,8 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
+		margin:0;
+		padding:0;
 	}
 	.events-bg
 	{
@@ -316,6 +366,8 @@
 		max-width: 100%;
 		height: auto;
 		width: auto;
+		margin:0;
+		padding:0;
 	}
 	h4
 	{
@@ -328,6 +380,8 @@
 		top: 52.5%;
 		position: absolute;
 		z-index: 10;
+		margin:0;
+		padding:0;
 	}
 	#title1
 	{
@@ -352,12 +406,16 @@
 		top: 2.6%;
 		left: 0;
 		position: absolute;
+		margin:0;
+		padding:0;
 	}
 	.logo img
 	{
 		max-height: 100%;
 		width:auto;
 		height: auto;
+		margin:0;
+		padding:0;
 	}
 }
 #style-light

@@ -165,6 +165,9 @@ class ApplicationController extends YsaAdminController
 		$this->setContentTitle($entry->name);
 		$this->setContentDescription($entry->info);
 		
+		$this->_cs->registerCssFile(Yii::app()->baseUrl . '/resources/css/ipad.css');
+		$this->_cs->registerScriptFile(Yii::app()->baseUrl . '/resources/js/member/appviewpage.js', CClientScript::POS_HEAD);
+		
 		$this->render('moderate', array(
 			'entry'			=> $entry,
 			'options'		=> $this->_getLabelifiedOptions($entry),
@@ -287,5 +290,19 @@ class ApplicationController extends YsaAdminController
 			$this->setSuccessFlash($msg);
 			$this->redirect(array('application/moderate/id/' . $entry->id . '/'));			
 		}
+	}
+	
+	public function actionPreview($id)
+	{
+		$id = (int) $id;
+		
+		$entry = Application::model()->findByPk($id);
+		
+		if (!$entry) {
+			$this->redirect(array($this->getId() . '/'));
+		}
+		
+		$this->renderPartial('member.views.application._ipad-preview', array('app' => $entry));
+		Yii::app()->end();
 	}
 }

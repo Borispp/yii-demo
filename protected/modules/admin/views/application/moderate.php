@@ -2,12 +2,19 @@
 	<?php echo $this->renderPartial('/_messages/save');?>
 	<?php echo $this->renderPartial('/_messages/error');?>
 	
+	<p class="r">
+		<?php echo YsaHtml::link('Preview', '#', array('class' => 'btn small green', 'id' => 'application-preview-link', 'data-id' => $entry->id)); ?>
+	</p>
+	
 	<div class="form">
 		
 		<?php $this->renderPartial('_moderatorToolbar', array(
 			'entry' => $entry,
-		));; ?>
+		)); ?>
 		
+		<?php $this->renderPartial('_preview', array(
+			'entry' => $entry,
+		)); ?>
 		
 		<?php $form=$this->beginWidget('YsaAdminForm', array(
 			'id'=>'application-moderate-form',
@@ -78,5 +85,25 @@
 				window.location.href = link.attr('href');
 			});
 		});
+		
+		
+		$('#application-preview-link').fancybox({
+			type:'ajax',
+			href:_admin_url + 'application/preview/id/<?php echo $entry->id?>',
+			onComplete:function(){
+				$('#ipad-slider').slides();
+			}
+		})
+		
+		
+		
+//		$('#application-preview-link').click(function(e){
+//			e.preventDefault();
+//			var link = $(this);
+//			
+//			$.post(_admin_url + '/application/preview/id/' + link.data('id'))
+//			
+//		})
+//		
 	});
 </script>
