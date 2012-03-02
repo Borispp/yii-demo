@@ -84,7 +84,6 @@ class EventPhotoComment extends YsaActiveRecord
 	{
 		if ($obClient = $this->client)
 		{
-			$obClient = $this->client;
 			if (is_array($this->client))
 				list($obClient) = $this->client;
 			if (is_object($obClient))

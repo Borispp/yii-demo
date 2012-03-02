@@ -296,7 +296,6 @@ class EventController extends YsaApiController
 		$obComment = new EventPhotoComment();
 		$obComment->comment = $_POST['comment'];
 		$obComment->photo_id = $this->_getEventPhoto()->id;
-		$obComment->appendToClient($this->_obClient);
 		if (!$obComment->validate())
 			$this->_render(array(
 					'state'				=> FALSE,
@@ -304,6 +303,7 @@ class EventController extends YsaApiController
 					'comments_number'	=> count($this->_getEventPhoto()->comments)
 				));
 		$obComment->save();
+		$obComment->appendToClient($this->_obClient);
 		$this->_render(array(
 				'state'				=> TRUE,
 				'message'			=> '',
