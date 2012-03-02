@@ -5,7 +5,7 @@
 			<div class="wrap" id="style-<?php echo $app->option('style')?>">
 				<div class="content">
 					<ul class="slides_container">
-						<?php foreach(array('events','main','studio','gallery') as $template):?>
+						<?php foreach(array('main', 'login', 'studio', 'events', 'gallery') as $template):?>
 						<li class="slide" id="slide-<?php echo $template?>"><?php $this->renderPartial('member.views.application.ipad-'.$template, array('application' => $app))?></li>
 						<?php endforeach?>
 					</ul>
