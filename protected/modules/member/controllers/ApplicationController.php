@@ -339,6 +339,7 @@ class ApplicationController extends YsaMemberController
 					if (!$app->filled()) {
 						$app->fill();
 					}
+					
 					$data['redirectUrl'] = $this->createAbsoluteUrl('application/');
 					$data['success'] = 1;
 				}

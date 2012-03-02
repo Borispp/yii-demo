@@ -18,9 +18,10 @@
 			));?>
 			
 			<div class="data-box shadow-box">
-				<table class="data">
+				<table class="data" data-control="client">
 					<thead>
 						<tr>
+							<th class="w_1"><input type="checkbox" value="all" name="entries-select-all" id="entries-select-all" /></th>
 							<th class="w_1">ID</th>
 							<th class="w_30">Name</th>
 							<th>Description</th>
@@ -29,10 +30,20 @@
 							<th class="actions">Actions</th>
 						</tr>
 					</thead>
+					<?php if (count($entries)) : ?>
+						<tfoot>
+							<tr>
+								<td colspan="7">
+									<?php echo YsaHtml::link('Remove Selected', '#', array('class' => 'btn small entries-delete-selected gray-txt')); ?>
+								</td>
+							</tr>
+						</tfoot>
+					<?php endif;?>
 					<tbody>
 						<?php if (count($entries)) : ?>
 							<?php foreach ($entries as $entry) : ?>
-								<tr>
+								<tr class="state-<?php echo strtolower($entry->state()); ?>" id="entry-row-<?php echo $entry->id?>">
+									<td><input type="checkbox" name="entries[<?php echo $entry->id?>]" value="<?php echo $entry->id?>" /></td>
 									<td><?php echo $entry->id;?></td>
 									<td>
 										<?php echo YsaHtml::link('<strong>' . $entry->name . '</strong>', array('client/view/' . $entry->id), array('class' => 'title')); ?>

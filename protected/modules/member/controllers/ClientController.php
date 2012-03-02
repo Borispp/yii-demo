@@ -12,7 +12,6 @@ class ClientController extends YsaMemberController
 	}
 	public function actionAdd()
 	{
-		
 		$entry = new Client();
 		
 		if (isset($_POST['Client']))

@@ -109,7 +109,10 @@ class YsaMemberController extends YsaController
 
 	protected function _showMemberStaticNotice()
 	{
-		if (!$this->_member->isActivated())
+		if (!$this->member()) {
+			$this->redirect(array('/login'));
+		}
+		if (!$this->member()->isActivated())
 		{
 			$message = 'You have not activated your account. Please, check your mail for activation link';
 		}
