@@ -27,8 +27,7 @@
 						</ul>
 					</div>
 				<?php endif; ?>
-				
-				<div class="paginator cf">
+				<div class="paginator">
 					<span class="prev">
 						<?php if ($tutorial->previous()) : ?>
 							<?php echo YsaHtml::link(YsaHelpers::truncate($tutorial->previous()->title), array('help/' . $tutorial->previous()->slug), array('title' => $tutorial->previous()->title)); ?>
@@ -40,6 +39,7 @@
 						<?php endif; ?>
 					</span>
 					<span class="index"><?php echo YsaHtml::link('Back to Index', array('help/')); ?></span>
+					<div class="cf"></div>
 				</div>
 			</div>
 		</div>

@@ -2243,8 +2243,9 @@ li.plupload_droptext {
 				height:230px;
 				overflow:hidden;
 				.inline-block;
-				font-size:14px;
+				font-size:12px;
 				line-height:1.2;
+				font-weight:bold;
 				text-align:center;
 				margin:0 10px 10px 0;
 				figure {
@@ -2254,20 +2255,35 @@ li.plupload_droptext {
 					max-width:280px;
 					height:auto;
 				}
+				a {
+					color:@gray-lima;
+				}
 			}
 		}
 	}
 }
 #help-view {
 	.video {
-		margin-bottom:2em;
+		margin-bottom:20px;
 	}
 	.files {
-		margin-bottom:2em;
+		margin-bottom:20px;
 		ul {
+			padding:6px 10px;
+			font-size:11px;
+			.rounded(5px);
+			background:@gray-echo;
 			li {
 				line-height:1.6;
 			}
+		}
+	}
+	.shadow-box {
+		> h3 {
+			margin-bottom:20px;
+			padding-bottom:20px;
+			border-bottom:1px solid @gray-foxtrot;
+			line-height:1;
 		}
 	}
 	.story {
@@ -2276,15 +2292,14 @@ li.plupload_droptext {
 		font-size:14px;
 	}
 	.paginator {
-
 		padding-top:20px;
 		border-top:1px solid @gray-foxtrot;
 	
 		span {
-			height:20px;
-			line-height:20px;
+			line-height:1.2;
 			font-weight:bold;
-			font-size:14px;
+			font-size:12px;
+			min-height:1px;
 		}
 		.prev {
 			float:left;
