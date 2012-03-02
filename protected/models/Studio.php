@@ -72,8 +72,7 @@ class Studio extends YsaActiveRecord
 	public function rules()
 	{
 		return array(
-			array('twitter_feed, facebook_feed, blog_feed', 'filter', 'filter' => array($this, 'filterUrl')),
-			
+			array('twitter_feed, facebook_feed, blog_feed', 'filter', 'filter' => array($this, 'filterUrl')),		
 			array('user_id', 'required'),
 			array('user_id', 'numerical', 'integerOnly'=>true),
 			array('name, facebook_feed, twitter_feed, blog_feed', 'length', 'max'=>100),

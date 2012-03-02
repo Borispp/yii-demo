@@ -165,7 +165,7 @@ class YsaActiveRecord extends CActiveRecord
 			return $value;
 		}
 		
-		if (!preg_match('~^http\:\/\/~', $value)) {
+		if (!preg_match('~^https?\:\/\/~', $value)) {
 			$value = 'http://' . $value;
 		}
 		return $value;
