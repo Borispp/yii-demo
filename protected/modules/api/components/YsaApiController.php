@@ -321,7 +321,7 @@ class YsaApiController extends YsaController
 
 	/**
 	 * Validates vars and checks token match
-	 * @return ClientAuth
+	 * @return Client
 	 */
 	protected function _validateAuth()
 	{
