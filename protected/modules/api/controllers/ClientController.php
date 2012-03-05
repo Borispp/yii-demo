@@ -215,6 +215,30 @@ class ClientController extends YsaApiController
 	}
 
 	/**
+	 * Get user information — name, phone, email
+	 * Inquiry params: [device_id, app_key, token]
+	 * Response params: [userdata -> [name, phone, email]]
+	 * @return void
+	 */
+	public function actionGetUserdata()
+	{
+		$this->_validateVars(array(
+			'token'	=> array(
+				'message'  => Yii::t('api', 'common_no_field', array('{field}' => 'token')),
+				'required' => TRUE
+			),
+		));
+		$client = $this->_validateAuth();
+		$this->_render(array(
+			'userdata' => array(
+				'name'  => $client->name,
+				'phone' => $client->phone,
+				'email' => $client->email,
+			)
+		));
+	}
+
+	/**
 	 * Update password
 	 * Inquiry params: [device_id, app_key, password, token, new_password]
 	 * Response params: [state, message]
