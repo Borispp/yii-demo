@@ -66,7 +66,7 @@ class StudioController extends YsaApiController
 	/**
 	 * Returns studio information — photographer rss feeds, description, video etc.
 	 * Inquiry params: [app_key, device_id]
-	 * Response params: [feeds -> [type, link], links -> [name, link], persons -> [name, photo, text], specials, splash]
+	 * Response params: [feeds -> [type, link], bookmarks -> [name, url], links -> [name, url, icon], persons -> [name, photo, text, filesize], specials, specials_filesize, splash, contact, video]
 	 * @return void
 	 */
 	public function actionInfo()
@@ -74,9 +74,10 @@ class StudioController extends YsaApiController
 		$this->_commonValidate();
 		$obStudio = $this->_getApplication()->user->studio;
 		$params = array(
-			'splash'   => $obStudio->splash,
-			'contact'  => $obStudio->contact(),
-			'specials' => $obStudio->specialsUrl(),
+			'splash'            => $obStudio->splash,
+			'contact'           => $obStudio->contact(),
+			'specials'          => $obStudio->specialsUrl(),
+			'specials_filesize' => $obStudio->specialsFilesize(),
 			'video'    => $obStudio->video(),
 			'feeds'    => array(
 				array(
