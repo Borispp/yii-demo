@@ -84,19 +84,20 @@ class EventPhotoComment extends YsaActiveRecord
 	{
 		if ($obClient = $this->client)
 		{
-			$obClient = $this->client;
 			if (is_array($this->client))
 				list($obClient) = $this->client;
-			return $obClient->name;
+			if (is_object($obClient))
+				return $obClient->name;
 		}
 		elseif ($this->member)
 		{
 			$obMember = $this->member;
 			if (is_array($this->member))
 				list($obMember) = $this->member;
-			return $obMember->name();
+			if (is_object($obMember))
+				return $obMember->name();
 		}
-
+		return '';
 	}
 
 	/**
@@ -119,7 +120,7 @@ class EventPhotoComment extends YsaActiveRecord
 	{
 		$obPhotoCommentClient = new EventPhotoCommentClient();
 		$obPhotoCommentClient->comment_id = $this->id;
-		$obPhotoCommentClient->clien_id = $obClient->id;
+		$obPhotoCommentClient->client_id = $obClient->id;
 		$obPhotoCommentClient->save();
 	}
 	

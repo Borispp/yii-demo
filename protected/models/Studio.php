@@ -157,7 +157,18 @@ class Studio extends YsaActiveRecord
 		}
 		
 	}
-	
+
+	public function specialsFilesize()
+	{
+		$path = $this->_uploadPath . DIRECTORY_SEPARATOR . $this->specials;
+		if (is_file($path)) {
+			return filesize($path);
+		} else {
+			return 0;
+		}
+
+	}
+
 	public function specialsUrl()
 	{
 		if ($this->specials) {

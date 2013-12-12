@@ -283,7 +283,7 @@ class YsaApiController extends YsaController
 		{
 			$comments[] = array(
 				'comment_id'	=> $obComment->id,
-				'name'			=> $obComment->name,
+				'name'			=> $obComment->name(),
 				'date'			=> $obComment->created,
 				'comment'		=> $obComment->comment
 			);
