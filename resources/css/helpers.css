@@ -12,7 +12,9 @@ nav,
 section {
   display: block;
 }
-audio[controls], canvas, video {
+audio[controls],
+canvas,
+video {
   display: inline-block;
   *display: inline;
   *zoom: 1;
@@ -298,7 +300,8 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 }
 /* Clearfix
 *******************************/
-.cf:before, .cf:after {
+.cf:before,
+.cf:after {
   content: "";
   display: table;
 }
@@ -517,7 +520,8 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 a.icon:active {
   top: 1px;
 }
-a.icon:hover, .icon-blue {
+a.icon:hover,
+.icon-blue {
   background-image: url(../images/icons-blue.png);
 }
 .i_2x2_grid {
@@ -1385,13 +1389,16 @@ a.icon:hover, .icon-blue {
 .story {
   line-height: 1.5;
 }
-.story ul, .story ul li {
+.story ul,
+.story ul li {
   list-style: square;
 }
-.story ol, .story ol li {
+.story ol,
+.story ol li {
   list-style: decimal;
 }
-.story ul, .story ol {
+.story ul,
+.story ol {
   margin: 0 0 1em 1.5em;
   line-height: 1.5;
 }

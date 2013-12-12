@@ -12,7 +12,9 @@ nav,
 section {
   display: block;
 }
-audio[controls], canvas, video {
+audio[controls],
+canvas,
+video {
   display: inline-block;
   *display: inline;
   *zoom: 1;
@@ -298,7 +300,8 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 }
 /* Clearfix
 *******************************/
-.cf:before, .cf:after {
+.cf:before,
+.cf:after {
   content: "";
   display: table;
 }
@@ -517,7 +520,8 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 a.icon:active {
   top: 1px;
 }
-a.icon:hover, .icon-blue {
+a.icon:hover,
+.icon-blue {
   background-image: url(../images/icons-blue.png);
 }
 .i_2x2_grid {
@@ -1385,13 +1389,16 @@ a.icon:hover, .icon-blue {
 .story {
   line-height: 1.5;
 }
-.story ul, .story ul li {
+.story ul,
+.story ul li {
   list-style: square;
 }
-.story ol, .story ol li {
+.story ol,
+.story ol li {
   list-style: decimal;
 }
-.story ul, .story ol {
+.story ul,
+.story ol {
   margin: 0 0 1em 1.5em;
   line-height: 1.5;
 }
@@ -1692,10 +1699,12 @@ textarea {
   resize: none;
   line-height: 1.3;
 }
-input.placeholder, textarea.placeholder {
+input.placeholder,
+textarea.placeholder {
   font-style: italic;
 }
-select optgroup, select option {
+select optgroup,
+select option {
   font-style: normal;
   border: 0;
 }
@@ -1839,7 +1848,8 @@ table {
   border-collapse: collapse;
   margin-bottom: 18px;
 }
-table td, table th {
+table td,
+table th {
   padding: 6px 3px;
   text-align: center;
 }
@@ -2034,12 +2044,15 @@ header nav li ul li a {
   width: auto;
   height: auto;
 }
-#login-window input[type="text"], #login-window input[type="email"], #login-window input[type="password"] {
+#login-window input[type="text"],
+#login-window input[type="email"],
+#login-window input[type="password"] {
   font-size: 13px;
   padding: 10px;
   width: 192px;
 }
-#login-window .ico-name, #login-window .ico-pass {
+#login-window .ico-name,
+#login-window .ico-pass {
   position: absolute;
   right: 12px;
   top: 12px;
@@ -2153,18 +2166,22 @@ div.flash.app {
   -moz-animation: slideDown 6s 1s 1 ease forwards;
 }
 @-webkit-keyframes slideDown {
-  0%, 100% {
+  0%,
+  100% {
     -webkit-transform: translatey(-50px);
   }
-  10%, 90% {
+  10%,
+  90% {
     -webkit-transform: translatey(0px);
   }
 }
 @-moz-keyframes slideDown {
-  0%, 100% {
+  0%,
+  100% {
     -moz-transform: translatey(-50px);
   }
-  10%, 90% {
+  10%,
+  90% {
     -moz-transform: translatey(0px);
   }
 }
@@ -2227,13 +2244,15 @@ div.static-flash a {
 }
 /* Error Pages
 *******************************/
-#page-404 .content, #page-403 .content {
+#page-404 .content,
+#page-403 .content {
   height: 140px;
   padding-top: 360px;
   background: url(../images/404.jpg) 225px 190px no-repeat;
   position: relative;
 }
-#page-404 .content p, #page-403 .content p {
+#page-404 .content p,
+#page-403 .content p {
   font-size: 18px;
   font-weight: normal;
   line-height: 1.4;
@@ -2242,7 +2261,8 @@ div.static-flash a {
   text-align: center;
   color: #616161;
 }
-#page-404 .content .button, #page-403 .content .button {
+#page-404 .content .button,
+#page-403 .content .button {
   display: block;
   text-align: center;
 }
